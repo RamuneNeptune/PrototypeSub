@@ -22,6 +22,8 @@ namespace PrototypeSubMod
             // Set project-scoped logger instance
             Logger = base.Logger;
 
+            //Test
+
             // Register harmony patches, if there are any
             Harmony.CreateAndPatchAll(Assembly, $"{GUID}");
             Logger.LogInfo($"Plugin {GUID} is loaded!");
