@@ -3,6 +3,7 @@
 <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="if not exist &quot;$(ModFolder)\$(TargetName)&quot; (mkdir &quot;$(ModFolder)\$(TargetName)&quot;)" />
 	<Exec Command="copy /Y &quot;$(TargetPath)&quot; &quot;$(ModFolder)\$(TargetName)&quot;" />
+    <Exec Command="copy /Y &quot;$(TargetPath)&quot; &quot;$(ReferencesFolder)\$(TargetName).dll&quot;" />
 </Target>
 
 </Project>
