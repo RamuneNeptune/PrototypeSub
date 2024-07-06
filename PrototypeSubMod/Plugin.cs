@@ -9,7 +9,7 @@ namespace PrototypeSubMod
     [BepInDependency("com.snmodding.nautilus")]
     public class Plugin : BaseUnityPlugin
     {
-        private const string GUID = "com.prototypeteam.prototypesub";
+        private const string GUID = "com.teamproto.prototypesub";
         private const string pluginName = "Prototype Sub";
         private const string versionString = "1.0.0";
 
