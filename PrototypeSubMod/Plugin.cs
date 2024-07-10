@@ -1,6 +1,7 @@
 ﻿using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
+using Nautilus.Handlers;
 using System.Reflection;
 
 namespace PrototypeSubMod
@@ -21,6 +22,8 @@ namespace PrototypeSubMod
         {
             // Set project-scoped logger instance
             Logger = base.Logger;
+
+            LanguageHandler.RegisterLocalizationFolder();
 
             // Register harmony patches, if there are any
             Harmony.CreateAndPatchAll(Assembly, $"{GUID}");

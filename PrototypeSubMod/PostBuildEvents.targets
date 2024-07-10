@@ -2,7 +2,10 @@
 
 <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="if not exist &quot;$(ModFolder)\$(TargetName)&quot; (mkdir &quot;$(ModFolder)\$(TargetName)&quot;)" />
+    <Exec Command="if not exist &quot;$(ModFolder)\$(TargetName)\Localization&quot; (mkdir &quot;$(ModFolder)\$(TargetName)\Localization&quot;)" />
+
 	<Exec Command="copy /Y &quot;$(TargetPath)&quot; &quot;$(ModFolder)\$(TargetName)&quot;" />
+    <Exec Command="xcopy /I /E /Y &quot;$(ProjectDir)Localization&quot; &quot;$(ModFolder)\$(TargetName)\Localization&quot;" />
     <Exec Command="copy /Y &quot;$(TargetPath)&quot; &quot;$(ReferencesFolder)\$(TargetName).dll&quot;" />
 </Target>
 
