@@ -16174,16 +16174,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   subRoot: {fileID: 6246764057006774658}
   subController: {fileID: 5378019260895971750}
-  motorModeNoiseValues: []
+  motorModeNoiseValues:
+  - 55
+  - 70
+  - 100
   cyclopsMotorMode: 1
   motorModeSpeeds:
-  - 0
-  - 0
-  - 0
+  - 4.68
+  - 6.27
+  - 7.3
   motorModePowerConsumption:
-  - 0
-  - 0
-  - 0
+  - 0.075
+  - 0.165
+  - 0.33
 --- !u!114 &5378019260895971750
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16196,15 +16199,15 @@ MonoBehaviour:
   m_Script: {fileID: -1278680321, guid: 06dd3d5416bf43ea368cc39ff96e6d5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BaseTurningTorque: 4
-  TurningTorquePerEngine: 2
-  BaseVerticalAccel: 50
-  AccelPerBallast: 20
-  BaseForwardAccel: 50
-  AccelPerEngine: 25
+  BaseTurningTorque: 0.75
+  TurningTorquePerEngine: 1
+  BaseVerticalAccel: 7
+  AccelPerBallast: 7
+  BaseForwardAccel: 5
+  AccelPerEngine: 5
   appliedThrottle: 0
-  accelScale: 1
-  turnScale: 1
+  accelScale: 0.75
+  turnScale: 0.6
   useThrottleIndex: 2
   wasUsingThrottleIndex: 0
   engineRPMManager: {fileID: 0}
@@ -16274,7 +16277,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   liveMixin: {fileID: 4453924424643417328}
   vehicle: {fileID: 0}
-  kBaseCrushDepth: 600
+  kBaseCrushDepth: 500
   damagePerCrush: 20
   crushPeriod: 3
   crushDepthUpdate: {fileID: 0}
