@@ -2,7 +2,10 @@
 using BepInEx.Logging;
 using HarmonyLib;
 using Nautilus.Handlers;
+using PrototypeSubMod.Prefabs;
+using System.IO;
 using System.Reflection;
+using UnityEngine;
 
 namespace PrototypeSubMod
 {
@@ -18,12 +21,19 @@ namespace PrototypeSubMod
 
         private static Assembly Assembly { get; } = Assembly.GetExecutingAssembly();
 
+        public static string AssetsFolderPath { get; } = Path.Combine(Path.GetDirectoryName(Assembly.Location), "Assets");
+        public static string RecipesFolderPath { get; } = Path.Combine(Path.GetDirectoryName(Assembly.Location), "Recipes");
+
+        public static AssetBundle AssetBundle { get; } = AssetBundle.LoadFromFile(Path.Combine(AssetsFolderPath, "prototypeassets"));
+
         private void Awake()
         {
             // Set project-scoped logger instance
             Logger = base.Logger;
 
             LanguageHandler.RegisterLocalizationFolder();
+
+            Prototype_Craftable.Register();
 
             // Register harmony patches, if there are any
             Harmony.CreateAndPatchAll(Assembly, $"{GUID}");
