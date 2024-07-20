@@ -7282,49 +7282,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.1285939, y: 0.34639156, z: 5.33427}
   m_Center: {x: 0.0000000056005103, y: -0.16769785, z: 0.08216667}
---- !u!1 &2395671833378389164
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7432712547665749447}
-  - component: {fileID: 6590276337991602588}
-  m_Layer: 0
-  m_Name: SteeringWheelSpawner
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &7432712547665749447
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2395671833378389164}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 6.424, z: 22.098}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 8041321529513965087}
-  m_RootOrder: 9
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6590276337991602588
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2395671833378389164}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1714234147, guid: ed4b4376eb5951b4a9d5e67b947e99c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2402188566237885837
 GameObject:
   m_ObjectHideFlags: 0
@@ -8877,7 +8834,7 @@ Transform:
   m_Children:
   - {fileID: 338873531234460421}
   m_Father: {fileID: 8041321529513965087}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2866474806242109424
 GameObject:
@@ -12023,7 +11980,7 @@ Transform:
   m_Children:
   - {fileID: 5333095177394496615}
   m_Father: {fileID: 8041321529513965087}
-  m_RootOrder: 11
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3949345084971937145
 GameObject:
@@ -13689,7 +13646,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1960001655235320920
 Transform:
   m_ObjectHideFlags: 0
@@ -14314,11 +14271,11 @@ MonoBehaviour:
   interpolationTimeOut: 0.25
   receiversAnimParam: 
   animParamReceivers: []
-  interpolateDuringAnimation: 0
-  debug: 0
+  interpolateDuringAnimation: 1
+  debug: 1
   animator: {fileID: 2023286058684925351}
   sound: {fileID: 0}
-  enforceCinematicModeEnd: 0
+  enforceCinematicModeEnd: 1
 --- !u!1 &4506342898687412083
 GameObject:
   m_ObjectHideFlags: 0
@@ -19196,13 +19153,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6257211718365084390}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: 0.7071057, z: -0, w: 0.7071079}
   m_LocalPosition: {x: -0.3, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6380501198491201330}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90.00001, z: 0}
 --- !u!1 &6284700378078268832
 GameObject:
   m_ObjectHideFlags: 0
@@ -24228,13 +24185,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7689727068074801532}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0.70710576, z: -0, w: 0.70710784}
   m_LocalPosition: {x: 0.3, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6380501198491201330}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -90.00001, z: 0}
 --- !u!1 &7697402495676478189
 GameObject:
   m_ObjectHideFlags: 0
@@ -24382,11 +24339,11 @@ MonoBehaviour:
   interpolationTimeOut: 0.25
   receiversAnimParam: 
   animParamReceivers: []
-  interpolateDuringAnimation: 0
-  debug: 0
+  interpolateDuringAnimation: 1
+  debug: 1
   animator: {fileID: 2023286058684925351}
   sound: {fileID: 0}
-  enforceCinematicModeEnd: 0
+  enforceCinematicModeEnd: 1
 --- !u!1 &7730069094931272345
 GameObject:
   m_ObjectHideFlags: 0
@@ -25529,7 +25486,6 @@ Transform:
   - {fileID: 8220993919279302054}
   - {fileID: 5137170713878991300}
   - {fileID: 6515951587499070340}
-  - {fileID: 7432712547665749447}
   - {fileID: 4210854685195553880}
   - {fileID: 7150836786236205295}
   m_Father: {fileID: 0}
@@ -25897,7 +25853,7 @@ MonoBehaviour:
   powerRelay: {fileID: 161644787413200408}
   cyclopsMotorMode: {fileID: 2278157053698757509}
   engineStartSound: {fileID: 0}
-  mainAnimator: {fileID: 0}
+  mainAnimator: {fileID: 2023286058684925351}
   LOD: {fileID: 4867459689348228103}
 --- !u!114 &2920999348974908133
 MonoBehaviour:
