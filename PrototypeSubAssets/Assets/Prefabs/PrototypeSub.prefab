@@ -5040,6 +5040,7 @@ GameObject:
   - component: {fileID: 4833293267958932547}
   - component: {fileID: 4691594954973281544}
   - component: {fileID: 5268904238285387178}
+  - component: {fileID: 8117020400395388835}
   - component: {fileID: 7922391764822172867}
   m_Layer: 0
   m_Name: EngineButton
@@ -5121,6 +5122,17 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
+        - m_Target: {fileID: 8117020400395388835}
+          m_MethodName: OnMouseEnter
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
         - m_Target: {fileID: 7922391764822172867}
           m_MethodName: OnMouseEnter
           m_Mode: 1
@@ -5136,6 +5148,17 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
+        - m_Target: {fileID: 8117020400395388835}
+          m_MethodName: OnMouseExit
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
         - m_Target: {fileID: 7922391764822172867}
           m_MethodName: OnMouseExit
           m_Mode: 1
@@ -5147,6 +5170,32 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+--- !u!114 &8117020400395388835
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1729048645748794236}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1276199984, guid: 06dd3d5416bf43ea368cc39ff96e6d5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7922391764822172867}
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &7922391764822172867
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11945,6 +11994,37 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.536115, y: 1.9355102, z: 8.368768}
   m_Center: {x: -0.0000000187275, y: 0.46775508, z: 0.000000016441215}
+--- !u!1 &3911177076719634527
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7150836786236205295}
+  m_Layer: 0
+  m_Name: SFX
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7150836786236205295
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3911177076719634527}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 5333095177394496615}
+  m_Father: {fileID: 8041321529513965087}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3949345084971937145
 GameObject:
   m_ObjectHideFlags: 0
@@ -13227,6 +13307,77 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!1 &4346722548415644783
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5333095177394496615}
+  - component: {fileID: 2371835157830827141}
+  - component: {fileID: 2571225887158910051}
+  m_Layer: 0
+  m_Name: EngineRpmSfxManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5333095177394496615
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4346722548415644783}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7150836786236205295}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2371835157830827141
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4346722548415644783}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1393286613, guid: 06dd3d5416bf43ea368cc39ff96e6d5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  engineRpmSFX: {fileID: 2571225887158910051}
+  engineRevUp: {fileID: 0}
+  rampUpSpeed: 1
+  rampDownSpeed: 0.2
+--- !u!114 &2571225887158910051
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4346722548415644783}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -133377629, guid: 06dd3d5416bf43ea368cc39ff96e6d5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  asset: {fileID: 0}
+  playOnAwake: 0
+  stopImmediatelyOnDisable: 0
+  followParent: 0
+  restartOnPlay: 0
+  debug: 0
+  subtitlesKey: 
+  playSubtitlesWithUnscaledTime: 1
+  assetStart: {fileID: 0}
+  assetStop: {fileID: 0}
+  stopSoundInterval: 0
 --- !u!1 &4350762739411239820
 GameObject:
   m_ObjectHideFlags: 0
@@ -25380,6 +25531,7 @@ Transform:
   - {fileID: 6515951587499070340}
   - {fileID: 7432712547665749447}
   - {fileID: 4210854685195553880}
+  - {fileID: 7150836786236205295}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -25741,7 +25893,7 @@ MonoBehaviour:
   turnScale: 0.6
   useThrottleIndex: 2
   wasUsingThrottleIndex: 0
-  engineRPMManager: {fileID: 0}
+  engineRPMManager: {fileID: 2371835157830827141}
   powerRelay: {fileID: 161644787413200408}
   cyclopsMotorMode: {fileID: 2278157053698757509}
   engineStartSound: {fileID: 0}
