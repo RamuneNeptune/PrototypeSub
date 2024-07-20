@@ -49,7 +49,7 @@ internal class Prototype_Craftable
 
         yield return CyclopsReferenceHandler.EnsureCyclopsReference();
 
-        InterfaceCallerHandler.InvokeCyclopsReferencers(prototype);
+        yield return InterfaceCallerHandler.InvokeCyclopsReferencers(prototype);
 
         foreach (var modifier in prototype.GetComponentsInChildren<PrefabModifier>(true))
         {
