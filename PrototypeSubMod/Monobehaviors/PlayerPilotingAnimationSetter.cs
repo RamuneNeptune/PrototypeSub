@@ -9,9 +9,8 @@ internal class PlayerPilotingAnimationSetter : MonoBehaviour
 
     private bool handDownRecently;
 
-    public void OnCinematicStarted()
+    public void UpdateAnimations()
     {
-        //cyclops_ladder_short_down
         Player.main.playerAnimator.SetBool(parameterName, chair.currentPlayer == Player.main || handDownRecently);
     }
 
@@ -20,7 +19,7 @@ internal class PlayerPilotingAnimationSetter : MonoBehaviour
     {
         handDownRecently = true;
 
-        Invoke(nameof(ResetHandDown), 1f);
+        Invoke(nameof(ResetHandDown), .75f);
     }
 
     private void ResetHandDown()
