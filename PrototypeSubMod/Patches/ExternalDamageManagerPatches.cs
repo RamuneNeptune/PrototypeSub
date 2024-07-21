@@ -10,7 +10,7 @@ internal class ExternalDamageManagerPatches
     private static bool OnEnable_Prefix(CyclopsExternalDamageManager __instance)
     {
         var techTag = __instance.subRoot.GetComponent<TechTag>();
-        if (techTag.type == Prototype_Craftable.SubInfo.TechType) return false;
+        if (techTag && techTag.type == Prototype_Craftable.SubInfo.TechType) return false;
 
         return true;
     }
