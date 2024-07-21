@@ -1057,6 +1057,7 @@ Transform:
   - {fileID: 3769301475097907067}
   - {fileID: 2352354402771473455}
   - {fileID: 1383009044640847921}
+  - {fileID: 4481868272058620580}
   m_Father: {fileID: 2179818387202097526}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -8627,6 +8628,50 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.5214666, y: 3.64262, z: 0.23313405}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &2709536322167468912
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4481868272058620580}
+  - component: {fileID: 8857642385600348687}
+  m_Layer: 0
+  m_Name: Collider (41)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4481868272058620580
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2709536322167468912}
+  m_LocalRotation: {x: -0.64046466, y: 0.2996748, z: 0.2996748, w: 0.64046466}
+  m_LocalPosition: {x: 0.807, y: 10.075, z: 22.818}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5844863761311079441}
+  m_RootOrder: 40
+  m_LocalEulerAnglesHint: {x: -90.00001, y: 0, z: 50.15}
+--- !u!65 &8857642385600348687
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2709536322167468912}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3.2028804, y: 2.150441, z: 0.1148632}
+  m_Center: {x: 0.0000008140463, y: 0.57522273, z: 1.4474858e-15}
 --- !u!1 &2773576940134403573
 GameObject:
   m_ObjectHideFlags: 0
@@ -13934,6 +13979,7 @@ GameObject:
   - component: {fileID: 1960001655235320920}
   - component: {fileID: 7526695556347667783}
   - component: {fileID: 5893992939672975435}
+  - component: {fileID: 7712155075911589734}
   m_Layer: 0
   m_Name: PilotingChair
   m_TagString: Untagged
@@ -13978,7 +14024,18 @@ MonoBehaviour:
   restoreActiveQuickSlot: 0
   onCinematicStart:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 7712155075911589734}
+        m_MethodName: OnCinematicStarted
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   onCinematicEnd:
     m_PersistentCalls:
       m_Calls: []
@@ -14002,6 +14059,20 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.9302319, y: 0.3150478, z: 0.5854553}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &7712155075911589734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4412618025411933017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 551931337, guid: fd539bee7452c2f429773c1941440753, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chair: {fileID: 7526695556347667783}
+  parameterName: cyclops_ladder_short_down
 --- !u!1 &4429929247170305450
 GameObject:
   m_ObjectHideFlags: 0
@@ -14566,7 +14637,7 @@ MonoBehaviour:
   receiversAnimParam: 
   animParamReceivers: []
   interpolateDuringAnimation: 1
-  debug: 1
+  debug: 0
   animator: {fileID: 2023286058684925351}
   sound: {fileID: 0}
   enforceCinematicModeEnd: 1
@@ -18298,6 +18369,50 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.15568651, y: 1.6977549, z: 5.5065584}
   m_Center: {x: 0.0000038869885, y: 0.34887877, z: -0.49118397}
+--- !u!1 &5728247150025305808
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1529712322269618169}
+  - component: {fileID: 2323649706953718177}
+  m_Layer: 0
+  m_Name: Collider (41)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1529712322269618169
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5728247150025305808}
+  m_LocalRotation: {x: -0.64046365, y: -0.29967707, z: -0.299677, w: 0.64046365}
+  m_LocalPosition: {x: -0.807, y: 10.075, z: 22.818}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 829580333215720093}
+  m_RootOrder: 40
+  m_LocalEulerAnglesHint: {x: -90.00001, y: 0, z: -50.15}
+--- !u!65 &2323649706953718177
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5728247150025305808}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3.2028804, y: 2.150441, z: 0.1148632}
+  m_Center: {x: -0.0000008140463, y: 0.57522273, z: 1.4474858e-15}
 --- !u!1 &5738033958969088095
 GameObject:
   m_ObjectHideFlags: 0
@@ -24744,7 +24859,7 @@ MonoBehaviour:
   receiversAnimParam: 
   animParamReceivers: []
   interpolateDuringAnimation: 1
-  debug: 1
+  debug: 0
   animator: {fileID: 2023286058684925351}
   sound: {fileID: 0}
   enforceCinematicModeEnd: 1
@@ -25646,6 +25761,7 @@ Transform:
   - {fileID: 5197686967251120104}
   - {fileID: 2328563872337961357}
   - {fileID: 7341952094878522412}
+  - {fileID: 1529712322269618169}
   m_Father: {fileID: 2179818387202097526}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
