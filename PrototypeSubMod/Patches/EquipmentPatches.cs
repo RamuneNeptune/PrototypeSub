@@ -10,7 +10,11 @@ internal class EquipmentPatches
     [HarmonyPatch(nameof(Equipment.AllowedToAdd)), HarmonyPostfix]
     private static void AllowedToAdd_Postfix(Equipment __instance, Pickupable pickupable, ref bool __result)
     {
-        if (!__instance.tr.TryGetComponent(out PrototypePowerSystem powerSystem)) return;
+        Plugin.Logger.LogInfo($"Transform = {__instance.tr}");
+
+        if (!__instance.tr.parent) return;
+
+        if (!__instance.tr.parent.TryGetComponent(out PrototypePowerSystem powerSystem)) return;
 
         __result = powerSystem.GetAllowedTechTypes().Contains(pickupable.GetTechType());
     }

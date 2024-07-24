@@ -32,7 +32,7 @@ internal class Prototype_Craftable
             .WithCraftingTime(20f);
 
         prefab.SetPdaGroupCategory(TechGroup.Constructor, TechCategory.Constructor);
-        
+
         prefab.Register();
     }
 

@@ -25,7 +25,7 @@ internal class PlayerPilotingAnimationSetter : MonoBehaviour
     public void HandDown()
     {
         handDownRecently = true;
-        
+
         Invoke(nameof(ResetHandDown), 1f);
     }
 

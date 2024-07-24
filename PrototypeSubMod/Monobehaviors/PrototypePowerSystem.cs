@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using UnityEngine;
 
 namespace PrototypeSubMod.Monobehaviors;
@@ -17,10 +13,16 @@ internal class PrototypePowerSystem : MonoBehaviour
         "PrototypePowerSlot4"
     };
 
+    public static readonly TechType[] AllowedPowerSources = new[]
+    {
+        TechType.PowerCell,
+        TechType.PrecursorIonCrystal,
+        TechType.PrecursorIonPowerCell
+    };
+
     public Equipment equipment { get; private set; }
 
-    [SerializeField] private Transform storageRoot;
-    [SerializeField] private TechType[] allowedPowerSources;
+    [SerializeField] private Transform storageRoot; 
 
     private void Awake()
     {
@@ -68,12 +70,12 @@ internal class PrototypePowerSystem : MonoBehaviour
 
     public TechType[] GetAllowedTechTypes()
     {
-        return allowedPowerSources;
+        return AllowedPowerSources;
     }
 
     private bool IsAllowedToAdd(Pickupable pickupable, bool verbose)
     {
         Plugin.Logger.LogInfo($"Trying to add {pickupable}");
-        return allowedPowerSources.Contains(pickupable.GetTechType());
+        return AllowedPowerSources.Contains(pickupable.GetTechType());
     }
 }

@@ -14,7 +14,7 @@ internal class EntryWaterGate : MonoBehaviour
 
         if (!player || player.currChair != null) return;
 
-        if(!subRoot)
+        if (!subRoot)
         {
             player.SetPrecursorOutOfWater(setWalk);
             return;
