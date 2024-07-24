@@ -2,6 +2,7 @@
 using BepInEx.Logging;
 using HarmonyLib;
 using Nautilus.Handlers;
+using PrototypeSubMod.Monobehaviors;
 using PrototypeSubMod.Prefabs;
 using System.IO;
 using System.Reflection;
@@ -26,6 +27,8 @@ namespace PrototypeSubMod
 
         public static AssetBundle AssetBundle { get; } = AssetBundle.LoadFromFile(Path.Combine(AssetsFolderPath, "prototypeassets"));
 
+        public static EquipmentType PrototypePowerType { get; } = EnumHandler.AddEntry<EquipmentType>("PrototypePowerType");
+
         private void Awake()
         {
             // Set project-scoped logger instance
@@ -35,9 +38,19 @@ namespace PrototypeSubMod
 
             Prototype_Craftable.Register();
 
+            InitializeSlotMapping();
+
             // Register harmony patches, if there are any
             Harmony.CreateAndPatchAll(Assembly, $"{GUID}");
             Logger.LogInfo($"Plugin {GUID} is loaded!");
+        }
+
+        private void InitializeSlotMapping()
+        {
+            foreach (string name in PrototypePowerSystem.SLOT_NAMES)
+            {
+                Equipment.slotMapping.Add(name, PrototypePowerType);
+            }
         }
     }
 }
