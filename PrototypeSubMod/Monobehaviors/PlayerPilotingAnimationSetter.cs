@@ -11,15 +11,22 @@ internal class PlayerPilotingAnimationSetter : MonoBehaviour
 
     public void UpdateAnimations()
     {
-        Player.main.playerAnimator.SetBool(parameterName, chair.currentPlayer == Player.main || handDownRecently);
+        bool val = chair.currentPlayer == Player.main || handDownRecently;
+
+        if (Player.main.currChair == this)
+        {
+            val = false;
+        }
+
+        Player.main.playerAnimator.SetBool(parameterName, val);
     }
 
     //Called by CinematicModeTriggerBase via SendMessage
     public void HandDown()
     {
         handDownRecently = true;
-
-        Invoke(nameof(ResetHandDown), .75f);
+        
+        Invoke(nameof(ResetHandDown), 1f);
     }
 
     private void ResetHandDown()
