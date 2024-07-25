@@ -1,6 +1,9 @@
 ﻿using HarmonyLib;
 using PrototypeSubMod.Monobehaviors;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using System.Reflection.Emit;
 using UnityEngine;
 
 namespace PrototypeSubMod.Patches;
@@ -23,30 +26,74 @@ internal class uGUI_EquipmentPatches
         }
     }
 
-    /*
+    [HarmonyPatch(nameof(uGUI_Equipment.OnItemDragStart)), HarmonyTranspiler]
+    private static IEnumerable<CodeInstruction> OnItemDragStart_Transpiler(IEnumerable<CodeInstruction> instructions)
+    {
+        CodeMatch match = new CodeMatch(i => i.opcode == OpCodes.Call && ((MethodInfo)i.operand).Name == "GetEquipmentType");
+
+        FieldInfo inventoryItemInfo = typeof(Pickupable).GetField("inventoryItem", BindingFlags.NonPublic | BindingFlags.Instance);
+        FieldInfo containerInfo = typeof(InventoryItem).GetField("container");
+
+        var matcher = new CodeMatcher(instructions)
+            .MatchForward(true, match)
+            .Advance(1)
+            .InsertAndAdvance(new CodeInstruction(OpCodes.Ldarg_1))
+            .InsertAndAdvance(new CodeInstruction(OpCodes.Ldfld, inventoryItemInfo))
+            .InsertAndAdvance(new CodeInstruction(OpCodes.Ldfld, containerInfo))
+            .InsertAndAdvance(new CodeInstruction(OpCodes.Ldarg_1))
+            .InsertAndAdvance(new CodeInstruction(OpCodes.Ldfld, inventoryItemInfo))
+            .Insert(Transpilers.EmitDelegate(InventoryPatches.GetModifiedEquipmentTypeItemsContainer));
+
+        return matcher.InstructionEnumeration();
+    }
+
+    [HarmonyPatch(nameof(uGUI_Equipment.CanSwitchOrSwap)), HarmonyTranspiler]
+    private static IEnumerable<CodeInstruction> CanSwitchOrSwap_Transpiler(IEnumerable<CodeInstruction> instructions)
+    {
+        CodeMatch match = new CodeMatch(i => i.opcode == OpCodes.Call && ((MethodInfo)i.operand).Name == "GetEquipmentType");
+
+        FieldInfo inventoryItemInfo = typeof(Pickupable).GetField("inventoryItem", BindingFlags.NonPublic | BindingFlags.Instance);
+        FieldInfo containerInfo = typeof(InventoryItem).GetField("container");
+
+        var matcher = new CodeMatcher(instructions)
+            .MatchForward(true, match)
+            .Advance(1)
+            .InsertAndAdvance(new CodeInstruction(OpCodes.Ldloc_1))
+            .InsertAndAdvance(new CodeInstruction(OpCodes.Ldfld, inventoryItemInfo))
+            .InsertAndAdvance(new CodeInstruction(OpCodes.Ldfld, containerInfo))
+            .InsertAndAdvance(new CodeInstruction(OpCodes.Ldloc_1))
+            .InsertAndAdvance(new CodeInstruction(OpCodes.Ldfld, inventoryItemInfo))
+            .Insert(Transpilers.EmitDelegate(InventoryPatches.GetModifiedEquipmentTypeItemsContainer)); 
+
+        return matcher.InstructionEnumeration();
+    }
+
+    [HarmonyPatch(nameof(uGUI_Equipment.HighlightSlots)), HarmonyPostfix]
+    private static void HighlightSlots_Postfix(EquipmentType itemType)
+    {
+        Plugin.Logger.LogInfo($"Highlighting slots with type {itemType}");
+    }
+
     [HarmonyPatch(nameof(uGUI_Equipment.OnItemDragStart)), HarmonyPrefix]
     private static void OnItemDragStart_Prefix(Pickupable p)
     {
         TechType type = p.GetTechType();
-
-        if (!PrototypePowerSystem.AllowedPowerSources.Contains(type)) return;
-
+        if (!PrototypePowerSystem.AllowedPowerSources.Keys.Contains(type)) return;
         LastDraggedItem = new DraggedItem(p, CraftData.GetEquipmentType(type));
-        CraftData.equipmentTypes[type] = Plugin.PrototypePowerType; 
+        CraftData.equipmentTypes[type] = Plugin.PrototypePowerType;
     }
 
     [HarmonyPatch(nameof(uGUI_Equipment.OnItemDragStop)), HarmonyPrefix]
     private static void OnItemDragStop_Prefix()
     {
-        if(LastDraggedItem == null)
+        if (LastDraggedItem == null)
         {
-            Plugin.Logger.LogError($"Last dragged item is null on drag stop! Item may have been destroyed or incorrectly set.");
+            //Invalid slot
             return;
         }
 
         CraftData.equipmentTypes[LastDraggedItem.pickupable.GetTechType()] = LastDraggedItem.originalType;
     }
-    */
 
     private static uGUI_EquipmentSlot CloneSlot(uGUI_Equipment equipmentMenu, string childName, string newSlotName)
     {
@@ -61,7 +108,6 @@ internal class uGUI_EquipmentPatches
     {
         public Pickupable pickupable;
         public EquipmentType originalType;
-
         public DraggedItem(Pickupable pickupable, EquipmentType originalType)
         {
             this.pickupable = pickupable;

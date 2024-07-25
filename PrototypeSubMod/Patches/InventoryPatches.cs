@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using JetBrains.Annotations;
 using PrototypeSubMod.Monobehaviors;
 using System;
 using System.Collections;
@@ -24,11 +25,6 @@ internal class InventoryPatches
             .InsertAndAdvance(new CodeInstruction(OpCodes.Ldarg_0))
             .InsertAndAdvance(new CodeInstruction(OpCodes.Ldarg_1))
             .Insert(Transpilers.EmitDelegate(GetModifiedEquipmentType));
-
-        foreach (var item in matcher.InstructionEnumeration())
-        {
-            Plugin.Logger.LogInfo($"{item.opcode} {item.operand}");
-        }
 
         return matcher.InstructionEnumeration();
     }
@@ -62,7 +58,7 @@ internal class InventoryPatches
 
         if (!equipmentB.tr.parent.TryGetComponent(out PrototypePowerSystem _)) return originalType;
 
-        if(PrototypePowerSystem.AllowedPowerSources.Contains(itemA.techType))
+        if(PrototypePowerSystem.AllowedPowerSources.Keys.Contains(itemA.techType))
         {
             return Plugin.PrototypePowerType;
         }
@@ -72,11 +68,15 @@ internal class InventoryPatches
 
     public static EquipmentType GetModifiedEquipmentTypeItemsContainer(EquipmentType originalType, IItemsContainer container, InventoryItem itemA)
     {
+        Plugin.Logger.LogInfo($"Label = {container.label}");
+
         if (itemA == null) return originalType;
 
-        if (container.label != PrototypePowerSystem.EquipmentLabel) return originalType;
+        bool transferContainer = container.label != PrototypePowerSystem.EquipmentLabel;
 
-        if (PrototypePowerSystem.AllowedPowerSources.Contains(itemA.techType))
+        if (transferContainer) return originalType;
+
+        if (PrototypePowerSystem.AllowedPowerSources.Keys.Contains(itemA.techType))
         {
             return Plugin.PrototypePowerType;
         }

@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace PrototypeSubMod.Monobehaviors;
@@ -13,22 +15,31 @@ internal class PrototypePowerSystem : MonoBehaviour
         "PrototypePowerSlot4"
     };
 
-    public static readonly TechType[] AllowedPowerSources = new[]
+    public static readonly Dictionary<TechType, float> AllowedPowerSources = new()
     {
-        TechType.PowerCell,
-        TechType.PrecursorIonCrystal,
-        TechType.PrecursorIonPowerCell
+        { TechType.PowerCell, 1000 },
+        { TechType.PrecursorIonCrystal, 1000 },
+        { TechType.PrecursorIonPowerCell, 1000 },
     };
 
     public static readonly string EquipmentLabel = "PrototypePowerLabel";
 
     public Equipment equipment { get; private set; }
 
-    [SerializeField] private Transform storageRoot; 
+    [SerializeField] private Transform storageRoot;
+    [SerializeField] private BatterySource[] batterySources;
 
     private void Awake()
     {
         Initialize();
+    }
+
+    private void Start()
+    {
+        if(batterySources.Length != SLOT_NAMES.Length)
+        {
+            Plugin.Logger.LogError($"Battery source and slot name length mismatch on {gameObject}!");
+        }
     }
 
     private void Initialize()
@@ -43,16 +54,34 @@ internal class PrototypePowerSystem : MonoBehaviour
         equipment.AddSlots(SLOT_NAMES);
 
         equipment.isAllowedToAdd = IsAllowedToAdd;
+        equipment.isAllowedToRemove = (p, v) =>
+        {
+            return true;
+        };
     }
 
     private void OnEquip(string slot, InventoryItem item)
     {
         Plugin.Logger.LogInfo($"Equipped {item} to slot {slot} on {gameObject}");
+
+        int index = Array.IndexOf(SLOT_NAMES, slot);
+
+        var batterySource = batterySources[index];
+        float power = AllowedPowerSources[item.techType];
+
+        batterySources[index].Select(item);
+        batterySource.OnAddItem(item);
     }
 
     private void OnUnequip(string slot, InventoryItem item)
     {
         Plugin.Logger.LogInfo($"Unequipped {item} from slot {slot} on {gameObject}");
+
+        int index = Array.IndexOf(SLOT_NAMES, slot);
+
+        var batterySource = batterySources[index];
+        batterySource.Select(null);
+        batterySource.OnRemoveItem(item);
     }
 
     public void OnHover(HandTargetEventData eventData)
@@ -73,6 +102,6 @@ internal class PrototypePowerSystem : MonoBehaviour
     private bool IsAllowedToAdd(Pickupable pickupable, bool verbose)
     {
         Plugin.Logger.LogInfo($"Trying to add {pickupable}");
-        return AllowedPowerSources.Contains(pickupable.GetTechType());
+        return AllowedPowerSources.Keys.Contains(pickupable.GetTechType());
     }
 }

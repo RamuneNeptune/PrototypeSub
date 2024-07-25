@@ -1,6 +1,5 @@
 ﻿using HarmonyLib;
 using PrototypeSubMod.Monobehaviors;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -14,13 +13,11 @@ internal class EquipmentPatches
     [HarmonyPatch(nameof(Equipment.AllowedToAdd)), HarmonyPostfix]
     private static void AllowedToAdd_Postfix(Equipment __instance, Pickupable pickupable, ref bool __result)
     {
-        Plugin.Logger.LogInfo($"Transform = {__instance.tr}");
-
         if (!__instance.tr.parent) return;
 
         if (!__instance.tr.parent.TryGetComponent(out PrototypePowerSystem _)) return;
 
-        __result = PrototypePowerSystem.AllowedPowerSources.Contains(pickupable.GetTechType());
+        __result = PrototypePowerSystem.AllowedPowerSources.Keys.Contains(pickupable.GetTechType());
     }
 
     [HarmonyPatch("IItemsContainer.AddItem"), HarmonyTranspiler]
