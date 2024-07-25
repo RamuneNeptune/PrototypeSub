@@ -4,8 +4,10 @@ using HarmonyLib;
 using Nautilus.Handlers;
 using PrototypeSubMod.Monobehaviors;
 using PrototypeSubMod.Prefabs;
+using System.Collections;
 using System.IO;
 using System.Reflection;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace PrototypeSubMod
@@ -29,15 +31,19 @@ namespace PrototypeSubMod
 
         public static EquipmentType PrototypePowerType { get; } = EnumHandler.AddEntry<EquipmentType>("PrototypePowerType");
 
+        private static bool Initialized;
+
         private void Awake()
         {
+            if (Initialized) return;
+
             // Set project-scoped logger instance
             Logger = base.Logger;
 
             LanguageHandler.RegisterLocalizationFolder();
 
             Prototype_Craftable.Register();
-
+     
             InitializeSlotMapping();
 
             // Register harmony patches, if there are any
@@ -45,11 +51,31 @@ namespace PrototypeSubMod
             Logger.LogInfo($"Plugin {GUID} is loaded!");
         }
 
+        private void Start()
+        {
+            if (Initialized) return;
+
+            StartCoroutine(AddBatteryComponents());
+            Initialized = true;
+        }
+
         private void InitializeSlotMapping()
         {
             foreach (string name in PrototypePowerSystem.SLOT_NAMES)
             {
                 Equipment.slotMapping.Add(name, PrototypePowerType);
+            }
+        }
+
+        private IEnumerator AddBatteryComponents()
+        {
+            foreach (var kvp in PrototypePowerSystem.AllowedPowerSources)
+            {
+                CoroutineTask<GameObject> prefabTask = CraftData.GetPrefabForTechTypeAsync(kvp.Key);
+                yield return prefabTask;
+
+                GameObject prefab = prefabTask.result.Get();
+                var battery = prefab.AddComponent<PrototypePowerBattery>();
             }
         }
     }

@@ -18,8 +18,8 @@ internal class PrototypePowerSystem : MonoBehaviour
     public static readonly Dictionary<TechType, float> AllowedPowerSources = new()
     {
         { TechType.PowerCell, 1000 },
-        { TechType.PrecursorIonCrystal, 1000 },
-        { TechType.PrecursorIonPowerCell, 1000 },
+        { TechType.PrecursorIonCrystal, 2000 },
+        { TechType.PrecursorIonPowerCell, 3000 },
     };
 
     public static readonly string EquipmentLabel = "PrototypePowerLabel";
@@ -27,7 +27,7 @@ internal class PrototypePowerSystem : MonoBehaviour
     public Equipment equipment { get; private set; }
 
     [SerializeField] private Transform storageRoot;
-    [SerializeField] private BatterySource[] batterySources;
+    [SerializeField] private PrototypePowerSource[] batterySources;
 
     private void Awake()
     {
@@ -68,6 +68,14 @@ internal class PrototypePowerSystem : MonoBehaviour
 
         var batterySource = batterySources[index];
         float power = AllowedPowerSources[item.techType];
+
+        if(!item.item.TryGetComponent(out PrototypePowerBattery battery))
+        {
+            Plugin.Logger.LogError($"Item ({item}) added to prototype power system doesn't have a PrototypePowerBattery component on it!");
+            return;
+        }
+
+        batterySource.SetBattery(battery);
     }
     
     private void OnUnequip(string slot, InventoryItem item)
@@ -77,6 +85,7 @@ internal class PrototypePowerSystem : MonoBehaviour
         int index = Array.IndexOf(SLOT_NAMES, slot);
 
         var batterySource = batterySources[index];
+        batterySource.SetBattery(null);
     }
 
     public void OnHover(HandTargetEventData eventData)
