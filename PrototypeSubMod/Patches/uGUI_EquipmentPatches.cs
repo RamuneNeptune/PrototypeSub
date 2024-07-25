@@ -23,6 +23,7 @@ internal class uGUI_EquipmentPatches
         }
     }
 
+    /*
     [HarmonyPatch(nameof(uGUI_Equipment.OnItemDragStart)), HarmonyPrefix]
     private static void OnItemDragStart_Prefix(Pickupable p)
     {
@@ -45,6 +46,7 @@ internal class uGUI_EquipmentPatches
 
         CraftData.equipmentTypes[LastDraggedItem.pickupable.GetTechType()] = LastDraggedItem.originalType;
     }
+    */
 
     private static uGUI_EquipmentSlot CloneSlot(uGUI_Equipment equipmentMenu, string childName, string newSlotName)
     {

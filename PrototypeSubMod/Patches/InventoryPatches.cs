@@ -20,20 +20,63 @@ internal class InventoryPatches
 
         var matcher = new CodeMatcher(instructions)
             .MatchForward(true, match)
+            .Advance(1)
             .InsertAndAdvance(new CodeInstruction(OpCodes.Ldarg_0))
             .InsertAndAdvance(new CodeInstruction(OpCodes.Ldarg_1))
             .Insert(Transpilers.EmitDelegate(GetModifiedEquipmentType));
 
+        foreach (var item in matcher.InstructionEnumeration())
+        {
+            Plugin.Logger.LogInfo($"{item.opcode} {item.operand}");
+        }
+
         return matcher.InstructionEnumeration();
     }
 
-    public static EquipmentType GetModifiedEquipmentType(InventoryItem itemA, Equipment equipmentB, EquipmentType originalType)
+    [HarmonyPatch(nameof(Inventory.GetAllItemActions)), HarmonyTranspiler]
+    private static IEnumerable<CodeInstruction> GetAllItemActions_Transpiler(IEnumerable<CodeInstruction> instructions)
     {
-        if (equipmentB.tr.parent == null) return originalType;
+        CodeMatch match = new CodeMatch(i => i.opcode == OpCodes.Call && ((MethodInfo)i.operand).Name == "GetEquipmentType");
 
-        if (!equipmentB.tr.parent.TryGetComponent(out PrototypePowerSystem powerSystem)) return originalType;
+        MethodInfo methodInfo = typeof(Inventory).GetMethod("GetOppositeContainer");
 
-        if(powerSystem.GetAllowedTechTypes().Contains(itemA.techType))
+        var matcher = new CodeMatcher(instructions)
+            .MatchForward(true, match)
+            .Advance(1)
+            .InsertAndAdvance(new CodeInstruction(OpCodes.Ldarg_0)) //Load the Inventory instance (this)
+            .InsertAndAdvance(new CodeInstruction(OpCodes.Ldarg_1)) //Load the InventoryItem
+            .InsertAndAdvance(new CodeInstruction(OpCodes.Call, methodInfo)) //Get the container on the right side of the inventory
+            .InsertAndAdvance(new CodeInstruction(OpCodes.Ldarg_1)) //Load the InventoryItem
+            .Insert(Transpilers.EmitDelegate(GetModifiedEquipmentTypeItemsContainer));
+
+        return matcher.InstructionEnumeration();
+    }
+
+    public static EquipmentType GetModifiedEquipmentType(EquipmentType originalType, InventoryItem itemA, Equipment equipmentB)
+    {
+        if (itemA == null) return originalType;
+
+        if (!equipmentB.tr) return originalType;
+
+        if (!equipmentB.tr.parent) return originalType;
+
+        if (!equipmentB.tr.parent.TryGetComponent(out PrototypePowerSystem _)) return originalType;
+
+        if(PrototypePowerSystem.AllowedPowerSources.Contains(itemA.techType))
+        {
+            return Plugin.PrototypePowerType;
+        }
+
+        return originalType;
+    }
+
+    public static EquipmentType GetModifiedEquipmentTypeItemsContainer(EquipmentType originalType, IItemsContainer container, InventoryItem itemA)
+    {
+        if (itemA == null) return originalType;
+
+        if (container.label != PrototypePowerSystem.EquipmentLabel) return originalType;
+
+        if (PrototypePowerSystem.AllowedPowerSources.Contains(itemA.techType))
         {
             return Plugin.PrototypePowerType;
         }

@@ -1,6 +1,10 @@
 ﻿using HarmonyLib;
 using PrototypeSubMod.Monobehaviors;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using System.Reflection.Emit;
 
 namespace PrototypeSubMod.Patches;
 
@@ -14,8 +18,38 @@ internal class EquipmentPatches
 
         if (!__instance.tr.parent) return;
 
-        if (!__instance.tr.parent.TryGetComponent(out PrototypePowerSystem powerSystem)) return;
+        if (!__instance.tr.parent.TryGetComponent(out PrototypePowerSystem _)) return;
 
-        __result = powerSystem.GetAllowedTechTypes().Contains(pickupable.GetTechType());
+        __result = PrototypePowerSystem.AllowedPowerSources.Contains(pickupable.GetTechType());
+    }
+
+    [HarmonyPatch("IItemsContainer.AddItem"), HarmonyTranspiler]
+    private static IEnumerable<CodeInstruction> AddItem_Transpiler(IEnumerable<CodeInstruction> instructions)
+    {
+        CodeMatch match = new CodeMatch(i => i.opcode == OpCodes.Call && ((MethodInfo)i.operand).Name == "GetEquipmentType");
+
+        var matcher = new CodeMatcher(instructions)
+            .MatchForward(true, match)
+            .Advance(1)
+            .InsertAndAdvance(new CodeInstruction(OpCodes.Ldarg_1))
+            .InsertAndAdvance(new CodeInstruction(OpCodes.Ldarg_0))
+            .Insert(Transpilers.EmitDelegate(InventoryPatches.GetModifiedEquipmentType));
+
+        return matcher.InstructionEnumeration();
+    }
+
+    [HarmonyPatch("IItemsContainer.HasRoomFor"), HarmonyTranspiler]
+    private static IEnumerable<CodeInstruction> HasRoomFor_Transpiler(IEnumerable<CodeInstruction> instructions)
+    {
+        CodeMatch match = new CodeMatch(i => i.opcode == OpCodes.Call && ((MethodInfo)i.operand).Name == "GetEquipmentType");
+
+        var matcher = new CodeMatcher(instructions)
+            .MatchForward(true, match)
+            .Advance(1)
+            .InsertAndAdvance(new CodeInstruction(OpCodes.Ldarg_1))
+            .InsertAndAdvance(new CodeInstruction(OpCodes.Ldarg_0))
+            .Insert(Transpilers.EmitDelegate(InventoryPatches.GetModifiedEquipmentType));
+
+        return matcher.InstructionEnumeration();
     }
 }

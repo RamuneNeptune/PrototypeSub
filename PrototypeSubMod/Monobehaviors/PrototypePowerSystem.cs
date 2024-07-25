@@ -20,6 +20,8 @@ internal class PrototypePowerSystem : MonoBehaviour
         TechType.PrecursorIonPowerCell
     };
 
+    public static readonly string EquipmentLabel = "PrototypePowerLabel";
+
     public Equipment equipment { get; private set; }
 
     [SerializeField] private Transform storageRoot; 
@@ -34,7 +36,7 @@ internal class PrototypePowerSystem : MonoBehaviour
         if (equipment != null) return;
 
         equipment = new(gameObject, storageRoot);
-        equipment.SetLabel("PrototypePowerLabel");
+        equipment.SetLabel(EquipmentLabel);
         equipment.onEquip += OnEquip;
         equipment.onUnequip += OnUnequip;
 
@@ -66,11 +68,6 @@ internal class PrototypePowerSystem : MonoBehaviour
         PDA pda = Player.main.GetPDA();
         Inventory.main.SetUsedStorage(equipment);
         pda.Open(PDATab.Inventory);
-    }
-
-    public TechType[] GetAllowedTechTypes()
-    {
-        return AllowedPowerSources;
     }
 
     private bool IsAllowedToAdd(Pickupable pickupable, bool verbose)
