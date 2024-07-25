@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace PrototypeSubMod.Monobehaviors;
+namespace PrototypeSubMod.PowerSystem;
 
 internal class PrototypePowerSource : MonoBehaviour, IPowerInterface
 {
@@ -9,7 +9,7 @@ internal class PrototypePowerSource : MonoBehaviour, IPowerInterface
     {
         get
         {
-            float num = (battery != null && !ElectronicsDisabled) ? battery.Charge : 0;
+            float num = battery != null && !ElectronicsDisabled ? battery.Charge : 0;
             if (!ElectronicsDisabled && Time.time < enableElectronicsTime + 2f)
             {
                 num *= Mathf.InverseLerp(enableElectronicsTime, enableElectronicsTime + 2f, Time.time);
@@ -40,7 +40,7 @@ internal class PrototypePowerSource : MonoBehaviour, IPowerInterface
             if (value == _electronicsDisabled) return;
 
             _electronicsDisabled = value;
-            if(battery != null && battery.Charge > 0)
+            if (battery != null && battery.Charge > 0)
             {
                 NotifyPowered(_electronicsDisabled);
                 PlayPowerSound(_electronicsDisabled);
@@ -96,24 +96,24 @@ internal class PrototypePowerSource : MonoBehaviour, IPowerInterface
         float oldCharge = Charge;
         if (battery != null)
         {
-            if(amount >= 0f)
+            if (amount >= 0f)
             {
                 chargeChange = Mathf.Min(amount, battery.Capacity - battery.Charge);
             }
             else
             {
-                chargeChange = -Mathf.Min(-amount, battery.Charge);  
+                chargeChange = -Mathf.Min(-amount, battery.Charge);
             }
-            
+
             battery.ModifyCharge(chargeChange);
         }
 
-        if(oldCharge == 0f && Charge > 0f)
+        if (oldCharge == 0f && Charge > 0f)
         {
             NotifyPowered(true);
             PlayPowerSound(true);
         }
-        else if(oldCharge > 0f && Charge == 0f)
+        else if (oldCharge > 0f && Charge == 0f)
         {
             NotifyPowered(false);
             PlayPowerSound(false);
@@ -123,7 +123,7 @@ internal class PrototypePowerSource : MonoBehaviour, IPowerInterface
 
         //Tbh I have know idea why this is needed. It returns whether the delta would have exceeded the limits of the source,
         //but it's clamped anyway. Idk.
-        return (amount >= 0f) ? (amount <= Capacity - Charge) : (Charge > -amount); 
+        return amount >= 0f ? amount <= Capacity - Charge : Charge > -amount;
     }
 
     private void NotifyPowered(bool powered)
@@ -139,9 +139,9 @@ internal class PrototypePowerSource : MonoBehaviour, IPowerInterface
     private void UpdateConnection()
     {
         var relay = PowerSource.FindRelay(transform);
-        if(relay && relay != connectedRelay)
+        if (relay && relay != connectedRelay)
         {
-            if(connectedRelay != null)
+            if (connectedRelay != null)
             {
                 connectedRelay.RemoveInboundPower(this);
             }

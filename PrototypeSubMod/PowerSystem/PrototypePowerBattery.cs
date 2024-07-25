@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace PrototypeSubMod.Monobehaviors;
+namespace PrototypeSubMod.PowerSystem;
 
 internal class PrototypePowerBattery : MonoBehaviour
 {
@@ -41,7 +41,7 @@ internal class PrototypePowerBattery : MonoBehaviour
     {
         Charge = charge;
 
-        if(updateConnectedBattery && battery != null)
+        if (updateConnectedBattery && battery != null)
         {
             battery.charge = charge * BatteryCapacityRatio;
         }
@@ -49,7 +49,7 @@ internal class PrototypePowerBattery : MonoBehaviour
 
     public void TryMatchBatteryCharge()
     {
-        if(battery == null) return;
+        if (battery == null) return;
 
         Charge = battery.charge * (1 / BatteryCapacityRatio);
     }
@@ -63,7 +63,7 @@ internal class PrototypePowerBattery : MonoBehaviour
     {
         if (battery == null) return;
 
-        if(lastBatteryCharge != Charge)
+        if (lastBatteryCharge != Charge)
         {
             battery.charge = Charge * BatteryCapacityRatio;
         }

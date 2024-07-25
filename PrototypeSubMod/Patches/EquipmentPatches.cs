@@ -1,6 +1,5 @@
 ﻿using HarmonyLib;
-using PrototypeSubMod.Monobehaviors;
-using System;
+using PrototypeSubMod.PowerSystem;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;

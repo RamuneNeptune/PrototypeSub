@@ -17,7 +17,7 @@ internal class uGUI_ItemsContainerPatches
 
         var matcher = new CodeMatcher(instructions)
             .MatchForward(true, match)
-            .Advance(1) 
+            .Advance(1)
             .InsertAndAdvance(new CodeInstruction(OpCodes.Ldloc_1))
             .InsertAndAdvance(new CodeInstruction(OpCodes.Ldfld, containerInfo))
             .InsertAndAdvance(new CodeInstruction(OpCodes.Ldloc_1))

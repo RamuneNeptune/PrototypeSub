@@ -2,12 +2,11 @@
 using BepInEx.Logging;
 using HarmonyLib;
 using Nautilus.Handlers;
-using PrototypeSubMod.Monobehaviors;
+using PrototypeSubMod.PowerSystem;
 using PrototypeSubMod.Prefabs;
 using System.Collections;
 using System.IO;
 using System.Reflection;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace PrototypeSubMod
@@ -43,7 +42,7 @@ namespace PrototypeSubMod
             LanguageHandler.RegisterLocalizationFolder();
 
             Prototype_Craftable.Register();
-     
+
             InitializeSlotMapping();
 
             // Register harmony patches, if there are any

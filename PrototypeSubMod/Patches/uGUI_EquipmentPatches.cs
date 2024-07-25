@@ -1,5 +1,5 @@
 ﻿using HarmonyLib;
-using PrototypeSubMod.Monobehaviors;
+using PrototypeSubMod.PowerSystem;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -61,7 +61,7 @@ internal class uGUI_EquipmentPatches
             .InsertAndAdvance(new CodeInstruction(OpCodes.Ldloc_0))
             .InsertAndAdvance(new CodeInstruction(OpCodes.Ldfld, containerInfo))
             .InsertAndAdvance(new CodeInstruction(OpCodes.Ldloc_0))
-            .Insert(Transpilers.EmitDelegate(InventoryPatches.GetModifiedEquipmentTypeItemsContainer)); 
+            .Insert(Transpilers.EmitDelegate(InventoryPatches.GetModifiedEquipmentTypeItemsContainer));
 
         return matcher.InstructionEnumeration();
     }

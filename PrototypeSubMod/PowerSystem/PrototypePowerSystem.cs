@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace PrototypeSubMod.Monobehaviors;
+namespace PrototypeSubMod.PowerSystem;
 
 internal class PrototypePowerSystem : MonoBehaviour
 {
@@ -36,7 +36,7 @@ internal class PrototypePowerSystem : MonoBehaviour
 
     private void Start()
     {
-        if(batterySources.Length != SLOT_NAMES.Length)
+        if (batterySources.Length != SLOT_NAMES.Length)
         {
             Plugin.Logger.LogError($"Battery source and slot name length mismatch on {gameObject}!");
         }
@@ -69,7 +69,7 @@ internal class PrototypePowerSystem : MonoBehaviour
         var batterySource = batterySources[index];
         float power = AllowedPowerSources[item.techType];
 
-        if(!item.item.TryGetComponent(out PrototypePowerBattery battery))
+        if (!item.item.TryGetComponent(out PrototypePowerBattery battery))
         {
             Plugin.Logger.LogError($"Item ({item}) added to prototype power system doesn't have a PrototypePowerBattery component on it!");
             return;
@@ -77,7 +77,7 @@ internal class PrototypePowerSystem : MonoBehaviour
 
         batterySource.SetBattery(battery);
     }
-    
+
     private void OnUnequip(string slot, InventoryItem item)
     {
         Plugin.Logger.LogInfo($"Unequipped {item?.techType} from slot {slot} on {gameObject}");

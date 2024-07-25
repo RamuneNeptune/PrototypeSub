@@ -1,5 +1,5 @@
 ﻿using HarmonyLib;
-using PrototypeSubMod.Monobehaviors;
+using PrototypeSubMod.PowerSystem;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -56,7 +56,7 @@ internal class InventoryPatches
 
         if (!equipmentB.tr.parent.TryGetComponent(out PrototypePowerSystem _)) return originalType;
 
-        if(PrototypePowerSystem.AllowedPowerSources.Keys.Contains(itemA.techType))
+        if (PrototypePowerSystem.AllowedPowerSources.Keys.Contains(itemA.techType))
         {
             return Plugin.PrototypePowerType;
         }
