@@ -15,6 +15,7 @@ internal class PlayerPilotingAnimationSetter : MonoBehaviour
 
         if (Player.main.currChair == this)
         {
+            Plugin.Logger.LogInfo($"Setting bool to false on piloting chair");
             val = false;
         }
 
@@ -26,7 +27,7 @@ internal class PlayerPilotingAnimationSetter : MonoBehaviour
     {
         handDownRecently = true;
 
-        Invoke(nameof(ResetHandDown), 1f);
+        Invoke(nameof(ResetHandDown), .8f);
     }
 
     private void ResetHandDown()
