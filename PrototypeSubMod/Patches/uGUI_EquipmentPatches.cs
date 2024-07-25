@@ -52,26 +52,18 @@ internal class uGUI_EquipmentPatches
     {
         CodeMatch match = new CodeMatch(i => i.opcode == OpCodes.Call && ((MethodInfo)i.operand).Name == "GetEquipmentType");
 
-        FieldInfo inventoryItemInfo = typeof(Pickupable).GetField("inventoryItem", BindingFlags.NonPublic | BindingFlags.Instance);
+        //FieldInfo inventoryItemInfo = typeof(Pickupable).GetField("inventoryItem", BindingFlags.NonPublic | BindingFlags.Instance);
         FieldInfo containerInfo = typeof(InventoryItem).GetField("container");
 
         var matcher = new CodeMatcher(instructions)
             .MatchForward(true, match)
             .Advance(1)
-            .InsertAndAdvance(new CodeInstruction(OpCodes.Ldloc_1))
-            .InsertAndAdvance(new CodeInstruction(OpCodes.Ldfld, inventoryItemInfo))
+            .InsertAndAdvance(new CodeInstruction(OpCodes.Ldloc_0))
             .InsertAndAdvance(new CodeInstruction(OpCodes.Ldfld, containerInfo))
-            .InsertAndAdvance(new CodeInstruction(OpCodes.Ldloc_1))
-            .InsertAndAdvance(new CodeInstruction(OpCodes.Ldfld, inventoryItemInfo))
+            .InsertAndAdvance(new CodeInstruction(OpCodes.Ldloc_0))
             .Insert(Transpilers.EmitDelegate(InventoryPatches.GetModifiedEquipmentTypeItemsContainer)); 
 
         return matcher.InstructionEnumeration();
-    }
-
-    [HarmonyPatch(nameof(uGUI_Equipment.HighlightSlots)), HarmonyPostfix]
-    private static void HighlightSlots_Postfix(EquipmentType itemType)
-    {
-        Plugin.Logger.LogInfo($"Highlighting slots with type {itemType}");
     }
 
     [HarmonyPatch(nameof(uGUI_Equipment.OnItemDragStart)), HarmonyPrefix]

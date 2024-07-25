@@ -1,8 +1,6 @@
 ﻿using HarmonyLib;
-using JetBrains.Annotations;
 using PrototypeSubMod.Monobehaviors;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -68,8 +66,6 @@ internal class InventoryPatches
 
     public static EquipmentType GetModifiedEquipmentTypeItemsContainer(EquipmentType originalType, IItemsContainer container, InventoryItem itemA)
     {
-        Plugin.Logger.LogInfo($"Label = {container.label}");
-
         if (itemA == null) return originalType;
 
         bool transferContainer = container.label != PrototypePowerSystem.EquipmentLabel;

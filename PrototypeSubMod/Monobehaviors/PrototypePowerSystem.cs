@@ -62,26 +62,21 @@ internal class PrototypePowerSystem : MonoBehaviour
 
     private void OnEquip(string slot, InventoryItem item)
     {
-        Plugin.Logger.LogInfo($"Equipped {item} to slot {slot} on {gameObject}");
+        Plugin.Logger.LogInfo($"Equipped {item?.techType} to slot {slot} on {gameObject}");
 
         int index = Array.IndexOf(SLOT_NAMES, slot);
 
         var batterySource = batterySources[index];
         float power = AllowedPowerSources[item.techType];
-
-        batterySources[index].Select(item);
-        batterySource.OnAddItem(item);
     }
-
+    
     private void OnUnequip(string slot, InventoryItem item)
     {
-        Plugin.Logger.LogInfo($"Unequipped {item} from slot {slot} on {gameObject}");
+        Plugin.Logger.LogInfo($"Unequipped {item?.techType} from slot {slot} on {gameObject}");
 
         int index = Array.IndexOf(SLOT_NAMES, slot);
 
         var batterySource = batterySources[index];
-        batterySource.Select(null);
-        batterySource.OnRemoveItem(item);
     }
 
     public void OnHover(HandTargetEventData eventData)
@@ -101,7 +96,6 @@ internal class PrototypePowerSystem : MonoBehaviour
 
     private bool IsAllowedToAdd(Pickupable pickupable, bool verbose)
     {
-        Plugin.Logger.LogInfo($"Trying to add {pickupable}");
         return AllowedPowerSources.Keys.Contains(pickupable.GetTechType());
     }
 }
