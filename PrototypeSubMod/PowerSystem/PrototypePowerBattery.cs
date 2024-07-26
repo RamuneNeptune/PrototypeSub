@@ -2,72 +2,102 @@
 
 namespace PrototypeSubMod.PowerSystem;
 
-internal class PrototypePowerBattery : MonoBehaviour
+internal class PrototypePowerBattery : MonoBehaviour, IBattery
 {
-    public float Charge { get; private set; }
-    public float Capacity { get; private set; }
+    public float charge
+    {
+        get
+        {
+            return _charge;
+        }
+        set
+        {
+            _charge = Mathf.Min(value, _capacity);
+        }
+    }
+    public float capacity
+    {
+        get
+        {
+            return _capacity;
+        }
+        set
+        {
+            _capacity = value;
+        }
+    }
 
     private float BatteryCapacityRatio
     {
         get
         {
-            if (battery == null) return -1;
+            if (connectedBattery == null) return -1;
 
-            return battery.capacity / Capacity;
+            return connectedBattery.capacity / capacity;
         }
     }
 
-    private IBattery battery;
+    private IBattery connectedBattery;
     private float lastBatteryCharge;
+
+    private float _charge;
+    private float _capacity;
 
     private void Awake()
     {
-        battery = GetComponent<IBattery>();
+        connectedBattery = GetComponent<IBattery>();
+        if (connectedBattery == (IBattery)this) connectedBattery = null;
 
         var techTag = GetComponent<TechTag>();
         float power = PrototypePowerSystem.AllowedPowerSources[techTag.type];
-        SetCharge(power);
         SetCapacity(power);
+        SetCharge(power);
 
         TryMatchBatteryCharge();
     }
 
     public void SetCapacity(float capacity)
     {
-        Capacity = capacity;
+        this.capacity = capacity;
     }
 
     public void SetCharge(float charge, bool updateConnectedBattery = false)
     {
-        Charge = charge;
+        this.charge = charge;
 
-        if (updateConnectedBattery && battery != null)
+        if (updateConnectedBattery && connectedBattery != null)
         {
-            battery.charge = charge * BatteryCapacityRatio;
+            connectedBattery.charge = this.charge * BatteryCapacityRatio;
         }
     }
 
     public void TryMatchBatteryCharge()
     {
-        if (battery == null) return;
+        if (connectedBattery == null) return;
 
-        Charge = battery.charge * (1 / BatteryCapacityRatio);
+        charge = connectedBattery.charge * (1 / BatteryCapacityRatio);
     }
 
     public void ModifyCharge(float change)
     {
-        SetCharge(Charge + change, true);
+        SetCharge(charge + change, true);
     }
 
     private void Update()
     {
-        if (battery == null) return;
+        if (connectedBattery == null) return;
 
-        if (lastBatteryCharge != Charge)
+        if (lastBatteryCharge != charge)
         {
-            battery.charge = Charge * BatteryCapacityRatio;
+            connectedBattery.charge = charge * BatteryCapacityRatio;
         }
 
-        lastBatteryCharge = Charge;
+        lastBatteryCharge = charge;
+    }
+
+    public string GetChargeValueText()
+    {
+        float num = charge / capacity;
+        return Language.main.GetFormat("BatteryCharge", num, Mathf.RoundToInt(charge), capacity);
     }
 }

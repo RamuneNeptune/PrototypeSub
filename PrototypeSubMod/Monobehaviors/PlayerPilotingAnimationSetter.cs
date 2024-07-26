@@ -8,18 +8,25 @@ internal class PlayerPilotingAnimationSetter : MonoBehaviour
     [SerializeField] private string parameterName;
 
     private bool handDownRecently;
+    private bool wasPiloting;
+    int timesWasntPiloting = 0;
 
     public void UpdateAnimations()
     {
-        bool val = chair.currentPlayer == Player.main || handDownRecently;
-
-        if (Player.main.currChair == this)
+        bool val = handDownRecently;
+        if (wasPiloting && timesWasntPiloting >= 1)
         {
-            Plugin.Logger.LogInfo($"Setting bool to false on piloting chair");
             val = false;
+            timesWasntPiloting = 0;
         }
 
+        if (!wasPiloting) timesWasntPiloting++;
+
+        Plugin.Logger.LogInfo($"Updating animations. Hand down recently = {handDownRecently} | Was piloting = {wasPiloting}");
+
         Player.main.playerAnimator.SetBool(parameterName, val);
+
+        wasPiloting = val;
     }
 
     //Called by CinematicModeTriggerBase via SendMessage

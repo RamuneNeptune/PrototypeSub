@@ -9,7 +9,7 @@ internal class PrototypePowerSource : MonoBehaviour, IPowerInterface
     {
         get
         {
-            float num = battery != null && !ElectronicsDisabled ? battery.Charge : 0;
+            float num = battery != null && !ElectronicsDisabled ? battery.charge : 0;
             if (!ElectronicsDisabled && Time.time < enableElectronicsTime + 2f)
             {
                 num *= Mathf.InverseLerp(enableElectronicsTime, enableElectronicsTime + 2f, Time.time);
@@ -23,7 +23,7 @@ internal class PrototypePowerSource : MonoBehaviour, IPowerInterface
     {
         get
         {
-            if (battery != null) return battery.Capacity;
+            if (battery != null) return battery.capacity;
 
             return 0;
         }
@@ -40,7 +40,7 @@ internal class PrototypePowerSource : MonoBehaviour, IPowerInterface
             if (value == _electronicsDisabled) return;
 
             _electronicsDisabled = value;
-            if (battery != null && battery.Charge > 0)
+            if (battery != null && battery.charge > 0)
             {
                 NotifyPowered(_electronicsDisabled);
                 PlayPowerSound(_electronicsDisabled);
@@ -98,11 +98,11 @@ internal class PrototypePowerSource : MonoBehaviour, IPowerInterface
         {
             if (amount >= 0f)
             {
-                chargeChange = Mathf.Min(amount, battery.Capacity - battery.Charge);
+                chargeChange = Mathf.Min(amount, battery.capacity - battery.charge);
             }
             else
             {
-                chargeChange = -Mathf.Min(-amount, battery.Charge);
+                chargeChange = -Mathf.Min(-amount, battery.charge);
             }
 
             battery.ModifyCharge(chargeChange);
