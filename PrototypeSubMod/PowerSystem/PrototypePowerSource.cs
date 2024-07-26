@@ -195,6 +195,12 @@ internal class PrototypePowerSource : MonoBehaviour, IPowerInterface, ISaveDataL
 
     public void OnBeforeDataSaved(ref BaseSubDataClass saveData)
     {
+        if(saveData is not PrototypeSaveData)
+        {
+            //This is the first time saving and the data type is ModuleSaveData
+            saveData = new PrototypeSaveData();
+        }
+
         (saveData as PrototypeSaveData).powerSourceDatas[gameObject.name] = powerSourceData;
     }
 
@@ -206,12 +212,13 @@ internal class PrototypePowerSource : MonoBehaviour, IPowerInterface, ISaveDataL
 
         GameObject prefab = prefabTask.result.Get();
         var instantiatedPrefab = Instantiate(prefab, storageContainer.transform);
+        instantiatedPrefab.SetActive(false);
 
         instantiatedPrefab.GetComponent<PrototypePowerBattery>().SetChargeNormalized(defaultBatteryCharge);
 
         string slot = PrototypePowerSystem.SLOT_NAMES[transform.GetSiblingIndex() - 1];
         var pickupable = instantiatedPrefab.GetComponent<Pickupable>();
-        Plugin.Logger.LogInfo($"Pickupable = {pickupable} | Inventory item = {pickupable.inventoryItem}");
+        pickupable.inventoryItem = new InventoryItem(pickupable);
 
         powerSystem.equipment.AddItem(slot, pickupable.inventoryItem);
 
