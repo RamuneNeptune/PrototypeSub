@@ -71,6 +71,16 @@ internal class PrototypePowerBattery : MonoBehaviour, IBattery
         }
     }
 
+    public void SetChargeNormalized(float normalizedCharge, bool updateConnectedBattery = false)
+    {
+        charge = capacity * normalizedCharge;
+
+        if (updateConnectedBattery && connectedBattery != null)
+        {
+            connectedBattery.charge = charge * BatteryCapacityRatio;
+        }
+    }
+
     public void TryMatchBatteryCharge()
     {
         if (connectedBattery == null) return;

@@ -15,8 +15,6 @@ internal class PlayerPilotingAnimationSetter : MonoBehaviour
     {
         bool value = handDownRecently;
 
-        Plugin.Logger.LogInfo($"Hand down recently = {handDownRecently} | Started piloting = {startedPiloting}");
-
         Player.main.playerAnimator.SetBool(parameterName, value);
 
         startedPiloting = true;
@@ -24,8 +22,6 @@ internal class PlayerPilotingAnimationSetter : MonoBehaviour
 
     public void OnAnimationEnded()
     {
-        Plugin.Logger.LogInfo($"Started piloting = {startedPiloting}");
-
         if (startedPiloting)
         {
             startedPiloting = false;

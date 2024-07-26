@@ -1,6 +1,9 @@
-﻿using SubLibrary.SaveData;
+﻿using PrototypeSubMod.SaveData;
+using SubLibrary.SaveData;
 using System;
+using System.Collections;
 using UnityEngine;
+using UWE;
 
 namespace PrototypeSubMod.PowerSystem;
 
@@ -50,7 +53,13 @@ internal class PrototypePowerSource : MonoBehaviour, IPowerInterface, ISaveDataL
     }
 
     [SerializeField] private TechType defaultBattery;
+    [SerializeField, Range(0, 1)] private float defaultBatteryCharge;
+    [SerializeField] private ChildObjectIdentifier storageContainer;
+    [SerializeField] private PrototypePowerSystem powerSystem;
 
+    private PrototypeSaveData protoSaveData;
+    private PrototypeSaveData.PowerSourceData powerSourceData;
+    
     private PrototypePowerBattery battery;
     private PowerRelay connectedRelay;
 
@@ -62,6 +71,11 @@ internal class PrototypePowerSource : MonoBehaviour, IPowerInterface, ISaveDataL
     {
         UpdateConnection();
         InvokeRepeating(nameof(UpdateConnection), UnityEngine.Random.value, 1f);
+
+        if(protoSaveData == null && !powerSourceData.defaultBatteryCreated)
+        {
+            CoroutineHost.StartCoroutine(SpawnDefaultBattery());
+        }
     }
 
     public bool GetInboundHasSource(IPowerInterface powerInterface)
@@ -165,11 +179,42 @@ internal class PrototypePowerSource : MonoBehaviour, IPowerInterface, ISaveDataL
     public void OnSaveDataLoaded(BaseSubDataClass saveData)
     {
         //defaultBatteryCreated will be set here
-        throw new NotImplementedException("Battery serialization not finished!");
+        protoSaveData = saveData as PrototypeSaveData;
+
+        if (!protoSaveData.powerSourceDatas.ContainsKey(gameObject.name))
+        {
+            protoSaveData.powerSourceDatas.Add(gameObject.name, new PrototypeSaveData.PowerSourceData());
+        }
+
+        powerSourceData = protoSaveData.powerSourceDatas[gameObject.name];
+        if(!powerSourceData.defaultBatteryCreated)
+        {
+            CoroutineHost.StartCoroutine(SpawnDefaultBattery());
+        }
     }
 
     public void OnBeforeDataSaved(ref BaseSubDataClass saveData)
     {
-        throw new NotImplementedException("Battery serialization not finished!");
+        (saveData as PrototypeSaveData).powerSourceDatas[gameObject.name] = powerSourceData;
+    }
+
+    private IEnumerator SpawnDefaultBattery()
+    {
+        CoroutineTask<GameObject> prefabTask = CraftData.GetPrefabForTechTypeAsync(defaultBattery);
+
+        yield return prefabTask;
+
+        GameObject prefab = prefabTask.result.Get();
+        var instantiatedPrefab = Instantiate(prefab, storageContainer.transform);
+
+        instantiatedPrefab.GetComponent<PrototypePowerBattery>().SetChargeNormalized(defaultBatteryCharge);
+
+        string slot = PrototypePowerSystem.SLOT_NAMES[transform.GetSiblingIndex() - 1];
+        var pickupable = instantiatedPrefab.GetComponent<Pickupable>();
+        Plugin.Logger.LogInfo($"Pickupable = {pickupable} | Inventory item = {pickupable.inventoryItem}");
+
+        powerSystem.equipment.AddItem(slot, pickupable.inventoryItem);
+
+        powerSourceData.defaultBatteryCreated = true;
     }
 }
