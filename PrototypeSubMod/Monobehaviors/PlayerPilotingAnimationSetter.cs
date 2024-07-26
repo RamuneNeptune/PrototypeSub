@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Newtonsoft.Json.Linq;
+using UnityEngine;
 
 namespace PrototypeSubMod.Monobehaviors;
 
@@ -8,25 +9,30 @@ internal class PlayerPilotingAnimationSetter : MonoBehaviour
     [SerializeField] private string parameterName;
 
     private bool handDownRecently;
-    private bool wasPiloting;
-    int timesWasntPiloting = 0;
+    private bool startedPiloting;
 
-    public void UpdateAnimations()
+    public void OnAnimationStarted()
     {
-        bool val = handDownRecently;
-        if (wasPiloting && timesWasntPiloting >= 1)
+        bool value = handDownRecently;
+
+        Plugin.Logger.LogInfo($"Hand down recently = {handDownRecently} | Started piloting = {startedPiloting}");
+
+        Player.main.playerAnimator.SetBool(parameterName, value);
+
+        startedPiloting = true;
+    }
+
+    public void OnAnimationEnded()
+    {
+        Plugin.Logger.LogInfo($"Started piloting = {startedPiloting}");
+
+        if (startedPiloting)
         {
-            val = false;
-            timesWasntPiloting = 0;
+            startedPiloting = false;
+            return;
         }
 
-        if (!wasPiloting) timesWasntPiloting++;
-
-        Plugin.Logger.LogInfo($"Updating animations. Hand down recently = {handDownRecently} | Was piloting = {wasPiloting}");
-
-        Player.main.playerAnimator.SetBool(parameterName, val);
-
-        wasPiloting = val;
+        Player.main.playerAnimator.SetBool(parameterName, false);
     }
 
     //Called by CinematicModeTriggerBase via SendMessage
@@ -34,7 +40,7 @@ internal class PlayerPilotingAnimationSetter : MonoBehaviour
     {
         handDownRecently = true;
 
-        Invoke(nameof(ResetHandDown), .8f);
+        Invoke(nameof(ResetHandDown), 1f);
     }
 
     private void ResetHandDown()
