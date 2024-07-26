@@ -1,9 +1,10 @@
-﻿using System;
+﻿using SubLibrary.SaveData;
+using System;
 using UnityEngine;
 
 namespace PrototypeSubMod.PowerSystem;
 
-internal class PrototypePowerSource : MonoBehaviour, IPowerInterface
+internal class PrototypePowerSource : MonoBehaviour, IPowerInterface, ISaveDataListener
 {
     public float Charge
     {
@@ -48,11 +49,14 @@ internal class PrototypePowerSource : MonoBehaviour, IPowerInterface
         }
     }
 
+    [SerializeField] private TechType defaultBattery;
+
     private PrototypePowerBattery battery;
     private PowerRelay connectedRelay;
 
     private float enableElectronicsTime;
     private bool _electronicsDisabled;
+    private bool defaultBatteryCreated;
 
     private void Start()
     {
@@ -126,6 +130,13 @@ internal class PrototypePowerSource : MonoBehaviour, IPowerInterface
         return amount >= 0f ? amount <= Capacity - Charge : Charge > -amount;
     }
 
+    //Note: add this to EMPBlast.OnTouch()
+    public void DisableElectronicsForTime(float time)
+    {
+        enableElectronicsTime = Mathf.Max(enableElectronicsTime, Time.time + time);
+        ElectronicsDisabled = true;
+    }
+
     private void NotifyPowered(bool powered)
     {
         throw new NotImplementedException();
@@ -149,5 +160,16 @@ internal class PrototypePowerSource : MonoBehaviour, IPowerInterface
             connectedRelay = relay;
             connectedRelay.AddInboundPower(this);
         }
+    }
+
+    public void OnSaveDataLoaded(BaseSubDataClass saveData)
+    {
+        //defaultBatteryCreated will be set here
+        throw new NotImplementedException("Battery serialization not finished!");
+    }
+
+    public void OnBeforeDataSaved(ref BaseSubDataClass saveData)
+    {
+        throw new NotImplementedException("Battery serialization not finished!");
     }
 }
