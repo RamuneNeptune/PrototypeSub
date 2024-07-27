@@ -1,11 +1,14 @@
-﻿using System;
+﻿using PrototypeSubMod.SaveData;
+using SubLibrary.SaveData;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 namespace PrototypeSubMod.PowerSystem;
 
-internal class PrototypePowerSystem : MonoBehaviour
+internal class PrototypePowerSystem : MonoBehaviour, ISaveDataListener
 {
     public static readonly string[] SLOT_NAMES = new string[]
     {
@@ -14,7 +17,6 @@ internal class PrototypePowerSystem : MonoBehaviour
         "PrototypePowerSlot3",
         "PrototypePowerSlot4"
     };
-
     public static readonly Dictionary<TechType, float> AllowedPowerSources = new()
     {
         { TechType.PowerCell, 1000 },
@@ -26,7 +28,7 @@ internal class PrototypePowerSystem : MonoBehaviour
 
     public Equipment equipment { get; private set; }
 
-    [SerializeField] private Transform storageRoot;
+    [SerializeField] private ChildObjectIdentifier storageRoot;
     [SerializeField] private PrototypePowerSource[] batterySources;
 
     private void Awake()
@@ -46,7 +48,7 @@ internal class PrototypePowerSystem : MonoBehaviour
     {
         if (equipment != null) return;
 
-        equipment = new(gameObject, storageRoot);
+        equipment = new(gameObject, storageRoot.transform);
         equipment.SetLabel(EquipmentLabel);
         equipment.onEquip += OnEquip;
         equipment.onUnequip += OnUnequip;
@@ -106,5 +108,26 @@ internal class PrototypePowerSystem : MonoBehaviour
     private bool IsAllowedToAdd(Pickupable pickupable, bool verbose)
     {
         return AllowedPowerSources.Keys.Contains(pickupable.GetTechType());
+    }
+
+    public void OnSaveDataLoaded(BaseSubDataClass saveData)
+    {
+        Initialize();
+
+        var data = saveData.EnsurePrototypeData();
+        Plugin.Logger.LogInfo($"Storage root = {storageRoot} | Serialized modules = {data.serializedModules} | Equipment = {equipment}");
+
+        if (data.serializedModules != null)
+        {
+            StorageHelper.TransferEquipment(storageRoot.gameObject, data.serializedModules, equipment);
+        }
+    }
+
+    public void OnBeforeDataSaved(ref BaseSubDataClass saveData)
+    {
+        var protoData = saveData.EnsurePrototypeData();
+        protoData.serializedModules = equipment.SaveEquipment();
+
+        saveData = protoData;
     }
 }

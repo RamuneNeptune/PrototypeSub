@@ -37,8 +37,24 @@ internal class PrototypePowerBattery : MonoBehaviour, IBattery
         }
     }
 
+    public InventoryItem InventoryItem
+    {
+        get
+        {
+            if(pickupable == null) pickupable = GetComponent<Pickupable>();
+
+            if(pickupable.inventoryItem == null)
+            {
+                pickupable.inventoryItem = new InventoryItem(pickupable);
+            }
+
+            return pickupable.inventoryItem;
+        }
+    }
+
     private IBattery connectedBattery;
     private float lastBatteryCharge;
+    private Pickupable pickupable;
 
     private float _charge;
     private float _capacity;
@@ -46,6 +62,7 @@ internal class PrototypePowerBattery : MonoBehaviour, IBattery
     private void Awake()
     {
         connectedBattery = GetComponent<IBattery>();
+        pickupable = GetComponent<Pickupable>();
         if (connectedBattery == (IBattery)this) connectedBattery = null;
 
         var techTag = GetComponent<TechTag>();

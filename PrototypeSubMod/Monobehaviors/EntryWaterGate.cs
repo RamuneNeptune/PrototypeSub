@@ -5,7 +5,7 @@ namespace PrototypeSubMod.Monobehaviors;
 [RequireComponent(typeof(Collider))]
 internal class EntryWaterGate : MonoBehaviour
 {
-    private const float MIN_TIME_BETWEEN_ENTRIES = 0.1f;
+    private const float MIN_TIME_BETWEEN_ENTRIES = 0.15f;
     private static EntryInfo LastEntryInfo;
 
     [SerializeField] private bool setWalk;

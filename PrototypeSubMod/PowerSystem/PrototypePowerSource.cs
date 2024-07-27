@@ -54,7 +54,7 @@ internal class PrototypePowerSource : MonoBehaviour, IPowerInterface, ISaveDataL
 
     [SerializeField] private TechType defaultBattery;
     [SerializeField, Range(0, 1)] private float defaultBatteryCharge;
-    [SerializeField] private ChildObjectIdentifier storageContainer;
+    [SerializeField] private ChildObjectIdentifier storageRoot;
     [SerializeField] private PrototypePowerSystem powerSystem;
 
     private PrototypeSaveData protoSaveData;
@@ -66,6 +66,7 @@ internal class PrototypePowerSource : MonoBehaviour, IPowerInterface, ISaveDataL
     private float enableElectronicsTime;
     private bool _electronicsDisabled;
     private bool defaultBatteryCreated;
+    private bool allowedToPlaySounds = true;
 
     private void Start()
     {
@@ -78,15 +79,12 @@ internal class PrototypePowerSource : MonoBehaviour, IPowerInterface, ISaveDataL
         }
     }
 
+    #region IPowerInterface
+
     public bool GetInboundHasSource(IPowerInterface powerInterface)
     {
         //We don't have any inbound power sources
         return false;
-    }
-
-    public void SetBattery(PrototypePowerBattery battery)
-    {
-        this.battery = battery;
     }
 
     public float GetMaxPower()
@@ -144,21 +142,23 @@ internal class PrototypePowerSource : MonoBehaviour, IPowerInterface, ISaveDataL
         return amount >= 0f ? amount <= Capacity - Charge : Charge > -amount;
     }
 
+    private void NotifyPowered(bool powered)
+    {
+        Plugin.Logger.LogError($"Notify powered not yet implemented!");
+    }
+
+    private void PlayPowerSound(bool powered)
+    {
+        Plugin.Logger.LogError($"Play power sound not yet implemented!");
+    }
+
+    #endregion
+
     //Note: add this to EMPBlast.OnTouch()
     public void DisableElectronicsForTime(float time)
     {
         enableElectronicsTime = Mathf.Max(enableElectronicsTime, Time.time + time);
         ElectronicsDisabled = true;
-    }
-
-    private void NotifyPowered(bool powered)
-    {
-        throw new NotImplementedException();
-    }
-
-    private void PlayPowerSound(bool powered)
-    {
-        throw new NotImplementedException();
     }
 
     private void UpdateConnection()
@@ -178,6 +178,7 @@ internal class PrototypePowerSource : MonoBehaviour, IPowerInterface, ISaveDataL
 
     public void OnSaveDataLoaded(BaseSubDataClass saveData)
     {
+
         //defaultBatteryCreated will be set here
         protoSaveData = saveData as PrototypeSaveData;
 
@@ -206,22 +207,43 @@ internal class PrototypePowerSource : MonoBehaviour, IPowerInterface, ISaveDataL
 
     private IEnumerator SpawnDefaultBattery()
     {
+        Plugin.Logger.LogInfo($"Spawning defualt battery");
         CoroutineTask<GameObject> prefabTask = CraftData.GetPrefabForTechTypeAsync(defaultBattery);
 
         yield return prefabTask;
 
         GameObject prefab = prefabTask.result.Get();
-        var instantiatedPrefab = Instantiate(prefab, storageContainer.transform);
+        var instantiatedPrefab = Instantiate(prefab, storageRoot.transform);
         instantiatedPrefab.SetActive(false);
 
-        instantiatedPrefab.GetComponent<PrototypePowerBattery>().SetChargeNormalized(defaultBatteryCharge);
+        var battery = instantiatedPrefab.GetComponent<PrototypePowerBattery>();
+        battery.SetChargeNormalized(defaultBatteryCharge);
 
         string slot = PrototypePowerSystem.SLOT_NAMES[transform.GetSiblingIndex() - 1];
-        var pickupable = instantiatedPrefab.GetComponent<Pickupable>();
-        pickupable.inventoryItem = new InventoryItem(pickupable);
-
-        powerSystem.equipment.AddItem(slot, pickupable.inventoryItem);
+        powerSystem.equipment.AddItem(slot, battery.InventoryItem);
 
         powerSourceData.defaultBatteryCreated = true;
+    }
+
+    public void SetBattery(PrototypePowerBattery battery)
+    {
+        Plugin.Logger.LogInfo($"Setting battery to {battery}");
+        this.battery = battery;
+
+        string slot = PrototypePowerSystem.SLOT_NAMES[transform.GetSiblingIndex() - 1];
+
+        if(battery == null)
+        {
+            powerSystem.equipment.RemoveItem(slot, false, false);
+        }
+        else
+        {
+            powerSystem.equipment.AddItem(slot, battery.InventoryItem);
+        }
+    }
+
+    private void PlayBatterySound(bool hasBattery)
+    {
+        Plugin.Logger.LogError($"Battery sounds not yet implemented!");
     }
 }
