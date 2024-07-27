@@ -117,6 +117,11 @@ internal class PrototypePowerSystem : MonoBehaviour, ISaveDataListener
         var data = saveData.EnsurePrototypeData();
         Plugin.Logger.LogInfo($"Storage root = {storageRoot} | Serialized modules = {data.serializedModules} | Equipment = {equipment}");
 
+        foreach (Transform child in storageRoot.transform)
+        {
+            Plugin.Logger.LogInfo($"Storage root has child: {storageRoot}");
+        }
+
         if (data.serializedModules != null)
         {
             StorageHelper.TransferEquipment(storageRoot.gameObject, data.serializedModules, equipment);

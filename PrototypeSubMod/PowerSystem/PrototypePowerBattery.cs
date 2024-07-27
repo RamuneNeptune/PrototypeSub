@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 
 namespace PrototypeSubMod.PowerSystem;
 
@@ -61,9 +62,8 @@ internal class PrototypePowerBattery : MonoBehaviour, IBattery
 
     private void Awake()
     {
-        connectedBattery = GetComponent<IBattery>();
+        connectedBattery = GetComponents<IBattery>().FirstOrDefault(i => i != (IBattery)this);
         pickupable = GetComponent<Pickupable>();
-        if (connectedBattery == (IBattery)this) connectedBattery = null;
 
         var techTag = GetComponent<TechTag>();
         float power = PrototypePowerSystem.AllowedPowerSources[techTag.type];
