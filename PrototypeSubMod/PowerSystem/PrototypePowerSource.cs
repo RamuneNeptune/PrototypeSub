@@ -207,7 +207,6 @@ internal class PrototypePowerSource : MonoBehaviour, IPowerInterface, ISaveDataL
 
     private IEnumerator SpawnDefaultBattery()
     {
-        Plugin.Logger.LogInfo($"Spawning defualt battery");
         CoroutineTask<GameObject> prefabTask = CraftData.GetPrefabForTechTypeAsync(defaultBattery);
 
         yield return prefabTask;
@@ -222,7 +221,6 @@ internal class PrototypePowerSource : MonoBehaviour, IPowerInterface, ISaveDataL
         battery.SetChargeNormalized(defaultBatteryCharge);  
 
         string slot = PrototypePowerSystem.SLOT_NAMES[transform.GetSiblingIndex() - 1];
-        Plugin.Logger.LogInfo($"Battery inventory item = {battery.InventoryItem}");
 
         powerSystem.equipment.AddItem(slot, battery.InventoryItem);
 
@@ -231,7 +229,6 @@ internal class PrototypePowerSource : MonoBehaviour, IPowerInterface, ISaveDataL
 
     public void SetBattery(PrototypePowerBattery battery)
     {
-        Plugin.Logger.LogInfo($"Setting battery to {battery}");
         this.battery = battery;
         battery.Initialize();
 

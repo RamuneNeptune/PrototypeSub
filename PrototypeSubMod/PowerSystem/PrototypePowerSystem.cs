@@ -65,8 +65,6 @@ internal class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTr
 
     private void OnEquip(string slot, InventoryItem item)
     {
-        Plugin.Logger.LogInfo($"Equipped {item?.techType} to slot {slot} on {gameObject}");
-
         int index = Array.IndexOf(SLOT_NAMES, slot);
 
         var batterySource = batterySources[index];
@@ -83,8 +81,6 @@ internal class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTr
 
     private void OnUnequip(string slot, InventoryItem item)
     {
-        Plugin.Logger.LogInfo($"Unequipped {item?.techType} from slot {slot} on {gameObject}");
-
         int index = Array.IndexOf(SLOT_NAMES, slot);
 
         var batterySource = batterySources[index];
@@ -94,7 +90,7 @@ internal class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTr
     public void OnHover(HandTargetEventData eventData)
     {
         HandReticle main = HandReticle.main;
-        main.SetText(HandReticle.TextType.Hand, "UseDecoyTube", true, GameInput.Button.LeftHand);
+        main.SetText(HandReticle.TextType.Hand, "UseProtoPowerSystem", true, GameInput.Button.LeftHand);
         main.SetText(HandReticle.TextType.HandSubscript, string.Empty, false, GameInput.Button.None);
         main.SetIcon(HandReticle.IconType.Hand, 1f);
     }
