@@ -5,11 +5,14 @@ namespace PrototypeSubMod.SaveData;
 
 internal class PrototypeSaveData : ModuleDataClass
 {
-    //The key is the name of the power source gameobject
+    //Key: Name of the power source GO | Value: Power source data
     public Dictionary<string, PowerSourceData> powerSourceDatas = new();
 
-    //Key: equipment slot | Value: item ID stored in key's slot
+    //Key: Equipment slot | Value: Item ID stored in key's slot
     public Dictionary<string, string> serializedPowerEquipment = new();
+
+    //Key: Prefab identifier ID | Value: Normalized battery charge
+    public Dictionary<string, float> normalizedBatteryCharges = new();
 
     public struct PowerSourceData
     {

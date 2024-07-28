@@ -154,7 +154,7 @@ internal class PrototypePowerSource : MonoBehaviour, IPowerInterface, ISaveDataL
 
     #endregion
 
-    //Note: add this to EMPBlast.OnTouch()
+    //Note: Add this to EMPBlast.OnTouch()
     public void DisableElectronicsForTime(float time)
     {
         enableElectronicsTime = Mathf.Max(enableElectronicsTime, Time.time + time);
@@ -178,8 +178,6 @@ internal class PrototypePowerSource : MonoBehaviour, IPowerInterface, ISaveDataL
 
     public void OnSaveDataLoaded(BaseSubDataClass saveData)
     {
-
-        //defaultBatteryCreated will be set here
         protoSaveData = saveData as PrototypeSaveData;
 
         if (!protoSaveData.powerSourceDatas.ContainsKey(gameObject.name))
@@ -230,7 +228,6 @@ internal class PrototypePowerSource : MonoBehaviour, IPowerInterface, ISaveDataL
     public void SetBattery(PrototypePowerBattery battery)
     {
         this.battery = battery;
-        battery.Initialize();
 
         string slot = PrototypePowerSystem.SLOT_NAMES[transform.GetSiblingIndex() - 1];
 
@@ -240,6 +237,7 @@ internal class PrototypePowerSource : MonoBehaviour, IPowerInterface, ISaveDataL
         }
         else
         {
+            battery.Initialize();
             powerSystem.equipment.AddItem(slot, battery.InventoryItem);
         }
     }

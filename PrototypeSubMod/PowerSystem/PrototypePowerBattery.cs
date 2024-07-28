@@ -1,9 +1,11 @@
-﻿using System.Linq;
+﻿using PrototypeSubMod.SaveData;
+using SubLibrary.SaveData;
+using System.Linq;
 using UnityEngine;
 
 namespace PrototypeSubMod.PowerSystem;
 
-internal class PrototypePowerBattery : MonoBehaviour, IBattery
+internal class PrototypePowerBattery : MonoBehaviour, IBattery, ISaveDataListener, ILateSaveDataListener
 {
     public float charge
     {
@@ -56,6 +58,8 @@ internal class PrototypePowerBattery : MonoBehaviour, IBattery
     private IBattery connectedBattery;
     private float lastBatteryCharge;
     private Pickupable pickupable;
+    private PrefabIdentifier prefabIdentifier;
+    private PrototypeSaveData protoSaveData;
 
     private float _charge;
     private float _capacity;
@@ -71,6 +75,7 @@ internal class PrototypePowerBattery : MonoBehaviour, IBattery
         if (initialized) return;
 
         pickupable = GetComponent<Pickupable>();
+        prefabIdentifier = GetComponent<PrefabIdentifier>();
         connectedBattery = GetComponents<IBattery>().FirstOrDefault(i => i != (IBattery)this);
 
         var techTag = GetComponent<TechTag>();
@@ -136,5 +141,40 @@ internal class PrototypePowerBattery : MonoBehaviour, IBattery
     {
         float num = charge / capacity;
         return Language.main.GetFormat("BatteryCharge", num, Mathf.RoundToInt(charge), capacity);
+    }
+
+    public void OnLateSaveDataLoaded(BaseSubDataClass saveData)
+    {
+        Initialize();
+
+        protoSaveData = saveData.EnsureAsPrototypeData();
+        if (protoSaveData.normalizedBatteryCharges.TryGetValue(prefabIdentifier.Id, out float normalizedCharge))
+        {
+            charge = capacity * normalizedCharge;
+        }
+    }
+
+    public void OnSaveDataLoaded(BaseSubDataClass saveData) { }
+
+    public void OnBeforeDataSaved(ref BaseSubDataClass saveData)
+    {
+        var data = saveData.EnsureAsPrototypeData();
+        if (connectedBattery != null) return;
+
+        if (!data.normalizedBatteryCharges.ContainsKey(prefabIdentifier.Id))
+        {
+            data.normalizedBatteryCharges.Add(prefabIdentifier.Id, charge / capacity);
+        }
+        else
+        {
+            data.normalizedBatteryCharges[prefabIdentifier.Id] = charge / capacity;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        Initialize(); //Make sure the prefab identifier is set if for some reason nothing else is called
+
+        protoSaveData.normalizedBatteryCharges.Remove(prefabIdentifier.Id);
     }
 }

@@ -114,7 +114,7 @@ internal class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTr
 
     public void OnBeforeDataSaved(ref BaseSubDataClass saveData)
     {
-        var protoData = saveData.EnsurePrototypeData();
+        var protoData = saveData.EnsureAsPrototypeData();
         protoData.serializedPowerEquipment = equipment.SaveEquipment();
 
         saveData = protoData;
@@ -124,7 +124,7 @@ internal class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTr
 
     public void OnProtoDeserializeObjectTree(ProtobufSerializer serializer)
     {
-        var data = serializationManager.saveData.EnsurePrototypeData();
+        var data = serializationManager.saveData.EnsureAsPrototypeData();
         if (data.serializedPowerEquipment != null)
         {
             StorageHelper.TransferEquipment(storageRoot.gameObject, data.serializedPowerEquipment, equipment);
