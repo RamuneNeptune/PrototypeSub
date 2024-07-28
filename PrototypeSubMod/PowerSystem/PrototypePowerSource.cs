@@ -217,9 +217,13 @@ internal class PrototypePowerSource : MonoBehaviour, IPowerInterface, ISaveDataL
         instantiatedPrefab.SetActive(false);
 
         var battery = instantiatedPrefab.GetComponent<PrototypePowerBattery>();
-        battery.SetChargeNormalized(defaultBatteryCharge);
+        this.battery = battery;
+
+        battery.SetChargeNormalized(defaultBatteryCharge);  
 
         string slot = PrototypePowerSystem.SLOT_NAMES[transform.GetSiblingIndex() - 1];
+        Plugin.Logger.LogInfo($"Battery inventory item = {battery.InventoryItem}");
+
         powerSystem.equipment.AddItem(slot, battery.InventoryItem);
 
         powerSourceData.defaultBatteryCreated = true;
@@ -229,6 +233,7 @@ internal class PrototypePowerSource : MonoBehaviour, IPowerInterface, ISaveDataL
     {
         Plugin.Logger.LogInfo($"Setting battery to {battery}");
         this.battery = battery;
+        battery.Initialize();
 
         string slot = PrototypePowerSystem.SLOT_NAMES[transform.GetSiblingIndex() - 1];
 

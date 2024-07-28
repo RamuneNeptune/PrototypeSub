@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace PrototypeSubMod.PowerSystem;
 
-internal class PrototypePowerSystem : MonoBehaviour, ISaveDataListener
+internal class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTreeEventListener
 {
     public static readonly string[] SLOT_NAMES = new string[]
     {
@@ -28,6 +28,7 @@ internal class PrototypePowerSystem : MonoBehaviour, ISaveDataListener
 
     public Equipment equipment { get; private set; }
 
+    [SerializeField] private SubSerializationManager serializationManager;
     [SerializeField] private ChildObjectIdentifier storageRoot;
     [SerializeField] private PrototypePowerSource[] batterySources;
 
@@ -113,26 +114,24 @@ internal class PrototypePowerSystem : MonoBehaviour, ISaveDataListener
     public void OnSaveDataLoaded(BaseSubDataClass saveData)
     {
         Initialize();
-
-        var data = saveData.EnsurePrototypeData();
-        Plugin.Logger.LogInfo($"Storage root = {storageRoot} | Serialized modules = {data.serializedModules} | Equipment = {equipment}");
-
-        foreach (Transform child in storageRoot.transform)
-        {
-            Plugin.Logger.LogInfo($"Storage root has child: {storageRoot}");
-        }
-
-        if (data.serializedModules != null)
-        {
-            StorageHelper.TransferEquipment(storageRoot.gameObject, data.serializedModules, equipment);
-        }
     }
 
     public void OnBeforeDataSaved(ref BaseSubDataClass saveData)
     {
         var protoData = saveData.EnsurePrototypeData();
-        protoData.serializedModules = equipment.SaveEquipment();
+        protoData.serializedPowerEquipment = equipment.SaveEquipment();
 
         saveData = protoData;
+    }
+
+    public void OnProtoSerializeObjectTree(ProtobufSerializer serializer) { }
+
+    public void OnProtoDeserializeObjectTree(ProtobufSerializer serializer)
+    {
+        var data = serializationManager.saveData.EnsurePrototypeData();
+        if (data.serializedPowerEquipment != null)
+        {
+            StorageHelper.TransferEquipment(storageRoot.gameObject, data.serializedPowerEquipment, equipment);
+        }
     }
 }

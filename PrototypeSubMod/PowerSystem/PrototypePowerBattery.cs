@@ -59,11 +59,19 @@ internal class PrototypePowerBattery : MonoBehaviour, IBattery
 
     private float _charge;
     private float _capacity;
+    private bool initialized;
 
     private void Awake()
     {
-        connectedBattery = GetComponents<IBattery>().FirstOrDefault(i => i != (IBattery)this);
+        Initialize();
+    }
+
+    public void Initialize()
+    {
+        if (initialized) return;
+
         pickupable = GetComponent<Pickupable>();
+        connectedBattery = GetComponents<IBattery>().FirstOrDefault(i => i != (IBattery)this);
 
         var techTag = GetComponent<TechTag>();
         float power = PrototypePowerSystem.AllowedPowerSources[techTag.type];
@@ -71,6 +79,8 @@ internal class PrototypePowerBattery : MonoBehaviour, IBattery
         SetCharge(power);
 
         TryMatchBatteryCharge();
+
+        initialized = true;
     }
 
     public void SetCapacity(float capacity)

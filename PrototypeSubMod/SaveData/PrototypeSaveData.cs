@@ -9,7 +9,7 @@ internal class PrototypeSaveData : ModuleDataClass
     public Dictionary<string, PowerSourceData> powerSourceDatas = new();
 
     //Key: equipment slot | Value: item ID stored in key's slot
-    public Dictionary<string, string> serializedModules = new();
+    public Dictionary<string, string> serializedPowerEquipment = new();
 
     public struct PowerSourceData
     {
