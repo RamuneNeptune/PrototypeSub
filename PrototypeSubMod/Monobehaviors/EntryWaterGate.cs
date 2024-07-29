@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using PrototypeSubMod.Patches;
+using UnityEngine;
 
 namespace PrototypeSubMod.Monobehaviors;
 
@@ -13,16 +14,43 @@ internal class EntryWaterGate : MonoBehaviour
 
         if (!player || player.currChair != null) return;
 
-        Vector3 dirToGate = (player.transform.position - transform.position).normalized;
-        float dot = Vector3.Dot(transform.forward, dirToGate);
+        int positionsBehindGate = 0;
+        int positionsInFrontOfGate = 0;
 
-        if(dot < 0)
+        for (int i = 0; i < PlayerPatches.lastPlayerPositions.Length; i++)
         {
-            player.SetCurrentSub(subRoot, true);
+            Vector3 pos = PlayerPatches.lastPlayerPositions[i];
+
+            Vector3 dirToGate = (pos - transform.position).normalized;
+            float dot = Vector3.Dot(transform.forward, dirToGate);
+
+            if (dot > 0)
+            {
+                positionsInFrontOfGate++;
+            }
+            else if (dot < 0)
+            {
+                positionsBehindGate++;
+            }
         }
-        else if(dot > 0)
+
+        Vector3 currentPlayerPos = player.transform.position;
+        Vector3 directionToGate = (currentPlayerPos - transform.position).normalized;
+        float currentDot = Vector3.Dot(transform.forward, directionToGate);
+
+        bool exitCheck1 = currentDot > 0 && positionsBehindGate > positionsInFrontOfGate;
+        bool exitCheck2 = positionsBehindGate > (positionsInFrontOfGate + (lastPlayerPositions.Length / 2));
+
+        bool entryCheck1 = currentDot < 0 && positionsInFrontOfGate > positionsBehindGate;
+        bool entryCheck2 = positionsInFrontOfGate > (positionsBehindGate + (lastPlayerPositions.Length / 2));
+
+        if (exitCheck1 || exitCheck2)
         {
             player.SetCurrentSub(null, true);
+        }
+        else if (entryCheck1 || entryCheck2)
+        {
+            player.SetCurrentSub(subRoot, true);
         }
     }
 }

@@ -59,7 +59,7 @@ internal class PrototypePowerSource : MonoBehaviour, IPowerInterface, ISaveDataL
 
     private PrototypeSaveData protoSaveData;
     private PrototypeSaveData.PowerSourceData powerSourceData;
-    
+
     private PrototypePowerBattery battery;
     private PowerRelay connectedRelay;
 
@@ -73,7 +73,7 @@ internal class PrototypePowerSource : MonoBehaviour, IPowerInterface, ISaveDataL
         UpdateConnection();
         InvokeRepeating(nameof(UpdateConnection), UnityEngine.Random.value, 1f);
 
-        if(protoSaveData == null && !powerSourceData.defaultBatteryCreated)
+        if (protoSaveData == null && !powerSourceData.defaultBatteryCreated)
         {
             CoroutineHost.StartCoroutine(SpawnDefaultBattery());
         }
@@ -186,7 +186,7 @@ internal class PrototypePowerSource : MonoBehaviour, IPowerInterface, ISaveDataL
         }
 
         powerSourceData = protoSaveData.powerSourceDatas[gameObject.name];
-        if(!powerSourceData.defaultBatteryCreated)
+        if (!powerSourceData.defaultBatteryCreated)
         {
             CoroutineHost.StartCoroutine(SpawnDefaultBattery());
         }
@@ -194,7 +194,7 @@ internal class PrototypePowerSource : MonoBehaviour, IPowerInterface, ISaveDataL
 
     public void OnBeforeDataSaved(ref BaseSubDataClass saveData)
     {
-        if(saveData is not PrototypeSaveData)
+        if (saveData is not PrototypeSaveData)
         {
             //This is the first time saving and the data type is ModuleSaveData
             saveData = new PrototypeSaveData();
@@ -216,7 +216,7 @@ internal class PrototypePowerSource : MonoBehaviour, IPowerInterface, ISaveDataL
         var battery = instantiatedPrefab.GetComponent<PrototypePowerBattery>();
         this.battery = battery;
 
-        battery.SetChargeNormalized(defaultBatteryCharge);  
+        battery.SetChargeNormalized(defaultBatteryCharge);
 
         string slot = PrototypePowerSystem.SLOT_NAMES[transform.GetSiblingIndex() - 1];
 
@@ -231,7 +231,7 @@ internal class PrototypePowerSource : MonoBehaviour, IPowerInterface, ISaveDataL
 
         string slot = PrototypePowerSystem.SLOT_NAMES[transform.GetSiblingIndex() - 1];
 
-        if(battery == null)
+        if (battery == null)
         {
             powerSystem.equipment.RemoveItem(slot, false, false);
         }

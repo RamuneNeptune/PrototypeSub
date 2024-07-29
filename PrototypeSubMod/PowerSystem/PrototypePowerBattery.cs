@@ -44,9 +44,9 @@ internal class PrototypePowerBattery : MonoBehaviour, IBattery, ISaveDataListene
     {
         get
         {
-            if(pickupable == null) pickupable = GetComponent<Pickupable>();
+            if (pickupable == null) pickupable = GetComponent<Pickupable>();
 
-            if(pickupable.inventoryItem == null)
+            if (pickupable.inventoryItem == null)
             {
                 pickupable.inventoryItem = new InventoryItem(pickupable);
             }

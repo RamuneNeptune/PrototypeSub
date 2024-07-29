@@ -1,6 +1,5 @@
 ﻿using HarmonyLib;
 using PrototypeSubMod.PowerSystem;
-using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -34,7 +33,7 @@ internal class TooltipFactoryPatches
 
     public static void WriteTooltipDescription(StringBuilder sb, TechType techType, GameObject obj)
     {
-        if(!obj.TryGetComponent(out PrototypePowerBattery battery))
+        if (!obj.TryGetComponent(out PrototypePowerBattery battery))
         {
             return;
         }
