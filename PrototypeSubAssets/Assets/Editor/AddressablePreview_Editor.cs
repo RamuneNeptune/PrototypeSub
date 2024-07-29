@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using Unity.EditorCoroutines.Editor;
 using UnityEditor;
 using UnityEditor.IMGUI.Controls;
@@ -12,7 +11,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceLocations;
 
 [CustomEditor(typeof(AddressablePreview))]
-public class AddressablePreviewEditor : Editor
+public class AddressablePreview_Editor : Editor
 {
     private const int MAX_CHILD_ITERATION_DEPTH = 8;
 
