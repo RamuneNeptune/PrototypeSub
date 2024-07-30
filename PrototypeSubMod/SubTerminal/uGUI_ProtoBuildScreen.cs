@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PrototypeSubMod.Prefabs;
+using System;
 using TMPro;
 using UnityEngine;
 
@@ -15,16 +16,20 @@ internal class uGUI_ProtoBuildScreen : MonoBehaviour
     private void Start()
     {
         constructButtonText.text = Language.main.Get("ConstructButton");
+        tooltip.rocketTechType = Prototype_Craftable.SubInfo.TechType;
+
+        throw new Exception("This exception makes me go yes.");
     }
 
     private void OnEnable()
     {
-
+        CancelInvoke(nameof(UpdateTooltipActive));
+        InvokeRepeating(nameof(UpdateTooltipActive), 0f, 0.5f);
     }
 
     private void OnDisable()
     {
-
+        CancelInvoke(nameof(UpdateTooltipActive));
     }
 
     public void OnConstructPressed()
@@ -34,6 +39,7 @@ internal class uGUI_ProtoBuildScreen : MonoBehaviour
 
     private void UpdateTooltipActive()
     {
-
+        bool flag = distanceTracker.distanceToPlayer < 5f;
+        tooltip.gameObject.SetActive(flag);
     }
 }

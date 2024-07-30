@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3042589607487386909}
   - component: {fileID: 198255859429891121}
   - component: {fileID: 4652062324225112515}
-  - component: {fileID: 5779845039048119466}
+  - component: {fileID: 1618657341364074652}
   m_Layer: 0
   m_Name: GUIScreen
   m_TagString: Untagged
@@ -94,7 +94,7 @@ MonoBehaviour:
   m_Script: {fileID: -1076299746, guid: 06dd3d5416bf43ea368cc39ff96e6d5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &5779845039048119466
+--- !u!114 &1618657341364074652
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -103,20 +103,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 722329305584264081}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 426170335, guid: 06dd3d5416bf43ea368cc39ff96e6d5a, type: 3}
+  m_Script: {fileID: -1583800990, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rocketStageImages:
-  - {fileID: 21300000, guid: b38f33abde95b3a4eb3cb2fea4bb635a, type: 3}
-  root: {fileID: 2055188084176233034}
-  buildScreen: {fileID: 2992585963739497453}
-  customizeScreen: {fileID: 3149455153794229028}
-  buildAnimationScreen: {fileID: 2779609950604449032}
-  rocketTooltip: {fileID: 6573146357284826976}
-  playerDistanceTracker: {fileID: 7271898523190329259}
-  buildNextIcon: {fileID: 4597844400066549528}
-  buildNextText: {fileID: 3705332035728683879}
+  tooltip: {fileID: 6573146357284826976}
   constructButtonText: {fileID: 6066849022810862507}
+  distanceTracker: {fileID: 7271898523190329259}
 --- !u!1 &1178384539472819258
 GameObject:
   m_ObjectHideFlags: 0
@@ -699,7 +691,6 @@ GameObject:
   - component: {fileID: 3881772668269422998}
   - component: {fileID: 4054264921837563465}
   - component: {fileID: 645306915278329833}
-  - component: {fileID: 6397718806691326145}
   m_Layer: 0
   m_Name: Cube (1)
   m_TagString: Untagged
@@ -781,29 +772,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &6397718806691326145
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4324079637825348749}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 426170335, guid: 06dd3d5416bf43ea368cc39ff96e6d5a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rocketStageImages:
-  - {fileID: 21300000, guid: b38f33abde95b3a4eb3cb2fea4bb635a, type: 3}
-  root: {fileID: 2055188084176233034}
-  buildScreen: {fileID: 0}
-  customizeScreen: {fileID: 0}
-  buildAnimationScreen: {fileID: 0}
-  rocketTooltip: {fileID: 0}
-  playerDistanceTracker: {fileID: 0}
-  buildNextIcon: {fileID: 0}
-  buildNextText: {fileID: 0}
-  constructButtonText: {fileID: 0}
 --- !u!1 &4564381105904243112
 GameObject:
   m_ObjectHideFlags: 0
@@ -1044,7 +1012,7 @@ GameObject:
   - component: {fileID: 2746966413565491769}
   - component: {fileID: 6573146357284826976}
   m_Layer: 0
-  m_Name: Button_Collider
+  m_Name: Tooltip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1149,8 +1117,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5779845039048119466}
-        m_MethodName: ContructButton
+      - m_Target: {fileID: 1618657341364074652}
+        m_MethodName: OnConstructPressed
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
