@@ -41,8 +41,7 @@ namespace PrototypeSubMod
 
             LanguageHandler.RegisterLocalizationFolder();
 
-            Prototype_Craftable.Register();
-
+            RegisterPrefabs();
             InitializeSlotMapping();
 
             // Register harmony patches, if there are any
@@ -76,6 +75,12 @@ namespace PrototypeSubMod
                 GameObject prefab = prefabTask.result.Get();
                 var battery = prefab.AddComponent<PrototypePowerBattery>();
             }
+        }
+
+        private void RegisterPrefabs()
+        {
+            Prototype_Craftable.Register();
+            ProtoBuildTerminal_World.Register();
         }
     }
 }

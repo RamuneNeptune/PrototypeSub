@@ -39,10 +39,10 @@ internal class EntryWaterGate : MonoBehaviour
         float currentDot = Vector3.Dot(transform.forward, directionToGate);
 
         bool exitCheck1 = currentDot > 0 && positionsBehindGate > positionsInFrontOfGate;
-        bool exitCheck2 = positionsBehindGate > (positionsInFrontOfGate + (lastPlayerPositions.Length / 2));
+        bool exitCheck2 = positionsBehindGate > (positionsInFrontOfGate + (PlayerPatches.lastPlayerPositions.Length / 2));
 
         bool entryCheck1 = currentDot < 0 && positionsInFrontOfGate > positionsBehindGate;
-        bool entryCheck2 = positionsInFrontOfGate > (positionsBehindGate + (lastPlayerPositions.Length / 2));
+        bool entryCheck2 = positionsInFrontOfGate > (positionsBehindGate + (PlayerPatches.lastPlayerPositions.Length / 2));
 
         if (exitCheck1 || exitCheck2)
         {
