@@ -16,7 +16,7 @@ internal class EntryWaterGate : MonoBehaviour
 
         int positionsBehindGate = 0;
         int positionsInFrontOfGate = 0;
-
+        
         for (int i = 0; i < PlayerPatches.lastPlayerPositions.Length; i++)
         {
             Vector3 pos = PlayerPatches.lastPlayerPositions[i];
