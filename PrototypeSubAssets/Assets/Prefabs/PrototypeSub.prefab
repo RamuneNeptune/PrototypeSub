@@ -6721,6 +6721,7 @@ GameObject:
   - component: {fileID: 7158834128535222862}
   - component: {fileID: 4532599136881708700}
   - component: {fileID: 4864715646346185642}
+  - component: {fileID: 5854104749724837434}
   m_Layer: 0
   m_Name: Cockpit.002
   m_TagString: Untagged
@@ -6790,6 +6791,23 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &5854104749724837434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2101839950557227891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -657406783, guid: 05b2873035fc0cb47b172f8f145ed69c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mode: 0
+  runAtStart: 1
+  renderer: {fileID: 3776759695516336840}
+  materialIndices: 01000000
+  materialType: 3
 --- !u!1 &2125659253941798618
 GameObject:
   m_ObjectHideFlags: 0
@@ -22615,6 +22633,7 @@ GameObject:
   - component: {fileID: 859123475954652590}
   - component: {fileID: 3469785066366289046}
   - component: {fileID: 888744786445260978}
+  - component: {fileID: 4237640745171752421}
   m_Layer: 0
   m_Name: Engine Room Window
   m_TagString: Untagged
@@ -22683,6 +22702,23 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &4237640745171752421
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6663071785659650440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -657406783, guid: 05b2873035fc0cb47b172f8f145ed69c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mode: 0
+  runAtStart: 1
+  renderer: {fileID: 3776759695516336840}
+  materialIndices: 00000000
+  materialType: 3
 --- !u!1 &6665707138316946965
 GameObject:
   m_ObjectHideFlags: 0
@@ -26684,6 +26720,8 @@ GameObject:
   - component: {fileID: 7208192589864340213}
   - component: {fileID: 2316826527793568847}
   - component: {fileID: 1461529087654139827}
+  - component: {fileID: 3139905901443945886}
+  - component: {fileID: 460158318661139844}
   - component: {fileID: 5188933645084659926}
   - component: {fileID: 166681490149920772}
   - component: {fileID: 4867459689348228103}
@@ -26704,6 +26742,7 @@ GameObject:
   - component: {fileID: 2895879338249793368}
   - component: {fileID: 7922656283304429163}
   - component: {fileID: 2515607400218362365}
+  - component: {fileID: 1872070442936540734}
   m_Layer: 0
   m_Name: PrototypeSub
   m_TagString: Untagged
@@ -26919,8 +26958,42 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   anchorSky: 0
   customSkyPrefab: {fileID: 0}
+  dynamic: 1
+  emissiveFromPower: 1
+  renderers: []
+--- !u!114 &3139905901443945886
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8041321529513965086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1536540201, guid: 06dd3d5416bf43ea368cc39ff96e6d5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anchorSky: 3
+  customSkyPrefab: {fileID: 0}
   dynamic: 0
-  emissiveFromPower: 0
+  emissiveFromPower: 1
+  renderers: []
+--- !u!114 &460158318661139844
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8041321529513965086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1536540201, guid: 06dd3d5416bf43ea368cc39ff96e6d5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anchorSky: 4
+  customSkyPrefab: {fileID: 0}
+  dynamic: 0
+  emissiveFromPower: 1
   renderers: []
 --- !u!114 &5188933645084659926
 MonoBehaviour:
@@ -26960,23 +27033,36 @@ MonoBehaviour:
   skies:
   - sky: {fileID: 0}
     masterIntensities:
-    - 1
-    - 1
-    - 1
+    - 0.1
+    - 0.1
+    - 0.1
     diffIntensities:
-    - 1
-    - 1
-    - 1
+    - 1.02
+    - 0.7
+    - 0.7
     specIntensities:
-    - 1
-    - 1
-    - 1
+    - 0.44
+    - 0.44
+    - 0.2
+  - sky: {fileID: 0}
+    masterIntensities:
+    - 0.8
+    - 0.8
+    - 0.8
+    diffIntensities:
+    - 4
+    - 0.22
+    - 0.16
+    specIntensities:
+    - 1.5
+    - 0.44
+    - 0.2
   lights: []
   emissiveController:
     intensities:
+    - 1
+    - 0.7
     - 0
-    - 1
-    - 1
 --- !u!114 &4867459689348228103
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27267,6 +27353,23 @@ MonoBehaviour:
   heightOffset: 0
   localRotation: {x: 0, y: 0, z: 0}
   constructSound: {fileID: 0}
+  onConstructionStarted:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1872070442936540734}
+        m_MethodName: OnConstructionStarted
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onConstructionFinished:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &2895879338249793368
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27315,6 +27418,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefabIdentifier: {fileID: 7059317525052420639}
   saveDataClassTypeName: PrototypeSubMod.SaveData.PrototypeSaveData
+--- !u!114 &1872070442936540734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8041321529513965086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -276571278, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vfxConstructing: {fileID: 6218713047661039472}
+  ghostMatColor: {r: 0.14901961, g: 0.6509804, b: 0.2, a: 1}
 --- !u!1 &8056834639611471471
 GameObject:
   m_ObjectHideFlags: 0
@@ -27730,6 +27847,7 @@ GameObject:
   - component: {fileID: 8696881803077256222}
   - component: {fileID: 5455937581221289040}
   - component: {fileID: 3776759695516336840}
+  - component: {fileID: 7148860407852418343}
   m_Layer: 0
   m_Name: Cockpit
   m_TagString: Untagged
@@ -27802,6 +27920,23 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &7148860407852418343
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8204383851096781741}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -657406783, guid: 05b2873035fc0cb47b172f8f145ed69c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mode: 0
+  runAtStart: 1
+  renderer: {fileID: 3776759695516336840}
+  materialIndices: 03000000
+  materialType: 3
 --- !u!1 &8215135341173925869
 GameObject:
   m_ObjectHideFlags: 0
@@ -29460,6 +29595,7 @@ GameObject:
   - component: {fileID: 3215963826766411559}
   - component: {fileID: 6548647222378110188}
   - component: {fileID: 1614113468917734204}
+  - component: {fileID: 8556976413636741024}
   m_Layer: 0
   m_Name: Lower Engine Room Window
   m_TagString: Untagged
@@ -29528,6 +29664,23 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &8556976413636741024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8720560073392859551}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -657406783, guid: 05b2873035fc0cb47b172f8f145ed69c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mode: 0
+  runAtStart: 1
+  renderer: {fileID: 3776759695516336840}
+  materialIndices: 00000000
+  materialType: 3
 --- !u!1 &8734864131501704528
 GameObject:
   m_ObjectHideFlags: 0
@@ -31263,6 +31416,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d6cc3db34565c3a4ba68573b0eeec2a0, type: 3}
+--- !u!4 &7635523988782540534 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2253812858737788773, guid: d6cc3db34565c3a4ba68573b0eeec2a0,
+    type: 3}
+  m_PrefabInstance: {fileID: 8552883551461007763}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &4968267767760700242 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3621781888743187137, guid: d6cc3db34565c3a4ba68573b0eeec2a0,
@@ -31275,9 +31434,3 @@ MonoBehaviour:
   m_Script: {fileID: -2039529286, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &7635523988782540534 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2253812858737788773, guid: d6cc3db34565c3a4ba68573b0eeec2a0,
-    type: 3}
-  m_PrefabInstance: {fileID: 8552883551461007763}
-  m_PrefabAsset: {fileID: 0}

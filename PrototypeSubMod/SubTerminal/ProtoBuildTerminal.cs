@@ -19,6 +19,7 @@ internal class ProtoBuildTerminal : Crafter
     }
 
     [SerializeField] private float buildDuration = 20f;
+    [SerializeField] private FMODAsset buildSoundEffect;
     [SerializeField] private Transform buildPosition;
 
     private GameObject prototypeSub;
@@ -38,24 +39,22 @@ internal class ProtoBuildTerminal : Crafter
     {
         if (!CrafterLogic.ConsumeResources(techType)) return;
 
-        Plugin.Logger.LogInfo($"Crafting");
         base.Craft(techType, duration);
     }
 
     public override void OnCraftingBegin(TechType techType, float duration)
     {
-        Plugin.Logger.LogInfo($"Crafting began");
         StartCoroutine(OnCraftingBeginAsync(techType, duration));
     }
 
     private IEnumerator OnCraftingBeginAsync(TechType techType, float duration)
     {
-        var prefab = new TaskResult<GameObject>();
-        yield return CraftData.InstantiateFromPrefabAsync(techType, prefab);
+        var prefab = CraftData.GetPrefabForTechTypeAsync(techType);
+        yield return prefab;
 
-        var instantiatedPrefab = prefab.Get();
-        instantiatedPrefab.transform.position = buildPosition.position;
-        instantiatedPrefab.transform.rotation = buildPosition.rotation;
+        FMODUWE.PlayOneShot(buildSoundEffect, transform.position);
+        var instantiatedPrefab = Instantiate(prefab.result.Get(), buildPosition.position, buildPosition.rotation);
+        instantiatedPrefab.SetActive(true);
         prefab = null;
 
         CrafterLogic.NotifyCraftEnd(instantiatedPrefab, techType);

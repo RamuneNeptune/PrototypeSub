@@ -175,7 +175,7 @@ internal class PrototypePowerBattery : MonoBehaviour, IBattery, ISaveDataListene
     {
         Initialize(); //Make sure the prefab identifier is set if for some reason nothing else is called
 
-        Plugin.Logger.LogInfo($"Save data = {protoSaveData} | Identifier = {prefabIdentifier} | Charges = {protoSaveData?.normalizedBatteryCharges}");
+        Plugin.Logger.LogInfo($"Batt = {gameObject} | Save data = {protoSaveData} | Identifier = {prefabIdentifier} | Charges = {protoSaveData?.normalizedBatteryCharges}");
         protoSaveData.normalizedBatteryCharges.Remove(prefabIdentifier.Id);
     }
 }
