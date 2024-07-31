@@ -106,6 +106,20 @@ MonoBehaviour:
   m_Script: {fileID: -1583800990, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onBuildStarted:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5753649986567304265}
+        m_MethodName: CraftSub
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   tooltip: {fileID: 6573146357284826976}
   constructButtonText: {fileID: 6066849022810862507}
   distanceTracker: {fileID: 7271898523190329259}
@@ -331,6 +345,7 @@ GameObject:
   - component: {fileID: 8874494661803164197}
   - component: {fileID: 1989246184205137428}
   - component: {fileID: 7976788751495171810}
+  - component: {fileID: 3284521603484954665}
   m_Layer: 0
   m_Name: ProtoBuildTerminal
   m_TagString: Untagged
@@ -352,6 +367,7 @@ Transform:
   - {fileID: 6330197006847203918}
   - {fileID: 8742558314716291375}
   - {fileID: 5505659212003406053}
+  - {fileID: 2267562880022589075}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -367,6 +383,9 @@ MonoBehaviour:
   m_Script: {fileID: 1448848184, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  crafterLogic: {fileID: 3284521603484954665}
+  buildDuration: 20
+  buildPosition: {fileID: 2267562880022589075}
 --- !u!114 &7271898523190329259
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -436,6 +455,18 @@ MonoBehaviour:
   dynamic: 0
   emissiveFromPower: 0
   renderers: []
+--- !u!114 &3284521603484954665
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2055188084176233034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -537348580, guid: 06dd3d5416bf43ea368cc39ff96e6d5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2779609950604449032
 GameObject:
   m_ObjectHideFlags: 0
@@ -998,6 +1029,36 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &6490921534428552018
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2267562880022589075}
+  m_Layer: 0
+  m_Name: BuildPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2267562880022589075
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6490921534428552018}
+  m_LocalRotation: {x: -0, y: -0.70710677, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: -5.73, y: 5.19, z: -7.82}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2055188084176233035}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: -90.00001, z: 0}
 --- !u!1 &6706379057318292151
 GameObject:
   m_ObjectHideFlags: 0

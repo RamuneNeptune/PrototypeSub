@@ -2,13 +2,13 @@
 using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace PrototypeSubMod.SubTerminal;
 
 internal class uGUI_ProtoBuildScreen : MonoBehaviour
 {
-    public event Action OnBuildStarted;
-
+    [SerializeField] private UnityEvent onBuildStarted;
     [SerializeField] private RocketBuilderTooltip tooltip;
     [SerializeField] private TextMeshProUGUI constructButtonText;
     [SerializeField] private PlayerDistanceTracker distanceTracker;
@@ -17,8 +17,6 @@ internal class uGUI_ProtoBuildScreen : MonoBehaviour
     {
         constructButtonText.text = Language.main.Get("ConstructButton");
         tooltip.rocketTechType = Prototype_Craftable.SubInfo.TechType;
-
-        throw new Exception("This exception makes me go yes.");
     }
 
     private void OnEnable()
@@ -34,7 +32,7 @@ internal class uGUI_ProtoBuildScreen : MonoBehaviour
 
     public void OnConstructPressed()
     {
-        OnBuildStarted?.Invoke();
+        onBuildStarted.Invoke();
     }
 
     private void UpdateTooltipActive()
