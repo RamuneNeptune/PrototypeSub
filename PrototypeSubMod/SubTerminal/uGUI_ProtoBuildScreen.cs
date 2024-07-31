@@ -1,5 +1,4 @@
 ﻿using PrototypeSubMod.Prefabs;
-using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -12,6 +11,12 @@ internal class uGUI_ProtoBuildScreen : MonoBehaviour
     [SerializeField] private RocketBuilderTooltip tooltip;
     [SerializeField] private TextMeshProUGUI constructButtonText;
     [SerializeField] private PlayerDistanceTracker distanceTracker;
+    [SerializeField] private MoonpoolOccupiedHandler occupiedHandler;
+    [SerializeField] private GameObject buildScreen;
+    [SerializeField] private GameObject animationScreen;
+    [SerializeField] private GameObject occupiedScreen;
+
+    private bool isBuilding;
 
     private void Start()
     {
@@ -33,6 +38,34 @@ internal class uGUI_ProtoBuildScreen : MonoBehaviour
     public void OnConstructPressed()
     {
         onBuildStarted.Invoke();
+    }
+
+    public void OnConstructionStarted(float duration)
+    {
+        buildScreen.SetActive(false);
+        animationScreen.SetActive(true);
+
+        isBuilding = true;
+    }
+
+    //Called by VFX Constructing in Update via SendMessage()
+    public void OnConstructionDone()
+    {
+        buildScreen.SetActive(false);
+        animationScreen.SetActive(false);
+        occupiedScreen.SetActive(true);
+
+        isBuilding = false;
+    }
+
+    public void OnOccupiedChanged()
+    {
+        if (isBuilding) return;
+
+        var occupied = occupiedHandler.MoonpoolHasSub;
+
+        buildScreen.SetActive(!occupied);
+        occupiedScreen.SetActive(occupied);
     }
 
     private void UpdateTooltipActive()

@@ -14,6 +14,7 @@ internal class PlayerPilotingAnimationSetter : MonoBehaviour
     {
         bool value = handDownRecently;
 
+        Plugin.Logger.LogInfo($"Setting param to {value}");
         Player.main.playerAnimator.SetBool(parameterName, value);
 
         startedPiloting = true;
@@ -24,9 +25,11 @@ internal class PlayerPilotingAnimationSetter : MonoBehaviour
         if (startedPiloting)
         {
             startedPiloting = false;
+            Plugin.Logger.LogInfo($"Started piloting = true. Returning");
             return;
         }
 
+        Plugin.Logger.LogInfo($"Setting param false");
         Player.main.playerAnimator.SetBool(parameterName, false);
     }
 
