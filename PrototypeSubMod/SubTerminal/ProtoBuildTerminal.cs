@@ -68,7 +68,7 @@ internal class ProtoBuildTerminal : Crafter
 
         vfxConstructing.informGameObject = gameObject;
 
-        GetComponentInChildren<uGUI_ProtoBuildScreen>().OnConstructionStarted(duration);
+        GetComponentInChildren<uGUI_ProtoBuildScreen>().OnConstructionStarted(duration + vfxConstructing.delay);
 
         LargeWorldEntity.Register(instantiatedPrefab);
     }

@@ -13,7 +13,7 @@ internal class uGUI_ProtoBuildScreen : MonoBehaviour
     [SerializeField] private PlayerDistanceTracker distanceTracker;
     [SerializeField] private MoonpoolOccupiedHandler occupiedHandler;
     [SerializeField] private GameObject buildScreen;
-    [SerializeField] private GameObject animationScreen;
+    [SerializeField] private uGUI_BuildAnimScreen animationScreen;
     [SerializeField] private GameObject occupiedScreen;
 
     private bool isBuilding;
@@ -43,7 +43,8 @@ internal class uGUI_ProtoBuildScreen : MonoBehaviour
     public void OnConstructionStarted(float duration)
     {
         buildScreen.SetActive(false);
-        animationScreen.SetActive(true);
+        animationScreen.gameObject.SetActive(true);
+        animationScreen.StartAnimation(duration);
 
         isBuilding = true;
     }
@@ -52,7 +53,7 @@ internal class uGUI_ProtoBuildScreen : MonoBehaviour
     public void OnConstructionDone()
     {
         buildScreen.SetActive(false);
-        animationScreen.SetActive(false);
+        animationScreen.gameObject.SetActive(false);
         occupiedScreen.SetActive(true);
 
         isBuilding = false;
