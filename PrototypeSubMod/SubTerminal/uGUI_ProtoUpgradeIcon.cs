@@ -27,7 +27,6 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
     private bool pointerDownLastFrame;
     private bool craftTriggered;
     private float currentConfirmTime;
-    private float lastConfirmTime;
     private float oldTooltipScale;
     private Vector2 originalSize;
     private RectTransform rectTransform;
@@ -78,7 +77,6 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
 
         progressMask.fillAmount = currentConfirmTime / confirmTime;
         pointerDownLastFrame = pointerDown;
-        lastConfirmTime = currentConfirmTime;
     }
 
     private void HandleConfirmCountdown()
@@ -89,8 +87,7 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
             currentConfirmTime = 0;
         }
 
-        float velocity = currentConfirmTime - lastConfirmTime;
-        currentConfirmTime = Mathf.SmoothDamp(currentConfirmTime, confirmTime, ref velocity, smoothingTime);
+        currentConfirmTime = Mathf.MoveTowards(currentConfirmTime, confirmTime, Time.deltaTime * smoothingTime);
 
         if (currentConfirmTime >= (confirmTime - 0.01f) && !craftTriggered)
         {
@@ -102,7 +99,7 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
 
     private void HandleHoverScale()
     {
-        Vector2 targetScale = hovered ? rectTransform.sizeDelta * hoveredScaleMultiplier : rectTransform.sizeDelta;
+        Vector2 targetScale = hovered ? originalSize * hoveredScaleMultiplier : originalSize;
 
         rectTransform.sizeDelta = Vector2.Lerp(rectTransform.sizeDelta, targetScale, Time.deltaTime * hoveredScaleSnappiness);
     }
