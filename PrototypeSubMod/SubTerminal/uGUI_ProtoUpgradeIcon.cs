@@ -10,8 +10,8 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
 {
     public Action<TechType> onCraftPressed;
 
-    [SerializeField] private float confirmTime = 3f;
-    [SerializeField] private float smoothingTime = 0.1f;
+    [SerializeField] private float confirmTime;
+    [SerializeField] private float smoothingTime;
     [SerializeField] private Image progressMask;
     [SerializeField] private Sprite backgroundNormalSprite;
     [SerializeField] private Sprite backgroundHoverSprite;
@@ -22,6 +22,7 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
 
     private bool hovered;
     private bool pointerDownLastFrame;
+    private bool craftTriggered;
     private float currentConfirmTime;
     private float lastConfirmTime;
 
@@ -47,11 +48,6 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
         itemIcon.SetBackgroundSize(new Vector2(0.2f, 0.2f));
     }
 
-    public void OnCraftPressed()
-    {
-        onCraftPressed?.Invoke(techType);
-    }
-
     private void Update()
     {
         bool pointerDown = GameInput.GetButtonHeld(GameInput.Button.LeftHand);
@@ -60,11 +56,19 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
         {
             if(pointerDownLastFrame == false)
             {
+                craftTriggered = false;
                 currentConfirmTime = 0;
             }
 
             float velocity = currentConfirmTime - lastConfirmTime;
             currentConfirmTime = Mathf.SmoothDamp(currentConfirmTime, confirmTime, ref velocity, smoothingTime);
+            
+            if(currentConfirmTime >= (confirmTime - 0.01f) && !craftTriggered)
+            {
+                currentConfirmTime = confirmTime;
+                onCraftPressed?.Invoke(techType);
+                craftTriggered = true;
+            }
         }
         else
         {
