@@ -180,6 +180,11 @@ internal class PrototypePowerSource : MonoBehaviour, IPowerInterface, ISaveDataL
     {
         protoSaveData = saveData as PrototypeSaveData;
 
+        if(protoSaveData.powerSourceDatas == null)
+        {
+            protoSaveData.powerSourceDatas = new();
+        }
+
         if (!protoSaveData.powerSourceDatas.ContainsKey(gameObject.name))
         {
             protoSaveData.powerSourceDatas.Add(gameObject.name, new PrototypeSaveData.PowerSourceData());
