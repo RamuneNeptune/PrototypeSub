@@ -74,9 +74,15 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
         }
 
         HandleHoverScale();
+        
 
         progressMask.fillAmount = currentConfirmTime / confirmTime;
         pointerDownLastFrame = pointerDown;
+    }
+
+    private void LateUpdate()
+    {
+        HandleTooltipActive(GameInput.GetButtonHeld(GameInput.Button.LeftHand));
     }
 
     private void HandleConfirmCountdown()
@@ -102,6 +108,14 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
         Vector2 targetScale = hovered ? originalSize * hoveredScaleMultiplier : originalSize;
 
         rectTransform.sizeDelta = Vector2.Lerp(rectTransform.sizeDelta, targetScale, Time.deltaTime * hoveredScaleSnappiness);
+    }
+
+    private void HandleTooltipActive(bool pointerDown)
+    {
+        if(hovered && pointerDown)
+        {
+            uGUI_Tooltip.Clear();
+        }
     }
 
     public void OnPointerEnter(BaseEventData data)

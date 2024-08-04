@@ -8,20 +8,31 @@ namespace PrototypeSubMod.SubTerminal;
 internal class uGUI_ProtoBuildScreen : MonoBehaviour
 {
     [SerializeField] private UnityEvent onBuildStarted;
+
+    [SerializeField] private ProtoBuildTerminal buildTerminal;
     [SerializeField] private RocketBuilderTooltip tooltip;
-    [SerializeField] private TextMeshProUGUI constructButtonText;
     [SerializeField] private PlayerDistanceTracker distanceTracker;
     [SerializeField] private MoonpoolOccupiedHandler occupiedHandler;
     [SerializeField] private GameObject buildScreen;
     [SerializeField] private uGUI_BuildAnimScreen animationScreen;
-    [SerializeField] private GameObject occupiedScreen;
+    [SerializeField] private GameObject upgradeScreen;
+    [SerializeField] private GameObject emptyScreen;
 
     private bool isBuilding;
 
     private void Start()
     {
-        constructButtonText.text = Language.main.Get("ConstructButton");
         tooltip.rocketTechType = Prototype_Craftable.SubInfo.TechType;
+        if(buildTerminal.HasBuiltProtoSub)
+        {
+            upgradeScreen.SetActive(occupiedHandler.MoonpoolHasSub);
+            emptyScreen.SetActive(!occupiedHandler.MoonpoolHasSub);
+            buildScreen.SetActive(false);
+        }
+        else
+        {
+            buildScreen.SetActive(true);
+        }
     }
 
     private void OnEnable()
@@ -54,7 +65,7 @@ internal class uGUI_ProtoBuildScreen : MonoBehaviour
     {
         buildScreen.SetActive(false);
         animationScreen.gameObject.SetActive(false);
-        occupiedScreen.SetActive(true);
+        upgradeScreen.SetActive(true);
 
         isBuilding = false;
     }
@@ -65,8 +76,8 @@ internal class uGUI_ProtoBuildScreen : MonoBehaviour
 
         var occupied = occupiedHandler.MoonpoolHasSub;
 
-        buildScreen.SetActive(!occupied);
-        occupiedScreen.SetActive(occupied);
+        upgradeScreen.SetActive(occupied);
+        emptyScreen.SetActive(!occupied);
     }
 
     private void UpdateTooltipActive()
