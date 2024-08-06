@@ -74,7 +74,7 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
         }
 
         HandleHoverScale();
-        
+
 
         progressMask.fillAmount = currentConfirmTime / confirmTime;
         pointerDownLastFrame = pointerDown;
@@ -112,7 +112,7 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
 
     private void HandleTooltipActive(bool pointerDown)
     {
-        if(hovered && pointerDown)
+        if (hovered && pointerDown)
         {
             uGUI_Tooltip.Clear();
         }

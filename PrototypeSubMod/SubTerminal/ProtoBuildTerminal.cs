@@ -61,7 +61,7 @@ internal class ProtoBuildTerminal : Crafter
         CrafterLogic.NotifyCraftEnd(instantiatedPrefab, techType);
         ItemGoalTracker.OnConstruct(techType);
         VFXConstructing vfxConstructing = instantiatedPrefab.GetComponentInChildren<VFXConstructing>();
-        if(vfxConstructing != null)
+        if (vfxConstructing != null)
         {
             vfxConstructing.timeToConstruct = duration;
             vfxConstructing.StartConstruction();

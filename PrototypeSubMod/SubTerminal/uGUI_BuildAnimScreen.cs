@@ -26,7 +26,7 @@ internal class uGUI_BuildAnimScreen : MonoBehaviour
             currentProgress += Time.deltaTime;
             progressBar.fillAmount = currentProgress / duration;
         }
-        else if(startAnim)
+        else if (startAnim)
         {
             startAnim = false;
         }

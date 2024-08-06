@@ -27,11 +27,11 @@ internal class ProtoSkyManager : PrefabModifier, ICyclopsReferencer
         foreach (var renderer in allRenderers)
         {
             List<Renderer> list;
-            if(renderer.gameObject.TryGetComponent(out ProtoWindowTag _))
+            if (renderer.gameObject.TryGetComponent(out ProtoWindowTag _))
             {
                 list = _windowRenderers;
             }
-            else if(renderer.gameObject.TryGetComponent(out ProtoExteriorTag _))
+            else if (renderer.gameObject.TryGetComponent(out ProtoExteriorTag _))
             {
                 list = _exteriorRenderers;
             }

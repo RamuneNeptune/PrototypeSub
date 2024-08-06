@@ -1,5 +1,4 @@
 ﻿using PrototypeSubMod.Prefabs;
-using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -23,7 +22,7 @@ internal class uGUI_ProtoBuildScreen : MonoBehaviour
     private void Start()
     {
         tooltip.rocketTechType = Prototype_Craftable.SubInfo.TechType;
-        if(buildTerminal.HasBuiltProtoSub)
+        if (buildTerminal.HasBuiltProtoSub)
         {
             upgradeScreen.SetActive(occupiedHandler.MoonpoolHasSub);
             emptyScreen.SetActive(!occupiedHandler.MoonpoolHasSub);
