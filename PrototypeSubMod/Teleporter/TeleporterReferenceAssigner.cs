@@ -10,6 +10,7 @@ internal class TeleporterReferenceAssigner : MonoBehaviour
     private const string TeleporterPrefabKey = "WorldEntities/Environment/Precursor/MountainIsland/Precursor_Mountain_Teleporter_ToFloatingIsland.prefab";
 
     [SerializeField] private PrecursorTeleporter teleporter;
+    [SerializeField, Tooltip("Can be null if you don't want to swap the mesh")] private Mesh fxMesh;
 
     private void OnValidate()
     {
@@ -25,7 +26,14 @@ internal class TeleporterReferenceAssigner : MonoBehaviour
         var prefab = operation.Result;
 
         var precursorTp = prefab.GetComponent<PrecursorTeleporter>();
-        teleporter.portalFxPrefab = precursorTp.portalFxPrefab;
+        GameObject fxPrefab = precursorTp.portalFxPrefab;
+        if (fxMesh != null)
+        {
+            fxPrefab = Instantiate(fxPrefab);
+            fxPrefab.GetComponentInChildren<MeshFilter>().mesh = fxMesh;
+        }
+
+        teleporter.portalFxPrefab = fxPrefab;
         teleporter.cinematicEndControllerPrefabReference = precursorTp.cinematicEndControllerPrefabReference;
 
         teleporter.Start();
