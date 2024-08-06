@@ -178,13 +178,13 @@ internal class PrototypePowerSource : MonoBehaviour, IPowerInterface, ISaveDataL
 
     public void OnSaveDataLoaded(BaseSubDataClass saveData)
     {
-        protoSaveData = saveData as PrototypeSaveData;
+        protoSaveData = saveData.EnsureAsPrototypeData();
 
         if(protoSaveData.powerSourceDatas == null)
         {
             protoSaveData.powerSourceDatas = new();
         }
-
+        
         if (!protoSaveData.powerSourceDatas.ContainsKey(gameObject.name))
         {
             protoSaveData.powerSourceDatas.Add(gameObject.name, new PrototypeSaveData.PowerSourceData());
@@ -199,13 +199,9 @@ internal class PrototypePowerSource : MonoBehaviour, IPowerInterface, ISaveDataL
 
     public void OnBeforeDataSaved(ref BaseSubDataClass saveData)
     {
-        if (saveData is not PrototypeSaveData)
-        {
-            //This is the first time saving and the data type is ModuleSaveData
-            saveData = new PrototypeSaveData();
-        }
+        var protoData = saveData.EnsureAsPrototypeData();
 
-        (saveData as PrototypeSaveData).powerSourceDatas[gameObject.name] = powerSourceData;
+        protoData.powerSourceDatas[gameObject.name] = powerSourceData;
     }
 
     private IEnumerator SpawnDefaultBattery()
