@@ -69,7 +69,7 @@ internal class TeleporterOverride : MonoBehaviour
         
         if(TeleporterManager.GetTeleporterActive(teleporterID))
         {
-            RetrieveFxMaterial();
+            TryRetrieveFxMaterial();
         }
     }
 
@@ -101,7 +101,10 @@ internal class TeleporterOverride : MonoBehaviour
 
     private void HandleOverrideColor()
     {
-        if (!TeleporterManager.GetTeleporterActive(teleporterID)) return;
+        if (fxMaterial == null)
+        {
+            TryRetrieveFxMaterial();
+        }
 
         targetColor = overrideActive ? OverrideColor : originalColor;
 
@@ -110,25 +113,36 @@ internal class TeleporterOverride : MonoBehaviour
         fxMaterial.SetColor("_ColorOuter", color);
     }
 
-    private void RetrieveFxMaterial()
+    private void TryRetrieveFxMaterial()
     {
-        fxMaterial = teleporter.portalFxSpawnPoint.Find("x_PrecursorTeleporter_LargePortal(Clone)/x_Portal").GetComponent<MeshRenderer>().material;
+        GameObject fxPrefab = teleporter.portalFxSpawnPoint.Find("x_PrecursorTeleporter_LargePortal(Clone)/x_Portal").gameObject;
+
+        if (!fxPrefab) return;
+
+        fxMaterial = fxPrefab.GetComponent<MeshRenderer>().material;
         originalColor = fxMaterial.GetColor("_ColorOuter");
     }
 
     public void BeginTeleportPlayer(GameObject _)
     {
-        QueuedTeleportedBackToSub = true;
+        if(overrideActive)
+        {
+            QueuedTeleportedBackToSub = true;
+            Player.main.SetPrecursorOutOfWater(false);
+        }
     }
 
     // Called in PrecursorTeleporterActivationTerminal via BroadcastMessage
     public void ToggleDoor(bool _)
     {
-        RetrieveFxMaterial();
+        TryRetrieveFxMaterial();
     }
 
     private void OnDestroy()
     {
-        TimeWhenPortalUnloaded = Time.time;
+        if(overrideActive)
+        {
+            TimeWhenPortalUnloaded = Time.time;
+        }
     }
 }
