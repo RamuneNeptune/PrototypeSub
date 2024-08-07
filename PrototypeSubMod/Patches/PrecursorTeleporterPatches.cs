@@ -53,6 +53,10 @@ internal class PrecursorTeleporterPatches
         {
             Player.main.SetPrecursorOutOfWater(true);
         }
+        else
+        {
+            Player.main.SetPrecursorOutOfWater(false);
+        }
     }
 
     [HarmonyPatch(nameof(PrecursorTeleporter.Start)), HarmonyPostfix]

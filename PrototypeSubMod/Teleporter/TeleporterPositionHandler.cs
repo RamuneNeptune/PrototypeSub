@@ -32,7 +32,6 @@ internal static class TeleporterPositionHandler
     public static readonly List<string> OutOfWaterTeleporters = new()
     {
         "guntp",
-        "islandtp",
         "cragfieldtp",
         "kooshzonetp",
         "lostrivertp",
