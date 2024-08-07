@@ -11,11 +11,13 @@ internal class TeleporterOverride : MonoBehaviour
     public static bool QueuedResetOverrideTime { get; private set; }
     public static bool QueuedTeleportedBackToSub { get; private set; }
     private static float TimeWhenPortalUnloaded;
+    private static float TimeLeftWhenUnloaded;
 
     private Vector3 originalTeleportPosition;
     private PrecursorTeleporter teleporter;
     private float originalTeleportAngle;
     private float currentOverrideTime;
+    private float overrideTimeLastFrame;
     private string teleporterID;
     private bool overrideActive;
 
@@ -55,14 +57,15 @@ internal class TeleporterOverride : MonoBehaviour
 
         if (teleporterID != FullOverrideTeleporterID) return;
 
+        float timeLeft = (TimeWhenPortalUnloaded - Time.time) + TimeLeftWhenUnloaded;
         if (QueuedResetOverrideTime)
         {
             currentOverrideTime = OverrideTime;
             QueuedResetOverrideTime = false;
         }
-        else if(TimeWhenPortalUnloaded - Time.time > 0)
+        else if(timeLeft > 0)
         {
-            currentOverrideTime = TimeWhenPortalUnloaded - Time.time;
+            currentOverrideTime = timeLeft;
         }
 
         overrideActive = true;
@@ -96,7 +99,16 @@ internal class TeleporterOverride : MonoBehaviour
             teleporter.warpToPos = originalTeleportPosition;
             teleporter.warpToAngle = originalTeleportAngle;
             overrideActive = false;
+
+            ErrorMessage.AddError("WARNING: Link to Prototype sub collapsed. Normal portal functions resumed.");
         }
+
+        if(overrideTimeLastFrame > 30f && currentOverrideTime <= 30f)
+        {
+            ErrorMessage.AddError("WARNING: Portal override will remain stable for 30 more seconds.");
+        }
+
+        overrideTimeLastFrame = currentOverrideTime;
     }
 
     private void HandleOverrideColor()
@@ -143,6 +155,7 @@ internal class TeleporterOverride : MonoBehaviour
         if(overrideActive)
         {
             TimeWhenPortalUnloaded = Time.time;
+            TimeLeftWhenUnloaded = currentOverrideTime;
         }
     }
 }

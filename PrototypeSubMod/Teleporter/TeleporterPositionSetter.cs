@@ -42,7 +42,7 @@ internal class TeleporterPositionSetter : MonoBehaviour
         teleporter.warpToAngle = positionData.teleportAngle;
 
         TeleporterOverride.SetOverrideTeleporterID(alteredID);
-        TeleporterOverride.SetOverrideTime(60f * 5f);
+        TeleporterOverride.SetOverrideTime(120f);
         TeleporterOverride.OnTeleportStarted();
     }
 
