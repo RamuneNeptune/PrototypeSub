@@ -7,8 +7,8 @@ internal static class TeleporterPositionHandler
 {
     public static Dictionary<string, TeleportData> TeleporterPositions = new()
     {
-        { "guntpM", new(new Vector3(-27f, -1210.5f, 112.5f), 109.7f) },
-        { "guntpS", new(new Vector3(377f, -91.5f, 1141f), 270f) },
+        { "guntpM", new(new Vector3(-27f, -1210.5f, 112.5f), 270f) },
+        { "guntpS", new(new Vector3(377f, -91.5f, 1141f), 109.7f) },
 
         { "finaltpM", new(new Vector3(244.93f, -1589.43f, -310.38f), 151.025f) },
         { "finaltpS", new(new Vector3(457.37f, -168.5f, 1364.46f), 152.919f) },
@@ -25,8 +25,18 @@ internal static class TeleporterPositionHandler
         { "lostrivertpM", new(new Vector3(182.43f, -1430.29f, -409.1f), 61.051f) },
         { "lostrivertpS", new(new Vector3(-884f, -613f, 1033f), -30f) },
 
-        { "mushroomforsttpM", new(new Vector3(362.5f, -1430.29f, -309.28f), -118.949f) },
-        { "mushroomforsttpS", new(new Vector3(-747.22f, -241.81f, 437.13f), -104.692f) },
+        { "mushroomforesttpM", new(new Vector3(362.5f, -1430.29f, -309.28f), -118.949f) },
+        { "mushroomforesttpS", new(new Vector3(-747.22f, -241.81f, 437.13f), -104.692f) },
+    };
+
+    public static List<string> OutOfWaterTeleporters = new()
+    {
+        "guntp",
+        "islandtp",
+        "cragfieldtp",
+        "kooshzonetp",
+        "lostrivertp",
+        "mushroomforesttp"
     };
 
     public struct TeleportData

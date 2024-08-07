@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using PrototypeSubMod.Teleporter;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -8,6 +9,9 @@ namespace PrototypeSubMod.Patches;
 [HarmonyPatch(typeof(PrecursorTeleporter))]
 internal class PrecursorTeleporterPatches
 {
+    private static string lastTeleporterID;
+    private static bool lastTeleporterWasProtoSub;
+
     [HarmonyPatch(nameof(PrecursorTeleporter.Start)), HarmonyTranspiler]
     private static IEnumerable<CodeInstruction> Start_Transpiler(IEnumerable<CodeInstruction> instructions)
     {
@@ -26,6 +30,30 @@ internal class PrecursorTeleporterPatches
             .InsertAndAdvance(new CodeInstruction(OpCodes.Brfalse_S, label));
 
         return matcher.InstructionEnumeration();
+    }
+
+    [HarmonyPatch(nameof(PrecursorTeleporter.SetWarpPosition)), HarmonyPostfix]
+    private static void SetWarpPosition_Postfix(PrecursorTeleporter __instance)
+    {
+        lastTeleporterID = __instance.teleporterIdentifier;
+        lastTeleporterWasProtoSub = __instance.TryGetComponent(out TeleporterPositionSetter positionSetter);
+
+        if (lastTeleporterWasProtoSub)
+        {
+            lastTeleporterID = positionSetter.GetTeleporterID();
+        }
+    }
+    
+    [HarmonyPatch(nameof(PrecursorTeleporter.TeleportationComplete)), HarmonyPostfix]
+    private static void TeleportationComplete_Postfix(PrecursorTeleporter __instance)
+    {
+        if (!lastTeleporterWasProtoSub) return;
+
+        if(TeleporterPositionHandler.OutOfWaterTeleporters.Contains(lastTeleporterID))
+        {
+            Player.main.SetPrecursorOutOfWater(true);
+            Plugin.Logger.LogInfo($"Setting out of water true");
+        }
     }
 
     public static bool HasValuesInitialized(PrecursorTeleporter instance)
