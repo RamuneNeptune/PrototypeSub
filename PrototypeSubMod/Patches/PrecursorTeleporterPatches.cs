@@ -43,17 +43,24 @@ internal class PrecursorTeleporterPatches
             lastTeleporterID = positionSetter.GetTeleporterID();
         }
     }
-    
+
     [HarmonyPatch(nameof(PrecursorTeleporter.TeleportationComplete)), HarmonyPostfix]
     private static void TeleportationComplete_Postfix(PrecursorTeleporter __instance)
     {
         if (!lastTeleporterWasProtoSub) return;
 
-        if(TeleporterPositionHandler.OutOfWaterTeleporters.Contains(lastTeleporterID))
+        if (TeleporterPositionHandler.OutOfWaterTeleporters.Contains(lastTeleporterID))
         {
             Player.main.SetPrecursorOutOfWater(true);
-            Plugin.Logger.LogInfo($"Setting out of water true");
         }
+    }
+
+    [HarmonyPatch(nameof(PrecursorTeleporter.Start)), HarmonyPostfix]
+    private static void Start_Postfix(PrecursorTeleporter __instance)
+    {
+        if (__instance.TryGetComponent(out TeleporterPositionSetter _)) return;
+
+        var tpOverride = __instance.gameObject.EnsureComponent<TeleporterOverride>();
     }
 
     public static bool HasValuesInitialized(PrecursorTeleporter instance)

@@ -5,7 +5,7 @@ namespace PrototypeSubMod.Teleporter;
 
 internal static class TeleporterPositionHandler
 {
-    public static Dictionary<string, TeleportData> TeleporterPositions = new()
+    public static readonly Dictionary<string, TeleportData> TeleporterPositions = new()
     {
         { "guntpM", new(new Vector3(-27f, -1210.5f, 112.5f), 270f) },
         { "guntpS", new(new Vector3(377f, -91.5f, 1141f), 109.7f) },
@@ -29,7 +29,7 @@ internal static class TeleporterPositionHandler
         { "mushroomforesttpS", new(new Vector3(-747.22f, -241.81f, 437.13f), -104.692f) },
     };
 
-    public static List<string> OutOfWaterTeleporters = new()
+    public static readonly List<string> OutOfWaterTeleporters = new()
     {
         "guntp",
         "islandtp",
