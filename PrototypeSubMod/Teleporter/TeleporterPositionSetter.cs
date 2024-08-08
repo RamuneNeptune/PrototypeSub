@@ -10,7 +10,7 @@ internal class TeleporterPositionSetter : MonoBehaviour
     [SerializeField] private SubRoot subRoot;
     [SerializeField] private Transform teleportPosition;
     [SerializeField] private string teleporterID;
-    [SerializeField] private bool isMaster;
+    [SerializeField] private bool isHost;
 
     private void Awake()
     {
@@ -36,7 +36,7 @@ internal class TeleporterPositionSetter : MonoBehaviour
     // Called by PrecursorTeleporterCollider.OnTriggerEnter via SendMessageUpwards
     public void BeginTeleportPlayer(GameObject _)
     {
-        string alteredID = teleporterID + (isMaster ? "M" : "S");
+        string alteredID = teleporterID + (isHost ? "M" : "S");
         var positionData = TeleporterPositionHandler.TeleporterPositions[alteredID];
         teleporter.warpToPos = positionData.teleportPosition;
         teleporter.warpToAngle = positionData.teleportAngle;
@@ -44,6 +44,16 @@ internal class TeleporterPositionSetter : MonoBehaviour
         TeleporterOverride.SetOverrideTeleporterID(alteredID);
         TeleporterOverride.SetOverrideTime(120f);
         TeleporterOverride.OnTeleportStarted();
+    }
+
+    public void SetTeleporterID(string id)
+    {
+        teleporterID = id;
+    }
+
+    public void SetTeleporterIsHost(bool isHost)
+    {
+        this.isHost = isHost;
     }
 
     private void OnTeleportEnd()

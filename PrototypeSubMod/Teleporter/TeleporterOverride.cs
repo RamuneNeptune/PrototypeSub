@@ -105,7 +105,7 @@ internal class TeleporterOverride : MonoBehaviour
 
         if(overrideTimeLastFrame > 30f && currentOverrideTime <= 30f)
         {
-            ErrorMessage.AddError("WARNING: Portal override will remain stable for 30 more seconds.");
+            ErrorMessage.AddError("WARNING: Archway override will remain stable for 30 more seconds.");
         }
 
         overrideTimeLastFrame = currentOverrideTime;
