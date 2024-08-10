@@ -11,9 +11,6 @@ internal class PrototypeSaveData : ModuleDataClass
     //Key: Equipment slot | Value: Item ID stored in key's slot
     public Dictionary<string, string> serializedPowerEquipment = new();
 
-    //Key: Prefab identifier ID | Value: Normalized battery charge
-    public Dictionary<string, float> normalizedBatteryCharges = new();
-
     public struct PowerSourceData
     {
         public bool defaultBatteryCreated;

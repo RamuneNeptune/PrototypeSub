@@ -4,6 +4,7 @@ using HarmonyLib;
 using Nautilus.Handlers;
 using PrototypeSubMod.PowerSystem;
 using PrototypeSubMod.Prefabs;
+using PrototypeSubMod.SaveData;
 using System.Collections;
 using System.IO;
 using System.Reflection;
@@ -29,6 +30,8 @@ namespace PrototypeSubMod
         public static AssetBundle AssetBundle { get; } = AssetBundle.LoadFromFile(Path.Combine(AssetsFolderPath, "prototypeassets"));
 
         public static EquipmentType PrototypePowerType { get; } = EnumHandler.AddEntry<EquipmentType>("PrototypePowerType");
+
+        internal static BatterySaveData BatterySaveData = SaveDataHandler.RegisterSaveDataCache<BatterySaveData>();
 
         private static bool Initialized;
 

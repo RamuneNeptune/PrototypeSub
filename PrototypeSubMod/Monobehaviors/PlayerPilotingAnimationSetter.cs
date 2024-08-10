@@ -7,32 +7,19 @@ internal class PlayerPilotingAnimationSetter : MonoBehaviour
     [SerializeField] private PilotingChair chair;
     [SerializeField] private string parameterName;
 
-    private bool handDownRecently;
-    private bool startedPiloting;
+    private Player playerLastFrame;
 
-    public void OnAnimationStarted()
+    private void Update()
     {
-        bool value = handDownRecently;
-
-        Plugin.Logger.LogInfo($"Setting param to {value}");
-        Player.main.playerAnimator.SetBool(parameterName, value);
-
-        startedPiloting = true;
-    }
-
-    public void OnAnimationEnded()
-    {
-        if (startedPiloting)
+        if(chair.currentPlayer != playerLastFrame)
         {
-            startedPiloting = false;
-            Plugin.Logger.LogInfo($"Started piloting = true. Returning");
-            return;
+            Player.main.playerAnimator.SetBool(parameterName, chair.currentPlayer != null);
         }
 
-        Plugin.Logger.LogInfo($"Setting param false");
-        Player.main.playerAnimator.SetBool(parameterName, false);
+        playerLastFrame = chair.currentPlayer;
     }
 
+    /*
     //Called by CinematicModeTriggerBase via SendMessage
     public void HandDown()
     {
@@ -45,4 +32,5 @@ internal class PlayerPilotingAnimationSetter : MonoBehaviour
     {
         handDownRecently = false;
     }
+    */
 }

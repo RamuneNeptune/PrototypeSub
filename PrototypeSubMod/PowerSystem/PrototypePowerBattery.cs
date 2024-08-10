@@ -1,11 +1,12 @@
-﻿using PrototypeSubMod.SaveData;
+﻿using Nautilus.Json;
+using PrototypeSubMod.SaveData;
 using SubLibrary.SaveData;
 using System.Linq;
 using UnityEngine;
 
 namespace PrototypeSubMod.PowerSystem;
 
-internal class PrototypePowerBattery : MonoBehaviour, IBattery, ISaveDataListener, ILateSaveDataListener
+internal class PrototypePowerBattery : MonoBehaviour, IBattery, IProtoTreeEventListener
 {
     public float charge
     {
@@ -59,7 +60,6 @@ internal class PrototypePowerBattery : MonoBehaviour, IBattery, ISaveDataListene
     private float lastBatteryCharge;
     private Pickupable pickupable;
     private PrefabIdentifier prefabIdentifier;
-    private PrototypeSaveData protoSaveData;
 
     private float _charge;
     private float _capacity;
@@ -143,24 +143,11 @@ internal class PrototypePowerBattery : MonoBehaviour, IBattery, ISaveDataListene
         return Language.main.GetFormat("BatteryCharge", num, Mathf.RoundToInt(charge), capacity);
     }
 
-    public void OnLateSaveDataLoaded(BaseSubDataClass saveData)
+    public void OnBeforeDataSaved(object sender, JsonFileEventArgs args)
     {
-        Initialize();
-
-        protoSaveData = saveData.EnsureAsPrototypeData();
-        if (protoSaveData.normalizedBatteryCharges.TryGetValue(prefabIdentifier.Id, out float normalizedCharge))
-        {
-            charge = capacity * normalizedCharge;
-        }
-    }
-
-    public void OnSaveDataLoaded(BaseSubDataClass saveData) { }
-
-    public void OnBeforeDataSaved(ref BaseSubDataClass saveData)
-    {
-        var data = saveData.EnsureAsPrototypeData();
         if (connectedBattery != null) return;
 
+        var data = Plugin.BatterySaveData;
         if (!data.normalizedBatteryCharges.ContainsKey(prefabIdentifier.Id))
         {
             data.normalizedBatteryCharges.Add(prefabIdentifier.Id, charge / capacity);
@@ -171,13 +158,20 @@ internal class PrototypePowerBattery : MonoBehaviour, IBattery, ISaveDataListene
         }
     }
 
+    private void OnEnable() => Plugin.BatterySaveData.OnStartedSaving += OnBeforeDataSaved;
+    private void OnDisable() => Plugin.BatterySaveData.OnStartedSaving -= OnBeforeDataSaved;
+
     private void OnDestroy()
     {
-        Initialize(); //Make sure the prefab identifier is set if for some reason nothing else is called
+        Plugin.BatterySaveData.normalizedBatteryCharges.Remove(prefabIdentifier.Id);
+    }
 
-        if (protoSaveData == null) return;
-
-        Plugin.Logger.LogInfo($"Batt = {gameObject} | Save data = {protoSaveData} | Identifier = {prefabIdentifier} | Charges = {protoSaveData?.normalizedBatteryCharges}");
-        protoSaveData.normalizedBatteryCharges.Remove(prefabIdentifier.Id);
+    public void OnProtoSerializeObjectTree(ProtobufSerializer serializer) { }
+    public void OnProtoDeserializeObjectTree(ProtobufSerializer serializer)
+    {
+        if (Plugin.BatterySaveData.normalizedBatteryCharges.TryGetValue(prefabIdentifier.Id, out float normalizedCharge))
+        {
+            charge = capacity * normalizedCharge;
+        }
     }
 }
