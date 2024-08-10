@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using System.IO;
+using UnityEditor;
 using UnityEngine;
 
 public class CreateFMODAsset
@@ -8,10 +9,16 @@ public class CreateFMODAsset
     {
         FMODAsset asset = ScriptableObject.CreateInstance<FMODAsset>();
 
-        AssetDatabase.CreateAsset(asset, "Assets/NewFMODAsset.asset");
-        AssetDatabase.SaveAssets();
+        var obj = Selection.activeObject;
+        string path = obj ? AssetDatabase.GetAssetPath(obj) : "Assets";
 
-        EditorUtility.FocusProjectWindow();
+        if(path.Contains("."))
+        {
+            path = $"Assets/{Directory.GetParent(path).Name}";
+        }
+
+        AssetDatabase.CreateAsset(asset, $"{path}/CustomFMODAsset.asset");
+        AssetDatabase.SaveAssets();
 
         Selection.activeObject = asset;
     }
