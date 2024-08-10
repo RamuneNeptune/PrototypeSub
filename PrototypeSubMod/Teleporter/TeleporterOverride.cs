@@ -57,20 +57,20 @@ internal class TeleporterOverride : MonoBehaviour
 
         if (teleporterID != FullOverrideTeleporterID) return;
 
-        float timeLeft = (TimeWhenPortalUnloaded - Time.time) + TimeLeftWhenUnloaded;
+        float timeLeft = TimeWhenPortalUnloaded - Time.time + TimeLeftWhenUnloaded;
         if (QueuedResetOverrideTime)
         {
             currentOverrideTime = OverrideTime;
             QueuedResetOverrideTime = false;
         }
-        else if(timeLeft > 0)
+        else if (timeLeft > 0)
         {
             currentOverrideTime = timeLeft;
         }
 
         overrideActive = true;
-        
-        if(TeleporterManager.GetTeleporterActive(teleporterID))
+
+        if (TeleporterManager.GetTeleporterActive(teleporterID))
         {
             TryRetrieveFxMaterial();
         }
@@ -103,7 +103,7 @@ internal class TeleporterOverride : MonoBehaviour
             ErrorMessage.AddError("WARNING: Link to Prototype sub collapsed. Normal portal functions resumed.");
         }
 
-        if(overrideTimeLastFrame > 30f && currentOverrideTime <= 30f)
+        if (overrideTimeLastFrame > 30f && currentOverrideTime <= 30f)
         {
             ErrorMessage.AddError("WARNING: Archway override will remain stable for 30 more seconds.");
         }
@@ -137,7 +137,7 @@ internal class TeleporterOverride : MonoBehaviour
 
     public void BeginTeleportPlayer(GameObject _)
     {
-        if(overrideActive)
+        if (overrideActive)
         {
             QueuedTeleportedBackToSub = true;
             Player.main.SetPrecursorOutOfWater(false);
@@ -152,7 +152,7 @@ internal class TeleporterOverride : MonoBehaviour
 
     private void OnDestroy()
     {
-        if(overrideActive)
+        if (overrideActive)
         {
             TimeWhenPortalUnloaded = Time.time;
             TimeLeftWhenUnloaded = currentOverrideTime;

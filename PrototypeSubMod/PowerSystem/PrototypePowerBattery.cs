@@ -1,6 +1,4 @@
 ﻿using Nautilus.Json;
-using PrototypeSubMod.SaveData;
-using SubLibrary.SaveData;
 using System.Linq;
 using UnityEngine;
 
@@ -169,6 +167,8 @@ internal class PrototypePowerBattery : MonoBehaviour, IBattery, IProtoTreeEventL
     public void OnProtoSerializeObjectTree(ProtobufSerializer serializer) { }
     public void OnProtoDeserializeObjectTree(ProtobufSerializer serializer)
     {
+        Initialize();
+
         if (Plugin.BatterySaveData.normalizedBatteryCharges.TryGetValue(prefabIdentifier.Id, out float normalizedCharge))
         {
             charge = capacity * normalizedCharge;

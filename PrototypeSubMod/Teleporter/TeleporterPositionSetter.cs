@@ -14,7 +14,7 @@ internal class TeleporterPositionSetter : MonoBehaviour
 
     private void Awake()
     {
-        if(Instance != null)
+        if (Instance != null)
         {
             Destroy(this);
             return;

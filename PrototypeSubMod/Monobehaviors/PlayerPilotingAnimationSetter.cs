@@ -17,7 +17,7 @@ internal class PlayerPilotingAnimationSetter : MonoBehaviour
 
     private void Update()
     {
-        if(chair.currentPlayer != playerLastFrame)
+        if (chair.currentPlayer != playerLastFrame)
         {
             Player.main.playerAnimator.SetBool(parameterName, chair.currentPlayer != null);
         }
