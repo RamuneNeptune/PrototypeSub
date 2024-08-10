@@ -8,6 +8,12 @@ internal class PlayerPilotingAnimationSetter : MonoBehaviour
     [SerializeField] private string parameterName;
 
     private Player playerLastFrame;
+    private bool handDownRecently;
+
+    public void OnAnimationStart(CinematicModeEventData eventData)
+    {
+        Player.main.playerAnimator.SetBool(parameterName, handDownRecently);
+    }
 
     private void Update()
     {
@@ -19,7 +25,6 @@ internal class PlayerPilotingAnimationSetter : MonoBehaviour
         playerLastFrame = chair.currentPlayer;
     }
 
-    /*
     //Called by CinematicModeTriggerBase via SendMessage
     public void HandDown()
     {
@@ -32,5 +37,4 @@ internal class PlayerPilotingAnimationSetter : MonoBehaviour
     {
         handDownRecently = false;
     }
-    */
 }
