@@ -14,11 +14,12 @@ namespace PrototypeSubMod
 {
     [BepInPlugin(GUID, pluginName, versionString)]
     [BepInDependency("com.snmodding.nautilus")]
+    [BepInDependency("com.indigocoder.sublibrary")]
     public class Plugin : BaseUnityPlugin
     {
         private const string GUID = "com.teamproto.prototypesub";
         private const string pluginName = "Prototype Sub";
-        private const string versionString = "0.0.1";
+        private const string versionString = "0.0.2";
 
         public new static ManualLogSource Logger { get; private set; }
 
