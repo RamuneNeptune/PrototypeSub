@@ -37,8 +37,6 @@ internal class Proximity3dViewer : MonoBehaviour
         Vector3 center = GetAveragePositions(targets);
         Vector3 dirToTarget = (rotationTarget.position - objToRotate.position).normalized;
 
-        //Plugin.Logger.LogInfo($"Center = {center} | Dir to target = {dirToTarget}");
-
         Quaternion targetRotation = Quaternion.FromToRotation((center - objToRotate.position).normalized, dirToTarget) * objToRotate.rotation;
 
         Debug.DrawLine(objToRotate.position, center, Color.red);
