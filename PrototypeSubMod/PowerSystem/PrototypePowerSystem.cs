@@ -30,6 +30,8 @@ internal class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTr
     [SerializeField] private SubSerializationManager serializationManager;
     [SerializeField] private ChildObjectIdentifier storageRoot;
     [SerializeField] private PrototypePowerSource[] batterySources;
+    [SerializeField] private FMODAsset equipBatterySound;
+    [SerializeField] private FMODAsset unequipBatterySound;
 
     private void Awake()
     {
@@ -76,6 +78,8 @@ internal class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTr
         }
 
         batterySource.SetBattery(battery);
+
+        FMODUWE.PlayOneShot(equipBatterySound, transform.position, 2f);
     }
 
     private void OnUnequip(string slot, InventoryItem item)
@@ -84,6 +88,8 @@ internal class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTr
 
         var batterySource = batterySources[index];
         batterySource.SetBattery(null);
+
+        FMODUWE.PlayOneShot(unequipBatterySound, transform.position, 2f);
     }
 
     public void OnHover(HandTargetEventData eventData)
