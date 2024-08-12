@@ -45,7 +45,9 @@ namespace PrototypeSubMod
 
             LanguageHandler.RegisterLocalizationFolder();
 
+            RegisterEncyEntries();
             RegisterPrefabs();
+            RegisterStoryGoals();
             InitializeSlotMapping();
 
             // Register harmony patches, if there are any
@@ -83,8 +85,30 @@ namespace PrototypeSubMod
 
         private void RegisterPrefabs()
         {
+            PrecursorIngot_Craftable.Register();
             Prototype_Craftable.Register();
             ProtoBuildTerminal_World.Register();
+        }
+
+        private void RegisterEncyEntries()
+        {
+            LanguageHandler.SetLanguageLine("DownloadedData/Precursor/Scan", "PrecursorIngotEncyLine");
+
+            string title = Language.main.Get("PrecursorIngotEncyTitle");
+            string description = Language.main.Get("PrecursorIngotEncyBody");
+
+            PDAHandler.AddEncyclopediaEntry("PrecursorIngot", "DownloadedData/Precursor/Scan", title, description, unlockSound: PDAHandler.UnlockBasic);
+        }
+
+        private void RegisterStoryGoals()
+        {
+            StoryGoalHandler.RegisterCompoundGoal("Ency_PrecursorIngot", Story.GoalType.Encyclopedia, 12f, "Goal_BiomePrecursorGunUpper");
+
+            StoryGoalHandler.RegisterCustomEvent("Ency_PrecursorIngot", () =>
+            {
+                KnownTech.Add(PrecursorIngot_Craftable.prefabInfo.TechType);
+                PDAEncyclopedia.Add("PrecursorIngot", true);
+            });
         }
     }
 }
