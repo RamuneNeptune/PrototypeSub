@@ -44,11 +44,6 @@ internal class PrototypePowerSource : MonoBehaviour, IPowerInterface, ISaveDataL
             if (value == _electronicsDisabled) return;
 
             _electronicsDisabled = value;
-            if (battery != null && battery.charge > 0)
-            {
-                NotifyPowered(_electronicsDisabled);
-                PlayPowerSound(_electronicsDisabled);
-            }
         }
     }
 
@@ -124,32 +119,11 @@ internal class PrototypePowerSource : MonoBehaviour, IPowerInterface, ISaveDataL
             battery.ModifyCharge(chargeChange);
         }
 
-        if (oldCharge == 0f && Charge > 0f)
-        {
-            NotifyPowered(true);
-            PlayPowerSound(true);
-        }
-        else if (oldCharge > 0f && Charge == 0f)
-        {
-            NotifyPowered(false);
-            PlayPowerSound(false);
-        }
-
         modified = chargeChange;
 
         //Tbh I have know idea why this is needed. It returns whether the delta would have exceeded the limits of the source,
         //but it's clamped anyway. Idk.
         return amount >= 0f ? amount <= Capacity - Charge : Charge > -amount;
-    }
-
-    private void NotifyPowered(bool powered)
-    {
-        Plugin.Logger.LogError($"Notify powered not yet implemented!");
-    }
-
-    private void PlayPowerSound(bool powered)
-    {
-        Plugin.Logger.LogError($"Play power sound not yet implemented!");
     }
 
     #endregion
