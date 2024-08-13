@@ -45,9 +45,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shader: {fileID: 4800000, guid: f251235b3bff35847a134bb3eac9cade, type: 3}
-  sphere: {fileID: 2508205754009765021}
-  falloffMultiplier: 1
-  color: {r: 0.4509804, g: 0.4509804, b: 0.4509804, a: 1}
+  ovoid: {fileID: 2508205754009765021}
+  color: {r: 0.34901962, g: 0.34901962, b: 0.34901962, a: 1}
+  distortionColor: {r: 0.7529412, g: 0.7529412, b: 0.7529412, a: 0}
+  falloffMultiplier: 1.65
+  distortionBoundaryMin: 0.49
+  distortionBoundaryMax: 0.55
+  distortionBoundaryOffset: 0.68
+  distortionAmplitude: 3.18
+  scaleSpeed: 45
 --- !u!1 &34281078069178150
 GameObject:
   m_ObjectHideFlags: 0
@@ -7656,10 +7662,10 @@ GameObject:
   - component: {fileID: 2508205754009765021}
   - component: {fileID: 7289081737369406548}
   - component: {fileID: 6617268301964187326}
-  - component: {fileID: 6891577269043165391}
   - component: {fileID: 295838399248070005}
+  - component: {fileID: 1768170054275729420}
   m_Layer: 0
-  m_Name: Sphere
+  m_Name: Ovoid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7674,7 +7680,7 @@ Transform:
   m_GameObject: {fileID: 1350243195447172847}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 7.3, z: -0.6}
-  m_LocalScale: {x: 43.65106, y: 43.65106, z: 43.65106}
+  m_LocalScale: {x: 29.104202, y: 29.104202, z: 49.008568}
   m_Children: []
   m_Father: {fileID: 2505169008475591987}
   m_RootOrder: 0
@@ -7726,19 +7732,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!135 &6891577269043165391
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1350243195447172847}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &295838399248070005
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7751,6 +7744,20 @@ MonoBehaviour:
   m_Script: {fileID: 113392587, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!136 &1768170054275729420
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1350243195447172847}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 1
+  m_Height: 2
+  m_Direction: 2
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1356010161003608684
 GameObject:
   m_ObjectHideFlags: 0

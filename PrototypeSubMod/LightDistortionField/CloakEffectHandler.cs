@@ -6,13 +6,22 @@ internal class CloakEffectHandler : MonoBehaviour
 {
     public static CloakEffectHandler Instance { get; private set; }
 
-    [SerializeField] private Shader shader;
-    [SerializeField] private Transform sphere;
-    [SerializeField] private float falloffMultiplier;
-    [SerializeField] private Color color;
-    [SerializeField] private float scaleSpeed;
+    [Header("Shader Parameters")]
+    public Shader shader;
+    public Transform ovoid;
+    public Color color;
+    public Color distortionColor;
+    public float falloffMultiplier;
+    public float distortionBoundaryMin;
+    public float distortionBoundaryMax;
+    public float distortionBoundaryOffset;
+    public float distortionAmplitude;
 
-    private float targetScale;
+    [Header("Animation")]
+    public float scaleSpeed;
+
+    private float targetScaleMultiplier;
+    private Vector3 originalScale;
 
     private void Awake()
     {
@@ -25,14 +34,13 @@ internal class CloakEffectHandler : MonoBehaviour
         Instance = this;
     }
 
-    private void Update()
+    private void Start()
     {
-        float scale = Mathf.Lerp(sphere.localScale.x, targetScale, Time.deltaTime * scaleSpeed);
-        sphere.localScale = Vector3.one * scale;
+        originalScale = ovoid.localScale;
     }
 
-    public Shader GetShader() => shader;
-    public Transform GetSphere() => sphere;
-    public float GetFalloffMultiplier() => falloffMultiplier;
-    public Color GetEffectColor() => color;
+    private void Update()
+    {
+        ovoid.localScale = Vector3.MoveTowards(ovoid.localScale, originalScale * targetScaleMultiplier, Time.deltaTime * scaleSpeed);
+    }
 }

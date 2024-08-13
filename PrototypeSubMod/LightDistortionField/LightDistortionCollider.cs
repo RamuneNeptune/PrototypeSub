@@ -9,7 +9,7 @@ internal class LightDistortionCollider : MonoBehaviour
 
     private void OnTriggerEnter(Collider col)
     {
-        if (UWE.Utils.GetRootRigidbody(col.gameObject) == Player.main.rigidBody)
+        if (col.GetComponentInParent<Player>() != null)
         {
             PlayerInField = true;
         }
@@ -17,7 +17,7 @@ internal class LightDistortionCollider : MonoBehaviour
 
     private void OnTriggerExit(Collider col)
     {
-        if (UWE.Utils.GetRootRigidbody(col.gameObject) == Player.main.rigidBody)
+        if (col.GetComponentInParent<Player>() != null)
         {
             PlayerInField = false;
         }
