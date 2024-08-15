@@ -22,15 +22,28 @@
             sampler2D _MainTex; //<-- Set by the Graphics.Blit; Contains the scene as a render texture
             sampler2D _CameraDepthTexture;
 
+            //Ovoid bounds
             float3 _OvoidCenter;
             float3 _OvoidRadii;
+
+            //Colors
             fixed4 _Color;
             fixed4 _DistortionColor;
+            fixed4 _InteriorColor;
+            fixed4 _VignetteColor;
+
+            //Distortion
             float _DistortionAmplitude;
             float _Multiplier;
             float _EffectBoundaryMax;
             float _EffectBoundaryMin;
             float _BoundaryOffset;
+
+            //Vignette
+            float _VignetteIntensity;
+            float _VignetteSmoothness;
+            float _VignetteOffset;
+            float _VignetteFadeInDist;
 
             float4x4 _InverseRotationMatrix;
 
@@ -159,8 +172,30 @@
                 }
                 else
                 {
-                    fixed4 newCol = fixed4(_Color.rgb * normalizedDist, _Color.a);
-                    return fixed4((col.rgb * newCol.rgb), col.a);
+                    //Vignette UV
+                    float2 screenUV = i.uv - fixed2(0.5, 0.5);
+                    float dist = length(screenUV) + _VignetteOffset;
+
+                    //Dist to surface
+                    float normalizedDistToSurf = clamp(distToSphere, 0, _VignetteFadeInDist) / _VignetteFadeInDist;
+
+                    //Vignette values
+                    float vignette = smoothstep(0.5, 0.5 - _VignetteSmoothness, dist);
+                    float fadeFactor = 1 - smoothstep(0, 1, normalizedDistToSurf);
+                    float vignetteVal = lerp(1, vignette, _VignetteIntensity * fadeFactor);
+
+                    //Interior color
+                    fixed4 mulColor = lerp(_InteriorColor, _Color, normalizedDistToSurf);
+                    fixed4 newCol = fixed4(mulColor.rgb * normalizedDist, _Color.a);                    
+                    fixed4 nonVignetteCol = fixed4((col.rgb * newCol.rgb), col.a);
+
+                    //Vignette color
+                    fixed4 vignetteCol = fixed4(_VignetteColor.rgb, nonVignetteCol.a);
+
+                    //Vignette color lerp
+                    fixed4 finalColor = lerp(vignetteCol * nonVignetteCol, nonVignetteCol, vignetteVal);
+
+                    return finalColor;
                 }
             }
             ENDCG

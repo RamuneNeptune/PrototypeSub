@@ -7,15 +7,28 @@ internal class CloakEffectHandler : MonoBehaviour
     public static CloakEffectHandler Instance { get; private set; }
 
     [Header("Shader Parameters")]
+    public bool effectEnabled;
     public Shader shader;
     public Transform ovoid;
+
+    [Header("Colors")]
     public Color color;
     public Color distortionColor;
+    public Color interiorColor;
+    public Color vignetteColor;
+
+    [Header("Distortion")]
     public float falloffMultiplier;
     public float distortionBoundaryMin;
     public float distortionBoundaryMax;
     public float distortionBoundaryOffset;
     public float distortionAmplitude;
+
+    [Header("Vignette")]
+    public float vignetteIntensity;
+    public float vignetteSmoothness;
+    public float vignetteOffset;
+    public float vignetteFadeInDist;
 
     [Header("Animation")]
     public float scaleSpeed;

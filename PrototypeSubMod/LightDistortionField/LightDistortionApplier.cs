@@ -10,18 +10,26 @@ internal class LightDistortionApplier : MonoBehaviour
     {
         if (CloakEffectHandler.Instance == null) return;
 
+        if (!CloakEffectHandler.Instance.effectEnabled) return;
+
         if (!material) material = new Material(CloakEffectHandler.Instance.shader);
 
         Transform sphere = CloakEffectHandler.Instance.ovoid;
-        material.SetVector("_OvoidCenter", sphere.position);
-        material.SetVector("_OvoidRadii", sphere.localScale);
-        material.SetFloat("_Multiplier", CloakEffectHandler.Instance.falloffMultiplier);
         material.SetColor("_Color", CloakEffectHandler.Instance.color);
         material.SetColor("_DistortionColor", CloakEffectHandler.Instance.distortionColor);
+        material.SetColor("_InteriorColor", CloakEffectHandler.Instance.interiorColor);
+        material.SetColor("_VignetteColor", CloakEffectHandler.Instance.vignetteColor);
+        material.SetVector("_OvoidCenter", sphere.position);
+        material.SetVector("_OvoidRadii", sphere.localScale);
+        material.SetFloat("_Multiplier", CloakEffectHandler.Instance.falloffMultiplier); 
         material.SetFloat("_EffectBoundaryMin", CloakEffectHandler.Instance.distortionBoundaryMin);
         material.SetFloat("_EffectBoundaryMax", CloakEffectHandler.Instance.distortionBoundaryMax);
         material.SetFloat("_DistortionAmplitude", CloakEffectHandler.Instance.distortionAmplitude);
         material.SetFloat("_BoundaryOffset", CloakEffectHandler.Instance.distortionBoundaryOffset);
+        material.SetFloat("_VignetteIntensity", CloakEffectHandler.Instance.vignetteIntensity);
+        material.SetFloat("_VignetteSmoothness", CloakEffectHandler.Instance.vignetteSmoothness);
+        material.SetFloat("_VignetteOffset", CloakEffectHandler.Instance.vignetteOffset);
+        material.SetFloat("_VignetteFadeInDist", CloakEffectHandler.Instance.vignetteFadeInDist);
 
         Matrix4x4 rotationMatrix = Matrix4x4.Rotate(sphere.rotation);
         material.SetMatrix("_InverseRotationMatrix", rotationMatrix);
