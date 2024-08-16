@@ -3,6 +3,7 @@
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
+        _IsInsideOvoid ("Inside Ovoid", Float) = 0
     }
     SubShader
     {
@@ -46,6 +47,9 @@
             float _VignetteFadeInDist;
 
             float4x4 _InverseRotationMatrix;
+
+            //Output variables
+            float _IsInsideOvoid;
 
             struct appdata
             {
@@ -127,6 +131,15 @@
 
                 bool hitFromOutside = distToSphere >= 0 && distInsideSphere > 0;
                 bool hitFromInside = distToSphere < 0 && distInsideSphere > 0;   
+
+                if(hitFromInside && !hitFromOutside)
+                {
+                    _IsInsideOvoid = 1;
+                }
+                else if(hitFromOutside)
+                {
+                    _IsInsideOvoid = 0;
+                }
 
                 bool hitBounds = ((hitFromOutside || hitFromInside) && distToSphere < depth);
                 if(!hitBounds)

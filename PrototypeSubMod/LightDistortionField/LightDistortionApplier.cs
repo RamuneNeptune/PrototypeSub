@@ -4,7 +4,9 @@ namespace PrototypeSubMod.LightDistortionField;
 
 internal class LightDistortionApplier : MonoBehaviour
 {
-    private Material material;
+    private static Material material;
+
+    private static float insideLastFrame;
 
     private void OnRenderImage(RenderTexture source, RenderTexture destination)
     {
@@ -14,6 +16,9 @@ internal class LightDistortionApplier : MonoBehaviour
 
         if (!material) material = new Material(CloakEffectHandler.Instance.shader);
 
+        insideLastFrame = material.GetFloat("_IsInsideOvoid");
+        //material.SetFloat("_IsInsideOvoid", 0);
+
         Transform sphere = CloakEffectHandler.Instance.ovoid;
         material.SetColor("_Color", CloakEffectHandler.Instance.color);
         material.SetColor("_DistortionColor", CloakEffectHandler.Instance.distortionColor);
@@ -21,7 +26,7 @@ internal class LightDistortionApplier : MonoBehaviour
         material.SetColor("_VignetteColor", CloakEffectHandler.Instance.vignetteColor);
         material.SetVector("_OvoidCenter", sphere.position);
         material.SetVector("_OvoidRadii", sphere.localScale);
-        material.SetFloat("_Multiplier", CloakEffectHandler.Instance.falloffMultiplier); 
+        material.SetFloat("_Multiplier", CloakEffectHandler.Instance.falloffMultiplier);
         material.SetFloat("_EffectBoundaryMin", CloakEffectHandler.Instance.distortionBoundaryMin);
         material.SetFloat("_EffectBoundaryMax", CloakEffectHandler.Instance.distortionBoundaryMax);
         material.SetFloat("_DistortionAmplitude", CloakEffectHandler.Instance.distortionAmplitude);
@@ -35,5 +40,10 @@ internal class LightDistortionApplier : MonoBehaviour
         material.SetMatrix("_InverseRotationMatrix", rotationMatrix);
 
         Graphics.Blit(source, destination, material);
+    }
+
+    public static bool GetInsideOvoid()
+    {
+        return material.GetFloat("_IsInsideOvoid") == 1 || insideLastFrame == 1;
     }
 }
