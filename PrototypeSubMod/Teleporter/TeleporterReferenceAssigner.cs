@@ -26,9 +26,10 @@ internal class TeleporterReferenceAssigner : MonoBehaviour
 
         var precursorTp = prefab.GetComponent<PrecursorTeleporter>();
         GameObject fxPrefab = precursorTp.portalFxPrefab;
+        fxPrefab = Instantiate(fxPrefab, new Vector3(0, 5000, 0), Quaternion.identity); // Hide it in the sky
+
         if (fxMesh != null)
-        {
-            fxPrefab = Instantiate(fxPrefab);
+        { 
             fxPrefab.GetComponentInChildren<MeshFilter>().mesh = fxMesh;
         }
 
