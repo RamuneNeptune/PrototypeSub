@@ -12,6 +12,8 @@ internal class ProtoTeleporterIDManager : MonoBehaviour
     [SerializeField] private Transform prefabSpawnParent;
     [SerializeField] private Animator animator;
 
+    private AnimatorStateInfo targetState;
+
     private void Start()
     {
         RefreshLocationList();
@@ -66,6 +68,9 @@ internal class ProtoTeleporterIDManager : MonoBehaviour
         if (!col.gameObject.Equals(Player.main.gameObject)) return;
 
         animator.SetBool("ScreenActive", true);
+        targetState = animator.GetNextAnimatorStateInfo(0);
+
+        StartCoroutine(UpdateText());
     }
 
     private void OnTriggerExit(Collider col)
@@ -73,5 +78,21 @@ internal class ProtoTeleporterIDManager : MonoBehaviour
         if (!col.gameObject.Equals(Player.main.gameObject)) return;
 
         animator.SetBool("ScreenActive", false);
+        targetState = animator.GetNextAnimatorStateInfo(0);
+
+        StartCoroutine(UpdateText());
+    }
+
+    private IEnumerator UpdateText()
+    {
+        while(!animator.GetCurrentAnimatorStateInfo(0).Equals(targetState))
+        {
+            foreach (var item in prefabSpawnParent.GetComponentsInChildren<TeleporterLocationItem>())
+            {
+                item.SetTextDirty();
+            }
+
+            yield return new WaitForSecondsRealtime(0.1f);
+        }
     }
 }

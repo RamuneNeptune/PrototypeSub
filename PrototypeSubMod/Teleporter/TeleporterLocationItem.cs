@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 
 namespace PrototypeSubMod.Teleporter;
@@ -12,15 +11,8 @@ internal class TeleporterLocationItem : MonoBehaviour
     private bool isHost;
     private ProtoTeleporterIDManager idManager;
 
-    private IEnumerator Start()
-    {
-        itemNameText.gameObject.SetActive(false);
-        yield return new WaitForEndOfFrame();
-        itemNameText.gameObject.SetActive(true);
-    }
-
     public void SetInfo(string id, bool isHost, ProtoTeleporterIDManager manager)
-    {
+    {  
         teleporterID = id;
         this.isHost = isHost;
         idManager = manager;
@@ -28,6 +20,11 @@ internal class TeleporterLocationItem : MonoBehaviour
         string endLetter = isHost ? "M" : "S";
         string languageKey = $"{id}{endLetter}_ProtoLabel";
         itemNameText.text = Language.main.Get(languageKey);
+    }
+
+    public void SetTextDirty()
+    {
+        itemNameText.SetAllDirty();
     }
 
     public void OnButtonClicked()
