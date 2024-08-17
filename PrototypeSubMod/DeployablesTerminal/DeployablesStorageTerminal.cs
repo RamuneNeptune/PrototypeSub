@@ -5,7 +5,7 @@ namespace PrototypeSubMod.DeployablesTerminal;
 
 internal class DeployablesStorageTerminal : MonoBehaviour
 {
-    public static string[] SLOT_NAMES = new[]
+    public static string[] SLOT_NAMES { get; } = new[]
     {
         "DeployableStorageSlot1",
         "DeployableStorageSlot2",
@@ -13,7 +13,7 @@ internal class DeployablesStorageTerminal : MonoBehaviour
         "DeployableStorageSlot4"
     };
 
-    public static Vector3[] SLOT_POSITIONS = new[]
+    public static Vector3[] SLOT_POSITIONS { get; } = new[]
     {
         new Vector3(-152, 102, 0),
         new Vector3(135, 102, 0),
@@ -21,13 +21,13 @@ internal class DeployablesStorageTerminal : MonoBehaviour
         new Vector3(135, -113, 0),
     };
 
-    private static List<string> LightBeaconSlots = new()
+    public static List<string> LightBeaconSlots { get; } = new()
     {
         "DeployableStorageSlot1",
         "DeployableStorageSlot3",
     };
 
-    private static List<string> CreatureDecoySlots = new()
+    public static List<string> CreatureDecoySlots { get; } = new()
     {
         "DeployableStorageSlot2",
         "DeployableStorageSlot4",
