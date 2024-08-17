@@ -24,12 +24,12 @@ internal class Proximity3dViewer : MonoBehaviour
 
     private void Update()
     {
-        if(!targets.Any(t => t.gameObject.activeSelf) && disableWhenNoPointsActive)
+        if (!targets.Any(t => t.gameObject.activeSelf) && disableWhenNoPointsActive)
         {
             objToRotate.gameObject.SetActive(false);
             return;
         }
-        else if(!objToRotate.gameObject.activeSelf)
+        else if (!objToRotate.gameObject.activeSelf)
         {
             objToRotate.gameObject.SetActive(true);
         }
@@ -58,7 +58,7 @@ internal class Proximity3dViewer : MonoBehaviour
             activeItems++;
         }
 
-        if(activeItems == 0)
+        if (activeItems == 0)
         {
             return Vector3.zero;
         }

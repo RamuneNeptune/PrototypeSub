@@ -39,7 +39,7 @@ internal class uGUI_EquipmentPatches
         if (slots.Length == 0) return null;
 
         uGUI_EquipmentSlot slot = CloneSlot(equipment, $"{copyTarget}1", slots[0]);
-        if(imageTarget != null)
+        if (imageTarget != null)
         {
             GameObject.Destroy(slot.transform.Find(imageTarget).GetComponent<Image>());
         }
@@ -52,7 +52,7 @@ internal class uGUI_EquipmentPatches
         for (int i = 1; i < slots.Length; i++)
         {
             var clonedSlot = CloneSlot(equipment, $"{copyTarget}{i + 1}", slots[i]);
-            if(slotPositions != null)
+            if (slotPositions != null)
             {
                 clonedSlot.transform.localPosition = slotPositions[i];
             }

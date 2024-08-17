@@ -29,7 +29,7 @@ internal class TeleporterReferenceAssigner : MonoBehaviour
         fxPrefab = Instantiate(fxPrefab, new Vector3(0, 5000, 0), Quaternion.identity); // Hide it in the sky
 
         if (fxMesh != null)
-        { 
+        {
             fxPrefab.GetComponentInChildren<MeshFilter>().mesh = fxMesh;
         }
 

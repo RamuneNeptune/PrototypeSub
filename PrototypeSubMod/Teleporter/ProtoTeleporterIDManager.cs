@@ -46,7 +46,7 @@ internal class ProtoTeleporterIDManager : MonoBehaviour
             if (item.ToLower().Contains("proto")) continue;
 
             var locationItemM = Instantiate(teleporterLocationPrefab, prefabSpawnParent).GetComponent<TeleporterLocationItem>();
-            locationItemM.SetInfo(item, true, this);  
+            locationItemM.SetInfo(item, true, this);
 
             var locationItemS = Instantiate(teleporterLocationPrefab, prefabSpawnParent).GetComponent<TeleporterLocationItem>();
             locationItemS.SetInfo(item, false, this);
@@ -85,7 +85,7 @@ internal class ProtoTeleporterIDManager : MonoBehaviour
 
     private IEnumerator UpdateText()
     {
-        while(!animator.GetCurrentAnimatorStateInfo(0).Equals(targetState))
+        while (!animator.GetCurrentAnimatorStateInfo(0).Equals(targetState))
         {
             foreach (var item in prefabSpawnParent.GetComponentsInChildren<TeleporterLocationItem>())
             {

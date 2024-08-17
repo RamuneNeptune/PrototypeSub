@@ -27,7 +27,7 @@ internal class PlayerPatches
     [HarmonyPatch(nameof(Player.CanEject)), HarmonyPostfix]
     private static void CanEject_Postfix(Player __instance, ref bool __result)
     {
-        if(__instance.teleportingLoopSound.playing || ProtoEmergencyWarp.isCharging)
+        if (__instance.teleportingLoopSound.playing || ProtoEmergencyWarp.isCharging)
         {
             __result = false;
         }

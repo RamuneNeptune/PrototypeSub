@@ -47,12 +47,12 @@ internal class ProtoEmergencyWarp : MonoBehaviour
 
     private void Update()
     {
-        if(currentChargeTime < chargeTime)
+        if (currentChargeTime < chargeTime)
         {
             currentChargeTime += Time.deltaTime;
             isCharging = true;
         }
-        else if(currentChargeTime >= chargeTime && !startedTeleport)
+        else if (currentChargeTime >= chargeTime && !startedTeleport)
         {
             TeleportToMoonpool();
             isCharging = false;

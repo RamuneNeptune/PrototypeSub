@@ -12,7 +12,7 @@ internal class AggressiveWhenSeePlayerPatches
     {
         if (!CloakEffectHandler.Instance) return;
 
-        if(CloakEffectHandler.Instance.IsInsideOvoid(Camera.main.transform.position) && CloakEffectHandler.Instance.effectEnabled)
+        if (CloakEffectHandler.Instance.IsInsideOvoid(Camera.main.transform.position) && CloakEffectHandler.Instance.effectEnabled)
         {
             __result = null;
         }

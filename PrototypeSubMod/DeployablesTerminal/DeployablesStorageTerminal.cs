@@ -1,7 +1,5 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
-using System.Linq;
-using System;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace PrototypeSubMod.DeployablesTerminal;
 
@@ -101,11 +99,17 @@ internal class DeployablesStorageTerminal : MonoBehaviour
 
     private void OnEquip(string slot, InventoryItem item)
     {
-        FMODUWE.PlayOneShot(equipSound, transform.position, 2f);
+        if (equipSound != null)
+        {
+            FMODUWE.PlayOneShot(equipSound, transform.position, 2f);
+        }
     }
 
     private void OnUnequip(string slot, InventoryItem item)
     {
-        FMODUWE.PlayOneShot(unequipSound, transform.position, 2f);
+        if (unequipSound != null)
+        {
+            FMODUWE.PlayOneShot(unequipSound, transform.position, 2f);
+        }
     }
 }

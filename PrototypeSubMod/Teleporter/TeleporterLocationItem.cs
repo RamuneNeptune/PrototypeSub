@@ -12,7 +12,7 @@ internal class TeleporterLocationItem : MonoBehaviour
     private ProtoTeleporterIDManager idManager;
 
     public void SetInfo(string id, bool isHost, ProtoTeleporterIDManager manager)
-    {  
+    {
         teleporterID = id;
         this.isHost = isHost;
         idManager = manager;

@@ -41,7 +41,7 @@ internal class CloakEffectHandler : MonoBehaviour
 
     private void Awake()
     {
-        if(Instance != null)
+        if (Instance != null)
         {
             Destroy(this);
             return;
