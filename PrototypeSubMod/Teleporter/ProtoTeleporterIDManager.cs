@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using System.Collections;
+using TMPro;
 using UnityEngine;
 
 namespace PrototypeSubMod.Teleporter;
@@ -9,6 +10,7 @@ internal class ProtoTeleporterIDManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI selectedLocationText;
     [SerializeField] private GameObject teleporterLocationPrefab;
     [SerializeField] private Transform prefabSpawnParent;
+    [SerializeField] private Animator animator;
 
     private void Start()
     {
@@ -42,7 +44,7 @@ internal class ProtoTeleporterIDManager : MonoBehaviour
             if (item.ToLower().Contains("proto")) continue;
 
             var locationItemM = Instantiate(teleporterLocationPrefab, prefabSpawnParent).GetComponent<TeleporterLocationItem>();
-            locationItemM.SetInfo(item, true, this);
+            locationItemM.SetInfo(item, true, this);  
 
             var locationItemS = Instantiate(teleporterLocationPrefab, prefabSpawnParent).GetComponent<TeleporterLocationItem>();
             locationItemS.SetInfo(item, false, this);
@@ -57,5 +59,19 @@ internal class ProtoTeleporterIDManager : MonoBehaviour
         string endLetter = isHost ? "M" : "S";
         string languageKey = $"{id}{endLetter}_ProtoLabel";
         selectedLocationText.text = Language.main.Get(languageKey);
+    }
+
+    private void OnTriggerEnter(Collider col)
+    {
+        if (!col.gameObject.Equals(Player.main.gameObject)) return;
+
+        animator.SetBool("ScreenActive", true);
+    }
+
+    private void OnTriggerExit(Collider col)
+    {
+        if (!col.gameObject.Equals(Player.main.gameObject)) return;
+
+        animator.SetBool("ScreenActive", false);
     }
 }

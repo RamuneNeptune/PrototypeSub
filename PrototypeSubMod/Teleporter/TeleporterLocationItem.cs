@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using System.Collections;
+using TMPro;
 using UnityEngine;
 
 namespace PrototypeSubMod.Teleporter;
@@ -10,6 +11,13 @@ internal class TeleporterLocationItem : MonoBehaviour
     private string teleporterID;
     private bool isHost;
     private ProtoTeleporterIDManager idManager;
+
+    private IEnumerator Start()
+    {
+        itemNameText.gameObject.SetActive(false);
+        yield return new WaitForEndOfFrame();
+        itemNameText.gameObject.SetActive(true);
+    }
 
     public void SetInfo(string id, bool isHost, ProtoTeleporterIDManager manager)
     {
