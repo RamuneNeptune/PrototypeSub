@@ -31,11 +31,6 @@ internal class CyclopsNoiseManagerPatches
             .InsertAndAdvance(new CodeInstruction(OpCodes.Mul))
             .Insert(new CodeInstruction(OpCodes.Call, noiseScalarInfo.GetSetMethod(true)));
 
-        foreach (var instruction in matcher.InstructionEnumeration())
-        {
-            Plugin.Logger.LogInfo($"{instruction.opcode} {instruction.operand}");
-        }
-
         return matcher.InstructionEnumeration();
     }
 

@@ -1,10 +1,12 @@
 ﻿using HarmonyLib;
+using PrototypeSubMod.DeployablesTerminal;
 using PrototypeSubMod.PowerSystem;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace PrototypeSubMod.Patches;
 
@@ -16,15 +18,28 @@ internal class uGUI_EquipmentPatches
     [HarmonyPatch(nameof(uGUI_Equipment.Awake)), HarmonyPrefix]
     private static void Awake_Prefix(uGUI_Equipment __instance)
     {
-        if (PrototypePowerSystem.SLOT_NAMES.Length == 0) return;
-
-        uGUI_EquipmentSlot slot = CloneSlot(__instance, "SeamothModule1", PrototypePowerSystem.SLOT_NAMES[0]);
-
-        for (int i = 1; i < PrototypePowerSystem.SLOT_NAMES.Length; i++)
-        {
-            CloneSlot(__instance, $"SeamothModule{i + 1}", PrototypePowerSystem.SLOT_NAMES[i]);
-        }
+        CloneSlots(__instance, PrototypePowerSystem.SLOT_NAMES);
+        CloneSlots(__instance, DeployablesStorageTerminal.SLOT_NAMES, "DecoySlot", null);
     }
+
+#nullable enable
+    private static void CloneSlots(uGUI_Equipment equipment, string[] slots, string copyTarget = "SeamothModule", string? imageTarget = "Seamoth")
+    {
+        if (slots.Length == 0) return;
+
+        uGUI_EquipmentSlot slot = CloneSlot(equipment, $"{copyTarget}1", slots[0]);
+        if(imageTarget != null)
+        {
+            GameObject.Destroy(slot.transform.Find(imageTarget).GetComponent<Image>());
+        }
+
+        for (int i = 1; i < slots.Length; i++)
+        {
+            CloneSlot(equipment, $"{copyTarget}{i + 1}", slots[i]);
+        }
+
+    }
+#nullable disable
 
     [HarmonyPatch(nameof(uGUI_Equipment.OnItemDragStart)), HarmonyTranspiler]
     private static IEnumerable<CodeInstruction> OnItemDragStart_Transpiler(IEnumerable<CodeInstruction> instructions)
