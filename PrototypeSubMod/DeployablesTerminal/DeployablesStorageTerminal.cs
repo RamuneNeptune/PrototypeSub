@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace PrototypeSubMod.DeployablesTerminal;
 
@@ -10,17 +11,41 @@ internal class DeployablesStorageTerminal : MonoBehaviour
     {
         "DeployableStorageSlot1",
         "DeployableStorageSlot2",
-        "DeployableStorageSlot3"
+        "DeployableStorageSlot3",
+        "DeployableStorageSlot4"
     };
+
+    public static Vector3[] SLOT_POSITIONS = new[]
+    {
+        new Vector3(-152, 102, 0),
+        new Vector3(135, 102, 0),
+        new Vector3(-152, -113, 0),
+        new Vector3(135, -113, 0),
+    };
+
+    private static List<string> LightBeaconSlots = new()
+    {
+        "DeployableStorageSlot1",
+        "DeployableStorageSlot3",
+    };
+
+    private static List<string> CreatureDecoySlots = new()
+    {
+        "DeployableStorageSlot2",
+        "DeployableStorageSlot4",
+    };
+
+    private static bool SlotmappingInitialized;
 
     public Equipment equipment { get; private set; }
 
     [SerializeField] private GameObject storageRoot;
-    [SerializeField] private EquipmentType equipmentType;
+    [SerializeField] private FMODAsset equipSound;
+    [SerializeField] private FMODAsset unequipSound;
 
     private void Awake()
     {
-        SetupSlotMapping();
+        InitializeSlotMapping();
         Initialize();
     }
 
@@ -52,44 +77,35 @@ internal class DeployablesStorageTerminal : MonoBehaviour
 
         equipment.typeToSlots = new Dictionary<EquipmentType, List<string>>()
         {
-            { equipmentType, SLOT_NAMES.ToList() }
+            { EquipmentType.DecoySlot, CreatureDecoySlots},
+            { Plugin.LightBeaconEquipmentType, LightBeaconSlots }
         };
     }
 
-    private void SetupSlotMapping()
+    private void InitializeSlotMapping()
     {
-        foreach (string name in SLOT_NAMES)
+        if (SlotmappingInitialized) return;
+
+        foreach (string slot in LightBeaconSlots)
         {
-            if (!Equipment.slotMapping.ContainsKey(name))
-            {
-                Equipment.slotMapping.Add(name, equipmentType);
-            }
-            else
-            {
-                Equipment.slotMapping[name] = equipmentType;
-            }
+            Equipment.slotMapping.Add(slot, Plugin.LightBeaconEquipmentType);
         }
+
+        foreach (string slot in CreatureDecoySlots)
+        {
+            Equipment.slotMapping.Add(slot, EquipmentType.DecoySlot);
+        }
+
+        SlotmappingInitialized = true;
     }
 
     private void OnEquip(string slot, InventoryItem item)
     {
-
+        FMODUWE.PlayOneShot(equipSound, transform.position, 2f);
     }
 
     private void OnUnequip(string slot, InventoryItem item)
     {
-
-    }
-
-    public void SetEquipmentType(EquipmentType type)
-    {
-        equipmentType = type;
-
-        equipment.typeToSlots = new Dictionary<EquipmentType, List<string>>()
-        {
-            { equipmentType, SLOT_NAMES.ToList() }
-        };
-
-        SetupSlotMapping();
+        FMODUWE.PlayOneShot(unequipSound, transform.position, 2f);
     }
 }

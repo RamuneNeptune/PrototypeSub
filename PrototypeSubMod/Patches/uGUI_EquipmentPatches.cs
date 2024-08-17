@@ -19,13 +19,24 @@ internal class uGUI_EquipmentPatches
     private static void Awake_Prefix(uGUI_Equipment __instance)
     {
         CloneSlots(__instance, PrototypePowerSystem.SLOT_NAMES);
-        CloneSlots(__instance, DeployablesStorageTerminal.SLOT_NAMES, "DecoySlot", null);
+        var slot0 = CloneSlots(__instance, DeployablesStorageTerminal.SLOT_NAMES, "BatteryCharger", null, DeployablesStorageTerminal.SLOT_POSITIONS);
+
+        GameObject go = new();
+        go.transform.SetParent(slot0.transform);
+
+        go.AddComponent<RectTransform>();
+
+        go.transform.localPosition = new Vector3(142, -110, 0);
+        go.transform.localScale = new Vector3(6, 6, 1);
+        go.AddComponent<CanvasRenderer>();
+        var img = go.AddComponent<Image>();
+        img.sprite = Plugin.AssetBundle.LoadAsset<Sprite>("DecoyStorageBackground");
     }
 
 #nullable enable
-    private static void CloneSlots(uGUI_Equipment equipment, string[] slots, string copyTarget = "SeamothModule", string? imageTarget = "Seamoth")
+    private static uGUI_EquipmentSlot? CloneSlots(uGUI_Equipment equipment, string[] slots, string copyTarget = "SeamothModule", string? imageTarget = "Seamoth", Vector3[]? slotPositions = null)
     {
-        if (slots.Length == 0) return;
+        if (slots.Length == 0) return null;
 
         uGUI_EquipmentSlot slot = CloneSlot(equipment, $"{copyTarget}1", slots[0]);
         if(imageTarget != null)
@@ -33,11 +44,21 @@ internal class uGUI_EquipmentPatches
             GameObject.Destroy(slot.transform.Find(imageTarget).GetComponent<Image>());
         }
 
-        for (int i = 1; i < slots.Length; i++)
+        if (slotPositions != null)
         {
-            CloneSlot(equipment, $"{copyTarget}{i + 1}", slots[i]);
+            slot.transform.localPosition = slotPositions[0];
         }
 
+        for (int i = 1; i < slots.Length; i++)
+        {
+            var clonedSlot = CloneSlot(equipment, $"{copyTarget}{i + 1}", slots[i]);
+            if(slotPositions != null)
+            {
+                clonedSlot.transform.localPosition = slotPositions[i];
+            }
+        }
+
+        return slot;
     }
 #nullable disable
 

@@ -31,6 +31,7 @@ namespace PrototypeSubMod
         public static AssetBundle AssetBundle { get; } = AssetBundle.LoadFromFile(Path.Combine(AssetsFolderPath, "prototypeassets"));
 
         public static EquipmentType PrototypePowerType { get; } = EnumHandler.AddEntry<EquipmentType>("PrototypePowerType");
+        public static EquipmentType LightBeaconEquipmentType { get; } = EnumHandler.AddEntry<EquipmentType>("LightBeaconType");
 
         internal static BatterySaveData BatterySaveData = SaveDataHandler.RegisterSaveDataCache<BatterySaveData>();
 
