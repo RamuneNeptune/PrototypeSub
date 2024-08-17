@@ -6,8 +6,6 @@ internal class LightDistortionApplier : MonoBehaviour
 {
     private static Material material;
 
-    private static float insideLastFrame;
-
     private void OnRenderImage(RenderTexture source, RenderTexture destination)
     {
         if (CloakEffectHandler.Instance == null) return;
@@ -15,9 +13,6 @@ internal class LightDistortionApplier : MonoBehaviour
         if (!CloakEffectHandler.Instance.effectEnabled) return;
 
         if (!material) material = new Material(CloakEffectHandler.Instance.shader);
-
-        insideLastFrame = material.GetFloat("_IsInsideOvoid");
-        //material.SetFloat("_IsInsideOvoid", 0);
 
         Transform sphere = CloakEffectHandler.Instance.ovoid;
         material.SetColor("_Color", CloakEffectHandler.Instance.color);
@@ -40,10 +35,5 @@ internal class LightDistortionApplier : MonoBehaviour
         material.SetMatrix("_InverseRotationMatrix", rotationMatrix);
 
         Graphics.Blit(source, destination, material);
-    }
-
-    public static bool GetInsideOvoid()
-    {
-        return material.GetFloat("_IsInsideOvoid") == 1 || insideLastFrame == 1;
     }
 }

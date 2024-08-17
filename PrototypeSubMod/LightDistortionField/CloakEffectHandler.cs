@@ -33,6 +33,9 @@ internal class CloakEffectHandler : MonoBehaviour
     [Header("Animation")]
     public float scaleSpeed;
 
+    [Header("Sound Values")]
+    public float soundMultiplier;
+
     private float targetScaleMultiplier;
     private Vector3 originalScale;
 
@@ -55,5 +58,21 @@ internal class CloakEffectHandler : MonoBehaviour
     private void Update()
     {
         ovoid.localScale = Vector3.MoveTowards(ovoid.localScale, originalScale * targetScaleMultiplier, Time.deltaTime * scaleSpeed);
+    }
+
+    public bool IsInsideOvoid(Vector3 point)
+    {
+        Vector3 localPoint = point - ovoid.position;
+
+        localPoint = Quaternion.Inverse(ovoid.rotation) * localPoint;
+
+        Vector3 normalizedPoint = Divide(localPoint, ovoid.localScale);
+
+        return normalizedPoint.sqrMagnitude < 1;
+    }
+
+    private Vector3 Divide(Vector3 lhs, Vector3 rhs)
+    {
+        return new Vector3(lhs.x / rhs.x, lhs.y / rhs.y, lhs.z / rhs.z);
     }
 }
