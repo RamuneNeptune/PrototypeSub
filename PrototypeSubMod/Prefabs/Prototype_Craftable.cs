@@ -26,7 +26,7 @@ internal class Prototype_Craftable
         prefab.SetGameObject(GetSubPrefab);
         prefab.SetUnlock(TechType.Constructor);
 
-        prefab.SetRecipeFromJson(Path.Combine(Plugin.RecipesFolderPath, "Prototype.json"))
+        prefab.SetRecipeFromJson(Path.Combine(Plugin.RecipesFolderPath, "PrototypeSub.json"))
             .WithFabricatorType(CraftTree.Type.Constructor)
             .WithStepsToFabricatorTab("Vehicles")
             .WithCraftingTime(20f);

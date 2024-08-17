@@ -89,6 +89,7 @@ namespace PrototypeSubMod
             PrecursorIngot_Craftable.Register();
             Prototype_Craftable.Register();
             ProtoBuildTerminal_World.Register();
+            DeployableLight_Craftable.Register();
         }
 
         private void RegisterEncyEntries()

@@ -31,10 +31,10 @@ internal class PrecursorIngot_Craftable
 
         prefab.SetRecipeFromJson(Path.Combine(Plugin.RecipesFolderPath, "PrecursorIngot.json"))
             .WithFabricatorType(CraftTree.Type.Fabricator)
-            .WithStepsToFabricatorTab("Resources/AdvancedMaterials")
+            .WithStepsToFabricatorTab("Resources", "AdvancedMaterials")
             .WithCraftingTime(10f);
-
-        prefab.SetPdaGroupCategory(TechGroup.Resources, TechCategory.AdvancedMaterials);
+        
+        prefab.SetPdaGroupCategory(TechGroup.Resources, TechCategory.BasicMaterials);
 
         prefab.Register();
     }
