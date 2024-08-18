@@ -14,6 +14,7 @@ internal class ProtoDeployableManager : MonoBehaviour
     [SerializeField] private Transform lightSpawnTransform;
     [SerializeField] private Transform decoySpawnTransform;
     [SerializeField] private float launchLightDelay;
+    [SerializeField] private float lightLaunchForce;
     [SerializeField] private float launchDecoyDelay;
 
     private GameObject decoyPrefab;
@@ -82,7 +83,9 @@ internal class ProtoDeployableManager : MonoBehaviour
 
     private void SpawnLightDelayed()
     {
-        Instantiate(lightPrefab, lightSpawnTransform.position, Quaternion.identity);
+        var lightComponent = Instantiate(lightPrefab, lightSpawnTransform.position, lightSpawnTransform.rotation).GetComponent<DeployableLight>();
+
+        lightComponent.LaunchWithForce(lightLaunchForce);
     }
 
     private void SpawnDecoyDelayed()

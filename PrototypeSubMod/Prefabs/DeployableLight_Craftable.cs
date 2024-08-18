@@ -2,6 +2,7 @@
 using Nautilus.Assets.Gadgets;
 using Nautilus.Assets.PrefabTemplates;
 using Nautilus.Utility;
+using SubLibrary.CyclopsReferencers;
 using SubLibrary.Handlers;
 using System.Collections;
 using System.IO;
@@ -47,7 +48,10 @@ internal class DeployableLight_Craftable
 
         MaterialUtils.ApplySNShaders(prefab);
 
-        InterfaceCallerHandler.InvokeCyclopsReferencers(prefab);
+        foreach (var referencer in prefab.GetComponentsInChildren<ICyclopsReferencer>(true))
+        {
+            referencer.OnCyclopsReferenceFinished(CyclopsReferenceHandler.CyclopsReference);
+        }
 
         prefabOut.Set(prefab);
     }

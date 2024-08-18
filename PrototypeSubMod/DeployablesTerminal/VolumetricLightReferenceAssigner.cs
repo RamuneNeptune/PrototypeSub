@@ -14,6 +14,8 @@ internal class VolumetricLightReferenceAssigner : MonoBehaviour, ICyclopsReferen
 
     public void OnCyclopsReferenceFinished(GameObject cyclops)
     {
+        Plugin.Logger.LogInfo($"Cyclops reference finished");
+
         VFXVolumetricLight light = cyclops.transform.Find("Floodlights/VolumetricLight_Front").GetComponent<VFXVolumetricLight>();
 
         volumetricLight.coneMat = light.coneMat;

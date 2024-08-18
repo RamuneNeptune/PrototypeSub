@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2104510665066426309}
   - component: {fileID: 583366926548586056}
+  - component: {fileID: 6150110053294790594}
   - component: {fileID: 5800199608606316097}
   - component: {fileID: 4931190148802595273}
   - component: {fileID: 2849898658793293750}
@@ -55,6 +56,21 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &6150110053294790594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2104510665066426310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1437067077, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rb: {fileID: 583366926548586056}
+  constantForce: 1
+  travelTime: 4
 --- !u!114 &5800199608606316097
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -346,7 +362,7 @@ Transform:
   m_GameObject: {fileID: 6876294352411791360}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 11.534568, y: 11.534568, z: 11.534568}
+  m_LocalScale: {x: 12, y: 12, z: 12}
   m_Children: []
   m_Father: {fileID: 6272526327821817130}
   m_RootOrder: 0
