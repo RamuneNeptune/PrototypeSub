@@ -6,7 +6,7 @@ namespace PrototypeSubMod.Teleporter;
 
 internal class ProtoTeleporterIDManager : MonoBehaviour
 {
-    [SerializeField] private TeleporterPositionSetter positionSetter;
+    [SerializeField] private ProtoTeleporterManager positionSetter;
     [SerializeField] private TextMeshProUGUI selectedLocationText;
     [SerializeField] private GameObject teleporterLocationPrefab;
     [SerializeField] private Transform prefabSpawnParent;

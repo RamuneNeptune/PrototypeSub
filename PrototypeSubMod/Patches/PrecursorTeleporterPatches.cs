@@ -36,7 +36,7 @@ internal class PrecursorTeleporterPatches
     private static void SetWarpPosition_Postfix(PrecursorTeleporter __instance)
     {
         lastTeleporterID = __instance.teleporterIdentifier;
-        lastTeleporterWasProtoSub = __instance.TryGetComponent(out TeleporterPositionSetter positionSetter);
+        lastTeleporterWasProtoSub = __instance.TryGetComponent(out ProtoTeleporterManager positionSetter);
 
         if (lastTeleporterWasProtoSub)
         {
@@ -62,7 +62,7 @@ internal class PrecursorTeleporterPatches
     [HarmonyPatch(nameof(PrecursorTeleporter.Start)), HarmonyPostfix]
     private static void Start_Postfix(PrecursorTeleporter __instance)
     {
-        if (__instance.TryGetComponent(out TeleporterPositionSetter _)) return;
+        if (__instance.TryGetComponent(out ProtoTeleporterManager _)) return;
 
         var tpOverride = __instance.gameObject.EnsureComponent<TeleporterOverride>();
     }

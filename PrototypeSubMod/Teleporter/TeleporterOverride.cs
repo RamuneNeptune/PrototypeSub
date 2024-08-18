@@ -90,7 +90,7 @@ internal class TeleporterOverride : MonoBehaviour
         {
             currentOverrideTime -= Time.deltaTime;
 
-            Transform teleportPos = TeleporterPositionSetter.Instance.GetTeleportPosition();
+            Transform teleportPos = ProtoTeleporterManager.Instance.GetTeleportPosition();
             teleporter.warpToPos = teleportPos.position;
             teleporter.warpToAngle = teleportPos.eulerAngles.y;
         }
