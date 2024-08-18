@@ -28,5 +28,12 @@ internal class SpawnTeleporterTerminal : MonoBehaviour
         var activationComponent = terminal.GetComponent<PrecursorTeleporterActivationTerminal>();
         activationComponent.root = teleporterRoot;
         activationComponent.onUseGoal.key = "";
+
+        var trigger = terminal.GetComponentInChildren<PrecursorKeyTerminalTrigger>();
+        var newTrigger = trigger.gameObject.AddComponent<ProtoTeleporterTerminalTrigger>();
+        Destroy(trigger);
+
+        newTrigger.SetSubRoot(GetComponentInParent<SubRoot>());
+        newTrigger.GetComponent<SphereCollider>().radius = 2f;
     }
 }
