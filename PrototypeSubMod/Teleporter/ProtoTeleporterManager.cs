@@ -1,4 +1,5 @@
 ﻿using PrototypeSubMod.Interfaces;
+using System.Collections;
 using UnityEngine;
 
 namespace PrototypeSubMod.Teleporter;
@@ -10,6 +11,7 @@ internal class ProtoTeleporterManager : MonoBehaviour, IProtoUpgrade
     [SerializeField] private PrecursorTeleporter teleporter;
     [SerializeField] private SubRoot subRoot;
     [SerializeField] private Transform teleportPosition;
+    [SerializeField] private FMOD_CustomLoopingEmitter activeLoopSound;
     [SerializeField] private string teleporterID;
     [SerializeField] private bool isHost;
     [SerializeField] private float stayOpenTime;
@@ -17,6 +19,7 @@ internal class ProtoTeleporterManager : MonoBehaviour, IProtoUpgrade
     private bool overrideUpgradeEnabled;
     private bool teleporterClosed = true;
     private float currentStayOpenTime;
+    private PrecursorTeleporterActivationTerminal activationTerminal;
 
     private void Awake()
     {
@@ -34,9 +37,17 @@ internal class ProtoTeleporterManager : MonoBehaviour, IProtoUpgrade
         if (!teleporter) TryGetComponent(out teleporter);
     }
 
-    private void Start()
+    private IEnumerator Start()
     {
         PrecursorTeleporter.TeleportEventEnd += OnTeleportEnd;
+        TeleporterManager.main.activeTeleporters.Remove("prototypetp");
+
+        for (int i = 0; i < 2; i++)
+        {
+            yield return new WaitForEndOfFrame();
+        }
+
+        activeLoopSound.Stop();
     }
 
     private void Update()
@@ -48,7 +59,9 @@ internal class ProtoTeleporterManager : MonoBehaviour, IProtoUpgrade
         else if(!teleporterClosed)
         {
             teleporter.ToggleDoor(false);
+            ToggleDoor(false);
             teleporterClosed = true;
+            activationTerminal.unlocked = false;
         }
     }
 
@@ -96,9 +109,24 @@ internal class ProtoTeleporterManager : MonoBehaviour, IProtoUpgrade
     }
 
     //Called by PrecursorTeleporterActivationTerminal via SendMessage
-    public void OpenDoor(bool open)
+    public void ToggleDoor(bool open)
     {
-        teleporterClosed = false;
-        currentStayOpenTime = stayOpenTime;
+        if (open)
+        {
+            teleporterClosed = false;
+            currentStayOpenTime = stayOpenTime;
+            Invoke(nameof(DeactivateTeleporter), 0.5f);
+        }
+        else
+        {
+            activeLoopSound.Stop();
+        }
+        
+        activationTerminal = GetComponentInChildren<PrecursorTeleporterActivationTerminal>();    
+    }
+
+    private void DeactivateTeleporter()
+    {
+        TeleporterManager.main.activeTeleporters.Remove("prototypetp");
     }
 }

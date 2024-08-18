@@ -7556,7 +7556,7 @@ GameObject:
   - component: {fileID: 2729802650062847473}
   - component: {fileID: 39761586355520821}
   m_Layer: 0
-  m_Name: SFX
+  m_Name: TeleporterSFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -35410,7 +35410,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5169064653436263022}
   m_LocalRotation: {x: -0.00000001753202, y: -0.92387974, z: -0.000000033597175, w: 0.3826831}
-  m_LocalPosition: {x: 2.4622526, y: -0.9413023, z: -3.3744023}
+  m_LocalPosition: {x: 6.5, y: -1.52, z: 0.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 70861795878038913}
@@ -36595,7 +36595,7 @@ MonoBehaviour:
   m_Script: {fileID: -133377629, guid: 06dd3d5416bf43ea368cc39ff96e6d5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  asset: {fileID: 11400000, guid: bb4bebd3f2bfb0f4a9402511ef220f25, type: 2}
+  asset: {fileID: 11400000, guid: 6a61730d739122641baca29664297edf, type: 2}
   playOnAwake: 0
   stopImmediatelyOnDisable: 0
   followParent: 0
@@ -39569,6 +39569,7 @@ MonoBehaviour:
   teleporter: {fileID: 712578900503129357}
   subRoot: {fileID: 6246764057006774658}
   teleportPosition: {fileID: 9137567672799407564}
+  activeLoopSound: {fileID: 39761586355520821}
   teleporterID: guntp
   isHost: 0
   stayOpenTime: 60
