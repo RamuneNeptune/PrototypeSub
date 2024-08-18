@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using PrototypeSubMod.Interfaces;
+using UnityEngine;
 
 namespace PrototypeSubMod.LightDistortionField;
 
-internal class CloakEffectHandler : MonoBehaviour
+internal class CloakEffectHandler : MonoBehaviour, IProtoUpgrade
 {
     public static CloakEffectHandler Instance { get; private set; }
 
@@ -62,6 +63,8 @@ internal class CloakEffectHandler : MonoBehaviour
 
     public bool IsInsideOvoid(Vector3 point)
     {
+        if (!effectEnabled) return false;
+
         Vector3 localPoint = point - ovoid.position;
 
         localPoint = Quaternion.Inverse(ovoid.rotation) * localPoint;
@@ -74,5 +77,10 @@ internal class CloakEffectHandler : MonoBehaviour
     private Vector3 Divide(Vector3 lhs, Vector3 rhs)
     {
         return new Vector3(lhs.x / rhs.x, lhs.y / rhs.y, lhs.z / rhs.z);
+    }
+
+    public void SetUpgradeActive(bool active)
+    {
+        effectEnabled = active;
     }
 }

@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using PrototypeSubMod.Interfaces;
+using UnityEngine;
 
 namespace PrototypeSubMod.Teleporter;
 
-internal class TeleporterPositionSetter : MonoBehaviour
+internal class TeleporterPositionSetter : MonoBehaviour, IProtoUpgrade
 {
     public static TeleporterPositionSetter Instance { get; private set; }
 
@@ -11,6 +12,8 @@ internal class TeleporterPositionSetter : MonoBehaviour
     [SerializeField] private Transform teleportPosition;
     [SerializeField] private string teleporterID;
     [SerializeField] private bool isHost;
+
+    private bool overrideUpgradeEnabled;
 
     private void Awake()
     {
@@ -41,9 +44,12 @@ internal class TeleporterPositionSetter : MonoBehaviour
         teleporter.warpToPos = positionData.teleportPosition;
         teleporter.warpToAngle = positionData.teleportAngle;
 
-        TeleporterOverride.SetOverrideTeleporterID(alteredID);
-        TeleporterOverride.SetOverrideTime(120f);
-        TeleporterOverride.OnTeleportStarted();
+        if(overrideUpgradeEnabled)
+        {
+            TeleporterOverride.SetOverrideTeleporterID(alteredID);
+            TeleporterOverride.SetOverrideTime(120f);
+            TeleporterOverride.OnTeleportStarted();
+        }
     }
 
     public void SetTeleporterID(string id)
@@ -67,4 +73,9 @@ internal class TeleporterPositionSetter : MonoBehaviour
 
     public Transform GetTeleportPosition() => teleportPosition;
     public string GetTeleporterID() => teleporterID;
+
+    public void SetUpgradeActive(bool active)
+    {
+        overrideUpgradeEnabled = active;
+    }
 }

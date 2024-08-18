@@ -1,10 +1,11 @@
-﻿using System.Collections;
+﻿using PrototypeSubMod.Interfaces;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace PrototypeSubMod.DeployablesTerminal;
 
-internal class ProtoDeployableManager : MonoBehaviour
+internal class ProtoDeployableManager : MonoBehaviour, IProtoUpgrade
 {
     [SerializeField] private SubRoot subRoot;
     [SerializeField] private VoiceNotification launchLightNotification;
@@ -17,6 +18,7 @@ internal class ProtoDeployableManager : MonoBehaviour
     [SerializeField] private float lightLaunchForce;
     [SerializeField] private float launchDecoyDelay;
 
+    private bool upgradeActive;
     private GameObject decoyPrefab;
 
     private IEnumerator Start()
@@ -29,6 +31,8 @@ internal class ProtoDeployableManager : MonoBehaviour
 
     public void TryLaunchLight()
     {
+        if (!upgradeActive) return;
+
         int lightCount = 0;
         List<string> filledSlots = new();
 
@@ -56,6 +60,8 @@ internal class ProtoDeployableManager : MonoBehaviour
 
     public void TryLaunchDecoy()
     {
+        if (!upgradeActive) return;
+
         int decoyCount = 0;
         List<string> filledSlots = new();
 
@@ -96,5 +102,10 @@ internal class ProtoDeployableManager : MonoBehaviour
         {
             decoyComponent.launch = true;
         }
+    }
+
+    public void SetUpgradeActive(bool active)
+    {
+        upgradeActive = active;
     }
 }
