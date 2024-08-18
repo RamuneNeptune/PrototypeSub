@@ -54,6 +54,7 @@ internal class CloakEffectHandler : MonoBehaviour, IProtoUpgrade
     private void Start()
     {
         originalScale = ovoid.localScale;
+        ovoid.localScale = originalScale * targetScaleMultiplier;
     }
 
     private void Update()

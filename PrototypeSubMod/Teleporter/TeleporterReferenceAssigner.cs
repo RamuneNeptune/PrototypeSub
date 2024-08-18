@@ -33,6 +33,10 @@ internal class TeleporterReferenceAssigner : MonoBehaviour
             fxPrefab.GetComponentInChildren<MeshFilter>().mesh = fxMesh;
         }
 
+        var light = fxPrefab.GetComponentInChildren<Light>();
+        light.range = 5f;
+        light.transform.localPosition = new Vector3(0, 1.5f, -2f);
+
         teleporter.portalFxPrefab = fxPrefab;
         teleporter.cinematicEndControllerPrefabReference = precursorTp.cinematicEndControllerPrefabReference;
 

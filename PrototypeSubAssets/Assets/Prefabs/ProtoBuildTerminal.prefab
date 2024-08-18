@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 198255859429891121}
   - component: {fileID: 4652062324225112515}
   - component: {fileID: 1618657341364074652}
+  - component: {fileID: 4430266739775970428}
   m_Layer: 0
   m_Name: GUIScreen
   m_TagString: Untagged
@@ -41,7 +42,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 40.280003, y: 270, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 10.72, y: 0.771}
+  m_AnchoredPosition: {x: 11.138, y: 0.771}
   m_SizeDelta: {x: 1.4329505, y: 0.90625954}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &3042589607487386909
@@ -124,12 +125,25 @@ MonoBehaviour:
         m_CallState: 2
   buildTerminal: {fileID: 5753649986567304265}
   tooltip: {fileID: 6573146357284826976}
-  distanceTracker: {fileID: 7271898523190329259}
+  distanceTracker: {fileID: 4430266739775970428}
   occupiedHandler: {fileID: 3087815451263599694}
   buildScreen: {fileID: 2992585963739497453}
   animationScreen: {fileID: 9057623526303307991}
   upgradeScreen: {fileID: 1997155807617855908}
   emptyScreen: {fileID: 6828767911130665040}
+--- !u!114 &4430266739775970428
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 722329305584264081}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 146425932, guid: 06dd3d5416bf43ea368cc39ff96e6d5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxDistance: 10
 --- !u!1 &940909633287960214
 GameObject:
   m_ObjectHideFlags: 0
@@ -880,7 +894,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2055188084176233035}
   - component: {fileID: 5753649986567304265}
-  - component: {fileID: 7271898523190329259}
   - component: {fileID: 5241918119530098560}
   - component: {fileID: 8874494661803164197}
   - component: {fileID: 1989246184205137428}
@@ -930,19 +943,6 @@ MonoBehaviour:
   buildPosition: {fileID: 2267562880022589075}
   upgradeIconPrefab: {fileID: 3971835248657469078, guid: 5418e3a01238018418614cf516b1dcbe,
     type: 3}
---- !u!114 &7271898523190329259
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2055188084176233034}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 146425932, guid: 06dd3d5416bf43ea368cc39ff96e6d5a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxDistance: 10
 --- !u!114 &5241918119530098560
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2435,7 +2435,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.003921569}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -3048,8 +3048,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 25.516558, y: 29.84, z: 97}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 25.516558, y: 29.84, z: 88.50542}
+  m_Center: {x: 0, y: 0, z: 4.2472935}
 --- !u!114 &3087815451263599694
 MonoBehaviour:
   m_ObjectHideFlags: 0

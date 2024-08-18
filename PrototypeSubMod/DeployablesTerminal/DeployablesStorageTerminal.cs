@@ -1,9 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using PrototypeSubMod.SaveData;
+using SubLibrary.SaveData;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace PrototypeSubMod.DeployablesTerminal;
 
-internal class DeployablesStorageTerminal : MonoBehaviour
+internal class DeployablesStorageTerminal : MonoBehaviour, ISaveDataListener, ILateSaveDataListener
 {
     public static string[] SLOT_NAMES { get; } = new[]
     {
@@ -44,7 +47,6 @@ internal class DeployablesStorageTerminal : MonoBehaviour
 
     private void Awake()
     {
-        InitializeSlotMapping();
         Initialize();
     }
 
@@ -66,6 +68,8 @@ internal class DeployablesStorageTerminal : MonoBehaviour
     private void Initialize()
     {
         if (equipment != null) return;
+
+        InitializeSlotMapping();
 
         equipment = new(gameObject, storageRoot.transform);
         equipment.SetLabel("ProtoDeployableEquipmentLabel");
@@ -116,5 +120,27 @@ internal class DeployablesStorageTerminal : MonoBehaviour
         }
 
         deployableManager.RecalculateDeployableTotals();
+    }
+
+    public void OnSaveDataLoaded(BaseSubDataClass saveData)
+    {
+        Initialize();
+    }
+
+    public void OnBeforeDataSaved(ref BaseSubDataClass saveData)
+    {
+        var protoData = saveData.EnsureAsPrototypeData();
+        protoData.serializedDeployablesEquipment = equipment.SaveEquipment();
+
+        saveData = protoData;
+    }
+
+    public void OnLateSaveDataLoaded(BaseSubDataClass saveData)
+    {
+        var data = saveData.EnsureAsPrototypeData();
+        if (data.serializedDeployablesEquipment != null)
+        {
+            StorageHelper.TransferEquipment(storageRoot.gameObject, data.serializedDeployablesEquipment, equipment);
+        }
     }
 }
