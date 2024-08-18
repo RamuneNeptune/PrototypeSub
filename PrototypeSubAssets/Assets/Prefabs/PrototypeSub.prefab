@@ -33882,7 +33882,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4980212239396083088}
   m_LocalRotation: {x: 0, y: 0, z: 0.040489417, w: 0.99918}
-  m_LocalPosition: {x: -0.009642867, y: -0.017447906, z: 0.009961433}
+  m_LocalPosition: {x: -0.00961, y: -0.01791, z: 0.00996}
   m_LocalScale: {x: 0.9999999, y: 0.9999999, z: 1}
   m_Children:
   - {fileID: 6233601427439103199}
@@ -35410,7 +35410,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5169064653436263022}
   m_LocalRotation: {x: -0.00000001753202, y: -0.92387974, z: -0.000000033597175, w: 0.3826831}
-  m_LocalPosition: {x: 6.5, y: -1.52, z: 0.9}
+  m_LocalPosition: {x: 6.5, y: -1.55, z: 0.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 70861795878038913}
@@ -37296,8 +37296,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 967837507870010883}
-  - component: {fileID: 8153546702844306261}
   - component: {fileID: 6968857757808614907}
+  - component: {fileID: 8693510620218572197}
   m_Layer: 0
   m_Name: Collider
   m_TagString: Untagged
@@ -37314,25 +37314,11 @@ Transform:
   m_GameObject: {fileID: 5469753614591688146}
   m_LocalRotation: {x: -0.70710576, y: -0, z: -0, w: 0.7071079}
   m_LocalPosition: {x: 0, y: 0, z: 0.174}
-  m_LocalScale: {x: 0.1783592, y: 0.121489786, z: 0.17835915}
+  m_LocalScale: {x: 1.5297521, y: 1.2554182, z: 2.0598257}
   m_Children: []
   m_Father: {fileID: 70861795878038913}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -90.00001, y: 0, z: 0}
---- !u!64 &8153546702844306261
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5469753614591688146}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!114 &6968857757808614907
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37345,6 +37331,19 @@ MonoBehaviour:
   m_Script: {fileID: 1182985590, guid: 06dd3d5416bf43ea368cc39ff96e6d5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!65 &8693510620218572197
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5469753614591688146}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 0.09, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5483477151424420418
 GameObject:
   m_ObjectHideFlags: 0

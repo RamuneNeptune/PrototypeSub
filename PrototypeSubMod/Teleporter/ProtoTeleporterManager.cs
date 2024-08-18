@@ -62,6 +62,8 @@ internal class ProtoTeleporterManager : MonoBehaviour, IProtoUpgrade
             ToggleDoor(false);
             teleporterClosed = true;
             activationTerminal.unlocked = false;
+
+            DeactivateTeleporter();
         }
     }
 
@@ -73,7 +75,9 @@ internal class ProtoTeleporterManager : MonoBehaviour, IProtoUpgrade
         teleporter.warpToPos = positionData.teleportPosition;
         teleporter.warpToAngle = positionData.teleportAngle;
 
-        if(overrideUpgradeEnabled)
+        currentStayOpenTime = 0;
+
+        if (overrideUpgradeEnabled)
         {
             TeleporterOverride.SetOverrideTeleporterID(alteredID);
             TeleporterOverride.SetOverrideTime(120f);
@@ -115,18 +119,30 @@ internal class ProtoTeleporterManager : MonoBehaviour, IProtoUpgrade
         {
             teleporterClosed = false;
             currentStayOpenTime = stayOpenTime;
-            Invoke(nameof(DeactivateTeleporter), 0.5f);
         }
         else
         {
             activeLoopSound.Stop();
+            teleporter.isOpen = false;
         }
-        
+
         activationTerminal = GetComponentInChildren<PrecursorTeleporterActivationTerminal>();    
     }
 
     private void DeactivateTeleporter()
     {
         TeleporterManager.main.activeTeleporters.Remove("prototypetp");
+    }
+
+    public void OnActivationTerminalCinematicStarted()
+    {
+        activationTerminal = GetComponentInChildren<PrecursorTeleporterActivationTerminal>();
+
+        activationTerminal.GetComponentInChildren<Collider>().isTrigger = true;
+    }
+
+    public void OnActivationTerminalCinematicEnded()
+    {
+        activationTerminal.GetComponentInChildren<Collider>().isTrigger = false;
     }
 }
