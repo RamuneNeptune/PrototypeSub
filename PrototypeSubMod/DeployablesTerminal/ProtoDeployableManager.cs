@@ -1,4 +1,6 @@
 ﻿using PrototypeSubMod.Interfaces;
+using PrototypeSubMod.Monobehaviors;
+using SubLibrary.Handlers;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,7 +21,11 @@ internal class ProtoDeployableManager : MonoBehaviour, IProtoUpgrade
     [SerializeField] private float launchDecoyDelay;
 
     private bool upgradeActive;
+    private int lightCount;
+    private int decoyCount;
     private GameObject decoyPrefab;
+    private List<string> availableLightSlots = new();
+    private List<string> availableDecoySlots = new();
 
     private IEnumerator Start()
     {
@@ -33,24 +39,10 @@ internal class ProtoDeployableManager : MonoBehaviour, IProtoUpgrade
     {
         if (!upgradeActive) return;
 
-        int lightCount = 0;
-        List<string> filledSlots = new();
-
-        foreach (var slot in DeployablesStorageTerminal.LightBeaconSlots)
-        {
-            var item = storageTerminal.equipment.GetItemInSlot(slot);
-
-            if (item != null)
-            {
-                filledSlots.Add(slot);
-                lightCount++;
-            }
-        }
-
         if(lightCount > 0)
         {
-            string slot = filledSlots[filledSlots.Count - 1];
-            storageTerminal.equipment.RemoveItem(slot, false, false);
+            string slot = availableLightSlots[availableLightSlots.Count - 1];
+            storageTerminal.equipment.RemoveItem(slot, true, false);
 
             Invoke(nameof(SpawnLightDelayed), launchLightDelay);
 
@@ -62,24 +54,10 @@ internal class ProtoDeployableManager : MonoBehaviour, IProtoUpgrade
     {
         if (!upgradeActive) return;
 
-        int decoyCount = 0;
-        List<string> filledSlots = new();
-
-        foreach (var slot in DeployablesStorageTerminal.CreatureDecoySlots)
-        {
-            var item = storageTerminal.equipment.GetItemInSlot(slot);
-
-            if (item != null)
-            {
-                filledSlots.Add(slot);
-                decoyCount++;
-            }
-        }
-
         if (decoyCount > 0)
         {
-            string slot = filledSlots[filledSlots.Count - 1];
-            storageTerminal.equipment.RemoveItem(slot, false, false);
+            string slot = availableDecoySlots[availableDecoySlots.Count - 1];
+            storageTerminal.equipment.RemoveItem(slot, true, false);
 
             Invoke(nameof(SpawnDecoyDelayed), launchDecoyDelay);
 
@@ -90,15 +68,18 @@ internal class ProtoDeployableManager : MonoBehaviour, IProtoUpgrade
     private void SpawnLightDelayed()
     {
         var lightComponent = Instantiate(lightPrefab, lightSpawnTransform.position, lightSpawnTransform.rotation).GetComponent<DeployableLight>();
+        lightComponent.gameObject.SetActive(true);
 
         lightComponent.LaunchWithForce(lightLaunchForce);
+        lightComponent.GetComponentInChildren<CyclopsMaterialAssigner>().OnCyclopsReferenceFinished(CyclopsReferenceHandler.CyclopsReference);
     }
 
     private void SpawnDecoyDelayed()
     {
         var decoyComponent = Instantiate(decoyPrefab, decoySpawnTransform.position, Quaternion.identity).GetComponent<CyclopsDecoy>();
+        decoyComponent.gameObject.SetActive(true);
 
-        if(decoyComponent)
+        if (decoyComponent)
         {
             decoyComponent.launch = true;
         }
@@ -107,5 +88,33 @@ internal class ProtoDeployableManager : MonoBehaviour, IProtoUpgrade
     public void SetUpgradeActive(bool active)
     {
         upgradeActive = active;
+    }
+
+    public void RecalculateDeployableTotals()
+    {
+        lightCount = 0;
+        decoyCount = 0;
+
+        foreach (var slot in DeployablesStorageTerminal.LightBeaconSlots)
+        {
+            var item = storageTerminal.equipment.GetItemInSlot(slot);
+
+            if (item != null)
+            {
+                availableLightSlots.Add(slot);
+                lightCount++;
+            }
+        }
+
+        foreach (var slot in DeployablesStorageTerminal.CreatureDecoySlots)
+        {
+            var item = storageTerminal.equipment.GetItemInSlot(slot);
+
+            if (item != null)
+            {
+                availableDecoySlots.Add(slot);
+                decoyCount++;
+            }
+        }
     }
 }

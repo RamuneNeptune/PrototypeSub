@@ -40,6 +40,7 @@ internal class DeployablesStorageTerminal : MonoBehaviour
     [SerializeField] private GameObject storageRoot;
     [SerializeField] private FMODAsset equipSound;
     [SerializeField] private FMODAsset unequipSound;
+    [SerializeField] private ProtoDeployableManager deployableManager;
 
     private void Awake()
     {
@@ -103,6 +104,8 @@ internal class DeployablesStorageTerminal : MonoBehaviour
         {
             FMODUWE.PlayOneShot(equipSound, transform.position, 2f);
         }
+
+        deployableManager.RecalculateDeployableTotals();
     }
 
     private void OnUnequip(string slot, InventoryItem item)
@@ -111,5 +114,7 @@ internal class DeployablesStorageTerminal : MonoBehaviour
         {
             FMODUWE.PlayOneShot(unequipSound, transform.position, 2f);
         }
+
+        deployableManager.RecalculateDeployableTotals();
     }
 }

@@ -1,11 +1,12 @@
-﻿using PrototypeSubMod.Interfaces;
+﻿using PrototypeSubMod.LightDistortionField;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace PrototypeSubMod.UI;
 
-internal class ActivateAllUpgradesButton : MonoBehaviour
+internal class ToggleCloakButton : MonoBehaviour
 {
-    [SerializeField] private SubRoot subRoot;
+    [SerializeField] private CloakEffectHandler cloakHandler;
 
     private bool hovering;
 
@@ -24,16 +25,15 @@ internal class ActivateAllUpgradesButton : MonoBehaviour
         if (hovering)
         {
             HandReticle main = HandReticle.main;
-            main.SetText(HandReticle.TextType.Hand, "ActivateAllUpgrades_DEBUG", true, GameInput.Button.LeftHand);
+            main.SetText(HandReticle.TextType.Hand, "ToggleCloakButton", true, GameInput.Button.LeftHand);
             main.SetText(HandReticle.TextType.HandSubscript, string.Empty, false, GameInput.Button.None);
         }
     }
 
     public void OnClick()
     {
-        foreach (var upgrade in subRoot.GetComponentsInChildren<IProtoUpgrade>(true))
-        {
-            upgrade.SetUpgradeActive(true);
-        }
+        int targetScale = cloakHandler.GetTargetScale() == 1 ? 0 : 1;
+
+        cloakHandler.SetTargetNormalizedScale(targetScale);
     }
 }

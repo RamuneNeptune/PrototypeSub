@@ -83,4 +83,14 @@ internal class CloakEffectHandler : MonoBehaviour, IProtoUpgrade
     {
         effectEnabled = active;
     }
+
+    public void SetTargetNormalizedScale(float scale)
+    {
+        targetScaleMultiplier = scale;
+    }
+
+    public float GetTargetScale()
+    {
+        return targetScaleMultiplier;
+    }
 }

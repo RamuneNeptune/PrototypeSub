@@ -27,7 +27,7 @@ internal class GenericUIButton : MonoBehaviour
         {
             HandReticle main = HandReticle.main;
             main.SetText(HandReticle.TextType.Hand, localizationKey, true, GameInput.Button.LeftHand);
-            main.SetText(HandReticle.TextType.HandSubscript, string.Empty, false, GameInput.Button.LeftHand);
+            main.SetText(HandReticle.TextType.HandSubscript, string.Empty, false, GameInput.Button.None);
         }
     }
 
