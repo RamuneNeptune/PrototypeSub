@@ -23,6 +23,7 @@ internal class uGUI_EquipmentPatches
 
         GameObject go = new();
         go.transform.SetParent(slot0.transform);
+        go.name = "DecoyStorageBackground";
 
         go.AddComponent<RectTransform>();
 
