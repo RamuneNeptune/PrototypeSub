@@ -1,4 +1,5 @@
 ﻿using PrototypeSubMod.Interfaces;
+using PrototypeSubMod.IonGenerator;
 using UnityEngine;
 
 namespace PrototypeSubMod.LightDistortionField;
@@ -7,8 +8,7 @@ internal class CloakEffectHandler : MonoBehaviour, IProtoUpgrade
 {
     public static CloakEffectHandler Instance { get; private set; }
 
-    [Header("Shader Parameters")]
-    public bool effectEnabled;
+    [Header("Shader Parameters")] 
     public Shader shader;
     public Transform ovoid;
 
@@ -37,8 +37,20 @@ internal class CloakEffectHandler : MonoBehaviour, IProtoUpgrade
     [Header("Sound Values")]
     public float soundMultiplier;
 
-    private float targetScaleMultiplier;
+    [Header("Miscellaneous")]
+    [SerializeField] private ProtoIonGenerator ionGenerator;
+
+    private float TargetScaleMultiplier
+    {
+        get
+        {
+            return GetUpgradeActive() ? 1 : 0;
+        }
+    }
+
     private Vector3 originalScale;
+
+    private bool upgradeActive;
 
     private void Awake()
     {
@@ -54,17 +66,17 @@ internal class CloakEffectHandler : MonoBehaviour, IProtoUpgrade
     private void Start()
     {
         originalScale = ovoid.localScale;
-        ovoid.localScale = originalScale * targetScaleMultiplier;
+        ovoid.localScale = originalScale * TargetScaleMultiplier;
     }
 
     private void Update()
     {
-        ovoid.localScale = Vector3.MoveTowards(ovoid.localScale, originalScale * targetScaleMultiplier, Time.deltaTime * scaleSpeed);
+        ovoid.localScale = Vector3.MoveTowards(ovoid.localScale, originalScale * TargetScaleMultiplier, Time.deltaTime * scaleSpeed);
     }
 
     public bool IsInsideOvoid(Vector3 point)
     {
-        if (!effectEnabled) return false;
+        if (!upgradeActive) return false;
 
         Vector3 localPoint = point - ovoid.position;
 
@@ -82,16 +94,16 @@ internal class CloakEffectHandler : MonoBehaviour, IProtoUpgrade
 
     public void SetUpgradeActive(bool active)
     {
-        effectEnabled = active;
+        upgradeActive = active;
     }
 
-    public void SetTargetNormalizedScale(float scale)
+    public bool GetUpgradeActive()
     {
-        targetScaleMultiplier = scale;
+        return !ionGenerator.GetUpgradeActive() && upgradeActive;
     }
 
     public float GetTargetScale()
     {
-        return targetScaleMultiplier;
+        return TargetScaleMultiplier;
     }
 }

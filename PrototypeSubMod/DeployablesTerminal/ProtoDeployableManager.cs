@@ -90,6 +90,8 @@ internal class ProtoDeployableManager : MonoBehaviour, IProtoUpgrade
         upgradeActive = active;
     }
 
+    public bool GetUpgradeActive() => upgradeActive;
+
     public void RecalculateDeployableTotals()
     {
         lightCount = 0;

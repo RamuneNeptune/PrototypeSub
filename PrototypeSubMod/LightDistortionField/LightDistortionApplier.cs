@@ -20,7 +20,7 @@ internal class LightDistortionApplier : MonoBehaviour
             return;
         }
 
-        if (!CloakEffectHandler.Instance.effectEnabled)
+        if (!CloakEffectHandler.Instance.GetUpgradeActive())
         {
             Graphics.Blit(source, destination, standardMaterial);
             return;

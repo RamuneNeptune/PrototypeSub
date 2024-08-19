@@ -47,4 +47,6 @@ internal class ProtoHydrodynamicVentilators : MonoBehaviour, IProtoUpgrade
     {
         upgradeActive = active;
     }
+
+    public bool GetUpgradeActive() => upgradeActive;
 }

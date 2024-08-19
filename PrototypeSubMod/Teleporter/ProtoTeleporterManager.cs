@@ -112,6 +112,8 @@ internal class ProtoTeleporterManager : MonoBehaviour, IProtoUpgrade
         overrideUpgradeEnabled = active;
     }
 
+    public bool GetUpgradeActive() => overrideUpgradeEnabled;
+
     //Called by PrecursorTeleporterActivationTerminal via SendMessage
     public void ToggleDoor(bool open)
     {

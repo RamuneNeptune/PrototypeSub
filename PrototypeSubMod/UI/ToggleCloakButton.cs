@@ -32,8 +32,6 @@ internal class ToggleCloakButton : MonoBehaviour
 
     public void OnClick()
     {
-        int targetScale = cloakHandler.GetTargetScale() == 1 ? 0 : 1;
-
-        cloakHandler.SetTargetNormalizedScale(targetScale);
+        cloakHandler.SetUpgradeActive(!cloakHandler.GetUpgradeActive());
     }
 }
