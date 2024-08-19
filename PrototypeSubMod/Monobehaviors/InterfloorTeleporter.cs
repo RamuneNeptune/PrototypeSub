@@ -5,7 +5,7 @@ namespace PrototypeSubMod.Monobehaviors;
 
 internal class InterfloorTeleporter : MonoBehaviour
 {
-    [SerializeField] private FMOD_CustomEmitter soundEffect;
+    [SerializeField] private FMODAsset soundEffect;
     [SerializeField] private Transform teleportPosition;
     [SerializeField] private float teleporterCooldown = 1f;
 
@@ -19,7 +19,9 @@ internal class InterfloorTeleporter : MonoBehaviour
 
         Player.main.SetPosition(teleportPosition.position, teleportPosition.rotation);
         Player.main.mode = Player.Mode.Sitting;
-        FMODUWE.PlayOneShot(soundEffect.asset, teleportPosition.position);
+        Player.main.rigidBody.velocity = Vector3.zero;
+
+        FMODUWE.PlayOneShot(soundEffect, teleportPosition.position, 0.5f);
 
         MainCamera.camera.GetComponent<WarpScreenFXController>().StartWarp();
 
