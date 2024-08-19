@@ -376,7 +376,6 @@ MonoBehaviour:
   m_Script: {fileID: 903041748, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  effectEnabled: 1
   shader: {fileID: 4800000, guid: f251235b3bff35847a134bb3eac9cade, type: 3}
   ovoid: {fileID: 2508205754009765021}
   color: {r: 0.34901962, g: 0.34901962, b: 0.34901962, a: 1}
@@ -394,6 +393,7 @@ MonoBehaviour:
   vignetteFadeInDist: 1.5
   scaleSpeed: 45
   soundMultiplier: 0.25
+  ionGenerator: {fileID: 8702380383007559634}
 --- !u!1 &39862891922407203
 GameObject:
   m_ObjectHideFlags: 0
@@ -11403,9 +11403,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6874283269625420802}
-  - component: {fileID: 3209428281590165425}
+  - component: {fileID: 8702380383007559634}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: IonGenerator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11418,14 +11418,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1787061301903815760}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.6794304, y: 6.281348, z: 13.2232895}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8041321529513965087}
   m_RootOrder: 22
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3209428281590165425
+--- !u!114 &8702380383007559634
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -11434,61 +11434,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1787061301903815760}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 801002039, guid: 06dd3d5416bf43ea368cc39ff96e6d5a, type: 3}
+  m_Script: {fileID: 1750654117, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifeTime: 4
-  blastRadius:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 100
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 100
-      inSlope: 100
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  blastHeight:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 1
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 1
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  empedMaterial: {fileID: 0}
-  renderer: {fileID: 0}
-  disableElectronicsTime: 2
+  motorMode: {fileID: 2278157053698757509}
+  energyPerSecond: 0.3
+  activeNoiseValue: 125
 --- !u!1 &1789286580445139733
 GameObject:
   m_ObjectHideFlags: 0
@@ -15386,12 +15337,13 @@ MonoBehaviour:
   m_Script: {fileID: -634516636, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  storageTerminal: {fileID: 2874070112182103862}
+  ionGenerator: {fileID: 8702380383007559634}
   subRoot: {fileID: 6246764057006774658}
   launchLightNotification: {fileID: 5210612764189081508}
   launchDecoyNotification: {fileID: 3353362596076511388}
   lightPrefab: {fileID: 2104510665066426310, guid: ac0d6bd7c01ca554288f5cf3a20f659b,
     type: 3}
-  storageTerminal: {fileID: 2874070112182103862}
   lightSpawnTransform: {fileID: 8369945550746735300}
   decoySpawnTransform: {fileID: 5032246472120335905}
   launchLightDelay: 3

@@ -1,4 +1,5 @@
 ﻿using PrototypeSubMod.Interfaces;
+using PrototypeSubMod.IonGenerator;
 using PrototypeSubMod.Monobehaviors;
 using SubLibrary.Handlers;
 using System.Collections;
@@ -9,11 +10,12 @@ namespace PrototypeSubMod.DeployablesTerminal;
 
 internal class ProtoDeployableManager : MonoBehaviour, IProtoUpgrade
 {
+    [SerializeField] DeployablesStorageTerminal storageTerminal;
+    [SerializeField] private ProtoIonGenerator ionGenerator;
     [SerializeField] private SubRoot subRoot;
     [SerializeField] private VoiceNotification launchLightNotification;
     [SerializeField] private VoiceNotification launchDecoyNotification;
     [SerializeField] private GameObject lightPrefab;
-    [SerializeField] DeployablesStorageTerminal storageTerminal;
     [SerializeField] private Transform lightSpawnTransform;
     [SerializeField] private Transform decoySpawnTransform;
     [SerializeField] private float launchLightDelay;
@@ -39,6 +41,8 @@ internal class ProtoDeployableManager : MonoBehaviour, IProtoUpgrade
     {
         if (!upgradeActive) return;
 
+        if (ionGenerator.GetUpgradeActive()) return;
+
         if(lightCount > 0)
         {
             string slot = availableLightSlots[availableLightSlots.Count - 1];
@@ -53,6 +57,8 @@ internal class ProtoDeployableManager : MonoBehaviour, IProtoUpgrade
     public void TryLaunchDecoy()
     {
         if (!upgradeActive) return;
+
+        if (ionGenerator.GetUpgradeActive()) return;
 
         if (decoyCount > 0)
         {

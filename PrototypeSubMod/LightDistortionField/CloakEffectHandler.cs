@@ -38,7 +38,7 @@ internal class CloakEffectHandler : MonoBehaviour, IProtoUpgrade
     public float soundMultiplier;
 
     [Header("Miscellaneous")]
-    [SerializeField] private ProtoIonGenerator ionGenerator;
+    public ProtoIonGenerator ionGenerator;
 
     private float TargetScaleMultiplier
     {
