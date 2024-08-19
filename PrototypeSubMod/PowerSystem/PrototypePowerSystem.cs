@@ -79,7 +79,7 @@ internal class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTr
 
         batterySource.SetBattery(battery);
 
-        FMODUWE.PlayOneShot(equipBatterySound, transform.position, 2f);
+        FMODUWE.PlayOneShot(equipBatterySound, transform.position,1f);
     }
 
     private void OnUnequip(string slot, InventoryItem item)
@@ -89,7 +89,7 @@ internal class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTr
         var batterySource = batterySources[index];
         batterySource.SetBattery(null);
 
-        FMODUWE.PlayOneShot(unequipBatterySound, transform.position, 2f);
+        FMODUWE.PlayOneShot(unequipBatterySound, transform.position, 1f);
     }
 
     public void OnHover(HandTargetEventData eventData)

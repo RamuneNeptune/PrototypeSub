@@ -21,7 +21,7 @@ internal class InterfloorTeleporter : MonoBehaviour
         Player.main.mode = Player.Mode.Sitting;
         Player.main.rigidBody.velocity = Vector3.zero;
 
-        FMODUWE.PlayOneShot(soundEffect, teleportPosition.position, 0.5f);
+        FMODUWE.PlayOneShot(soundEffect, teleportPosition.position, 0.25f);
 
         MainCamera.camera.GetComponent<WarpScreenFXController>().StartWarp();
 
