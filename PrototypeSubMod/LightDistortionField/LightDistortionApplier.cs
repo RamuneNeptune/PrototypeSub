@@ -5,24 +5,18 @@ namespace PrototypeSubMod.LightDistortionField;
 internal class LightDistortionApplier : MonoBehaviour
 {
     private static Material material;
-    private static Material standardMaterial;
-
-    private void Awake()
-    {
-        standardMaterial = new Material(Shader.Find("Standard"));
-    }
 
     private void OnRenderImage(RenderTexture source, RenderTexture destination)
     {
         if (CloakEffectHandler.Instance == null)
         {
-            Graphics.Blit(source, destination, standardMaterial);
+            Graphics.Blit(source, destination);
             return;
         }
 
         if (!CloakEffectHandler.Instance.GetUpgradeActive())
         {
-            Graphics.Blit(source, destination, standardMaterial);
+            Graphics.Blit(source, destination);
             return;
         }
 
