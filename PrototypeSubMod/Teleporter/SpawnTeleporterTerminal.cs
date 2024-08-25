@@ -17,7 +17,7 @@ internal class SpawnTeleporterTerminal : MonoBehaviour
 
         var prefab = operation.Result;
 
-        var terminal = Instantiate(prefab, transform);
+        var terminal = Instantiate(prefab, transform, false);
         var placeholder = terminal.GetComponentInChildren<PrefabPlaceholder>();
 
         DestroyImmediate(placeholder.gameObject);
