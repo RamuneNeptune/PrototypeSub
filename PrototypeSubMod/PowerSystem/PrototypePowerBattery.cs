@@ -77,6 +77,14 @@ internal class PrototypePowerBattery : MonoBehaviour, IBattery, IProtoTreeEventL
         connectedBattery = GetComponents<IBattery>().FirstOrDefault(i => i != (IBattery)this);
 
         var techTag = GetComponent<TechTag>();
+        if(techTag == null || !PrototypePowerSystem.AllowedPowerSources.ContainsKey(techTag.type))
+        {
+            initialized = true;
+            string ttName = techTag != null ? techTag.type.ToString() : "Null tech tag";
+            Plugin.Logger.LogWarning($"Prototype battery on {gameObject} with invalid tech type ({ttName})");
+            return;
+        }
+
         float power = PrototypePowerSystem.AllowedPowerSources[techTag.type];
         SetCapacity(power);
         SetCharge(power);
