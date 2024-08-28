@@ -1,4 +1,5 @@
 ﻿using PrototypeSubMod.Interfaces;
+using PrototypeSubMod.MotorHandler;
 using System.Collections;
 using UnityEngine;
 
@@ -6,7 +7,7 @@ namespace PrototypeSubMod.IonGenerator;
 
 internal class ProtoIonGenerator : MonoBehaviour, IProtoUpgrade
 {
-    [SerializeField] private CyclopsMotorMode motorMode;
+    [SerializeField] private ProtoMotorHandler motorHandler;
     [SerializeField] private PowerRelay powerRelay;
     [SerializeField] private float energyPerSecond = 0.3f;
     [SerializeField] private float activeNoiseValue;
@@ -22,13 +23,10 @@ internal class ProtoIonGenerator : MonoBehaviour, IProtoUpgrade
     private GameObject empPrefab;
     private bool upgradeActive;
     private bool empFired;
-    private float[] originalSpeedValues;
     private float currentEMPChargeTime;
 
     private IEnumerator Start()
     {
-        originalSpeedValues = motorMode.motorModeSpeeds;
-
         CoroutineTask<GameObject> crabsquidTask = CraftData.GetPrefabForTechTypeAsync(TechType.CrabSquid);
 
         yield return crabsquidTask;
@@ -48,6 +46,8 @@ internal class ProtoIonGenerator : MonoBehaviour, IProtoUpgrade
 
     private void Update()
     {
+        motorHandler.SetAllowedToMove(!upgradeActive);
+
         if (!upgradeActive)
         {
             if (currentEMPChargeTime > 0)
@@ -71,8 +71,6 @@ internal class ProtoIonGenerator : MonoBehaviour, IProtoUpgrade
             Instantiate(empPrefab, empSpawnPos.position, empSpawnPos.rotation);
             empFired = true;
         }
-
-        motorMode.motorModeSpeeds = new float[originalSpeedValues.Length];
     }
 
     public void SetUpgradeActive(bool active)

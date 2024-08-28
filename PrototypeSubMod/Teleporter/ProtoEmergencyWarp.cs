@@ -40,7 +40,7 @@ internal class ProtoEmergencyWarp : MonoBehaviour
             throw new NotImplementedException("No power voiceline not yet implemented");
         }
 
-        subRoot.powerRelay.ConsumeEnergy(requiredPower, out _);
+        subRoot.powerRelay.ConsumeEnergy(999999, out _);
         currentChargeTime = 0;
         startedTeleport = false;
     }

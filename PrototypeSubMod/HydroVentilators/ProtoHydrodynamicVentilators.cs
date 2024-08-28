@@ -1,23 +1,18 @@
 ﻿using PrototypeSubMod.Interfaces;
+using PrototypeSubMod.MotorHandler;
 using UnityEngine;
 
 namespace PrototypeSubMod.HydroVentilators;
 
 internal class ProtoHydrodynamicVentilators : MonoBehaviour, IProtoUpgrade
 {
-    [SerializeField] private CyclopsMotorMode motorMode;
+    [SerializeField] private ProtoMotorHandler motorHandler;
     [SerializeField] private CrushDamage crushDamage;
     [SerializeField] private float activationDepth;
     [SerializeField] private float maxDepth;
     [SerializeField] private AnimationCurve powerMultiplierCurve;
 
     private bool upgradeActive;
-    private float[] originalMotorSpeeds;
-
-    private void Start()
-    {
-        originalMotorSpeeds = motorMode.motorModeSpeeds;
-    }
 
     private void FixedUpdate()
     {
@@ -27,20 +22,14 @@ internal class ProtoHydrodynamicVentilators : MonoBehaviour, IProtoUpgrade
 
         if (depth < activationDepth)
         {
-            motorMode.motorModeSpeeds = originalMotorSpeeds;
+            motorHandler.SetSpeedMultiplier(1f);
             return;
         }
 
         float normalizedDepth = (depth - activationDepth) / (maxDepth - activationDepth);
         float multiplier = powerMultiplierCurve.Evaluate(normalizedDepth);
 
-        float[] newPowerValues = new float[originalMotorSpeeds.Length];
-        for (int i = 0; i < newPowerValues.Length; i++)
-        {
-            newPowerValues[i] = originalMotorSpeeds[i] * multiplier;
-        }
-
-        motorMode.motorModeSpeeds = newPowerValues;
+        motorHandler.SetSpeedMultiplier(multiplier);
     }
 
     public void SetUpgradeActive(bool active)

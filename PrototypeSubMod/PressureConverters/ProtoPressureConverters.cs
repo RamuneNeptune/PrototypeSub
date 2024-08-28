@@ -1,23 +1,18 @@
 ﻿using PrototypeSubMod.Interfaces;
+using PrototypeSubMod.MotorHandler;
 using UnityEngine;
 
 namespace PrototypeSubMod.PressureConverters;
 
 internal class ProtoPressureConverters : MonoBehaviour, IProtoUpgrade
 {
-    [SerializeField] private CyclopsMotorMode motorMode;
+    [SerializeField] private ProtoMotorHandler motorHandler;
     [SerializeField] private CrushDamage crushDamage;
     [SerializeField] private float activationDepth;
     [SerializeField] private float maxDepth;
     [SerializeField] private AnimationCurve powerMultiplierCurve;
 
     private bool convertersActive;
-    private float[] originalPowerValues;
-
-    private void Start()
-    {
-        originalPowerValues = motorMode.motorModePowerConsumption;
-    }
 
     private void FixedUpdate()
     {
@@ -27,20 +22,14 @@ internal class ProtoPressureConverters : MonoBehaviour, IProtoUpgrade
 
         if(depth < activationDepth)
         {
-            motorMode.motorModePowerConsumption = originalPowerValues;
+            motorHandler.SetPowerMultiplier(1f);
             return;
         }
 
         float normalizedDepth = (depth - activationDepth) / (maxDepth - activationDepth);
         float multiplier = powerMultiplierCurve.Evaluate(normalizedDepth);
 
-        float[] newPowerValues = new float[originalPowerValues.Length];
-        for (int i = 0; i < newPowerValues.Length; i++)
-        {
-            newPowerValues[i] = originalPowerValues[i] * multiplier;
-        }
-
-        motorMode.motorModePowerConsumption = newPowerValues;
+        motorHandler.SetPowerMultiplier(multiplier);
     }
 
     public void SetUpgradeActive(bool active)
