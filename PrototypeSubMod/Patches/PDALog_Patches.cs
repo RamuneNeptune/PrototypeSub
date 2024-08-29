@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using Nautilus.Utility;
 using System.Linq;
 using UnityEngine;
 
@@ -9,7 +10,7 @@ internal class PDALog_Patches
 {
     private static Sprite pdaSprite;
 
-    [HarmonyPatch(nameof(PDALog.Initialize))]
+    [HarmonyPatch(nameof(PDALog.Initialize)), HarmonyPostfix]
     private static void Initialize_Postfix()
     {
         pdaSprite = PDALog.mapping.First(i => i.Value.key == "Goal_BiomeKooshZone").Value.icon;
@@ -17,18 +18,31 @@ internal class PDALog_Patches
         AddEntries();
     }
 
+    [HarmonyPatch(nameof(PDALog.Add)), HarmonyPostfix]
+    private static void Add_Postfix(string key)
+    {
+        PDALog.GetEntryData(key, out var data);
+        Plugin.Logger.LogInfo($"Adding entry data with key {key}. Data key = {data.key} | Sound = {data.sound} (Null = {data.sound == null}) | Length = {(float)FMODExtensions.GetLength(data.sound.path)}");
+    }
+
     private static void AddEntries()
     {
-        /*
+        var fmodAsset = AudioUtils.GetFmodAsset("PDA_InterceptorUnlock");
+        fmodAsset.id = fmodAsset.path;
+
         PDALog.EntryData interceptorTestEncy = new()
         {
-            key = "",
+            key = "OnInterceptorTestDataDownloaded",
             type = PDALog.EntryType.Default,
             icon = pdaSprite,
-            sound = Plugin.AssetBundle.LoadAsset<FMODAsset>("PDAInterceptorUnlock"),
+            sound = fmodAsset,
             doNotAutoPlay = false
         };
-        PDALog.mapping.Add()
-        */
+
+        Plugin.Logger.LogInfo($"Adding entry to {PDALog.mapping} with key \"OnInterceptorTestDataDownloaded\" | FMOD Asset = {interceptorTestEncy.sound.id}");
+        PDALog.mapping.Add("OnInterceptorTestDataDownloaded", interceptorTestEncy);
+
+        PDALog.GetEntryData("OnInterceptorTestDataDownloaded", out var data);
+        Plugin.Logger.LogInfo($"Sound after add = {data.sound.path} | Key = {data.key}");
     }
 }

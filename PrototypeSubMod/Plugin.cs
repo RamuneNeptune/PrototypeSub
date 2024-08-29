@@ -53,7 +53,7 @@ namespace PrototypeSubMod
             PrototypeAudio.RegisterAudio(AssetBundle);
 
             RegisterEncyEntries();
-            //0RegisterStructures();
+            RegisterStructures();
             RegisterPrefabs();
             RegisterStoryGoals();
             InitializeSlotMapping();
@@ -101,6 +101,7 @@ namespace PrototypeSubMod
             ProtoPlaque_World.Register();
             ProtoLogo_World.Register();
             DamagedProtoLogo_World.Register();
+            TeleporterTerminal_World.Register();
         }
 
         private void RegisterEncyEntries()
@@ -141,9 +142,9 @@ namespace PrototypeSubMod
 
             #region Interceptor Unlock
 
-            StoryGoalHandler.RegisterCustomEvent("OnProtoTeaserDownloaded", () =>
+            StoryGoalHandler.RegisterCustomEvent("OnInterceptorTestDataDownloaded", () =>
             {
-                PDALog.Add("OnProtoTeaserDownloaded");
+                PDALog.Add("OnInterceptorTestDataDownloaded");
             });
 
             StoryGoalHandler.RegisterCompoundGoal("InterceptorTestEncy", Story.GoalType.Encyclopedia, 15f, new[] { "OnInterceptorTestDataDownloaded" });
