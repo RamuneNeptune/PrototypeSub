@@ -53,7 +53,7 @@ namespace PrototypeSubMod
             PrototypeAudio.RegisterAudio(AssetBundle);
 
             RegisterEncyEntries();
-            RegisterStructures();
+            //0RegisterStructures();
             RegisterPrefabs();
             RegisterStoryGoals();
             InitializeSlotMapping();
