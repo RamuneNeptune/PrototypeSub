@@ -1,0 +1,37 @@
+﻿using Nautilus.Assets.PrefabTemplates;
+using Nautilus.Assets;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Story;
+using PrototypeSubMod.Monobehaviors;
+
+namespace PrototypeSubMod.Prefabs.UpgradePlatforms;
+
+internal class TeleporterTerminal_World
+{
+    public static PrefabInfo prefabInfo { get; private set; }
+
+    public static void Register()
+    {
+        prefabInfo = PrefabInfo.WithTechType("ProtoTeaserTerminal", "Teaser Terminal", "Mysterious...");
+
+        var prefab = new CustomPrefab(prefabInfo);
+
+        var cloneTemplate = new CloneTemplate(prefabInfo, "d200d747-b802-43f4-80b1-5c3d2155fbcd");
+
+        cloneTemplate.ModifyPrefab += gameObject =>
+        {
+            var handTarget = gameObject.GetComponent<StoryHandTarget>();
+            handTarget.goal = new StoryGoal("OnInterceptorTestDataDownloaded", Story.GoalType.PDA, 0f);
+
+            gameObject.EnsureComponent<TeleporterDisablerBehavior>();
+        };
+
+        prefab.SetGameObject(cloneTemplate);
+
+        prefab.Register();
+    }
+}

@@ -25,7 +25,7 @@ internal static class PrototypeAudio
 
     private static void RegisterVoicelines(AssetBundle bundle)
     {
-
+        AddSFX(bundle.LoadAsset<AudioClip>("PDA_InterceptorUnlock"), "PDA_InterceptorUnlock", kStreamSoundModes);
     }
 
     private static void AddSFX(AudioClip clip, string soundPath, MODE modes)

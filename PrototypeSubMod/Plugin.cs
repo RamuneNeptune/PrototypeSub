@@ -2,8 +2,10 @@
 using BepInEx.Logging;
 using HarmonyLib;
 using Nautilus.Handlers;
+using Nautilus.Utility;
 using PrototypeSubMod.PowerSystem;
 using PrototypeSubMod.Prefabs;
+using PrototypeSubMod.Prefabs.UpgradePlatforms;
 using PrototypeSubMod.SaveData;
 using System.Collections;
 using System.IO;
@@ -91,20 +93,38 @@ namespace PrototypeSubMod
             Prototype_Craftable.Register();
             ProtoBuildTerminal_World.Register();
             DeployableLight_Craftable.Register();
+
+            ProtoPlaque_World.Register();
+            ProtoLogo_World.Register();
+            DamagedProtoLogo_World.Register();
         }
 
         private void RegisterEncyEntries()
         {
+            #region Precursor Ingot
             LanguageHandler.SetLanguageLine("DownloadedData/Precursor/Scan", "PrecursorIngotEncyLine");
 
             string title = Language.main.Get("PrecursorIngotEncyTitle");
             string description = Language.main.Get("PrecursorIngotEncyBody");
 
             PDAHandler.AddEncyclopediaEntry("PrecursorIngot", "DownloadedData/Precursor/Scan", title, description, unlockSound: PDAHandler.UnlockBasic);
+            #endregion
+
+            #region Interceptor Terminal
+            LanguageHandler.SetLanguageLine("DownloadedData/Precursor/Terminal", "ProtoTeleporterEncyEntry");
+
+            string protoTeleporterText = Language.main.Get("ProtoTeleporterEncyEntry");
+            string protoTeleporterTextBody = Language.main.Get("ProtoTeleporterEncyEntry_Body");
+            Texture2D image = AssetBundle.LoadAsset<Texture2D>("ProtoTeleporter_Corrupted");
+
+            PDAHandler.AddEncyclopediaEntry("InterceptorTestEncy", "DownloadedData/Precursor/Scan", protoTeleporterText, protoTeleporterTextBody, image, unlockSound: PDAHandler.UnlockBasic);
+            #endregion
         }
 
         private void RegisterStoryGoals()
         {
+            #region Precursor Ingot
+
             StoryGoalHandler.RegisterCompoundGoal("Ency_PrecursorIngot", Story.GoalType.Encyclopedia, 12f, "Goal_BiomePrecursorGunUpper");
 
             StoryGoalHandler.RegisterCustomEvent("Ency_PrecursorIngot", () =>
@@ -112,6 +132,23 @@ namespace PrototypeSubMod
                 KnownTech.Add(PrecursorIngot_Craftable.prefabInfo.TechType);
                 PDAEncyclopedia.Add("PrecursorIngot", true);
             });
+
+            #endregion
+
+            #region Interceptor Unlock
+
+            StoryGoalHandler.RegisterCustomEvent("OnProtoTeaserDownloaded", () =>
+            {
+                PDALog.Add("OnProtoTeaserDownloaded");
+            });
+
+            StoryGoalHandler.RegisterCompoundGoal("InterceptorTestEncy", Story.GoalType.Encyclopedia, 15f, new[] { "OnInterceptorTestDataDownloaded" });
+            StoryGoalHandler.RegisterCustomEvent("InterceptorTestEncy", () =>
+            {
+                PDAEncyclopedia.Add("InterceptorTestEncy", true);
+            });
+
+            #endregion
         }
     }
 }
