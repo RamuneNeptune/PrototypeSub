@@ -2,7 +2,6 @@
 using BepInEx.Logging;
 using HarmonyLib;
 using Nautilus.Handlers;
-using Nautilus.Utility;
 using PrototypeSubMod.PowerSystem;
 using PrototypeSubMod.Prefabs;
 using PrototypeSubMod.Prefabs.UpgradePlatforms;
@@ -17,6 +16,7 @@ namespace PrototypeSubMod
     [BepInPlugin(GUID, pluginName, versionString)]
     [BepInDependency("com.snmodding.nautilus")]
     [BepInDependency("com.indigocoder.sublibrary")]
+    [BepInDependency("com.lee23.epicstructureloader", "1.0.1")]
     public class Plugin : BaseUnityPlugin
     {
         private const string GUID = "com.teamproto.prototypesub";
@@ -50,6 +50,7 @@ namespace PrototypeSubMod
             PrototypeAudio.RegisterAudio(AssetBundle);
 
             RegisterEncyEntries();
+            RegisterStructures();
             RegisterPrefabs();
             RegisterStoryGoals();
             InitializeSlotMapping();
@@ -149,6 +150,11 @@ namespace PrototypeSubMod
             });
 
             #endregion
+        }
+
+        private void RegisterStructures()
+        {
+
         }
     }
 }
