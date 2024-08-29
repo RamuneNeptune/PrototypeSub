@@ -1,7 +1,10 @@
 ﻿using BepInEx;
 using BepInEx.Logging;
+using EpicStructureLoader;
 using HarmonyLib;
+using ModStructureFormat;
 using Nautilus.Handlers;
+using Newtonsoft.Json;
 using PrototypeSubMod.PowerSystem;
 using PrototypeSubMod.Prefabs;
 using PrototypeSubMod.Prefabs.UpgradePlatforms;
@@ -154,7 +157,11 @@ namespace PrototypeSubMod
 
         private void RegisterStructures()
         {
+            var interceptorStructure = AssetBundle.LoadAsset<TextAsset>("InterceptorUnlockStructure");
+            var structure = JsonConvert.DeserializeObject<Structure>(interceptorStructure.text);
 
+            int entityCount = 0;
+            StructureLoading.RegisterStructure(structure, ref entityCount);
         }
     }
 }
