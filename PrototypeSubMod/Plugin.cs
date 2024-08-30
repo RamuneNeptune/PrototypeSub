@@ -9,6 +9,7 @@ using PrototypeSubMod.PowerSystem;
 using PrototypeSubMod.Prefabs;
 using PrototypeSubMod.Prefabs.UpgradePlatforms;
 using PrototypeSubMod.SaveData;
+using SubLibrary.Audio;
 using System.Collections;
 using System.IO;
 using System.Reflection;
@@ -50,7 +51,8 @@ namespace PrototypeSubMod
             Logger = base.Logger;
 
             LanguageHandler.RegisterLocalizationFolder();
-            PrototypeAudio.RegisterAudio(AssetBundle);
+            //PrototypeAudio.RegisterAudio(AssetBundle);
+            SubAudioLoader.LoadAllAudio(AssetBundle);
 
             RegisterEncyEntries();
             RegisterStructures();

@@ -20,12 +20,11 @@ internal static class PrototypeAudio
 
     private static void RegisterWorldSFX(AssetBundle bundle)
     {
-        AddSFX(bundle.LoadAsset<AudioClip>("ShortRangeTeleporterSFX"), "InterfloorTeleporterFX", kWorldSoundModes, AudioUtils.BusPaths.PlayerSFXs);
+        AddSFX(bundle.LoadAsset<AudioClip>("ShortRangeTeleporterSFX"), "InterfloorTeleporterSFX", kWorldSoundModes, AudioUtils.BusPaths.PlayerSFXs);
     }
 
     private static void RegisterVoicelines(AssetBundle bundle)
     {
-        Plugin.Logger.LogInfo($"Registering unlock audio. Audio clip = {bundle.LoadAsset<AudioClip>("PDA_InterceptorUnlock")}");
         AddSFX(bundle.LoadAsset<AudioClip>("PDA_InterceptorUnlock"), "PDA_InterceptorUnlock", kStreamSoundModes, AudioUtils.BusPaths.PDAVoice);
     }
 
