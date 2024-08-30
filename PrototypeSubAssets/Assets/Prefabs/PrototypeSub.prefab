@@ -73443,16 +73443,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioDatas:
-  - name: ShortRangeTeleporter
+  - name: InterfloorTeleporterSFX
     path: InterfloorTeleporterSFX
     audioClip: {fileID: 8300000, guid: d1ff3cdc8b503884f939fbfa2d73cc83, type: 3}
     audioType: 0
     busPath: 8
-  - name: PDAInterceptorUnlock
-    path: PDAInterceptorUnlock
+  - name: PDA_InterceptorUnlock
+    path: PDA_InterceptorUnlock
     audioClip: {fileID: 8300000, guid: 06efa1ab2291c034aa4c772a83c61642, type: 3}
-    audioType: 1
+    audioType: 0
     busPath: 2
+  names:
+  - InterfloorTeleporterSFX
+  - PDA_InterceptorUnlock
+  paths:
+  - InterfloorTeleporterSFX
+  - PDA_InterceptorUnlock
+  clips:
+  - {fileID: 8300000, guid: d1ff3cdc8b503884f939fbfa2d73cc83, type: 3}
+  - {fileID: 8300000, guid: 06efa1ab2291c034aa4c772a83c61642, type: 3}
+  types: 0000000000000000
+  busPathEnums: 0800000002000000
 --- !u!1 &8049366260307167103
 GameObject:
   m_ObjectHideFlags: 0
