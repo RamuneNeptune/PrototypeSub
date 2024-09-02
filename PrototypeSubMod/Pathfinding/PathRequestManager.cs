@@ -1,0 +1,88 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Threading;
+using UnityEngine;
+
+namespace PrototypeSubMod.Pathfinding;
+
+public class PathRequestManager : MonoBehaviour
+{
+    private static PathRequestManager Instance;
+
+    [SerializeField] private Pathfinder pathfinder;
+
+    private Queue<PathResult> results = new Queue<PathResult>();
+
+    private void Awake()
+    {
+        Debug.Assert(Instance == null);
+        Instance = this;
+    }
+
+    private void Update()
+    {
+        if (results.Count > 0)
+        {
+            int itemsInQueue = results.Count;
+            lock (results)
+            {
+                for (int i = 0; i < itemsInQueue; i++)
+                {
+                    var result = results.Dequeue();
+                    result.callback(result.path, result.success);
+                }
+            }
+        }
+    }
+
+    public static void RequestPath(Vector3 pathStart, Vector3 pathEnd, Action<PathData[], bool> callback)
+    {
+        RequestPath(new PathRequest(pathStart, pathEnd, callback));
+    }
+
+    public static void RequestPath(PathRequest request)
+    {
+        ThreadStart threadStart = delegate
+        {
+            Instance.pathfinder.FindPath(request, Instance.FinishedProcessingPath);
+        };
+
+        threadStart.Invoke();
+    }
+
+    public void FinishedProcessingPath(PathResult result)
+    {
+        lock (results)
+        {
+            results.Enqueue(result);
+        }
+    }
+}
+
+public struct PathRequest
+{
+    public Vector3 pathStart;
+    public Vector3 pathEnd;
+    public Action<PathData[], bool> callback;
+
+    public PathRequest(Vector3 pathStart, Vector3 pathEnd, Action<PathData[], bool> callback)
+    {
+        this.pathStart = pathStart;
+        this.pathEnd = pathEnd;
+        this.callback = callback;
+    }
+}
+
+public struct PathResult
+{
+    public PathData[] path;
+    public bool success;
+    public Action<PathData[], bool> callback;
+
+    public PathResult(PathData[] path, bool success, Action<PathData[], bool> callback)
+    {
+        this.path = path;
+        this.success = success;
+        this.callback = callback;
+    }
+}

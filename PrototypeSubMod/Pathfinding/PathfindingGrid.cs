@@ -1,0 +1,394 @@
+﻿using PrototypeSubMod.Pathfinding.SaveSystem;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+
+namespace PrototypeSubMod.Pathfinding;
+
+public class PathfindingGrid : MonoBehaviour
+{
+    [Header("Gizmos")]
+    public bool displayGridGizmos;
+    public bool displaySurfaceAngleGizmos;
+
+    [Header("Grid Values")]
+    public Vector3 gridWorldSize;
+    public float nodeRadius;
+    public int rayCount;
+    public int obstacleProximityPenalty = 10;
+    [Range(-90, 90)] public float minSurfaceAngle = 0f;
+    public TerrainType[] walkableRegions;
+
+    [Header("Saves")]
+    public TextAsset gridSaveFile;
+    public bool useSaveFileAsGrid;
+
+    private LayerMask walkableMask;
+    private GridNode[,,] grid;
+    private Vector3[] pointsOnSphere;
+    private Vector3 posAtGridGen;
+    private Quaternion rotationAtGridGen;
+
+    private float nodeDiameter;
+    private int gridSizeX, gridSizeY, gridSizeZ;
+    private int penaltyMin = int.MaxValue;
+    private int penaltyMax = int.MinValue;
+
+    private void Awake()
+    {
+        Initialize();
+
+        if (gridSaveFile != null && useSaveFileAsGrid)
+        {
+            var data = SaveManager.DeserializeObject<GridSaveData>(gridSaveFile.bytes);
+            grid = data.grid;
+            posAtGridGen = data.positionAtGridGen.Vector;
+            rotationAtGridGen = data.rotationAtGridGen.Quaternion;
+        }
+        else
+        {
+            CreateGrid();
+        }
+    }
+
+    private void OnValidate()
+    {
+        if (gridSaveFile != null && !gridSaveFile.name.Contains(".grid"))
+        {
+            Debug.LogError($"\"{gridSaveFile.name}\" has an invalid file type. Only .grid is accepted");
+            gridSaveFile = null;
+        }
+    }
+
+    private void Initialize()
+    {
+        posAtGridGen = transform.position;
+        rotationAtGridGen = transform.rotation;
+
+        nodeDiameter = nodeRadius * 2;
+        gridSizeX = Mathf.RoundToInt(gridWorldSize.x / nodeDiameter);
+        gridSizeY = Mathf.RoundToInt(gridWorldSize.y / nodeDiameter);
+        gridSizeZ = Mathf.RoundToInt(gridWorldSize.z / nodeDiameter);
+
+        pointsOnSphere = PointsOnSphere(rayCount);
+
+        foreach (var region in walkableRegions)
+        {
+            walkableMask.value |= region.terrainMask.value;
+            if (region.terrainPenalty < penaltyMin)
+            {
+                penaltyMin = region.terrainPenalty;
+            }
+
+            if (region.terrainPenalty > penaltyMax)
+            {
+                penaltyMax = region.terrainPenalty;
+            }
+        }
+    }
+
+    private void CreateGrid()
+    {
+        grid = new GridNode[gridSizeX, gridSizeY, gridSizeZ];
+        Vector3 worldMin = transform.position - (Vector3.right * (gridWorldSize.x / 2)) - (Vector3.up * (gridWorldSize.y / 2)) - (Vector3.forward * (gridWorldSize.z / 2));
+
+        for (int x = 0; x < gridSizeX; x++)
+        {
+            for (int y = 0; y < gridSizeY; y++)
+            {
+                for (int z = 0; z < gridSizeZ; z++)
+                {
+                    Vector3 xOffset = Vector3.right * ((x * nodeDiameter) + nodeRadius);
+                    Vector3 yOffset = Vector3.up * ((y * nodeDiameter) + nodeRadius);
+                    Vector3 zOffset = Vector3.forward * ((z * nodeDiameter) + nodeRadius);
+
+                    Vector3 worldPoint = worldMin + xOffset + yOffset + zOffset;
+                    Vector3 pointOnBounds = Vector3.zero;
+                    Vector3 surfaceNormal = Vector3.zero;
+                    bool walkable = false;
+
+                    int arrayIndex = 0;
+                    int movementPenalty = 0;
+
+                    foreach (var point in pointsOnSphere)
+                    {
+                        Vector3 offsetPoint = (point * nodeRadius) + worldPoint;
+                        Vector3 dir = worldPoint - offsetPoint;
+
+                        if (Physics.Raycast(offsetPoint, dir, out RaycastHit hitInfo, nodeDiameter + (nodeRadius / 4f), walkableMask))
+                        {
+                            if (Vector3.Dot(hitInfo.normal, Vector3.up) < minSurfaceAngle / 90f) continue;
+
+                            int layerValue = (int)Mathf.Pow(2, hitInfo.collider.gameObject.layer);
+                            TerrainType type = walkableRegions.FirstOrDefault(i => (i.terrainMask & layerValue) != 0);
+
+                            walkable = true;
+                            movementPenalty = type.terrainPenalty;
+                            pointOnBounds = hitInfo.point;
+                            surfaceNormal = hitInfo.normal;
+                            arrayIndex++;
+                            break;
+                        }
+                    }
+
+                    if (!walkable)
+                    {
+                        movementPenalty += obstacleProximityPenalty;
+                    }
+
+                    var wrappedWorldPoint = new SerializableV3Wrapper(worldPoint);
+                    var wrappedPointOnBounds = new SerializableV3Wrapper(pointOnBounds);
+                    var wrappedNormal = new SerializableV3Wrapper(surfaceNormal);
+
+                    grid[x, y, z] = new GridNode(walkable, wrappedWorldPoint, wrappedPointOnBounds, wrappedNormal, x, y, z, movementPenalty);
+                }
+            }
+        }
+    }
+
+    public List<GridNode> GetAdjacentNodes(GridNode node)
+    {
+        List<GridNode> adjacentNodes = new List<GridNode>();
+
+        for (int x = -1; x <= 1; x++)
+        {
+            for (int y = -1; y <= 1; y++)
+            {
+                for (int z = -1; z <= 1; z++)
+                {
+                    if (x == 0 && y == 0 && z == 0) continue;
+
+                    int checkX = node.gridPosX + x;
+                    int checkY = node.gridPosY + y;
+                    int checkZ = node.gridPosZ + z;
+
+                    // Make sure the node is in the grid
+                    bool xInBounds = checkX >= 0 && checkX < gridSizeX;
+                    bool yInBounds = checkY >= 0 && checkY < gridSizeY;
+                    bool zInBounds = checkZ >= 0 && checkZ < gridSizeZ;
+
+                    if (xInBounds && yInBounds && zInBounds)
+                    {
+                        adjacentNodes.Add(grid[checkX, checkY, checkZ]);
+                    }
+                }
+            }
+        }
+
+        return adjacentNodes;
+    }
+
+    public GridNode GetNodeAtWorldPosition(Vector3 worldPosition)
+    {
+        float normalizedX = (worldPosition.x - transform.position.x + (gridWorldSize.x / 2)) / gridWorldSize.x;
+        float normalizedY = (worldPosition.y - transform.position.y + (gridWorldSize.y / 2)) / gridWorldSize.y;
+        float normalizedZ = (worldPosition.z - transform.position.z + (gridWorldSize.z / 2)) / gridWorldSize.z;
+
+        normalizedX = Mathf.Clamp01(normalizedX);
+        normalizedY = Mathf.Clamp01(normalizedY);
+        normalizedZ = Mathf.Clamp01(normalizedZ);
+
+        int x = Mathf.RoundToInt((gridSizeX - 1) * normalizedX);
+        int y = Mathf.RoundToInt((gridSizeY - 1) * normalizedY);
+        int z = Mathf.RoundToInt((gridSizeZ - 1) * normalizedZ);
+
+        return grid[x, y, z];
+    }
+
+    public int GetMaxSize()
+    {
+        return gridSizeX * gridSizeY * gridSizeZ;
+    }
+
+    private Vector3[] PointsOnSphere(int num)
+    {
+        List<Vector3> points = new List<Vector3>();
+        float increment = Mathf.PI * (3 - Mathf.Sqrt(5));
+        float offset = 2f / num;
+
+        for (int i = 0; i < num; i++)
+        {
+            float y = (i * offset) - 1 + (offset / 2);
+            float r = Mathf.Sqrt(1 - (y * y));
+            float phi = i * increment;
+            float x = Mathf.Cos(phi) * r;
+            float z = Mathf.Sin(phi) * r;
+
+            points.Add(new Vector3(x, y, z));
+        }
+
+        return points.ToArray();
+    }
+
+    //The tutorial goes over this in 2D and I'm not sure how to extend it to 3D
+    /*
+    private void BlurPenaltyMap(int blurSize)
+    {
+        int kernelSize = (blurSize * 2) + 1;
+        int kernelExtents = blurSize;
+
+        int[,,] horizontalPass = new int[gridSizeX, gridSizeY, gridSizeZ];
+        int[,,] verticalPass = new int[gridSizeX, gridSizeY, gridSizeZ];
+        int[,,] forwardPass = new int[gridSizeX, gridSizeY, gridSizeZ];
+
+        for (int z = 0; z < gridSizeZ; z++)
+        {
+            for (int y = 0; y < gridSizeY; y++)
+            {
+                for (int x = -kernelExtents; x <= kernelExtents; x++)
+                {
+                    int sampleX = Mathf.Clamp(x, 0, kernelExtents);
+                    horizontalPass[0, y, z] += grid[sampleX, y, z].movementPenalty;
+                }
+
+                for (int x = 1; x < gridSizeX; x++)
+                {
+                    int removeIndex = Mathf.Clamp(x - kernelExtents - 1, 0, gridSizeX);
+                    int addIndex = Mathf.Clamp(x + kernelExtents, 0, gridSizeX - 1);
+
+                    horizontalPass[x, y, z] = horizontalPass[x - 1, y, z] - grid[removeIndex, y, z].movementPenalty + grid[addIndex, y, z].movementPenalty;
+                }
+            }
+        }
+
+        for (int x = 0; x < gridSizeX; x++)
+        {
+            for (int y = 0; y < gridSizeY; y++)
+            {
+                for (int z = -kernelExtents; z <= kernelExtents; z++)
+                {
+                    int sampleZ = Mathf.Clamp(z, 0, kernelExtents);
+                    forwardPass[x, y, 0] += forwardPass[x, y, sampleZ];
+                }
+
+                for (int z = 1; z < gridSizeZ; z++)
+                {
+                    int removeIndex = Mathf.Clamp(z - kernelExtents - 1, 0, gridSizeZ);
+                    int addIndex = Mathf.Clamp(z + kernelExtents, 0, gridSizeZ - 1);
+
+                    forwardPass[x, y, z] = forwardPass[x, y, z - 1] - horizontalPass[x, y, removeIndex] + horizontalPass[x, y, removeIndex];
+                }
+            }
+        }
+
+        for (int x = 0; x < gridSizeX; x++)
+        {
+            for (int z = 0; z < gridSizeZ; z++)
+            {
+                for (int y = -kernelExtents; y <= kernelExtents; y++)
+                {
+                    int sampleY = Mathf.Clamp(y, 0, kernelExtents);
+                    verticalPass[x, 0, z] += verticalPass[x, sampleY, z];
+                }
+
+                for (int y = 1; y < gridSizeY; y++)
+                {
+                    int removeIndex = Mathf.Clamp(y - kernelExtents - 1, 0, gridSizeY);
+                    int addIndex = Mathf.Clamp(y + kernelExtents, 0, gridSizeY - 1);
+
+                    verticalPass[x, y, z] = verticalPass[x, y - 1, z] - forwardPass[x, y, removeIndex] + forwardPass[x, y, addIndex];
+                    int blurredPenalty = Mathf.RoundToInt((float)verticalPass[x, y, z] / (kernelSize * kernelSize));
+                    grid[x, y, z].movementPenalty = blurredPenalty;
+
+                    if(blurredPenalty < penaltyMin)
+                    {
+                        penaltyMin = blurredPenalty;
+                    }
+
+                    if(blurredPenalty > penaltyMax)
+                    {
+                        penaltyMax = blurredPenalty;
+                    }
+                }
+            }
+        }
+    }
+    */
+
+    public Vector3 GetPositionAtGridGen()
+    {
+        return posAtGridGen;
+    }
+
+    public Quaternion GetRotationAtGridGen()
+    {
+        return rotationAtGridGen;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, gridWorldSize.y, gridWorldSize.z));
+
+        HandleNodeGizmos();
+        HandleSurfanceAngleGizmos();
+    }
+
+    private void HandleNodeGizmos()
+    {
+        if (grid == null || !displayGridGizmos) return;
+
+        foreach (GridNode node in grid)
+        {
+            if (node.pointOnBounds.Vector == Vector3.one * Mathf.NegativeInfinity) continue;
+
+            if (!node.walkable) continue;
+
+            Gizmos.color = Color.Lerp(Color.white, Color.black, Mathf.InverseLerp(penaltyMin, penaltyMax, node.movementPenalty));
+
+            Color col = node.walkable ? Gizmos.color : Color.red;
+            col.a = 0.5f;
+            Gizmos.color = col;
+
+            Vector3 gridOffset = transform.position - GetPositionAtGridGen();
+            Gizmos.DrawWireCube(node.worldPosition.Vector + gridOffset, Vector3.one * nodeDiameter);
+            Gizmos.color = Color.yellow;
+        }
+    }
+
+    private void HandleSurfanceAngleGizmos()
+    {
+        if (!displaySurfaceAngleGizmos) return;
+
+        Vector3[] points = PointsOnSphere(500);
+        foreach (var point in points)
+        {
+            Vector3 pointPosition = point + transform.position;
+            Vector3 dir = pointPosition - transform.position;
+            float dot = Vector3.Dot(dir, Vector3.up);
+            Gizmos.color = dot >= minSurfaceAngle / 90f ? Color.green : Color.red;
+            Gizmos.DrawLine(transform.position, pointPosition);
+        }
+    }
+
+    private Vector3 Average(Vector3[] array)
+    {
+        Vector3 sum = Vector3.zero;
+        foreach (var item in array)
+        {
+            sum += item;
+        }
+
+        sum /= array.Length;
+        return sum;
+    }
+
+    private int Average(int[] array)
+    {
+        float sum = 0;
+        foreach (var item in array)
+        {
+            sum += item;
+        }
+
+        sum /= array.Length;
+        return Mathf.RoundToInt(sum);
+    }
+}
+
+[Serializable]
+public class TerrainType
+{
+    public LayerMask terrainMask;
+    public int terrainPenalty;
+}
