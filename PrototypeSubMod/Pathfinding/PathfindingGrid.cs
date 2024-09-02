@@ -221,91 +221,6 @@ public class PathfindingGrid : MonoBehaviour
         return points.ToArray();
     }
 
-    //The tutorial goes over this in 2D and I'm not sure how to extend it to 3D
-    /*
-    private void BlurPenaltyMap(int blurSize)
-    {
-        int kernelSize = (blurSize * 2) + 1;
-        int kernelExtents = blurSize;
-
-        int[,,] horizontalPass = new int[gridSizeX, gridSizeY, gridSizeZ];
-        int[,,] verticalPass = new int[gridSizeX, gridSizeY, gridSizeZ];
-        int[,,] forwardPass = new int[gridSizeX, gridSizeY, gridSizeZ];
-
-        for (int z = 0; z < gridSizeZ; z++)
-        {
-            for (int y = 0; y < gridSizeY; y++)
-            {
-                for (int x = -kernelExtents; x <= kernelExtents; x++)
-                {
-                    int sampleX = Mathf.Clamp(x, 0, kernelExtents);
-                    horizontalPass[0, y, z] += grid[sampleX, y, z].movementPenalty;
-                }
-
-                for (int x = 1; x < gridSizeX; x++)
-                {
-                    int removeIndex = Mathf.Clamp(x - kernelExtents - 1, 0, gridSizeX);
-                    int addIndex = Mathf.Clamp(x + kernelExtents, 0, gridSizeX - 1);
-
-                    horizontalPass[x, y, z] = horizontalPass[x - 1, y, z] - grid[removeIndex, y, z].movementPenalty + grid[addIndex, y, z].movementPenalty;
-                }
-            }
-        }
-
-        for (int x = 0; x < gridSizeX; x++)
-        {
-            for (int y = 0; y < gridSizeY; y++)
-            {
-                for (int z = -kernelExtents; z <= kernelExtents; z++)
-                {
-                    int sampleZ = Mathf.Clamp(z, 0, kernelExtents);
-                    forwardPass[x, y, 0] += forwardPass[x, y, sampleZ];
-                }
-
-                for (int z = 1; z < gridSizeZ; z++)
-                {
-                    int removeIndex = Mathf.Clamp(z - kernelExtents - 1, 0, gridSizeZ);
-                    int addIndex = Mathf.Clamp(z + kernelExtents, 0, gridSizeZ - 1);
-
-                    forwardPass[x, y, z] = forwardPass[x, y, z - 1] - horizontalPass[x, y, removeIndex] + horizontalPass[x, y, removeIndex];
-                }
-            }
-        }
-
-        for (int x = 0; x < gridSizeX; x++)
-        {
-            for (int z = 0; z < gridSizeZ; z++)
-            {
-                for (int y = -kernelExtents; y <= kernelExtents; y++)
-                {
-                    int sampleY = Mathf.Clamp(y, 0, kernelExtents);
-                    verticalPass[x, 0, z] += verticalPass[x, sampleY, z];
-                }
-
-                for (int y = 1; y < gridSizeY; y++)
-                {
-                    int removeIndex = Mathf.Clamp(y - kernelExtents - 1, 0, gridSizeY);
-                    int addIndex = Mathf.Clamp(y + kernelExtents, 0, gridSizeY - 1);
-
-                    verticalPass[x, y, z] = verticalPass[x, y - 1, z] - forwardPass[x, y, removeIndex] + forwardPass[x, y, addIndex];
-                    int blurredPenalty = Mathf.RoundToInt((float)verticalPass[x, y, z] / (kernelSize * kernelSize));
-                    grid[x, y, z].movementPenalty = blurredPenalty;
-
-                    if(blurredPenalty < penaltyMin)
-                    {
-                        penaltyMin = blurredPenalty;
-                    }
-
-                    if(blurredPenalty > penaltyMax)
-                    {
-                        penaltyMax = blurredPenalty;
-                    }
-                }
-            }
-        }
-    }
-    */
-
     public Vector3 GetPositionAtGridGen()
     {
         return posAtGridGen;
@@ -318,7 +233,7 @@ public class PathfindingGrid : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, gridWorldSize.y, gridWorldSize.z));
+        Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x * transform.localScale.x, gridWorldSize.y * transform.localScale.y, gridWorldSize.z * transform.localScale.z));
 
         HandleNodeGizmos();
         HandleSurfanceAngleGizmos();
