@@ -8,7 +8,7 @@ internal class CloakEffectHandler : MonoBehaviour, IProtoUpgrade
 {
     public static CloakEffectHandler Instance { get; private set; }
 
-    [Header("Shader Parameters")] 
+    [Header("Shader Parameters")]
     public Shader shader;
     public Transform ovoid;
 

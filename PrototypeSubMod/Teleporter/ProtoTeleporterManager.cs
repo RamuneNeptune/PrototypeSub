@@ -52,11 +52,11 @@ internal class ProtoTeleporterManager : MonoBehaviour, IProtoUpgrade
 
     private void Update()
     {
-        if(currentStayOpenTime > 0)
+        if (currentStayOpenTime > 0)
         {
             currentStayOpenTime -= Time.deltaTime;
         }
-        else if(!teleporterClosed)
+        else if (!teleporterClosed)
         {
             teleporter.ToggleDoor(false);
             ToggleDoor(false);
@@ -128,7 +128,7 @@ internal class ProtoTeleporterManager : MonoBehaviour, IProtoUpgrade
             teleporter.isOpen = false;
         }
 
-        activationTerminal = GetComponentInChildren<PrecursorTeleporterActivationTerminal>();    
+        activationTerminal = GetComponentInChildren<PrecursorTeleporterActivationTerminal>();
     }
 
     private void DeactivateTeleporter()

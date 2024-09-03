@@ -79,7 +79,7 @@ internal class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTr
 
         batterySource.SetBattery(battery);
 
-        FMODUWE.PlayOneShot(equipBatterySound, transform.position,1f);
+        FMODUWE.PlayOneShot(equipBatterySound, transform.position, 1f);
     }
 
     private void OnUnequip(string slot, InventoryItem item)

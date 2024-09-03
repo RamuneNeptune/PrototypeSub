@@ -77,7 +77,7 @@ internal class PrototypePowerBattery : MonoBehaviour, IBattery, IProtoTreeEventL
         connectedBattery = GetComponents<IBattery>().FirstOrDefault(i => i != (IBattery)this);
 
         var techTag = GetComponent<TechTag>();
-        if(techTag == null || !PrototypePowerSystem.AllowedPowerSources.ContainsKey(techTag.type))
+        if (techTag == null || !PrototypePowerSystem.AllowedPowerSources.ContainsKey(techTag.type))
         {
             initialized = true;
             string ttName = techTag != null ? techTag.type.ToString() : "Null tech tag";

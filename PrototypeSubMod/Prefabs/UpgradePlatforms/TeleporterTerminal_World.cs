@@ -1,12 +1,7 @@
-﻿using Nautilus.Assets.PrefabTemplates;
-using Nautilus.Assets;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Story;
+﻿using Nautilus.Assets;
+using Nautilus.Assets.PrefabTemplates;
 using PrototypeSubMod.Monobehaviors;
+using Story;
 
 namespace PrototypeSubMod.Prefabs.UpgradePlatforms;
 

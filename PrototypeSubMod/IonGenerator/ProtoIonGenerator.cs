@@ -60,12 +60,12 @@ internal class ProtoIonGenerator : MonoBehaviour, IProtoUpgrade
             }
         }
 
-        if(currentEMPChargeTime < empChargeUpTime)
+        if (currentEMPChargeTime < empChargeUpTime)
         {
             currentEMPChargeTime += Time.deltaTime;
             powerRelay.AddEnergy(energyPerSecond * Time.deltaTime, out _);
         }
-        else if(!empFired)
+        else if (!empFired)
         {
             //Do EMP thing
             Instantiate(empPrefab, empSpawnPos.position, empSpawnPos.rotation);

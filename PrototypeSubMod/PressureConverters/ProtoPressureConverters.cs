@@ -20,7 +20,7 @@ internal class ProtoPressureConverters : MonoBehaviour, IProtoUpgrade
 
         float depth = crushDamage.GetDepth();
 
-        if(depth < activationDepth)
+        if (depth < activationDepth)
         {
             motorHandler.SetPowerMultiplier(1f);
             return;

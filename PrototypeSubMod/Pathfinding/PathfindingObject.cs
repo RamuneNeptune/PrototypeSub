@@ -11,6 +11,7 @@ public class PathfindingObject : MonoBehaviour
     [SerializeField] private float turnDistance;
     [SerializeField] private float rotationSpeed;
     [SerializeField] private bool moveEvenIfPathNotComplete;
+    [SerializeField] private bool runPathfindingOnStart;
 
     private Path path;
 
@@ -19,11 +20,14 @@ public class PathfindingObject : MonoBehaviour
 
     private void Start()
     {
-        PathRequest request = new PathRequest(transform.position, targetPoint.position, OnPathFound);
-        PathRequestManager.RequestPath(request);
-
         grid = GetComponentInParent<PathfindingGrid>();
         useLocalPos = grid != null;
+
+        if (runPathfindingOnStart)
+        {
+            PathRequest request = new PathRequest(transform.position, targetPoint.position, OnPathFound);
+            PathRequestManager.RequestPath(request);
+        }
     }
 
     private void OnPathFound(PathData[] pathData, bool success)

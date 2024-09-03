@@ -33,7 +33,7 @@ internal class PrecursorIngot_Craftable
             .WithFabricatorType(CraftTree.Type.Fabricator)
             .WithStepsToFabricatorTab("Resources", "AdvancedMaterials")
             .WithCraftingTime(10f);
-        
+
         prefab.SetPdaGroupCategory(TechGroup.Resources, TechCategory.BasicMaterials);
 
         prefab.Register();

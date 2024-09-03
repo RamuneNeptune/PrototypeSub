@@ -43,7 +43,7 @@ internal class ProtoDeployableManager : MonoBehaviour, IProtoUpgrade
 
         if (ionGenerator.GetUpgradeActive()) return;
 
-        if(lightCount > 0)
+        if (lightCount > 0)
         {
             string slot = availableLightSlots[availableLightSlots.Count - 1];
             storageTerminal.equipment.RemoveItem(slot, true, false);
