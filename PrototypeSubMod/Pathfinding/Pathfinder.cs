@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 
@@ -15,6 +16,11 @@ public class Pathfinder : MonoBehaviour
 
     public void FindPath(PathRequest request, Action<PathResult> callback)
     {
+        while (!pathfindingGrid.initialized)
+        {
+            Thread.Sleep(10);
+        }
+
         if (openSet == null)
         {
             openSet = new Heap<GridNode>(pathfindingGrid.GetMaxSize());

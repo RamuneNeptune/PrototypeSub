@@ -47,7 +47,8 @@ public class PathRequestManager : MonoBehaviour
             Instance.pathfinder.FindPath(request, Instance.FinishedProcessingPath);
         };
 
-        threadStart.Invoke();
+        var thread = new Thread(threadStart);
+        thread.Start();
     }
 
     public void FinishedProcessingPath(PathResult result)

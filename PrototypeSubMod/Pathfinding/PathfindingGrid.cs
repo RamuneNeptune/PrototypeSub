@@ -1,13 +1,19 @@
 ﻿using PrototypeSubMod.Pathfinding.SaveSystem;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using UnityEngine;
+
+using Debug = UnityEngine.Debug;
 
 namespace PrototypeSubMod.Pathfinding;
 
 public class PathfindingGrid : MonoBehaviour
 {
+    [HideInInspector] public bool initialized;
+
     [Header("Gizmos")]
     public bool displayGridGizmos;
     public bool displaySurfaceAngleGizmos;
@@ -41,15 +47,33 @@ public class PathfindingGrid : MonoBehaviour
 
         if (gridSaveFile != null && useSaveFileAsGrid)
         {
-            var data = SaveManager.DeserializeObject<GridSaveData>(gridSaveFile.bytes);
-            grid = data.grid;
-            posAtGridGen = data.positionAtGridGen.Vector;
-            rotationAtGridGen = data.rotationAtGridGen.Quaternion;
+            byte[] bytes = gridSaveFile.bytes;
+            ThreadStart threadStart = delegate
+            {
+                DeserializeData(bytes, OnGridSaveDataLoaded);
+            };
+
+            var thread = new Thread(threadStart);
+            thread.Start();
         }
         else
         {
             CreateGrid();
         }
+    }
+
+    private void DeserializeData(byte[] bytes, Action<GridSaveData> callback)
+    {
+        var data = SaveManager.DeserializeObject<GridSaveData>(bytes);
+        callback(data);
+    }
+
+    private void OnGridSaveDataLoaded(GridSaveData data)
+    {
+        grid = data.grid;
+        posAtGridGen = data.positionAtGridGen.Vector;
+        rotationAtGridGen = data.rotationAtGridGen.Quaternion;
+        initialized = true;
     }
 
     private void OnValidate()
@@ -145,6 +169,8 @@ public class PathfindingGrid : MonoBehaviour
                 }
             }
         }
+
+        initialized = true;
     }
 
     public List<GridNode> GetAdjacentNodes(GridNode node)
