@@ -32,6 +32,7 @@ public class PathfindingObject : MonoBehaviour
 
     private void OnPathFound(PathData[] pathData, bool success)
     {
+        Debug.Log($"On path found called. Success = {success}");
         if (!moveEvenIfPathNotComplete && !success) return;
 
         path = new Path(pathData, transform.position, turnDistance);
@@ -102,6 +103,7 @@ public class PathfindingObject : MonoBehaviour
 
     public void UpdatePath()
     {
+        Plugin.Logger.LogInfo($"Requesting path");
         PathRequest request = new PathRequest(transform.position, targetPoint.position, OnPathFound);
         PathRequestManager.RequestPath(request);
     }

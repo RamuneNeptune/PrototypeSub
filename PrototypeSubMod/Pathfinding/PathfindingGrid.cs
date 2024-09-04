@@ -1,7 +1,6 @@
 ﻿using PrototypeSubMod.Pathfinding.SaveSystem;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using UnityEngine;
@@ -23,6 +22,9 @@ public class PathfindingGrid : MonoBehaviour
     public float nodeRadius;
     public int rayCount;
     public int obstacleProximityPenalty = 10;
+    public Transform collidersParent;
+    public Transform centerOfObjects;
+    public float intersectionCheckDistance;
     [Range(-90, 90)] public float minSurfaceAngle = 0f;
     public TerrainType[] walkableRegions;
 
@@ -32,6 +34,7 @@ public class PathfindingGrid : MonoBehaviour
 
     private LayerMask walkableMask;
     private GridNode[,,] grid;
+    private Collider[] colliders;
     private Vector3[] pointsOnSphere;
     private Vector3 posAtGridGen;
     private Quaternion rotationAtGridGen;
@@ -53,8 +56,8 @@ public class PathfindingGrid : MonoBehaviour
                 DeserializeData(bytes, OnGridSaveDataLoaded);
             };
 
-            var thread = new Thread(threadStart);
-            thread.Start();
+            var gridLoadThread = new Thread(threadStart);
+            gridLoadThread.Start();
         }
         else
         {
@@ -97,6 +100,13 @@ public class PathfindingGrid : MonoBehaviour
 
         pointsOnSphere = PointsOnSphere(rayCount);
 
+        if(collidersParent != null)
+        {
+            colliders = collidersParent.GetComponentsInChildren<Collider>();
+        }
+
+        if (walkableRegions == null) return;
+
         foreach (var region in walkableRegions)
         {
             walkableMask.value |= region.terrainMask.value;
@@ -130,6 +140,7 @@ public class PathfindingGrid : MonoBehaviour
                     Vector3 worldPoint = worldMin + xOffset + yOffset + zOffset;
                     Vector3 pointOnBounds = Vector3.zero;
                     Vector3 surfaceNormal = Vector3.zero;
+                    Collider hitCollider = null;
                     bool walkable = false;
 
                     int arrayIndex = 0;
@@ -151,10 +162,36 @@ public class PathfindingGrid : MonoBehaviour
                             movementPenalty = type.terrainPenalty;
                             pointOnBounds = hitInfo.point;
                             surfaceNormal = hitInfo.normal;
+                            hitCollider = hitInfo.collider;
                             arrayIndex++;
                             break;
                         }
                     }
+
+                    if(walkable)
+                    {
+                        if(Physics.Raycast(pointOnBounds, surfaceNormal, intersectionCheckDistance))
+                        {
+                            walkable = false;
+                        }
+
+                        Vector3 dirToCenter = (centerOfObjects.position - pointOnBounds).normalized;
+                        float dot = Vector3.Dot(dirToCenter, surfaceNormal);
+
+                        if (dot >= -(minSurfaceAngle / 90f))
+                        {
+                            walkable = false;
+                        }
+                    }
+
+                    /*
+                    bool invalidPos = colliders.Any(i =>
+                        {
+                            return i != hitCollider && i.bounds.Contains(pointOnBounds);
+                        });
+
+                        if (invalidPos) walkable = false; 
+                    */
 
                     if (!walkable)
                     {

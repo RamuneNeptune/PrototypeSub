@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Threading;
 using UnityEngine;
+
 using Debug = UnityEngine.Debug;
 
 namespace PrototypeSubMod.Pathfinding;
@@ -16,11 +16,6 @@ public class Pathfinder : MonoBehaviour
 
     public void FindPath(PathRequest request, Action<PathResult> callback)
     {
-        while (!pathfindingGrid.initialized)
-        {
-            Thread.Sleep(10);
-        }
-
         if (openSet == null)
         {
             openSet = new Heap<GridNode>(pathfindingGrid.GetMaxSize());
@@ -45,7 +40,7 @@ public class Pathfinder : MonoBehaviour
         if (!startNode.walkable && !endNode.walkable)
         {
             callback(new PathResult(waypoints, pathSuccess, request.callback));
-            Debug.Log($"Invalid nodes. Returning");
+            Debug.Log("Invalid nodes. Returning");
             return;
         }
 

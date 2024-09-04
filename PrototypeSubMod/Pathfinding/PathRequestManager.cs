@@ -42,13 +42,17 @@ public class PathRequestManager : MonoBehaviour
 
     public static void RequestPath(PathRequest request)
     {
+        if (!Instance.pathfinder.pathfindingGrid.initialized)
+        {
+            request.callback(new PathData[0], false);
+        }
+
         ThreadStart threadStart = delegate
         {
             Instance.pathfinder.FindPath(request, Instance.FinishedProcessingPath);
         };
 
-        var thread = new Thread(threadStart);
-        thread.Start();
+        threadStart.Invoke();
     }
 
     public void FinishedProcessingPath(PathResult result)
