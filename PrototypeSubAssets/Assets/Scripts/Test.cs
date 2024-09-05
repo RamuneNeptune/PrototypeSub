@@ -3,21 +3,21 @@
 public class Test : MonoBehaviour
 {
     public Transform center;
-    [Range(-90, 90)] public float surfaceAngleTolerance;
 
     public void OnDrawGizmos()
     {
         if (center == null) return;
 
-        Gizmos.color = Color.white;
-        Gizmos.DrawLine(transform.position, center.position);
-        Gizmos.DrawRay(transform.position, transform.forward);
+        Vector3 pos = Vector3.ProjectOnPlane(transform.forward + transform.position, center.forward);
+        pos += center.position;
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawSphere(pos, 0.2f);
 
-        Vector3 dirToCenter = (center.position - transform.position).normalized;
-        float dot = Vector3.Dot(dirToCenter, transform.forward);
-        Gizmos.color = dot < -(surfaceAngleTolerance / 90f) ? Color.green : Color.red;
-        Debug.Log(dot);
+        Vector3 dir = pos - center.position;
+        dir.Normalize();
+        Gizmos.DrawRay(center.position, dir);
 
-        Gizmos.DrawSphere(transform.position, 0.1f);
+        Vector3 localDir = center.InverseTransformDirection(dir);
+        //Debug.Log(localDir);
     }
 }

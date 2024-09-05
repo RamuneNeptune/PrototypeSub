@@ -6,17 +6,20 @@ namespace PrototypeSubMod.Pathfinding;
 public class PathfindingObject : MonoBehaviour
 {
     [SerializeField] private Transform targetPoint;
-    [SerializeField] private Transform visual;
+    [SerializeField] protected Transform visual;
     [SerializeField] private float moveSpeed;
     [SerializeField] private float turnDistance;
     [SerializeField] private float rotationSpeed;
     [SerializeField] private bool moveEvenIfPathNotComplete;
     [SerializeField] private bool runPathfindingOnStart;
 
-    private Path path;
-
     private bool useLocalPos;
     private PathfindingGrid grid;
+
+    protected Path path;
+    protected Vector3 directionToNextPoint;
+    protected Vector3 lastNormal;
+    protected Vector3 lastPointOnBounds;
 
     private void Start()
     {
@@ -32,7 +35,6 @@ public class PathfindingObject : MonoBehaviour
 
     private void OnPathFound(PathData[] pathData, bool success)
     {
-        Debug.Log($"On path found called. Success = {success}");
         if (!moveEvenIfPathNotComplete && !success) return;
 
         path = new Path(pathData, transform.position, turnDistance);
@@ -45,7 +47,7 @@ public class PathfindingObject : MonoBehaviour
         if (path == null || path.pathData.Length <= 0) yield break;
 
         PathData currentWaypoint = path.pathData[0];
-        Vector3 dirToNext = currentWaypoint.position - visual.position;
+        directionToNextPoint = currentWaypoint.position - visual.position;
         int targetIndex = 0;
 
         while (true)
@@ -65,8 +67,8 @@ public class PathfindingObject : MonoBehaviour
 
             Vector3 posToCheck = transform.position;
 
-            Vector3 normal = currentWaypoint.normal;
-            if (useLocalPos) normal = grid.transform.TransformDirection(currentWaypoint.normal);
+            lastNormal = currentWaypoint.normal;
+            if (useLocalPos) lastNormal = grid.transform.TransformDirection(currentWaypoint.normal);
             if (posToCheck == targetPointPosition)
             {
                 targetIndex++;
@@ -74,7 +76,7 @@ public class PathfindingObject : MonoBehaviour
                 if (targetIndex >= path.pathData.Length)
                 {
                     path = null;
-                    visual.rotation = Quaternion.LookRotation(dirToNext, normal);
+                    visual.rotation = Quaternion.LookRotation(directionToNextPoint, lastNormal);
                     yield break;
                 }
 
@@ -87,12 +89,14 @@ public class PathfindingObject : MonoBehaviour
                 }
             }
 
+            lastPointOnBounds = currentWaypoint.position;
+
             Vector3 currentPos = transform.position;
             if (useLocalPos) currentPos = grid.transform.TransformPoint(transform.localPosition);
-            dirToNext = targetPointPosition - currentPos;
+            directionToNextPoint = targetPointPosition - currentPos;
 
             posToCheck = Vector3.MoveTowards(posToCheck, targetPointPosition, moveSpeed * Time.deltaTime);
-            Quaternion targetRot = Quaternion.LookRotation(dirToNext, normal);
+            Quaternion targetRot = Quaternion.LookRotation(directionToNextPoint, lastNormal);
             visual.rotation = Quaternion.RotateTowards(visual.rotation, targetRot, rotationSpeed * Time.deltaTime);
 
             transform.position = posToCheck;
@@ -105,6 +109,13 @@ public class PathfindingObject : MonoBehaviour
     {
         Plugin.Logger.LogInfo($"Requesting path");
         PathRequest request = new PathRequest(transform.position, targetPoint.position, OnPathFound);
+        PathRequestManager.RequestPath(request);
+    }
+
+    public void UpdatePath(Vector3 position)
+    {
+        Plugin.Logger.LogInfo($"Requesting path");
+        PathRequest request = new PathRequest(transform.position, position, OnPathFound);
         PathRequestManager.RequestPath(request);
     }
 

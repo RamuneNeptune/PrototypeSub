@@ -17,7 +17,7 @@ public class PathfindingGrid : MonoBehaviour
     public bool displayGridGizmos;
     public bool displaySurfaceAngleGizmos;
 
-    [Header("Grid Values")]
+    [Header("Grid Generation")]
     public Vector3 gridWorldSize;
     public float nodeRadius;
     public int rayCount;

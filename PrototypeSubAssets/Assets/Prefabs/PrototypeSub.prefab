@@ -37971,6 +37971,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2641879514514900451}
   - component: {fileID: 8116389511547361849}
+  - component: {fileID: 1700047965519084644}
+  - component: {fileID: 9063738216878994745}
   m_Layer: 0
   m_Name: RepairBotPathfindingHolder
   m_TagString: Untagged
@@ -38006,13 +38008,16 @@ MonoBehaviour:
   m_Script: {fileID: 1653217549, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialized: 0
+  initialized: 1
   displayGridGizmos: 0
   displaySurfaceAngleGizmos: 0
   gridWorldSize: {x: 15, y: 22, z: 70}
   nodeRadius: 0.4
   rayCount: 10
   obstacleProximityPenalty: 10
+  collidersParent: {fileID: 0}
+  centerOfObjects: {fileID: 0}
+  intersectionCheckDistance: 1
   minSurfaceAngle: -35
   walkableRegions:
   - terrainMask:
@@ -38021,6 +38026,32 @@ MonoBehaviour:
     terrainPenalty: 0
   gridSaveFile: {fileID: 4900000, guid: 4b93aece442f7fe4c97fd26345b90e0f, type: 3}
   useSaveFileAsGrid: 1
+--- !u!114 &1700047965519084644
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4208114189641394863}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -845291088, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pathfindingGrid: {fileID: 8116389511547361849}
+--- !u!114 &9063738216878994745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4208114189641394863}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1234551073, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pathfinder: {fileID: 1700047965519084644}
 --- !u!1 &4218255418026182939
 GameObject:
   m_ObjectHideFlags: 0
@@ -84562,6 +84593,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d6cc3db34565c3a4ba68573b0eeec2a0, type: 3}
+--- !u!4 &3859485751470618971 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2253812858737788773, guid: d6cc3db34565c3a4ba68573b0eeec2a0,
+    type: 3}
+  m_PrefabInstance: {fileID: 3082858037385395774}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1768688137450249471 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3621781888743187137, guid: d6cc3db34565c3a4ba68573b0eeec2a0,
@@ -84574,12 +84611,6 @@ MonoBehaviour:
   m_Script: {fileID: -2039529286, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &3859485751470618971 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2253812858737788773, guid: d6cc3db34565c3a4ba68573b0eeec2a0,
-    type: 3}
-  m_PrefabInstance: {fileID: 3082858037385395774}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8552883551461007763
 PrefabInstance:
   m_ObjectHideFlags: 0

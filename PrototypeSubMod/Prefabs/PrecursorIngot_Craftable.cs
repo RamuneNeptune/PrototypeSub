@@ -13,7 +13,8 @@ internal class PrecursorIngot_Craftable
     public static void Register()
     {
         prefabInfo = PrefabInfo.WithTechType("PrecursorIngot", null, null, "English")
-            .WithIcon(SpriteManager.Get(TechType.PlasteelIngot));
+            .WithIcon(SpriteManager.Get(TechType.PlasteelIngot))
+            .WithSizeInInventory(new Vector2int(2, 1));
 
         var prefab = new CustomPrefab(prefabInfo);
 

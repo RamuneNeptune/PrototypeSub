@@ -40,7 +40,7 @@ public class Pathfinder : MonoBehaviour
         if (!startNode.walkable && !endNode.walkable)
         {
             callback(new PathResult(waypoints, pathSuccess, request.callback));
-            Debug.Log("Invalid nodes. Returning");
+            //Debug.Log("Invalid nodes. Returning");
             return;
         }
 
@@ -56,7 +56,7 @@ public class Pathfinder : MonoBehaviour
             if (currentNode == endNode)
             {
                 sw.Stop();
-                Debug.Log($"Path found in {sw.ElapsedMilliseconds}ms");
+                //Debug.Log($"Path found in {sw.ElapsedMilliseconds}ms");
 
                 pathSuccess = true;
                 break;
@@ -101,7 +101,7 @@ public class Pathfinder : MonoBehaviour
             waypoints = RetracePath(startNode, lowestHCostNode);
         }
 
-        Debug.Log($"Path success = {pathSuccess}");
+        //Debug.Log($"Path success = {pathSuccess}");
 
         sw.Stop();
 
