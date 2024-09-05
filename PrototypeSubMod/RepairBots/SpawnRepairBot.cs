@@ -1,0 +1,30 @@
+﻿using PrototypeSubMod.Prefabs;
+using System.Collections;
+using UnityEngine;
+
+namespace PrototypeSubMod.RepairBots;
+
+internal class SpawnRepairBot : MonoBehaviour
+{
+    private static GameObject botPrefab;
+
+    private IEnumerator Start()
+    {
+        if(botPrefab != null)
+        {
+            SpawnBot();
+            yield break;
+        }
+
+        var botTask = CraftData.GetPrefabForTechTypeAsync(ProtoRepairBot_Spawned.prefabInfo.TechType);
+        yield return botTask;
+
+        botPrefab = botTask.GetResult();
+        SpawnBot();
+    }
+
+    private void SpawnBot()
+    {
+        Instantiate(botPrefab, transform);
+    }
+}

@@ -5,6 +5,8 @@ namespace PrototypeSubMod.RepairBots;
 
 internal class ProtoRepairBot : PathfindingObject
 {
+    [SerializeField] private GameObject placeholderGraphic;
+
     private Animator animator;
 
     private void Start()
@@ -12,6 +14,8 @@ internal class ProtoRepairBot : PathfindingObject
         animator = GetComponentInChildren<Animator>();
 
         animator.SetBool(AnimatorHashID.on_ground, true);
+
+        placeholderGraphic.SetActive(false);
     }
 
     private void Update()

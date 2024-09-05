@@ -99,6 +99,7 @@ namespace PrototypeSubMod
             Prototype_Craftable.Register();
             ProtoBuildTerminal_World.Register();
             DeployableLight_Craftable.Register();
+            ProtoRepairBot_Spawned.Register();
 
             ProtoPlaque_World.Register();
             ProtoLogo_World.Register();
