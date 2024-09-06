@@ -248,9 +248,11 @@ public class PathfindingGrid : MonoBehaviour
         Vector3 offset = transform.position - GetPositionAtGridGen();
         offset = root.TransformVector(offset);
 
-        float normalizedX = (worldPosition.x - posAtGridGen.x - offset.x + (gridWorldSize.x / 2)) / gridWorldSize.x;
-        float normalizedY = (worldPosition.y - posAtGridGen.y - offset.y + (gridWorldSize.y / 2)) / gridWorldSize.y;
-        float normalizedZ = (worldPosition.z - posAtGridGen.z - offset.z + (gridWorldSize.z / 2)) / gridWorldSize.z;
+        Vector3 offsetPosition = root.InverseTransformPoint(worldPosition) - posAtGridGen;
+
+        float normalizedX = (offsetPosition.x + (gridWorldSize.x / 2)) / gridWorldSize.x;
+        float normalizedY = (offsetPosition.y + (gridWorldSize.y / 2)) / gridWorldSize.y;
+        float normalizedZ = (offsetPosition.z + (gridWorldSize.z / 2)) / gridWorldSize.z;
 
         normalizedX = Mathf.Clamp01(normalizedX);
         normalizedY = Mathf.Clamp01(normalizedY);

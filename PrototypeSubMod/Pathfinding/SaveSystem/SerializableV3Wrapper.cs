@@ -31,4 +31,9 @@ public class SerializableV3Wrapper
         this.y = y;
         this.z = z;
     }
+
+    public override string ToString()
+    {
+        return Vector.ToString();
+    }
 }
