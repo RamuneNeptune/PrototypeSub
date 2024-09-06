@@ -18,6 +18,7 @@ public class PathfindingGrid : MonoBehaviour
     public bool displaySurfaceAngleGizmos;
 
     [Header("Grid Generation")]
+    public Transform root;
     public Vector3 gridWorldSize;
     public float nodeRadius;
     public int rayCount;
@@ -244,9 +245,12 @@ public class PathfindingGrid : MonoBehaviour
 
     public GridNode GetNodeAtWorldPosition(Vector3 worldPosition)
     {
-        float normalizedX = (worldPosition.x - transform.position.x + (gridWorldSize.x / 2)) / gridWorldSize.x;
-        float normalizedY = (worldPosition.y - transform.position.y + (gridWorldSize.y / 2)) / gridWorldSize.y;
-        float normalizedZ = (worldPosition.z - transform.position.z + (gridWorldSize.z / 2)) / gridWorldSize.z;
+        Vector3 offset = transform.position - GetPositionAtGridGen();
+        offset = root.TransformVector(offset);
+
+        float normalizedX = (worldPosition.x - posAtGridGen.x - offset.x + (gridWorldSize.x / 2)) / gridWorldSize.x;
+        float normalizedY = (worldPosition.y - posAtGridGen.y - offset.y + (gridWorldSize.y / 2)) / gridWorldSize.y;
+        float normalizedZ = (worldPosition.z - posAtGridGen.z - offset.z + (gridWorldSize.z / 2)) / gridWorldSize.z;
 
         normalizedX = Mathf.Clamp01(normalizedX);
         normalizedY = Mathf.Clamp01(normalizedY);
@@ -296,7 +300,9 @@ public class PathfindingGrid : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x * transform.localScale.x, gridWorldSize.y * transform.localScale.y, gridWorldSize.z * transform.localScale.z));
+        var size = new Vector3(gridWorldSize.x * transform.localScale.x, gridWorldSize.y * transform.localScale.y, gridWorldSize.z * transform.localScale.z);
+
+        Gizmos.DrawWireCube(transform.position, size);
 
         HandleNodeGizmos();
         HandleSurfanceAngleGizmos();
@@ -319,7 +325,8 @@ public class PathfindingGrid : MonoBehaviour
             Gizmos.color = col;
 
             Vector3 gridOffset = transform.position - GetPositionAtGridGen();
-            Gizmos.DrawWireCube(node.worldPosition.Vector + gridOffset, Vector3.one * nodeDiameter);
+            var localPos = root.TransformPoint(node.worldPosition.Vector);// + gridOffset;
+            Gizmos.DrawWireCube(localPos, Vector3.one * nodeDiameter);
             Gizmos.color = Color.yellow;
         }
     }

@@ -40,30 +40,30 @@ internal class ProtoRepairBot_Spawned
 
     private static void RemoveBotComponents(ref GameObject gameObject)
     {
-        gameObject.RemoveComponent<CaveCrawler>();
-        gameObject.RemoveComponent<Rigidbody>();
-        gameObject.RemoveComponent<SphereCollider>();
-        gameObject.RemoveComponent<BoxCollider>();
-        gameObject.RemoveComponent<WorldForces>();
-        gameObject.RemoveComponent<CaveCrawlerGravity>();
-        gameObject.RemoveComponent<LiveMixin>();
-        gameObject.RemoveComponent<CreatureDeath>();
-        gameObject.RemoveComponent<CreatureFlinch>();
-        gameObject.RemoveComponent<Locomotion>();
-        gameObject.RemoveComponent<SplineFollowing>();
-        gameObject.RemoveComponent<OnSurfaceMovement>();
-        gameObject.RemoveComponent<WalkBehaviour>();
-        gameObject.RemoveComponent<OnSurfaceTracker>();
-        gameObject.RemoveComponent<RemoveSoundsOnKill>();
-        gameObject.RemoveComponent<CreatureUtils>();
-        gameObject.RemoveComponent<MoveOnSurface>();
-        gameObject.RemoveComponent<StayAtLeashPosition>();
-        gameObject.RemoveComponent<CrawlerAttackLastTarget>();
-        gameObject.RemoveComponent<FleeOnDamage>();
-        gameObject.RemoveComponent<CrawlerAvoidEdges>();
-        gameObject.RemoveComponent<AggressiveWhenSeeTarget>();
-        gameObject.RemoveComponent<MeleeAttack>();
-        gameObject.RemoveComponent<LastTarget>();
-        gameObject.RemoveComponent<CreatureFear>();
+        gameObject.RemoveComponentImmediate<CaveCrawler>();
+        gameObject.RemoveComponentImmediate<Rigidbody>();
+        gameObject.RemoveComponentImmediate<SphereCollider>();
+        gameObject.RemoveComponentImmediate<BoxCollider>();
+        gameObject.RemoveComponentImmediate<WorldForces>();
+        gameObject.RemoveComponentImmediate<CaveCrawlerGravity>();
+        gameObject.RemoveComponentImmediate<LiveMixin>();
+        gameObject.RemoveComponentImmediate<CreatureDeath>();
+        gameObject.RemoveComponentImmediate<CreatureFlinch>();
+        gameObject.RemoveComponentImmediate<Locomotion>();
+        gameObject.RemoveComponentImmediate<SplineFollowing>();
+        gameObject.RemoveComponentImmediate<OnSurfaceMovement>();
+        gameObject.RemoveComponentImmediate<WalkBehaviour>();
+        gameObject.RemoveComponentImmediate<OnSurfaceTracker>();
+        gameObject.RemoveComponentImmediate<RemoveSoundsOnKill>();
+        gameObject.RemoveComponentImmediate<CreatureUtils>();
+        gameObject.RemoveComponentImmediate<MoveOnSurface>();
+        gameObject.RemoveComponentImmediate<StayAtLeashPosition>();
+        gameObject.RemoveComponentImmediate<CrawlerAttackLastTarget>();
+        gameObject.RemoveComponentImmediate<FleeOnDamage>();
+        gameObject.RemoveComponentImmediate<CrawlerAvoidEdges>();
+        gameObject.RemoveComponentImmediate<AggressiveWhenSeeTarget>();
+        gameObject.RemoveComponentImmediate<MeleeAttack>();
+        gameObject.RemoveComponentImmediate<LastTarget>();
+        gameObject.RemoveComponentImmediate<CreatureFear>();
     }
 }

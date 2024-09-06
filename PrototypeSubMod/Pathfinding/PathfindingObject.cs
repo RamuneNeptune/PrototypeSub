@@ -21,6 +21,8 @@ public class PathfindingObject : MonoBehaviour
     protected Vector3 lastNormal;
     protected Vector3 lastPointOnBounds;
 
+    private Vector3 targetPointPos;
+
     private void Start()
     {
         grid = GetComponentInParent<PathfindingGrid>();
@@ -31,6 +33,12 @@ public class PathfindingObject : MonoBehaviour
             PathRequest request = new PathRequest(transform.position, targetPoint.position, OnPathFound);
             PathRequestManager.RequestPath(request);
         }
+    }
+
+    private void OnEnable()
+    {
+        grid = GetComponentInParent<PathfindingGrid>();
+        useLocalPos = grid != null;
     }
 
     private void OnPathFound(PathData[] pathData, bool success)
@@ -56,19 +64,19 @@ public class PathfindingObject : MonoBehaviour
             if (useLocalPos)
             {
                 offsetFromGenPos = grid.transform.position - grid.GetPositionAtGridGen();
-                offsetFromGenPos = grid.transform.TransformVector(offsetFromGenPos);
+                offsetFromGenPos = grid.root.TransformVector(offsetFromGenPos);
             }
 
-            Vector3 targetPointPosition = currentWaypoint.position;
+            Vector3 targetPointPosition = currentWaypoint.position + offsetFromGenPos;
             if (useLocalPos)
             {
-                targetPointPosition = grid.transform.TransformPoint(currentWaypoint.position - grid.transform.position) + offsetFromGenPos;
+                targetPointPosition = grid.root.TransformPoint(currentWaypoint.position);
             }
 
             Vector3 posToCheck = transform.position;
 
             lastNormal = currentWaypoint.normal;
-            if (useLocalPos) lastNormal = grid.transform.TransformDirection(currentWaypoint.normal);
+            if (useLocalPos) lastNormal = grid.root.TransformDirection(currentWaypoint.normal);
             if (posToCheck == targetPointPosition)
             {
                 targetIndex++;
@@ -82,10 +90,10 @@ public class PathfindingObject : MonoBehaviour
 
                 currentWaypoint = path.pathData[targetIndex];
 
-                targetPointPosition = currentWaypoint.position;
+                targetPointPosition = currentWaypoint.position + offsetFromGenPos;
                 if (useLocalPos)
                 {
-                    targetPointPosition = grid.transform.TransformPoint(currentWaypoint.position - grid.transform.position) + offsetFromGenPos;
+                    targetPointPosition = grid.root.TransformPoint(currentWaypoint.position);
                 }
             }
 
@@ -93,13 +101,15 @@ public class PathfindingObject : MonoBehaviour
 
             Vector3 currentPos = transform.position;
             if (useLocalPos) currentPos = grid.transform.TransformPoint(transform.localPosition);
-            directionToNextPoint = targetPointPosition - currentPos;
 
-            posToCheck = Vector3.MoveTowards(posToCheck, targetPointPosition, moveSpeed * Time.deltaTime);
+            directionToNextPoint = targetPointPosition - currentPos;
+            targetPointPos = targetPointPosition;
+
+            var newPos = Vector3.MoveTowards(currentPos, targetPointPosition, moveSpeed * Time.deltaTime);
             Quaternion targetRot = Quaternion.LookRotation(directionToNextPoint, lastNormal);
             visual.rotation = Quaternion.RotateTowards(visual.rotation, targetRot, rotationSpeed * Time.deltaTime);
 
-            transform.position = posToCheck;
+            transform.position = newPos;
 
             yield return null;
         }
@@ -107,7 +117,7 @@ public class PathfindingObject : MonoBehaviour
 
     public void UpdatePath()
     {
-        Plugin.Logger.LogInfo($"Requesting path");
+        //Plugin.Logger.LogInfo($"Requesting path");
         PathRequest request = new PathRequest(transform.position, targetPoint.position, OnPathFound);
         PathRequestManager.RequestPath(request);
     }
@@ -129,6 +139,7 @@ public class PathfindingObject : MonoBehaviour
             offsetFromGenPos = grid.transform.position - grid.GetPositionAtGridGen();
             offsetFromGenPos = grid.transform.TransformVector(offsetFromGenPos);
         }
+
         Quaternion rotation = Quaternion.identity;
         if (useLocalPos)
         {
