@@ -1,8 +1,6 @@
-﻿using Nautilus.Assets.PrefabTemplates;
-using Nautilus.Assets;
+﻿using Nautilus.Assets;
 using PrototypeSubMod.Extensions;
 using UnityEngine;
-using PrototypeSubMod.RepairBots;
 using System.Collections;
 
 namespace PrototypeSubMod.Prefabs;
@@ -40,26 +38,26 @@ internal class ProtoRepairBot_Spawned
 
     private static void RemoveBotComponents(ref GameObject gameObject)
     {
+        gameObject.RemoveComponentImmediate<FleeOnDamage>();
+        gameObject.RemoveComponentImmediate<StayAtLeashPosition>();
+        gameObject.RemoveComponentImmediate<WalkBehaviour>();
+        gameObject.RemoveComponentImmediate<SplineFollowing>();
+        gameObject.RemoveComponentImmediate<Locomotion>();
         gameObject.RemoveComponentImmediate<CaveCrawler>();
+        gameObject.RemoveComponentImmediate<CreatureDeath>();
         gameObject.RemoveComponentImmediate<Rigidbody>();
         gameObject.RemoveComponentImmediate<SphereCollider>();
         gameObject.RemoveComponentImmediate<BoxCollider>();
         gameObject.RemoveComponentImmediate<WorldForces>();
         gameObject.RemoveComponentImmediate<CaveCrawlerGravity>();
         gameObject.RemoveComponentImmediate<LiveMixin>();
-        gameObject.RemoveComponentImmediate<CreatureDeath>();
         gameObject.RemoveComponentImmediate<CreatureFlinch>();
-        gameObject.RemoveComponentImmediate<Locomotion>();
-        gameObject.RemoveComponentImmediate<SplineFollowing>();
         gameObject.RemoveComponentImmediate<OnSurfaceMovement>();
-        gameObject.RemoveComponentImmediate<WalkBehaviour>();
         gameObject.RemoveComponentImmediate<OnSurfaceTracker>();
         gameObject.RemoveComponentImmediate<RemoveSoundsOnKill>();
         gameObject.RemoveComponentImmediate<CreatureUtils>();
         gameObject.RemoveComponentImmediate<MoveOnSurface>();
-        gameObject.RemoveComponentImmediate<StayAtLeashPosition>();
         gameObject.RemoveComponentImmediate<CrawlerAttackLastTarget>();
-        gameObject.RemoveComponentImmediate<FleeOnDamage>();
         gameObject.RemoveComponentImmediate<CrawlerAvoidEdges>();
         gameObject.RemoveComponentImmediate<AggressiveWhenSeeTarget>();
         gameObject.RemoveComponentImmediate<MeleeAttack>();

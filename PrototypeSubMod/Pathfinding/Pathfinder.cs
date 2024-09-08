@@ -40,7 +40,7 @@ public class Pathfinder : MonoBehaviour
         if (!startNode.walkable && !endNode.walkable)
         {
             callback(new PathResult(waypoints, pathSuccess, request.callback));
-            //Plugin.Logger.LogInfo("Invalid nodes. Returning");
+            Plugin.Logger.LogInfo("Invalid nodes. Returning");
             return;
         }
 

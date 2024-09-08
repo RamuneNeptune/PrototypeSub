@@ -16,6 +16,7 @@ internal class ProtoRepairBot : PathfindingObject
         animator.SetBool(AnimatorHashID.on_ground, true);
 
         placeholderGraphic.SetActive(false);
+        base.OnPathFinished += OnPathFinished;
     }
 
     private void Update()
@@ -31,5 +32,12 @@ internal class ProtoRepairBot : PathfindingObject
         animator.SetFloat(AnimatorHashID.move_speed_x, localDir.x);
         animator.SetFloat(AnimatorHashID.move_speed_y, localDir.y);
         animator.SetFloat(AnimatorHashID.speed, localDir.magnitude);
+    }
+
+    new private void OnPathFinished()
+    {
+        animator.SetFloat(AnimatorHashID.move_speed_x, 0);
+        animator.SetFloat(AnimatorHashID.move_speed_y, 0);
+        animator.SetFloat(AnimatorHashID.speed, 0);
     }
 }

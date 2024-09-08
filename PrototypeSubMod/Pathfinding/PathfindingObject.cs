@@ -1,10 +1,13 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 namespace PrototypeSubMod.Pathfinding;
 
 public class PathfindingObject : MonoBehaviour
 {
+    public event Action OnPathFinished;
+
     [SerializeField] private Transform targetPoint;
     [SerializeField] protected Transform visual;
     [SerializeField] private float moveSpeed;
@@ -85,6 +88,7 @@ public class PathfindingObject : MonoBehaviour
                 {
                     path = null;
                     visual.rotation = Quaternion.LookRotation(directionToNextPoint, lastNormal);
+                    OnPathFinished?.Invoke();
                     yield break;
                 }
 
@@ -117,7 +121,7 @@ public class PathfindingObject : MonoBehaviour
 
     public void UpdatePath()
     {
-        //Plugin.Logger.LogInfo($"Requesting path");
+        Plugin.Logger.LogInfo($"Requesting path");
         PathRequest request = new PathRequest(transform.position, targetPoint.position, OnPathFound);
         PathRequestManager.RequestPath(request);
     }

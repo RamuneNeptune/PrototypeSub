@@ -25,6 +25,10 @@ internal class SpawnRepairBot : MonoBehaviour
 
     private void SpawnBot()
     {
-        Instantiate(botPrefab, transform);
+        var newBot = Instantiate(botPrefab, transform.parent);
+        newBot.transform.localPosition = transform.localPosition;
+        newBot.transform.localRotation = transform.localRotation;
+
+        Destroy(gameObject);
     }
 }
