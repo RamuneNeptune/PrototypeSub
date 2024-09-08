@@ -29,6 +29,8 @@ internal class SpawnRepairBot : MonoBehaviour
         newBot.transform.localPosition = transform.localPosition;
         newBot.transform.localRotation = transform.localRotation;
 
+        newBot.GetComponent<ProtoRepairBot>().SetBotLocalPos();
+
         Destroy(gameObject);
     }
 }

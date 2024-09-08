@@ -32,6 +32,7 @@ internal class ProtoRepairBot_Spawned
 
         var bot = GameObject.Instantiate(botTask.GetResult(), prefab.transform.GetChild(0));
         RemoveBotComponents(ref bot);
+        bot.GetComponentInChildren<FMOD_CustomLoopingEmitter>().playOnAwake = false;
 
         prefabOut.Set(prefab);
     }
