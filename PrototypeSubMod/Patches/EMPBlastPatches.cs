@@ -10,6 +10,8 @@ internal class EMPBlastPatches
     [HarmonyPatch(nameof(EMPBlast.OnTouch)), HarmonyPostfix]
     private static void OnTouch_Postfix(EMPBlast __instance, Collider collider)
     {
+        if (collider.attachedRigidbody == null) return;
+
         GameObject gameObject = collider.attachedRigidbody.gameObject;
         if (!gameObject || !__instance.isValidTarget(gameObject)) return;
 

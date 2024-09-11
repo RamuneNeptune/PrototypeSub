@@ -12,6 +12,7 @@ internal class ProtoIonGenerator : MonoBehaviour, IProtoUpgrade
     [SerializeField] private float energyPerSecond = 0.3f;
     [SerializeField] private float activeNoiseValue;
     [SerializeField] private float empChargeUpTime = 300;
+    [SerializeField] private float empOxygenDisableTime = 150f;
 
     [Header("EMP")]
     [SerializeField] private Transform empSpawnPos;
@@ -19,6 +20,8 @@ internal class ProtoIonGenerator : MonoBehaviour, IProtoUpgrade
     [SerializeField] private AnimationCurve blastRadius;
     [SerializeField] private AnimationCurve blastHeight;
     [SerializeField] private float disableElectronicsTime;
+    [SerializeField] private FMOD_CustomEmitter empSoundEffect;
+    [SerializeField] private float soundEffectVolume = 20f;
 
     private GameObject empPrefab;
     private bool upgradeActive;
@@ -34,8 +37,10 @@ internal class ProtoIonGenerator : MonoBehaviour, IProtoUpgrade
         GameObject crabsquid = crabsquidTask.result.Get();
         var empAttack = crabsquid.GetComponent<EMPAttack>();
 
-        var emp = empAttack.ammoPrefab;
-        empPrefab = Instantiate(emp, new Vector3(0, 500, 0), Quaternion.identity);
+        empAttack.ammoPrefab.SetActive(false);
+        empPrefab = Instantiate(empAttack.ammoPrefab);
+
+        empAttack.ammoPrefab.SetActive(true);
         var empBlast = empPrefab.GetComponent<EMPBlast>();
 
         empBlast.lifeTime = empLifetime;
@@ -60,7 +65,7 @@ internal class ProtoIonGenerator : MonoBehaviour, IProtoUpgrade
             }
         }
 
-        if (currentEMPChargeTime < empChargeUpTime)
+        if (currentEMPChargeTime < empChargeUpTime && !empFired)
         {
             currentEMPChargeTime += Time.deltaTime;
             powerRelay.AddEnergy(energyPerSecond * Time.deltaTime, out _);
@@ -68,8 +73,14 @@ internal class ProtoIonGenerator : MonoBehaviour, IProtoUpgrade
         else if (!empFired)
         {
             //Do EMP thing
-            Instantiate(empPrefab, empSpawnPos.position, empSpawnPos.rotation);
+            var newEMP = Instantiate(empPrefab, empSpawnPos.position, empSpawnPos.rotation, empSpawnPos);
+            newEMP.SetActive(true);
             empFired = true;
+            upgradeActive = false;
+
+            powerRelay.DisableElectronicsForTime(empOxygenDisableTime);
+
+            Utils.PlayEnvSound(empSoundEffect, empSpawnPos.position, soundEffectVolume);
         }
     }
 
