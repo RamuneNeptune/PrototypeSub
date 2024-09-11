@@ -2797,7 +2797,7 @@ GameObject:
   m_Layer: 0
   m_Name: PortAftFin
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 2488908585195742037, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -13026,7 +13026,7 @@ GameObject:
   m_Layer: 0
   m_Name: PortForeFin
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 2488908585195742037, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -16183,6 +16183,7 @@ MonoBehaviour:
   energyPerSecond: 0.3
   activeNoiseValue: 125
   empChargeUpTime: 300
+  empOxygenDisableTime: 150
   empSpawnPos: {fileID: 7285318648538352494}
   empLifetime: 5
   blastRadius:
@@ -16215,15 +16216,15 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 60
-      outSlope: 60
+      inSlope: 24
+      outSlope: 24
       tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 0.25
-      value: 15
+      value: 6
       inSlope: 0.17253435
       outSlope: 0.17253435
       tangentMode: 0
@@ -16232,7 +16233,7 @@ MonoBehaviour:
       outWeight: 0.07624308
     - serializedVersion: 3
       time: 1
-      value: 15
+      value: 6
       inSlope: 0
       outSlope: 0
       tangentMode: 34
@@ -16242,7 +16243,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  disableElectronicsTime: 150
+  disableElectronicsTime: 5
   empSoundEffect: {fileID: 2634704454324673011}
   soundEffectVolume: 20
 --- !u!1 &1789286580445139733
@@ -23857,7 +23858,7 @@ GameObject:
   m_Layer: 0
   m_Name: KeelAft
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 2488908585195742037, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -24228,7 +24229,7 @@ GameObject:
   m_Layer: 0
   m_Name: StarboardFore
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 2488908585195742037, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -24892,7 +24893,7 @@ GameObject:
   m_Layer: 0
   m_Name: KeelFore
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 2488908585195742037, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -31458,7 +31459,7 @@ MonoBehaviour:
     returnDistance: 0
   - uiWarningDot: {fileID: 8776934284484935171}
     sensorProbe: {fileID: 6145640172145863126}
-    sphereCheckRadius: 5
+    sphereCheckRadius: 4
     checkTravelDistance: 6
     returnDistance: 0
   - uiWarningDot: {fileID: 5175600145606191692}
@@ -31503,7 +31504,7 @@ MonoBehaviour:
     returnDistance: 0
   - uiWarningDot: {fileID: 8672249556193102698}
     sensorProbe: {fileID: 7135308101725833311}
-    sphereCheckRadius: 7
+    sphereCheckRadius: 4
     checkTravelDistance: 7
     returnDistance: 0
   - uiWarningDot: {fileID: 726063604546972349}
@@ -31551,7 +31552,7 @@ MonoBehaviour:
   - 5
   - 5
   - 5
-  - 5
+  - 4
   - 5
   - 5
   - 3
@@ -31560,7 +31561,7 @@ MonoBehaviour:
   - 6
   - 6
   - 5
-  - 7
+  - 4
   - 7
   travelDistances:
   - 6
@@ -37325,7 +37326,7 @@ GameObject:
   m_Layer: 0
   m_Name: PortCenter
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 2488908585195742037, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -43509,7 +43510,7 @@ GameObject:
   m_Layer: 0
   m_Name: StarboardAft
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 2488908585195742037, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -44173,7 +44174,7 @@ GameObject:
   m_Layer: 0
   m_Name: StarboardCenter
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 2488908585195742037, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -48685,7 +48686,7 @@ GameObject:
   m_Layer: 0
   m_Name: PortAft
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 2488908585195742037, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -61460,7 +61461,7 @@ GameObject:
   m_Layer: 0
   m_Name: StarboardForeFin
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 2488908585195742037, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -70532,7 +70533,7 @@ GameObject:
   m_Layer: 0
   m_Name: StarboardAftFin
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 2488908585195742037, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -76223,7 +76224,7 @@ GameObject:
   m_Layer: 0
   m_Name: PortFore
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 2488908585195742037, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1

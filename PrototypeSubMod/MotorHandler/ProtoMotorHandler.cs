@@ -10,11 +10,13 @@ internal class ProtoMotorHandler : MonoBehaviour
     private float[] originalMotorSpeeds;
     private float[] originalPowerValues;
 
+    private float originalTurningTorque;
     private float speedMultiplier = 1f;
     private float powerMultiplier = 1f;
 
     private void Start()
     {
+        originalTurningTorque = motorMode.subController.BaseTurningTorque;
         originalMotorSpeeds = motorMode.motorModeSpeeds;
         originalPowerValues = motorMode.motorModePowerConsumption;
     }
@@ -39,12 +41,24 @@ internal class ProtoMotorHandler : MonoBehaviour
         if (!allowedToMove)
         {
             motorMode.motorModeSpeeds = new float[3];
+            motorMode.ChangeCyclopsMotorMode(motorMode.cyclopsMotorMode);
+            motorMode.subController.BaseTurningTorque = 0;
             return;
         }
 
         float[] newSpeeds = originalMotorSpeeds;
         newSpeeds.ForEach(s => s *= speedMultiplier);
 
-        motorMode.motorModeSpeeds = newSpeeds;
+        if(motorMode.motorModeSpeeds != newSpeeds)
+        {
+            motorMode.motorModeSpeeds = newSpeeds;
+            motorMode.ChangeCyclopsMotorMode(motorMode.cyclopsMotorMode);
+            motorMode.subController.BaseTurningTorque = originalTurningTorque;
+        }
+    }
+
+    public bool GetAllowedToMove()
+    {
+        return allowedToMove;
     }
 }
