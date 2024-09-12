@@ -76,7 +76,7 @@ internal class ProtoDeployableManager : MonoBehaviour, IProtoUpgrade
         var lightComponent = Instantiate(lightPrefab, lightSpawnTransform.position, lightSpawnTransform.rotation).GetComponent<DeployableLight>();
         lightComponent.gameObject.SetActive(true);
 
-        lightComponent.LaunchWithForce(lightLaunchForce);
+        lightComponent.LaunchWithForce(lightLaunchForce, subRoot.rb.velocity);
         lightComponent.GetComponentInChildren<CyclopsMaterialAssigner>().OnCyclopsReferenceFinished(CyclopsReferenceHandler.CyclopsReference);
     }
 
