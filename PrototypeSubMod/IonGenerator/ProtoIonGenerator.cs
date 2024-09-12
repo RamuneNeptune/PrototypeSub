@@ -63,6 +63,8 @@ internal class ProtoIonGenerator : MonoBehaviour, IProtoUpgrade
             {
                 empFired = false;
             }
+
+            return;
         }
 
         if (currentEMPChargeTime < empChargeUpTime && !empFired)

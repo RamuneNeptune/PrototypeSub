@@ -28,4 +28,16 @@ internal class DamagePointPatches
         var newParticles = prefab.GetComponentInChildren<ParticleSystem>();
         return newParticles;
     }
+
+    [HarmonyPatch(nameof(CyclopsDamagePoint.OnRepair)), HarmonyPrefix]
+    private static void OnRepair_Prefix(CyclopsDamagePoint __instance)
+    {
+        if (__instance.ps == null) return;
+
+        var damagePoint = __instance.ps.GetComponentInParent<CyclopsDamagePoint>();
+        if(damagePoint == __instance)
+        {
+            GameObject.Destroy(__instance.gameObject);
+        }
+    }
 }
