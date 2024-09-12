@@ -32,7 +32,7 @@ internal class ProtoRepairBot : PathfindingObject
         Vector3 posOnPlane = Vector3.ProjectOnPlane(directionToNextPoint + visual.position, lastNormal);
         posOnPlane += visual.position;
 
-        Vector3 dir = (posOnPlane - visual.position);
+        Vector3 dir = posOnPlane - visual.position;
         Vector3 localDir = visual.InverseTransformDirection(dir);
         Plugin.Logger.LogInfo($"Local dir = {localDir}");
 

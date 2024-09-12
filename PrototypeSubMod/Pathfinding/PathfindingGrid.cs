@@ -101,7 +101,7 @@ public class PathfindingGrid : MonoBehaviour
 
         pointsOnSphere = PointsOnSphere(rayCount);
 
-        if(collidersParent != null)
+        if (collidersParent != null)
         {
             colliders = collidersParent.GetComponentsInChildren<Collider>();
         }
@@ -169,9 +169,9 @@ public class PathfindingGrid : MonoBehaviour
                         }
                     }
 
-                    if(walkable)
+                    if (walkable)
                     {
-                        if(Physics.Raycast(pointOnBounds, surfaceNormal, intersectionCheckDistance))
+                        if (Physics.Raycast(pointOnBounds, surfaceNormal, intersectionCheckDistance))
                         {
                             walkable = false;
                         }

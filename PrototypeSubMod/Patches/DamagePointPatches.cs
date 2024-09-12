@@ -35,7 +35,7 @@ internal class DamagePointPatches
         if (__instance.ps == null) return;
 
         var damagePoint = __instance.ps.GetComponentInParent<CyclopsDamagePoint>();
-        if(damagePoint == __instance)
+        if (damagePoint == __instance)
         {
             GameObject.Destroy(__instance.gameObject);
         }

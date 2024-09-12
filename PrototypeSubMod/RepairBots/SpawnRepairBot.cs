@@ -10,7 +10,7 @@ internal class SpawnRepairBot : MonoBehaviour
 
     private IEnumerator Start()
     {
-        if(botPrefab != null)
+        if (botPrefab != null)
         {
             SpawnBot();
             yield break;

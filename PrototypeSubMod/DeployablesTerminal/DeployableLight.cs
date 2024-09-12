@@ -8,6 +8,6 @@ internal class DeployableLight : MonoBehaviour
 
     public void LaunchWithForce(float force, Vector3 previousVelocity)
     {
-        rb.AddForce(transform.forward * force + previousVelocity, ForceMode.Impulse);
+        rb.AddForce((transform.forward * force) + previousVelocity, ForceMode.Impulse);
     }
 }

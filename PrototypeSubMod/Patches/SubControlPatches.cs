@@ -21,7 +21,7 @@ internal class SubControlPatches
         var motorHandler = __instance.GetComponentInChildren<ProtoMotorHandler>();
         if (!motorHandler) return true;
 
-        if(!motorHandler.GetAllowedToMove())
+        if (!motorHandler.GetAllowedToMove())
         {
             __instance.mainAnimator.SetFloat("view_yaw", 0);
             __instance.mainAnimator.SetFloat("view_pitch", 0);
