@@ -1,6 +1,7 @@
 ﻿using PrototypeSubMod.SaveData;
 using SubLibrary.SaveData;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace PrototypeSubMod.DeployablesTerminal;
@@ -23,13 +24,13 @@ internal class DeployablesStorageTerminal : MonoBehaviour, ISaveDataListener, IL
         new Vector3(135, -113, 0),
     };
 
-    public static List<string> LightBeaconSlots { get; } = new()
+    public static string[] LightBeaconSlots { get; } = new[]
     {
         "DeployableStorageSlot1",
         "DeployableStorageSlot3",
     };
 
-    public static List<string> CreatureDecoySlots { get; } = new()
+    public static string[] CreatureDecoySlots { get; } = new[]
     {
         "DeployableStorageSlot2",
         "DeployableStorageSlot4",
@@ -79,8 +80,8 @@ internal class DeployablesStorageTerminal : MonoBehaviour, ISaveDataListener, IL
 
         equipment.typeToSlots = new Dictionary<EquipmentType, List<string>>()
         {
-            { EquipmentType.DecoySlot, CreatureDecoySlots},
-            { Plugin.LightBeaconEquipmentType, LightBeaconSlots }
+            { EquipmentType.DecoySlot, CreatureDecoySlots.ToList()},
+            { Plugin.LightBeaconEquipmentType, LightBeaconSlots.ToList() }
         };
     }
 
