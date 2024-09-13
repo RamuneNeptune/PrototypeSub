@@ -1,6 +1,8 @@
 ﻿using PrototypeSubMod.Interfaces;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UWE;
 
 namespace PrototypeSubMod.StasisPulse;
 
@@ -16,6 +18,15 @@ public class ProtoStasisPulse : MonoBehaviour, IProtoUpgrade
     [SerializeField] private float maxFreezeTime;
     [SerializeField] private Renderer sphereVisual;
 
+    private float CurrentRadius
+    {
+        get
+        {
+            return sphereRadius.Evaluate(currentSphereGrowTimeTime / sphereGrowTime);
+        }
+    }
+
+    private List<FlashingLightHelpers.ShaderVector4ScalerToken> textureSpeedTokens;
     private float currentCooldownTime;
     private float currentSphereGrowTimeTime;
     private bool upgradeActive;
@@ -39,6 +50,14 @@ public class ProtoStasisPulse : MonoBehaviour, IProtoUpgrade
 
         sphereVisual.materials = newMaterials;
         sphereVisual.GetComponent<MeshFilter>().mesh = stasisSphere.GetComponent<MeshFilter>().mesh;
+        textureSpeedTokens = FlashingLightHelpers.CreateUberShaderVector4ScalerTokens(new Material[]
+        {
+            sphereVisual.materials[0],
+            sphereVisual.materials[1]
+        });
+
+        MiscSettings.isFlashesEnabled.changedEvent.AddHandler(this, new Event<Utils.MonitoredValue<bool>>.HandleFunction(OnFlashesEnabledChanged));
+        UpdateTextureSpeed();
 
         currentSphereGrowTimeTime = sphereGrowTime;
         sphereVisual.enabled = false;
@@ -60,26 +79,75 @@ public class ProtoStasisPulse : MonoBehaviour, IProtoUpgrade
             return;
         }
 
-        if (currentSphereGrowTimeTime < sphereGrowTime)
-        {
-            currentSphereGrowTimeTime += Time.deltaTime;
-            float targetRadius = sphereRadius.Evaluate(currentSphereGrowTimeTime / sphereGrowTime);
-
-            sphereVisual.transform.localScale = Vector3.one * targetRadius;
-        }
-        else if (deployingLastFrame)
-        {
-            currentCooldownTime = cooldownTime;
-        }
-
-        deployingLastFrame = currentSphereGrowTimeTime < sphereGrowTime;
+        HandleSphereSize();
+        HandleFreezing();
     }
 
     private void UpdateMaterials()
     {
+        if (sphereVisual.materials.Length != 2) return;
+
         Color color = colorOverLifetime.Evaluate(currentSphereGrowTimeTime / sphereGrowTime);
         sphereVisual.materials[0].SetColor(ShaderPropertyID._Color, color);
         sphereVisual.materials[1].SetColor(ShaderPropertyID._Color, color);
+    }
+
+    private void HandleSphereSize()
+    {
+        if (currentSphereGrowTimeTime < sphereGrowTime)
+        {
+            currentSphereGrowTimeTime += Time.deltaTime;
+            sphereVisual.transform.localScale = Vector3.one * CurrentRadius;
+            deployingLastFrame = true;
+        }
+        else if (deployingLastFrame)
+        {
+            currentCooldownTime = cooldownTime;
+            deployingLastFrame = false;
+        }
+    }
+
+    private void HandleFreezing()
+    {
+        int colliderCount = UWE.Utils.OverlapSphereIntoSharedBuffer(sphereVisual.transform.position, CurrentRadius);
+        for (int i = 0; i < colliderCount; i++)
+        {
+            Collider collider = UWE.Utils.sharedColliderBuffer[i];
+        }
+    }
+
+    private bool TryFreeze(Collider collider)
+    {
+        Rigidbody rigidbody = collider.GetComponentInParent<Rigidbody>();
+        if (!rigidbody) return false;
+
+        if (rigidbody.GetComponentInChildren<ProtoStasisPulse>() != null) return false;
+
+        if (rigidbody.TryGetComponent<ProtoStasisFreeze>(out var stasisFreeze)) return false;
+
+        if (stasisFreeze.isFrozen) return false;
+
+        if (collider.GetComponentInParent<Player>() != null) return false;
+
+        var freeze = rigidbody.gameObject.AddComponent<ProtoStasisFreeze>();
+        freeze.SetFreezeTimes(minFreezeTime, maxFreezeTime);
+        return true;
+    }
+
+    private void OnFlashesEnabledChanged(Utils.MonitoredValue<bool> isFlashesEnabled)
+    {
+        UpdateTextureSpeed();
+    }
+
+    private void UpdateTextureSpeed()
+    {
+        if (MiscSettings.flashes)
+        {
+            textureSpeedTokens.RestoreScale();
+            return;
+        }
+
+        textureSpeedTokens.SetScale(0.1f);
     }
 
     public void TryActivateSphere()
