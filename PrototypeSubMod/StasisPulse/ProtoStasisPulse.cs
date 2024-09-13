@@ -27,6 +27,9 @@ public class ProtoStasisPulse : MonoBehaviour, IProtoUpgrade
     }
 
     private List<FlashingLightHelpers.ShaderVector4ScalerToken> textureSpeedTokens;
+    private GameObject freezeFX;
+    private GameObject unfreezeFX;
+
     private float currentCooldownTime;
     private float currentSphereGrowTimeTime;
     private bool upgradeActive;
@@ -38,7 +41,10 @@ public class ProtoStasisPulse : MonoBehaviour, IProtoUpgrade
         yield return rifleTask;
 
         var stasisRifle = rifleTask.GetResult();
-        var stasisSphere = stasisRifle.GetComponent<StasisRifle>().effectSpherePrefab;
+        var stasisSphere = stasisRifle.GetComponent<StasisRifle>().effectSpherePrefab.GetComponent<StasisSphere>();
+
+        freezeFX = stasisSphere.vfxFreeze;
+        unfreezeFX = stasisSphere.vfxUnfreeze;
 
         var stasisMaterials = stasisSphere.GetComponent<Renderer>().materials;
         Material[] newMaterials = new Material[stasisMaterials.Length];
@@ -73,7 +79,7 @@ public class ProtoStasisPulse : MonoBehaviour, IProtoUpgrade
             return;
         }
 
-        if(currentCooldownTime > 0)
+        if (currentCooldownTime > 0)
         {
             currentCooldownTime -= Time.deltaTime;
             return;
@@ -113,6 +119,7 @@ public class ProtoStasisPulse : MonoBehaviour, IProtoUpgrade
         for (int i = 0; i < colliderCount; i++)
         {
             Collider collider = UWE.Utils.sharedColliderBuffer[i];
+            TryFreeze(collider);
         }
     }
 
@@ -131,6 +138,9 @@ public class ProtoStasisPulse : MonoBehaviour, IProtoUpgrade
 
         var freeze = rigidbody.gameObject.AddComponent<ProtoStasisFreeze>();
         freeze.SetFreezeTimes(minFreezeTime, maxFreezeTime);
+        freeze.SetUnfreezeVF(unfreezeFX);
+
+        Utils.PlayOneShotPS(freezeFX, rigidbody.transform.position, Quaternion.identity);
         return true;
     }
 

@@ -15,6 +15,7 @@ internal class ProtoStasisFreeze : MonoBehaviour
     }
 
     private Rigidbody rigidbody;
+    private GameObject unfreezeFX;
 
     private float currentFreezeTime;
 
@@ -27,7 +28,7 @@ internal class ProtoStasisFreeze : MonoBehaviour
 
     private void Update()
     {
-        if(currentFreezeTime > 0)
+        if (currentFreezeTime > 0)
         {
             currentFreezeTime -= Time.deltaTime;
             return;
@@ -35,11 +36,19 @@ internal class ProtoStasisFreeze : MonoBehaviour
 
         UWE.Utils.SetIsKinematicAndUpdateInterpolation(rigidbody, false);
         rigidbody.SendMessage("OnUnfreezeByStasisSphere", SendMessageOptions.DontRequireReceiver);
+        Utils.PlayOneShotPS(unfreezeFX, transform.position, Quaternion.identity);
+
+        Destroy(this);
     }
 
     public void SetFreezeTimes(float minFreezeTime, float maxFreezeTime)
     {
         float normalizedMass = Mathf.InverseLerp(0, MAX_MASS_VALUE, rigidbody.maxAngularVelocity);
         currentFreezeTime = Mathf.Lerp(minFreezeTime, maxFreezeTime, normalizedMass);
+    }
+
+    public void SetUnfreezeVF(GameObject unfreezeFX)
+    {
+        this.unfreezeFX = unfreezeFX;
     }
 }
