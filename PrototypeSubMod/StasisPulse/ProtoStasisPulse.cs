@@ -18,7 +18,7 @@ public class ProtoStasisPulse : MonoBehaviour, IProtoUpgrade
     [SerializeField] private float maxFreezeTime;
     [SerializeField] private Renderer sphereVisual;
 
-    private float CurrentRadius
+    private float CurrentDiameter
     {
         get
         {
@@ -103,7 +103,7 @@ public class ProtoStasisPulse : MonoBehaviour, IProtoUpgrade
         if (currentSphereGrowTimeTime < sphereGrowTime)
         {
             currentSphereGrowTimeTime += Time.deltaTime;
-            sphereVisual.transform.localScale = Vector3.one * CurrentRadius;
+            sphereVisual.transform.localScale = Vector3.one * CurrentDiameter;
             deployingLastFrame = true;
         }
         else if (deployingLastFrame)
@@ -115,7 +115,7 @@ public class ProtoStasisPulse : MonoBehaviour, IProtoUpgrade
 
     private void HandleFreezing()
     {
-        int colliderCount = UWE.Utils.OverlapSphereIntoSharedBuffer(sphereVisual.transform.position, CurrentRadius);
+        int colliderCount = UWE.Utils.OverlapSphereIntoSharedBuffer(sphereVisual.transform.position, CurrentDiameter / 2f);
         for (int i = 0; i < colliderCount; i++)
         {
             Collider collider = UWE.Utils.sharedColliderBuffer[i];
@@ -132,7 +132,7 @@ public class ProtoStasisPulse : MonoBehaviour, IProtoUpgrade
 
         if (rigidbody.TryGetComponent<ProtoStasisFreeze>(out var stasisFreeze)) return false;
 
-        if (stasisFreeze.isFrozen) return false;
+        if (rigidbody.isKinematic) return false;
 
         if (collider.GetComponentInParent<Player>() != null) return false;
 

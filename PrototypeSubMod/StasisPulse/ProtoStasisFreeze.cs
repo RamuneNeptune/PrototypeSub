@@ -44,7 +44,7 @@ internal class ProtoStasisFreeze : MonoBehaviour
     public void SetFreezeTimes(float minFreezeTime, float maxFreezeTime)
     {
         float normalizedMass = Mathf.InverseLerp(0, MAX_MASS_VALUE, rigidbody.maxAngularVelocity);
-        currentFreezeTime = Mathf.Lerp(minFreezeTime, maxFreezeTime, normalizedMass);
+        currentFreezeTime = Mathf.Lerp(maxFreezeTime, minFreezeTime, normalizedMass);
     }
 
     public void SetUnfreezeVF(GameObject unfreezeFX)
