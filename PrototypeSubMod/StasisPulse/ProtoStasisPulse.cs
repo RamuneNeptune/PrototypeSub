@@ -11,6 +11,8 @@ public class ProtoStasisPulse : MonoBehaviour, IProtoUpgrade
     [SerializeField] private AnimationCurve sphereRadius;
     [SerializeField] private Gradient colorOverLifetime;
     [SerializeField] private PowerRelay powerRelay;
+    [SerializeField] private VoiceNotification activationVoiceline;
+    [SerializeField] private float activationDelay;
     [SerializeField] private float powerCost;
     [SerializeField] private float cooldownTime;
     [SerializeField] private float sphereGrowTime;
@@ -29,6 +31,7 @@ public class ProtoStasisPulse : MonoBehaviour, IProtoUpgrade
     private List<FlashingLightHelpers.ShaderVector4ScalerToken> textureSpeedTokens;
     private GameObject freezeFX;
     private GameObject unfreezeFX;
+    private SubRoot subRoot;
 
     private float currentCooldownTime;
     private float currentSphereGrowTimeTime;
@@ -67,6 +70,8 @@ public class ProtoStasisPulse : MonoBehaviour, IProtoUpgrade
 
         currentSphereGrowTimeTime = sphereGrowTime;
         sphereVisual.enabled = false;
+
+        subRoot = GetComponentInParent<SubRoot>();
     }
 
     private void LateUpdate()
@@ -169,15 +174,22 @@ public class ProtoStasisPulse : MonoBehaviour, IProtoUpgrade
             return;
         }
 
+        if (powerRelay.GetPower() < powerCost)
+        {
+            return;
+        }
+
+        subRoot.voiceNotificationManager.PlayVoiceNotification(activationVoiceline);
+
+        Invoke(nameof(StartGrow), activationDelay);
+    }
+
+    private void StartGrow()
+    {
         currentSphereGrowTimeTime = 0;
         deployingLastFrame = false;
 
         powerRelay.ConsumeEnergy(powerCost, out _);
-    }
-
-    public bool CanActivate()
-    {
-        return currentCooldownTime > 0;
     }
 
     public void SetUpgradeActive(bool active)
