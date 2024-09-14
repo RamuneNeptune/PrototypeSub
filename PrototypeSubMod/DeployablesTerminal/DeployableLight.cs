@@ -8,8 +8,10 @@ internal class DeployableLight : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private float scaleSpeed;
     [SerializeField] private Light light;
+
     [SerializeField] private GameObject topHalf;
     [SerializeField] private GameObject bottomHalf;
+    [SerializeField] private GameObject lightVisual;
 
     private float lifetime;
     private float currentLifetime;
@@ -52,13 +54,23 @@ internal class DeployableLight : MonoBehaviour
         {
             piecesSeparated = true;
 
-            topHalf.transform.SetParent(transform);
-            bottomHalf.transform.SetParent(transform);
+            topHalf.transform.SetParent(null);
+            bottomHalf.transform.SetParent(null);
+            lightVisual.SetActive(false);
 
-            topHalf.AddComponent<Rigidbody>(); 
-            bottomHalf.AddComponent<Rigidbody>();
+            var rb1 = topHalf.AddComponent<Rigidbody>();
+            var rb2 = bottomHalf.AddComponent<Rigidbody>();
+
+            rb1.interpolation = RigidbodyInterpolation.Interpolate;
+            rb2.interpolation = RigidbodyInterpolation.Interpolate;
+
+            rb1.AddForce(Random.onUnitSphere * 5f);
+            rb2.AddForce(Random.onUnitSphere * 5f);
+
             GetComponentInChildren<Animator>().enabled = false;
 
+            Destroy(topHalf, 10f);
+            Destroy(bottomHalf, 10f);
             Destroy(GetComponent<PrefabIdentifier>());
         }
 
