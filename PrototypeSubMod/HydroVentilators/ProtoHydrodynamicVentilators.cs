@@ -38,4 +38,9 @@ internal class ProtoHydrodynamicVentilators : MonoBehaviour, IProtoUpgrade
     }
 
     public bool GetUpgradeActive() => upgradeActive;
+
+    public string GetUpgradeName()
+    {
+        return "Hydro Ventilators";
+    }
 }

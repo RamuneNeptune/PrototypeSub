@@ -38,4 +38,9 @@ internal class ProtoPressureConverters : MonoBehaviour, IProtoUpgrade
     }
 
     public bool GetUpgradeActive() => convertersActive;
+
+    public string GetUpgradeName()
+    {
+        return "Pressure Converters";
+    }
 }

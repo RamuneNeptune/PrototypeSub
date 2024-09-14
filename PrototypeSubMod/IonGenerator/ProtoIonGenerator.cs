@@ -94,4 +94,9 @@ internal class ProtoIonGenerator : MonoBehaviour, IProtoUpgrade
     public bool GetUpgradeActive() => upgradeActive;
 
     public float GetNoiseValue() => activeNoiseValue;
+
+    public string GetUpgradeName()
+    {
+        return "Ion Generator";
+    }
 }

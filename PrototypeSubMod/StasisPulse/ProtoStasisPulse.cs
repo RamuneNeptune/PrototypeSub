@@ -201,4 +201,9 @@ public class ProtoStasisPulse : MonoBehaviour, IProtoUpgrade
     {
         return upgradeActive;
     }
+
+    public string GetUpgradeName()
+    {
+        return "Activate Stasis Pulse";
+    }
 }

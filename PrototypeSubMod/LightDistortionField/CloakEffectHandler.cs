@@ -44,12 +44,11 @@ internal class CloakEffectHandler : MonoBehaviour, IProtoUpgrade
     {
         get
         {
-            return GetUpgradeActive() ? 1 : 0;
+            return GetAllowedToCloak() ? 1 : 0;
         }
     }
 
     private Vector3 originalScale;
-
     private bool upgradeActive;
 
     private void Awake()
@@ -97,7 +96,7 @@ internal class CloakEffectHandler : MonoBehaviour, IProtoUpgrade
         upgradeActive = active;
     }
 
-    public bool GetUpgradeActive()
+    public bool GetAllowedToCloak()
     {
         return !ionGenerator.GetUpgradeActive() && upgradeActive;
     }
@@ -105,5 +104,15 @@ internal class CloakEffectHandler : MonoBehaviour, IProtoUpgrade
     public float GetTargetScale()
     {
         return TargetScaleMultiplier;
+    }
+
+    public string GetUpgradeName()
+    {
+        return "Light Distortion Field";
+    }
+
+    public bool GetUpgradeActive()
+    {
+        return upgradeActive;
     }
 }

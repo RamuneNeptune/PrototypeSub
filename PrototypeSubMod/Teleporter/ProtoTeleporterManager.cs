@@ -147,4 +147,9 @@ internal class ProtoTeleporterManager : MonoBehaviour, IProtoUpgrade
     {
         activationTerminal.GetComponentInChildren<Collider>().isTrigger = false;
     }
+
+    public string GetUpgradeName()
+    {
+        return "Archway Override";
+    }
 }

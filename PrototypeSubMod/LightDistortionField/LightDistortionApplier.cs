@@ -14,14 +14,6 @@ internal class LightDistortionApplier : MonoBehaviour
             return;
         }
 
-        /*
-        if (!CloakEffectHandler.Instance.GetUpgradeActive())
-        {
-            Graphics.Blit(source, destination);
-            return;
-        }
-        */
-
         if (!material) material = new Material(CloakEffectHandler.Instance.shader);
 
         Transform sphere = CloakEffectHandler.Instance.ovoid;

@@ -3,9 +3,9 @@ using UnityEngine;
 
 namespace PrototypeSubMod.UI;
 
-internal class ActivateAllUpgradesButton : MonoBehaviour
+internal class ToggleUpgradeButton : MonoBehaviour
 {
-    [SerializeField] private SubRoot subRoot;
+    [SerializeField] private IProtoUpgrade upgrade;
 
     private bool hovering;
 
@@ -24,16 +24,14 @@ internal class ActivateAllUpgradesButton : MonoBehaviour
         if (hovering)
         {
             HandReticle main = HandReticle.main;
-            main.SetText(HandReticle.TextType.Hand, "ActivateAllUpgrades_DEBUG", true, GameInput.Button.LeftHand);
+            string prompt = upgrade.GetUpgradeActive() ? "Deactivate" : "Activate";
+            main.SetText(HandReticle.TextType.Hand, $"{prompt} {upgrade.GetUpgradeName()}", true, GameInput.Button.LeftHand);
             main.SetText(HandReticle.TextType.HandSubscript, string.Empty, false, GameInput.Button.None);
         }
     }
 
     public void OnClick()
     {
-        foreach (var upgrade in subRoot.GetComponentsInChildren<IProtoUpgrade>(true))
-        {
-            upgrade.SetUpgradeActive(true);
-        }
+        upgrade.SetUpgradeActive(!upgrade.GetUpgradeActive());
     }
 }

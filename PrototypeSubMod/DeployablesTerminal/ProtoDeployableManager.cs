@@ -128,4 +128,9 @@ internal class ProtoDeployableManager : MonoBehaviour, IProtoUpgrade
             }
         }
     }
+
+    public string GetUpgradeName()
+    {
+        return "Deployable Manager";
+    }
 }
