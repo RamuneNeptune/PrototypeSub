@@ -115,6 +115,8 @@ public class ProtoStasisPulse : MonoBehaviour, IProtoUpgrade
 
     private void HandleFreezing()
     {
+        if (currentSphereGrowTimeTime >= sphereGrowTime) return;
+
         int colliderCount = UWE.Utils.OverlapSphereIntoSharedBuffer(sphereVisual.transform.position, CurrentDiameter / 2f);
         for (int i = 0; i < colliderCount; i++)
         {
@@ -160,8 +162,13 @@ public class ProtoStasisPulse : MonoBehaviour, IProtoUpgrade
         textureSpeedTokens.SetScale(0.1f);
     }
 
-    public void TryActivateSphere()
+    public void ActivateSphere()
     {
+        if (currentSphereGrowTimeTime < sphereGrowTime || currentCooldownTime > 0)
+        {
+            return;
+        }
+
         currentSphereGrowTimeTime = 0;
         deployingLastFrame = false;
 
