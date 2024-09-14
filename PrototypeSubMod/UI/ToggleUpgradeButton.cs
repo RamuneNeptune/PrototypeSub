@@ -5,9 +5,39 @@ namespace PrototypeSubMod.UI;
 
 internal class ToggleUpgradeButton : MonoBehaviour
 {
-    [SerializeField] private IProtoUpgrade upgrade;
+    [SerializeField] private Component upgrade;
+    private IProtoUpgrade protoUpgrade;
 
     private bool hovering;
+
+    private void OnValidate()
+    {
+        if (upgrade != null && upgrade is IProtoUpgrade)
+        {
+            protoUpgrade = (IProtoUpgrade)upgrade;
+            return;
+        }
+
+        protoUpgrade = upgrade.GetComponentInChildren<IProtoUpgrade>();
+        if (protoUpgrade == null)
+        {
+            Debug.LogError($"Invalid component. Proto upgrade required");
+            upgrade = null;
+        }
+    }
+
+    private void Start()
+    {
+        if (protoUpgrade != null) return;
+
+        if(upgrade is IProtoUpgrade)
+        {
+            protoUpgrade = (IProtoUpgrade)upgrade;
+            return;
+        }
+
+        protoUpgrade = upgrade.GetComponentInChildren<IProtoUpgrade>();
+    }
 
     public void OnMouseEnter()
     {
@@ -24,14 +54,14 @@ internal class ToggleUpgradeButton : MonoBehaviour
         if (hovering)
         {
             HandReticle main = HandReticle.main;
-            string prompt = upgrade.GetUpgradeActive() ? "Deactivate" : "Activate";
-            main.SetText(HandReticle.TextType.Hand, $"{prompt} {upgrade.GetUpgradeName()}", true, GameInput.Button.LeftHand);
+            string prompt = protoUpgrade.GetUpgradeActive() ? "Deactivate" : "Activate";
+            main.SetText(HandReticle.TextType.Hand, $"{prompt} {protoUpgrade.GetUpgradeName()}", true, GameInput.Button.LeftHand);
             main.SetText(HandReticle.TextType.HandSubscript, string.Empty, false, GameInput.Button.None);
         }
     }
 
     public void OnClick()
     {
-        upgrade.SetUpgradeActive(!upgrade.GetUpgradeActive());
+        protoUpgrade.SetUpgradeActive(!protoUpgrade.GetUpgradeActive());
     }
 }

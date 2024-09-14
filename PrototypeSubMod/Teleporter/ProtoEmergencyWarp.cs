@@ -1,10 +1,11 @@
-﻿using System;
+﻿using PrototypeSubMod.Interfaces;
+using System;
 using System.Collections;
 using UnityEngine;
 
 namespace PrototypeSubMod.Teleporter;
 
-internal class ProtoEmergencyWarp : MonoBehaviour
+internal class ProtoEmergencyWarp : MonoBehaviour, IProtoUpgrade
 {
     public static bool isCharging;
 
@@ -20,6 +21,7 @@ internal class ProtoEmergencyWarp : MonoBehaviour
     private float currentChargeTime = Mathf.Infinity;
     private bool startedTeleport = true;
     private bool teleportingToMoonpool;
+    private bool upgradeActive;
 
     private void Start()
     {
@@ -35,6 +37,8 @@ internal class ProtoEmergencyWarp : MonoBehaviour
 
     public void TryStartTeleportChargeUp()
     {
+        if (!upgradeActive) return;
+
         if (subRoot.powerRelay.GetPower() < requiredPower)
         {
             throw new NotImplementedException("No power voiceline not yet implemented");
@@ -100,5 +104,20 @@ internal class ProtoEmergencyWarp : MonoBehaviour
     private void ReEnterPilotingMode()
     {
         Player.main.EnterPilotingMode(pilotingChair);
+    }
+
+    public void SetUpgradeActive(bool active)
+    {
+        upgradeActive = active;
+    }
+
+    public bool GetUpgradeActive()
+    {
+        return upgradeActive;
+    }
+
+    public string GetUpgradeName()
+    {
+        return "Emergency Warp";
     }
 }
