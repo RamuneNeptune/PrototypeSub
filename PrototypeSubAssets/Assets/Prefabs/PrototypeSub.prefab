@@ -22842,7 +22842,9 @@ MonoBehaviour:
     type: 3}
   lightSpawnTransform: {fileID: 8369945550746735300}
   decoySpawnTransform: {fileID: 5032246472120335905}
+  lightLifetime: 120
   launchLightDelay: 3
+  lightDeployDelay: 2
   lightLaunchForce: 500
   launchDecoyDelay: 3
 --- !u!1 &2300879924355326455
@@ -24579,13 +24581,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2479297159444347336}
-  m_LocalRotation: {x: -0.7071068, y: -0.7071068, z: 0, w: 0}
+  m_LocalRotation: {x: -0.6994126, y: -0.6994126, z: 0.10402954, w: -0.10402952}
   m_LocalPosition: {x: -0, y: 14.81, z: -20.08}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4721596618862651199}
   m_RootOrder: 10
-  m_LocalEulerAnglesHint: {x: -180, y: 0, z: -90}
+  m_LocalEulerAnglesHint: {x: -196.92, y: -0.000015258789, z: -90}
 --- !u!1 &2483380478828947346
 GameObject:
   m_ObjectHideFlags: 0
@@ -32514,7 +32516,7 @@ MonoBehaviour:
     returnDistance: 0
   - uiWarningDot: {fileID: 7270926758421636351}
     sensorProbe: {fileID: 1571550823439236218}
-    sphereCheckRadius: 5
+    sphereCheckRadius: 8
     checkTravelDistance: 7
     returnDistance: 0
   - uiWarningDot: {fileID: 1146457620998356417}
@@ -32529,7 +32531,7 @@ MonoBehaviour:
     returnDistance: 0
   - uiWarningDot: {fileID: 3133728454856213835}
     sensorProbe: {fileID: 1571550823439236218}
-    sphereCheckRadius: 5
+    sphereCheckRadius: 8
     checkTravelDistance: 7
     returnDistance: 0
   - uiWarningDot: {fileID: 8672249556193102698}
@@ -32548,7 +32550,7 @@ MonoBehaviour:
   motorMode: {fileID: 2278157053698757509}
   proximitySound: {fileID: 4999991471340971678}
   sensorDelay: 1
-  drawGizmos: 0
+  drawGizmos: 1
   alwaysDrawGizmos: 0
   gizmoColor: {r: 0.37201852, g: 0.7037003, b: 0.8301887, a: 0.07058824}
   warningDots:
@@ -32590,10 +32592,10 @@ MonoBehaviour:
   - 5
   - 3
   - 3
-  - 5
+  - 8
   - 6
   - 6
-  - 5
+  - 8
   - 5
   - 5
   travelDistances:
@@ -75916,6 +75918,7 @@ GameObject:
   - component: {fileID: 1872070442936540734}
   - component: {fileID: 156864756537387356}
   - component: {fileID: 4767904503956150813}
+  - component: {fileID: 9060344306396047808}
   m_Layer: 0
   m_Name: PrototypeSub
   m_TagString: Submarine
@@ -76716,6 +76719,19 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 06efa1ab2291c034aa4c772a83c61642, type: 3}
   types: 0000000000000000
   busPathEnums: 0800000002000000
+--- !u!114 &9060344306396047808
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8041321529513965086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1413826133, guid: 05b2873035fc0cb47b172f8f145ed69c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minMassForSound: 40
 --- !u!1 &8049366260307167103
 GameObject:
   m_ObjectHideFlags: 0
@@ -88087,6 +88103,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d6cc3db34565c3a4ba68573b0eeec2a0, type: 3}
+--- !u!4 &308197624363909022 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2253812858737788773, guid: d6cc3db34565c3a4ba68573b0eeec2a0,
+    type: 3}
+  m_PrefabInstance: {fileID: 1946072641967388923}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &2973204448809671226 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3621781888743187137, guid: d6cc3db34565c3a4ba68573b0eeec2a0,
@@ -88099,12 +88121,6 @@ MonoBehaviour:
   m_Script: {fileID: -2039529286, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &308197624363909022 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2253812858737788773, guid: d6cc3db34565c3a4ba68573b0eeec2a0,
-    type: 3}
-  m_PrefabInstance: {fileID: 1946072641967388923}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3082858037385395774
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -88184,6 +88200,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d6cc3db34565c3a4ba68573b0eeec2a0, type: 3}
+--- !u!4 &3859485751470618971 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2253812858737788773, guid: d6cc3db34565c3a4ba68573b0eeec2a0,
+    type: 3}
+  m_PrefabInstance: {fileID: 3082858037385395774}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1768688137450249471 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3621781888743187137, guid: d6cc3db34565c3a4ba68573b0eeec2a0,
@@ -88196,12 +88218,6 @@ MonoBehaviour:
   m_Script: {fileID: -2039529286, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &3859485751470618971 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2253812858737788773, guid: d6cc3db34565c3a4ba68573b0eeec2a0,
-    type: 3}
-  m_PrefabInstance: {fileID: 3082858037385395774}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8552883551461007763
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -88281,6 +88297,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d6cc3db34565c3a4ba68573b0eeec2a0, type: 3}
+--- !u!4 &7635523988782540534 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2253812858737788773, guid: d6cc3db34565c3a4ba68573b0eeec2a0,
+    type: 3}
+  m_PrefabInstance: {fileID: 8552883551461007763}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &4968267767760700242 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3621781888743187137, guid: d6cc3db34565c3a4ba68573b0eeec2a0,
@@ -88293,9 +88315,3 @@ MonoBehaviour:
   m_Script: {fileID: -2039529286, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &7635523988782540534 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2253812858737788773, guid: d6cc3db34565c3a4ba68573b0eeec2a0,
-    type: 3}
-  m_PrefabInstance: {fileID: 8552883551461007763}
-  m_PrefabAsset: {fileID: 0}

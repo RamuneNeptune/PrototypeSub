@@ -1,25 +1,34 @@
-﻿using SubLibrary.CyclopsReferencers;
+﻿using SubLibrary.Handlers;
 using UnityEngine;
 
 namespace PrototypeSubMod.DeployablesTerminal;
 
-internal class VolumetricLightReferenceAssigner : MonoBehaviour, ICyclopsReferencer
+internal class VolumetricLightReferenceAssigner : MonoBehaviour
 {
     [SerializeField] private VFXVolumetricLight volumetricLight;
+    [SerializeField] private float fresnelFade;
+    [SerializeField] private float fresnelPower;
 
     private void OnValidate()
     {
         if (!volumetricLight) TryGetComponent(out volumetricLight);
     }
 
-    public void OnCyclopsReferenceFinished(GameObject cyclops)
+    private void Awake()
     {
-        Plugin.Logger.LogInfo($"Cyclops reference finished");
+        if (CyclopsReferenceHandler.CyclopsReference == null) return;
 
-        VFXVolumetricLight light = cyclops.transform.Find("Floodlights/VolumetricLight_Front").GetComponent<VFXVolumetricLight>();
+        VFXVolumetricLight light = CyclopsReferenceHandler.CyclopsReference.transform.Find("Floodlights/VolumetricLight_Front").GetComponent<VFXVolumetricLight>();
 
         volumetricLight.coneMat = light.coneMat;
         volumetricLight.sphereMat = light.sphereMat;
         volumetricLight.block = light.block;
+    }
+
+    private void Start()
+    {
+        var rend = GetComponentInChildren<Renderer>();
+        rend.material.SetFloat(ShaderPropertyID._FresnelFade, fresnelFade);
+        rend.material.SetFloat("_FresnelPow", fresnelPower);
     }
 }
