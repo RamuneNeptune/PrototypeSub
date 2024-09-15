@@ -33,7 +33,7 @@ internal class ProtoOverclockModule : MonoBehaviour, IProtoUpgrade
         powerRelay.ConsumeEnergy(powerDrainPerSecond * Time.deltaTime, out _);
 
         HandleHullBreaches();
-        
+
     }
 
     private void HandleHullBreaches()

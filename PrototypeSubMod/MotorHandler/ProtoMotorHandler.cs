@@ -57,7 +57,7 @@ internal class ProtoMotorHandler : MonoBehaviour
         }
 
         float[] newSpeeds = originalMotorSpeeds;
-        newSpeeds.ForEach(s => s *= (speedMultiplier + speedBonus));
+        newSpeeds.ForEach(s => s *= speedMultiplier + speedBonus);
 
         if (motorMode.motorModeSpeeds != newSpeeds)
         {

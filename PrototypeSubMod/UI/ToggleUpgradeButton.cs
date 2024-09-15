@@ -30,7 +30,7 @@ internal class ToggleUpgradeButton : MonoBehaviour
     {
         if (protoUpgrade != null) return;
 
-        if(upgrade is IProtoUpgrade)
+        if (upgrade is IProtoUpgrade)
         {
             protoUpgrade = (IProtoUpgrade)upgrade;
             return;
