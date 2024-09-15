@@ -21,7 +21,7 @@ internal class ProtoEmergencyWarp : MonoBehaviour, IProtoUpgrade
     private float currentChargeTime = Mathf.Infinity;
     private bool startedTeleport = true;
     private bool teleportingToMoonpool;
-    private bool upgradeActive;
+    private bool upgradeInstalled;
 
     private void Start()
     {
@@ -37,7 +37,7 @@ internal class ProtoEmergencyWarp : MonoBehaviour, IProtoUpgrade
 
     public void TryStartTeleportChargeUp()
     {
-        if (!upgradeActive) return;
+        if (!upgradeInstalled) return;
 
         if (subRoot.powerRelay.GetPower() < requiredPower)
         {
@@ -108,16 +108,23 @@ internal class ProtoEmergencyWarp : MonoBehaviour, IProtoUpgrade
 
     public void SetUpgradeInstalled(bool active)
     {
-        upgradeActive = active;
+        upgradeInstalled = active;
     }
 
     public bool GetUpgradeInstalled()
     {
-        return upgradeActive;
+        return upgradeInstalled;
     }
 
     public string GetUpgradeName()
     {
         return "Emergency Warp";
     }
+
+    public void SetUpgradeEnabled(bool enabled)
+    {
+        // Not needed for this upgrade
+    }
+
+    public bool GetUpgradeEnabled() => upgradeInstalled;
 }

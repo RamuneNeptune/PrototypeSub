@@ -12,11 +12,11 @@ internal class ProtoPressureConverters : MonoBehaviour, IProtoUpgrade
     [SerializeField] private float maxDepth;
     [SerializeField] private AnimationCurve powerMultiplierCurve;
 
-    private bool convertersActive;
+    private bool convertersInstalled;
 
     private void FixedUpdate()
     {
-        if (!convertersActive) return;
+        if (!convertersInstalled) return;
 
         float depth = crushDamage.GetDepth();
 
@@ -34,13 +34,20 @@ internal class ProtoPressureConverters : MonoBehaviour, IProtoUpgrade
 
     public void SetUpgradeInstalled(bool active)
     {
-        convertersActive = active;
+        convertersInstalled = active;
     }
 
-    public bool GetUpgradeInstalled() => convertersActive;
+    public bool GetUpgradeInstalled() => convertersInstalled;
 
     public string GetUpgradeName()
     {
         return "Pressure Converters";
     }
+
+    public void SetUpgradeEnabled(bool enabled)
+    {
+        // Not needed for this upgrade
+    }
+
+    public bool GetUpgradeEnabled() => convertersInstalled;
 }

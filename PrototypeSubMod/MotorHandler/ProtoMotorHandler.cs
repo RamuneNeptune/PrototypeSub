@@ -12,6 +12,7 @@ internal class ProtoMotorHandler : MonoBehaviour
 
     private float originalTurningTorque;
     private float speedMultiplier = 1f;
+    private float speedBonus = 0;
     private float powerMultiplier = 1f;
 
     private void Start()
@@ -31,6 +32,15 @@ internal class ProtoMotorHandler : MonoBehaviour
         speedMultiplier = multiplier;
     }
 
+    /// <summary>
+    /// Adds the given speed parameter to the existing speed multiplier
+    /// </summary>
+    /// <param name="extraSpeed">How much extra speed to add</param>
+    public void SetSpeedMultiplierBonus(float extraSpeed)
+    {
+        speedBonus = extraSpeed;
+    }
+
     public void SetPowerMultiplier(float multiplier)
     {
         powerMultiplier = multiplier;
@@ -47,7 +57,7 @@ internal class ProtoMotorHandler : MonoBehaviour
         }
 
         float[] newSpeeds = originalMotorSpeeds;
-        newSpeeds.ForEach(s => s *= speedMultiplier);
+        newSpeeds.ForEach(s => s *= (speedMultiplier + speedBonus));
 
         if (motorMode.motorModeSpeeds != newSpeeds)
         {

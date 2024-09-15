@@ -12,11 +12,11 @@ internal class ProtoHydrodynamicVentilators : MonoBehaviour, IProtoUpgrade
     [SerializeField] private float maxDepth;
     [SerializeField] private AnimationCurve powerMultiplierCurve;
 
-    private bool upgradeActive;
+    private bool upgradeInstalled;
 
     private void FixedUpdate()
     {
-        if (!upgradeActive) return;
+        if (!upgradeInstalled) return;
 
         float depth = crushDamage.GetDepth();
 
@@ -32,15 +32,22 @@ internal class ProtoHydrodynamicVentilators : MonoBehaviour, IProtoUpgrade
         motorHandler.SetSpeedMultiplier(multiplier);
     }
 
-    public void SetUpgradeInstalled(bool active)
+    public void SetUpgradeInstalled(bool installed)
     {
-        upgradeActive = active;
+        upgradeInstalled = installed;
     }
 
-    public bool GetUpgradeInstalled() => upgradeActive;
+    public bool GetUpgradeInstalled() => upgradeInstalled;
 
     public string GetUpgradeName()
     {
         return "Hydro Ventilators";
     }
+
+    public void SetUpgradeEnabled(bool enabled)
+    {
+        // Not needed for this upgrade
+    }
+
+    public bool GetUpgradeEnabled() => upgradeInstalled;
 }

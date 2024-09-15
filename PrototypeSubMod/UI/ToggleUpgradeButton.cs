@@ -60,8 +60,13 @@ internal class ToggleUpgradeButton : MonoBehaviour
         }
     }
 
-    public void OnClick()
+    public void ToggleUpgradeInstalled()
     {
         protoUpgrade.SetUpgradeInstalled(!protoUpgrade.GetUpgradeInstalled());
+    }
+
+    public void ToggleUpgradeEnabled()
+    {
+        protoUpgrade.SetUpgradeEnabled(!protoUpgrade.GetUpgradeEnabled());
     }
 }
