@@ -1,5 +1,5 @@
 ﻿using HarmonyLib;
-using PrototypeSubMod.IonGenerator;
+using PrototypeSubMod.MotorHandler;
 
 namespace PrototypeSubMod.Patches;
 
@@ -9,9 +9,9 @@ internal class CyclopsMotorModePatches
     [HarmonyPatch(nameof(CyclopsMotorMode.GetNoiseValue)), HarmonyPostfix]
     private static void GetNoiseValue_Postfix(CyclopsMotorMode __instance, ref float __result)
     {
-        var ionGenerator = __instance.GetComponentInChildren<ProtoIonGenerator>();
-        if (!ionGenerator) return;
+        var motorHandler = __instance.GetComponentInChildren<ProtoMotorHandler>();
+        if (!motorHandler) return;
 
-        __result = ionGenerator.GetNoiseValue();
+        __result = motorHandler.GetOverrideNoiseValue();
     }
 }

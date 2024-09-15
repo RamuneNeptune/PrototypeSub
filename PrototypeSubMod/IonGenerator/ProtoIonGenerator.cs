@@ -59,6 +59,7 @@ internal class ProtoIonGenerator : MonoBehaviour, IProtoUpgrade
         }
 
         motorHandler.SetAllowedToMove(!upgradeActive);
+        motorHandler.SetOverrideNoiseValue(upgradeActive ? activeNoiseValue : -1);
 
         if (!upgradeActive)
         {
@@ -99,8 +100,6 @@ internal class ProtoIonGenerator : MonoBehaviour, IProtoUpgrade
     }
 
     public bool GetUpgradeInstalled() => upgradeInstalled;
-
-    public float GetNoiseValue() => activeNoiseValue;
 
     public string GetUpgradeName()
     {

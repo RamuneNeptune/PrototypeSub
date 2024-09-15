@@ -35,13 +35,24 @@ public class EnumDrawer : PropertyDrawer
         if (Event.current.type == EventType.Repaint)
             _buttonRect = position;
 
+        Rect dropdownRect = _buttonRect;
+        float offset = property.enumDisplayNames.Length * EditorGUIUtility.singleLineHeight;
+        if (position.y > 0)
+        {
+            dropdownRect.y -= offset;
+        }
+        else
+        {
+            dropdownRect.y += offset;
+        }
+        
         if (GUI.Button(
                 position,
                 new GUIContent(property.enumDisplayNames[property.enumValueIndex]),
                 EditorStyles.popup
             ))
         {
-            _dropdown.Show(_buttonRect);
+            _dropdown.Show(dropdownRect);
             _property = property;
         }
     }

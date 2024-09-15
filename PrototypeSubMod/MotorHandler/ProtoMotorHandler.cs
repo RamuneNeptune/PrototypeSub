@@ -12,8 +12,9 @@ internal class ProtoMotorHandler : MonoBehaviour
 
     private float originalTurningTorque;
     private float speedMultiplier = 1f;
-    private float speedBonus = 0;
+    private float speedBonus;
     private float powerMultiplier = 1f;
+    private float overrideNoiseValue = -1;
 
     private void Start()
     {
@@ -39,6 +40,20 @@ internal class ProtoMotorHandler : MonoBehaviour
     public void SetSpeedMultiplierBonus(float extraSpeed)
     {
         speedBonus = extraSpeed;
+    }
+
+    /// <summary>
+    /// Set this to -1 if you don't want to change it
+    /// </summary>
+    /// <param name="noiseValue"></param>
+    public void SetOverrideNoiseValue(float noiseValue)
+    {
+        overrideNoiseValue = noiseValue;
+    }
+
+    public float GetOverrideNoiseValue()
+    {
+        return overrideNoiseValue;
     }
 
     public void SetPowerMultiplier(float multiplier)

@@ -1,4 +1,5 @@
 ﻿using PrototypeSubMod.Interfaces;
+using PrototypeSubMod.IonGenerator;
 using PrototypeSubMod.MotorHandler;
 using UnityEngine;
 
@@ -9,6 +10,7 @@ internal class ProtoOverclockModule : MonoBehaviour, IProtoUpgrade
     [SerializeField] private PowerRelay powerRelay;
     [SerializeField] private CyclopsExternalDamageManager damageManager;
     [SerializeField] private ProtoMotorHandler motorHandler;
+    [SerializeField] private ProtoIonGenerator ionGenerator;
     [SerializeField] private float speedPercentBonus;
     [SerializeField] private float powerDrainPerSecond;
     [SerializeField, Range(0, 1)] private float chanceForHullBreach;
@@ -30,7 +32,10 @@ internal class ProtoOverclockModule : MonoBehaviour, IProtoUpgrade
 
         float speedBonus = upgradeEnabled ? speedPercentBonus / 100f : 0;
         motorHandler.SetSpeedMultiplierBonus(speedBonus);
-        powerRelay.ConsumeEnergy(powerDrainPerSecond * Time.deltaTime, out _);
+        if (upgradeEnabled)
+        {
+            powerRelay.ConsumeEnergy(powerDrainPerSecond * Time.deltaTime, out _);
+        }
 
         HandleHullBreaches();
 
@@ -38,11 +43,11 @@ internal class ProtoOverclockModule : MonoBehaviour, IProtoUpgrade
 
     private void HandleHullBreaches()
     {
-        if (upgradeEnabled && currentHullBreachTime < hullBreachMinActiveTime)
+        if (GetUpgradeEnabled() && currentHullBreachTime < hullBreachMinActiveTime)
         {
             currentHullBreachTime += Time.deltaTime;
         }
-        else if (!upgradeEnabled)
+        else if (!GetUpgradeEnabled() && currentHullBreachTime > 0)
         {
             currentHullBreachTime -= Time.deltaTime;
         }
@@ -52,18 +57,18 @@ internal class ProtoOverclockModule : MonoBehaviour, IProtoUpgrade
             return;
         }
 
-        if (currentHullBreachTime <= 0)
+        if (currentTimeBetweenBreaches <= 0)
         {
-            if (Random.Range(0, 1) < chanceForHullBreach)
+            if (Random.Range(0f, 1f) < chanceForHullBreach)
             {
                 damageManager.CreatePoint();
             }
 
-            currentHullBreachTime = minTimeBetweenBreaches;
+            currentTimeBetweenBreaches = minTimeBetweenBreaches;
         }
         else
         {
-            currentHullBreachTime -= Time.deltaTime;
+            currentTimeBetweenBreaches -= Time.deltaTime;
         }
     }
 
@@ -82,6 +87,9 @@ internal class ProtoOverclockModule : MonoBehaviour, IProtoUpgrade
         return "Overclock Module";
     }
 
-    public bool GetUpgradeEnabled() => upgradeEnabled;
+    public bool GetUpgradeEnabled()
+    {
+        return upgradeEnabled && !ionGenerator.GetUpgradeEnabled();
+    }
     public bool GetUpgradeInstalled() => upgradeInstalled;
 }
