@@ -169,6 +169,8 @@ public class ProtoStasisPulse : MonoBehaviour, IProtoUpgrade
 
     public void ActivateSphere()
     {
+        if (!upgradeActive) return;
+
         if (currentSphereGrowTimeTime < sphereGrowTime || currentCooldownTime > 0)
         {
             return;
