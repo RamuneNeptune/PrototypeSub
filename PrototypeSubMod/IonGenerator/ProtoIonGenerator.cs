@@ -25,6 +25,7 @@ internal class ProtoIonGenerator : MonoBehaviour, IProtoUpgrade
 
     private GameObject empPrefab;
     private bool upgradeActive;
+    private bool upgradeInstalled;
     private bool empFired;
     private float currentEMPChargeTime;
 
@@ -51,6 +52,12 @@ internal class ProtoIonGenerator : MonoBehaviour, IProtoUpgrade
 
     private void Update()
     {
+        if (!upgradeInstalled)
+        {
+            motorHandler.SetAllowedToMove(true);
+            return;
+        }
+
         motorHandler.SetAllowedToMove(!upgradeActive);
 
         if (!upgradeActive)
@@ -86,12 +93,12 @@ internal class ProtoIonGenerator : MonoBehaviour, IProtoUpgrade
         }
     }
 
-    public void SetUpgradeActive(bool active)
+    public void SetUpgradeInstalled(bool installed)
     {
-        upgradeActive = active;
+        upgradeInstalled = installed;
     }
 
-    public bool GetUpgradeActive() => upgradeActive;
+    public bool GetUpgradeInstalled() => upgradeInstalled;
 
     public float GetNoiseValue() => activeNoiseValue;
 
@@ -99,4 +106,11 @@ internal class ProtoIonGenerator : MonoBehaviour, IProtoUpgrade
     {
         return "Ion Generator";
     }
+
+    public void SetUpgradeEnabled(bool enabled)
+    {
+        upgradeActive = enabled;
+    }
+
+    public bool GetUpgradeEnabled() => upgradeActive;
 }

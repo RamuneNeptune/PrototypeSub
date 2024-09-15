@@ -31,6 +31,6 @@ internal class ToggleCloakButton : MonoBehaviour
 
     public void OnClick()
     {
-        cloakHandler.SetUpgradeActive(!cloakHandler.GetUpgradeActive());
+        cloakHandler.SetUpgradeInstalled(!cloakHandler.GetUpgradeInstalled());
     }
 }

@@ -32,12 +32,12 @@ internal class ProtoHydrodynamicVentilators : MonoBehaviour, IProtoUpgrade
         motorHandler.SetSpeedMultiplier(multiplier);
     }
 
-    public void SetUpgradeActive(bool active)
+    public void SetUpgradeInstalled(bool active)
     {
         upgradeActive = active;
     }
 
-    public bool GetUpgradeActive() => upgradeActive;
+    public bool GetUpgradeInstalled() => upgradeActive;
 
     public string GetUpgradeName()
     {

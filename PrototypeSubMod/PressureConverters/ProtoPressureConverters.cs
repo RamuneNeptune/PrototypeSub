@@ -32,12 +32,12 @@ internal class ProtoPressureConverters : MonoBehaviour, IProtoUpgrade
         motorHandler.SetPowerMultiplier(multiplier);
     }
 
-    public void SetUpgradeActive(bool active)
+    public void SetUpgradeInstalled(bool active)
     {
         convertersActive = active;
     }
 
-    public bool GetUpgradeActive() => convertersActive;
+    public bool GetUpgradeInstalled() => convertersActive;
 
     public string GetUpgradeName()
     {

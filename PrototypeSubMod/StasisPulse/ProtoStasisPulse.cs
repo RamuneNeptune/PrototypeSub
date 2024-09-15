@@ -35,7 +35,7 @@ public class ProtoStasisPulse : MonoBehaviour, IProtoUpgrade
 
     private float currentCooldownTime;
     private float currentSphereGrowTimeTime;
-    private bool upgradeActive;
+    private bool upgradeInstalled;
     private bool deployingLastFrame;
 
     private IEnumerator Start()
@@ -79,7 +79,7 @@ public class ProtoStasisPulse : MonoBehaviour, IProtoUpgrade
         sphereVisual.enabled = currentSphereGrowTimeTime < sphereGrowTime;
         UpdateMaterials();
 
-        if (!upgradeActive)
+        if (!upgradeInstalled)
         {
             return;
         }
@@ -169,7 +169,7 @@ public class ProtoStasisPulse : MonoBehaviour, IProtoUpgrade
 
     public void ActivateSphere()
     {
-        if (!upgradeActive) return;
+        if (!upgradeInstalled) return;
 
         if (currentSphereGrowTimeTime < sphereGrowTime || currentCooldownTime > 0)
         {
@@ -194,18 +194,25 @@ public class ProtoStasisPulse : MonoBehaviour, IProtoUpgrade
         powerRelay.ConsumeEnergy(powerCost, out _);
     }
 
-    public void SetUpgradeActive(bool active)
+    public void SetUpgradeInstalled(bool installed)
     {
-        upgradeActive = active;
+        upgradeInstalled = installed;
     }
 
-    public bool GetUpgradeActive()
+    public bool GetUpgradeInstalled()
     {
-        return upgradeActive;
+        return upgradeInstalled;
     }
 
     public string GetUpgradeName()
     {
         return "Activate Stasis Pulse";
     }
+
+    public void SetUpgradeEnabled(bool enabled)
+    {
+        // Not needed for this upgrade
+    }
+
+    public bool GetUpgradeEnabled() => upgradeInstalled;
 }

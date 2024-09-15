@@ -25,7 +25,8 @@ internal class ProtoDeployableManager : MonoBehaviour, IProtoUpgrade
     [SerializeField] private float lightLaunchForce;
     [SerializeField] private float launchDecoyDelay;
 
-    private bool upgradeActive;
+    private bool upgradeEnabled;
+
     private int lightCount;
     private int decoyCount;
     private GameObject decoyPrefab;
@@ -42,9 +43,9 @@ internal class ProtoDeployableManager : MonoBehaviour, IProtoUpgrade
 
     public void TryLaunchLight()
     {
-        if (!upgradeActive) return;
+        if (!upgradeEnabled) return;
 
-        if (ionGenerator.GetUpgradeActive()) return;
+        if (ionGenerator.GetUpgradeInstalled()) return;
 
         if (lightCount > 0)
         {
@@ -59,9 +60,9 @@ internal class ProtoDeployableManager : MonoBehaviour, IProtoUpgrade
 
     public void TryLaunchDecoy()
     {
-        if (!upgradeActive) return;
+        if (!upgradeEnabled) return;
 
-        if (ionGenerator.GetUpgradeActive()) return;
+        if (ionGenerator.GetUpgradeInstalled()) return;
 
         if (decoyCount > 0)
         {
@@ -94,12 +95,12 @@ internal class ProtoDeployableManager : MonoBehaviour, IProtoUpgrade
         }
     }
 
-    public void SetUpgradeActive(bool active)
+    public void SetUpgradeInstalled(bool installed)
     {
-        upgradeActive = active;
+        upgradeEnabled = installed;
     }
 
-    public bool GetUpgradeActive() => upgradeActive;
+    public bool GetUpgradeInstalled() => upgradeEnabled;
 
     public void RecalculateDeployableTotals()
     {
@@ -132,5 +133,15 @@ internal class ProtoDeployableManager : MonoBehaviour, IProtoUpgrade
     public string GetUpgradeName()
     {
         return "Deployable Manager";
+    }
+
+    public void SetUpgradeEnabled(bool enabled)
+    {
+        // Not needed for this upgrade
+    }
+
+    public bool GetUpgradeEnabled()
+    {
+        return upgradeEnabled;
     }
 }

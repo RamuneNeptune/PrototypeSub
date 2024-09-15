@@ -106,12 +106,12 @@ internal class ProtoEmergencyWarp : MonoBehaviour, IProtoUpgrade
         Player.main.EnterPilotingMode(pilotingChair);
     }
 
-    public void SetUpgradeActive(bool active)
+    public void SetUpgradeInstalled(bool active)
     {
         upgradeActive = active;
     }
 
-    public bool GetUpgradeActive()
+    public bool GetUpgradeInstalled()
     {
         return upgradeActive;
     }
