@@ -63,6 +63,8 @@ internal class DeployableLight : MonoBehaviour
             BreakLight();
         }
 
+        if (!activated) return;
+
         float targetRange = activated && !piecesSeparated ? lightRange : 0;
         Vector3 targetScale = activated && !piecesSeparated ? volumetricSize : Vector3.zero;
 
