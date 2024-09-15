@@ -71,7 +71,7 @@ internal class DeployableLight : MonoBehaviour
         light.range = Mathf.Lerp(light.range, targetRange, Time.deltaTime * scaleSpeed);
         light.transform.localScale = Vector3.Lerp(light.transform.localScale, targetScale, Time.deltaTime * scaleSpeed);
 
-        if (light.transform.localScale.magnitude > targetScale.magnitude - 0.5f)
+        if (light.transform.localScale.magnitude > targetScale.magnitude - 0.5f && !piecesSeparated)
         {
             loopingSFX.Play();
         }
@@ -102,6 +102,5 @@ internal class DeployableLight : MonoBehaviour
 
         breakSFX.Play();
         loopingSFX.Stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-        loopingSFX.enabled = false;
     }
 }
