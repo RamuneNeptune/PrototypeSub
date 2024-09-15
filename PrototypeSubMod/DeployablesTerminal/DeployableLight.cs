@@ -4,11 +4,18 @@ namespace PrototypeSubMod.DeployablesTerminal;
 
 internal class DeployableLight : MonoBehaviour
 {
+    [Header("Launching")]
     [SerializeField] private Rigidbody rb;
     [SerializeField] private Animator animator;
     [SerializeField] private float scaleSpeed;
     [SerializeField] private Light light;
 
+    [Header("SFX")]
+    [SerializeField] private FMOD_CustomEmitter deploySFX;
+    [SerializeField] private FMOD_CustomLoopingEmitter loopingSFX;
+    [SerializeField] private FMOD_CustomEmitter breakSFX;
+
+    [Header("Breaking (Bad)")]
     [SerializeField] private GameObject topHalf;
     [SerializeField] private GameObject bottomHalf;
     [SerializeField] private GameObject lightVisual;
@@ -42,6 +49,7 @@ internal class DeployableLight : MonoBehaviour
     {
         activated = true;
         animator.SetTrigger("Activate");
+        deploySFX.Play();
     }
 
     private void Update()
@@ -52,26 +60,7 @@ internal class DeployableLight : MonoBehaviour
         }
         else if (!piecesSeparated)
         {
-            piecesSeparated = true;
-
-            topHalf.transform.SetParent(null);
-            bottomHalf.transform.SetParent(null);
-            lightVisual.SetActive(false);
-
-            var rb1 = topHalf.AddComponent<Rigidbody>();
-            var rb2 = bottomHalf.AddComponent<Rigidbody>();
-
-            rb1.interpolation = RigidbodyInterpolation.Interpolate;
-            rb2.interpolation = RigidbodyInterpolation.Interpolate;
-
-            rb1.AddForce(Random.onUnitSphere * 5f);
-            rb2.AddForce(Random.onUnitSphere * 5f);
-
-            GetComponentInChildren<Animator>().enabled = false;
-
-            Destroy(topHalf, 10f);
-            Destroy(bottomHalf, 10f);
-            Destroy(GetComponent<PrefabIdentifier>());
+            BreakLight();
         }
 
         float targetRange = activated && !piecesSeparated ? lightRange : 0;
@@ -79,5 +68,37 @@ internal class DeployableLight : MonoBehaviour
 
         light.range = Mathf.Lerp(light.range, targetRange, Time.deltaTime * scaleSpeed);
         light.transform.localScale = Vector3.Lerp(light.transform.localScale, targetScale, Time.deltaTime * scaleSpeed);
+
+        if(Mathf.Approximately(light.range, targetRange) && !piecesSeparated)
+        {
+            loopingSFX.Play();
+        }
+    }
+
+    private void BreakLight()
+    {
+        piecesSeparated = true;
+
+        topHalf.transform.SetParent(null);
+        bottomHalf.transform.SetParent(null);
+        lightVisual.SetActive(false);
+
+        var rb1 = topHalf.AddComponent<Rigidbody>();
+        var rb2 = bottomHalf.AddComponent<Rigidbody>();
+
+        rb1.interpolation = RigidbodyInterpolation.Interpolate;
+        rb2.interpolation = RigidbodyInterpolation.Interpolate;
+
+        rb1.AddForce(Random.onUnitSphere * 5f);
+        rb2.AddForce(Random.onUnitSphere * 5f);
+
+        GetComponentInChildren<Animator>().enabled = false;
+
+        Destroy(topHalf, 10f);
+        Destroy(bottomHalf, 10f);
+        Destroy(GetComponent<PrefabIdentifier>());
+
+        breakSFX.Play();
+        loopingSFX.Stop();
     }
 }
