@@ -91,8 +91,8 @@ internal class DeployableLight : MonoBehaviour
         rb1.interpolation = RigidbodyInterpolation.Interpolate;
         rb2.interpolation = RigidbodyInterpolation.Interpolate;
 
-        rb1.AddForce(Random.onUnitSphere * 5f);
-        rb2.AddForce(Random.onUnitSphere * 5f);
+        rb1.AddForce(Random.onUnitSphere * 5f + topHalf.transform.forward * 10f);
+        rb2.AddForce(Random.onUnitSphere * 5f - bottomHalf.transform.forward * 10f);
 
         GetComponentInChildren<Animator>().enabled = false;
 
