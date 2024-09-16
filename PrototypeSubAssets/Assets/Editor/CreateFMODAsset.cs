@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CreateFMODAsset
 {
-    [MenuItem("Assets/Create/Subnautica/Create FMOD Asset")]
+    [MenuItem("Assets/Create/Subnautica/Create FMOD Asset (Deprecated)")]
     public static void CreateAsset()
     {
         FMODAsset asset = ScriptableObject.CreateInstance<FMODAsset>();

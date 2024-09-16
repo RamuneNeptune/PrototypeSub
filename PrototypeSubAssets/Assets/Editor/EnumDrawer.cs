@@ -6,6 +6,7 @@ as published by Sam Hocevar. See http://www.wtfpl.net/ for more details.
 */
 
 using System;
+using System.Reflection;
 using UnityEditor;
 using UnityEditor.IMGUI.Controls;
 using UnityEngine;
@@ -17,6 +18,9 @@ public class EnumDrawer : PropertyDrawer
     private SerializedProperty _property;
     private Rect _buttonRect;
 
+    private object underlyingObj;
+    private FieldInfo objectInfo;
+
     public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
     {
         return EditorGUIUtility.singleLineHeight;
@@ -24,12 +28,47 @@ public class EnumDrawer : PropertyDrawer
 
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
+        if (objectInfo == null)
+        {
+            objectInfo = property.serializedObject.targetObject.GetType().GetField(property.propertyPath);
+            if(objectInfo != null)
+            {
+                underlyingObj = objectInfo.GetValue(property.serializedObject.targetObject);
+            }
+        }
+        else
+        {
+            underlyingObj = objectInfo.GetValue(property.serializedObject.targetObject);
+        }
+
+        if (underlyingObj != null && underlyingObj.GetType().GetCustomAttribute<FlagsAttribute>() != null)
+        {
+            HandleFlagEnum(position, property, label);
+            return;
+        }
+
+        HandleSearchEnum(position, property, label);
+    }
+
+    private void HandleFlagEnum(Rect position, SerializedProperty property, GUIContent label)
+    {
+        position = EditorGUI.PrefixLabel(position, label);
+
+        EditorGUI.BeginProperty(position, label, property);
+
+        Enum enumNew = EditorGUI.EnumFlagsField(position, underlyingObj as Enum);
+        objectInfo.SetValue(property.serializedObject.targetObject, enumNew);
+
+        EditorGUI.EndProperty();
+    }
+
+    private void HandleSearchEnum(Rect position, SerializedProperty property, GUIContent label)
+    {
         if (_dropdown == null)
         {
             _dropdown = new AdvancedStringOptionsDropdown(property.enumDisplayNames);
             _dropdown.OnOptionSelected += OnDropdownOptionSelected;
         }
-
         position = EditorGUI.PrefixLabel(position, label);
 
         if (Event.current.type == EventType.Repaint)
@@ -45,10 +84,10 @@ public class EnumDrawer : PropertyDrawer
         {
             dropdownRect.y += offset;
         }
-        
+
         if (GUI.Button(
                 position,
-                new GUIContent(property.enumDisplayNames[property.enumValueIndex]),
+                new GUIContent(property.enumDisplayNames[Mathf.Clamp(property.enumValueIndex, 0, property.enumDisplayNames.Length - 1)]),
                 EditorStyles.popup
             ))
         {

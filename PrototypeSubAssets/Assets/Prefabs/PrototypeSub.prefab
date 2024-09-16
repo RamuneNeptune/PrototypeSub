@@ -35665,7 +35665,7 @@ MonoBehaviour:
   m_Script: {fileID: 1799261250, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  soundEffect: {fileID: 11400000, guid: ef11de7b4551ddb4bb383d38dae932d6, type: 2}
+  soundEffect: {fileID: 11400000, guid: ea47a150fd85f3f49bd7d106c916ad6d, type: 2}
   teleportPosition: {fileID: 7925025888766377759}
   teleporterCooldown: 1
 --- !u!65 &6177900675026539349
@@ -40143,7 +40143,7 @@ MonoBehaviour:
   m_Script: {fileID: 1799261250, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  soundEffect: {fileID: 11400000, guid: ef11de7b4551ddb4bb383d38dae932d6, type: 2}
+  soundEffect: {fileID: 11400000, guid: ea47a150fd85f3f49bd7d106c916ad6d, type: 2}
   teleportPosition: {fileID: 3257507418256492433}
   teleporterCooldown: 1
 --- !u!65 &4430045221464369830
@@ -41853,6 +41853,7 @@ GameObject:
   - component: {fileID: 5333095177394496615}
   - component: {fileID: 2371835157830827141}
   - component: {fileID: 2571225887158910051}
+  - component: {fileID: 7347967941565828553}
   m_Layer: 0
   m_Name: EngineRpmSfxManager
   m_TagString: Untagged
@@ -41887,7 +41888,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   engineRpmSFX: {fileID: 2571225887158910051}
-  engineRevUp: {fileID: 0}
+  engineRevUp: {fileID: 7347967941565828553}
   rampUpSpeed: 1
   rampDownSpeed: 0.2
 --- !u!114 &2571225887158910051
@@ -41902,17 +41903,37 @@ MonoBehaviour:
   m_Script: {fileID: -133377629, guid: 06dd3d5416bf43ea368cc39ff96e6d5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  asset: {fileID: 0}
+  asset: {fileID: 11400000, guid: 7fa7bb8b92adf5142818317104fc8402, type: 2}
   playOnAwake: 0
   stopImmediatelyOnDisable: 0
-  followParent: 0
-  restartOnPlay: 0
+  followParent: 1
+  restartOnPlay: 1
   debug: 0
   subtitlesKey: 
   playSubtitlesWithUnscaledTime: 1
   assetStart: {fileID: 0}
   assetStop: {fileID: 0}
   stopSoundInterval: 0
+--- !u!114 &7347967941565828553
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4346722548415644783}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1699601541, guid: 06dd3d5416bf43ea368cc39ff96e6d5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  asset: {fileID: 11400000, guid: d46cb72c921ced748a246f809b61b244, type: 2}
+  playOnAwake: 0
+  stopImmediatelyOnDisable: 0
+  followParent: 1
+  restartOnPlay: 1
+  debug: 0
+  subtitlesKey: 
+  playSubtitlesWithUnscaledTime: 1
 --- !u!1 &4350762739411239820
 GameObject:
   m_ObjectHideFlags: 0
@@ -50381,7 +50402,7 @@ MonoBehaviour:
   m_Script: {fileID: 1799261250, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  soundEffect: {fileID: 11400000, guid: ef11de7b4551ddb4bb383d38dae932d6, type: 2}
+  soundEffect: {fileID: 11400000, guid: ea47a150fd85f3f49bd7d106c916ad6d, type: 2}
   teleportPosition: {fileID: 3576987915549265352}
   teleporterCooldown: 1
 --- !u!65 &7272861951427377365
@@ -78424,52 +78445,15 @@ MonoBehaviour:
   m_Script: {fileID: 202833196, guid: 05b2873035fc0cb47b172f8f145ed69c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioDatas:
-  - name: InterfloorTeleporterSFX
-    path: InterfloorTeleporterSFX
-    audioClip: {fileID: 8300000, guid: d1ff3cdc8b503884f939fbfa2d73cc83, type: 3}
-    audioType: 0
-    busPath: 8
-  - name: PDA_InterceptorUnlock
-    path: PDA_InterceptorUnlock
-    audioClip: {fileID: 8300000, guid: 06efa1ab2291c034aa4c772a83c61642, type: 3}
-    audioType: 0
-    busPath: 2
-  - name: Light_Break
-    path: Light_Break
-    audioClip: {fileID: 8300000, guid: bc924dddedb0ada4f8235987ae6fb317, type: 3}
-    audioType: 0
-    busPath: 0
-  - name: Light_Hovering
-    path: Light_Hovering
-    audioClip: {fileID: 8300000, guid: 21f3652eb0753cb4e86feb8ec55361ca, type: 3}
-    audioType: 0
-    busPath: 0
-  - name: Light_Opening
-    path: Light_Opening
-    audioClip: {fileID: 8300000, guid: 58d88abc58fa7a74a84e30bab69849d4, type: 3}
-    audioType: 0
-    busPath: 0
-  names:
-  - InterfloorTeleporterSFX
-  - PDA_InterceptorUnlock
-  - Light_Break
-  - Light_Hovering
-  - Light_Opening
-  paths:
-  - InterfloorTeleporterSFX
-  - PDA_InterceptorUnlock
-  - Light_Break
-  - Light_Hovering
-  - Light_Opening
-  clips:
-  - {fileID: 8300000, guid: d1ff3cdc8b503884f939fbfa2d73cc83, type: 3}
-  - {fileID: 8300000, guid: 06efa1ab2291c034aa4c772a83c61642, type: 3}
-  - {fileID: 8300000, guid: bc924dddedb0ada4f8235987ae6fb317, type: 3}
-  - {fileID: 8300000, guid: 21f3652eb0753cb4e86feb8ec55361ca, type: 3}
-  - {fileID: 8300000, guid: 58d88abc58fa7a74a84e30bab69849d4, type: 3}
-  types: 0000000000000000000000000000000000000000
-  busPathEnums: 0800000002000000000000000000000000000000
+  fmodAssets:
+  - {fileID: 11400000, guid: e929242605d6ab04ea5bf6549f1ac01d, type: 2}
+  - {fileID: 11400000, guid: dbc7c19729dfc794ab0dc148ce3beb4a, type: 2}
+  - {fileID: 11400000, guid: 006ebaffadf8ec240ac5e48f979a4f24, type: 2}
+  - {fileID: 11400000, guid: 6224c132e0c51a0468e74e120fd70e54, type: 2}
+  - {fileID: 11400000, guid: 6df40c4372cb1ad43a2974008cf89230, type: 2}
+  - {fileID: 11400000, guid: 7fa7bb8b92adf5142818317104fc8402, type: 2}
+  - {fileID: 11400000, guid: d46cb72c921ced748a246f809b61b244, type: 2}
+  - {fileID: 11400000, guid: ea47a150fd85f3f49bd7d106c916ad6d, type: 2}
 --- !u!114 &9060344306396047808
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -89744,7 +89728,7 @@ MonoBehaviour:
   m_Script: {fileID: 1799261250, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  soundEffect: {fileID: 11400000, guid: ef11de7b4551ddb4bb383d38dae932d6, type: 2}
+  soundEffect: {fileID: 11400000, guid: ea47a150fd85f3f49bd7d106c916ad6d, type: 2}
   teleportPosition: {fileID: 3393812651735279701}
   teleporterCooldown: 1
 --- !u!65 &6093215525368189375
@@ -89952,6 +89936,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d6cc3db34565c3a4ba68573b0eeec2a0, type: 3}
+--- !u!4 &1224879765472228638 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2253812858737788773, guid: d6cc3db34565c3a4ba68573b0eeec2a0,
+    type: 3}
+  m_PrefabInstance: {fileID: 1132799834664678011}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &4466343788103864506 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3621781888743187137, guid: d6cc3db34565c3a4ba68573b0eeec2a0,
@@ -89964,12 +89954,6 @@ MonoBehaviour:
   m_Script: {fileID: -2039529286, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &1224879765472228638 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2253812858737788773, guid: d6cc3db34565c3a4ba68573b0eeec2a0,
-    type: 3}
-  m_PrefabInstance: {fileID: 1132799834664678011}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1946072641967388923
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -90049,6 +90033,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d6cc3db34565c3a4ba68573b0eeec2a0, type: 3}
+--- !u!4 &308197624363909022 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2253812858737788773, guid: d6cc3db34565c3a4ba68573b0eeec2a0,
+    type: 3}
+  m_PrefabInstance: {fileID: 1946072641967388923}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &2973204448809671226 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3621781888743187137, guid: d6cc3db34565c3a4ba68573b0eeec2a0,
@@ -90061,12 +90051,6 @@ MonoBehaviour:
   m_Script: {fileID: -2039529286, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &308197624363909022 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2253812858737788773, guid: d6cc3db34565c3a4ba68573b0eeec2a0,
-    type: 3}
-  m_PrefabInstance: {fileID: 1946072641967388923}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3082858037385395774
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -90243,12 +90227,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d6cc3db34565c3a4ba68573b0eeec2a0, type: 3}
---- !u!4 &7635523988782540534 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2253812858737788773, guid: d6cc3db34565c3a4ba68573b0eeec2a0,
-    type: 3}
-  m_PrefabInstance: {fileID: 8552883551461007763}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &4968267767760700242 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3621781888743187137, guid: d6cc3db34565c3a4ba68573b0eeec2a0,
@@ -90261,3 +90239,9 @@ MonoBehaviour:
   m_Script: {fileID: -2039529286, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &7635523988782540534 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2253812858737788773, guid: d6cc3db34565c3a4ba68573b0eeec2a0,
+    type: 3}
+  m_PrefabInstance: {fileID: 8552883551461007763}
+  m_PrefabAsset: {fileID: 0}
