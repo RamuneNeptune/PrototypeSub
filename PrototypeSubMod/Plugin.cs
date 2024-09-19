@@ -59,7 +59,7 @@ namespace PrototypeSubMod
             RegisterPrefabs();
             RegisterStoryGoals();
             InitializeSlotMapping();
-
+            
             // Register harmony patches, if there are any
             Harmony.CreateAndPatchAll(Assembly, $"{GUID}");
             Logger.LogInfo($"Plugin {GUID} is loaded!");

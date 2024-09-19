@@ -2,7 +2,7 @@
 
 namespace PrototypeSubMod.DeployablesTerminal;
 
-internal class DeployableLight : MonoBehaviour
+internal class DeployableLight : MonoBehaviour, IProtoEventListener
 {
     [Header("Launching")]
     [SerializeField] private Rigidbody rb;
@@ -91,8 +91,8 @@ internal class DeployableLight : MonoBehaviour
         rb1.interpolation = RigidbodyInterpolation.Interpolate;
         rb2.interpolation = RigidbodyInterpolation.Interpolate;
 
-        rb1.AddForce(Random.onUnitSphere * 5f + topHalf.transform.forward * 10f);
-        rb2.AddForce(Random.onUnitSphere * 5f - bottomHalf.transform.forward * 10f);
+        rb1.AddForce((Random.onUnitSphere * 5f) + (topHalf.transform.forward * 10f));
+        rb2.AddForce((Random.onUnitSphere * 5f) - (bottomHalf.transform.forward * 10f));
 
         GetComponentInChildren<Animator>().enabled = false;
 
@@ -103,4 +103,14 @@ internal class DeployableLight : MonoBehaviour
         breakSFX.Play();
         loopingSFX.Stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
     }
+
+    public void OnProtoSerialize(ProtobufSerializer serializer)
+    {
+        if (piecesSeparated)
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    public void OnProtoDeserialize(ProtobufSerializer serializer) { }
 }
