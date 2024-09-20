@@ -9,6 +9,7 @@ internal class DeployableLight : MonoBehaviour, IProtoEventListener
     [SerializeField] private Animator animator;
     [SerializeField] private float scaleSpeed;
     [SerializeField] private Light light;
+    [SerializeField] private Collider sphereCollider;
 
     [Header("SFX")]
     [SerializeField] private FMOD_CustomEmitter deploySFX;
@@ -24,6 +25,7 @@ internal class DeployableLight : MonoBehaviour, IProtoEventListener
     private float currentLifetime;
     private float lightRange;
     private Vector3 volumetricSize;
+    private Pickupable pickupable;
 
     private bool piecesSeparated;
     private bool activated;
@@ -35,14 +37,22 @@ internal class DeployableLight : MonoBehaviour, IProtoEventListener
 
         light.range = 0;
         light.transform.localScale = Vector3.zero;
+        pickupable = GetComponent<Pickupable>();
     }
 
     public void LaunchWithForce(float force, Vector3 previousVelocity, float lifetime, float delay)
     {
+        sphereCollider.enabled = false;
+
         rb.AddForce((transform.forward * force) + previousVelocity, ForceMode.Impulse);
 
         this.lifetime = lifetime;
         Invoke(nameof(StartLifetime), delay);
+    }
+
+    private void OnDrop()
+    {
+        StartLifetime();
     }
 
     private void StartLifetime()
@@ -50,6 +60,8 @@ internal class DeployableLight : MonoBehaviour, IProtoEventListener
         activated = true;
         animator.SetTrigger("Activate");
         deploySFX.Play();
+
+        Destroy(pickupable);
     }
 
     private void Update()
@@ -61,6 +73,11 @@ internal class DeployableLight : MonoBehaviour, IProtoEventListener
         else if (!piecesSeparated)
         {
             BreakLight();
+        }
+
+        if (currentLifetime >= 0.25f)
+        {
+            sphereCollider.enabled = true;
         }
 
         if (!activated) return;

@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 5364100444813581981}
   - component: {fileID: 4607686502646961617}
   - component: {fileID: 3982422841230546211}
+  - component: {fileID: 468571821549810301}
   m_Layer: 0
   m_Name: DeployableLight
   m_TagString: Untagged
@@ -75,6 +76,7 @@ MonoBehaviour:
   animator: {fileID: 1824892926938009418}
   scaleSpeed: 2
   light: {fileID: 1474249741990581937}
+  sphereCollider: {fileID: 5926479828576802628}
   deploySFX: {fileID: 6245757964476736130}
   loopingSFX: {fileID: 4528196358944202802}
   breakSFX: {fileID: 6393756975684485750}
@@ -204,6 +206,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   applyTo: {fileID: 5263736562105861439}
+--- !u!114 &468571821549810301
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2104510665066426310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -2135021210, guid: 06dd3d5416bf43ea368cc39ff96e6d5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 4
 --- !u!1 &2930177765370898490
 GameObject:
   m_ObjectHideFlags: 0
@@ -215,6 +230,7 @@ GameObject:
   - component: {fileID: 7007928568959325778}
   - component: {fileID: 2079243407144120453}
   - component: {fileID: 2595189388845135723}
+  - component: {fileID: 5926479828576802628}
   m_Layer: 0
   m_Name: Sphere
   m_TagString: Untagged
@@ -283,6 +299,19 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!135 &5926479828576802628
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2930177765370898490}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4549788444672444650
 GameObject:
   m_ObjectHideFlags: 0
@@ -681,7 +710,7 @@ Transform:
   m_GameObject: {fileID: 6876294352411791360}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 25, y: 25, z: 25}
+  m_LocalScale: {x: 30, y: 30, z: 30}
   m_Children: []
   m_Father: {fileID: 6272526327821817130}
   m_RootOrder: 0
