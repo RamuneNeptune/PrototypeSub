@@ -32,6 +32,7 @@ internal class uGUI_EquipmentPatches
         go.AddComponent<CanvasRenderer>();
         var img = go.AddComponent<Image>();
         img.sprite = Plugin.AssetBundle.LoadAsset<Sprite>("DecoyStorageBackground");
+        img.raycastTarget = false;
     }
 
 #nullable enable
