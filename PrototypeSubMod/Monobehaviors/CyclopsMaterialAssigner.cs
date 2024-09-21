@@ -17,7 +17,6 @@ internal class CyclopsMaterialAssigner : MonoBehaviour, ICyclopsReferencer
     public void OnCyclopsReferenceFinished(GameObject cyclops)
     {
         var meshRenderer = cyclops.transform.Find(objectPath).GetComponent<MeshRenderer>();
-
         renderer.material = meshRenderer.materials[materialIndex];
     }
 }
