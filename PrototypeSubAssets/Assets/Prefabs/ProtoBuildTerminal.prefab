@@ -126,7 +126,6 @@ GameObject:
   - component: {fileID: 4652062324225112515}
   - component: {fileID: 1618657341364074652}
   - component: {fileID: 4430266739775970428}
-  - component: {fileID: 4668566917743370787}
   m_Layer: 0
   m_Name: GUIScreen
   m_TagString: Untagged
@@ -244,6 +243,7 @@ MonoBehaviour:
   animationScreen: {fileID: 9057623526303307991}
   upgradeScreen: {fileID: 1997155807617855908}
   emptyScreen: {fileID: 6828767911130665040}
+  armAnimator: {fileID: 6040358363738919413}
 --- !u!114 &4430266739775970428
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -257,19 +257,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxDistance: 10
---- !u!135 &4668566917743370787
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 722329305584264081}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 3
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &940909633287960214
 GameObject:
   m_ObjectHideFlags: 0
@@ -3297,10 +3284,10 @@ BoxCollider:
   m_GameObject: {fileID: 9200328039658762774}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
-  m_Size: {x: 25.516558, y: 29.84, z: 88.50542}
-  m_Center: {x: 0, y: 0, z: 4.2472935}
+  m_Size: {x: 25.516558, y: 29.84, z: 85.79532}
+  m_Center: {x: 0, y: 0, z: 5.6023426}
 --- !u!114 &3087815451263599694
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3327,6 +3314,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  buildTerminal: {fileID: 5753649986567304265}
+  maxDistanceFromMoonpool: 55
 --- !u!1001 &212707203788015818
 PrefabInstance:
   m_ObjectHideFlags: 0

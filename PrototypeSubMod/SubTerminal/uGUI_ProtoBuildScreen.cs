@@ -16,6 +16,7 @@ internal class uGUI_ProtoBuildScreen : MonoBehaviour
     [SerializeField] private uGUI_BuildAnimScreen animationScreen;
     [SerializeField] private GameObject upgradeScreen;
     [SerializeField] private GameObject emptyScreen;
+    [SerializeField] private Animator armAnimator;
 
     private bool isBuilding;
 
@@ -59,7 +60,7 @@ internal class uGUI_ProtoBuildScreen : MonoBehaviour
         isBuilding = true;
     }
 
-    //Called by VFX Constructing in Update via SendMessage()
+    // Called by VFX Constructing in Update via SendMessage()
     public void OnConstructionDone()
     {
         buildScreen.SetActive(false);
@@ -83,5 +84,8 @@ internal class uGUI_ProtoBuildScreen : MonoBehaviour
     {
         bool flag = distanceTracker.distanceToPlayer < 5f;
         tooltip.gameObject.SetActive(flag);
+
+        bool flag2 = distanceTracker.distanceToPlayer < 7f;
+        armAnimator.SetBool("ScreenActivated", flag2);
     }
 }

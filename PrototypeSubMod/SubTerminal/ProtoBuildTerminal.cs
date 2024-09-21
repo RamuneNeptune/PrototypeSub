@@ -14,21 +14,20 @@ internal class ProtoBuildTerminal : Crafter
     {
         get
         {
-            return prototypeSub != null;
+            return PrototypeSub != null;
         }
     }
+
+    public GameObject PrototypeSub { get; private set; }
 
     [SerializeField] private float buildDuration = 20f;
     [SerializeField] private FMODAsset buildSoundEffect;
     [SerializeField] private Transform buildPosition;
-    [SerializeField] private GameObject upgradeIconPrefab;
-
-    private GameObject prototypeSub;
+    [SerializeField] private GameObject upgradeIconPrefab;    
 
     new private void Start()
     {
-        var serializationManagers = FindObjectsOfType<SubSerializationManager>();
-        prototypeSub = serializationManagers.FirstOrDefault(s => s.GetComponentInChildren<PrototypePowerSystem>() != null)?.gameObject;
+        RetrieveSubInstance();
     }
 
     public void CraftSub()
@@ -72,10 +71,20 @@ internal class ProtoBuildTerminal : Crafter
         GetComponentInChildren<uGUI_ProtoBuildScreen>().OnConstructionStarted(duration + vfxConstructing.delay);
 
         LargeWorldEntity.Register(instantiatedPrefab);
+
+        RetrieveSubInstance();
     }
 
     private void SendBuildBots(GameObject toBuild)
     {
         throw new System.NotImplementedException("Build bots not implemented yet");
+    }
+
+    private void RetrieveSubInstance()
+    {
+        if (PrototypeSub != null) return;
+
+        var serializationManagers = FindObjectsOfType<SubSerializationManager>();
+        PrototypeSub = serializationManagers.FirstOrDefault(s => s.GetComponentInChildren<PrototypePowerSystem>() != null)?.gameObject;
     }
 }

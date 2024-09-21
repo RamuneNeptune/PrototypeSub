@@ -1,38 +1,39 @@
-﻿using PrototypeSubMod.PowerSystem;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Events;
 
 namespace PrototypeSubMod.SubTerminal;
 
 internal class MoonpoolOccupiedHandler : MonoBehaviour
 {
-    public bool MoonpoolHasSub { get; private set; }
-
-    [SerializeField] private UnityEvent onHasSubChanged;
-
-    private void OnTriggerStay(Collider col)
+    public bool MoonpoolHasSub
     {
-        var root = UWE.Utils.GetEntityRoot(col.gameObject);
-
-        if (root == null) return;
-
-        if (root.GetComponentInChildren<PrototypePowerSystem>() != null && !MoonpoolHasSub)
-        {
-            MoonpoolHasSub = true;
-            onHasSubChanged?.Invoke();
-        }
+        get;
+        private set;
     }
 
-    private void OnTriggerExit(Collider col)
+    private bool occupiedLastCheck;
+
+    [SerializeField] private UnityEvent onHasSubChanged;
+    [SerializeField] private ProtoBuildTerminal buildTerminal;
+    [SerializeField] private float maxDistanceFromMoonpool;
+
+    private void Start()
     {
-        var root = UWE.Utils.GetEntityRoot(col.gameObject);
+        CancelInvoke(nameof(CheckForSub));
+        InvokeRepeating(nameof(CheckForSub), 0, 5f);
+    }
 
-        if (root == null) return;
+    private void CheckForSub()
+    {
+        Vector3 distance = transform.position - buildTerminal.PrototypeSub.transform.position;
 
-        if (root.GetComponentInChildren<PrototypePowerSystem>() != null && MoonpoolHasSub)
+        MoonpoolHasSub = buildTerminal.HasBuiltProtoSub && distance.sqrMagnitude < (maxDistanceFromMoonpool * maxDistanceFromMoonpool);
+
+        if (occupiedLastCheck != MoonpoolHasSub)
         {
-            MoonpoolHasSub = false;
             onHasSubChanged?.Invoke();
         }
+
+        occupiedLastCheck = MoonpoolHasSub;
     }
 }

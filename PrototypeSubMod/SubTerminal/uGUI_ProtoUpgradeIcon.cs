@@ -75,7 +75,6 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
 
         HandleHoverScale();
 
-
         progressMask.fillAmount = currentConfirmTime / confirmTime;
         pointerDownLastFrame = pointerDown;
     }
