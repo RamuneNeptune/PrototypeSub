@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 namespace PrototypeSubMod.SubTerminal;
 
-[RequireComponent(typeof(RocketBuilderTooltip))]
 internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
 {
     public Action<TechType> onCraftPressed;
@@ -19,8 +18,9 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
     [SerializeField] private Sprite backgroundNormalSprite;
     [SerializeField] private Sprite backgroundHoverSprite;
     [SerializeField] private uGUI_ItemIcon itemIcon;
+    [SerializeField] private RocketBuilderTooltip tooltip;
 
-    private RocketBuilderTooltip tooltip;
+    private uGUI_ProtoBuildScreen buildScreen;
     private TechType techType;
 
     private bool hovered;
@@ -36,7 +36,7 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
 
     private void Start()
     {
-        tooltip = GetComponent<RocketBuilderTooltip>();
+        buildScreen = GetComponentInParent<uGUI_ProtoBuildScreen>();
 
         atlasSpriteBGNormal = new Atlas.Sprite(backgroundNormalSprite);
         atlasSpriteBGHovered = new Atlas.Sprite(backgroundHoverSprite);
@@ -62,6 +62,8 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
 
     private void Update()
     {
+        if (!buildScreen.IsTooltipActive()) return;
+
         bool pointerDown = GameInput.GetButtonHeld(GameInput.Button.LeftHand);
 
         if (hovered && pointerDown)
@@ -77,6 +79,11 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
 
         progressMask.fillAmount = currentConfirmTime / confirmTime;
         pointerDownLastFrame = pointerDown;
+    }
+
+    private void FixedUpdate()
+    {
+        tooltip.gameObject.SetActive(buildScreen.IsTooltipActive());
     }
 
     private void LateUpdate()
@@ -119,6 +126,8 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
 
     public void OnPointerEnter(BaseEventData data)
     {
+        if (!buildScreen.IsTooltipActive()) return;
+
         hovered = true;
         itemIcon.SetBackgroundSprite(atlasSpriteBGHovered);
         InitializeBGIcon(itemIcon);
@@ -134,6 +143,7 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
         InitializeBGIcon(itemIcon);
 
         uGUI_Tooltip.main.scaleFactor = oldTooltipScale;
+        uGUI_Tooltip.Clear();
     }
 
     private void InitializeBGIcon(uGUI_ItemIcon icon)

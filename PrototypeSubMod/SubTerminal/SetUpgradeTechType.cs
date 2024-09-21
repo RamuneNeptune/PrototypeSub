@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace PrototypeSubMod.SubTerminal;
 
-[RequireComponent(typeof(uGUI_ProtoUpgradeIcon))]
 internal class SetUpgradeTechType : MonoBehaviour
 {
     [SerializeField] private string upgradeTechType;
@@ -11,6 +10,6 @@ internal class SetUpgradeTechType : MonoBehaviour
     private void Start()
     {
         TechType techType = (TechType)Enum.Parse(typeof(TechType), upgradeTechType);
-        GetComponent<uGUI_ProtoUpgradeIcon>().SetUpgradeTechType(techType);
+        GetComponentInParent<uGUI_ProtoUpgradeIcon>().SetUpgradeTechType(techType);
     }
 }

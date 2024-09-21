@@ -1,4 +1,6 @@
 ﻿using PrototypeSubMod.Prefabs;
+using System.Collections;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -19,6 +21,7 @@ internal class uGUI_ProtoBuildScreen : MonoBehaviour
     [SerializeField] private Animator armAnimator;
 
     private bool isBuilding;
+    private bool tooltipsActive;
 
     private void Start()
     {
@@ -82,10 +85,24 @@ internal class uGUI_ProtoBuildScreen : MonoBehaviour
 
     private void UpdateTooltipActive()
     {
-        bool flag = distanceTracker.distanceToPlayer < 5f;
-        tooltip.gameObject.SetActive(flag);
+        ThreadStart ts = delegate
+        {
+            tooltipsActive = distanceTracker.distanceToPlayer < 5f;
+            OnThreadFinished();
+        };
 
-        bool flag2 = distanceTracker.distanceToPlayer < 7f;
-        armAnimator.SetBool("ScreenActivated", flag2);
+        Thread thread = new Thread(ts);
+        thread.Start();
+    }
+
+    private void OnThreadFinished()
+    {
+        tooltip.gameObject.SetActive(tooltipsActive);
+        armAnimator.SetBool("ScreenActivated", tooltipsActive);
+    }
+
+    public bool IsTooltipActive()
+    {
+        return tooltipsActive;
     }
 }
