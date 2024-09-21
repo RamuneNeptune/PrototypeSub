@@ -27,6 +27,7 @@ internal class DeployableLight : MonoBehaviour, IProtoEventListener
     private float lightRange;
     private Vector3 volumetricSize;
     private Pickupable pickupable;
+    private EcoTarget ecoTarget;
 
     private bool piecesSeparated;
     private bool activated;
@@ -34,16 +35,15 @@ internal class DeployableLight : MonoBehaviour, IProtoEventListener
     private void Awake()
     {
         sphereCollider.enabled = false;
-    }
 
-    private void Start()
-    {
         lightRange = light.range;
         volumetricSize = light.transform.localScale;
 
         light.range = 0;
         light.transform.localScale = Vector3.zero;
         pickupable = GetComponent<Pickupable>();
+        ecoTarget = GetComponent<EcoTarget>();
+        ecoTarget.enabled = false;
     }
 
     public void LaunchWithForce(float force, Vector3 previousVelocity)
@@ -53,20 +53,21 @@ internal class DeployableLight : MonoBehaviour, IProtoEventListener
         rb.AddForce((transform.forward * force) + previousVelocity, ForceMode.Impulse);
 
         Invoke(nameof(StartLifetime), deployDelay);
+        Destroy(pickupable);
     }
 
     private void OnDrop()
     {
-        StartLifetime();
+        Invoke(nameof(StartLifetime), deployDelay);
+        Destroy(pickupable);
     }
 
     private void StartLifetime()
     {
         activated = true;
+        ecoTarget.enabled = true;
         animator.SetTrigger("Activate");
         deploySFX.Play();
-
-        Destroy(pickupable);
     }
 
     private void Update()
