@@ -9,6 +9,7 @@ using PrototypeSubMod.PowerSystem;
 using PrototypeSubMod.Prefabs;
 using PrototypeSubMod.Prefabs.UpgradePlatforms;
 using PrototypeSubMod.SaveData;
+using PrototypeSubMod.Utility;
 using SubLibrary.Audio;
 using System.Collections;
 using System.IO;
@@ -59,6 +60,8 @@ namespace PrototypeSubMod
             RegisterPrefabs();
             RegisterStoryGoals();
             InitializeSlotMapping();
+
+            LoadEasyPrefabs.LoadPrefabs(AssetBundle);
 
             // Register harmony patches, if there are any
             Harmony.CreateAndPatchAll(Assembly, $"{GUID}");
