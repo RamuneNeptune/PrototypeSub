@@ -4,12 +4,14 @@ namespace PrototypeSubMod.DeployablesTerminal;
 
 internal class DeployableLight : MonoBehaviour, IProtoEventListener
 {
-    [Header("Launching")]
+    [Header("Deployment")]
     [SerializeField] private Rigidbody rb;
     [SerializeField] private Animator animator;
     [SerializeField] private float scaleSpeed;
     [SerializeField] private Light light;
     [SerializeField] private Collider sphereCollider;
+    [SerializeField] private float deployDelay;
+    [SerializeField] private float lifetime;
 
     [Header("SFX")]
     [SerializeField] private FMOD_CustomEmitter deploySFX;
@@ -21,7 +23,6 @@ internal class DeployableLight : MonoBehaviour, IProtoEventListener
     [SerializeField] private GameObject bottomHalf;
     [SerializeField] private GameObject lightVisual;
 
-    private float lifetime;
     private float currentLifetime;
     private float lightRange;
     private Vector3 volumetricSize;
@@ -29,6 +30,11 @@ internal class DeployableLight : MonoBehaviour, IProtoEventListener
 
     private bool piecesSeparated;
     private bool activated;
+
+    private void Awake()
+    {
+        sphereCollider.enabled = false;
+    }
 
     private void Start()
     {
@@ -40,14 +46,13 @@ internal class DeployableLight : MonoBehaviour, IProtoEventListener
         pickupable = GetComponent<Pickupable>();
     }
 
-    public void LaunchWithForce(float force, Vector3 previousVelocity, float lifetime, float delay)
+    public void LaunchWithForce(float force, Vector3 previousVelocity)
     {
         sphereCollider.enabled = false;
 
         rb.AddForce((transform.forward * force) + previousVelocity, ForceMode.Impulse);
 
-        this.lifetime = lifetime;
-        Invoke(nameof(StartLifetime), delay);
+        Invoke(nameof(StartLifetime), deployDelay);
     }
 
     private void OnDrop()

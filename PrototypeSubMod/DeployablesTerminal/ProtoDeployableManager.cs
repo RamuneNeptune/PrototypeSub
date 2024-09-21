@@ -19,9 +19,7 @@ internal class ProtoDeployableManager : MonoBehaviour, IProtoUpgrade
     [SerializeField] private Transform lightSpawnTransform;
     [SerializeField] private Transform decoySpawnTransform;
 
-    [SerializeField] private float lightLifetime;
     [SerializeField] private float launchLightDelay;
-    [SerializeField] private float lightDeployDelay;
     [SerializeField] private float lightLaunchForce;
     [SerializeField] private float launchDecoyDelay;
 
@@ -80,7 +78,7 @@ internal class ProtoDeployableManager : MonoBehaviour, IProtoUpgrade
         var lightComponent = Instantiate(lightPrefab, lightSpawnTransform.position, lightSpawnTransform.rotation).GetComponent<DeployableLight>();
         lightComponent.gameObject.SetActive(true);
 
-        lightComponent.LaunchWithForce(lightLaunchForce, subRoot.rb.velocity, lightLifetime, lightDeployDelay);
+        lightComponent.LaunchWithForce(lightLaunchForce, subRoot.rb.velocity);
         lightComponent.GetComponentInChildren<CyclopsMaterialAssigner>().OnCyclopsReferenceFinished(CyclopsReferenceHandler.CyclopsReference);
     }
 
