@@ -1,11 +1,9 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace PrototypeSubMod.SubTerminal;
 
 internal class ProtoUpgradeScreenManager : MonoBehaviour
 {
-    [SerializeField] private List<UpgradeScreen> upgradeScreens;
     [SerializeField] private UpgradeScreen defaultUpgradeScreen;
 
     private UpgradeScreen currentScreen;

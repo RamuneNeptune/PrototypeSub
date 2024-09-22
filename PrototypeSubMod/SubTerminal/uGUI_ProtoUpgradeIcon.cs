@@ -1,4 +1,6 @@
-﻿using System;
+﻿using PrototypeSubMod.Upgrades;
+using PrototypeSubMod.Utility;
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -7,8 +9,7 @@ namespace PrototypeSubMod.SubTerminal;
 
 internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
 {
-    public Action<TechType> onCraftPressed;
-
+    [SerializeField] private DummyTechType techType;
     [SerializeField] private float confirmTime;
     [SerializeField] private float smoothingTime;
     [SerializeField] private float tooltipScreenScale;
@@ -21,7 +22,6 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
     [SerializeField] private RocketBuilderTooltip tooltip;
 
     private uGUI_ProtoBuildScreen buildScreen;
-    private TechType techType;
 
     private bool hovered;
     private bool pointerDownLastFrame;
@@ -43,11 +43,12 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
 
         rectTransform = GetComponent<RectTransform>();
         originalSize = rectTransform.sizeDelta;
+
+        SetUpgradeTechType(techType.TechType);
     }
 
     public void SetUpgradeTechType(TechType techType)
     {
-        this.techType = techType;
         tooltip.rocketTechType = techType;
 
         itemIcon.SetForegroundSprite(SpriteManager.Get(techType));
@@ -104,8 +105,9 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
         if (currentConfirmTime >= (confirmTime - 0.01f) && !craftTriggered)
         {
             currentConfirmTime = confirmTime;
-            onCraftPressed?.Invoke(techType);
             craftTriggered = true;
+
+            ProtoUpgradeManager.Instance.SetUpgradeInstalled(techType.TechType, true);
         }
     }
 

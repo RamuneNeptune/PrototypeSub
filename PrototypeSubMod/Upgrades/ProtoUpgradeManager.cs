@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using PrototypeSubMod.Interfaces;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace PrototypeSubMod.Upgrades;
@@ -28,8 +29,11 @@ internal class ProtoUpgradeManager : MonoBehaviour
         }
     }
 
-    public void SetUpgradeActive(TechType techType, bool active)
+    public void SetUpgradeInstalled(TechType techType, bool installed)
     {
+        if (!upgrades.TryGetValue(techType, out var upgrade)) throw new System.Exception($"There is no upgrade with the tech type {techType} on the Prototype sub");
 
+        (upgrade as IProtoUpgrade).SetUpgradeInstalled(installed);
+        ErrorMessage.AddMessage($"Upgrade '{techType}' set installed to {installed}");
     }
 }
