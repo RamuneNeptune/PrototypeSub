@@ -1,11 +1,10 @@
-﻿using PrototypeSubMod.Interfaces;
-using PrototypeSubMod.MotorHandler;
+﻿using PrototypeSubMod.MotorHandler;
 using PrototypeSubMod.Upgrades;
 using UnityEngine;
 
 namespace PrototypeSubMod.HydroVentilators;
 
-internal class ProtoHydrodynamicVentilators : ProtoUpgrade, IProtoUpgrade
+internal class ProtoHydrodynamicVentilators : ProtoUpgrade
 {
     [SerializeField] private ProtoMotorHandler motorHandler;
     [SerializeField] private CrushDamage crushDamage;
@@ -33,22 +32,22 @@ internal class ProtoHydrodynamicVentilators : ProtoUpgrade, IProtoUpgrade
         motorHandler.SetSpeedMultiplier(multiplier);
     }
 
-    public void SetUpgradeInstalled(bool installed)
+    public override void SetUpgradeInstalled(bool installed)
     {
         upgradeInstalled = installed;
     }
 
-    public bool GetUpgradeInstalled() => upgradeInstalled;
+    public override bool GetUpgradeInstalled() => upgradeInstalled;
 
-    public string GetUpgradeName()
+    public override string GetUpgradeName()
     {
         return "Hydro Ventilators";
     }
 
-    public void SetUpgradeEnabled(bool enabled)
+    public override void SetUpgradeEnabled(bool enabled)
     {
         // Not needed for this upgrade
     }
 
-    public bool GetUpgradeEnabled() => upgradeInstalled;
+    public override bool GetUpgradeEnabled() => upgradeInstalled;
 }

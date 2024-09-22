@@ -1,5 +1,4 @@
-﻿using PrototypeSubMod.Interfaces;
-using PrototypeSubMod.IonGenerator;
+﻿using PrototypeSubMod.IonGenerator;
 using PrototypeSubMod.Monobehaviors;
 using PrototypeSubMod.Upgrades;
 using SubLibrary.Handlers;
@@ -9,7 +8,7 @@ using UnityEngine;
 
 namespace PrototypeSubMod.DeployablesTerminal;
 
-internal class ProtoDeployableManager : ProtoUpgrade, IProtoUpgrade
+internal class ProtoDeployableManager : ProtoUpgrade
 {
     [SerializeField] DeployablesStorageTerminal storageTerminal;
     [SerializeField] private ProtoIonGenerator ionGenerator;
@@ -94,12 +93,12 @@ internal class ProtoDeployableManager : ProtoUpgrade, IProtoUpgrade
         }
     }
 
-    public void SetUpgradeInstalled(bool installed)
+    public override void SetUpgradeInstalled(bool installed)
     {
         upgradeEnabled = installed;
     }
 
-    public bool GetUpgradeInstalled() => upgradeEnabled;
+    public override bool GetUpgradeInstalled() => upgradeEnabled;
 
     public void RecalculateDeployableTotals()
     {
@@ -129,17 +128,17 @@ internal class ProtoDeployableManager : ProtoUpgrade, IProtoUpgrade
         }
     }
 
-    public string GetUpgradeName()
+    public override string GetUpgradeName()
     {
         return "Deployable Manager";
     }
 
-    public void SetUpgradeEnabled(bool enabled)
+    public override void SetUpgradeEnabled(bool enabled)
     {
         // Not needed for this upgrade
     }
 
-    public bool GetUpgradeEnabled()
+    public override bool GetUpgradeEnabled()
     {
         return upgradeEnabled;
     }

@@ -1,11 +1,10 @@
-﻿using PrototypeSubMod.Interfaces;
-using PrototypeSubMod.Upgrades;
+﻿using PrototypeSubMod.Upgrades;
 using System.Collections;
 using UnityEngine;
 
 namespace PrototypeSubMod.Teleporter;
 
-internal class ProtoTeleporterManager : ProtoUpgrade, IProtoUpgrade
+internal class ProtoTeleporterManager : ProtoUpgrade
 {
     public static ProtoTeleporterManager Instance { get; private set; }
 
@@ -108,12 +107,12 @@ internal class ProtoTeleporterManager : ProtoUpgrade, IProtoUpgrade
     public Transform GetTeleportPosition() => teleportPosition;
     public string GetTeleporterID() => teleporterID;
 
-    public void SetUpgradeInstalled(bool active)
+    public override void SetUpgradeInstalled(bool active)
     {
         overrideUpgradeInstalled = active;
     }
 
-    public bool GetUpgradeInstalled() => overrideUpgradeInstalled;
+    public override bool GetUpgradeInstalled() => overrideUpgradeInstalled;
 
     //Called by PrecursorTeleporterActivationTerminal via SendMessage
     public void ToggleDoor(bool open)
@@ -149,15 +148,15 @@ internal class ProtoTeleporterManager : ProtoUpgrade, IProtoUpgrade
         activationTerminal.GetComponentInChildren<Collider>().isTrigger = false;
     }
 
-    public string GetUpgradeName()
+    public override string GetUpgradeName()
     {
         return "Archway Override";
     }
 
-    public void SetUpgradeEnabled(bool enabled)
+    public override void SetUpgradeEnabled(bool enabled)
     {
         // Not needed for this upgrade
     }
 
-    public bool GetUpgradeEnabled() => overrideUpgradeInstalled;
+    public override bool GetUpgradeEnabled() => overrideUpgradeInstalled;
 }

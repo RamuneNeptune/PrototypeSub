@@ -1,5 +1,4 @@
-﻿using PrototypeSubMod.Interfaces;
-using PrototypeSubMod.Upgrades;
+﻿using PrototypeSubMod.Upgrades;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,7 +6,7 @@ using UWE;
 
 namespace PrototypeSubMod.StasisPulse;
 
-internal class ProtoStasisPulse : ProtoUpgrade, IProtoUpgrade
+internal class ProtoStasisPulse : ProtoUpgrade
 {
     [SerializeField] private AnimationCurve sphereRadius;
     [SerializeField] private Gradient colorOverLifetime;
@@ -195,25 +194,25 @@ internal class ProtoStasisPulse : ProtoUpgrade, IProtoUpgrade
         powerRelay.ConsumeEnergy(powerCost, out _);
     }
 
-    public void SetUpgradeInstalled(bool installed)
+    public override void SetUpgradeInstalled(bool installed)
     {
         upgradeInstalled = installed;
     }
 
-    public bool GetUpgradeInstalled()
+    public override bool GetUpgradeInstalled()
     {
         return upgradeInstalled;
     }
 
-    public string GetUpgradeName()
+    public override string GetUpgradeName()
     {
         return "Activate Stasis Pulse";
     }
 
-    public void SetUpgradeEnabled(bool enabled)
+    public override void SetUpgradeEnabled(bool enabled)
     {
         // Not needed for this upgrade
     }
 
-    public bool GetUpgradeEnabled() => upgradeInstalled;
+    public override bool GetUpgradeEnabled() => upgradeInstalled;
 }

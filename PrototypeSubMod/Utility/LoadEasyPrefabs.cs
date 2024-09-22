@@ -21,14 +21,14 @@ internal static class LoadEasyPrefabs
                 MaterialUtils.ApplySNShaders(easyPrefab.prefab);
             }
 
-            if(easyPrefab.prefab != null)
+            if (easyPrefab.prefab != null)
             {
                 prefab.SetGameObject(easyPrefab.prefab);
             }
 
             prefab.SetRecipeFromJson(Path.Combine(Plugin.RecipesFolderPath, $"{easyPrefab.techType.techTypeName}.json"));
 
-            if(easyPrefab.unlockAtStart)
+            if (easyPrefab.unlockAtStart)
             {
                 prefab.SetUnlock(TechType.None);
             }

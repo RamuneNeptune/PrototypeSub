@@ -1,12 +1,11 @@
-﻿using PrototypeSubMod.Interfaces;
-using PrototypeSubMod.MotorHandler;
+﻿using PrototypeSubMod.MotorHandler;
 using PrototypeSubMod.Upgrades;
 using System.Collections;
 using UnityEngine;
 
 namespace PrototypeSubMod.IonGenerator;
 
-internal class ProtoIonGenerator : ProtoUpgrade, IProtoUpgrade
+internal class ProtoIonGenerator : ProtoUpgrade
 {
     [SerializeField] private ProtoMotorHandler motorHandler;
     [SerializeField] private PowerRelay powerRelay;
@@ -95,22 +94,22 @@ internal class ProtoIonGenerator : ProtoUpgrade, IProtoUpgrade
         }
     }
 
-    public void SetUpgradeInstalled(bool installed)
+    public override void SetUpgradeInstalled(bool installed)
     {
         upgradeInstalled = installed;
     }
 
-    public bool GetUpgradeInstalled() => upgradeInstalled;
+    public override bool GetUpgradeInstalled() => upgradeInstalled;
 
-    public string GetUpgradeName()
+    public override string GetUpgradeName()
     {
         return "Ion Generator";
     }
 
-    public void SetUpgradeEnabled(bool enabled)
+    public override void SetUpgradeEnabled(bool enabled)
     {
         upgradeActive = enabled;
     }
 
-    public bool GetUpgradeEnabled() => upgradeActive;
+    public override bool GetUpgradeEnabled() => upgradeActive;
 }

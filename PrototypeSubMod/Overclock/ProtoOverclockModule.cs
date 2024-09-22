@@ -1,12 +1,11 @@
-﻿using PrototypeSubMod.Interfaces;
-using PrototypeSubMod.IonGenerator;
+﻿using PrototypeSubMod.IonGenerator;
 using PrototypeSubMod.MotorHandler;
 using PrototypeSubMod.Upgrades;
 using UnityEngine;
 
 namespace PrototypeSubMod.Overclock;
 
-internal class ProtoOverclockModule : ProtoUpgrade, IProtoUpgrade
+internal class ProtoOverclockModule : ProtoUpgrade
 {
     [SerializeField] private PowerRelay powerRelay;
     [SerializeField] private CyclopsExternalDamageManager damageManager;
@@ -73,24 +72,24 @@ internal class ProtoOverclockModule : ProtoUpgrade, IProtoUpgrade
         }
     }
 
-    public void SetUpgradeInstalled(bool installed)
+    public override void SetUpgradeInstalled(bool installed)
     {
         upgradeInstalled = installed;
     }
 
-    public void SetUpgradeEnabled(bool enabled)
+    public override void SetUpgradeEnabled(bool enabled)
     {
         upgradeEnabled = enabled;
     }
 
-    public string GetUpgradeName()
+    public override string GetUpgradeName()
     {
         return "Overclock Module";
     }
 
-    public bool GetUpgradeEnabled()
+    public override bool GetUpgradeEnabled()
     {
         return upgradeEnabled && !ionGenerator.GetUpgradeEnabled();
     }
-    public bool GetUpgradeInstalled() => upgradeInstalled;
+    public override bool GetUpgradeInstalled() => upgradeInstalled;
 }

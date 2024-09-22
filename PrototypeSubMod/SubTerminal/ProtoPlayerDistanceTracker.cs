@@ -56,12 +56,12 @@ internal class ProtoPlayerDistanceTracker : MonoBehaviour, IScheduledUpdateBehav
 
     private void Start()
     {
-        timeLastUpdate = Time.time - Random.value * timeBetweenUpdates;
+        timeLastUpdate = Time.time - (Random.value * timeBetweenUpdates);
     }
 
     private void OnEnable()
     {
-        timeLastUpdate = Time.time - Random.value * timeBetweenUpdates;
+        timeLastUpdate = Time.time - (Random.value * timeBetweenUpdates);
         UpdateSchedulerUtils.Register(this);
     }
 

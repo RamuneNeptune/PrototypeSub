@@ -1,11 +1,10 @@
-﻿using PrototypeSubMod.Interfaces;
-using PrototypeSubMod.IonGenerator;
+﻿using PrototypeSubMod.IonGenerator;
 using PrototypeSubMod.Upgrades;
 using UnityEngine;
 
 namespace PrototypeSubMod.LightDistortionField;
 
-internal class CloakEffectHandler : ProtoUpgrade, IProtoUpgrade
+internal class CloakEffectHandler : ProtoUpgrade
 {
     public static CloakEffectHandler Instance { get; private set; }
 
@@ -93,7 +92,7 @@ internal class CloakEffectHandler : ProtoUpgrade, IProtoUpgrade
         return new Vector3(lhs.x / rhs.x, lhs.y / rhs.y, lhs.z / rhs.z);
     }
 
-    public void SetUpgradeInstalled(bool installed)
+    public override void SetUpgradeInstalled(bool installed)
     {
         upgradeInstalled = installed;
     }
@@ -108,20 +107,20 @@ internal class CloakEffectHandler : ProtoUpgrade, IProtoUpgrade
         return TargetScaleMultiplier;
     }
 
-    public string GetUpgradeName()
+    public override string GetUpgradeName()
     {
         return "Light Distortion Field";
     }
 
-    public bool GetUpgradeInstalled()
+    public override bool GetUpgradeInstalled()
     {
         return upgradeInstalled;
     }
 
-    public void SetUpgradeEnabled(bool enabled)
+    public override void SetUpgradeEnabled(bool enabled)
     {
         upgradeActive = enabled;
     }
 
-    public bool GetUpgradeEnabled() => upgradeActive;
+    public override bool GetUpgradeEnabled() => upgradeActive;
 }

@@ -1,12 +1,11 @@
-﻿using PrototypeSubMod.Interfaces;
-using PrototypeSubMod.Upgrades;
+﻿using PrototypeSubMod.Upgrades;
 using System;
 using System.Collections;
 using UnityEngine;
 
 namespace PrototypeSubMod.Teleporter;
 
-internal class ProtoEmergencyWarp : ProtoUpgrade, IProtoUpgrade
+internal class ProtoEmergencyWarp : ProtoUpgrade
 {
     public static bool isCharging;
 
@@ -107,25 +106,25 @@ internal class ProtoEmergencyWarp : ProtoUpgrade, IProtoUpgrade
         Player.main.EnterPilotingMode(pilotingChair);
     }
 
-    public void SetUpgradeInstalled(bool active)
+    public override void SetUpgradeInstalled(bool active)
     {
         upgradeInstalled = active;
     }
 
-    public bool GetUpgradeInstalled()
+    public override bool GetUpgradeInstalled()
     {
         return upgradeInstalled;
     }
 
-    public string GetUpgradeName()
+    public override string GetUpgradeName()
     {
         return "Emergency Warp";
     }
 
-    public void SetUpgradeEnabled(bool enabled)
+    public override void SetUpgradeEnabled(bool enabled)
     {
         // Not needed for this upgrade
     }
 
-    public bool GetUpgradeEnabled() => upgradeInstalled;
+    public override bool GetUpgradeEnabled() => upgradeInstalled;
 }

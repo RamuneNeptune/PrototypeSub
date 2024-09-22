@@ -23,7 +23,7 @@ internal class ProtoBuildTerminal : Crafter
     [SerializeField] private float buildDuration = 20f;
     [SerializeField] private FMODAsset buildSoundEffect;
     [SerializeField] private Transform buildPosition;
-    [SerializeField] private GameObject upgradeIconPrefab;    
+    [SerializeField] private GameObject upgradeIconPrefab;
 
     new private void Start()
     {

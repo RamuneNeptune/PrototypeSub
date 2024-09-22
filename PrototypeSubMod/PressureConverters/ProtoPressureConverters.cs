@@ -1,11 +1,10 @@
-﻿using PrototypeSubMod.Interfaces;
-using PrototypeSubMod.MotorHandler;
+﻿using PrototypeSubMod.MotorHandler;
 using PrototypeSubMod.Upgrades;
 using UnityEngine;
 
 namespace PrototypeSubMod.PressureConverters;
 
-internal class ProtoPressureConverters : ProtoUpgrade, IProtoUpgrade
+internal class ProtoPressureConverters : ProtoUpgrade
 {
     [SerializeField] private ProtoMotorHandler motorHandler;
     [SerializeField] private CrushDamage crushDamage;
@@ -33,22 +32,22 @@ internal class ProtoPressureConverters : ProtoUpgrade, IProtoUpgrade
         motorHandler.SetPowerMultiplier(multiplier);
     }
 
-    public void SetUpgradeInstalled(bool active)
+    public override void SetUpgradeInstalled(bool active)
     {
         convertersInstalled = active;
     }
 
-    public bool GetUpgradeInstalled() => convertersInstalled;
+    public override bool GetUpgradeInstalled() => convertersInstalled;
 
-    public string GetUpgradeName()
+    public override string GetUpgradeName()
     {
         return "Pressure Converters";
     }
 
-    public void SetUpgradeEnabled(bool enabled)
+    public override void SetUpgradeEnabled(bool enabled)
     {
         // Not needed for this upgrade
     }
 
-    public bool GetUpgradeEnabled() => convertersInstalled;
+    public override bool GetUpgradeEnabled() => convertersInstalled;
 }
