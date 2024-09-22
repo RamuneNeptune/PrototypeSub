@@ -1,7 +1,4 @@
 ﻿using PrototypeSubMod.Prefabs;
-using System;
-using System.Collections;
-using System.Threading;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -13,7 +10,7 @@ internal class uGUI_ProtoBuildScreen : MonoBehaviour
 
     [SerializeField] private ProtoBuildTerminal buildTerminal;
     [SerializeField] private RocketBuilderTooltip tooltip;
-    [SerializeField] private PlayerDistanceTracker distanceTracker;
+    [SerializeField] private ProtoPlayerDistanceTracker distanceTracker;
     [SerializeField] private MoonpoolOccupiedHandler occupiedHandler;
     [SerializeField] private GameObject buildScreen;
     [SerializeField] private uGUI_BuildAnimScreen animationScreen;
@@ -37,18 +34,10 @@ internal class uGUI_ProtoBuildScreen : MonoBehaviour
         {
             buildScreen.SetActive(true);
         }
+
+        distanceTracker.OnPlayerTriggerChanged += UpdateTooltipActive;
     }
 
-    private void OnEnable()
-    {
-        CancelInvoke(nameof(UpdateTooltipActive));
-        InvokeRepeating(nameof(UpdateTooltipActive), 0f, 0.5f);
-    }
-
-    private void OnDisable()
-    {
-        CancelInvoke(nameof(UpdateTooltipActive));
-    }
 
     public void OnConstructPressed()
     {
@@ -84,24 +73,11 @@ internal class uGUI_ProtoBuildScreen : MonoBehaviour
         emptyScreen.SetActive(!occupied);
     }
 
-    private void UpdateTooltipActive()
+    public void UpdateTooltipActive(bool inTrigger)
     {
-        Action action = () => OnThreadFinished();
-
-        ThreadStart ts = delegate
-        {
-            tooltipsActive = distanceTracker.distanceToPlayer < 5f;
-            action.Invoke();
-        };
-
-        Thread thread = new Thread(ts);
-        thread.Start();
-    }
-
-    private void OnThreadFinished()
-    {
+        tooltipsActive = inTrigger;
         tooltip.gameObject.SetActive(tooltipsActive);
-        //armAnimator.SetBool("ScreenActivated", tooltipsActive);
+        armAnimator.SetBool("ScreenActivated", tooltipsActive);
     }
 
     public bool IsTooltipActive()

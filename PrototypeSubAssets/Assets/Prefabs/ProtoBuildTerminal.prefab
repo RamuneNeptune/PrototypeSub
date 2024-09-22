@@ -418,7 +418,7 @@ GameObject:
   - component: {fileID: 198255859429891121}
   - component: {fileID: 4652062324225112515}
   - component: {fileID: 1618657341364074652}
-  - component: {fileID: 4430266739775970428}
+  - component: {fileID: 4469447899053890692}
   m_Layer: 0
   m_Name: GUIScreen
   m_TagString: Untagged
@@ -530,14 +530,14 @@ MonoBehaviour:
         m_CallState: 2
   buildTerminal: {fileID: 5753649986567304265}
   tooltip: {fileID: 6573146357284826976}
-  distanceTracker: {fileID: 4430266739775970428}
+  distanceTracker: {fileID: 4469447899053890692}
   occupiedHandler: {fileID: 3087815451263599694}
   buildScreen: {fileID: 2992585963739497453}
   animationScreen: {fileID: 9057623526303307991}
   upgradeScreen: {fileID: 1997155807617855908}
   emptyScreen: {fileID: 6828767911130665040}
   armAnimator: {fileID: 6040358363738919413}
---- !u!114 &4430266739775970428
+--- !u!114 &4469447899053890692
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -546,10 +546,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 722329305584264081}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 146425932, guid: 06dd3d5416bf43ea368cc39ff96e6d5a, type: 3}
+  m_Script: {fileID: 1158453978, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnPlayerTriggerChanged:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1618657341364074652}
+        m_MethodName: UpdateTooltipActive
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   maxDistance: 10
+  triggerDistance: 5
+  timeBetweenUpdates: 0.5
 --- !u!1 &734794150011121250
 GameObject:
   m_ObjectHideFlags: 0
@@ -4410,7 +4426,7 @@ MonoBehaviour:
   m_Script: {fileID: 636969107, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  transitionSpeed: 5
+  transitionSpeed: 3
   startingAlpha: 1
 --- !u!114 &1609082807442591484
 MonoBehaviour:
@@ -5497,7 +5513,7 @@ MonoBehaviour:
   m_Script: {fileID: 636969107, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  transitionSpeed: 5
+  transitionSpeed: 3
   startingAlpha: 0
 --- !u!1 &9172846592265913197
 GameObject:

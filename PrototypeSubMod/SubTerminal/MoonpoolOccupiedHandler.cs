@@ -25,6 +25,12 @@ internal class MoonpoolOccupiedHandler : MonoBehaviour
 
     private void CheckForSub()
     {
+        if (buildTerminal.PrototypeSub == null)
+        {
+            MoonpoolHasSub = false;
+            return;
+        }
+
         Vector3 distance = transform.position - buildTerminal.PrototypeSub.transform.position;
 
         MoonpoolHasSub = buildTerminal.HasBuiltProtoSub && distance.sqrMagnitude < (maxDistanceFromMoonpool * maxDistanceFromMoonpool);

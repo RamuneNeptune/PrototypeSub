@@ -21,7 +21,7 @@ internal class UpgradeScreen : MonoBehaviour
 
     private void Update()
     {
-        canvasGroup.alpha = Mathf.Lerp(canvasGroup.alpha, targetAlpha, Time.deltaTime * transitionSpeed);
+        canvasGroup.alpha = Mathf.MoveTowards(canvasGroup.alpha, targetAlpha, Time.deltaTime * transitionSpeed);
     }
 
     public void SetTargetAlpha(float alpha)
