@@ -1,4 +1,5 @@
 ﻿using PrototypeSubMod.Prefabs;
+using System;
 using System.Collections;
 using System.Threading;
 using UnityEngine;
@@ -85,10 +86,12 @@ internal class uGUI_ProtoBuildScreen : MonoBehaviour
 
     private void UpdateTooltipActive()
     {
+        Action action = () => OnThreadFinished();
+
         ThreadStart ts = delegate
         {
             tooltipsActive = distanceTracker.distanceToPlayer < 5f;
-            OnThreadFinished();
+            action.Invoke();
         };
 
         Thread thread = new Thread(ts);
@@ -98,7 +101,7 @@ internal class uGUI_ProtoBuildScreen : MonoBehaviour
     private void OnThreadFinished()
     {
         tooltip.gameObject.SetActive(tooltipsActive);
-        armAnimator.SetBool("ScreenActivated", tooltipsActive);
+        //armAnimator.SetBool("ScreenActivated", tooltipsActive);
     }
 
     public bool IsTooltipActive()
