@@ -1,11 +1,12 @@
 ﻿using PrototypeSubMod.Interfaces;
 using PrototypeSubMod.MotorHandler;
+using PrototypeSubMod.Upgrades;
 using System.Collections;
 using UnityEngine;
 
 namespace PrototypeSubMod.IonGenerator;
 
-internal class ProtoIonGenerator : MonoBehaviour, IProtoUpgrade
+internal class ProtoIonGenerator : ProtoUpgrade, IProtoUpgrade
 {
     [SerializeField] private ProtoMotorHandler motorHandler;
     [SerializeField] private PowerRelay powerRelay;

@@ -1,11 +1,12 @@
 ﻿using PrototypeSubMod.Interfaces;
 using PrototypeSubMod.IonGenerator;
 using PrototypeSubMod.MotorHandler;
+using PrototypeSubMod.Upgrades;
 using UnityEngine;
 
 namespace PrototypeSubMod.Overclock;
 
-internal class ProtoOverclockModule : MonoBehaviour, IProtoUpgrade
+internal class ProtoOverclockModule : ProtoUpgrade, IProtoUpgrade
 {
     [SerializeField] private PowerRelay powerRelay;
     [SerializeField] private CyclopsExternalDamageManager damageManager;

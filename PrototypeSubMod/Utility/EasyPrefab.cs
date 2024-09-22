@@ -2,13 +2,13 @@
 
 namespace PrototypeSubMod.Utility;
 
-[CreateAssetMenu(fileName = "EasyPrefab", menuName = "Easy Prefab")]
+[CreateAssetMenu(fileName = "EasyPrefab", menuName = "Prototype Sub/Easy Prefab")]
 internal class EasyPrefab : ScriptableObject
 {
     public GameObject prefab;
     public Sprite sprite;
 
-    public string techTypeName;
+    public DummyTechType techType;
     public bool applySNShaders;
     public bool unlockAtStart;
 }

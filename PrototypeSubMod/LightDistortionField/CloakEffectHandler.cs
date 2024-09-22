@@ -1,10 +1,11 @@
 ﻿using PrototypeSubMod.Interfaces;
 using PrototypeSubMod.IonGenerator;
+using PrototypeSubMod.Upgrades;
 using UnityEngine;
 
 namespace PrototypeSubMod.LightDistortionField;
 
-internal class CloakEffectHandler : MonoBehaviour, IProtoUpgrade
+internal class CloakEffectHandler : ProtoUpgrade, IProtoUpgrade
 {
     public static CloakEffectHandler Instance { get; private set; }
 

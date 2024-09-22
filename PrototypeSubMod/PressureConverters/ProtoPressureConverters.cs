@@ -1,10 +1,11 @@
 ﻿using PrototypeSubMod.Interfaces;
 using PrototypeSubMod.MotorHandler;
+using PrototypeSubMod.Upgrades;
 using UnityEngine;
 
 namespace PrototypeSubMod.PressureConverters;
 
-internal class ProtoPressureConverters : MonoBehaviour, IProtoUpgrade
+internal class ProtoPressureConverters : ProtoUpgrade, IProtoUpgrade
 {
     [SerializeField] private ProtoMotorHandler motorHandler;
     [SerializeField] private CrushDamage crushDamage;

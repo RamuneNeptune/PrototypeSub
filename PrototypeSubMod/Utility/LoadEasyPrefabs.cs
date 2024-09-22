@@ -12,7 +12,7 @@ internal static class LoadEasyPrefabs
     {
         foreach (var easyPrefab in assetBundle.LoadAllAssets<EasyPrefab>())
         {
-            PrefabInfo info = PrefabInfo.WithTechType(easyPrefab.techTypeName, easyPrefab.unlockAtStart)
+            PrefabInfo info = PrefabInfo.WithTechType(easyPrefab.techType.techTypeName, easyPrefab.unlockAtStart)
                 .WithIcon(easyPrefab.sprite);
 
             var prefab = new CustomPrefab(info);
@@ -26,7 +26,7 @@ internal static class LoadEasyPrefabs
                 prefab.SetGameObject(easyPrefab.prefab);
             }
 
-            prefab.SetRecipeFromJson(Path.Combine(Plugin.RecipesFolderPath, $"{easyPrefab.techTypeName}.json"));
+            prefab.SetRecipeFromJson(Path.Combine(Plugin.RecipesFolderPath, $"{easyPrefab.techType.techTypeName}.json"));
 
             if(easyPrefab.unlockAtStart)
             {

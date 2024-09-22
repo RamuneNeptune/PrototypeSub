@@ -1,11 +1,12 @@
 ﻿using PrototypeSubMod.Interfaces;
+using PrototypeSubMod.Upgrades;
 using System;
 using System.Collections;
 using UnityEngine;
 
 namespace PrototypeSubMod.Teleporter;
 
-internal class ProtoEmergencyWarp : MonoBehaviour, IProtoUpgrade
+internal class ProtoEmergencyWarp : ProtoUpgrade, IProtoUpgrade
 {
     public static bool isCharging;
 

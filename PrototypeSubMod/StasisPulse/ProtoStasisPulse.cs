@@ -1,4 +1,5 @@
 ﻿using PrototypeSubMod.Interfaces;
+using PrototypeSubMod.Upgrades;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,7 +7,7 @@ using UWE;
 
 namespace PrototypeSubMod.StasisPulse;
 
-public class ProtoStasisPulse : MonoBehaviour, IProtoUpgrade
+internal class ProtoStasisPulse : ProtoUpgrade, IProtoUpgrade
 {
     [SerializeField] private AnimationCurve sphereRadius;
     [SerializeField] private Gradient colorOverLifetime;

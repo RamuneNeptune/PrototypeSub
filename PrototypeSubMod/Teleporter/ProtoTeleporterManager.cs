@@ -1,10 +1,11 @@
 ﻿using PrototypeSubMod.Interfaces;
+using PrototypeSubMod.Upgrades;
 using System.Collections;
 using UnityEngine;
 
 namespace PrototypeSubMod.Teleporter;
 
-internal class ProtoTeleporterManager : MonoBehaviour, IProtoUpgrade
+internal class ProtoTeleporterManager : ProtoUpgrade, IProtoUpgrade
 {
     public static ProtoTeleporterManager Instance { get; private set; }
 

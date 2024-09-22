@@ -434,6 +434,8 @@ MonoBehaviour:
   m_Script: {fileID: 903041748, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  techType: {fileID: 11400000, guid: a1c635fa5f3d24840a035819d8b5318f, type: 2}
+  unlockedAtStart: 0
   shader: {fileID: 4800000, guid: f251235b3bff35847a134bb3eac9cade, type: 3}
   ovoid: {fileID: 2508205754009765021}
   color: {r: 0.34901962, g: 0.34901962, b: 0.34901962, a: 1}
@@ -17313,6 +17315,8 @@ MonoBehaviour:
   m_Script: {fileID: 1750654117, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  techType: {fileID: 11400000, guid: dfaf2516331be2e44836808eddc7e85a, type: 2}
+  unlockedAtStart: 0
   motorHandler: {fileID: 1047782073636578443}
   powerRelay: {fileID: 161644787413200408}
   energyPerSecond: 12
@@ -23371,6 +23375,8 @@ MonoBehaviour:
   m_Script: {fileID: -634516636, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  techType: {fileID: 11400000, guid: b4be80179bb0d4445b1b2625620258a3, type: 2}
+  unlockedAtStart: 1
   storageTerminal: {fileID: 2874070112182103862}
   ionGenerator: {fileID: 8702380383007559634}
   subRoot: {fileID: 6246764057006774658}
@@ -28198,6 +28204,8 @@ MonoBehaviour:
   m_Script: {fileID: -1792521044, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  techType: {fileID: 11400000, guid: b2026e1329d29ef47bbf515cf2221789, type: 2}
+  unlockedAtStart: 0
   sphereRadius:
     serializedVersion: 2
     m_Curve:
@@ -56653,6 +56661,8 @@ MonoBehaviour:
   m_Script: {fileID: 104610459, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  techType: {fileID: 11400000, guid: 1462dd9e3bff95a42ad63f96590c14ca, type: 2}
+  unlockedAtStart: 0
   teleporter: {fileID: 712578900503129357}
   subRoot: {fileID: 6246764057006774658}
   teleportPosition: {fileID: 9137567672799407564}
@@ -56714,6 +56724,8 @@ MonoBehaviour:
   m_Script: {fileID: 124481817, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  techType: {fileID: 11400000, guid: de6e1b2d637172f479b0df5a5fcf2856, type: 2}
+  unlockedAtStart: 0
   subRigidbody: {fileID: 455190807124239361}
   subRoot: {fileID: 6246764057006774658}
   pilotingChair: {fileID: 7526695556347667783}
@@ -75262,6 +75274,8 @@ MonoBehaviour:
   m_Script: {fileID: -1805802227, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  techType: {fileID: 11400000, guid: 91827d1e849e71446b6a4cefdb884c5f, type: 2}
+  unlockedAtStart: 0
   powerRelay: {fileID: 161644787413200408}
   damageManager: {fileID: 6639853693612777650}
   motorHandler: {fileID: 1047782073636578443}
@@ -77975,6 +77989,7 @@ GameObject:
   - component: {fileID: 156864756537387356}
   - component: {fileID: 4767904503956150813}
   - component: {fileID: 9060344306396047808}
+  - component: {fileID: 9153870078702174837}
   m_Layer: 0
   m_Name: PrototypeSub
   m_TagString: Submarine
@@ -78776,6 +78791,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minMassForSound: 40
+--- !u!114 &9153870078702174837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8041321529513965086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1892728733, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8049366260307167103
 GameObject:
   m_ObjectHideFlags: 0
@@ -87194,6 +87221,8 @@ MonoBehaviour:
   m_Script: {fileID: -1037560422, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  techType: {fileID: 11400000, guid: a5ee9abe39a95be4ab8e961a4510af4f, type: 2}
+  unlockedAtStart: 0
   motorHandler: {fileID: 1047782073636578443}
   crushDamage: {fileID: 153965652040773836}
   activationDepth: 1000
@@ -87234,6 +87263,8 @@ MonoBehaviour:
   m_Script: {fileID: 424438425, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  techType: {fileID: 11400000, guid: b74205d49bfdc244b8db2892ad13aa3a, type: 2}
+  unlockedAtStart: 0
   motorHandler: {fileID: 1047782073636578443}
   crushDamage: {fileID: 153965652040773836}
   activationDepth: 1000
@@ -90438,12 +90469,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d6cc3db34565c3a4ba68573b0eeec2a0, type: 3}
---- !u!4 &7635523988782540534 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2253812858737788773, guid: d6cc3db34565c3a4ba68573b0eeec2a0,
-    type: 3}
-  m_PrefabInstance: {fileID: 8552883551461007763}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &4968267767760700242 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3621781888743187137, guid: d6cc3db34565c3a4ba68573b0eeec2a0,
@@ -90456,3 +90481,9 @@ MonoBehaviour:
   m_Script: {fileID: -2039529286, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &7635523988782540534 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2253812858737788773, guid: d6cc3db34565c3a4ba68573b0eeec2a0,
+    type: 3}
+  m_PrefabInstance: {fileID: 8552883551461007763}
+  m_PrefabAsset: {fileID: 0}

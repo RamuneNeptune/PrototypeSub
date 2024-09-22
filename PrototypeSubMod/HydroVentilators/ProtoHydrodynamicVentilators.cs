@@ -1,10 +1,11 @@
 ﻿using PrototypeSubMod.Interfaces;
 using PrototypeSubMod.MotorHandler;
+using PrototypeSubMod.Upgrades;
 using UnityEngine;
 
 namespace PrototypeSubMod.HydroVentilators;
 
-internal class ProtoHydrodynamicVentilators : MonoBehaviour, IProtoUpgrade
+internal class ProtoHydrodynamicVentilators : ProtoUpgrade, IProtoUpgrade
 {
     [SerializeField] private ProtoMotorHandler motorHandler;
     [SerializeField] private CrushDamage crushDamage;
