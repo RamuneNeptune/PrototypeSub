@@ -12,8 +12,11 @@ internal static class LoadEasyPrefabs
     {
         foreach (var easyPrefab in assetBundle.LoadAllAssets<EasyPrefab>())
         {
-            PrefabInfo info = PrefabInfo.WithTechType(easyPrefab.techType.techTypeName, easyPrefab.unlockAtStart)
-                .WithIcon(easyPrefab.sprite);
+            PrefabInfo info = PrefabInfo.WithTechType(easyPrefab.techType.techTypeName, easyPrefab.unlockAtStart);
+            if (easyPrefab.sprite != null)
+            {
+                info = info.WithIcon(easyPrefab.sprite);
+            }
 
             var prefab = new CustomPrefab(info);
             if (easyPrefab.applySNShaders)
@@ -25,12 +28,16 @@ internal static class LoadEasyPrefabs
             {
                 prefab.SetGameObject(easyPrefab.prefab);
             }
-
-            prefab.SetRecipeFromJson(Path.Combine(Plugin.RecipesFolderPath, $"{easyPrefab.techType.techTypeName}.json"));
+ 
+            prefab.SetRecipeFromJson(Path.Combine(Plugin.RecipesFolderPath, easyPrefab.jsonRecipePath, $"{easyPrefab.techType.techTypeName}.json"));
 
             if (easyPrefab.unlockAtStart)
             {
                 prefab.SetUnlock(TechType.None);
+            }
+            else
+            {
+                prefab.SetUnlock(TechType.PrecursorKey_White);
             }
 
             prefab.Register();
