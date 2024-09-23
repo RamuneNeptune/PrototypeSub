@@ -28,7 +28,7 @@ internal static class LoadEasyPrefabs
             {
                 prefab.SetGameObject(easyPrefab.prefab);
             }
- 
+
             prefab.SetRecipeFromJson(Path.Combine(Plugin.RecipesFolderPath, easyPrefab.jsonRecipePath, $"{easyPrefab.techType.techTypeName}.json"));
 
             if (easyPrefab.unlockAtStart)

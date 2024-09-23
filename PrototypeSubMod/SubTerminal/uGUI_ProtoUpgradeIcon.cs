@@ -1,6 +1,5 @@
 ﻿using PrototypeSubMod.Upgrades;
 using PrototypeSubMod.Utility;
-using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
