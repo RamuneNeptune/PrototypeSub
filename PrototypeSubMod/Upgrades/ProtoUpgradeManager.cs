@@ -18,18 +18,10 @@ internal class ProtoUpgradeManager : MonoBehaviour, ISaveDataListener
         if (Instance != null)
         {
             Destroy(this);
-            return;
+            throw new System.Exception($"More than one ProtoUpgradeManager in the scene! Destroying {this}");
         }
 
         Instance = this;
-    }
-
-    private void Start()
-    {
-        foreach (var protoUpgrade in GetComponentsInChildren<ProtoUpgrade>(true))
-        {
-            upgrades.Add(protoUpgrade.techType.TechType, protoUpgrade);
-        }
     }
 
     public void SetUpgradeInstalled(TechType techType, bool installed)
@@ -51,7 +43,13 @@ internal class ProtoUpgradeManager : MonoBehaviour, ISaveDataListener
 
     public void OnSaveDataLoaded(BaseSubDataClass saveData)
     {
+        foreach (var protoUpgrade in GetComponentsInChildren<ProtoUpgrade>(true))
+        {
+            upgrades.Add(protoUpgrade.techType.TechType, protoUpgrade);
+        }
+
         this.saveData = saveData.EnsureAsPrototypeData();
+        Plugin.Logger.LogInfo($"Upgrades count = {upgrades.Count}");
         foreach (var upgrade in upgrades)
         {
             bool installed = this.saveData.installedModules.Contains(upgrade.Key);
