@@ -14,6 +14,8 @@ internal class PrototypeSaveData : ModuleDataClass
     //Key: Equipment slot | Value: Item ID stored in key's slot
     public Dictionary<string, string> serializedDeployablesEquipment = new();
 
+    public List<TechType> installedModules = new();
+
     public struct PowerSourceData
     {
         public bool defaultBatteryCreated;
