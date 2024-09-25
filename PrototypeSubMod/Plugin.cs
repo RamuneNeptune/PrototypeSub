@@ -9,6 +9,7 @@ using PrototypeSubMod.PowerSystem;
 using PrototypeSubMod.Prefabs;
 using PrototypeSubMod.Prefabs.UpgradePlatforms;
 using PrototypeSubMod.SaveData;
+using PrototypeSubMod.Upgrades;
 using PrototypeSubMod.Utility;
 using SubLibrary.Audio;
 using System.Collections;
@@ -69,12 +70,17 @@ namespace PrototypeSubMod
             Logger.LogInfo($"Plugin {GUID} is loaded!");
         }
 
-        private void Start()
+        private IEnumerator Start()
         {
-            if (Initialized) return;
+            if (Initialized) yield break;
 
             StartCoroutine(AddBatteryComponents());
             Initialized = true;
+
+            yield return new WaitUntil(() => CraftData.cacheInitialized && CraftTree.initialized);
+            yield return new WaitForEndOfFrame();
+
+            UpgradeUninstallationPrefabManager.RegisterUninstallationPrefabs(AssetBundle);
         }
 
         private void InitializeSlotMapping()

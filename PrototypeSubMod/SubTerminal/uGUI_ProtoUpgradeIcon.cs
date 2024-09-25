@@ -11,6 +11,15 @@ namespace PrototypeSubMod.SubTerminal;
 internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
 {
     private static event EventHandler<UpgradeChangedEventArgs> onUpgradeChanged;
+    private static Dictionary<string, TechType> uninstallationTechTypes = new();
+
+    private string UpgradeIdentifier
+    {
+        get
+        {
+            return transform.parent.parent.name + "_" + gameObject.name;
+        }
+    }
 
     [SerializeField] private DummyTechType techType;
     [SerializeField] private float confirmTime;
@@ -21,11 +30,12 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
     [SerializeField] private Image progressMask;
     [SerializeField] private Sprite backgroundNormalSprite;
     [SerializeField] private Sprite backgroundHoverSprite;
-    [SerializeField] private Sprite uninstallSprite;
     [SerializeField] private uGUI_ItemIcon itemIcon;
     [SerializeField] private RocketBuilderTooltip tooltip;
+    public Sprite uninstallSprite;
 
     private uGUI_ProtoBuildScreen buildScreen;
+    private TechType uninstallationTechType;
 
     private bool hovered;
     private bool pointerDownLastFrame;
@@ -43,6 +53,7 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
     {
         buildScreen = GetComponentInParent<uGUI_ProtoBuildScreen>();
         upgradeScreen = GetComponentInParent<UpgradeScreen>();
+        uninstallationTechType = uninstallationTechTypes[UpgradeIdentifier];
 
         atlasSpriteBGNormal = new Atlas.Sprite(backgroundNormalSprite);
         atlasSpriteBGHovered = new Atlas.Sprite(backgroundHoverSprite);
@@ -79,6 +90,11 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
         if (!buildScreen.IsTooltipActive()) return;
 
         bool pointerDown = GameInput.GetButtonHeld(GameInput.Button.LeftHand);
+
+        if (pointerDown && !pointerDownLastFrame)
+        {
+            currentConfirmTime = 0;
+        }
 
         if (hovered && pointerDown)
         {
@@ -166,12 +182,12 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
         rt.sizeDelta = new Vector2(0.003f, 0.003f);
     }
 
-    private void InitialzeFGIcon(uGUI_ItemIcon icon)
+    private void InitialzeFGIcon(uGUI_ItemIcon icon, float scale = 0.001f)
     {
         var rt = icon.foreground.GetComponent<RectTransform>();
         rt.anchorMax = Vector2.one;
         rt.anchorMin = Vector2.zero;
-        rt.sizeDelta = new Vector2(0.001f, 0.001f);
+        rt.sizeDelta = new Vector2(scale, scale);
     }
 
     private void OnActionConfirmed()
@@ -189,6 +205,12 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
 
         UpgradeChangedEventArgs args = new(upgradeScreen, ProtoUpgradeManager.Instance.GetInstalledUpgrades());
         onUpgradeChanged?.Invoke(this, args);
+
+        SetUpgradeTechType(!currentlyInstalled ? uninstallationTechType : techType.TechType);
+        if (!currentlyInstalled)
+        {
+            InitialzeFGIcon(itemIcon, 0.00075f);
+        }
     }
 
     private void OnUpgradesChanged(object sender, UpgradeChangedEventArgs args)
@@ -197,11 +219,17 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
 
         if (upgradeScreen.CanInstallNewUpgrade()) return;
 
-        if (args.installedUpgrades.Contains(techType.TechType))
-        {
-
-        }
+        if (!args.installedUpgrades.Contains(techType.TechType)) return;
+        
+        // Disable installation button
     }
+
+    public void SetUninstallationTechType(TechType techType)
+    {
+        uninstallationTechTypes.Add(UpgradeIdentifier, techType);
+    }
+
+    public TechType GetUpgradeTechType() => techType.TechType;
 }
 
 internal class UpgradeChangedEventArgs : EventArgs
