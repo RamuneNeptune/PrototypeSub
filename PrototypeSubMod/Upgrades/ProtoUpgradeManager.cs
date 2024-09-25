@@ -2,6 +2,7 @@
 using PrototypeSubMod.SaveData;
 using SubLibrary.SaveData;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace PrototypeSubMod.Upgrades;
@@ -29,7 +30,6 @@ internal class ProtoUpgradeManager : MonoBehaviour, ISaveDataListener
         if (!upgrades.TryGetValue(techType, out var upgrade)) throw new System.Exception($"There is no upgrade with the tech type {techType} on the Prototype sub");
 
         (upgrade as IProtoUpgrade).SetUpgradeInstalled(installed);
-        ErrorMessage.AddMessage($"Upgrade '{techType}' set installed to {installed}");
 
         if (saveData.installedModules.Contains(techType) && !installed)
         {
@@ -39,6 +39,14 @@ internal class ProtoUpgradeManager : MonoBehaviour, ISaveDataListener
         {
             saveData.installedModules.Add(techType);
         }
+    }
+
+    public bool GetUpgradeInstalled(TechType techType)
+    {
+        if (!upgrades.TryGetValue(techType, out var upgrade)) throw new System.Exception($"There is no upgrade with the tech type {techType} on the Prototype sub");
+
+        bool installed = (upgrade as IProtoUpgrade).GetUpgradeInstalled();
+        return installed;
     }
 
     public void OnSaveDataLoaded(BaseSubDataClass saveData)
@@ -61,5 +69,10 @@ internal class ProtoUpgradeManager : MonoBehaviour, ISaveDataListener
     public void OnBeforeDataSaved(ref BaseSubDataClass saveData)
     {
         saveData = this.saveData;
+    }
+
+    public List<TechType> GetInstalledUpgrades()
+    {
+        return upgrades.Keys.ToList();
     }
 }
