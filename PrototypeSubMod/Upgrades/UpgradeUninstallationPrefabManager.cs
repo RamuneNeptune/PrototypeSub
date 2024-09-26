@@ -34,13 +34,14 @@ internal static class UpgradeUninstallationPrefabManager
                 }
             }
 
-            prefab.SetRecipe(new Nautilus.Crafting.RecipeData()
+            var data = new Nautilus.Crafting.RecipeData()
             {
                 craftAmount = 0,
                 Ingredients = new(),
                 LinkedItems = ingredients
-            });
+            };
 
+            CraftDataHandler.SetRecipeData(info.TechType, data);
             prefab.SetUnlock(originalTechType);
 
             prefab.Register();

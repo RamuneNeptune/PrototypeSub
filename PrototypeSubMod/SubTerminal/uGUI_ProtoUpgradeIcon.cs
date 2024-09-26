@@ -1,6 +1,7 @@
 ﻿using PrototypeSubMod.Upgrades;
 using PrototypeSubMod.Utility;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -21,6 +22,14 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
         }
     }
 
+    private TechType CurrentTechType
+    {
+        get
+        {
+            return ProtoUpgradeManager.Instance.GetUpgradeInstalled(techType.TechType) ? uninstallationTechType : techType.TechType;
+        }
+    }
+
     [SerializeField] private DummyTechType techType;
     [SerializeField] private float confirmTime;
     [SerializeField] private float smoothingTime;
@@ -35,6 +44,7 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
     public Sprite uninstallSprite;
 
     private uGUI_ProtoBuildScreen buildScreen;
+    private CrafterLogic crafterLogic;
     private TechType uninstallationTechType;
 
     private bool hovered;
@@ -59,9 +69,11 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
         atlasSpriteBGHovered = new Atlas.Sprite(backgroundHoverSprite);
 
         rectTransform = GetComponent<RectTransform>();
+        crafterLogic = GetComponent<CrafterLogic>();
         originalSize = rectTransform.sizeDelta;
 
         SetUpgradeTechType(techType.TechType);
+        OnUpgradesChanged(null, new UpgradeChangedEventArgs(upgradeScreen, ProtoUpgradeManager.Instance.GetInstalledUpgrades()));
     }
 
     private void OnEnable()
@@ -91,23 +103,18 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
 
         bool pointerDown = GameInput.GetButtonHeld(GameInput.Button.LeftHand);
 
-        if (pointerDown && !pointerDownLastFrame)
-        {
-            currentConfirmTime = 0;
-        }
-
         if (hovered && pointerDown)
         {
             HandleConfirmCountdown();
         }
         else
         {
-            currentConfirmTime = confirmTime;
+            currentConfirmTime = -1;
         }
 
         HandleHoverScale();
 
-        progressMask.fillAmount = currentConfirmTime / confirmTime;
+        progressMask.fillAmount = currentConfirmTime / (currentConfirmTime == -1 ? currentConfirmTime : confirmTime);
         pointerDownLastFrame = pointerDown;
     }
 
@@ -192,6 +199,15 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
 
     private void OnActionConfirmed()
     {
+        if (!CrafterLogic.ConsumeResources(CurrentTechType))
+        {
+            currentConfirmTime = -1;
+            craftTriggered = false;
+            return;
+        }
+
+        ErrorMessage.AddWarning(Language.main.Get("DontHaveNeededIngredients"));
+
         currentConfirmTime = confirmTime;
         craftTriggered = true;
 
@@ -206,10 +222,20 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
         UpgradeChangedEventArgs args = new(upgradeScreen, ProtoUpgradeManager.Instance.GetInstalledUpgrades());
         onUpgradeChanged?.Invoke(this, args);
 
-        SetUpgradeTechType(!currentlyInstalled ? uninstallationTechType : techType.TechType);
+        Inventory.main.ConsumeResourcesForRecipe(tooltip.rocketTechType);
+        SetUpgradeTechType(CurrentTechType);
         if (!currentlyInstalled)
         {
-            InitialzeFGIcon(itemIcon, 0.00075f);
+            // Has just been installed
+            InitialzeFGIcon(itemIcon, 0.0005f);
+        }
+        else
+        {
+            // Has just been uninstalled
+            crafterLogic.timeCraftingBegin = 0;
+            crafterLogic.timeCraftingEnd = 1;
+            crafterLogic.craftingTechType = uninstallationTechType;
+            UWE.CoroutineHost.StartCoroutine(crafterLogic.TryPickupAsync());
         }
     }
 
