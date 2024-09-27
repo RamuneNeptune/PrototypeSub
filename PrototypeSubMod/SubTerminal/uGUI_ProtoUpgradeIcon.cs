@@ -259,7 +259,6 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
     {
         if (args.owner != upgradeScreen) return;
 
-        Plugin.Logger.LogInfo($"On upgrades changed called. Tech type on {upgradeScreen.name}/{gameObject.name} to {CurrentTechType}");
         bool canUseButton = upgradeScreen.CanInstallNewUpgrade() || args.installedUpgrades.Contains(techType.TechType);
 
         // Disable installation button
