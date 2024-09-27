@@ -1,17 +1,18 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace PrototypeSubMod.SubTerminal;
 
 [RequireComponent(typeof(CanvasGroup))]
 internal class UpgradeScreen : MonoBehaviour
 {
-    [SerializeField] private int maxAllowedUpgrades;
+    [SerializeField] private int maxAllowedUpgrades = 1;
     [SerializeField] private float transitionSpeed = 2f;
     [SerializeField] private float startingAlpha;
 
     private CanvasGroup canvasGroup;
     private float targetAlpha;
-    private int currentInstalledUpgrades;
+    private List<uGUI_ProtoUpgradeIcon> installedUpgrades = new();
 
     private void Start()
     {
@@ -36,15 +37,20 @@ internal class UpgradeScreen : MonoBehaviour
         canvasGroup.blocksRaycasts = interactable;
     }
 
-    public void IncrementUpgradeCount(int delta)
+    public void InstallUpgrade(uGUI_ProtoUpgradeIcon icon)
     {
-        currentInstalledUpgrades += delta;
+        installedUpgrades.Add(icon);
+    }
+
+    public void UninstallUpgrade(uGUI_ProtoUpgradeIcon icon)
+    {
+        installedUpgrades.Remove(icon);
     }
 
     public bool CanInstallNewUpgrade()
     {
-        return currentInstalledUpgrades < maxAllowedUpgrades;
+        return installedUpgrades.Count < maxAllowedUpgrades;
     }
 
-    public int GetCurrentInstalledUpgradeCount() => currentInstalledUpgrades;
+    public int GetCurrentInstalledUpgradeCount() => installedUpgrades.Count;
 }

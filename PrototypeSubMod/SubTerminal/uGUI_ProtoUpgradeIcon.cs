@@ -50,6 +50,7 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
     private bool hovered;
     private bool pointerDownLastFrame;
     private bool craftTriggered;
+    private bool allowedToCraft = true;
     private float currentConfirmTime;
     private float oldTooltipScale;
     private Vector2 originalSize;
@@ -72,7 +73,20 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
         crafterLogic = GetComponent<CrafterLogic>();
         originalSize = rectTransform.sizeDelta;
 
-        SetUpgradeTechType(techType.TechType);
+        SetUpgradeTechType(CurrentTechType);
+        if (ProtoUpgradeManager.Instance.GetInstalledUpgrades().Contains(techType.TechType))
+        {
+            upgradeScreen.InstallUpgrade(this);
+        }
+
+        UWE.CoroutineHost.StartCoroutine(RefreshUpgrades());
+    }
+
+    private IEnumerator RefreshUpgrades()
+    {
+        yield return new WaitForEndOfFrame();
+        yield return new WaitForEndOfFrame();
+
         OnUpgradesChanged(null, new UpgradeChangedEventArgs(upgradeScreen, ProtoUpgradeManager.Instance.GetInstalledUpgrades()));
     }
 
@@ -99,7 +113,7 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
 
     private void Update()
     {
-        if (!buildScreen.IsTooltipActive()) return;
+        if (!buildScreen.IsTooltipActive() || !allowedToCraft) return;
 
         bool pointerDown = GameInput.GetButtonHeld(GameInput.Button.LeftHand);
 
@@ -120,7 +134,7 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
 
     private void FixedUpdate()
     {
-        tooltip.gameObject.SetActive(buildScreen.IsTooltipActive());
+        tooltip.gameObject.SetActive(buildScreen.IsTooltipActive() && allowedToCraft);
     }
 
     private void LateUpdate()
@@ -161,7 +175,7 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
 
     public void OnPointerEnter(BaseEventData data)
     {
-        if (!buildScreen.IsTooltipActive()) return;
+        if (!buildScreen.IsTooltipActive() || !allowedToCraft) return;
 
         hovered = true;
         itemIcon.SetBackgroundSprite(atlasSpriteBGHovered);
@@ -201,12 +215,10 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
     {
         if (!CrafterLogic.ConsumeResources(CurrentTechType))
         {
-            currentConfirmTime = -1;
+            currentConfirmTime = 0;
             craftTriggered = false;
             return;
         }
-
-        ErrorMessage.AddWarning(Language.main.Get("DontHaveNeededIngredients"));
 
         currentConfirmTime = confirmTime;
         craftTriggered = true;
@@ -216,14 +228,18 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
 
         ErrorMessage.AddError($"Changing {techType.TechType} to installed = {!currentlyInstalled}");
 
-        // Either add 1 or remove one depending on if the upgrade was removed or installed
-        upgradeScreen.IncrementUpgradeCount(!currentlyInstalled ? 1 : -1);
+        if (!currentlyInstalled)
+        {
+            upgradeScreen.InstallUpgrade(this);
+        }
+        else
+        {
+            upgradeScreen.UninstallUpgrade(this);
+        }
 
         UpgradeChangedEventArgs args = new(upgradeScreen, ProtoUpgradeManager.Instance.GetInstalledUpgrades());
         onUpgradeChanged?.Invoke(this, args);
 
-        Inventory.main.ConsumeResourcesForRecipe(tooltip.rocketTechType);
-        SetUpgradeTechType(CurrentTechType);
         if (!currentlyInstalled)
         {
             // Has just been installed
@@ -243,11 +259,17 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
     {
         if (args.owner != upgradeScreen) return;
 
-        if (upgradeScreen.CanInstallNewUpgrade()) return;
+        Plugin.Logger.LogInfo($"On upgrades changed called. Tech type on {upgradeScreen.name}/{gameObject.name} to {CurrentTechType}");
+        bool canUseButton = upgradeScreen.CanInstallNewUpgrade() || args.installedUpgrades.Contains(techType.TechType);
 
-        if (!args.installedUpgrades.Contains(techType.TechType)) return;
-        
         // Disable installation button
+        tooltip.gameObject.SetActive(canUseButton);
+        float alpha = canUseButton ? 1 : 0.3f;
+        itemIcon.SetForegroundAlpha(alpha);
+        itemIcon.SetBackgroundAlpha(alpha);
+
+        allowedToCraft = canUseButton;
+        SetUpgradeTechType(CurrentTechType);
     }
 
     public void SetUninstallationTechType(TechType techType)

@@ -43,7 +43,11 @@ internal class ProtoUpgradeManager : MonoBehaviour, ISaveDataListener
 
     public bool GetUpgradeInstalled(TechType techType)
     {
-        if (!upgrades.TryGetValue(techType, out var upgrade)) throw new System.Exception($"There is no upgrade with the tech type {techType} on the Prototype sub");
+        if (!upgrades.TryGetValue(techType, out var upgrade))
+        {
+            Plugin.Logger.LogError($"There is no upgrade with the tech type {techType} on the Prototype sub.\n{System.Environment.StackTrace}");
+            return false;
+        }
 
         bool installed = (upgrade as IProtoUpgrade).GetUpgradeInstalled();
         return installed;
@@ -57,7 +61,6 @@ internal class ProtoUpgradeManager : MonoBehaviour, ISaveDataListener
         }
 
         this.saveData = saveData.EnsureAsPrototypeData();
-        Plugin.Logger.LogInfo($"Upgrades count = {upgrades.Count}");
         foreach (var upgrade in upgrades)
         {
             bool installed = this.saveData.installedModules.Contains(upgrade.Key);
@@ -73,6 +76,15 @@ internal class ProtoUpgradeManager : MonoBehaviour, ISaveDataListener
 
     public List<TechType> GetInstalledUpgrades()
     {
-        return upgrades.Keys.ToList();
+        List<TechType> installedUpgrades = new();
+        foreach (var upgrade in upgrades)
+        {
+            if ((upgrade.Value as IProtoUpgrade).GetUpgradeInstalled())
+            {
+                installedUpgrades.Add(upgrade.Key);
+            }
+        }
+
+        return installedUpgrades;
     }
 }
