@@ -203,12 +203,13 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
         rt.sizeDelta = new Vector2(0.003f, 0.003f);
     }
 
-    private void InitialzeFGIcon(uGUI_ItemIcon icon, float scale = 0.001f)
+    private void InitialzeFGIcon(uGUI_ItemIcon icon, float scale = 0.65f)
     {
         var rt = icon.foreground.GetComponent<RectTransform>();
         rt.anchorMax = Vector2.one;
         rt.anchorMin = Vector2.zero;
-        rt.sizeDelta = new Vector2(scale, scale);
+        rt.sizeDelta = new Vector2(0.001f, 0.001f);
+        rt.localScale = Vector3.one * scale;
     }
 
     private void OnActionConfirmed()
@@ -240,12 +241,7 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
         UpgradeChangedEventArgs args = new(upgradeScreen, ProtoUpgradeManager.Instance.GetInstalledUpgrades());
         onUpgradeChanged?.Invoke(this, args);
 
-        if (!currentlyInstalled)
-        {
-            // Has just been installed
-            InitialzeFGIcon(itemIcon, 0.0005f);
-        }
-        else
+        if (currentlyInstalled)
         {
             // Has just been uninstalled
             crafterLogic.timeCraftingBegin = 0;
@@ -253,6 +249,8 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
             crafterLogic.craftingTechType = uninstallationTechType;
             UWE.CoroutineHost.StartCoroutine(crafterLogic.TryPickupAsync());
         }
+
+        InitialzeFGIcon(itemIcon, 0.65f);
     }
 
     private void OnUpgradesChanged(object sender, UpgradeChangedEventArgs args)

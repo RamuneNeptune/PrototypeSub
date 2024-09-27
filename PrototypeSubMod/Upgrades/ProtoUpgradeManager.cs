@@ -10,6 +10,29 @@ internal class ProtoUpgradeManager : MonoBehaviour, ISaveDataListener
 {
     public static ProtoUpgradeManager Instance { get; private set; }
 
+    private List<TechType> InstalledUpgrades
+    {
+        get
+        {
+            if (_installedUpgrades == null || upgradesDirty)
+            {
+                _installedUpgrades = new();
+                foreach (var upgrade in upgrades)
+                {
+                    if ((upgrade.Value as IProtoUpgrade).GetUpgradeInstalled())
+                    {
+                        _installedUpgrades.Add(upgrade.Key);
+                    }
+                }
+            }
+
+            return _installedUpgrades;
+        }
+    }
+
+    private List<TechType> _installedUpgrades;
+    private bool upgradesDirty;
+
     private Dictionary<TechType, ProtoUpgrade> upgrades = new();
     private PrototypeSaveData saveData;
 
@@ -38,18 +61,13 @@ internal class ProtoUpgradeManager : MonoBehaviour, ISaveDataListener
         {
             saveData.installedModules.Add(techType);
         }
+
+        upgradesDirty = true;
     }
 
     public bool GetUpgradeInstalled(TechType techType)
     {
-        if (!upgrades.TryGetValue(techType, out var upgrade))
-        {
-            Plugin.Logger.LogError($"There is no upgrade with the tech type {techType} on the Prototype sub.\n{System.Environment.StackTrace}");
-            return false;
-        }
-
-        bool installed = (upgrade as IProtoUpgrade).GetUpgradeInstalled();
-        return installed;
+        return InstalledUpgrades.Contains(techType);
     }
 
     public void OnSaveDataLoaded(BaseSubDataClass saveData)
@@ -75,15 +93,6 @@ internal class ProtoUpgradeManager : MonoBehaviour, ISaveDataListener
 
     public List<TechType> GetInstalledUpgrades()
     {
-        List<TechType> installedUpgrades = new();
-        foreach (var upgrade in upgrades)
-        {
-            if ((upgrade.Value as IProtoUpgrade).GetUpgradeInstalled())
-            {
-                installedUpgrades.Add(upgrade.Key);
-            }
-        }
-
-        return installedUpgrades;
+        return InstalledUpgrades;
     }
 }
