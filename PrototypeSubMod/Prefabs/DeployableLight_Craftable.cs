@@ -28,6 +28,7 @@ internal class DeployableLight_Craftable
 
         prefab.SetEquipment(Plugin.LightBeaconEquipmentType);
         prefab.SetPdaGroupCategory(TechGroup.Machines, TechCategory.Machines);
+        prefab.SetUnlock(Prototype_Craftable.SubInfo.TechType);
 
         prefab.Register();
     }
