@@ -24,6 +24,7 @@ internal class ApplyShieldEffect : MonoBehaviour, ICyclopsReferencer
         newMaterial.SetFloat("_Intensity", startIntensity);
         newMaterial.SetVector("_ScrollSpeed", scrollSpeed);
         newMaterial.SetVector("_WobbleParams", wobbleParams);
+        newMaterial.SetFloat("_EnabledSize", 0);
 
         foreach (var rend in renderersToApply)
         {
