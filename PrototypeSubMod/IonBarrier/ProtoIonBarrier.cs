@@ -4,8 +4,11 @@ using UnityEngine;
 
 namespace PrototypeSubMod.IonBarrier;
 
-internal class ProtoIonBarrier : ProtoUpgrade
+internal class ProtoIonBarrier : ProtoUpgrade, IOnTakeDamage
 {
+    [SerializeField] private PowerRelay powerRelay;
+    [SerializeField] private float constantPowerDraw;
+    [SerializeField] private float powerPerDamage;
     [SerializeField] private float defaultReduction;
     [SerializeField] private DamageReductor[] damageReductors;
 
@@ -35,6 +38,13 @@ internal class ProtoIonBarrier : ProtoUpgrade
         }
     }
 
+    private void Update()
+    {
+        if (!upgradeEnabled || !upgradeInstalled) return;
+
+        powerRelay.ConsumeEnergy(constantPowerDraw * Time.deltaTime, out _);
+    }
+
     public float GetReductionForType(DamageType type)
     {
         DamageReductor reductor = serializedDamageReductors.FirstOrDefault(r => r.type == type);
@@ -45,6 +55,12 @@ internal class ProtoIonBarrier : ProtoUpgrade
         }
 
         return reductor.reductionMultiplier;
+    }
+
+    public void OnTakeDamage(DamageInfo damageInfo)
+    {
+        float powerCost = damageInfo.originalDamage * powerPerDamage;
+        powerRelay.ConsumeEnergy(powerCost, out _);
     }
 }
 
