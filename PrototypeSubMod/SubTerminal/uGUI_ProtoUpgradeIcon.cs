@@ -202,14 +202,14 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
         rt.anchorMin = Vector2.zero;
         rt.sizeDelta = new Vector2(0.003f, 0.003f);
     }
-
-    private void InitialzeFGIcon(uGUI_ItemIcon icon, float scale = 0.65f)
+    
+    private void InitialzeFGIcon(uGUI_ItemIcon icon)
     {
         var rt = icon.foreground.GetComponent<RectTransform>();
         rt.anchorMax = Vector2.one;
         rt.anchorMin = Vector2.zero;
         rt.sizeDelta = new Vector2(0.001f, 0.001f);
-        rt.localScale = Vector3.one * scale;
+        rt.localScale = Vector3.one * 0.6f;
     }
 
     private void OnActionConfirmed()
@@ -250,7 +250,7 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
             UWE.CoroutineHost.StartCoroutine(crafterLogic.TryPickupAsync());
         }
 
-        InitialzeFGIcon(itemIcon, 0.65f);
+        InitialzeFGIcon(itemIcon);
     }
 
     private void OnUpgradesChanged(object sender, UpgradeChangedEventArgs args)
