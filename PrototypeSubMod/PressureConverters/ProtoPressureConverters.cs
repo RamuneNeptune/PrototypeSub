@@ -12,11 +12,9 @@ internal class ProtoPressureConverters : ProtoUpgrade
     [SerializeField] private float maxDepth;
     [SerializeField] private AnimationCurve powerMultiplierCurve;
 
-    private bool convertersInstalled;
-
     private void FixedUpdate()
     {
-        if (!convertersInstalled) return;
+        if (!upgradeInstalled) return;
 
         float depth = crushDamage.GetDepth();
 
@@ -32,22 +30,5 @@ internal class ProtoPressureConverters : ProtoUpgrade
         motorHandler.SetPowerMultiplier(multiplier);
     }
 
-    public override void SetUpgradeInstalled(bool active)
-    {
-        convertersInstalled = active;
-    }
-
-    public override bool GetUpgradeInstalled() => convertersInstalled;
-
-    public override string GetUpgradeName()
-    {
-        return "Pressure Converters";
-    }
-
-    public override void SetUpgradeEnabled(bool enabled)
-    {
-        // Not needed for this upgrade
-    }
-
-    public override bool GetUpgradeEnabled() => convertersInstalled;
+    public override bool GetUpgradeEnabled() => upgradeInstalled;
 }

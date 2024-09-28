@@ -9,15 +9,23 @@ internal abstract class ProtoUpgrade : MonoBehaviour, IProtoUpgrade
     public DummyTechType techType;
     public bool unlockedAtStart;
 
-    public abstract bool GetUpgradeEnabled();
+    protected bool upgradeEnabled;
+    protected bool upgradeInstalled;
 
-    public abstract bool GetUpgradeInstalled();
+    public virtual bool GetUpgradeEnabled() => upgradeEnabled;
+    public virtual bool GetUpgradeInstalled() => upgradeInstalled;
 
-    public abstract string GetUpgradeName();
+    public TechType GetTechType() => techType.TechType;
 
-    public abstract void SetUpgradeEnabled(bool enabled);
+    public virtual void SetUpgradeEnabled(bool enabled)
+    {
+        upgradeEnabled = enabled;
+    }
 
-    public abstract void SetUpgradeInstalled(bool installed);
+    public virtual void SetUpgradeInstalled(bool installed)
+    {
+        upgradeInstalled = installed;
+    }
 
     private void Awake()
     {

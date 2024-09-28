@@ -24,8 +24,6 @@ internal class ProtoIonGenerator : ProtoUpgrade
     [SerializeField] private float soundEffectVolume = 20f;
 
     private GameObject empPrefab;
-    private bool upgradeActive;
-    private bool upgradeInstalled;
     private bool empFired;
     private float currentEMPChargeTime;
 
@@ -58,10 +56,10 @@ internal class ProtoIonGenerator : ProtoUpgrade
             return;
         }
 
-        motorHandler.SetAllowedToMove(!upgradeActive);
-        motorHandler.SetOverrideNoiseValue(upgradeActive ? activeNoiseValue : -1);
+        motorHandler.SetAllowedToMove(!upgradeEnabled);
+        motorHandler.SetOverrideNoiseValue(upgradeEnabled ? activeNoiseValue : -1);
 
-        if (!upgradeActive)
+        if (!upgradeEnabled)
         {
             if (currentEMPChargeTime > 0)
             {
@@ -86,30 +84,11 @@ internal class ProtoIonGenerator : ProtoUpgrade
             var newEMP = Instantiate(empPrefab, empSpawnPos.position, empSpawnPos.rotation, empSpawnPos);
             newEMP.SetActive(true);
             empFired = true;
-            upgradeActive = false;
+            upgradeEnabled = false;
 
             powerRelay.DisableElectronicsForTime(empOxygenDisableTime);
 
             Utils.PlayEnvSound(empSoundEffect, empSpawnPos.position, soundEffectVolume);
         }
     }
-
-    public override void SetUpgradeInstalled(bool installed)
-    {
-        upgradeInstalled = installed;
-    }
-
-    public override bool GetUpgradeInstalled() => upgradeInstalled;
-
-    public override string GetUpgradeName()
-    {
-        return "Ion Generator";
-    }
-
-    public override void SetUpgradeEnabled(bool enabled)
-    {
-        upgradeActive = enabled;
-    }
-
-    public override bool GetUpgradeEnabled() => upgradeActive;
 }

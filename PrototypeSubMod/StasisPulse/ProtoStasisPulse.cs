@@ -35,7 +35,6 @@ internal class ProtoStasisPulse : ProtoUpgrade
 
     private float currentCooldownTime;
     private float currentSphereGrowTimeTime;
-    private bool upgradeInstalled;
     private bool deployingLastFrame;
 
     private IEnumerator Start()
@@ -192,26 +191,6 @@ internal class ProtoStasisPulse : ProtoUpgrade
         deployingLastFrame = false;
 
         powerRelay.ConsumeEnergy(powerCost, out _);
-    }
-
-    public override void SetUpgradeInstalled(bool installed)
-    {
-        upgradeInstalled = installed;
-    }
-
-    public override bool GetUpgradeInstalled()
-    {
-        return upgradeInstalled;
-    }
-
-    public override string GetUpgradeName()
-    {
-        return "Activate Stasis Pulse";
-    }
-
-    public override void SetUpgradeEnabled(bool enabled)
-    {
-        // Not needed for this upgrade
     }
 
     public override bool GetUpgradeEnabled() => upgradeInstalled;

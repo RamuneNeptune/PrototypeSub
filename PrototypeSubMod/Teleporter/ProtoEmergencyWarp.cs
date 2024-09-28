@@ -21,7 +21,6 @@ internal class ProtoEmergencyWarp : ProtoUpgrade
     private float currentChargeTime = Mathf.Infinity;
     private bool startedTeleport = true;
     private bool teleportingToMoonpool;
-    private bool upgradeInstalled;
 
     private void Start()
     {
@@ -104,26 +103,6 @@ internal class ProtoEmergencyWarp : ProtoUpgrade
     private void ReEnterPilotingMode()
     {
         Player.main.EnterPilotingMode(pilotingChair);
-    }
-
-    public override void SetUpgradeInstalled(bool active)
-    {
-        upgradeInstalled = active;
-    }
-
-    public override bool GetUpgradeInstalled()
-    {
-        return upgradeInstalled;
-    }
-
-    public override string GetUpgradeName()
-    {
-        return "Emergency Warp";
-    }
-
-    public override void SetUpgradeEnabled(bool enabled)
-    {
-        // Not needed for this upgrade
     }
 
     public override bool GetUpgradeEnabled() => upgradeInstalled;

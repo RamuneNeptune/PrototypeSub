@@ -23,8 +23,6 @@ internal class ProtoDeployableManager : ProtoUpgrade
     [SerializeField] private float lightLaunchForce;
     [SerializeField] private float launchDecoyDelay;
 
-    private bool upgradeEnabled;
-
     private int lightCount;
     private int decoyCount;
     private GameObject decoyPrefab;
@@ -93,13 +91,6 @@ internal class ProtoDeployableManager : ProtoUpgrade
         }
     }
 
-    public override void SetUpgradeInstalled(bool installed)
-    {
-        upgradeEnabled = installed;
-    }
-
-    public override bool GetUpgradeInstalled() => upgradeEnabled;
-
     public void RecalculateDeployableTotals()
     {
         lightCount = 0;
@@ -128,18 +119,5 @@ internal class ProtoDeployableManager : ProtoUpgrade
         }
     }
 
-    public override string GetUpgradeName()
-    {
-        return "Deployable Manager";
-    }
-
-    public override void SetUpgradeEnabled(bool enabled)
-    {
-        // Not needed for this upgrade
-    }
-
-    public override bool GetUpgradeEnabled()
-    {
-        return upgradeEnabled;
-    }
+    public override bool GetUpgradeEnabled() => upgradeInstalled;
 }

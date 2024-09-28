@@ -49,8 +49,6 @@ internal class CloakEffectHandler : ProtoUpgrade
     }
 
     private Vector3 originalScale;
-    private bool upgradeActive;
-    private bool upgradeInstalled;
 
     private void Awake()
     {
@@ -76,7 +74,7 @@ internal class CloakEffectHandler : ProtoUpgrade
 
     public bool IsInsideOvoid(Vector3 point)
     {
-        if (!upgradeActive) return false;
+        if (!upgradeEnabled) return false;
 
         Vector3 localPoint = point - ovoid.position;
 
@@ -92,35 +90,13 @@ internal class CloakEffectHandler : ProtoUpgrade
         return new Vector3(lhs.x / rhs.x, lhs.y / rhs.y, lhs.z / rhs.z);
     }
 
-    public override void SetUpgradeInstalled(bool installed)
-    {
-        upgradeInstalled = installed;
-    }
-
     public bool GetAllowedToCloak()
     {
-        return !ionGenerator.GetUpgradeInstalled() && upgradeActive && upgradeInstalled;
+        return !ionGenerator.GetUpgradeInstalled() && upgradeEnabled && upgradeInstalled;
     }
 
     public float GetTargetScale()
     {
         return TargetScaleMultiplier;
     }
-
-    public override string GetUpgradeName()
-    {
-        return "Light Distortion Field";
-    }
-
-    public override bool GetUpgradeInstalled()
-    {
-        return upgradeInstalled;
-    }
-
-    public override void SetUpgradeEnabled(bool enabled)
-    {
-        upgradeActive = enabled;
-    }
-
-    public override bool GetUpgradeEnabled() => upgradeActive;
 }

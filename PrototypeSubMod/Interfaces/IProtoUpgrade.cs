@@ -6,5 +6,5 @@ internal interface IProtoUpgrade
     public bool GetUpgradeInstalled();
     public void SetUpgradeEnabled(bool enabled);
     public bool GetUpgradeEnabled();
-    public string GetUpgradeName();
+    public TechType GetTechType();
 }

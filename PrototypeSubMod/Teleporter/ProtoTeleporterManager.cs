@@ -16,7 +16,6 @@ internal class ProtoTeleporterManager : ProtoUpgrade
     [SerializeField] private bool isHost;
     [SerializeField] private float stayOpenTime;
 
-    private bool overrideUpgradeInstalled;
     private bool teleporterClosed = true;
     private float currentStayOpenTime;
     private PrecursorTeleporterActivationTerminal activationTerminal;
@@ -77,7 +76,7 @@ internal class ProtoTeleporterManager : ProtoUpgrade
 
         currentStayOpenTime = 0;
 
-        if (overrideUpgradeInstalled)
+        if (upgradeInstalled)
         {
             TeleporterOverride.SetOverrideTeleporterID(alteredID);
             TeleporterOverride.SetOverrideTime(120f);
@@ -106,13 +105,6 @@ internal class ProtoTeleporterManager : ProtoUpgrade
 
     public Transform GetTeleportPosition() => teleportPosition;
     public string GetTeleporterID() => teleporterID;
-
-    public override void SetUpgradeInstalled(bool active)
-    {
-        overrideUpgradeInstalled = active;
-    }
-
-    public override bool GetUpgradeInstalled() => overrideUpgradeInstalled;
 
     //Called by PrecursorTeleporterActivationTerminal via SendMessage
     public void ToggleDoor(bool open)
@@ -148,15 +140,5 @@ internal class ProtoTeleporterManager : ProtoUpgrade
         activationTerminal.GetComponentInChildren<Collider>().isTrigger = false;
     }
 
-    public override string GetUpgradeName()
-    {
-        return "Archway Override";
-    }
-
-    public override void SetUpgradeEnabled(bool enabled)
-    {
-        // Not needed for this upgrade
-    }
-
-    public override bool GetUpgradeEnabled() => overrideUpgradeInstalled;
+    public override bool GetUpgradeEnabled() => upgradeInstalled;
 }

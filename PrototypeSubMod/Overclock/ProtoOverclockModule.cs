@@ -17,8 +17,6 @@ internal class ProtoOverclockModule : ProtoUpgrade
     [SerializeField] private float hullBreachMinActiveTime;
     [SerializeField] private float minTimeBetweenBreaches;
 
-    private bool upgradeInstalled;
-    private bool upgradeEnabled;
     private float currentHullBreachTime;
     private float currentTimeBetweenBreaches;
 
@@ -32,13 +30,12 @@ internal class ProtoOverclockModule : ProtoUpgrade
 
         float speedBonus = upgradeEnabled ? speedPercentBonus / 100f : 0;
         motorHandler.SetSpeedMultiplierBonus(speedBonus);
-        if (upgradeEnabled)
+        if (GetUpgradeEnabled())
         {
             powerRelay.ConsumeEnergy(powerDrainPerSecond * Time.deltaTime, out _);
         }
 
         HandleHullBreaches();
-
     }
 
     private void HandleHullBreaches()
@@ -72,24 +69,8 @@ internal class ProtoOverclockModule : ProtoUpgrade
         }
     }
 
-    public override void SetUpgradeInstalled(bool installed)
-    {
-        upgradeInstalled = installed;
-    }
-
-    public override void SetUpgradeEnabled(bool enabled)
-    {
-        upgradeEnabled = enabled;
-    }
-
-    public override string GetUpgradeName()
-    {
-        return "Overclock Module";
-    }
-
     public override bool GetUpgradeEnabled()
     {
         return upgradeEnabled && !ionGenerator.GetUpgradeEnabled();
     }
-    public override bool GetUpgradeInstalled() => upgradeInstalled;
 }
