@@ -6,6 +6,7 @@ namespace PrototypeSubMod.IonBarrier;
 
 internal class ProtoIonBarrier : ProtoUpgrade
 {
+    [SerializeField] private float defaultReduction;
     [SerializeField] private DamageReductor[] damageReductors;
 
     private float[] multipliers;
@@ -40,7 +41,7 @@ internal class ProtoIonBarrier : ProtoUpgrade
 
         if (reductor == null)
         {
-            return 1;
+            return defaultReduction;
         }
 
         return reductor.reductionMultiplier;
