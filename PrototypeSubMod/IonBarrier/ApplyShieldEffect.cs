@@ -6,6 +6,7 @@ namespace PrototypeSubMod.IonBarrier;
 internal class ApplyShieldEffect : MonoBehaviour, ICyclopsReferencer
 {
     [SerializeField] private Renderer[] renderersToApply;
+    [SerializeField] private float startIntensity;
     [SerializeField] private Color mainColor;
     [SerializeField] private Color solidColor;
     [SerializeField] private Vector4 scrollSpeed;
@@ -20,6 +21,7 @@ internal class ApplyShieldEffect : MonoBehaviour, ICyclopsReferencer
         Material newMaterial = new Material(renderer.material);
         newMaterial.SetColor("_Color", mainColor);
         newMaterial.SetColor("_SolidColor", solidColor);
+        newMaterial.SetFloat("_Intensity", startIntensity);
         newMaterial.SetVector("_ScrollSpeed", scrollSpeed);
         newMaterial.SetVector("_WobbleParams", wobbleParams);
 
