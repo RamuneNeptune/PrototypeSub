@@ -1,0 +1,31 @@
+﻿using SubLibrary.CyclopsReferencers;
+using UnityEngine;
+
+namespace PrototypeSubMod.IonBarrier;
+
+internal class ApplyShieldEffect : MonoBehaviour, ICyclopsReferencer
+{
+    [SerializeField] private Renderer[] renderersToApply;
+    [SerializeField] private Color mainColor;
+    [SerializeField] private Color solidColor;
+    [SerializeField] private Vector4 scrollSpeed;
+    [SerializeField] private Vector4 wobbleParams;
+
+    public void OnCyclopsReferenceFinished(GameObject cyclops)
+    {
+        string pathToShieldObj = "FX/x_Cyclops_GlassShield";
+        Transform shieldObj = cyclops.transform.Find(pathToShieldObj);
+
+        Renderer renderer = shieldObj.GetComponent<Renderer>();
+        Material newMaterial = new Material(renderer.material);
+        newMaterial.SetColor("_Color", mainColor);
+        newMaterial.SetColor("_SolidColor", solidColor);
+        newMaterial.SetVector("_ScrollSpeed", scrollSpeed);
+        newMaterial.SetVector("_WobbleParams", wobbleParams);
+
+        foreach (var rend in renderersToApply)
+        {
+            rend.material = newMaterial;
+        }
+    }
+}
