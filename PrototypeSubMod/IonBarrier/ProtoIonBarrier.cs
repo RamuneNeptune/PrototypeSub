@@ -6,16 +6,22 @@ namespace PrototypeSubMod.IonBarrier;
 
 internal class ProtoIonBarrier : ProtoUpgrade, IOnTakeDamage
 {
+    [SerializeField] private Renderer[] shieldRenderers;
     [SerializeField] private PowerRelay powerRelay;
     [SerializeField] private float constantPowerDraw;
     [SerializeField] private float powerPerDamage;
+    [SerializeField] private float maxShieldIntensity;
     [SerializeField] private float defaultReduction;
     [SerializeField] private DamageReductor[] damageReductors;
 
-    private float[] multipliers;
-    private DamageType[] damageTypes;
+    [SerializeField, HideInInspector] private float[] multipliers;
+    [SerializeField, HideInInspector] private DamageType[] damageTypes;
 
     private DamageReductor[] serializedDamageReductors;
+    private SubRoot subRoot;
+    private float targetShieldIntensity;
+    private float currentShieldIntensity;
+    private float currentImpactIntensity;
 
     private void OnValidate()
     {
@@ -36,9 +42,35 @@ internal class ProtoIonBarrier : ProtoUpgrade, IOnTakeDamage
         {
             serializedDamageReductors[i] = new(multipliers[i], damageTypes[i]);
         }
+
+        subRoot = GetComponentInParent<SubRoot>();
     }
 
     private void Update()
+    {
+        if (subRoot.LOD.IsMinimal()) return;
+
+        HandleShieldProperties();
+        HandlePowerDraw();
+    }
+
+    private void HandleShieldProperties()
+    {
+        currentShieldIntensity = Mathf.MoveTowards(currentShieldIntensity, targetShieldIntensity, Time.deltaTime / 2f);
+        currentImpactIntensity = Mathf.MoveTowards(currentImpactIntensity, 0, Time.deltaTime / 4f);
+        foreach (var rend in shieldRenderers)
+        {
+            rend.material.SetFloat(ShaderPropertyID._Intensity, currentShieldIntensity);
+            rend.material.SetFloat(ShaderPropertyID._ImpactIntensity, currentImpactIntensity);
+
+            if(Mathf.Approximately(currentShieldIntensity, 0) && targetShieldIntensity == 0)
+            {
+                rend.gameObject.SetActive(false);
+            }
+        }
+    }
+
+    private void HandlePowerDraw()
     {
         if (!upgradeEnabled || !upgradeInstalled) return;
 
@@ -59,8 +91,58 @@ internal class ProtoIonBarrier : ProtoUpgrade, IOnTakeDamage
 
     public void OnTakeDamage(DamageInfo damageInfo)
     {
+        if (!upgradeEnabled || !upgradeInstalled) return;
+
         float powerCost = damageInfo.originalDamage * powerPerDamage;
         powerRelay.ConsumeEnergy(powerCost, out _);
+
+        foreach (var rend in shieldRenderers)
+        {
+            if (!rend.gameObject.activeSelf) continue;
+
+            rend.material.SetVector(ShaderPropertyID._ImpactPosition, damageInfo.position);
+            currentImpactIntensity = 1;
+
+            if (damageInfo.dealer != null && damageInfo.dealer.GetComponent<LiveMixin>())
+            {
+                damageInfo.dealer.GetComponent<LiveMixin>().TakeDamage(20f, type: DamageType.Electrical);
+            }
+        }
+    }
+
+    public override void SetUpgradeEnabled(bool enabled)
+    {
+        if (enabled && !upgradeEnabled)
+        {
+            ActivateShield();
+        }
+
+        if (!enabled && upgradeEnabled)
+        {
+            DeactivateShield();
+        }
+
+        base.SetUpgradeEnabled(enabled);
+    }
+
+    private void ActivateShield()
+    {
+        foreach (var lavaLarva in subRoot.GetComponentsInChildren<LavaLarva>())
+        {
+            lavaLarva.GetComponent<LiveMixin>().TakeDamage(1, type: DamageType.Electrical);
+        }
+
+        foreach (var rend in shieldRenderers)
+        {
+            rend.gameObject.SetActive(true);
+        }
+
+        targetShieldIntensity = maxShieldIntensity;
+    }
+
+    private void DeactivateShield()
+    {
+        targetShieldIntensity = 0;
     }
 }
 

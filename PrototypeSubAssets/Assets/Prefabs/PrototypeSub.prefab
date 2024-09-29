@@ -34288,15 +34288,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   techType: {fileID: 11400000, guid: e56ddd9aca5417240a6a927a827bbd6a, type: 2}
   unlockedAtStart: 0
+  shieldRenderers:
+  - {fileID: 3529355840246313632}
+  - {fileID: 6085694278594305545}
   powerRelay: {fileID: 161644787413200408}
   constantPowerDraw: 20
   powerPerDamage: 0.67
+  maxShieldIntensity: 0.5004
   defaultReduction: 0.25
   damageReductors:
   - reductionMultiplier: 0.1
     type: 4
   - reductionMultiplier: 0.6
     type: 8
+  multipliers:
+  - 0.1
+  - 0.6
+  damageTypes: 0400000008000000
 --- !u!1 &3544269621221752415
 GameObject:
   m_ObjectHideFlags: 0
