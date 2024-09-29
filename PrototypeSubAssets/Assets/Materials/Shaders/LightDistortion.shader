@@ -17,33 +17,41 @@
 
             #include "UnityCG.cginc"
 
-            //User defined variables
+            // User defined variables
 
-            sampler2D _MainTex; //<-- Set by the Graphics.Blit; Contains the scene as a render texture
+            sampler2D _MainTex; // <-- Set by the Graphics.Blit; Contains the scene as a render texture
             sampler2D _CameraDepthTexture;
 
-            //Ovoid bounds
+            // Ovoid bounds
             float3 _OvoidCenter;
             float3 _OvoidRadii;
 
-            //Colors
+            // Colors
             fixed4 _Color;
             fixed4 _DistortionColor;
             fixed4 _InteriorColor;
             fixed4 _VignetteColor;
 
-            //Distortion
+            // Distortion
             float _DistortionAmplitude;
             float _Multiplier;
             float _EffectBoundaryMax;
             float _EffectBoundaryMin;
             float _BoundaryOffset;
 
-            //Vignette
+            // Vignette
             float _VignetteIntensity;
             float _VignetteSmoothness;
             float _VignetteOffset;
             float _VignetteFadeInDist;
+
+            // Oscillation
+            float _OscillationFrequency;
+            float _OscillationAmplitude;
+            float _OscillationSpeed;
+            int _WaveCount;
+            float _FrequencyIncrease;
+            float _AmplitudeFalloff;
 
             float4x4 _InverseRotationMatrix;
 
@@ -116,7 +124,21 @@
                 float3 rayOrigin = _WorldSpaceCameraPos;
                 float3 rayDir = normalize(i.viewVector);
 
-                float3 rayOvoidInfo = rayOvoid(_OvoidCenter, _OvoidRadii, rayOrigin, rayDir, _InverseRotationMatrix);
+                float samplePosX = i.uv.x * _OscillationFrequency + _Time * _OscillationSpeed;
+                float samplePosY = i.uv.y * _OscillationFrequency + _Time * _OscillationSpeed;
+
+                float oscillationX = 0;
+                float oscillationY = 0;
+
+                for(int j = 0; j < _WaveCount; j++)
+                {
+                    oscillationX += sin(samplePosX + _FrequencyIncrease * j) * (_OscillationAmplitude * (_AmplitudeFalloff * j));
+                    oscillationY += sin(samplePosY + _FrequencyIncrease * j) * (_OscillationAmplitude * (_AmplitudeFalloff * j));
+                }
+
+                float3 offsetDir = rayDir + float3(oscillationX, oscillationY, oscillationX);
+
+                float3 rayOvoidInfo = rayOvoid(_OvoidCenter, _OvoidRadii, rayOrigin, offsetDir, _InverseRotationMatrix);
                 float distToSphere = rayOvoidInfo.x;
                 float distInsideSphere = rayOvoidInfo.z;
 
@@ -128,7 +150,9 @@
                 bool hitFromOutside = distToSphere >= 0 && distInsideSphere > 0;
                 bool hitFromInside = distToSphere < 0 && distInsideSphere > 0;   
 
-                bool hitBounds = ((hitFromOutside || hitFromInside) && distToSphere < depth);
+                if (depth < distToSphere) return col;
+
+                bool hitBounds = hitFromOutside || hitFromInside;
                 if(!hitBounds)
                 {
                     return col; 

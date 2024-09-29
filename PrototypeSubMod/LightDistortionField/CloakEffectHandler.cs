@@ -31,6 +31,14 @@ internal class CloakEffectHandler : ProtoUpgrade
     public float vignetteOffset;
     public float vignetteFadeInDist;
 
+    [Header("Oscillation")]
+    public float oscillationFrequency;
+    public float oscillationAmplitude;
+    public float oscillationSpeed;
+    public int waveCount;
+    public float frequencyIncrease;
+    public float amplitudeFalloff;
+
     [Header("Animation")]
     public float scaleSpeed;
 

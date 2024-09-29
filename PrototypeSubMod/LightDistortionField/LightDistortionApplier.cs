@@ -8,7 +8,7 @@ internal class LightDistortionApplier : MonoBehaviour
 
     private void OnRenderImage(RenderTexture source, RenderTexture destination)
     {
-        if (CloakEffectHandler.Instance == null)
+        if (CloakEffectHandler.Instance == null || CloakEffectHandler.Instance.GetUpgradeInstalled() == false)
         {
             Graphics.Blit(source, destination);
             return;
@@ -32,6 +32,12 @@ internal class LightDistortionApplier : MonoBehaviour
         material.SetFloat("_VignetteSmoothness", CloakEffectHandler.Instance.vignetteSmoothness);
         material.SetFloat("_VignetteOffset", CloakEffectHandler.Instance.vignetteOffset);
         material.SetFloat("_VignetteFadeInDist", CloakEffectHandler.Instance.vignetteFadeInDist);
+        material.SetFloat("_OscillationFrequency", CloakEffectHandler.Instance.oscillationFrequency);
+        material.SetFloat("_OscillationAmplitude", CloakEffectHandler.Instance.oscillationAmplitude);
+        material.SetFloat("_OscillationSpeed", CloakEffectHandler.Instance.oscillationSpeed);
+        material.SetInt("_WaveCount", CloakEffectHandler.Instance.waveCount);
+        material.SetFloat("_FrequencyIncrease", CloakEffectHandler.Instance.frequencyIncrease);
+        material.SetFloat("_AmplitudeFalloff", CloakEffectHandler.Instance.amplitudeFalloff);
 
         Matrix4x4 rotationMatrix = Matrix4x4.Rotate(sphere.rotation);
         material.SetMatrix("_InverseRotationMatrix", rotationMatrix);
