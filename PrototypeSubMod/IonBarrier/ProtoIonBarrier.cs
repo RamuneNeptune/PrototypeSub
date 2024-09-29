@@ -7,6 +7,7 @@ namespace PrototypeSubMod.IonBarrier;
 internal class ProtoIonBarrier : ProtoUpgrade, IOnTakeDamage
 {
     [SerializeField] private Renderer[] shieldRenderers;
+    [SerializeField] private GameObject creatureBangSFX;
     [SerializeField] private PowerRelay powerRelay;
     [SerializeField] private float constantPowerDraw;
     [SerializeField] private float powerPerDamage;
@@ -93,6 +94,7 @@ internal class ProtoIonBarrier : ProtoUpgrade, IOnTakeDamage
     {
         if (!upgradeEnabled || !upgradeInstalled) return;
 
+        Plugin.Logger.LogInfo($"Taking {damageInfo.damage} damage from {damageInfo.dealer}");
         float powerCost = damageInfo.originalDamage * powerPerDamage;
         powerRelay.ConsumeEnergy(powerCost, out _);
 
@@ -123,6 +125,7 @@ internal class ProtoIonBarrier : ProtoUpgrade, IOnTakeDamage
         }
 
         base.SetUpgradeEnabled(enabled);
+        creatureBangSFX.SetActive(!enabled);
     }
 
     private void ActivateShield()

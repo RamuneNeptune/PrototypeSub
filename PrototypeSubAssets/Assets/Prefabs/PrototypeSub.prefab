@@ -28636,7 +28636,7 @@ MonoBehaviour:
   behaviourLOD: {fileID: 4867459689348228103}
   hornObject: {fileID: 0}
   canvasGroup: {fileID: 1178562909987698232}
-  creatureDamagesSFX: {fileID: 0}
+  creatureDamagesSFX: {fileID: 433739094945648899}
   noiseManager: {fileID: 4493698966587842884}
 --- !u!114 &5193505614781930889
 MonoBehaviour:
@@ -34270,10 +34270,10 @@ MonoBehaviour:
   - {fileID: 3529355840246313632}
   - {fileID: 6085694278594305545}
   startIntensity: 0.5004
-  mainColor: {r: 0.08627451, g: 0.4431373, b: 0.15294118, a: 0.3529412}
-  solidColor: {r: 0.13725491, g: 0.18431373, b: 0.28627452, a: 0.36078432}
-  scrollSpeed: {x: 0, y: 0, z: 0.003, w: 0}
-  wobbleParams: {x: 3, y: 0.5, z: 50, w: 0}
+  mainColor: {r: 0.09019608, g: 0.36078432, b: 0.19607845, a: 0.1764706}
+  solidColor: {r: 0.03137255, g: 0.19607845, b: 0.19607845, a: 0.1764706}
+  scrollSpeed: {x: 0.03, y: 0.001, z: 0.01, w: 0.05}
+  wobbleParams: {x: 3, y: 0.75, z: 10, w: 0}
 --- !u!114 &3723397233647011922
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34291,6 +34291,7 @@ MonoBehaviour:
   shieldRenderers:
   - {fileID: 3529355840246313632}
   - {fileID: 6085694278594305545}
+  creatureBangSFX: {fileID: 7218096581194944870}
   powerRelay: {fileID: 161644787413200408}
   constantPowerDraw: 20
   powerPerDamage: 0.67
@@ -38129,6 +38130,7 @@ Transform:
   - {fileID: 5333095177394496615}
   - {fileID: 8828061138944532568}
   - {fileID: 2567482535336105384}
+  - {fileID: 7173813957364540886}
   m_Father: {fileID: 8041321529513965087}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -42215,7 +42217,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4346722548415644783}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 7.96, z: 20.451}
+  m_LocalPosition: {x: 0, y: 7.96, z: 18.723}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7150836786236205295}
@@ -42251,7 +42253,7 @@ MonoBehaviour:
       outWeight: 0
     - serializedVersion: 3
       time: 1
-      value: 0.6
+      value: 0.55
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -42267,15 +42269,15 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0.52
-      inSlope: 1.3120495
-      outSlope: 1.3120495
+      inSlope: 1.032136
+      outSlope: 1.032136
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.06298342
+      outWeight: 0.040883977
     - serializedVersion: 3
       time: 1
-      value: 1
+      value: 0.9
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -70144,6 +70146,57 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!1 &7218096581194944870
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7173813957364540886}
+  - component: {fileID: 433739094945648899}
+  m_Layer: 0
+  m_Name: CreatureAttackBang
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7173813957364540886
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7218096581194944870}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7150836786236205295}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &433739094945648899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7218096581194944870}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1699601541, guid: 06dd3d5416bf43ea368cc39ff96e6d5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  asset: {fileID: 11400000, guid: 16c236d72c8678e46848df1153819cf6, type: 2}
+  playOnAwake: 0
+  stopImmediatelyOnDisable: 0
+  followParent: 0
+  restartOnPlay: 1
+  debug: 0
+  subtitlesKey: 
+  playSubtitlesWithUnscaledTime: 1
 --- !u!1 &7218767570460607580
 GameObject:
   m_ObjectHideFlags: 0
@@ -78233,6 +78286,7 @@ GameObject:
   - component: {fileID: 4767904503956150813}
   - component: {fileID: 9060344306396047808}
   - component: {fileID: 9153870078702174837}
+  - component: {fileID: 5878390758569410803}
   m_Layer: 0
   m_Name: PrototypeSub
   m_TagString: Submarine
@@ -78932,13 +78986,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageBases: 1
-  speedMinimumForSelfDamage: 1.6
+  speedMinimumForSelfDamage: 5
   speedMinimumForDamage: 0.8
   affectsEcosystem: 0
-  minimumMassForDamage: 0.5
+  minimumMassForDamage: 2
   allowDamageToPlayer: 1
   mirroredSelfDamage: 1
-  mirroredSelfDamageFraction: 0.5
+  mirroredSelfDamageFraction: 0.25
   capMirrorDamage: 100
   minDamageInterval: 0.5
 --- !u!114 &7922656283304429163
@@ -79045,6 +79099,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 1892728733, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5878390758569410803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8041321529513965086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 666878783, guid: 05b2873035fc0cb47b172f8f145ed69c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &8049366260307167103
@@ -90713,6 +90779,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d6cc3db34565c3a4ba68573b0eeec2a0, type: 3}
+--- !u!4 &7635523988782540534 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2253812858737788773, guid: d6cc3db34565c3a4ba68573b0eeec2a0,
+    type: 3}
+  m_PrefabInstance: {fileID: 8552883551461007763}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &4968267767760700242 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3621781888743187137, guid: d6cc3db34565c3a4ba68573b0eeec2a0,
@@ -90725,9 +90797,3 @@ MonoBehaviour:
   m_Script: {fileID: -2039529286, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &7635523988782540534 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2253812858737788773, guid: d6cc3db34565c3a4ba68573b0eeec2a0,
-    type: 3}
-  m_PrefabInstance: {fileID: 8552883551461007763}
-  m_PrefabAsset: {fileID: 0}
