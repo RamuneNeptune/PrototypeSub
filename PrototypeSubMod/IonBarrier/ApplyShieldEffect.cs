@@ -7,6 +7,7 @@ internal class ApplyShieldEffect : MonoBehaviour, ICyclopsReferencer
 {
     [SerializeField] private Renderer[] renderersToApply;
     [SerializeField] private float startIntensity;
+    [SerializeField] private float enabledSize = -0.02f;
     [SerializeField] private Color mainColor;
     [SerializeField] private Color solidColor;
     [SerializeField] private Vector4 scrollSpeed;
@@ -24,11 +25,12 @@ internal class ApplyShieldEffect : MonoBehaviour, ICyclopsReferencer
         newMaterial.SetFloat("_Intensity", startIntensity);
         newMaterial.SetVector("_ScrollSpeed", scrollSpeed);
         newMaterial.SetVector("_WobbleParams", wobbleParams);
-        newMaterial.SetFloat("_EnabledSize", 0);
+        newMaterial.SetFloat("_EnabledSize", enabledSize);
 
         foreach (var rend in renderersToApply)
         {
             rend.material = newMaterial;
+            rend.GetComponent<MeshFilter>().mesh = shieldObj.GetComponent<MeshFilter>().mesh;
         }
     }
 }
