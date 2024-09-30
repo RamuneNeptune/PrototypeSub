@@ -20,7 +20,8 @@ internal class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTr
     {
         { TechType.PowerCell, 1000 },
         { TechType.PrecursorIonCrystal, 2000 },
-        { TechType.PrecursorIonPowerCell, 3000 },
+        { TechType.PrecursorIonCrystalMatrix, 3000 },
+        { TechType.PrecursorIonPowerCell, 4000 },
     };
 
     public static readonly string EquipmentLabel = "PrototypePowerLabel";

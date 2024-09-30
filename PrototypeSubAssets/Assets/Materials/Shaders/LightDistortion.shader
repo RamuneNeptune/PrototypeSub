@@ -132,8 +132,8 @@
 
                 for(int j = 0; j < _WaveCount; j++)
                 {
-                    oscillationX += sin(samplePosX + _FrequencyIncrease * j) * (_OscillationAmplitude * (_AmplitudeFalloff * j));
-                    oscillationY += sin(samplePosY + _FrequencyIncrease * j) * (_OscillationAmplitude * (_AmplitudeFalloff * j));
+                    oscillationX += sin(samplePosX + _FrequencyIncrease * j) * (_OscillationAmplitude * pow(_AmplitudeFalloff, j));
+                    oscillationY += sin(samplePosY + _FrequencyIncrease * j) * (_OscillationAmplitude * pow(_AmplitudeFalloff, j));
                 }
 
                 float3 offsetDir = rayDir + float3(oscillationX, oscillationY, oscillationX);
