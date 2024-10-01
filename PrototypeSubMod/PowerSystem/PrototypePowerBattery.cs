@@ -107,6 +107,12 @@ internal class PrototypePowerBattery : MonoBehaviour, IBattery, IProtoTreeEventL
         {
             connectedBattery.charge = this.charge * BatteryCapacityRatio;
         }
+
+        if (charge <= 0)
+        {
+            InventoryItem.container.RemoveItem(InventoryItem, true, false);
+            Destroy(gameObject);
+        }
     }
 
     public void SetChargeNormalized(float normalizedCharge, bool updateConnectedBattery = false)

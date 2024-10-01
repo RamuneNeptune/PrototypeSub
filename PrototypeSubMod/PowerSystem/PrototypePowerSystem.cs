@@ -18,8 +18,7 @@ internal class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTr
     };
     public static readonly Dictionary<TechType, float> AllowedPowerSources = new()
     {
-        { TechType.PowerCell, 1000 },
-        { TechType.PrecursorIonCrystal, 2000 },
+        { TechType.PrecursorIonCrystal, 1000 },
         { TechType.PrecursorIonCrystalMatrix, 3000 },
         { TechType.PrecursorIonPowerCell, 4000 },
     };
@@ -70,7 +69,6 @@ internal class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTr
         int index = Array.IndexOf(SLOT_NAMES, slot);
 
         var batterySource = batterySources[index];
-        float power = AllowedPowerSources[item.techType];
 
         if (!item.item.TryGetComponent(out PrototypePowerBattery battery))
         {
