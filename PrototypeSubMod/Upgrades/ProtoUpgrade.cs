@@ -7,6 +7,7 @@ namespace PrototypeSubMod.Upgrades;
 internal abstract class ProtoUpgrade : MonoBehaviour, IProtoUpgrade
 {
     public DummyTechType techType;
+    public GameObject[] enableWithInstallation;
     public bool unlockedAtStart;
 
     protected bool upgradeEnabled;
@@ -25,6 +26,10 @@ internal abstract class ProtoUpgrade : MonoBehaviour, IProtoUpgrade
     public virtual void SetUpgradeInstalled(bool installed)
     {
         upgradeInstalled = installed;
+        foreach (var item in enableWithInstallation)
+        {
+            item.SetActive(installed);
+        }
     }
 
     private void Awake()
