@@ -5768,8 +5768,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 878688205092906812}
   m_LocalRotation: {x: -0.49999976, y: -0.50000024, z: -0.50000024, w: 0.49999976}
-  m_LocalPosition: {x: 0.0006311536, y: -0.9463414, z: 5.415841}
-  m_LocalScale: {x: 131.09372, y: 131.09372, z: 131.09372}
+  m_LocalPosition: {x: 0.001, y: -1.025, z: 5.395}
+  m_LocalScale: {x: 137.64839, y: 137.64839, z: 137.64839}
   m_Children: []
   m_Father: {fileID: 9222487136464940723}
   m_RootOrder: 0
@@ -11690,7 +11690,7 @@ Transform:
   m_LocalScale: {x: 0.015070678, y: 0.010917958, z: 0.014483179}
   m_Children: []
   m_Father: {fileID: 2773737342877908612}
-  m_RootOrder: 10
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &4031902951216591291
 MeshFilter:
@@ -11741,37 +11741,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!1 &1602103563347695246
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4167849042833347089}
-  m_Layer: 0
-  m_Name: Maintainance Bot Bay Empty BR
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &4167849042833347089
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1602103563347695246}
-  m_LocalRotation: {x: 0.000000014901161, y: 6.1336786e-10, z: 8.550022e-11, w: 1}
-  m_LocalPosition: {x: -7.4505804e-11, y: -0.00020895003, z: 0.0002866554}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 759237198617282820}
-  m_Father: {fileID: 7610662745883058402}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1605712305387270393
 GameObject:
   m_ObjectHideFlags: 0
@@ -14619,8 +14588,9 @@ GameObject:
   - component: {fileID: 2915270694014144424}
   - component: {fileID: 2320232132587007683}
   - component: {fileID: 2104854323118785662}
+  - component: {fileID: 3025064629175743572}
   m_Layer: 0
-  m_Name: Maintainance Bot Bay Cover FR
+  m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14633,11 +14603,11 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1911743319415510139}
-  m_LocalRotation: {x: 0.000000014901161, y: -6.133679e-10, z: -8.55002e-11, w: 1}
-  m_LocalPosition: {x: -0, y: -0.0000000047683715, z: -0.000000014305114}
+  m_LocalRotation: {x: 0.00000004470348, y: -0, z: -0.000000014901159, w: 1}
+  m_LocalPosition: {x: 0, y: -0.00020895297, z: 0.0002866301}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 7497900895076549077}
+  m_Father: {fileID: 1986814401361764232}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &2320232132587007683
@@ -14688,6 +14658,18 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &3025064629175743572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1911743319415510139}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1522774182, guid: 05b2873035fc0cb47b172f8f145ed69c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1916048857571484299
 GameObject:
   m_ObjectHideFlags: 0
@@ -19668,18 +19650,18 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2564414396142296543}
-  m_LocalRotation: {x: 0, y: -0.25614598, z: 0, w: 0.96663815}
-  m_LocalPosition: {x: 0, y: 0, z: 25.103}
+  m_LocalRotation: {x: -0, y: -0.35776046, z: -0, w: 0.9338134}
+  m_LocalPosition: {x: 0, y: 0, z: 24.558}
   m_LocalScale: {x: 0.0018370992, y: 0.0018370992, z: 0.0018370992}
   m_Children:
   - {fileID: 3476570585512298546}
   m_Father: {fileID: 4210854685195553880}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: -29.683, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -41.925003, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -1.414, y: 7.552}
-  m_SizeDelta: {x: 1023.209, y: 706}
+  m_AnchoredPosition: {x: -1.211, y: 7.797}
+  m_SizeDelta: {x: 858.0736, y: 560.7654}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &5379146479281895127
 Canvas:
@@ -25234,6 +25216,50 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.4579866, y: 2.3807588, z: 0.12008147}
   m_Center: {x: 0.008867383, y: 0.012672417, z: 0.0000000011316648}
+--- !u!1 &3280646390294977854
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 843551815111729972}
+  - component: {fileID: 421597562017740759}
+  m_Layer: 0
+  m_Name: LeftCol
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &843551815111729972
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3280646390294977854}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.018, y: 0.0748, z: -0.0095}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2671867972380835232}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &421597562017740759
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3280646390294977854}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.08372526, y: 0.0038374155, z: 0.04411316}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &3281877243282196250
 GameObject:
   m_ObjectHideFlags: 0
@@ -25245,8 +25271,9 @@ GameObject:
   - component: {fileID: 759237198617282820}
   - component: {fileID: 2458168009727308273}
   - component: {fileID: 1497910555194510919}
+  - component: {fileID: 5503291861924592186}
   m_Layer: 0
-  m_Name: Maintainance Bot Bay Cover BR
+  m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25259,11 +25286,11 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3281877243282196250}
-  m_LocalRotation: {x: 0.000000014901161, y: -6.133679e-10, z: -8.55002e-11, w: 1}
-  m_LocalPosition: {x: 7.4505804e-11, y: -0.0000000047683715, z: 0}
+  m_LocalRotation: {x: 0.00000004470348, y: -0, z: -0.000000014901159, w: 1}
+  m_LocalPosition: {x: 0, y: -0.00020895687, z: 0.00028665565}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4167849042833347089}
+  m_Father: {fileID: 7610662745883058402}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &2458168009727308273
@@ -25314,6 +25341,18 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &5503291861924592186
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3281877243282196250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1522774182, guid: 05b2873035fc0cb47b172f8f145ed69c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3294840178495630445
 GameObject:
   m_ObjectHideFlags: 0
@@ -27060,7 +27099,7 @@ Transform:
   - {fileID: 8326032750633636960}
   - {fileID: 9222487136464940723}
   m_Father: {fileID: 8041321529513965087}
-  m_RootOrder: 27
+  m_RootOrder: 28
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2730560139074176839
 MonoBehaviour:
@@ -27576,6 +27615,40 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!1 &3579314377981088549
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5252504940040860928}
+  m_Layer: 0
+  m_Name: ProtoRepairBots
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5252504940040860928
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3579314377981088549}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 5008864901492345840}
+  - {fileID: 7610662745883058402}
+  - {fileID: 6145335768119137950}
+  - {fileID: 1986814401361764232}
+  m_Father: {fileID: 8041321529513965087}
+  m_RootOrder: 26
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3582258607362887851
 GameObject:
   m_ObjectHideFlags: 0
@@ -29986,6 +30059,7 @@ GameObject:
   - component: {fileID: 6145335768119137950}
   - component: {fileID: 5851872438430246977}
   - component: {fileID: 1465084754733568239}
+  - component: {fileID: 1907485250153809088}
   m_Layer: 0
   m_Name: Maintainance Bot Bay FL
   m_TagString: Untagged
@@ -30000,13 +30074,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3806841658948838794}
-  m_LocalRotation: {x: 0.3117575, y: -6.4590727e-10, z: 1.7520921e-10, w: 0.95016176}
-  m_LocalPosition: {x: -0.01926801, y: -0.005766344, z: -0.0042046807}
-  m_LocalScale: {x: 0.21098919, y: 0.15977524, z: 0.17753923}
+  m_LocalRotation: {x: -0.31920198, y: -0.6309599, z: -0.31920227, w: 0.63095933}
+  m_LocalPosition: {x: -4.2100534, y: 12.844902, z: 8.613919}
+  m_LocalScale: {x: 99.999985, y: 104.40603, z: 104.39204}
   m_Children:
-  - {fileID: 1243804965277726518}
-  m_Father: {fileID: 2773737342877908612}
-  m_RootOrder: 8
+  - {fileID: 7771518750261208922}
+  m_Father: {fileID: 5252504940040860928}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &5851872438430246977
 MeshFilter:
@@ -30057,6 +30131,18 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &1907485250153809088
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3806841658948838794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1522774182, guid: 05b2873035fc0cb47b172f8f145ed69c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3828573528133686404
 GameObject:
   m_ObjectHideFlags: 0
@@ -33566,7 +33652,7 @@ Transform:
   m_LocalScale: {x: 0.0002297233, y: 0.00014903757, z: 0.00021311197}
   m_Children: []
   m_Father: {fileID: 2773737342877908612}
-  m_RootOrder: 13
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &4974060756645597485
 MeshFilter:
@@ -34063,37 +34149,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pathfinder: {fileID: 1700047965519084644}
---- !u!1 &4231699510415563547
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1243804965277726518}
-  m_Layer: 0
-  m_Name: Maintainance Bot Bay Empty FL
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1243804965277726518
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4231699510415563547}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 7771518750261208922}
-  m_Father: {fileID: 6145335768119137950}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4239456591682220019
 GameObject:
   m_ObjectHideFlags: 0
@@ -37088,8 +37143,9 @@ GameObject:
   - component: {fileID: 4307564475503645201}
   - component: {fileID: 2024756626109125871}
   - component: {fileID: 8796550672377135890}
+  - component: {fileID: 7224677010152133672}
   m_Layer: 0
-  m_Name: Maintainance Bot Bay Cover BL
+  m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -37102,11 +37158,11 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4612383600087293061}
-  m_LocalRotation: {x: 0.000000014901161, y: -6.1336786e-10, z: -8.550021e-11, w: 1}
-  m_LocalPosition: {x: -0, y: -0.000000005364418, z: 0.000000011622905}
+  m_LocalRotation: {x: 0.000000029802319, y: -0, z: -0.000000014901159, w: 1}
+  m_LocalPosition: {x: 0, y: -0.00020894769, z: 0.00028666027}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 8774255384820227702}
+  m_Father: {fileID: 5008864901492345840}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &2024756626109125871
@@ -37157,6 +37213,18 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &7224677010152133672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4612383600087293061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1522774182, guid: 05b2873035fc0cb47b172f8f145ed69c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4614712863773063048
 GameObject:
   m_ObjectHideFlags: 0
@@ -37349,7 +37417,7 @@ Transform:
   m_LocalScale: {x: 1.4305955, y: 1.3671418, z: 1.345795}
   m_Children: []
   m_Father: {fileID: 2773737342877908612}
-  m_RootOrder: 11
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &5287492014270782635
 MeshFilter:
@@ -42321,8 +42389,9 @@ GameObject:
   - component: {fileID: 7771518750261208922}
   - component: {fileID: 1474034774805088672}
   - component: {fileID: 3247889902805431224}
+  - component: {fileID: 1016105951607745277}
   m_Layer: 0
-  m_Name: Maintainance Bot Bay Cover FL
+  m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -42335,11 +42404,11 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5231618613868299129}
-  m_LocalRotation: {x: 0.000000014901161, y: -6.1336786e-10, z: -8.550021e-11, w: 1}
-  m_LocalPosition: {x: 0.0000000047683715, y: -0.000000006556511, z: 0.000000006556511}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 1243804965277726518}
+  m_Father: {fileID: 6145335768119137950}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &1474034774805088672
@@ -42390,6 +42459,18 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &1016105951607745277
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5231618613868299129}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1522774182, guid: 05b2873035fc0cb47b172f8f145ed69c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5243175797630089836
 GameObject:
   m_ObjectHideFlags: 0
@@ -43270,7 +43351,9 @@ Transform:
   m_LocalRotation: {x: -0.49999976, y: -0.50000024, z: -0.50000024, w: 0.49999976}
   m_LocalPosition: {x: -0.9355003, y: -0.4798447, z: 1.8772314}
   m_LocalScale: {x: 25, y: 25, z: 25}
-  m_Children: []
+  m_Children:
+  - {fileID: 628796272536110216}
+  - {fileID: 843551815111729972}
   m_Father: {fileID: 9222487136464940723}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -50929,7 +51012,7 @@ Transform:
   m_Children:
   - {fileID: 6090440390011374765}
   m_Father: {fileID: 2773737342877908612}
-  m_RootOrder: 14
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &5958294969695096275
 MeshFilter:
@@ -53073,6 +53156,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9222487136464940723}
+  - component: {fileID: 8394726852095685677}
   m_Layer: 0
   m_Name: HydrolockDoors
   m_TagString: Untagged
@@ -53099,6 +53183,25 @@ Transform:
   m_Father: {fileID: 4301374547015885704}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &8394726852095685677
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6764246225940455442}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 2720a10edddb8ea41bd48955cce6cd70, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &6766739452273143191
 GameObject:
   m_ObjectHideFlags: 0
@@ -53466,6 +53569,7 @@ GameObject:
   - component: {fileID: 1986814401361764232}
   - component: {fileID: 6115638986919835058}
   - component: {fileID: 7880470168661647456}
+  - component: {fileID: 8488759843722897810}
   m_Layer: 0
   m_Name: Maintainance Bot Bay FR
   m_TagString: Untagged
@@ -53480,13 +53584,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6788304053718308903}
-  m_LocalRotation: {x: -0.0000000136604985, y: 0.95016176, z: -0.3117574, w: -0.000000041522014}
-  m_LocalPosition: {x: -0.01926801, y: 0.005766346, z: -0.0042046807}
-  m_LocalScale: {x: -0.21098919, y: -0.15977523, z: -0.17753923}
+  m_LocalRotation: {x: 0.6309599, y: 0.31920207, z: -0.63095933, w: 0.3192023}
+  m_LocalPosition: {x: 4.215137, y: 12.844901, z: 8.613929}
+  m_LocalScale: {x: -99.999985, y: -104.40599, z: -104.39202}
   m_Children:
-  - {fileID: 7497900895076549077}
-  m_Father: {fileID: 2773737342877908612}
-  m_RootOrder: 9
+  - {fileID: 2915270694014144424}
+  m_Father: {fileID: 5252504940040860928}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &6115638986919835058
 MeshFilter:
@@ -53537,6 +53641,18 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &8488759843722897810
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6788304053718308903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1522774182, guid: 05b2873035fc0cb47b172f8f145ed69c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6789225573783886107
 GameObject:
   m_ObjectHideFlags: 0
@@ -58126,6 +58242,7 @@ GameObject:
   - component: {fileID: 5008864901492345840}
   - component: {fileID: 979118285176538967}
   - component: {fileID: 8338810979268365833}
+  - component: {fileID: 2342255792366143783}
   m_Layer: 0
   m_Name: Maintainance Bot Bay BL
   m_TagString: Untagged
@@ -58140,13 +58257,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7344313530039896742}
-  m_LocalRotation: {x: 0.3117575, y: -6.4590727e-10, z: 1.7520921e-10, w: 0.95016176}
-  m_LocalPosition: {x: -0.029817468, y: -0.005785438, z: -0.0041209315}
-  m_LocalScale: {x: 0.21098919, y: 0.15977524, z: 0.17753923}
+  m_LocalRotation: {x: -0.31920198, y: -0.6309599, z: -0.31920227, w: 0.63095933}
+  m_LocalPosition: {x: -4.2239976, y: 12.88769, z: 3.6139207}
+  m_LocalScale: {x: 99.999985, y: 104.40603, z: 104.39204}
   m_Children:
-  - {fileID: 8774255384820227702}
-  m_Father: {fileID: 2773737342877908612}
-  m_RootOrder: 6
+  - {fileID: 4307564475503645201}
+  m_Father: {fileID: 5252504940040860928}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &979118285176538967
 MeshFilter:
@@ -58197,6 +58314,18 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &2342255792366143783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7344313530039896742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1522774182, guid: 05b2873035fc0cb47b172f8f145ed69c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7377404293789721776
 GameObject:
   m_ObjectHideFlags: 0
@@ -58475,18 +58604,18 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7387992424848404322}
-  m_LocalRotation: {x: 0, y: 0.25614598, z: 0, w: 0.96663815}
-  m_LocalPosition: {x: 0, y: 0, z: 25.103}
+  m_LocalRotation: {x: -0, y: 0.30156326, z: -0, w: 0.95344615}
+  m_LocalPosition: {x: 0, y: 0, z: 24.532}
   m_LocalScale: {x: 0.0018370992, y: 0.0018370992, z: 0.0018370992}
   m_Children:
   - {fileID: 2635162801853022348}
   m_Father: {fileID: 4210854685195553880}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 29.683, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 35.103, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 1.414, y: 7.552}
-  m_SizeDelta: {x: 896.7744, y: 706}
+  m_AnchoredPosition: {x: 1.244, y: 7.552}
+  m_SizeDelta: {x: 749.01245, y: 706}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &4584739605223168584
 Canvas:
@@ -58871,6 +59000,50 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!1 &7427022861196241450
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 628796272536110216}
+  - component: {fileID: 3121275432260734925}
+  m_Layer: 0
+  m_Name: RightCol
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &628796272536110216
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7427022861196241450}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.018, y: -0, z: -0.0095}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2671867972380835232}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &3121275432260734925
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7427022861196241450}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.08372526, y: 0.0038374155, z: 0.04411316}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7430482660785516592
 GameObject:
   m_ObjectHideFlags: 0
@@ -61574,7 +61747,7 @@ Transform:
   m_LocalScale: {x: 1.450695, y: 1.345795, z: 1.345795}
   m_Children: []
   m_Father: {fileID: 2773737342877908612}
-  m_RootOrder: 12
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &2663898554752880432
 MeshFilter:
@@ -62359,7 +62532,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8041321529513965087}
-  m_RootOrder: 26
+  m_RootOrder: 27
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8108137584000889140
 MonoBehaviour:
@@ -63193,7 +63366,7 @@ Transform:
   m_LocalScale: {x: 0.21098919, y: 0.13688345, z: 0.19573253}
   m_Children: []
   m_Father: {fileID: 2773737342877908612}
-  m_RootOrder: 15
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &6761354643789625545
 MeshFilter:
@@ -63293,10 +63466,6 @@ Transform:
   - {fileID: 3969763876349247037}
   - {fileID: 2961213036191173855}
   - {fileID: 4443303842048264002}
-  - {fileID: 5008864901492345840}
-  - {fileID: 7610662745883058402}
-  - {fileID: 6145335768119137950}
-  - {fileID: 1986814401361764232}
   - {fileID: 9151796607662743994}
   - {fileID: 6116681216342863237}
   - {fileID: 3048389588480898161}
@@ -64336,6 +64505,7 @@ Transform:
   - {fileID: 4376049478199896257}
   - {fileID: 6787430568840655199}
   - {fileID: 2641879514514900451}
+  - {fileID: 5252504940040860928}
   - {fileID: 2009077319349875388}
   - {fileID: 4301374547015885704}
   m_Father: {fileID: 0}
@@ -67894,37 +68064,6 @@ MonoBehaviour:
   m_Script: {fileID: -1522774182, guid: 05b2873035fc0cb47b172f8f145ed69c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &8358660671931827561
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8774255384820227702}
-  m_Layer: 0
-  m_Name: Maintainance Bot Bay Empty BL
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &8774255384820227702
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8358660671931827561}
-  m_LocalRotation: {x: 0.000000014901161, y: 6.133678e-10, z: 8.5500246e-11, w: 1}
-  m_LocalPosition: {x: -0, y: -0.0002089411, z: 0.00028664796}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 4307564475503645201}
-  m_Father: {fileID: 5008864901492345840}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8359511776851724673
 GameObject:
   m_ObjectHideFlags: 0
@@ -68552,6 +68691,7 @@ GameObject:
   - component: {fileID: 7610662745883058402}
   - component: {fileID: 5711053631249341383}
   - component: {fileID: 9064810529574487097}
+  - component: {fileID: 5475324424816513896}
   m_Layer: 0
   m_Name: Maintainance Bot Bay BR
   m_TagString: Untagged
@@ -68566,13 +68706,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8420228674745410822}
-  m_LocalRotation: {x: -0.0000000136604985, y: 0.95016176, z: -0.3117574, w: -0.000000041522014}
-  m_LocalPosition: {x: -0.029817468, y: 0.00578544, z: -0.0041209315}
-  m_LocalScale: {x: -0.21098919, y: -0.15977523, z: -0.17753923}
+  m_LocalRotation: {x: 0.6309599, y: 0.31920207, z: -0.63095933, w: 0.3192023}
+  m_LocalPosition: {x: 4.2290916, y: 12.887689, z: 3.61393}
+  m_LocalScale: {x: -99.999985, y: -104.40599, z: -104.39202}
   m_Children:
-  - {fileID: 4167849042833347089}
-  m_Father: {fileID: 2773737342877908612}
-  m_RootOrder: 7
+  - {fileID: 759237198617282820}
+  m_Father: {fileID: 5252504940040860928}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &5711053631249341383
 MeshFilter:
@@ -68623,6 +68763,18 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &5475324424816513896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8420228674745410822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1522774182, guid: 05b2873035fc0cb47b172f8f145ed69c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8421778209758740881
 GameObject:
   m_ObjectHideFlags: 0
@@ -70372,37 +70524,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!1 &8692357216405950567
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7497900895076549077}
-  m_Layer: 0
-  m_Name: Maintainance Bot Bay Empty FR
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &7497900895076549077
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8692357216405950567}
-  m_LocalRotation: {x: 0.000000014901161, y: 6.1336786e-10, z: 8.550022e-11, w: 1}
-  m_LocalPosition: {x: -0, y: -0.00020895003, z: 0.00028664112}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 2915270694014144424}
-  m_Father: {fileID: 1986814401361764232}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8697970033362444401
 GameObject:
   m_ObjectHideFlags: 0
