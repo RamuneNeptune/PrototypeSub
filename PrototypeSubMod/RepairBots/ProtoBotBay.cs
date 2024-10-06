@@ -21,6 +21,7 @@ internal class ProtoBotBay : MonoBehaviour
 
         foreach (var bot in elevatorTransform.GetComponentsInChildren<ProtoRepairBot>())
         {
+            bot.gameObject.SetActive(false);
             inactiveBots.Enqueue(bot);
         }
     }
@@ -40,6 +41,7 @@ internal class ProtoBotBay : MonoBehaviour
     {
         animator.SetBool("Opened", true);
         var deployedBot = inactiveBots.Dequeue();
+        deployedBot.gameObject.SetActive(true);
         activeBots.Add(deployedBot);
 
         yield return new WaitForSeconds(0.83f);

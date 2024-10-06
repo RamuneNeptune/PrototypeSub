@@ -16080,6 +16080,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6585772231537545530}
   - component: {fileID: 1857343925917457895}
+  - component: {fileID: 1717540021583108638}
   m_Layer: 0
   m_Name: Maintainance Bot Bay BR
   m_TagString: Untagged
@@ -16124,6 +16125,22 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1717540021583108638
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2034866349168457112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -717963025, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 1857343925917457895}
+  pathfindingManager: {fileID: 2641879514514900451}
+  elevatorTransform: {fileID: 189139100141959701}
+  returnPos: {fileID: 0}
 --- !u!1 &2045308784589945238
 GameObject:
   m_ObjectHideFlags: 0
@@ -16136,7 +16153,7 @@ GameObject:
   - component: {fileID: 2448861847449772992}
   - component: {fileID: 3409935945058663600}
   m_Layer: 0
-  m_Name: Maintainance Bot Bay FL.002
+  m_Name: Elevator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17554,7 +17571,7 @@ GameObject:
   - component: {fileID: 9128635914559763962}
   - component: {fileID: 1480346329715837174}
   m_Layer: 0
-  m_Name: Maintainance Bot Bay FL.002
+  m_Name: Elevator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23771,6 +23788,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4237440764549314873}
   - component: {fileID: 6995177543595697727}
+  - component: {fileID: 5443942838608678126}
   m_Layer: 0
   m_Name: Maintainance Bot Bay BL
   m_TagString: Untagged
@@ -23815,6 +23833,22 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &5443942838608678126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3018696302068426900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -717963025, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 6995177543595697727}
+  pathfindingManager: {fileID: 2641879514514900451}
+  elevatorTransform: {fileID: 150770152188238840}
+  returnPos: {fileID: 0}
 --- !u!1 &3024649863796075592
 GameObject:
   m_ObjectHideFlags: 0
@@ -28389,6 +28423,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5252504940040860928}
+  - component: {fileID: 5342058781237449285}
   m_Layer: 0
   m_Name: ProtoRepairBots
   m_TagString: Untagged
@@ -28414,6 +28449,27 @@ Transform:
   m_Father: {fileID: 8041321529513965087}
   m_RootOrder: 26
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5342058781237449285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3579314377981088549}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -959328332, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  techType: {fileID: 11400000, guid: 69fa24413a0cb2f4fa587e80347da1fa, type: 2}
+  enableWithInstallation: []
+  unlockedAtStart: 0
+  botBays:
+  - {fileID: 1717540021583108638}
+  - {fileID: 1034529822489837387}
+  - {fileID: 5443942838608678126}
+  - {fileID: 8455591661034210711}
+  pointManager: {fileID: 53412142356362196}
 --- !u!1 &3582258607362887851
 GameObject:
   m_ObjectHideFlags: 0
@@ -32530,6 +32586,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2910194955439297366}
   - component: {fileID: 3753050578949101558}
+  - component: {fileID: 8455591661034210711}
   m_Layer: 0
   m_Name: Maintainance Bot Bay FL
   m_TagString: Untagged
@@ -32574,6 +32631,22 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &8455591661034210711
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3998537322365655140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -717963025, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 3753050578949101558}
+  pathfindingManager: {fileID: 2641879514514900451}
+  elevatorTransform: {fileID: 4705411229489296487}
+  returnPos: {fileID: 0}
 --- !u!1 &4005587954911405760
 GameObject:
   m_ObjectHideFlags: 0
@@ -45534,7 +45607,7 @@ GameObject:
   - component: {fileID: 4865175531430449907}
   - component: {fileID: 6803627520753656904}
   m_Layer: 0
-  m_Name: Maintainance Bot Bay FL.002
+  m_Name: Elevator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -53799,7 +53872,7 @@ GameObject:
   - component: {fileID: 4561361044015671606}
   - component: {fileID: 8058730933206510991}
   m_Layer: 0
-  m_Name: Maintainance Bot Bay FL.002
+  m_Name: Elevator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -71125,6 +71198,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2079720905271818264}
   - component: {fileID: 5774397423610959929}
+  - component: {fileID: 1034529822489837387}
   m_Layer: 0
   m_Name: Maintainance Bot Bay FR
   m_TagString: Untagged
@@ -71169,6 +71243,22 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1034529822489837387
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8538379538724389230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -717963025, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 5774397423610959929}
+  pathfindingManager: {fileID: 2641879514514900451}
+  elevatorTransform: {fileID: 4267077568009413826}
+  returnPos: {fileID: 0}
 --- !u!1 &8542283653089654041
 GameObject:
   m_ObjectHideFlags: 0
@@ -77010,12 +77100,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d6cc3db34565c3a4ba68573b0eeec2a0, type: 3}
---- !u!4 &3859485751470618971 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2253812858737788773, guid: d6cc3db34565c3a4ba68573b0eeec2a0,
-    type: 3}
-  m_PrefabInstance: {fileID: 3082858037385395774}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1768688137450249471 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3621781888743187137, guid: d6cc3db34565c3a4ba68573b0eeec2a0,
@@ -77028,6 +77112,12 @@ MonoBehaviour:
   m_Script: {fileID: -2039529286, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &3859485751470618971 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2253812858737788773, guid: d6cc3db34565c3a4ba68573b0eeec2a0,
+    type: 3}
+  m_PrefabInstance: {fileID: 3082858037385395774}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8552883551461007763
 PrefabInstance:
   m_ObjectHideFlags: 0
