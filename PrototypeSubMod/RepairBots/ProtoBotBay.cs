@@ -31,7 +31,10 @@ internal class ProtoBotBay : MonoBehaviour
     {
         damagePoints.Enqueue(targetPoint);
 
-        StartCoroutine(DeployBotAsync());
+        if (!botActive)
+        {
+            StartCoroutine(DeployBotAsync());
+        }
     }
 
     private IEnumerator DeployBotAsync()
@@ -43,9 +46,25 @@ internal class ProtoBotBay : MonoBehaviour
 
         animator.SetBool("Opened", false);
         repairBot.transform.SetParent(pathfindingManager);
-        repairBot.SetReturnPoint(returnPos);
         repairBot.UpdateUseLocalPos();
-        repairBot.UpdatePath(damagePoints.Dequeue().transform.position);
+        repairBot.SetTargetPoint(damagePoints.Dequeue());
+        repairBot.UpdatePath();
         repairBot.SetEnRouteToPoint();
+        botActive = true;
+    }
+
+    public void OnPointRepaired()
+    {
+        botActive = false;
+        if (damagePoints.Count > 0)
+        {
+            repairBot.UpdatePath(damagePoints.Dequeue().transform.position);
+            repairBot.SetEnRouteToPoint();
+            botActive = true;
+        }
+        else
+        {
+            repairBot.UpdatePath(returnPos.position);
+        }
     }
 }

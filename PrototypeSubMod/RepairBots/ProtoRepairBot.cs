@@ -9,9 +9,8 @@ internal class ProtoRepairBot : PathfindingObject
     [SerializeField] private Transform visualTransform;
     [SerializeField] private float repairSpeed;
 
-    private Transform returnPoint;
     private CyclopsDamagePoint targetPoint;
-    private ProtoBotBay bay;
+    private ProtoBotBay ownerBay;
     private Animator animator;
     private FMOD_CustomLoopingEmitter walkLoopEmitter;
     private bool enRouteToPoint;
@@ -44,6 +43,7 @@ internal class ProtoRepairBot : PathfindingObject
         if (targetPoint.liveMixin.GetHealthFraction() >= 1)
         {
             repairing = false;
+            ownerBay.OnPointRepaired();
         }
     }
 
@@ -85,11 +85,6 @@ internal class ProtoRepairBot : PathfindingObject
         visualTransform.GetChild(0).localPosition = new Vector3(0, 0.2f, 0);
     }
 
-    public void SetReturnPoint(Transform returnPos)
-    {
-        returnPoint = returnPos;
-    }
-
     public void UpdateUseLocalPos()
     {
         grid = GetComponentInParent<PathfindingGrid>();
@@ -103,6 +98,11 @@ internal class ProtoRepairBot : PathfindingObject
 
     public void SetOwnerBay(ProtoBotBay bay)
     {
-        this.bay = bay;
+        this.ownerBay = bay;
+    }
+
+    public void SetTargetPoint(CyclopsDamagePoint point)
+    {
+        targetPoint = point;
     }
 }
