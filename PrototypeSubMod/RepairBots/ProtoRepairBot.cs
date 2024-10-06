@@ -1,23 +1,43 @@
-﻿using PrototypeSubMod.Pathfinding;
+﻿using Nautilus.Extensions;
+using PrototypeSubMod.Pathfinding;
+using System.Collections;
 using UnityEngine;
 
 namespace PrototypeSubMod.RepairBots;
 
 internal class ProtoRepairBot : PathfindingObject
 {
+    private static GameObject welderPrefab;
+
     [SerializeField] private GameObject placeholderGraphic;
     [SerializeField] private Transform visualTransform;
+    [SerializeField] private Transform welderFXSpawnPos;
+    [SerializeField] private FMOD_CustomLoopingEmitter repairSFX;
     [SerializeField] private float repairSpeed;
 
     private CyclopsDamagePoint targetPoint;
     private ProtoBotBay ownerBay;
     private Animator animator;
     private FMOD_CustomLoopingEmitter walkLoopEmitter;
+    private VFXController welderController;
+
     private bool enRouteToPoint;
     private bool repairing;
+    private bool vfxEnabled;
 
-    private void Start()
+    private IEnumerator Start()
     {
+        if (welderPrefab == null)
+        {
+            var task = CraftData.GetPrefabForTechTypeAsync(TechType.Welder);
+            yield return task;
+            welderPrefab = task.GetResult();
+        }
+
+        var fxController = welderPrefab.transform.Find("SparkEmit");
+        welderController = Instantiate(fxController, welderFXSpawnPos, false).GetComponent<VFXController>();
+        welderController.Stop();
+
         animator = GetComponentInChildren<Animator>();
 
         animator.SetBool(AnimatorHashID.on_ground, true);
@@ -39,11 +59,22 @@ internal class ProtoRepairBot : PathfindingObject
     {
         if (!repairing) return;
 
+        if (!vfxEnabled)
+        {
+            welderController.Play();
+            vfxEnabled = true;
+        }
+        
+        repairSFX.Play();
+
         targetPoint.liveMixin.AddHealth(repairSpeed * Time.deltaTime);
         if (targetPoint.liveMixin.GetHealthFraction() >= 1)
         {
             repairing = false;
+            vfxEnabled = false;
             ownerBay.OnPointRepaired();
+            welderController.Stop();
+            repairSFX.Stop();
         }
     }
 
@@ -71,12 +102,22 @@ internal class ProtoRepairBot : PathfindingObject
         animator.SetFloat(AnimatorHashID.speed, 0);
         animator.enabled = false;
         
-        walkLoopEmitter.Stop();
+        walkLoopEmitter.Stop(); 
+
+        if (targetPoint != null)
+        {
+            transform.LookAt(targetPoint.transform.position);
+        }
 
         if (enRouteToPoint)
         {
             enRouteToPoint = false;
             repairing = true;
+        }
+        else
+        {
+            // Back at elevator
+            ownerBay.OnReturnToElevator();
         }
     }
 

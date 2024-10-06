@@ -30,6 +30,36 @@ Transform:
   m_Father: {fileID: 6423174835184618916}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &5001677714733649844
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1759423142313996291}
+  m_Layer: 0
+  m_Name: WeldFXSpawnPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1759423142313996291
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5001677714733649844}
+  m_LocalRotation: {x: 0.11060774, y: -0.6984015, z: 0.110607415, w: 0.6984035}
+  m_LocalPosition: {x: -0.204, y: 0.036, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6423174835184618916}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 17.999, y: -90.00001, z: 0}
 --- !u!1 &6423174835184618919
 GameObject:
   m_ObjectHideFlags: 0
@@ -43,6 +73,7 @@ GameObject:
   - component: {fileID: 8386615418087099159}
   - component: {fileID: 3070240025557822362}
   - component: {fileID: 7253606263520781142}
+  - component: {fileID: 7060736945370738639}
   m_Layer: 0
   m_Name: ProtoRepairBot
   m_TagString: Untagged
@@ -63,6 +94,7 @@ Transform:
   m_Children:
   - {fileID: 3079433176553367425}
   - {fileID: 7834375298433112461}
+  - {fileID: 1759423142313996291}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -126,7 +158,32 @@ MonoBehaviour:
   runPathfindingOnStart: 0
   placeholderGraphic: {fileID: 6663575132300939317}
   visualTransform: {fileID: 3079433176553367425}
+  welderFXSpawnPos: {fileID: 1759423142313996291}
+  repairSFX: {fileID: 7060736945370738639}
   repairSpeed: 10
+--- !u!114 &7060736945370738639
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6423174835184618919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -133377629, guid: 06dd3d5416bf43ea368cc39ff96e6d5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  asset: {fileID: 11400000, guid: 2fa909d1503d1dc4fa603f7c0c964f12, type: 2}
+  playOnAwake: 0
+  stopImmediatelyOnDisable: 0
+  followParent: 1
+  restartOnPlay: 0
+  debug: 0
+  subtitlesKey: 
+  playSubtitlesWithUnscaledTime: 1
+  assetStart: {fileID: 0}
+  assetStop: {fileID: 0}
+  stopSoundInterval: 0
 --- !u!1 &6663575132300939317
 GameObject:
   m_ObjectHideFlags: 0

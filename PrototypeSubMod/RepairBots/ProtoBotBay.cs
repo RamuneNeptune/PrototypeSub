@@ -9,7 +9,6 @@ internal class ProtoBotBay : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private Transform pathfindingManager;
     [SerializeField] private Transform elevatorTransform;
-    [SerializeField] private Transform returnPos;
 
     private Queue<CyclopsDamagePoint> damagePoints = new();
     private ProtoRepairBot repairBot;
@@ -44,11 +43,13 @@ internal class ProtoBotBay : MonoBehaviour
 
         yield return new WaitForSeconds(0.83f);
 
-        animator.SetBool("Opened", false);
         repairBot.transform.SetParent(pathfindingManager);
         repairBot.UpdateUseLocalPos();
-        repairBot.SetTargetPoint(damagePoints.Dequeue());
-        repairBot.UpdatePath();
+
+        var damagePoint = damagePoints.Dequeue();
+
+        repairBot.SetTargetPoint(damagePoint);
+        repairBot.UpdatePath(damagePoint.transform.position + damagePoint.transform.forward);
         repairBot.SetEnRouteToPoint();
         botActive = true;
     }
@@ -64,7 +65,16 @@ internal class ProtoBotBay : MonoBehaviour
         }
         else
         {
-            repairBot.UpdatePath(returnPos.position);
+            repairBot.UpdatePath(elevatorTransform.position);
         }
+    }
+
+    public void OnReturnToElevator()
+    {
+        repairBot.transform.position = elevatorTransform.position;
+        repairBot.transform.rotation = elevatorTransform.rotation;
+        repairBot.transform.SetParent(elevatorTransform);
+
+        animator.SetBool("Opened", false);
     }
 }
