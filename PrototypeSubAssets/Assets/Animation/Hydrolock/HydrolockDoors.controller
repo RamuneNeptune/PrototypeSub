@@ -9,7 +9,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 2
-    m_ConditionEvent: Opened
+    m_ConditionEvent: HydrolockEnabled
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 2735975653391361394}
@@ -141,7 +141,7 @@ AnimatorController:
   m_Name: HydrolockDoors
   serializedVersion: 5
   m_AnimatorParameters:
-  - m_Name: Opened
+  - m_Name: HydrolockEnabled
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -218,7 +218,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: Opened
+    m_ConditionEvent: HydrolockEnabled
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -2103628274001341436}
