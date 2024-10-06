@@ -56,15 +56,14 @@ internal class ProtoRepairBot : PathfindingObject
         visualTransform.GetChild(0).localPosition = new Vector3(0, 0.2f, 0);
     }
 
-    public void SetTargetPoint(CyclopsDamagePoint point, Transform returnPos)
+    public void SetReturnPoint(Transform returnPos)
     {
-        targetPoint = point;
         returnPoint = returnPos;
-        UpdatePath();
     }
 
-    public void ForceUseLocalPos(bool useLocalPos)
+    public void UpdateUseLocalPos()
     {
-        base.useLocalPos = useLocalPos;
+        grid = GetComponentInParent<PathfindingGrid>();
+        base.useLocalPos = grid != null;
     }
 }

@@ -23,7 +23,6 @@ internal class ProtoBotBay : MonoBehaviour
 
         repairBot = elevatorTransform.GetComponentInChildren<ProtoRepairBot>();
         repairBot.gameObject.SetActive(false);
-        repairBot.ForceUseLocalPos(true);
     }
 
     public void DeployBot(CyclopsDamagePoint targetPoint)
@@ -46,6 +45,8 @@ internal class ProtoBotBay : MonoBehaviour
 
         animator.SetBool("Opened", false);
         repairBot.transform.SetParent(pathfindingManager);
-        repairBot.SetTargetPoint(targetPoint, returnPos);
+        repairBot.SetReturnPoint(returnPos);
+        repairBot.UpdateUseLocalPos();
+        repairBot.UpdatePath(targetPoint.transform.position);
     }
 }

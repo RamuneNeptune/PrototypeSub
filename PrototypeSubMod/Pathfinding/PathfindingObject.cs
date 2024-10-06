@@ -17,7 +17,7 @@ public class PathfindingObject : MonoBehaviour
     [SerializeField] private bool runPathfindingOnStart;
 
     protected bool useLocalPos;
-    private PathfindingGrid grid;
+    protected PathfindingGrid grid;
 
     protected Path path;
     protected Vector3 directionToNextPoint;
