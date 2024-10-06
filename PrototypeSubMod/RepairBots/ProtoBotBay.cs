@@ -16,12 +16,14 @@ internal class ProtoBotBay : MonoBehaviour
 
     private IEnumerator Start()
     {
+        // The extra frame waits ensure that the bots are spawned even if it's already initialized
         yield return new WaitUntil(() => SpawnRepairBot.Initialized);
         yield return new WaitForEndOfFrame();
         yield return new WaitForEndOfFrame();
 
         repairBot = elevatorTransform.GetComponentInChildren<ProtoRepairBot>();
         repairBot.gameObject.SetActive(false);
+        repairBot.ForceUseLocalPos(true);
     }
 
     public void DeployBot(CyclopsDamagePoint targetPoint)

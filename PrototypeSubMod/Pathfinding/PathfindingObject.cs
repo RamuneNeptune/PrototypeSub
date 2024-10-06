@@ -16,7 +16,7 @@ public class PathfindingObject : MonoBehaviour
     [SerializeField] private bool moveEvenIfPathNotComplete;
     [SerializeField] private bool runPathfindingOnStart;
 
-    private bool useLocalPos;
+    protected bool useLocalPos;
     private PathfindingGrid grid;
 
     protected Path path;

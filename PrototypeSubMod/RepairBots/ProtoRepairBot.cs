@@ -60,6 +60,11 @@ internal class ProtoRepairBot : PathfindingObject
     {
         targetPoint = point;
         returnPoint = returnPos;
-        UpdatePath(point.transform.position);
+        UpdatePath();
+    }
+
+    public void ForceUseLocalPos(bool useLocalPos)
+    {
+        base.useLocalPos = useLocalPos;
     }
 }
