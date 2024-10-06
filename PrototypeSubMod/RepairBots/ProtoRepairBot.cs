@@ -102,11 +102,11 @@ internal class ProtoRepairBot : PathfindingObject
         animator.SetFloat(AnimatorHashID.speed, 0);
         animator.enabled = false;
         
-        walkLoopEmitter.Stop(); 
+        walkLoopEmitter.Stop();
 
         if (targetPoint != null)
         {
-            transform.LookAt(targetPoint.transform.position);
+            transform.rotation = Quaternion.LookRotation(-(targetPoint.transform.position - transform.position), targetPoint.transform.up);
         }
 
         if (enRouteToPoint)
@@ -129,7 +129,7 @@ internal class ProtoRepairBot : PathfindingObject
     public void UpdateUseLocalPos()
     {
         grid = GetComponentInParent<PathfindingGrid>();
-        base.useLocalPos = grid != null;
+        useLocalPos = grid != null;
     }
 
     public void SetEnRouteToPoint()
@@ -139,7 +139,7 @@ internal class ProtoRepairBot : PathfindingObject
 
     public void SetOwnerBay(ProtoBotBay bay)
     {
-        this.ownerBay = bay;
+        ownerBay = bay;
     }
 
     public void SetTargetPoint(CyclopsDamagePoint point)
