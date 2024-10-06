@@ -23,7 +23,7 @@ internal class CyclopsCameraIconReplacer : MonoBehaviour
         backgroundImage.sprite = replacementSprite;
     }
 
-    public void OnCamerasExited() 
+    public void OnCamerasExited()
     {
         backgroundImage.sprite = originalSprite;
     }

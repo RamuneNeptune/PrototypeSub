@@ -16,12 +16,12 @@ internal class ProtoMaintenanceBots : ProtoUpgrade
         pointManager.onRepairPointRepaired += OnDamagePointRemoved;
     }
 
-    private void OnDamagePointCreated(Transform point)
+    private void OnDamagePointCreated(CyclopsDamagePoint point)
     {
         botBays[currentBayIndex].DeployBot(point);
     }
 
-    private void OnDamagePointRemoved(Transform damagePoint)
+    private void OnDamagePointRemoved(CyclopsDamagePoint damagePoint)
     {
 
     }

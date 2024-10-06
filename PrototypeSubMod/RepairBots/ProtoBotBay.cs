@@ -9,6 +9,7 @@ internal class ProtoBotBay : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private Transform pathfindingManager;
     [SerializeField] private Transform elevatorTransform;
+    [SerializeField] private Transform returnPos;
 
     private List<ProtoRepairBot> activeBots = new();
     private Queue<ProtoRepairBot> inactiveBots = new();
@@ -24,7 +25,7 @@ internal class ProtoBotBay : MonoBehaviour
         }
     }
 
-    public void DeployBot(Transform targetPoint)
+    public void DeployBot(CyclopsDamagePoint targetPoint)
     {
         if (inactiveBots.Count <= 0)
         {
@@ -35,7 +36,7 @@ internal class ProtoBotBay : MonoBehaviour
         StartCoroutine(DeployBotAsync(targetPoint));
     }
 
-    private IEnumerator DeployBotAsync(Transform targetPoint)
+    private IEnumerator DeployBotAsync(CyclopsDamagePoint targetPoint)
     {
         animator.SetBool("Opened", true);
         var deployedBot = inactiveBots.Dequeue();
@@ -44,7 +45,7 @@ internal class ProtoBotBay : MonoBehaviour
         yield return new WaitForSeconds(0.83f);
 
         animator.SetBool("Opened", false);
-        deployedBot.UpdatePath(targetPoint.position);
         deployedBot.transform.SetParent(pathfindingManager);
+        deployedBot.SetTargetPoint(targetPoint, returnPos);
     }
 }

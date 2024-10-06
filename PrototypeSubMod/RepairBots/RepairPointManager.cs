@@ -6,21 +6,21 @@ namespace PrototypeSubMod.RepairBots;
 
 internal class RepairPointManager : MonoBehaviour
 {
-    public event Action<Transform> onRepairPointCreated;
-    public event Action<Transform> onRepairPointRepaired;
+    public event Action<CyclopsDamagePoint> onRepairPointCreated;
+    public event Action<CyclopsDamagePoint> onRepairPointRepaired;
 
     [SerializeField] private Transform damagePointsParent;
     [SerializeField] private Transform repairPointsParent;
 
-    private Queue<Transform> availableRepairPoints = new();
-    private List<Transform> assignedPoints = new();
+    private Queue<CyclopsDamagePoint> availableRepairPoints = new();
+    private List<CyclopsDamagePoint> assignedPoints = new();
 
     private void Start()
     {
         RefreshPointsList();
     }
 
-    public Transform GetRepairPoint()
+    public CyclopsDamagePoint GetRepairPoint()
     {
         var point = availableRepairPoints.Dequeue();
         assignedPoints.Add(point);
@@ -32,24 +32,24 @@ internal class RepairPointManager : MonoBehaviour
         availableRepairPoints.Clear();
 
         int index = -1;
-        foreach (Transform child in damagePointsParent)
+        foreach (CyclopsDamagePoint point in damagePointsParent.GetComponentsInChildren<CyclopsDamagePoint>())
         {
             index++;
-            if (!child.gameObject.activeSelf) continue;
+            if (!point.gameObject.activeSelf) continue;
 
-            if (assignedPoints.Contains(child)) continue;
+            if (assignedPoints.Contains(point)) continue;
 
-            availableRepairPoints.Enqueue(repairPointsParent.GetChild(index));
+            availableRepairPoints.Enqueue(point);
         }
     }
 
-    public void OnDamagePointCreated(Transform point)
+    public void OnDamagePointCreated(CyclopsDamagePoint point)
     {
         RefreshPointsList();
         onRepairPointCreated(point);
     }
 
-    public void OnDamagePointRepaired(Transform point)
+    public void OnDamagePointRepaired(CyclopsDamagePoint point)
     {
         RefreshPointsList();
         onRepairPointRepaired(point);

@@ -202,7 +202,7 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
         rt.anchorMin = Vector2.zero;
         rt.sizeDelta = new Vector2(0.003f, 0.003f);
     }
-    
+
     private void InitialzeFGIcon(uGUI_ItemIcon icon)
     {
         var rt = icon.foreground.GetComponent<RectTransform>();

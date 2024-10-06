@@ -14,7 +14,7 @@ internal class DamageSystemPatches
         if (ionBarrier == null) return;
 
         if (!ionBarrier.GetUpgradeEnabled() || !ionBarrier.GetUpgradeInstalled()) return;
-        
+
         damage *= ionBarrier.GetReductionForType(type);
     }
 }

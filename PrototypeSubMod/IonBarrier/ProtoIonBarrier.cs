@@ -64,7 +64,7 @@ internal class ProtoIonBarrier : ProtoUpgrade, IOnTakeDamage
             rend.material.SetFloat(ShaderPropertyID._Intensity, currentShieldIntensity);
             rend.material.SetFloat(ShaderPropertyID._ImpactIntensity, currentImpactIntensity);
 
-            if(Mathf.Approximately(currentShieldIntensity, 0) && targetShieldIntensity == 0)
+            if (Mathf.Approximately(currentShieldIntensity, 0) && targetShieldIntensity == 0)
             {
                 rend.gameObject.SetActive(false);
             }

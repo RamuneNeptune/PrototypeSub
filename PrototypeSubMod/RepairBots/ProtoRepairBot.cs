@@ -8,6 +8,8 @@ internal class ProtoRepairBot : PathfindingObject
     [SerializeField] private GameObject placeholderGraphic;
     [SerializeField] private Transform visualTransform;
 
+    private Transform returnPoint;
+    private CyclopsDamagePoint targetPoint;
     private Animator animator;
     private FMOD_CustomLoopingEmitter walkLoopEmitter;
 
@@ -52,5 +54,12 @@ internal class ProtoRepairBot : PathfindingObject
     public void SetBotLocalPos()
     {
         visualTransform.GetChild(0).localPosition = new Vector3(0, 0.2f, 0);
+    }
+
+    public void SetTargetPoint(CyclopsDamagePoint point, Transform returnPos)
+    {
+        targetPoint = point;
+        returnPoint = returnPos;
+        UpdatePath(point.transform.position);
     }
 }

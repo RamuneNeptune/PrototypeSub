@@ -1,11 +1,8 @@
 ﻿using HarmonyLib;
 using PrototypeSubMod.RepairBots;
-using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using UnityEngine;
-using static VFXParticlesPool;
 
 namespace PrototypeSubMod.Patches;
 
@@ -31,7 +28,7 @@ internal class DamageManagerPatches
     {
         if (!damageManger.TryGetComponent(out RepairPointManager pointManager)) return;
 
-        Transform newPoint = damageManger.unusedDamagePoints[pointIndex].transform;
+        var newPoint = damageManger.unusedDamagePoints[pointIndex];
 
         pointManager.OnDamagePointCreated(newPoint);
     }
@@ -41,6 +38,6 @@ internal class DamageManagerPatches
     {
         if (!__instance.TryGetComponent(out RepairPointManager pointManager)) return;
 
-        pointManager.OnDamagePointRepaired(point.transform);
+        pointManager.OnDamagePointRepaired(point);
     }
 }
