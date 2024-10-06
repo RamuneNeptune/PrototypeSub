@@ -46,13 +46,13 @@ internal class RepairPointManager : MonoBehaviour
     public void OnDamagePointCreated(CyclopsDamagePoint point)
     {
         RefreshPointsList();
-        onRepairPointCreated(point);
+        onRepairPointCreated?.Invoke(point);
     }
 
     public void OnDamagePointRepaired(CyclopsDamagePoint point)
     {
         RefreshPointsList();
-        onRepairPointRepaired(point);
+        onRepairPointRepaired?.Invoke(point);
         assignedPoints.Remove(point);
     }
 }

@@ -13,7 +13,6 @@ internal class ProtoMaintenanceBots : ProtoUpgrade
     private void Start()
     {
         pointManager.onRepairPointCreated += OnDamagePointCreated;
-        pointManager.onRepairPointRepaired += OnDamagePointRemoved;
     }
 
     private void OnDamagePointCreated(CyclopsDamagePoint point)
@@ -21,10 +20,8 @@ internal class ProtoMaintenanceBots : ProtoUpgrade
         if (!upgradeInstalled) return;
 
         botBays[currentBayIndex].QueueBotDeployment(point);
-    }
+        currentBayIndex++;
 
-    private void OnDamagePointRemoved(CyclopsDamagePoint damagePoint)
-    {
-        if (!upgradeInstalled) return;
+        currentBayIndex %= botBays.Length - 1;
     }
 }

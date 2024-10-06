@@ -26,13 +26,13 @@ internal class ProtoBotBay : MonoBehaviour
         repairBot = elevatorTransform.GetComponentInChildren<ProtoRepairBot>();
         repairBot.gameObject.SetActive(false);
         repairBot.SetOwnerBay(this);
-
-        stowedPos = repairBot.transform.localPosition;
-        stowedRot = repairBot.transform.localRotation;
     }
 
     public void QueueBotDeployment(CyclopsDamagePoint targetPoint)
     {
+        stowedPos = repairBot.transform.localPosition;
+        stowedRot = repairBot.transform.localRotation;
+
         damagePoints.Enqueue(targetPoint);
 
         if (!botActive)
@@ -87,7 +87,7 @@ internal class ProtoBotBay : MonoBehaviour
 
         animator.SetBool("Opened", false);
 
-        yield return new WaitForSeconds(0.83f);
+        yield return new WaitForSeconds(1f);
         repairBot.gameObject.SetActive(false);
     }
 }

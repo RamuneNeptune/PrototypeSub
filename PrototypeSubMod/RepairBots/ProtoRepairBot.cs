@@ -36,6 +36,7 @@ internal class ProtoRepairBot : PathfindingObject
 
         var fxController = welderPrefab.transform.Find("SparkEmit");
         welderController = Instantiate(fxController, welderFXSpawnPos, false).GetComponent<VFXController>();
+        welderController.transform.localPosition = Vector3.zero;
         welderController.Stop();
 
         animator = GetComponentInChildren<Animator>();
@@ -106,7 +107,7 @@ internal class ProtoRepairBot : PathfindingObject
 
         if (targetPoint != null)
         {
-            transform.rotation = Quaternion.LookRotation(-(targetPoint.transform.position - transform.position), targetPoint.transform.up);
+            visual.rotation = Quaternion.LookRotation(targetPoint.transform.position - visual.position, targetPoint.transform.up);
         }
 
         if (enRouteToPoint)
