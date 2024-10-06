@@ -125,6 +125,7 @@ internal class DeployableLight : MonoBehaviour, IProtoEventListener
 
         breakSFX.Play();
         loopingSFX.Stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+        ecoTarget.enabled = false;
     }
 
     public void OnProtoSerialize(ProtobufSerializer serializer)
