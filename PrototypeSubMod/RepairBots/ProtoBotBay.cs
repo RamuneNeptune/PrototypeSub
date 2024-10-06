@@ -11,26 +11,24 @@ internal class ProtoBotBay : MonoBehaviour
     [SerializeField] private Transform elevatorTransform;
     [SerializeField] private Transform returnPos;
 
-    private List<ProtoRepairBot> activeBots = new();
-    private Queue<ProtoRepairBot> inactiveBots = new();
+    private ProtoRepairBot repairBot;
+    private bool botActive;
 
     private IEnumerator Start()
     {
         yield return new WaitUntil(() => SpawnRepairBot.Initialized);
         yield return new WaitForEndOfFrame();
+        yield return new WaitForEndOfFrame();
 
-        foreach (var bot in elevatorTransform.GetComponentsInChildren<ProtoRepairBot>())
-        {
-            bot.gameObject.SetActive(false);
-            inactiveBots.Enqueue(bot);
-        }
+        repairBot = elevatorTransform.GetComponentInChildren<ProtoRepairBot>();
+        repairBot.gameObject.SetActive(false);
     }
 
     public void DeployBot(CyclopsDamagePoint targetPoint)
     {
-        if (inactiveBots.Count <= 0)
+        if (botActive)
         {
-            Plugin.Logger.LogError($"Out of repair bots on {gameObject}!");
+            Plugin.Logger.LogError($"Attempted to deploy bot on {gameObject} while it was already deployed");
             return;
         }
 
@@ -40,14 +38,12 @@ internal class ProtoBotBay : MonoBehaviour
     private IEnumerator DeployBotAsync(CyclopsDamagePoint targetPoint)
     {
         animator.SetBool("Opened", true);
-        var deployedBot = inactiveBots.Dequeue();
-        deployedBot.gameObject.SetActive(true);
-        activeBots.Add(deployedBot);
+        repairBot.gameObject.SetActive(true);
 
         yield return new WaitForSeconds(0.83f);
 
         animator.SetBool("Opened", false);
-        deployedBot.transform.SetParent(pathfindingManager);
-        deployedBot.SetTargetPoint(targetPoint, returnPos);
+        repairBot.transform.SetParent(pathfindingManager);
+        repairBot.SetTargetPoint(targetPoint, returnPos);
     }
 }

@@ -81,6 +81,7 @@ internal class ProtoEmergencyWarp : ProtoUpgrade
 
         Camera.main.GetComponent<TeleportScreenFXController>().StartTeleport();
         subRigidbody.isKinematic = true;
+        subRigidbody.velocity = Vector3.zero;
         teleportingToMoonpool = true;
 
         Player.main.mode = Player.Mode.LockedPiloting;
