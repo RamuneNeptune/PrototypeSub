@@ -7,11 +7,15 @@ internal class ProtoRepairBot : PathfindingObject
 {
     [SerializeField] private GameObject placeholderGraphic;
     [SerializeField] private Transform visualTransform;
+    [SerializeField] private float repairSpeed;
 
     private Transform returnPoint;
     private CyclopsDamagePoint targetPoint;
+    private ProtoBotBay bay;
     private Animator animator;
     private FMOD_CustomLoopingEmitter walkLoopEmitter;
+    private bool enRouteToPoint;
+    private bool repairing;
 
     private void Start()
     {
@@ -28,8 +32,26 @@ internal class ProtoRepairBot : PathfindingObject
 
     private void Update()
     {
+        HandleRepairing();
+        HandleMovementAnims();
+    }
+
+    private void HandleRepairing()
+    {
+        if (!repairing) return;
+
+        targetPoint.liveMixin.AddHealth(repairSpeed * Time.deltaTime);
+        if (targetPoint.liveMixin.GetHealthFraction() >= 1)
+        {
+            repairing = false;
+        }
+    }
+
+    private void HandleMovementAnims()
+    {
         if (path == null) return;
 
+        animator.enabled = true;
         walkLoopEmitter.Start();
         Vector3 posOnPlane = Vector3.ProjectOnPlane(directionToNextPoint + visual.position, lastNormal);
         posOnPlane += visual.position;
@@ -47,8 +69,15 @@ internal class ProtoRepairBot : PathfindingObject
         animator.SetFloat(AnimatorHashID.move_speed_x, 0);
         animator.SetFloat(AnimatorHashID.move_speed_y, 0);
         animator.SetFloat(AnimatorHashID.speed, 0);
-
+        animator.enabled = false;
+        
         walkLoopEmitter.Stop();
+
+        if (enRouteToPoint)
+        {
+            enRouteToPoint = false;
+            repairing = true;
+        }
     }
 
     public void SetBotLocalPos()
@@ -65,5 +94,15 @@ internal class ProtoRepairBot : PathfindingObject
     {
         grid = GetComponentInParent<PathfindingGrid>();
         base.useLocalPos = grid != null;
+    }
+
+    public void SetEnRouteToPoint()
+    {
+        enRouteToPoint = true;
+    }
+
+    public void SetOwnerBay(ProtoBotBay bay)
+    {
+        this.bay = bay;
     }
 }

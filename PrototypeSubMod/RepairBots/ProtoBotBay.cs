@@ -11,6 +11,7 @@ internal class ProtoBotBay : MonoBehaviour
     [SerializeField] private Transform elevatorTransform;
     [SerializeField] private Transform returnPos;
 
+    private Queue<CyclopsDamagePoint> damagePoints = new();
     private ProtoRepairBot repairBot;
     private bool botActive;
 
@@ -23,20 +24,17 @@ internal class ProtoBotBay : MonoBehaviour
 
         repairBot = elevatorTransform.GetComponentInChildren<ProtoRepairBot>();
         repairBot.gameObject.SetActive(false);
+        repairBot.SetOwnerBay(this);
     }
 
-    public void DeployBot(CyclopsDamagePoint targetPoint)
+    public void QueueBotDeployment(CyclopsDamagePoint targetPoint)
     {
-        if (botActive)
-        {
-            Plugin.Logger.LogError($"Attempted to deploy bot on {gameObject} while it was already deployed");
-            return;
-        }
+        damagePoints.Enqueue(targetPoint);
 
-        StartCoroutine(DeployBotAsync(targetPoint));
+        StartCoroutine(DeployBotAsync());
     }
 
-    private IEnumerator DeployBotAsync(CyclopsDamagePoint targetPoint)
+    private IEnumerator DeployBotAsync()
     {
         animator.SetBool("Opened", true);
         repairBot.gameObject.SetActive(true);
@@ -47,6 +45,7 @@ internal class ProtoBotBay : MonoBehaviour
         repairBot.transform.SetParent(pathfindingManager);
         repairBot.SetReturnPoint(returnPos);
         repairBot.UpdateUseLocalPos();
-        repairBot.UpdatePath(targetPoint.transform.position);
+        repairBot.UpdatePath(damagePoints.Dequeue().transform.position);
+        repairBot.SetEnRouteToPoint();
     }
 }
