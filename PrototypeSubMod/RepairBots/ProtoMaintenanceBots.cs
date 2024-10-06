@@ -18,11 +18,13 @@ internal class ProtoMaintenanceBots : ProtoUpgrade
 
     private void OnDamagePointCreated(CyclopsDamagePoint point)
     {
+        if (!upgradeInstalled) return;
+
         botBays[currentBayIndex].DeployBot(point);
     }
 
     private void OnDamagePointRemoved(CyclopsDamagePoint damagePoint)
     {
-
+        if (!upgradeInstalled) return;
     }
 }
