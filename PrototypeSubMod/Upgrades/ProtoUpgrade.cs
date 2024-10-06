@@ -28,6 +28,8 @@ internal abstract class ProtoUpgrade : MonoBehaviour, IProtoUpgrade
         upgradeInstalled = installed;
         foreach (var item in enableWithInstallation)
         {
+            if (item == null) continue;
+
             item.SetActive(installed);
         }
     }
