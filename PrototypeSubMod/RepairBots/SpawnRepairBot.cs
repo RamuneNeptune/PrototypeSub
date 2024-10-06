@@ -6,6 +6,14 @@ namespace PrototypeSubMod.RepairBots;
 
 internal class SpawnRepairBot : MonoBehaviour
 {
+    public static bool Initialized
+    {
+        get
+        {
+            return botPrefab != null;
+        }
+    }
+
     private static GameObject botPrefab;
 
     private IEnumerator Start()
@@ -30,6 +38,7 @@ internal class SpawnRepairBot : MonoBehaviour
         newBot.transform.localRotation = transform.localRotation;
 
         newBot.GetComponent<ProtoRepairBot>().SetBotLocalPos();
+        LargeWorldEntity.Register(newBot);  
 
         Destroy(gameObject);
     }

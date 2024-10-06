@@ -1,10 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace PrototypeSubMod.RepairBots;
 
 internal class RepairPointManager : MonoBehaviour
 {
+    public event Action<Transform> onRepairPointCreated;
+    public event Action<Transform> onRepairPointRepaired;
+
     [SerializeField] private Transform damagePointsParent;
     [SerializeField] private Transform repairPointsParent;
 
@@ -23,11 +27,6 @@ internal class RepairPointManager : MonoBehaviour
         return point;
     }
 
-    public void OnPointRepaired(Transform point)
-    {
-        assignedPoints.Remove(point);
-    }
-
     private void RefreshPointsList()
     {
         availableRepairPoints.Clear();
@@ -44,8 +43,16 @@ internal class RepairPointManager : MonoBehaviour
         }
     }
 
-    public void OnDamagePointsChanged()
+    public void OnDamagePointCreated(Transform point)
     {
         RefreshPointsList();
+        onRepairPointCreated(point);
+    }
+
+    public void OnDamagePointRepaired(Transform point)
+    {
+        RefreshPointsList();
+        onRepairPointRepaired(point);
+        assignedPoints.Remove(point);
     }
 }

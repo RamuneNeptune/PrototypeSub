@@ -1,24 +1,46 @@
 ﻿using HarmonyLib;
 using PrototypeSubMod.RepairBots;
+using System.Collections;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Reflection.Emit;
+using UnityEngine;
+using static VFXParticlesPool;
 
 namespace PrototypeSubMod.Patches;
 
 [HarmonyPatch(typeof(CyclopsExternalDamageManager))]
 internal class DamageManagerPatches
 {
-    [HarmonyPatch(nameof(CyclopsExternalDamageManager.CreatePoint)), HarmonyPostfix]
-    private static void CreatePoint_Postfix(CyclopsExternalDamageManager __instance)
+    [HarmonyPatch(nameof(CyclopsExternalDamageManager.CreatePoint)), HarmonyTranspiler]
+    private static IEnumerable<CodeInstruction> CreatePoint_Postfix(IEnumerable<CodeInstruction> instructions)
     {
-        if (!__instance.TryGetComponent(out RepairPointManager pointManager)) return;
+        var method = typeof(CyclopsDamagePoint).GetMethod("SpawnFx", BindingFlags.Public | BindingFlags.Instance);
+        var match = new CodeMatch(i => i.opcode == OpCodes.Callvirt && (MethodInfo)i.operand == method);
 
-        pointManager.OnDamagePointsChanged();
+        var codeMatcher = new CodeMatcher(instructions)
+            .MatchForward(false, match)
+            .InsertAndAdvance(new CodeInstruction(OpCodes.Ldloc_0))
+            .InsertAndAdvance(new CodeInstruction(OpCodes.Ldarg_0))
+            .InsertAndAdvance(Transpilers.EmitDelegate(TryNotifyPointCreation));
+
+        return codeMatcher.InstructionEnumeration();
+    }
+
+    public static void TryNotifyPointCreation(int pointIndex, CyclopsExternalDamageManager damageManger)
+    {
+        if (!damageManger.TryGetComponent(out RepairPointManager pointManager)) return;
+
+        Transform newPoint = damageManger.unusedDamagePoints[pointIndex].transform;
+
+        pointManager.OnDamagePointCreated(newPoint);
     }
 
     [HarmonyPatch(nameof(CyclopsExternalDamageManager.RepairPoint)), HarmonyPostfix]
-    private static void RepairPoint_Postfix(CyclopsExternalDamageManager __instance)
+    private static void RepairPoint_Postfix(CyclopsExternalDamageManager __instance, CyclopsDamagePoint point)
     {
         if (!__instance.TryGetComponent(out RepairPointManager pointManager)) return;
 
-        pointManager.OnDamagePointsChanged();
+        pointManager.OnDamagePointRepaired(point.transform);
     }
 }
