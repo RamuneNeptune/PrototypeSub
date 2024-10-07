@@ -36,6 +36,7 @@ internal class ProtoRepairBot_Spawned
 
         bot.GetComponent<TechTag>().type = prefabInfo.TechType;
 
+        prefab.SetActive(true);
         prefabOut.Set(prefab);
     }
 

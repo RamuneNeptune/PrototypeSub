@@ -7,8 +7,6 @@ namespace PrototypeSubMod.RepairBots;
 
 internal class ProtoRepairBot : PathfindingObject
 {
-    private static GameObject welderPrefab;
-
     [SerializeField] private GameObject placeholderGraphic;
     [SerializeField] private Transform visualTransform;
     [SerializeField] private Transform welderFXSpawnPos;
@@ -25,22 +23,14 @@ internal class ProtoRepairBot : PathfindingObject
     private bool repairing;
     private bool vfxEnabled;
 
-    private IEnumerator Start()
+    private void Start()
     {
-        if (welderPrefab == null)
-        {
-            var task = CraftData.GetPrefabForTechTypeAsync(TechType.Welder);
-            yield return task;
-            welderPrefab = task.GetResult();
-        }
-
-        var fxController = welderPrefab.transform.Find("SparkEmit");
-        welderController = Instantiate(fxController, welderFXSpawnPos, false).GetComponent<VFXController>();
-        welderController.transform.localPosition = Vector3.zero;
+        var fxController = Plugin.welderPrefab.transform.Find("SparkEmit");
+        welderController = Instantiate(fxController, welderFXSpawnPos).GetComponent<VFXController>();
         welderController.Stop();
+        welderController.transform.localPosition = Vector3.zero;
 
         animator = GetComponentInChildren<Animator>();
-
         animator.SetBool(AnimatorHashID.on_ground, true);
 
         placeholderGraphic.SetActive(false);
@@ -59,6 +49,9 @@ internal class ProtoRepairBot : PathfindingObject
     private void HandleRepairing()
     {
         if (!repairing) return;
+
+        welderController.transform.LookAt(Camera.main.transform.position);
+        welderController.transform.rotation = Quaternion.Inverse(welderController.transform.rotation);
 
         if (!vfxEnabled)
         {
@@ -124,7 +117,7 @@ internal class ProtoRepairBot : PathfindingObject
 
     public void SetBotLocalPos()
     {
-        visualTransform.GetChild(0).localPosition = new Vector3(0, 0.2f, 0);
+        visualTransform.GetChild(1).localPosition = new Vector3(0, 0.2f, 0);
     }
 
     public void UpdateUseLocalPos()
@@ -146,5 +139,10 @@ internal class ProtoRepairBot : PathfindingObject
     public void SetTargetPoint(CyclopsDamagePoint point)
     {
         targetPoint = point;
+    }
+
+    public void ResetVisualRotation()
+    {
+        visual.transform.localRotation = Quaternion.identity;
     }
 }

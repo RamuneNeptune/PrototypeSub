@@ -36,13 +36,13 @@ namespace PrototypeSubMod
         public static string AssetsFolderPath { get; } = Path.Combine(Path.GetDirectoryName(Assembly.Location), "Assets");
         public static string RecipesFolderPath { get; } = Path.Combine(Path.GetDirectoryName(Assembly.Location), "Recipes");
 
-
         public static AssetBundle AssetBundle { get; } = AssetBundle.LoadFromFile(Path.Combine(AssetsFolderPath, "prototypeassets"));
 
         public static EquipmentType PrototypePowerType { get; } = EnumHandler.AddEntry<EquipmentType>("PrototypePowerType");
         public static EquipmentType LightBeaconEquipmentType { get; } = EnumHandler.AddEntry<EquipmentType>("LightBeaconType");
 
         internal static BatterySaveData BatterySaveData = SaveDataHandler.RegisterSaveDataCache<BatterySaveData>();
+        internal static GameObject welderPrefab;
 
         private static bool Initialized;
 
@@ -79,6 +79,11 @@ namespace PrototypeSubMod
 
             yield return new WaitUntil(() => CraftData.cacheInitialized && CraftTree.initialized);
             yield return new WaitForEndOfFrame();
+
+            var task = CraftData.GetPrefabForTechTypeAsync(TechType.Welder);
+            yield return task;
+
+            welderPrefab = task.GetResult();
 
             UpgradeUninstallationPrefabManager.RegisterUninstallationPrefabs(AssetBundle);
         }

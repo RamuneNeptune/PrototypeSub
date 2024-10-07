@@ -81,9 +81,10 @@ internal class ProtoBotBay : MonoBehaviour
 
     private IEnumerator StowBot()
     {
-        repairBot.transform.SetParent(elevatorTransform);
+        repairBot.transform.SetParent(elevatorTransform, false);
         repairBot.transform.localPosition = stowedPos;
         repairBot.transform.localRotation = stowedRot;
+        repairBot.ResetVisualRotation();
 
         animator.SetBool("Opened", false);
 
