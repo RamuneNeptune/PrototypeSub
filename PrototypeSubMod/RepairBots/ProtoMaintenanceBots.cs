@@ -61,6 +61,7 @@ internal class ProtoMaintenanceBots : ProtoUpgrade, IOnTakeDamage
 
     private void AssignBot(CyclopsDamagePoint point)
     {
+        Plugin.Logger.LogInfo($"Assigning bot on {botBays[currentBayIndex]} to {point}");
         botBays[currentBayIndex].QueueBotDeployment(point);
         currentBayIndex++;
 

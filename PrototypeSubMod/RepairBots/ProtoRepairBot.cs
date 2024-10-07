@@ -1,16 +1,19 @@
-﻿using Nautilus.Extensions;
-using PrototypeSubMod.Pathfinding;
-using System.Collections;
+﻿using PrototypeSubMod.Pathfinding;
 using UnityEngine;
 
 namespace PrototypeSubMod.RepairBots;
 
 internal class ProtoRepairBot : PathfindingObject
 {
+    private const string LEFT_ANT_PATH = "Visual/Precursor_Droid(Clone)/models/Precursor_Driod/Root/antennae_l1/antennae_l2/antennae_l3";
+    private const string RIGHT_ANT_PATH = "Visual/Precursor_Droid(Clone)/models/Precursor_Driod/Root/antennae_r1/antennae_r2/antennae_r3";
+
     [SerializeField] private GameObject placeholderGraphic;
     [SerializeField] private Transform visualTransform;
     [SerializeField] private Transform welderFXSpawnPos;
     [SerializeField] private FMOD_CustomLoopingEmitter repairSFX;
+    [SerializeField] private LineRenderer leftLineRend;
+    [SerializeField] private LineRenderer rightLineRend;
     [SerializeField] private float repairSpeed;
 
     private CyclopsDamagePoint targetPoint;
@@ -18,6 +21,8 @@ internal class ProtoRepairBot : PathfindingObject
     private Animator animator;
     private FMOD_CustomLoopingEmitter walkLoopEmitter;
     private VFXController welderController;
+    private Transform leftAntenna;
+    private Transform rightAntenna;
 
     private bool enRouteToPoint;
     private bool repairing;
@@ -38,6 +43,11 @@ internal class ProtoRepairBot : PathfindingObject
 
         walkLoopEmitter = GetComponentInChildren<FMOD_CustomLoopingEmitter>();
         walkLoopEmitter.Stop();
+        leftLineRend.enabled = false;
+        rightLineRend.enabled = false;
+
+        leftAntenna = transform.Find(LEFT_ANT_PATH);
+        rightAntenna = transform.Find(RIGHT_ANT_PATH);
     }
 
     private void Update()
@@ -48,7 +58,13 @@ internal class ProtoRepairBot : PathfindingObject
 
     private void HandleRepairing()
     {
+        leftLineRend.enabled = repairing;
+        rightLineRend.enabled = repairing;
+
         if (!repairing) return;
+
+        leftLineRend.SetPositions(new Vector3[] { leftAntenna.position, targetPoint.transform.position });
+        rightLineRend.SetPositions(new Vector3[] { rightAntenna.position, targetPoint.transform.position });
 
         welderController.transform.LookAt(Camera.main.transform.position);
         welderController.transform.rotation = Quaternion.Inverse(welderController.transform.rotation);

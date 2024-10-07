@@ -26,13 +26,13 @@ internal class ProtoBotBay : MonoBehaviour
         repairBot = elevatorTransform.GetComponentInChildren<ProtoRepairBot>();
         repairBot.gameObject.SetActive(false);
         repairBot.SetOwnerBay(this);
+
+        stowedPos = repairBot.transform.localPosition;
+        stowedRot = repairBot.transform.localRotation;
     }
 
     public void QueueBotDeployment(CyclopsDamagePoint targetPoint)
     {
-        stowedPos = repairBot.transform.localPosition;
-        stowedRot = repairBot.transform.localRotation;
-
         damagePoints.Enqueue(targetPoint);
 
         if (!botActive)
@@ -61,12 +61,14 @@ internal class ProtoBotBay : MonoBehaviour
 
     public void OnPointRepaired()
     {
-        botActive = false;
+        Plugin.Logger.LogInfo($"Point repaired by {gameObject}'s bot. Remaining damage point count = {damagePoints.Count}");
+
         if (damagePoints.Count > 0)
         {
-            repairBot.UpdatePath(damagePoints.Dequeue().transform.position);
+            var damagePoint = damagePoints.Dequeue();
+            repairBot.SetTargetPoint(damagePoint);
+            repairBot.UpdatePath(damagePoint.transform.position + damagePoint.transform.forward);
             repairBot.SetEnRouteToPoint();
-            botActive = true;
         }
         else
         {
@@ -81,6 +83,7 @@ internal class ProtoBotBay : MonoBehaviour
 
     private IEnumerator StowBot()
     {
+        botActive = false;
         repairBot.transform.SetParent(elevatorTransform, false);
         repairBot.transform.localPosition = stowedPos;
         repairBot.transform.localRotation = stowedRot;

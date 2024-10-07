@@ -80,7 +80,7 @@ public class PathfindingObject : MonoBehaviour
 
             lastNormal = currentWaypoint.normal;
             if (useLocalPos) lastNormal = grid.root.TransformDirection(currentWaypoint.normal);
-            if (posToCheck == targetPointPosition)
+            if (posToCheck == targetPointPosition || (posToCheck - targetPointPosition).sqrMagnitude < 2f)
             {
                 targetIndex++;
 
