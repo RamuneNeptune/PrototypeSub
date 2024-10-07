@@ -94,7 +94,6 @@ internal class ProtoIonBarrier : ProtoUpgrade, IOnTakeDamage
     {
         if (!upgradeEnabled || !upgradeInstalled) return;
 
-        Plugin.Logger.LogInfo($"Taking {damageInfo.damage} damage from {damageInfo.dealer} with type {damageInfo.type}");
         float powerCost = damageInfo.originalDamage * powerPerDamage;
         powerRelay.ConsumeEnergy(powerCost, out _);
 

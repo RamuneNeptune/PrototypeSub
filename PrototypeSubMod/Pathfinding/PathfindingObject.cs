@@ -51,6 +51,7 @@ public class PathfindingObject : MonoBehaviour
         if (goToEndIfFail && !success && pathData.Length == 0)
         {
             transform.position = originalTargetPos;
+            OnPathFinished?.Invoke();
             return;
         }
 
