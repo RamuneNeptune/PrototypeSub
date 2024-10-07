@@ -15,6 +15,7 @@ public class PathfindingObject : MonoBehaviour
     [SerializeField] private float rotationSpeed;
     [SerializeField] private bool moveEvenIfPathNotComplete;
     [SerializeField] private bool runPathfindingOnStart;
+    [SerializeField] private bool goToEndIfFail;
 
     protected bool useLocalPos;
     protected PathfindingGrid grid;
@@ -25,6 +26,7 @@ public class PathfindingObject : MonoBehaviour
     protected Vector3 lastPointOnBounds;
 
     private Vector3 targetPointPos;
+    private Vector3 originalTargetPos;
 
     private void Start()
     {
@@ -46,6 +48,12 @@ public class PathfindingObject : MonoBehaviour
 
     private void OnPathFound(PathData[] pathData, bool success)
     {
+        if (goToEndIfFail && !success && pathData.Length == 0)
+        {
+            transform.position = originalTargetPos;
+            return;
+        }
+
         if (!moveEvenIfPathNotComplete && !success) return;
 
         path = new Path(pathData, transform.position, turnDistance);
@@ -121,6 +129,7 @@ public class PathfindingObject : MonoBehaviour
 
     public void UpdatePath()
     {
+        originalTargetPos = targetPoint.position;
         Plugin.Logger.LogInfo($"Requesting path");
         PathRequest request = new PathRequest(transform.position, targetPoint.position, OnPathFound);
         PathRequestManager.RequestPath(request);
@@ -128,6 +137,7 @@ public class PathfindingObject : MonoBehaviour
 
     public void UpdatePath(Vector3 position)
     {
+        originalTargetPos = position;
         Plugin.Logger.LogInfo($"Requesting path");
         PathRequest request = new PathRequest(transform.position, position, OnPathFound);
         PathRequestManager.RequestPath(request);

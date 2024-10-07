@@ -53,21 +53,19 @@ internal class ProtoBotBay : MonoBehaviour
 
         var damagePoint = damagePoints.Dequeue();
 
-        repairBot.SetTargetPoint(damagePoint);
-        repairBot.UpdatePath(damagePoint.transform.position + damagePoint.transform.forward);
+        repairBot.SetRepairPoint(damagePoint);
+        repairBot.UpdatePath(damagePoint.transform.position + damagePoint.transform.forward * 0.2f);
         repairBot.SetEnRouteToPoint();
         botActive = true;
     }
 
     public void OnPointRepaired()
     {
-        Plugin.Logger.LogInfo($"Point repaired by {gameObject}'s bot. Remaining damage point count = {damagePoints.Count}");
-
         if (damagePoints.Count > 0)
         {
             var damagePoint = damagePoints.Dequeue();
-            repairBot.SetTargetPoint(damagePoint);
-            repairBot.UpdatePath(damagePoint.transform.position + damagePoint.transform.forward);
+            repairBot.SetRepairPoint(damagePoint);
+            repairBot.UpdatePath(damagePoint.transform.position + damagePoint.transform.forward * 0.2f);
             repairBot.SetEnRouteToPoint();
         }
         else

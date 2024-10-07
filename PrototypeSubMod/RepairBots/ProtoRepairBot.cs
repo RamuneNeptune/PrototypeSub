@@ -74,7 +74,7 @@ internal class ProtoRepairBot : PathfindingObject
             welderController.Play();
             vfxEnabled = true;
         }
-        
+
         repairSFX.Play();
 
         targetPoint.liveMixin.AddHealth(repairSpeed * Time.deltaTime);
@@ -111,7 +111,7 @@ internal class ProtoRepairBot : PathfindingObject
         animator.SetFloat(AnimatorHashID.move_speed_y, 0);
         animator.SetFloat(AnimatorHashID.speed, 0);
         animator.enabled = false;
-        
+
         walkLoopEmitter.Stop();
 
         if (targetPoint != null)
@@ -152,7 +152,7 @@ internal class ProtoRepairBot : PathfindingObject
         ownerBay = bay;
     }
 
-    public void SetTargetPoint(CyclopsDamagePoint point)
+    public void SetRepairPoint(CyclopsDamagePoint point)
     {
         targetPoint = point;
     }
