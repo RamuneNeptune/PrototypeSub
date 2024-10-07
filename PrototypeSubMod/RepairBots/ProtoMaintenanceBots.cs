@@ -38,15 +38,9 @@ internal class ProtoMaintenanceBots : ProtoUpgrade, IOnTakeDamage
 
     private void OnDamagePointCreated(CyclopsDamagePoint point)
     {
+        queuedPoints.Enqueue(point);
+
         if (!upgradeInstalled) return;
-
-        if (timeSinceDamage < minTimeSinceDamage)
-        {
-            queuedPoints.Enqueue(point);
-            return;
-        }
-
-        AssignBot(point);
     }
 
     public void OnTakeDamage(DamageInfo damageInfo)

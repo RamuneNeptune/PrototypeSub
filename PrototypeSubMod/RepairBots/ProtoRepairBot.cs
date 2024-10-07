@@ -90,7 +90,7 @@ internal class ProtoRepairBot : PathfindingObject
 
     private void HandleMovementAnims()
     {
-        if (repairing && path == null) return;
+        if (path == null) return;
 
         animator.enabled = true;
         walkLoopEmitter.Start();
