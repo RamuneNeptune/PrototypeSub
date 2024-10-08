@@ -54,16 +54,11 @@ internal class ToggleUpgradeButton : MonoBehaviour
         if (hovering)
         {
             HandReticle main = HandReticle.main;
-            string prompt = protoUpgrade.GetUpgradeInstalled() ? "Deactivate" : "Activate";
+            string prompt = protoUpgrade.GetUpgradeEnabled() ? "Deactivate" : "Activate";
             string text = Language.main.Get(protoUpgrade.GetTechType());
             main.SetText(HandReticle.TextType.Hand, $"{prompt} {text}", true, GameInput.Button.LeftHand);
             main.SetText(HandReticle.TextType.HandSubscript, string.Empty, false, GameInput.Button.None);
         }
-    }
-
-    public void ToggleUpgradeInstalled()
-    {
-        protoUpgrade.SetUpgradeInstalled(!protoUpgrade.GetUpgradeInstalled());
     }
 
     public void ToggleUpgradeEnabled()

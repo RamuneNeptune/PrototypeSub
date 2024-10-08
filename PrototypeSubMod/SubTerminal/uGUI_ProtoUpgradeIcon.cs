@@ -26,6 +26,8 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
     {
         get
         {
+            if (ProtoUpgradeManager.Instance == null) return techType.TechType;
+
             return ProtoUpgradeManager.Instance.GetUpgradeInstalled(techType.TechType) ? uninstallationTechType : techType.TechType;
         }
     }

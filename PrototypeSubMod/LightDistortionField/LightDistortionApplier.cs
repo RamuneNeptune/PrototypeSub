@@ -8,7 +8,7 @@ internal class LightDistortionApplier : MonoBehaviour
 
     private void OnRenderImage(RenderTexture source, RenderTexture destination)
     {
-        if (CloakEffectHandler.Instance == null || CloakEffectHandler.Instance.GetUpgradeInstalled() == false)
+        if (CloakEffectHandler.Instance == null || !CloakEffectHandler.Instance.GetUpgradeInstalled())
         {
             Graphics.Blit(source, destination);
             return;
