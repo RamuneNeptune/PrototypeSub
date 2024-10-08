@@ -61,6 +61,7 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
 
     private Atlas.Sprite atlasSpriteBGNormal;
     private Atlas.Sprite atlasSpriteBGHovered;
+    private bool initialized;
 
     private void Start()
     {
@@ -75,6 +76,8 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
         crafterLogic = GetComponent<CrafterLogic>();
         originalSize = rectTransform.sizeDelta;
 
+        if (ProtoUpgradeManager.Instance == null) return;
+
         SetUpgradeTechType(CurrentTechType);
         if (ProtoUpgradeManager.Instance.GetInstalledUpgrades().Contains(techType.TechType))
         {
@@ -82,6 +85,7 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
         }
 
         UWE.CoroutineHost.StartCoroutine(RefreshUpgrades());
+        initialized = true;
     }
 
     private IEnumerator RefreshUpgrades()
@@ -95,6 +99,18 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
     private void OnEnable()
     {
         onUpgradeChanged += OnUpgradesChanged;
+
+        if (!initialized)
+        {
+            SetUpgradeTechType(CurrentTechType);
+            if (ProtoUpgradeManager.Instance.GetInstalledUpgrades().Contains(techType.TechType))
+            {
+                upgradeScreen.InstallUpgrade(this);
+            }
+
+            UWE.CoroutineHost.StartCoroutine(RefreshUpgrades());
+            initialized = true;
+        }
     }
 
     private void OnDisable()
