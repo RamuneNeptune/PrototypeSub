@@ -27,8 +27,7 @@ internal class Prototype_Craftable
         prefab.SetUnlock(TechType.Constructor);
 
         prefab.SetRecipeFromJson(Path.Combine(Plugin.RecipesFolderPath, "PrototypeSub.json"))
-            .WithFabricatorType(CraftTree.Type.Constructor)
-            .WithStepsToFabricatorTab("Vehicles")
+            .WithFabricatorType(CraftTree.Type.None)
             .WithCraftingTime(20f);
 
         prefab.SetPdaGroupCategory(TechGroup.Constructor, TechCategory.Constructor);
