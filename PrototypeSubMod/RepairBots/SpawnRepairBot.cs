@@ -34,11 +34,12 @@ internal class SpawnRepairBot : MonoBehaviour
     private void SpawnBot()
     {
         var newBot = Instantiate(botPrefab, transform.parent);
+
+        newBot.transform.SetParent(transform.parent);
         newBot.transform.localPosition = transform.localPosition;
         newBot.transform.localRotation = transform.localRotation;
 
         newBot.GetComponent<ProtoRepairBot>().SetBotLocalPos();
-        LargeWorldEntity.Register(newBot);
 
         newBot.gameObject.SetActive(false);
 
