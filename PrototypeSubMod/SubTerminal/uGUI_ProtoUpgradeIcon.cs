@@ -215,6 +215,8 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
 
     private void InitializeBGIcon(uGUI_ItemIcon icon)
     {
+        if (icon.background == null) return;
+
         var rt = icon.background.GetComponent<RectTransform>();
         rt.anchorMax = Vector2.one;
         rt.anchorMin = Vector2.zero;
@@ -223,6 +225,8 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
 
     private void InitialzeFGIcon(uGUI_ItemIcon icon)
     {
+        if (icon.foreground == null) return;
+
         var rt = icon.foreground.GetComponent<RectTransform>();
         rt.anchorMax = Vector2.one;
         rt.anchorMin = Vector2.zero;

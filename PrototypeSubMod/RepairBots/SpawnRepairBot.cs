@@ -40,6 +40,8 @@ internal class SpawnRepairBot : MonoBehaviour
         newBot.GetComponent<ProtoRepairBot>().SetBotLocalPos();
         LargeWorldEntity.Register(newBot);
 
+        newBot.gameObject.SetActive(false);
+
         Destroy(gameObject);
     }
 }
