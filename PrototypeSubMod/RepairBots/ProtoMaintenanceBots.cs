@@ -1,5 +1,6 @@
 ﻿using PrototypeSubMod.Upgrades;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace PrototypeSubMod.RepairBots;
@@ -17,6 +18,7 @@ internal class ProtoMaintenanceBots : ProtoUpgrade, IOnTakeDamage
     private void Start()
     {
         pointManager.onRepairPointCreated += OnDamagePointCreated;
+        pointManager.onRepairPointRepaired += OnDamagePointRepaired;
     }
 
     private void Update()
@@ -41,6 +43,11 @@ internal class ProtoMaintenanceBots : ProtoUpgrade, IOnTakeDamage
         queuedPoints.Enqueue(point);
 
         if (!upgradeInstalled) return;
+    }
+
+    private void OnDamagePointRepaired(CyclopsDamagePoint point)
+    {
+        queuedPoints = new Queue<CyclopsDamagePoint>(queuedPoints.Where(p => p != point));
     }
 
     public void OnTakeDamage(DamageInfo damageInfo)

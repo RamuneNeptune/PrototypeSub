@@ -42,6 +42,7 @@ internal class ProtoRepairBot_Spawned
 
     private static void RemoveBotComponents(ref GameObject gameObject)
     {
+        gameObject.RemoveComponentImmediate<PrefabIdentifier>();
         gameObject.RemoveComponentImmediate<FleeOnDamage>();
         gameObject.RemoveComponentImmediate<StayAtLeashPosition>();
         gameObject.RemoveComponentImmediate<WalkBehaviour>();

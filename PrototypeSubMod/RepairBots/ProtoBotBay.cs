@@ -23,7 +23,7 @@ internal class ProtoBotBay : MonoBehaviour
         yield return new WaitForEndOfFrame();
         yield return new WaitForEndOfFrame();
 
-        repairBot = elevatorTransform.GetComponentInChildren<ProtoRepairBot>();
+        repairBot = elevatorTransform.GetComponentInChildren<ProtoRepairBot>(true);
         repairBot.gameObject.SetActive(false);
         repairBot.SetOwnerBay(this);
 

@@ -100,8 +100,8 @@ internal class ProtoRepairBot : PathfindingObject
         Vector3 dir = posOnPlane - visual.position;
         Vector3 localDir = visual.InverseTransformDirection(dir);
 
-        animator.SetFloat(AnimatorHashID.move_speed_x, localDir.normalized.z);
-        animator.SetFloat(AnimatorHashID.move_speed_y, localDir.normalized.x);
+        animator.SetFloat(AnimatorHashID.move_speed_x, localDir.normalized.x);
+        animator.SetFloat(AnimatorHashID.move_speed_y, localDir.normalized.z);
         animator.SetFloat(AnimatorHashID.speed, localDir.magnitude);
     }
 
