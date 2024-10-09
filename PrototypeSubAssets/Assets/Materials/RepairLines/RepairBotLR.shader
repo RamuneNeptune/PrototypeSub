@@ -52,8 +52,12 @@
             {
                 // sample the texture
                 float2 uv = i.uv;
-                uv.x -= _Time * _ScrollSpeed;
-                uv.x = (-uv.x % 1);
+                uv.x += _Time * _ScrollSpeed;
+
+                uv.x %= -1;
+                uv.x = 1 - uv.x;
+
+                //return fixed4(uv.x, 0, 0, 1);
 
                 fixed4 col = tex2D(_MainTex, uv);
                 return col;
