@@ -40,7 +40,8 @@ internal class CloakEffectHandler : ProtoUpgrade
     public float amplitudeFalloff;
 
     [Header("Animation")]
-    public float scaleSpeed;
+    public float scaleTime;
+    public AnimationCurve scaleOverTime;
 
     [Header("Sound Values")]
     public float soundMultiplier;
@@ -57,6 +58,7 @@ internal class CloakEffectHandler : ProtoUpgrade
     }
 
     private Vector3 originalScale;
+    private float currentScaleTime;
 
     private void Awake()
     {
@@ -77,7 +79,17 @@ internal class CloakEffectHandler : ProtoUpgrade
 
     private void Update()
     {
-        ovoid.localScale = Vector3.MoveTowards(ovoid.localScale, originalScale * TargetScaleMultiplier, Time.deltaTime * scaleSpeed);
+        // Map [0, 1] to [-1, 1]
+        float delta = Time.deltaTime * (TargetScaleMultiplier * 2 - 1);
+
+        bool growCheck = TargetScaleMultiplier == 1 && currentScaleTime < scaleTime;
+        bool shrinkCheck = TargetScaleMultiplier == 0 && currentScaleTime > 0;
+        if (growCheck || shrinkCheck)
+        {
+            currentScaleTime += delta;
+        }
+
+        ovoid.localScale = originalScale * scaleOverTime.Evaluate(currentScaleTime / scaleTime);
     }
 
     public bool IsInsideOvoid(Vector3 point)
