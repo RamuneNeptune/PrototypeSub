@@ -1,6 +1,8 @@
 ﻿using PrototypeSubMod.Interfaces;
 using PrototypeSubMod.SaveData;
 using SubLibrary.SaveData;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -41,10 +43,16 @@ internal class ProtoUpgradeManager : MonoBehaviour, ISaveDataListener
         if (Instance != null)
         {
             Destroy(this);
-            throw new System.Exception($"More than one ProtoUpgradeManager in the scene! Destroying {this}");
+            throw new Exception($"More than one ProtoUpgradeManager in the scene! Destroying {this}");
         }
 
         Instance = this;
+    }
+
+    private void Start()
+    {
+        DevConsole.RegisterConsoleCommand(this, "ToggleUpgradeEnabled");
+        DevConsole.RegisterConsoleCommand(this, "ToggleUpgradeInstalled");
     }
 
     public void SetUpgradeInstalled(TechType techType, bool installed)
@@ -94,5 +102,65 @@ internal class ProtoUpgradeManager : MonoBehaviour, ISaveDataListener
     public List<TechType> GetInstalledUpgrades()
     {
         return InstalledUpgrades;
+    }
+
+    public void OnConsoleCommand_toggleupgradeenabled(NotificationCenter.Notification notification)
+    {
+        if (notification.data.Count > 1 || notification.data.Count <= 0)
+        {
+            ErrorMessage.AddError($"Invalid argument count. ToggleUpgradeEnabled expects the tech type for an upgrade");
+            return;
+        }
+
+        string upgradeTechType = "";
+        try
+        {
+            upgradeTechType = notification.data[0] as string;
+        }
+        catch (Exception e)
+        {
+            throw e;
+        }
+
+        TechType techType = (TechType)Enum.Parse(typeof(TechType), upgradeTechType, true);
+        if (!upgrades.TryGetValue(techType, out var upgrade))
+        {
+            ErrorMessage.AddError($"Upgrade with tech type \"{upgradeTechType}\" is not on the prototype");
+            return;
+        }
+
+        upgrade.SetUpgradeEnabled(!upgrade.GetUpgradeEnabled());
+
+        ErrorMessage.AddError($"{techType} enabled set to {upgrade.GetUpgradeEnabled()}");
+    }
+
+    public void OnConsoleCommand_toggleupgradeinstalled(NotificationCenter.Notification notification)
+    {
+        if (notification.data.Count > 1 || notification.data.Count <= 0)
+        {
+            ErrorMessage.AddError($"Invalid argument count. ToggleUpgradeInstalled expects the tech type for an upgrade");
+            return;
+        }
+
+        string upgradeTechType = "";
+        try
+        {
+            upgradeTechType = notification.data[0] as string;
+        }
+        catch (Exception e)
+        {
+            throw e;
+        }
+
+        TechType techType = (TechType)Enum.Parse(typeof(TechType), upgradeTechType, true);
+        if (!upgrades.TryGetValue(techType, out var upgrade))
+        {
+            ErrorMessage.AddError($"Upgrade with tech type \"{upgradeTechType}\" is not on the prototype");
+            return;
+        }
+
+        upgrade.SetUpgradeInstalled(!upgrade.GetUpgradeInstalled());
+
+        ErrorMessage.AddError($"{techType} installed set to {upgrade.GetUpgradeInstalled()}");
     }
 }

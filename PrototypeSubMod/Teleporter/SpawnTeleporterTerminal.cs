@@ -33,6 +33,9 @@ internal class SpawnTeleporterTerminal : MonoBehaviour
         var newTrigger = trigger.gameObject.AddComponent<ProtoTeleporterTerminalTrigger>();
         Destroy(trigger);
 
+        var identifier = terminal.GetComponent<PrefabIdentifier>();
+        Destroy(identifier);
+
         newTrigger.SetSubRoot(GetComponentInParent<SubRoot>());
         newTrigger.GetComponent<SphereCollider>().radius = 2f;
     }

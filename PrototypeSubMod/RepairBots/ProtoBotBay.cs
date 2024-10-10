@@ -55,7 +55,7 @@ internal class ProtoBotBay : MonoBehaviour
         var damagePoint = damagePoints.Dequeue();
 
         repairBot.SetRepairPoint(damagePoint);
-        repairBot.UpdatePath(damagePoint.transform.position + damagePoint.transform.forward * 0.25f);
+        repairBot.UpdatePath(damagePoint.transform.position + (damagePoint.transform.forward * 0.25f));
         repairBot.SetEnRouteToPoint();
     }
 
@@ -65,7 +65,7 @@ internal class ProtoBotBay : MonoBehaviour
         {
             var damagePoint = damagePoints.Dequeue();
             repairBot.SetRepairPoint(damagePoint);
-            repairBot.UpdatePath(damagePoint.transform.position + damagePoint.transform.forward * 0.25f);
+            repairBot.UpdatePath(damagePoint.transform.position + (damagePoint.transform.forward * 0.25f));
             repairBot.SetEnRouteToPoint();
         }
         else
