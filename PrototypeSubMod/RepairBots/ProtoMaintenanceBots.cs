@@ -67,4 +67,14 @@ internal class ProtoMaintenanceBots : ProtoUpgrade, IOnTakeDamage
 
         currentBayIndex %= botBays.Length;
     }
+
+    public override void SetUpgradeInstalled(bool installed)
+    {
+        base.SetUpgradeInstalled(installed);
+
+        if (installed)
+        {
+            timeSinceDamage = float.MaxValue;
+        }
+    }
 }
