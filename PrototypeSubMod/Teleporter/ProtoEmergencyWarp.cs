@@ -9,7 +9,7 @@ internal class ProtoEmergencyWarp : ProtoUpgrade
 {
     public static bool isCharging;
 
-    private Vector3 SUB_TELEPORT_POSITION { get; } = new Vector3(464.339f, -106.670f, 1213.019f);
+    private Vector3 SUB_TELEPORT_POSITION { get; } = new Vector3(464.401f, -118.461f, 1213.340f);
     private const float TELEPORT_ANGLE = 20f;
 
     [SerializeField] private Rigidbody subRigidbody;
@@ -29,8 +29,9 @@ internal class ProtoEmergencyWarp : ProtoUpgrade
             if (!teleportingToMoonpool) return;
 
             subRigidbody.isKinematic = false;
+            Player.main.GetComponent<Collider>().enabled = true;
 
-            Invoke(nameof(ReEnterPilotingMode), 0.5f);
+            Invoke(nameof(ReEnterPilotingMode), 0.25f);
         };
     }
 
@@ -78,6 +79,7 @@ internal class ProtoEmergencyWarp : ProtoUpgrade
         Player.main.GetPDA().Close();
         Player.main.GetPDA().SetIgnorePDAInput(true);
         Player.main.teleportingLoopSound.Play();
+        Player.main.GetComponent<Collider>().enabled = false;
 
         Camera.main.GetComponent<TeleportScreenFXController>().StartTeleport();
         subRigidbody.isKinematic = true;

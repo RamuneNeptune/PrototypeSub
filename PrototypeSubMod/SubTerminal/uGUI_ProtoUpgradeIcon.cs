@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UWE;
 
 namespace PrototypeSubMod.SubTerminal;
 
@@ -102,15 +103,22 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
 
         if (!initialized)
         {
-            SetUpgradeTechType(CurrentTechType);
-            if (ProtoUpgradeManager.Instance.GetInstalledUpgrades().Contains(techType.TechType))
-            {
-                upgradeScreen.InstallUpgrade(this);
-            }
-
-            UWE.CoroutineHost.StartCoroutine(RefreshUpgrades());
-            initialized = true;
+            CoroutineHost.StartCoroutine(LateInitialize());
         }
+    }
+
+    private IEnumerator LateInitialize()
+    {
+        yield return new WaitForEndOfFrame();
+
+        SetUpgradeTechType(CurrentTechType);
+        if (ProtoUpgradeManager.Instance.GetInstalledUpgrades().Contains(techType.TechType))
+        {
+            upgradeScreen.InstallUpgrade(this);
+        }
+
+        UWE.CoroutineHost.StartCoroutine(RefreshUpgrades());
+        initialized = true;
     }
 
     private void OnDisable()
