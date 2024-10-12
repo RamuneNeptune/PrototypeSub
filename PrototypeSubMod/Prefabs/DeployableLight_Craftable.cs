@@ -2,6 +2,7 @@
 using Nautilus.Assets.Gadgets;
 using Nautilus.Utility;
 using PrototypeSubMod.Compatibility;
+using PrototypeSubMod.Utility;
 using SubLibrary.CyclopsReferencers;
 using SubLibrary.Handlers;
 using System.Collections;
@@ -49,7 +50,7 @@ internal class DeployableLight_Craftable
 
         yield return CyclopsReferenceHandler.EnsureCyclopsReference();
 
-        MaterialUtils.ApplySNShaders(prefab);
+        MaterialUtils.ApplySNShaders(prefab, modifiers: new ProtoMaterialModifier(1f));
 
         foreach (var referencer in prefab.GetComponentsInChildren<ICyclopsReferencer>(true))
         {

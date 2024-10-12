@@ -22,7 +22,14 @@ internal static class LoadEasyPrefabs
             var prefab = new CustomPrefab(info);
             if (easyPrefab.applySNShaders)
             {
-                MaterialUtils.ApplySNShaders(easyPrefab.prefab);
+                if (easyPrefab.applyPrecursorMaterialChanges)
+                {
+                    MaterialUtils.ApplySNShaders(easyPrefab.prefab, modifiers: new ProtoMaterialModifier(1));
+                }
+                else
+                {
+                    MaterialUtils.ApplySNShaders(easyPrefab.prefab);
+                }
             }
 
             if (easyPrefab.prefab != null)

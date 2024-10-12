@@ -2,6 +2,7 @@
 using Nautilus.Assets.Gadgets;
 using Nautilus.Utility;
 using PrototypeSubMod.Compatibility;
+using PrototypeSubMod.Utility;
 using SubLibrary.Handlers;
 using SubLibrary.Monobehaviors;
 using System.Collections;
@@ -46,7 +47,7 @@ internal class Prototype_Craftable
 
         yield return new WaitUntil(() => MaterialUtils.IsReady);
 
-        MaterialUtils.ApplySNShaders(prototype);
+        MaterialUtils.ApplySNShaders(prototype, modifiers: new ProtoMaterialModifier(1f));
 
         yield return CyclopsReferenceHandler.EnsureCyclopsReference();
 
