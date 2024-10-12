@@ -1,15 +1,18 @@
 ﻿using Nautilus.Crafting;
-using Newtonsoft.Json;
-using Nautilus;
 using Nautilus.Json.Converters;
-using System.Collections.Generic;
+using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
+using UnityEngine;
 using Ingredient = CraftData.Ingredient;
 
 namespace PrototypeSubMod.Compatibility;
 
 internal static class ROTACompatManager
 {
+    // ~3 Proto ingots to one Architect one
+    private const float INGOT_CONVERSION_RATE = 1 / 3f;
+
     public static bool RotAInstalled
     {
         get
@@ -72,16 +75,18 @@ internal static class ROTACompatManager
         foreach (var item in ingredients)
         {
             TechType type = TechType.None;
+            int amount = item.amount;
             if (item.techType.ToLower() == "precursoringot")
             {
                 type = (TechType)Enum.Parse(typeof(TechType), "ProtoPrecursorIngot");
+                amount = Mathf.FloorToInt(Mathf.Max(1, amount * INGOT_CONVERSION_RATE));
             }
             else
             {
                 type = (TechType)Enum.Parse(typeof(TechType), item.techType);
             }
 
-            newIngredients.Add(new Ingredient(type, item.amount));
+            newIngredients.Add(new Ingredient(type, amount));
         }
 
         return newIngredients;

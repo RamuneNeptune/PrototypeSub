@@ -80,7 +80,7 @@ internal class CloakEffectHandler : ProtoUpgrade
     private void Update()
     {
         // Map [0, 1] to [-1, 1]
-        float delta = Time.deltaTime * (TargetScaleMultiplier * 2 - 1);
+        float delta = Time.deltaTime * ((TargetScaleMultiplier * 2) - 1);
 
         bool growCheck = TargetScaleMultiplier == 1 && currentScaleTime < scaleTime;
         bool shrinkCheck = TargetScaleMultiplier == 0 && currentScaleTime > 0;

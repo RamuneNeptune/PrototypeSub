@@ -1,8 +1,6 @@
 ﻿using Nautilus.Assets;
 using Nautilus.Assets.Gadgets;
-using Nautilus.Crafting;
 using Nautilus.Handlers;
-using Newtonsoft.Json;
 using PrototypeSubMod.Compatibility;
 using System.IO;
 using UnityEngine;
