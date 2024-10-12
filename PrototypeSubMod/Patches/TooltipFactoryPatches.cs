@@ -11,6 +11,9 @@ namespace PrototypeSubMod.Patches;
 [HarmonyPatch(typeof(TooltipFactory))]
 internal class TooltipFactoryPatches
 {
+    // Power source efficiency tooltips
+
+    /*
     [HarmonyPatch(nameof(TooltipFactory.ItemCommons)), HarmonyTranspiler]
     private static IEnumerable<CodeInstruction> ItemCommons_Transpiler(IEnumerable<CodeInstruction> instructions)
     {
@@ -41,4 +44,5 @@ internal class TooltipFactoryPatches
 
         TooltipFactory.WriteDescription(sb, tooltip);
     }
+    */
 }
