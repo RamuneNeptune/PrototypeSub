@@ -5,6 +5,7 @@ using HarmonyLib;
 using ModStructureFormat;
 using Nautilus.Handlers;
 using Newtonsoft.Json;
+using PrototypeSubMod.Compatibility;
 using PrototypeSubMod.PowerSystem;
 using PrototypeSubMod.Prefabs;
 using PrototypeSubMod.Prefabs.UpgradePlatforms;
@@ -65,6 +66,7 @@ namespace PrototypeSubMod
             InitializeSlotMapping();
 
             LoadEasyPrefabs.LoadPrefabs(AssetBundle);
+            ROTACompatManager.AddCompatiblePowerSources();
 
             // Register harmony patches, if there are any
             Harmony.CreateAndPatchAll(Assembly, $"{GUID}");

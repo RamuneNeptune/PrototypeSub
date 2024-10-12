@@ -50,9 +50,16 @@ internal static class ROTACompatManager
     private static bool _architectLibInitted;
     private static bool _architectLibInstalled;
 
-    public static void AddCompatiblePowerSources(ref Dictionary<TechType, float> powerSources)
+    public static void AddCompatiblePowerSources()
     {
         if (!ArchitectsLibInstalled) return;
+
+        TechType electricube = (TechType)Enum.Parse(typeof(TechType), "Electricube");
+        TechType powerCube = (TechType)Enum.Parse(typeof(TechType), "RedIonCube");
+
+        var powerSources = PrototypePowerSystem.AllowedPowerSources;
+        powerSources.Add(electricube, 2500);
+        powerSources.Add(powerCube, 3000);
     }
 
     /// <summary>
