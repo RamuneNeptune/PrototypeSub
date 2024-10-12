@@ -105,7 +105,7 @@ namespace PrototypeSubMod
                 yield return prefabTask;
 
                 GameObject prefab = prefabTask.result.Get();
-                var battery = prefab.AddComponent<PrototypePowerBattery>();
+                prefab.AddComponent<PrototypePowerBattery>();
             }
         }
 

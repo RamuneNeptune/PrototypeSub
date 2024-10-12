@@ -1,9 +1,11 @@
 ﻿using Nautilus.Crafting;
 using Nautilus.Json.Converters;
 using Newtonsoft.Json;
+using PrototypeSubMod.Prefabs;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions.Must;
 using Ingredient = CraftData.Ingredient;
 
 namespace PrototypeSubMod.Compatibility;
@@ -11,7 +13,7 @@ namespace PrototypeSubMod.Compatibility;
 internal static class ROTACompatManager
 {
     // ~3 Proto ingots to one Architect one
-    private const float INGOT_CONVERSION_RATE = 1 / 3f;
+    private const float INGOT_CONVERSION_RATE = 0.3f;
 
     public static bool RotAInstalled
     {
@@ -57,7 +59,18 @@ internal static class ROTACompatManager
     {
         if (ArchitectsLibInstalled)
         {
-            return JsonConvert.DeserializeObject<RecipeData>(jsonRecipeData, new CustomEnumConverter());
+            var data = JsonConvert.DeserializeObject<RecipeData>(jsonRecipeData, new CustomEnumConverter());
+            foreach (var item in data.Ingredients)
+            {
+                if (item.techType.ToString().ToLower() != "precursoringot")
+                {
+                    continue;
+                }
+
+                item._amount = Mathf.FloorToInt(Mathf.Max(1, item.amount * INGOT_CONVERSION_RATE));
+            }
+
+            return data;
         }
 
         var dummyRecipeData = JsonConvert.DeserializeObject<DummyRecipeData>(jsonRecipeData);
@@ -75,18 +88,16 @@ internal static class ROTACompatManager
         foreach (var item in ingredients)
         {
             TechType type = TechType.None;
-            int amount = item.amount;
             if (item.techType.ToLower() == "precursoringot")
             {
-                type = (TechType)Enum.Parse(typeof(TechType), "ProtoPrecursorIngot");
-                amount = Mathf.FloorToInt(Mathf.Max(1, amount * INGOT_CONVERSION_RATE));
+                type = PrecursorIngot_Craftable.prefabInfo.TechType;
             }
             else
             {
                 type = (TechType)Enum.Parse(typeof(TechType), item.techType);
             }
 
-            newIngredients.Add(new Ingredient(type, amount));
+            newIngredients.Add(new Ingredient(type, item.amount));
         }
 
         return newIngredients;
