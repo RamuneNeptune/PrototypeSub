@@ -1,6 +1,7 @@
 ﻿using Nautilus.Crafting;
 using Nautilus.Json.Converters;
 using Newtonsoft.Json;
+using PrototypeSubMod.PowerSystem;
 using PrototypeSubMod.Prefabs;
 using System;
 using System.Collections.Generic;
@@ -48,6 +49,11 @@ internal static class ROTACompatManager
 
     private static bool _architectLibInitted;
     private static bool _architectLibInstalled;
+
+    public static void AddCompatiblePowerSources(ref Dictionary<TechType, float> powerSources)
+    {
+        if (!ArchitectsLibInstalled) return;
+    }
 
     /// <summary>
     /// Corrects references to "PrecursorIngot" in a json recipe to either the ArchitectsLibrary precursor ingot or
