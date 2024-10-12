@@ -1,6 +1,7 @@
 ﻿using Nautilus.Assets;
 using Nautilus.Assets.Gadgets;
 using Nautilus.Utility;
+using PrototypeSubMod.Compatibility;
 using System.IO;
 using UnityEngine;
 
@@ -29,7 +30,8 @@ internal static class LoadEasyPrefabs
                 prefab.SetGameObject(easyPrefab.prefab);
             }
 
-            prefab.SetRecipeFromJson(Path.Combine(Plugin.RecipesFolderPath, easyPrefab.jsonRecipePath, $"{easyPrefab.techType.techTypeName}.json"));
+            string recipeData = File.ReadAllText(Path.Combine(Plugin.RecipesFolderPath, easyPrefab.jsonRecipePath, $"{easyPrefab.techType.techTypeName}.json"));
+            prefab.SetRecipe(ROTACompatManager.SwapRecipeToCorrectIngot(recipeData));
 
             if (easyPrefab.unlockAtStart)
             {

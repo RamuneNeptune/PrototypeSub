@@ -1,6 +1,7 @@
 ﻿using Nautilus.Assets;
 using Nautilus.Assets.Gadgets;
 using Nautilus.Assets.PrefabTemplates;
+using PrototypeSubMod.Compatibility;
 using System.IO;
 using UnityEngine;
 
@@ -12,7 +13,7 @@ internal class PrecursorIngot_Craftable
 
     public static void Register()
     {
-        prefabInfo = PrefabInfo.WithTechType("PrecursorIngot", null, null, "English")
+        prefabInfo = PrefabInfo.WithTechType("Proto_PrecursorIngot", null, null, "English")
             .WithIcon(SpriteManager.Get(TechType.PlasteelIngot))
             .WithSizeInInventory(new Vector2int(2, 1));
 
@@ -30,12 +31,15 @@ internal class PrecursorIngot_Craftable
 
         prefab.SetGameObject(cloneTemplate);
 
-        prefab.SetRecipeFromJson(Path.Combine(Plugin.RecipesFolderPath, "PrecursorIngot.json"))
+        if (!ROTACompatManager.ArchitectsLibInstalled)
+        {
+            prefab.SetRecipeFromJson(Path.Combine(Plugin.RecipesFolderPath, "PrecursorIngot.json"))
             .WithFabricatorType(CraftTree.Type.Fabricator)
             .WithStepsToFabricatorTab("Resources", "AdvancedMaterials")
             .WithCraftingTime(10f);
 
-        prefab.SetPdaGroupCategory(TechGroup.Resources, TechCategory.BasicMaterials);
+            prefab.SetPdaGroupCategory(TechGroup.Resources, TechCategory.BasicMaterials);
+        }
 
         prefab.Register();
     }

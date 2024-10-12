@@ -23,6 +23,7 @@ namespace PrototypeSubMod
     [BepInDependency("com.snmodding.nautilus")]
     [BepInDependency("com.indigocoder.sublibrary")]
     [BepInDependency("com.lee23.epicstructureloader", "1.0.1")]
+    [BepInDependency("ArchitectsLibrary", BepInDependency.DependencyFlags.SoftDependency)]
     public class Plugin : BaseUnityPlugin
     {
         private const string GUID = "com.teamproto.prototypesub";
@@ -126,12 +127,12 @@ namespace PrototypeSubMod
         private void RegisterEncyEntries()
         {
             #region Precursor Ingot
-            LanguageHandler.SetLanguageLine("DownloadedData/Precursor/Scan", "PrecursorIngotEncyLine");
+            LanguageHandler.SetLanguageLine("DownloadedData/Precursor/Scan", "ProtoPrecursorIngotEncyLine");
 
-            string title = Language.main.Get("PrecursorIngotEncyTitle");
-            string description = Language.main.Get("PrecursorIngotEncyBody");
+            string title = Language.main.Get("ProtoPrecursorIngotEncyTitle");
+            string description = Language.main.Get("ProtoPrecursorIngotEncyBody");
 
-            PDAHandler.AddEncyclopediaEntry("PrecursorIngot", "DownloadedData/Precursor/Scan", title, description, unlockSound: PDAHandler.UnlockBasic);
+            PDAHandler.AddEncyclopediaEntry("ProtoPrecursorIngot", "DownloadedData/Precursor/Scan", title, description, unlockSound: PDAHandler.UnlockBasic);
             #endregion
 
             #region Interceptor Terminal
@@ -149,12 +150,12 @@ namespace PrototypeSubMod
         {
             #region Precursor Ingot
 
-            StoryGoalHandler.RegisterCompoundGoal("Ency_PrecursorIngot", Story.GoalType.Encyclopedia, 12f, "Goal_BiomePrecursorGunUpper");
+            StoryGoalHandler.RegisterCompoundGoal("Ency_ProtoPrecursorIngot", Story.GoalType.Encyclopedia, 12f, "Goal_BiomePrecursorGunUpper");
 
-            StoryGoalHandler.RegisterCustomEvent("Ency_PrecursorIngot", () =>
+            StoryGoalHandler.RegisterCustomEvent("Ency_ProtoPrecursorIngot", () =>
             {
                 KnownTech.Add(PrecursorIngot_Craftable.prefabInfo.TechType);
-                PDAEncyclopedia.Add("PrecursorIngot", true);
+                PDAEncyclopedia.Add("ProtoPrecursorIngot", true);
             });
 
             #endregion

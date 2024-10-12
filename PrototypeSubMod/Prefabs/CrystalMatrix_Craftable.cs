@@ -3,6 +3,7 @@ using Nautilus.Assets.Gadgets;
 using Nautilus.Crafting;
 using Nautilus.Handlers;
 using Newtonsoft.Json;
+using PrototypeSubMod.Compatibility;
 using System.IO;
 using UnityEngine;
 
@@ -23,7 +24,7 @@ internal class CrystalMatrix_Craftable
             .WithPdaGroupCategory(TechGroup.Resources, TechCategory.AdvancedMaterials);
 
         string text = File.ReadAllText(Path.Combine(Plugin.RecipesFolderPath, "PrecursorIonCrystalMatrix.json"));
-        var recipeData = JsonConvert.DeserializeObject<RecipeData>(text);
+        var recipeData = ROTACompatManager.SwapRecipeToCorrectIngot(text);
         patch.AddGadget(new CraftingGadget(matrix, recipeData)
             .WithCraftingTime(5f)
             .WithFabricatorType(CraftTree.Type.Fabricator)

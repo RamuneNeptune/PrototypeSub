@@ -1,6 +1,7 @@
 ﻿using Nautilus.Assets;
 using Nautilus.Assets.Gadgets;
 using Nautilus.Utility;
+using PrototypeSubMod.Compatibility;
 using SubLibrary.Handlers;
 using SubLibrary.Monobehaviors;
 using System.Collections;
@@ -26,7 +27,8 @@ internal class Prototype_Craftable
         prefab.SetGameObject(GetSubPrefab);
         prefab.SetUnlock(TechType.Constructor);
 
-        prefab.SetRecipeFromJson(Path.Combine(Plugin.RecipesFolderPath, "PrototypeSub.json"))
+        string jsonRecipe = File.ReadAllText(Path.Combine(Plugin.RecipesFolderPath, "PrototypeSub.json"));
+        prefab.SetRecipe(ROTACompatManager.SwapRecipeToCorrectIngot(jsonRecipe))
             .WithFabricatorType(CraftTree.Type.None)
             .WithCraftingTime(20f);
 

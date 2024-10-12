@@ -1,6 +1,7 @@
 ﻿using Nautilus.Assets;
 using Nautilus.Assets.Gadgets;
 using Nautilus.Utility;
+using PrototypeSubMod.Compatibility;
 using SubLibrary.CyclopsReferencers;
 using SubLibrary.Handlers;
 using System.Collections;
@@ -21,7 +22,9 @@ internal class DeployableLight_Craftable
         var prefab = new CustomPrefab(prefabInfo);
 
         prefab.SetGameObject(GetPrefab);
-        prefab.SetRecipeFromJson(Path.Combine(Plugin.RecipesFolderPath, "DeployableLight.json"))
+
+        string recipeData = File.ReadAllText(Path.Combine(Plugin.RecipesFolderPath, "DeployableLight.json"));
+        prefab.SetRecipe(ROTACompatManager.SwapRecipeToCorrectIngot(recipeData))
             .WithFabricatorType(CraftTree.Type.Fabricator)
             .WithStepsToFabricatorTab("Machines")
             .WithCraftingTime(10f);
