@@ -50,18 +50,17 @@ internal class InterfloorTeleporter : MonoBehaviour
 
         warpController.StartWarp();
 
-        Invoke(nameof(ResetDuration), FADE_IN_DURATION + VFX_DURATION + FADE_OUT_DURATION + 0.1f);
+        Invoke(nameof(ResetDuration), FADE_IN_DURATION + VFX_DURATION + FADE_OUT_DURATION + 1f);
 
         allowedToTeleport = false;
         Invoke(nameof(ResetAllowedToTeleport), teleporterCooldown);
 
-        Invoke(nameof(ActuallyTeleport), FADE_IN_DURATION);
+        Invoke(nameof(ActuallyTeleport), FADE_IN_DURATION + 0.1f);
     }
 
     private void ActuallyTeleport()
     {
         Player.main.SetPosition(teleportPosition.position, teleportPosition.rotation);
-        Player.main.mode = Player.Mode.Sitting;
         Player.main.rigidBody.velocity = Vector3.zero;
     }
 
