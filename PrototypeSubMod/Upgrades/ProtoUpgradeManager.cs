@@ -60,6 +60,11 @@ internal class ProtoUpgradeManager : MonoBehaviour, ISaveDataListener
                 upgrades.Add(protoUpgrade.techType.TechType, protoUpgrade);
             }
         }
+
+        if (saveData == null)
+        {
+            saveData = new PrototypeSaveData();
+        }
     }
 
     public void SetUpgradeInstalled(TechType techType, bool installed)
@@ -103,7 +108,7 @@ internal class ProtoUpgradeManager : MonoBehaviour, ISaveDataListener
 
     public void OnBeforeDataSaved(ref BaseSubDataClass saveData)
     {
-        saveData = this.saveData;
+        saveData.EnsureAsPrototypeData().installedModules = this.saveData.installedModules;
     }
 
     public List<TechType> GetInstalledUpgrades()
