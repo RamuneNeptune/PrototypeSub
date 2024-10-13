@@ -18,7 +18,7 @@ internal class Prototype_Craftable
     public static void Register()
     {
         PrefabInfo prefabInfo = PrefabInfo.WithTechType("PrototypeSub", null, null, "English")
-            .WithIcon(SpriteManager.Get(TechType.PrecursorDroid));
+            .WithIcon(SpriteManager.Get(TechType.PrecursorIonBattery));
 
         SubInfo = prefabInfo;
 

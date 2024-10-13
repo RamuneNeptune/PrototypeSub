@@ -1,4 +1,5 @@
-﻿using PrototypeSubMod.SaveData;
+﻿using PrototypeSubMod.Prefabs;
+using PrototypeSubMod.SaveData;
 using SubLibrary.SaveData;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,7 @@ internal class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTr
         { TechType.PrecursorIonCrystal, 1000 },
         { TechType.PrecursorIonPowerCell, 1500 },
         { TechType.PrecursorIonCrystalMatrix, 3500 },
+        { IonPrism_Craftable.prefabInfo.TechType, 5000 }
     };
 
     public static readonly string EquipmentLabel = "PrototypePowerLabel";

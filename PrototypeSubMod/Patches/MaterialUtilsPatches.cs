@@ -16,6 +16,6 @@ internal class MaterialUtilsPatches
     [HarmonyPatch(nameof(MaterialUtils.ApplyUBERShader)), HarmonyPostfix]
     private static void ApplyUBERShader_Postfix(Material material, float __state)
     {
-        material.SetFloat("_Smoothness", __state * 8f);
+        material.SetFloat("_Shininess", __state * 8f);
     }
 }

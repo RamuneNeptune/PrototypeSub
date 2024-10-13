@@ -119,6 +119,7 @@ namespace PrototypeSubMod
             DeployableLight_Craftable.Register();
             ProtoRepairBot_Spawned.Register();
             CrystalMatrix_Craftable.Register();
+            IonPrism_Craftable.Register();
 
             ProtoPlaque_World.Register();
             ProtoLogo_World.Register();
