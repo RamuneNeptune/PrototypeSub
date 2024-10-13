@@ -5,6 +5,7 @@ using PrototypeSubMod.PowerSystem;
 using PrototypeSubMod.Prefabs;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.Assertions.Must;
 using Ingredient = CraftData.Ingredient;
@@ -93,6 +94,23 @@ internal static class ROTACompatManager
         recipeData.Ingredients = DummyToRealIngredients(dummyRecipeData.Ingredients);
 
         return recipeData;
+    }
+
+    /// <summary>
+    /// If AL is installed, retunrs the recipe containing AL items. If not or such recipe does not exist, returns the default recipe
+    /// </summary>
+    /// <param name="recipePath">The path to the recipe inside the recipe folder</param>
+    /// <returns>The relevant recipe</returns>
+    public static RecipeData GetRelevantRecipe(string recipePath)
+    {
+        string checkPath = Path.Combine(Plugin.RecipesFolderPath, "AL", recipePath);
+        string normalPath = Path.Combine(Plugin.RecipesFolderPath, "Normal", recipePath);
+
+        string ALPath = File.Exists(checkPath) ? checkPath : normalPath;
+        string path = ArchitectsLibInstalled ? ALPath : normalPath; 
+
+        string json = File.ReadAllText(path);
+        return JsonConvert.DeserializeObject<RecipeData>(json, new CustomEnumConverter());
     }
 
     private static List<Ingredient> DummyToRealIngredients(List<DummyIngredient> ingredients)

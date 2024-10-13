@@ -24,8 +24,7 @@ internal class DeployableLight_Craftable
 
         prefab.SetGameObject(GetPrefab);
 
-        string recipeData = File.ReadAllText(Path.Combine(Plugin.RecipesFolderPath, "DeployableLight.json"));
-        prefab.SetRecipe(ROTACompatManager.SwapRecipeToCorrectIngot(recipeData))
+        prefab.SetRecipe(ROTACompatManager.GetRelevantRecipe("DeployableLight.json"))
             .WithFabricatorType(CraftTree.Type.Fabricator)
             .WithStepsToFabricatorTab("Machines")
             .WithCraftingTime(10f);

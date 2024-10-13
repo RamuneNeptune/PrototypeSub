@@ -21,8 +21,7 @@ internal class CrystalMatrix_Craftable
         patch.AddGadget(new ScanningGadget(matrix, Prototype_Craftable.SubInfo.TechType))
             .WithPdaGroupCategory(TechGroup.Resources, TechCategory.AdvancedMaterials);
 
-        string text = File.ReadAllText(Path.Combine(Plugin.RecipesFolderPath, "PrecursorIonCrystalMatrix.json"));
-        var recipeData = ROTACompatManager.SwapRecipeToCorrectIngot(text);
+        var recipeData = ROTACompatManager.GetRelevantRecipe("PrecursorIonCrystalMatrix.json");
         patch.AddGadget(new CraftingGadget(matrix, recipeData)
             .WithCraftingTime(5f)
             .WithFabricatorType(CraftTree.Type.Fabricator)

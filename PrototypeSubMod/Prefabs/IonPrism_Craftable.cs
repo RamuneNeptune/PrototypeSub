@@ -22,8 +22,7 @@ internal class IonPrism_Craftable
 
         prefab.SetGameObject(GetPrefab);
         
-        string jsonRecipe = File.ReadAllText(Path.Combine(Plugin.RecipesFolderPath, "IonPrism.json"));
-        prefab.SetRecipe(ROTACompatManager.SwapRecipeToCorrectIngot(jsonRecipe))
+        prefab.SetRecipe(ROTACompatManager.GetRelevantRecipe("IonPrism.json"))
             .WithStepsToFabricatorTab("Resources", "AdvancedMaterials")
             .WithCraftingTime(10f);
 

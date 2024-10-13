@@ -37,8 +37,8 @@ internal static class LoadEasyPrefabs
                 prefab.SetGameObject(easyPrefab.prefab);
             }
 
-            string recipeData = File.ReadAllText(Path.Combine(Plugin.RecipesFolderPath, easyPrefab.jsonRecipePath, $"{easyPrefab.techType.techTypeName}.json"));
-            prefab.SetRecipe(ROTACompatManager.SwapRecipeToCorrectIngot(recipeData));
+            string path = Path.Combine(easyPrefab.jsonRecipePath, $"{easyPrefab.techType.techTypeName}.json");
+            prefab.SetRecipe(ROTACompatManager.GetRelevantRecipe(path));
 
             if (easyPrefab.unlockAtStart)
             {

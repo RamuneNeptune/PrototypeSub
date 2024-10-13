@@ -28,8 +28,7 @@ internal class Prototype_Craftable
         prefab.SetGameObject(GetSubPrefab);
         prefab.SetUnlock(TechType.Constructor);
 
-        string jsonRecipe = File.ReadAllText(Path.Combine(Plugin.RecipesFolderPath, "PrototypeSub.json"));
-        prefab.SetRecipe(ROTACompatManager.SwapRecipeToCorrectIngot(jsonRecipe))
+        prefab.SetRecipe(ROTACompatManager.GetRelevantRecipe("PrototypeSub.json"))
             .WithFabricatorType(CraftTree.Type.None)
             .WithCraftingTime(20f);
 
