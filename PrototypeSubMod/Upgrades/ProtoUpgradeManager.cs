@@ -52,11 +52,19 @@ internal class ProtoUpgradeManager : MonoBehaviour, ISaveDataListener
     {
         DevConsole.RegisterConsoleCommand(this, "ToggleUpgradeEnabled");
         DevConsole.RegisterConsoleCommand(this, "ToggleUpgradeInstalled");
+
+        if (upgrades.Count == 0)
+        {
+            foreach (var protoUpgrade in GetComponentsInChildren<ProtoUpgrade>(true))
+            {
+                upgrades.Add(protoUpgrade.techType.TechType, protoUpgrade);
+            }
+        }
     }
 
     public void SetUpgradeInstalled(TechType techType, bool installed)
     {
-        if (!upgrades.TryGetValue(techType, out var upgrade)) throw new System.Exception($"There is no upgrade with the tech type {techType} on the Prototype sub");
+        if (!upgrades.TryGetValue(techType, out var upgrade)) throw new Exception($"There is no upgrade with the tech type {techType} on the Prototype sub");
 
         (upgrade as IProtoUpgrade).SetUpgradeInstalled(installed);
 
