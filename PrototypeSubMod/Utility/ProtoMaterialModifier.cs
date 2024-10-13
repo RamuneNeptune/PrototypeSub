@@ -29,6 +29,8 @@ internal class ProtoMaterialModifier : MaterialModifier
 
     public override void EditMaterial(Material material, Renderer renderer, int materialIndex, MaterialUtils.MaterialType materialType)
     {
+        if (renderer.TryGetComponent<DontApplyProtoMaterial>(out _)) return;
+
         string matName = material.name.ToLower();
         if (matName.Contains("transparent"))
         {
