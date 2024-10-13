@@ -16,7 +16,7 @@ internal class IonPrism_Craftable
     public static void Register()
     {
         prefabInfo = PrefabInfo.WithTechType("IonPrism", null, null)
-            .WithIcon(Plugin.AssetBundle.LoadAsset<Sprite>("exosuitgrapplingarmmodule_Upgraded"));
+            .WithIcon(Plugin.AssetBundle.LoadAsset<Sprite>("IonPrism_Icon"));
 
         var prefab = new CustomPrefab(prefabInfo);
 
