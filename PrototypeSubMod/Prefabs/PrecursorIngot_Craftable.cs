@@ -34,9 +34,9 @@ internal class PrecursorIngot_Craftable
         if (!ROTACompatManager.ArchitectsLibInstalled)
         {
             prefab.SetRecipeFromJson(Path.Combine(Plugin.RecipesFolderPath, "PrecursorIngot.json"))
-            .WithFabricatorType(CraftTree.Type.Fabricator)
-            .WithStepsToFabricatorTab("Resources", "AdvancedMaterials")
-            .WithCraftingTime(10f);
+                .WithFabricatorType(CraftTree.Type.Fabricator)
+                .WithStepsToFabricatorTab("Resources", "AdvancedMaterials")
+                .WithCraftingTime(10f);
 
             prefab.SetPdaGroupCategory(TechGroup.Resources, TechCategory.BasicMaterials);
         }

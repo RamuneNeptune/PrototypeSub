@@ -13,9 +13,9 @@ internal class EquipmentPatches
     [HarmonyPatch(nameof(Equipment.AllowedToAdd)), HarmonyPostfix]
     private static void AllowedToAdd_Postfix(Equipment __instance, Pickupable pickupable, ref bool __result)
     {
-        if (!__instance.tr.parent) return;
+        if (!__instance.owner) return;
 
-        if (!__instance.tr.parent.TryGetComponent(out PrototypePowerSystem _)) return;
+        if (!__instance.owner.TryGetComponent(out PrototypePowerSystem _) && !__instance.owner.TryGetComponent(out ProtoPowerAbilitySystem _)) return;
 
         __result = PrototypePowerSystem.AllowedPowerSources.Keys.Contains(pickupable.GetTechType());
     }

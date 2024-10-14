@@ -64,6 +64,7 @@ internal class ProtoPowerAbilitySystem : MonoBehaviour
 
     private bool IsAllowedToAdd(Pickupable pickupable, bool verbose)
     {
+        Plugin.Logger.LogInfo($"Asked if allowed to add {pickupable.GetTechType()} | Answer = {PrototypePowerSystem.AllowedPowerSources.Keys.Contains(pickupable.GetTechType())}");
         return PrototypePowerSystem.AllowedPowerSources.Keys.Contains(pickupable.GetTechType());
     }
 

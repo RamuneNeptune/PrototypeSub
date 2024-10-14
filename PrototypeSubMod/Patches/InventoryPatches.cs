@@ -50,11 +50,11 @@ internal class InventoryPatches
     {
         if (itemA == null) return originalType;
 
-        if (!equipmentB.tr) return originalType;
+        if (!equipmentB.owner) return originalType;
 
-        if (!equipmentB.tr.parent) return originalType;
-
-        if (!equipmentB.tr.parent.TryGetComponent(out PrototypePowerSystem _)) return originalType;
+        bool isPowerSystem = equipmentB.owner.TryGetComponent(out PrototypePowerSystem _);
+        bool isPowerConsumption = equipmentB.owner.TryGetComponent(out ProtoPowerAbilitySystem _);
+        if (!isPowerSystem && !isPowerConsumption) return originalType;
 
         if (PrototypePowerSystem.AllowedPowerSources.Keys.Contains(itemA.techType))
         {
@@ -68,9 +68,12 @@ internal class InventoryPatches
     {
         if (itemA == null) return originalType;
 
-        bool transferContainer = container.label != PrototypePowerSystem.EquipmentLabel;
+        bool transferContainer = container.label != PrototypePowerSystem.EquipmentLabel && container.label != ProtoPowerAbilitySystem.EquipmentLabel;
 
-        if (transferContainer) return originalType;
+        if (transferContainer)
+        {
+            return originalType;
+        }
 
         if (PrototypePowerSystem.AllowedPowerSources.Keys.Contains(itemA.techType))
         {

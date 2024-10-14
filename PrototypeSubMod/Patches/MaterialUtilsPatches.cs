@@ -8,14 +8,19 @@ namespace PrototypeSubMod.Patches;
 internal class MaterialUtilsPatches
 {
     [HarmonyPatch(nameof(MaterialUtils.ApplyUBERShader)), HarmonyPrefix]
-    private static void ApplyUBERShader_Prefix(Material material, ref float __state)
+    private static void ApplyUBERShader_Prefix(Material material, ref (bool, float) __state)
     {
-        __state = material.GetFloat("_GlossMapScale");
+        __state.Item1 = material.HasProperty("_GlossMapScale");
+        if (!__state.Item1) return;
+
+        __state.Item2 = material.GetFloat("_GlossMapScale");
     }
 
     [HarmonyPatch(nameof(MaterialUtils.ApplyUBERShader)), HarmonyPostfix]
-    private static void ApplyUBERShader_Postfix(Material material, float __state)
+    private static void ApplyUBERShader_Postfix(Material material, (bool, float) __state)
     {
-        material.SetFloat("_Shininess", __state * 8f);
+        if (!__state.Item1) return;
+
+        material.SetFloat("_Shininess", __state.Item2 * 8f);
     }
 }

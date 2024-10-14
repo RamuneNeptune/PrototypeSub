@@ -25,6 +25,7 @@ internal class IonPrism_Craftable
             .WithStepsToFabricatorTab("Resources", "AdvancedMaterials")
             .WithCraftingTime(10f);
 
+        prefab.SetEquipment(Plugin.PrototypePowerType);
         prefab.SetPdaGroupCategory(TechGroup.Resources, TechCategory.AdvancedMaterials);
 
         prefab.Register();
@@ -32,15 +33,16 @@ internal class IonPrism_Craftable
 
     private static IEnumerator GetPrefab(IOut<GameObject> prefabOut)
     {
-        var model = Plugin.AssetBundle.LoadAsset<GameObject>("IonPrism");
+        var assetPrefab = Plugin.AssetBundle.LoadAsset<GameObject>("DeployableLight");
 
-        model.SetActive(false);
-        var prism = GameObject.Instantiate(model);
+        assetPrefab.SetActive(false);
+        var prefab = GameObject.Instantiate(assetPrefab);
 
         yield return new WaitUntil(() => MaterialUtils.IsReady);
 
-        MaterialUtils.ApplySNShaders(prism, modifiers: new ProtoMaterialModifier(3f, 0));
+        Plugin.Logger.LogInfo($"Prism = {prefab} | Model = {assetPrefab}");
+        MaterialUtils.ApplySNShaders(prefab, modifiers: new ProtoMaterialModifier(3f));
 
-        prefabOut.Set(prism);
+        prefabOut.Set(prefab);
     }
 }
