@@ -104,6 +104,8 @@ namespace PrototypeSubMod
             {
                 Equipment.slotMapping.Add(name, PrototypePowerType);
             }
+
+            Equipment.slotMapping.Add(ProtoPowerAbilitySystem.SlotName, PrototypePowerType);
         }
 
         private IEnumerator AddBatteryComponents()
