@@ -22,6 +22,7 @@ internal class IonPrism_Craftable
         prefab.SetGameObject(GetPrefab);
 
         prefab.SetRecipe(ROTACompatManager.GetRelevantRecipe("IonPrism.json"))
+            .WithFabricatorType(CraftTree.Type.Fabricator)
             .WithStepsToFabricatorTab("Resources", "AdvancedMaterials")
             .WithCraftingTime(10f);
 
@@ -33,14 +34,13 @@ internal class IonPrism_Craftable
 
     private static IEnumerator GetPrefab(IOut<GameObject> prefabOut)
     {
-        var assetPrefab = Plugin.AssetBundle.LoadAsset<GameObject>("DeployableLight");
-
-        assetPrefab.SetActive(false);
-        var prefab = GameObject.Instantiate(assetPrefab);
+        var assetPrefab = Plugin.AssetBundle.LoadAsset<GameObject>("IonPrism_Prefab");
 
         yield return new WaitUntil(() => MaterialUtils.IsReady);
 
-        Plugin.Logger.LogInfo($"Prism = {prefab} | Model = {assetPrefab}");
+        var prefab = GameObject.Instantiate(assetPrefab);
+
+        Plugin.Logger.LogInfo($"Prefab = {prefab} | Model = {assetPrefab}");
         MaterialUtils.ApplySNShaders(prefab, modifiers: new ProtoMaterialModifier(3f));
 
         prefabOut.Set(prefab);
