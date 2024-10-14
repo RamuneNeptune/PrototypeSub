@@ -18,12 +18,12 @@ internal class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTr
         "PrototypePowerSlot4"
     };
 
-    public static readonly Dictionary<TechType, float> AllowedPowerSources = new()
+    public static readonly Dictionary<TechType, PowerConfigData> AllowedPowerSources = new()
     {
-        { TechType.PrecursorIonCrystal, 1000 },
-        { TechType.PrecursorIonPowerCell, 1500 },
-        { TechType.PrecursorIonCrystalMatrix, 3500 },
-        { IonPrism_Craftable.prefabInfo.TechType, 5000 }
+        { TechType.PrecursorIonCrystal, new(1000, null) },
+        { TechType.PrecursorIonPowerCell, new(1500, null) },
+        { TechType.PrecursorIonCrystalMatrix, new(3500, null) },
+        { IonPrism_Craftable.prefabInfo.TechType, new(5000, null) }
     };
 
     public static readonly string EquipmentLabel = "PrototypePowerLabel";

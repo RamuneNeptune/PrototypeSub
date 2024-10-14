@@ -58,8 +58,8 @@ internal static class ROTACompatManager
         TechType powerCube = (TechType)Enum.Parse(typeof(TechType), "RedIonCube");
 
         var powerSources = PrototypePowerSystem.AllowedPowerSources;
-        powerSources.Add(electricube, 2500);
-        powerSources.Add(powerCube, 3000);
+        powerSources.Add(electricube, new PowerConfigData(2500, null));
+        powerSources.Add(powerCube, new PowerConfigData(3000, null));
     }
 
     /// <summary>

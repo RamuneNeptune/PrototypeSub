@@ -85,7 +85,7 @@ internal class PrototypePowerBattery : MonoBehaviour, IBattery, IProtoTreeEventL
             return;
         }
 
-        float power = PrototypePowerSystem.AllowedPowerSources[techTag.type];
+        float power = PrototypePowerSystem.AllowedPowerSources[techTag.type].powerValue;
         SetCapacity(power);
         SetCharge(power);
 
