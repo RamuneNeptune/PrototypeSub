@@ -5,11 +5,11 @@ namespace PrototypeSubMod.PowerSystem;
 internal class PowerConfigData
 {
     public float powerValue;
-    public Type sourceEffectType;
+    public PowerSourceFunctionality sourceEffectFunctionality;
 
-    public PowerConfigData(float powerValue, Type sourceEffectType)
+    public PowerConfigData(float powerValue, PowerSourceFunctionality sourceEffectFunctionality)
     {
         this.powerValue = powerValue;
-        this.sourceEffectType = sourceEffectType;
+        this.sourceEffectFunctionality = sourceEffectFunctionality;
     }
 }

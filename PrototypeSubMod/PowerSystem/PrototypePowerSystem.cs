@@ -32,6 +32,7 @@ internal class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTr
 
     [SerializeField] private SubSerializationManager serializationManager;
     [SerializeField] private ChildObjectIdentifier storageRoot;
+    [SerializeField] private ChildObjectIdentifier powerSourceFunctionsRoot;
     [SerializeField] private PrototypePowerSource[] batterySources;
     [SerializeField] private FMODAsset equipBatterySound;
     [SerializeField] private FMODAsset unequipBatterySound;
@@ -82,6 +83,13 @@ internal class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTr
         batterySource.SetBattery(battery);
 
         FMODUWE.PlayOneShot(equipBatterySound, transform.position, 1f);
+
+        var functionalityType = AllowedPowerSources[item.techType].sourceEffectFunctionality;
+        if (functionalityType != null)
+        {
+            var func = powerSourceFunctionsRoot.gameObject.EnsureComponent(functionalityType.GetType());
+            (func as PowerSourceFunctionality).OnCountChanged(true);
+        }
     }
 
     private void OnUnequip(string slot, InventoryItem item)
@@ -92,6 +100,13 @@ internal class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTr
         batterySource.SetBattery(null);
 
         FMODUWE.PlayOneShot(unequipBatterySound, transform.position, 1f);
+
+        var functionalityType = AllowedPowerSources[item.techType].sourceEffectFunctionality;
+        if (functionalityType != null)
+        {
+            var func = powerSourceFunctionsRoot.gameObject.EnsureComponent(functionalityType.GetType());
+            (func as PowerSourceFunctionality).OnCountChanged(false);
+        }
     }
 
     public void OnHover(HandTargetEventData eventData)
@@ -135,6 +150,19 @@ internal class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTr
         if (data.serializedPowerEquipment != null)
         {
             StorageHelper.TransferEquipment(storageRoot.gameObject, data.serializedPowerEquipment, equipment);
+        }
+
+        foreach (var item in storageRoot.GetComponentsInChildren<TechTag>())
+        {
+            if (!AllowedPowerSources.TryGetValue(item.type, out var configData))
+            {
+                Plugin.Logger.LogWarning($"Invalid power source in Prototype sub with type {item.type}");
+                continue;
+            }
+
+            if (!powerSourceFunctionsRoot.TryGetComponent(configData.sourceEffectFunctionality.GetType(), out var component)) continue;
+
+            (component as PowerSourceFunctionality).OnCountChanged(true);
         }
     }
 }
