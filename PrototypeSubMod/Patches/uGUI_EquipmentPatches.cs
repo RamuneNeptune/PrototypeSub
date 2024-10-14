@@ -19,6 +19,8 @@ internal class uGUI_EquipmentPatches
     private static void Awake_Prefix(uGUI_Equipment __instance)
     {
         CloneSlots(__instance, PrototypePowerSystem.SLOT_NAMES);
+        CloneSlots(__instance, new[] { ProtoPowerAbilitySystem.SlotName }, "DecoySlot1", null);
+
         var slot0 = CloneSlots(__instance, DeployablesStorageTerminal.SLOT_NAMES, "BatteryCharger", null, DeployablesStorageTerminal.SLOT_POSITIONS);
 
         GameObject go = new();
