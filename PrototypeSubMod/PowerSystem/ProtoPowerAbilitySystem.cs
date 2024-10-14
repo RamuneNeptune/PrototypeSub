@@ -11,6 +11,7 @@ internal class ProtoPowerAbilitySystem : MonoBehaviour
     public Equipment equipment { get; private set; }
 
     [SerializeField] private ChildObjectIdentifier storageRoot;
+    [SerializeField] private ChildObjectIdentifier functionalityRoot;
     [SerializeField] private FMODAsset equipSound;
     [SerializeField] private FMODAsset unequipSound;
 
@@ -64,12 +65,15 @@ internal class ProtoPowerAbilitySystem : MonoBehaviour
 
     private bool IsAllowedToAdd(Pickupable pickupable, bool verbose)
     {
-        Plugin.Logger.LogInfo($"Asked if allowed to add {pickupable.GetTechType()} | Answer = {PrototypePowerSystem.AllowedPowerSources.Keys.Contains(pickupable.GetTechType())}");
         return PrototypePowerSystem.AllowedPowerSources.Keys.Contains(pickupable.GetTechType());
     }
 
     public void ConsumeItem()
     {
+        var currentItem = equipment.GetItemInSlot(SlotName);
+        functionalityRoot.gameObject.AddComponent(PrototypePowerSystem.AllowedPowerSources[currentItem.techType].sourceEffectFunctionality);
 
+        equipment.RemoveItem(SlotName, true, true);
+        Destroy(currentItem.item.gameObject);
     }
 }

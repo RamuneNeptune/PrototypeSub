@@ -193,7 +193,7 @@ internal class PrototypePowerSource : MonoBehaviour, IPowerInterface, ISaveDataL
 
         battery.SetChargeNormalized(defaultBatteryCharge);
 
-        string slot = PrototypePowerSystem.SLOT_NAMES[transform.GetSiblingIndex() - 2];
+        string slot = PrototypePowerSystem.SLOT_NAMES[transform.GetSiblingIndex() - 1];
 
         powerSystem.equipment.AddItem(slot, battery.InventoryItem);
 
@@ -204,7 +204,7 @@ internal class PrototypePowerSource : MonoBehaviour, IPowerInterface, ISaveDataL
     {
         this.battery = battery;
 
-        string slot = PrototypePowerSystem.SLOT_NAMES[transform.GetSiblingIndex() - 2];
+        string slot = PrototypePowerSystem.SLOT_NAMES[transform.GetSiblingIndex() - 1];
 
         if (battery == null)
         {
