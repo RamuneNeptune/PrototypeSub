@@ -1,18 +1,11 @@
 ﻿using UnityEngine;
 
 namespace PrototypeSubMod.PowerSystem;
-
+ 
 internal class PowerSourceFunctionality : MonoBehaviour
 {
-    protected int powerSourceCount;
-
-    public virtual void OnCountChanged(bool added)
+    public void OnActivated()
     {
-        powerSourceCount += added ? 1 : -1;
 
-        if (powerSourceCount <= 0)
-        {
-            Destroy(this);
-        }
     }
 }
