@@ -1,10 +1,12 @@
-﻿using PrototypeSubMod.Prefabs;
+﻿using PrototypeSubMod.PowerSystem.Funcionalities;
+using PrototypeSubMod.Prefabs;
 using PrototypeSubMod.SaveData;
 using SubLibrary.SaveData;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace PrototypeSubMod.PowerSystem;
 
@@ -20,7 +22,7 @@ internal class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTr
 
     public static readonly Dictionary<TechType, PowerConfigData> AllowedPowerSources = new()
     {
-        { TechType.PrecursorIonCrystal, new(1000, null) },
+        { TechType.PrecursorIonCrystal, new(1000, typeof(IonCubePowerFunctionality)) },
         { TechType.PrecursorIonPowerCell, new(1500, null) },
         { TechType.PrecursorIonCrystalMatrix, new(3500, null) },
         { IonPrism_Craftable.prefabInfo.TechType, new(5000, null) }
@@ -87,7 +89,7 @@ internal class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTr
         var functionalityType = AllowedPowerSources[item.techType].sourceEffectFunctionality;
         if (functionalityType != null)
         {
-            var func = powerSourceFunctionsRoot.gameObject.EnsureComponent(functionalityType.GetType());
+            var func = powerSourceFunctionsRoot.gameObject.EnsureComponent(functionalityType);
             (func as PowerSourceFunctionality).OnCountChanged(true);
         }
     }
@@ -104,7 +106,7 @@ internal class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTr
         var functionalityType = AllowedPowerSources[item.techType].sourceEffectFunctionality;
         if (functionalityType != null)
         {
-            var func = powerSourceFunctionsRoot.gameObject.EnsureComponent(functionalityType.GetType());
+            var func = powerSourceFunctionsRoot.gameObject.EnsureComponent(functionalityType);
             (func as PowerSourceFunctionality).OnCountChanged(false);
         }
     }
@@ -160,8 +162,9 @@ internal class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTr
                 continue;
             }
 
-            if (!powerSourceFunctionsRoot.TryGetComponent(configData.sourceEffectFunctionality.GetType(), out var component)) continue;
+            if (configData.sourceEffectFunctionality == null) continue;
 
+            var component = powerSourceFunctionsRoot.gameObject.EnsureComponent(configData.sourceEffectFunctionality);
             (component as PowerSourceFunctionality).OnCountChanged(true);
         }
     }
