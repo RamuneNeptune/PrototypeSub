@@ -40,9 +40,7 @@ internal class IonPrism_Craftable
 
         var prefab = GameObject.Instantiate(assetPrefab);
 
-        Plugin.Logger.LogInfo($"Prefab = {prefab} | Model = {assetPrefab}");
         MaterialUtils.ApplySNShaders(prefab, modifiers: new ProtoMaterialModifier(3f));
-
         prefabOut.Set(prefab);
     }
 }
