@@ -33,6 +33,8 @@ internal class uGUI_ProtoBuildScreen : MonoBehaviour
         else
         {
             buildScreen.SetActive(true);
+            upgradeScreen.SetActive(false);
+            emptyScreen.SetActive(false);
         }
 
         distanceTracker.OnPlayerTriggerChanged += UpdateTooltipActive;
