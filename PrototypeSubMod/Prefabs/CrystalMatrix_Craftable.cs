@@ -2,7 +2,6 @@
 using Nautilus.Assets.Gadgets;
 using Nautilus.Handlers;
 using PrototypeSubMod.Compatibility;
-using System.IO;
 using UnityEngine;
 
 namespace PrototypeSubMod.Prefabs;

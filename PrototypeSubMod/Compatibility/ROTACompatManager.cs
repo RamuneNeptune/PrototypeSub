@@ -7,7 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
-using UnityEngine.Assertions.Must;
 using Ingredient = CraftData.Ingredient;
 
 namespace PrototypeSubMod.Compatibility;
@@ -97,7 +96,7 @@ internal static class ROTACompatManager
     }
 
     /// <summary>
-    /// If AL is installed, retunrs the recipe containing AL items. If not or such recipe does not exist, returns the default recipe
+    /// If AL is installed, returns the recipe containing AL items. If not or such recipe does not exist, returns the default recipe
     /// </summary>
     /// <param name="recipePath">The path to the recipe inside the recipe folder</param>
     /// <returns>The relevant recipe</returns>
@@ -107,7 +106,7 @@ internal static class ROTACompatManager
         string normalPath = Path.Combine(Plugin.RecipesFolderPath, "Normal", recipePath);
 
         string ALPath = File.Exists(checkPath) ? checkPath : normalPath;
-        string path = ArchitectsLibInstalled ? ALPath : normalPath; 
+        string path = ArchitectsLibInstalled ? ALPath : normalPath;
 
         string json = File.ReadAllText(path);
         return JsonConvert.DeserializeObject<RecipeData>(json, new CustomEnumConverter());

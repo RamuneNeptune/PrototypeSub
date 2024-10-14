@@ -32,7 +32,7 @@ namespace PrototypeSubMod
         private const string versionString = "0.0.5.0";
 
         public new static ManualLogSource Logger { get; private set; }
-        
+
         private static Assembly Assembly { get; } = Assembly.GetExecutingAssembly();
 
         public static string AssetsFolderPath { get; } = Path.Combine(Path.GetDirectoryName(Assembly.Location), "Assets");

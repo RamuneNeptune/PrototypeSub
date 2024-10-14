@@ -4,7 +4,6 @@ using Nautilus.Utility;
 using PrototypeSubMod.Compatibility;
 using PrototypeSubMod.Utility;
 using System.Collections;
-using System.IO;
 using UnityEngine;
 
 namespace PrototypeSubMod.Prefabs;
@@ -21,7 +20,7 @@ internal class IonPrism_Craftable
         var prefab = new CustomPrefab(prefabInfo);
 
         prefab.SetGameObject(GetPrefab);
-        
+
         prefab.SetRecipe(ROTACompatManager.GetRelevantRecipe("IonPrism.json"))
             .WithStepsToFabricatorTab("Resources", "AdvancedMaterials")
             .WithCraftingTime(10f);
