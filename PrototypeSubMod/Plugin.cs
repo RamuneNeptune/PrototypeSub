@@ -43,6 +43,13 @@ namespace PrototypeSubMod
         public static EquipmentType PrototypePowerType { get; } = EnumHandler.AddEntry<EquipmentType>("PrototypePowerType");
         public static EquipmentType LightBeaconEquipmentType { get; } = EnumHandler.AddEntry<EquipmentType>("LightBeaconType");
 
+        public static TechGroup PrototypeGroup { get; } = EnumHandler.AddEntry<TechGroup>("PrototypeSub").WithPdaInfo(null);
+        public static TechCategory PrototypeCategory { get; } = EnumHandler.AddEntry<TechCategory>("PrototypeSub").RegisterToTechGroup(PrototypeGroup)
+            .WithPdaInfo(null);
+
+        public static TechCategory ProtoModuleCategory { get; } = EnumHandler.AddEntry<TechCategory>("ProtoModules").RegisterToTechGroup(PrototypeGroup)
+            .WithPdaInfo(null);
+
         internal static BatterySaveData BatterySaveData = SaveDataHandler.RegisterSaveDataCache<BatterySaveData>();
         internal static GameObject welderPrefab;
 
@@ -114,12 +121,13 @@ namespace PrototypeSubMod
         private void RegisterPrefabs()
         {
             PrecursorIngot_Craftable.Register();
+            IonPrism_Craftable.Register();
+
             Prototype_Craftable.Register();
             ProtoBuildTerminal_World.Register();
             DeployableLight_Craftable.Register();
             ProtoRepairBot_Spawned.Register();
             CrystalMatrix_Craftable.Register();
-            IonPrism_Craftable.Register();
 
             ProtoPlaque_World.Register();
             ProtoLogo_World.Register();

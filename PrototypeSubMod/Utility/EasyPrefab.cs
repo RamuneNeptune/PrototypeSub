@@ -13,6 +13,9 @@ internal class EasyPrefab : ScriptableObject
     public bool applyPrecursorMaterialChanges;
     public bool unlockAtStart;
 
+    public bool includeInPDA;
+    public bool isProtoUpgrade;
+
     [Tooltip("Tech type appended to the end of the path with extenson. Root folder is the Recipes folder")]
     public string jsonRecipePath;
 }

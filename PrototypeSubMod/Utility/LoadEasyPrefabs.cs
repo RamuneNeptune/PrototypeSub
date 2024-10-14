@@ -49,6 +49,11 @@ internal static class LoadEasyPrefabs
                 prefab.SetUnlock(TechType.PrecursorKey_White);
             }
 
+            if (easyPrefab.isProtoUpgrade && easyPrefab.includeInPDA)
+            {
+                prefab.SetPdaGroupCategory(Plugin.PrototypeGroup, Plugin.ProtoModuleCategory);
+            }
+
             prefab.Register();
         }
     }

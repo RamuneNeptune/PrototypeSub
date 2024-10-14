@@ -31,7 +31,7 @@ internal class Prototype_Craftable
             .WithFabricatorType(CraftTree.Type.None)
             .WithCraftingTime(20f);
 
-        prefab.SetPdaGroupCategory(TechGroup.Constructor, TechCategory.Constructor);
+        prefab.SetPdaGroupCategory(Plugin.PrototypeGroup, Plugin.PrototypeCategory);
 
         prefab.Register();
     }
