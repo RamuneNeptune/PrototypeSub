@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using UnityEngine;
 
 namespace PrototypeSubMod.PowerSystem;
@@ -11,6 +12,8 @@ internal class ProtoPowerAbilitySystem : MonoBehaviour
     public static ProtoPowerAbilitySystem Instance { get; private set; }
 
     public Equipment equipment { get; private set; }
+    public Action onEquip;
+    public Action onUnequip;
 
     [SerializeField] private ChildObjectIdentifier storageRoot;
     [SerializeField] private ChildObjectIdentifier functionalityRoot;
@@ -66,11 +69,13 @@ internal class ProtoPowerAbilitySystem : MonoBehaviour
     private void OnEquip(string slot, InventoryItem item)
     {
         FMODUWE.PlayOneShot(equipSound, transform.position, 1f);
+        onEquip?.Invoke();
     }
 
     private void OnUnequip(string slot, InventoryItem item)
     {
         FMODUWE.PlayOneShot(unequipSound, transform.position, 1f);
+        onUnequip?.Invoke();
     }
 
     private bool IsAllowedToAdd(Pickupable pickupable, bool verbose)
@@ -86,5 +91,10 @@ internal class ProtoPowerAbilitySystem : MonoBehaviour
 
         equipment.RemoveItem(SlotName, true, true);
         Destroy(currentItem.item.gameObject);
+    }
+
+    public bool HasItem()
+    {
+        return equipment.GetItemInSlot(SlotName) != null;
     }
 }
