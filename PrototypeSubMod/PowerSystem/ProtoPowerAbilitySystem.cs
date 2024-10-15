@@ -86,8 +86,11 @@ internal class ProtoPowerAbilitySystem : MonoBehaviour
     public void ConsumeItem()
     {
         var currentItem = equipment.GetItemInSlot(SlotName);
-        ErrorMessage.AddError($"Consuming {currentItem}");
-        functionalityRoot.gameObject.AddComponent(PrototypePowerSystem.AllowedPowerSources[currentItem.techType].sourceEffectFunctionality);
+        var effectType = PrototypePowerSystem.AllowedPowerSources[currentItem.techType].sourceEffectFunctionality;
+        if (effectType != null)
+        {
+            functionalityRoot.gameObject.AddComponent(effectType);
+        }
 
         equipment.RemoveItem(SlotName, true, true);
         Destroy(currentItem.item.gameObject);
