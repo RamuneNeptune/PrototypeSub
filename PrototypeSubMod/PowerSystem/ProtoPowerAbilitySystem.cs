@@ -8,6 +8,8 @@ internal class ProtoPowerAbilitySystem : MonoBehaviour
     public static readonly string EquipmentLabel = "ProtoPowerExtractorLabel";
     public static readonly string SlotName = "ProtoPowerConsumptionSlot";
 
+    public static ProtoPowerAbilitySystem Instance { get; private set; }
+
     public Equipment equipment { get; private set; }
 
     [SerializeField] private ChildObjectIdentifier storageRoot;
@@ -17,6 +19,14 @@ internal class ProtoPowerAbilitySystem : MonoBehaviour
 
     private void Awake()
     {
+        if (Instance != null)
+        {
+            Destroy(this);
+            throw new System.Exception($"More than 1 ProtoPowerAbilitySystem in the scene! Destroying {this}");
+        }
+
+        Instance = this;
+
         Initialize();
     }
 
@@ -71,6 +81,7 @@ internal class ProtoPowerAbilitySystem : MonoBehaviour
     public void ConsumeItem()
     {
         var currentItem = equipment.GetItemInSlot(SlotName);
+        ErrorMessage.AddError($"Consuming {currentItem}");
         functionalityRoot.gameObject.AddComponent(PrototypePowerSystem.AllowedPowerSources[currentItem.techType].sourceEffectFunctionality);
 
         equipment.RemoveItem(SlotName, true, true);

@@ -19,7 +19,6 @@ internal class uGUI_EquipmentPatches
     private static void Awake_Prefix(uGUI_Equipment __instance)
     {
         CloneSlots(__instance, PrototypePowerSystem.SLOT_NAMES);
-        CloneSlots(__instance, new[] { ProtoPowerAbilitySystem.SlotName }, "DecoySlot", null);
 
         var slot0 = CloneSlots(__instance, DeployablesStorageTerminal.SLOT_NAMES, "BatteryCharger", null, DeployablesStorageTerminal.SLOT_POSITIONS);
 
@@ -35,6 +34,31 @@ internal class uGUI_EquipmentPatches
         var img = go.AddComponent<Image>();
         img.sprite = Plugin.AssetBundle.LoadAsset<Sprite>("DecoyStorageBackground");
         img.raycastTarget = false;
+
+        var powerAbilitySlot = CloneSlots(__instance, new[] { ProtoPowerAbilitySystem.SlotName }, "DecoySlot", null);
+        GameObject consumeButton = new GameObject();
+        consumeButton.transform.SetParent(__instance.transform);
+        consumeButton.name = "PowerAbilityConsumeButton";
+
+        var rect = consumeButton.AddComponent<RectTransform>();
+        rect.localPosition = new Vector3(0, -250, 0);
+        float size = 0.05f;
+        rect.sizeDelta = new Vector2(1.78f * size, size);
+
+        consumeButton.AddComponent<Image>().sprite = Plugin.AssetBundle.LoadAsset<Sprite>("Proto_ConsumeButton");
+        var button = consumeButton.AddComponent<Button>();
+        button.transition = Selectable.Transition.SpriteSwap;
+        button.spriteState = new SpriteState()
+        {
+            selectedSprite = Plugin.AssetBundle.LoadAsset<Sprite>("Proto_ConsumeButton"),
+            highlightedSprite = Plugin.AssetBundle.LoadAsset<Sprite>("Proto_ConsumeButton_Hovered"),
+            pressedSprite = Plugin.AssetBundle.LoadAsset<Sprite>("Proto_ConsumeButton_Clicked"),
+            disabledSprite = Plugin.AssetBundle.LoadAsset<Sprite>("Proto_ConsumeButton_Disabled")
+        };
+
+        button.onClick.AddListener(ProtoPowerAbilitySystem.Instance.ConsumeItem);
+
+        consumeButton.SetActive(false);
     }
 
 #nullable enable
@@ -125,6 +149,13 @@ internal class uGUI_EquipmentPatches
         }
 
         CraftData.equipmentTypes[LastDraggedItem.pickupable.GetTechType()] = LastDraggedItem.originalType;
+    }
+
+    [HarmonyPatch(nameof(uGUI_Equipment.Init)), HarmonyPostfix]
+    private static void Init_Postfix(uGUI_Equipment __instance, Equipment equipment)
+    {
+        bool isAbilitySystem = equipment._label == ProtoPowerAbilitySystem.EquipmentLabel;
+        __instance.transform.Find("PowerAbilityConsumeButton").gameObject.SetActive(isAbilitySystem);
     }
 
     private static uGUI_EquipmentSlot CloneSlot(uGUI_Equipment equipmentMenu, string childName, string newSlotName)
