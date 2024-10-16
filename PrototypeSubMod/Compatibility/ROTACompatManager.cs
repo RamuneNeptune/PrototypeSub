@@ -2,6 +2,7 @@
 using Nautilus.Json.Converters;
 using Newtonsoft.Json;
 using PrototypeSubMod.PowerSystem;
+using PrototypeSubMod.PowerSystem.Funcionalities;
 using PrototypeSubMod.Prefabs;
 using System;
 using System.Collections.Generic;
@@ -58,7 +59,7 @@ internal static class ROTACompatManager
         TechType powerCube = (TechType)Enum.Parse(typeof(TechType), "RedIonCube");
 
         var powerSources = PrototypePowerSystem.AllowedPowerSources;
-        powerSources.Add(electricube, new PowerConfigData(2500, null));
+        powerSources.Add(electricube, new PowerConfigData(2500, typeof(ElectricubePowerFunctionality)));
         powerSources.Add(powerCube, new PowerConfigData(3000, null));
     }
 
