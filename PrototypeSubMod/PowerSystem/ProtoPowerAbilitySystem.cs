@@ -20,6 +20,8 @@ internal class ProtoPowerAbilitySystem : MonoBehaviour
     [SerializeField] private FMODAsset equipSound;
     [SerializeField] private FMODAsset unequipSound;
 
+    private bool justRemoved;
+
     private void Awake()
     {
         if (Instance != null)
@@ -74,8 +76,16 @@ internal class ProtoPowerAbilitySystem : MonoBehaviour
 
     private void OnUnequip(string slot, InventoryItem item)
     {
-        FMODUWE.PlayOneShot(unequipSound, transform.position, 1f);
         onUnequip?.Invoke();
+
+        if (!justRemoved)
+        {
+            FMODUWE.PlayOneShot(unequipSound, transform.position, 1f);
+        }
+        else
+        {
+            justRemoved = false;
+        }
     }
 
     private bool IsAllowedToAdd(Pickupable pickupable, bool verbose)
@@ -91,6 +101,8 @@ internal class ProtoPowerAbilitySystem : MonoBehaviour
         {
             functionalityRoot.gameObject.AddComponent(effectType);
         }
+
+        justRemoved = true;
 
         equipment.RemoveItem(SlotName, true, true);
         Destroy(currentItem.item.gameObject);

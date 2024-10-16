@@ -8,12 +8,15 @@ internal class AbilityConsumptionButton : MonoBehaviour, IPointerDownHandler, IP
 {
     [SerializeField] private Image buttonImage;
     [SerializeField] private Image progressBar;
+    [SerializeField] private Animator animator;
+    [SerializeField] private FMOD_CustomEmitter chargeEmitter;
+    [SerializeField] private float confirmTime;
+
+    [Header("Sprites")]
     [SerializeField] private Sprite normalSprite;
     [SerializeField] private Sprite hoverSprite;
     [SerializeField] private Sprite pressedSprite;
     [SerializeField] private Sprite disabledSprite;
-    [SerializeField] private Animator animator;
-    [SerializeField] private float confirmTime; 
 
     private float currentConfirmTime;
     private bool clicking;
@@ -34,7 +37,9 @@ internal class AbilityConsumptionButton : MonoBehaviour, IPointerDownHandler, IP
         if (!clicking || !interactable)
         {
             currentConfirmTime = 0;
-            consumed = false;
+            progressBar.fillAmount = 0;
+            consumed = false;            
+            animator.SetBool("Charging", false);
             return;
         }
 
@@ -53,12 +58,17 @@ internal class AbilityConsumptionButton : MonoBehaviour, IPointerDownHandler, IP
     {
         clicking = true;
 
-        if (interactable) animator.SetBool("Charging", true);
+        if (interactable)
+        {
+            animator.SetBool("Charging", true);
+            chargeEmitter.Play();
+        }
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
         clicking = false;
+        chargeEmitter.Stop();
     }
 
     private void OnEnable()

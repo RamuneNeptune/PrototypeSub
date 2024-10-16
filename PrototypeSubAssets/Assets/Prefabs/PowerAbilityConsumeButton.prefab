@@ -122,6 +122,7 @@ GameObject:
   - component: {fileID: 3326192773669604110}
   - component: {fileID: 4619746664933072361}
   - component: {fileID: 6315127739763017743}
+  - component: {fileID: 7755234238233964207}
   m_Layer: 5
   m_Name: PowerAbilityConsumeButton
   m_TagString: Untagged
@@ -163,12 +164,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buttonImage: {fileID: 6587261128994829161}
   progressBar: {fileID: 4787909022853836823}
+  animator: {fileID: 6315127739763017743}
+  chargeEmitter: {fileID: 7755234238233964207}
+  confirmTime: 3.4
   normalSprite: {fileID: 21300000, guid: 246963dcbba34b440bd2266f0685e021, type: 3}
   hoverSprite: {fileID: 21300000, guid: 835decf228eeeb84abae547fdff1de14, type: 3}
   pressedSprite: {fileID: 21300000, guid: c3578462e52c0eb439cef00917db3e06, type: 3}
   disabledSprite: {fileID: 21300000, guid: f600c23bb1a18a34684d926cd667d9dc, type: 3}
-  animator: {fileID: 6315127739763017743}
-  confirmTime: 2
 --- !u!95 &6315127739763017743
 Animator:
   serializedVersion: 3
@@ -188,6 +190,26 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &7755234238233964207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3326192773669604111}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1699601541, guid: 06dd3d5416bf43ea368cc39ff96e6d5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  asset: {fileID: 11400000, guid: 0f89f488c0d9e84498537c64c7cb7e5b, type: 2}
+  playOnAwake: 0
+  stopImmediatelyOnDisable: 0
+  followParent: 1
+  restartOnPlay: 1
+  debug: 0
+  subtitlesKey: 
+  playSubtitlesWithUnscaledTime: 1
 --- !u!1 &4175227268828608597
 GameObject:
   m_ObjectHideFlags: 0
