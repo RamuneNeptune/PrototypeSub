@@ -23,6 +23,12 @@ public class PowerConfigData
     public PowerConfigData(float powerValue, Type sourceEffectFunctionality)
     {
         this.powerValue = powerValue;
+        if (sourceEffectFunctionality == null)
+        {
+            _sourceEffectFunctionality = null;
+            return;
+        }
+
         _sourceEffectFunctionality = sourceEffectFunctionality.IsSubclassOf(typeof(PowerSourceFunctionality)) ? sourceEffectFunctionality : null;
     }
 }

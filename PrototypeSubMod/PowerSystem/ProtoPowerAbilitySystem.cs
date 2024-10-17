@@ -17,6 +17,12 @@ internal class ProtoPowerAbilitySystem : MonoBehaviour, ISaveDataListener, ILate
     public Action onEquip;
     public Action onUnequip;
 
+    [Header("Animation")]
+    [SerializeField] private Animator animator;
+    [SerializeField] private PlayerDistanceTracker playerDistanceTracker;
+    [SerializeField] private float maxDistance;
+
+    [Header("Equipment Setup")]
     [SerializeField] private ChildObjectIdentifier storageRoot;
     [SerializeField] private ChildObjectIdentifier functionalityRoot;
     [SerializeField] private FMODAsset equipSound;
@@ -36,6 +42,12 @@ internal class ProtoPowerAbilitySystem : MonoBehaviour, ISaveDataListener, ILate
         Instance = this;
 
         Initialize();
+    }
+
+    private void Start()
+    {
+        InvokeRepeating(nameof(CheckForPlayerProxy), 0, 0.25f);
+        animator.SetBool("Activated", false);
     }
 
     private void Initialize()
@@ -131,6 +143,7 @@ internal class ProtoPowerAbilitySystem : MonoBehaviour, ISaveDataListener, ILate
 
         PDA pda = Player.main.GetPDA();
         pda.Close();
+        animator.SetBool("Activated", false);
     }
 
     public bool HasItem()
@@ -175,5 +188,13 @@ internal class ProtoPowerAbilitySystem : MonoBehaviour, ISaveDataListener, ILate
     public void CheckForCurrentFunctionality()
     {
         currentPowerFunctionality = functionalityRoot.GetComponent<PowerSourceFunctionality>();
+    }
+
+    private void CheckForPlayerProxy()
+    {
+        if (currentPowerFunctionality != null) return;
+
+        bool inRange = playerDistanceTracker.distanceToPlayer < maxDistance;
+        animator.SetBool("Activated", inRange);
     }
 }
