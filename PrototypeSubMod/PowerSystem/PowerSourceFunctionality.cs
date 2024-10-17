@@ -5,10 +5,10 @@ using UnityEngine;
 
 namespace PrototypeSubMod.PowerSystem;
 
-internal abstract class PowerSourceFunctionality : MonoBehaviour, ISaveDataListener
+public abstract class PowerSourceFunctionality : MonoBehaviour, ISaveDataListener
 {
-    private float currentTime;
-    private SubSerializationManager serializationManager;
+    protected float currentTime;
+    protected SubSerializationManager serializationManager;
 
     private void OnEnable()
     {

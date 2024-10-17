@@ -117,7 +117,7 @@ internal class ProtoPowerAbilitySystem : MonoBehaviour, ISaveDataListener, ILate
     public void ConsumeItem()
     {
         var currentItem = equipment.GetItemInSlot(SlotName);
-        var effectType = PrototypePowerSystem.AllowedPowerSources[currentItem.techType].sourceEffectFunctionality;
+        var effectType = PrototypePowerSystem.AllowedPowerSources[currentItem.techType].SourceEffectFunctionality;
         if (effectType != null)
         {
             var component = functionalityRoot.gameObject.AddComponent(effectType);

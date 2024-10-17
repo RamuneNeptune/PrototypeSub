@@ -9,9 +9,9 @@ using UnityEngine;
 
 namespace PrototypeSubMod.PowerSystem;
 
-internal class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTreeEventListener
+public class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTreeEventListener
 {
-    public static readonly string[] SLOT_NAMES = new string[]
+    internal static readonly string[] SLOT_NAMES = new string[]
     {
         "PrototypePowerSlot1",
         "PrototypePowerSlot2",
@@ -19,7 +19,7 @@ internal class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTr
         "PrototypePowerSlot4"
     };
 
-    public static readonly Dictionary<TechType, PowerConfigData> AllowedPowerSources = new()
+    internal static readonly Dictionary<TechType, PowerConfigData> AllowedPowerSources = new()
     {
         { TechType.PrecursorIonCrystal, new(1000, typeof(IonCubePowerFunctionality)) },
         { TechType.PrecursorIonPowerCell, new(1500, null) },
@@ -27,7 +27,7 @@ internal class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTr
         { IonPrism_Craftable.prefabInfo.TechType, new(5000, null) }
     };
 
-    public static readonly string EquipmentLabel = "PrototypePowerLabel";
+    internal static readonly string EquipmentLabel = "PrototypePowerLabel";
 
     public Equipment equipment { get; private set; }
 
@@ -138,5 +138,12 @@ internal class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTr
         {
             StorageHelper.TransferEquipment(storageRoot.gameObject, data.serializedPowerEquipment, equipment);
         }
+    }
+
+    public static void AddPowerSource(TechType techType, PowerConfigData configData)
+    {
+        if (AllowedPowerSources.ContainsKey(techType)) return;
+
+        AllowedPowerSources.Add(techType, configData);
     }
 }

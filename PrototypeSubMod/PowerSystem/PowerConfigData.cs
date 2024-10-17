@@ -2,14 +2,27 @@
 
 namespace PrototypeSubMod.PowerSystem;
 
-internal class PowerConfigData
+public class PowerConfigData
 {
     public float powerValue;
-    public Type sourceEffectFunctionality;
+    public Type SourceEffectFunctionality
+    {
+        get
+        {
+            return _sourceEffectFunctionality;
+        }
+    }
 
+    private Type _sourceEffectFunctionality;
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="powerValue"></param>
+    /// <param name="sourceEffectFunctionality">This type must inherit from <see cref="PowerSourceFunctionality"/>></param>
     public PowerConfigData(float powerValue, Type sourceEffectFunctionality)
     {
         this.powerValue = powerValue;
-        this.sourceEffectFunctionality = sourceEffectFunctionality;
+        _sourceEffectFunctionality = sourceEffectFunctionality.IsSubclassOf(typeof(PowerSourceFunctionality)) ? sourceEffectFunctionality : null;
     }
 }
