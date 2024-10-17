@@ -30,7 +30,7 @@ internal class ProtoPowerAbilitySystem : MonoBehaviour, ISaveDataListener, ILate
         if (Instance != null)
         {
             Destroy(this);
-            throw new System.Exception($"More than 1 ProtoPowerAbilitySystem in the scene! Destroying {this}");
+            throw new Exception($"More than 1 ProtoPowerAbilitySystem in the scene! Destroying {this}");
         }
 
         Instance = this;
@@ -86,7 +86,7 @@ internal class ProtoPowerAbilitySystem : MonoBehaviour, ISaveDataListener, ILate
 
         PDA pda = Player.main.GetPDA();
         Inventory.main.SetUsedStorage(equipment);
-        pda.Open(PDATab.Inventory);
+        pda.Open(PDATab.Inventory, null, new PDA.OnClose(AbilityConsumptionButton.Instance.OnClosePDA));
     }
 
     private void OnEquip(string slot, InventoryItem item)
@@ -170,5 +170,10 @@ internal class ProtoPowerAbilitySystem : MonoBehaviour, ISaveDataListener, ILate
     public float GetPowerAbilityTimeRemaining()
     {
         return currentPowerFunctionality.GetTimeLeft();
+    }
+
+    public void CheckForCurrentFunctionality()
+    {
+        currentPowerFunctionality = functionalityRoot.GetComponent<PowerSourceFunctionality>();
     }
 }

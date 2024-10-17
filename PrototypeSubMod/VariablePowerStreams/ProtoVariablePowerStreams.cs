@@ -31,6 +31,7 @@ internal class ProtoVariablePowerStreams : ProtoUpgrade, ILateSaveDataListener
 
         var component = functionalityRoot.gameObject.AddComponent(protoData.installedPowerUpgradeType);
         (component as PowerSourceFunctionality).SetTime(protoData.currentPowerEffectDuration);
-        //(component as PowerSourceFunctionality).OnAbilityActivated();
+
+        GetComponentInParent<SubRoot>().GetComponentInChildren<ProtoPowerAbilitySystem>().CheckForCurrentFunctionality();
     }
 }
