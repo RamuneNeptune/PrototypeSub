@@ -1,4 +1,5 @@
 ﻿using SubLibrary.SaveData;
+using System;
 using System.Collections.Generic;
 
 namespace PrototypeSubMod.SaveData;
@@ -14,8 +15,11 @@ internal class PrototypeSaveData : ModuleDataClass
     //Key: Equipment slot | Value: Item ID stored in key's slot
     public Dictionary<string, string> serializedDeployablesEquipment = new();
 
+    public Dictionary<string, string> serializedPowerAbilityEquipment = new();
+
     public List<TechType> installedModules = new();
 
+    public Type installedPowerUpgradeType;
     public float currentPowerEffectDuration;
 
     public struct PowerSourceData

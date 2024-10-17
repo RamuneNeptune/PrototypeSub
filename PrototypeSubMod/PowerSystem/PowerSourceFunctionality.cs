@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace PrototypeSubMod.PowerSystem;
 
-internal class PowerSourceFunctionality : MonoBehaviour, ISaveDataListener
+internal abstract class PowerSourceFunctionality : MonoBehaviour, ISaveDataListener
 {
     private float currentTime;
     private SubSerializationManager serializationManager;
@@ -15,6 +15,8 @@ internal class PowerSourceFunctionality : MonoBehaviour, ISaveDataListener
         serializationManager = GetComponentInParent<SubSerializationManager>();
         var powerStreams = GetComponentInParent<SubRoot>().GetComponentInChildren<ProtoVariablePowerStreams>();
         currentTime = powerStreams.GetApplicableDuration();
+
+        OnAbilityActivated();
     }
 
     private void Update()
@@ -29,11 +31,26 @@ internal class PowerSourceFunctionality : MonoBehaviour, ISaveDataListener
 
     public void OnBeforeDataSaved(ref BaseSubDataClass saveData)
     {
-        saveData.EnsureAsPrototypeData().currentPowerEffectDuration = currentTime;
+        var protoData = saveData.EnsureAsPrototypeData();
+        protoData.currentPowerEffectDuration = currentTime;
+        protoData.installedPowerUpgradeType = GetType();
+
+        saveData = protoData;
     }
 
     public void OnSaveDataLoaded(BaseSubDataClass saveData)
     {
         currentTime = saveData.EnsureAsPrototypeData().currentPowerEffectDuration;
     }
+
+    private void OnDestroy()
+    {
+        serializationManager.saveData.EnsureAsPrototypeData().installedPowerUpgradeType = null;
+        OnAbilityStopped();
+    }
+
+    public void SetTime(float time) => currentTime = time;
+
+    public abstract void OnAbilityActivated();
+    protected abstract void OnAbilityStopped();
 }

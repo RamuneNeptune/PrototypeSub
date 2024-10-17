@@ -9,7 +9,7 @@ internal class ElectricubePowerFunctionality : PowerSourceFunctionality
 
     private LightColorHandler colorHandler;
 
-    private void Start()
+    public override void OnAbilityActivated()
     {
         var root = GetComponentInParent<SubRoot>();
         colorHandler = root.GetComponentInChildren<LightColorHandler>();
@@ -17,7 +17,7 @@ internal class ElectricubePowerFunctionality : PowerSourceFunctionality
         colorHandler.SetTempColor(ElectricubeLightColor);
     }
 
-    private void OnDestroy()
+    protected override void OnAbilityStopped()
     {
         colorHandler.ResetColor();
     }

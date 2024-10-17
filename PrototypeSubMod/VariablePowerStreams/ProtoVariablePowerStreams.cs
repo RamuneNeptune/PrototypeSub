@@ -1,12 +1,16 @@
-﻿using PrototypeSubMod.Upgrades;
+﻿using PrototypeSubMod.PowerSystem;
+using PrototypeSubMod.SaveData;
+using PrototypeSubMod.Upgrades;
+using SubLibrary.SaveData;
 using UnityEngine;
 
 namespace PrototypeSubMod.VariablePowerStreams;
 
-internal class ProtoVariablePowerStreams : ProtoUpgrade
+internal class ProtoVariablePowerStreams : ProtoUpgrade, ILateSaveDataListener
 {
     [SerializeField] private float defaultUpgradeTime = 600f;
     [SerializeField] private float variableStreamsUpgradeTime = 1800f;
+    [SerializeField] private ChildObjectIdentifier functionalityRoot;
 
     public float GetDefaultTime() => defaultUpgradeTime;
     public float GetUpgradedTime() => variableStreamsUpgradeTime;
@@ -18,5 +22,15 @@ internal class ProtoVariablePowerStreams : ProtoUpgrade
     public float GetApplicableDuration()
     {
         return upgradeInstalled ? variableStreamsUpgradeTime : defaultUpgradeTime;
+    }
+
+    public void OnLateSaveDataLoaded(BaseSubDataClass saveData)
+    {
+        var protoData = saveData.EnsureAsPrototypeData();
+        if (protoData.installedPowerUpgradeType == null) return;
+
+        var component = functionalityRoot.gameObject.AddComponent(protoData.installedPowerUpgradeType);
+        (component as PowerSourceFunctionality).SetTime(protoData.currentPowerEffectDuration);
+        //(component as PowerSourceFunctionality).OnAbilityActivated();
     }
 }

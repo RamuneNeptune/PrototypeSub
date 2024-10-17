@@ -1,10 +1,12 @@
-﻿using System;
+﻿using PrototypeSubMod.SaveData;
+using SubLibrary.SaveData;
+using System;
 using System.Linq;
 using UnityEngine;
 
 namespace PrototypeSubMod.PowerSystem;
 
-internal class ProtoPowerAbilitySystem : MonoBehaviour
+internal class ProtoPowerAbilitySystem : MonoBehaviour, ISaveDataListener, ILateSaveDataListener
 {
     public static readonly string EquipmentLabel = "ProtoPowerExtractorLabel";
     public static readonly string SlotName = "ProtoPowerConsumptionSlot";
@@ -99,7 +101,8 @@ internal class ProtoPowerAbilitySystem : MonoBehaviour
         var effectType = PrototypePowerSystem.AllowedPowerSources[currentItem.techType].sourceEffectFunctionality;
         if (effectType != null)
         {
-            functionalityRoot.gameObject.AddComponent(effectType);
+            var component = functionalityRoot.gameObject.AddComponent(effectType);
+            //(component as PowerSourceFunctionality).OnAbilityActivated();
         }
 
         justRemoved = true;
@@ -111,5 +114,29 @@ internal class ProtoPowerAbilitySystem : MonoBehaviour
     public bool HasItem()
     {
         return equipment.GetItemInSlot(SlotName) != null;
+    }
+
+    public void OnSaveDataLoaded(BaseSubDataClass saveData)
+    {
+        Initialize();
+    }
+
+    public void OnBeforeDataSaved(ref BaseSubDataClass saveData)
+    {
+        var protoData = saveData.EnsureAsPrototypeData();
+        protoData.serializedPowerAbilityEquipment = equipment.SaveEquipment();
+
+        saveData = protoData;
+    }
+
+    public void OnProtoSerializeObjectTree(ProtobufSerializer serializer) { }
+
+    public void OnLateSaveDataLoaded(BaseSubDataClass saveData)
+    {
+        var data = saveData.EnsureAsPrototypeData();
+        if (data.serializedPowerAbilityEquipment != null)
+        {
+            StorageHelper.TransferEquipment(storageRoot.gameObject, data.serializedPowerAbilityEquipment, equipment);
+        }
     }
 }

@@ -11,6 +11,7 @@ internal class LightColorHandler : MonoBehaviour
 
     private Color[] originalColors;
     private Color[] targetColors;
+    private bool usingTempColors;
 
     private IEnumerator Start()
     {
@@ -23,8 +24,6 @@ internal class LightColorHandler : MonoBehaviour
         {
             originalColors[i] = controller.lights[i].light.color;
         }
-
-        targetColors = originalColors;
     }
 
     private void Update()
@@ -32,20 +31,21 @@ internal class LightColorHandler : MonoBehaviour
         for (int i = 0; i < controller.lights.Length; i++)
         {
             var light = controller.lights[i].light;
-            light.color = Color.Lerp(light.color, targetColors[i], Time.deltaTime * fadeSpeed);
+            if (light == null) continue;
+
+            Color col = usingTempColors ? targetColors[i] : originalColors[i];
+            light.color = Color.Lerp(light.color, col, Time.deltaTime * fadeSpeed);
         }
     }
 
     public void SetTempColor(Color color)
     {
         targetColors = Enumerable.Repeat(color, controller.lights.Length).ToArray();
+        usingTempColors = true;
     }
 
     public void ResetColor()
     {
-        for (int i = 0; i < controller.lights.Length; i++)
-        {
-            targetColors[i] = originalColors[i];
-        }
+        usingTempColors = false;
     }
 }
