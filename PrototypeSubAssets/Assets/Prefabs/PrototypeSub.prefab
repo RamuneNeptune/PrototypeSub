@@ -64626,6 +64626,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 166681490149920772}
+  fadeSpeed: 1
 --- !u!1 &7712473586343304623
 GameObject:
   m_ObjectHideFlags: 0
@@ -67792,6 +67793,7 @@ Transform:
   - {fileID: 4301374547015885704}
   - {fileID: 5242512458732318571}
   - {fileID: 6771328191274665994}
+  - {fileID: 4244060224273373456}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -76978,6 +76980,54 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   reason: 
   deconstructionObstacle: 0
+--- !u!1 &8986833435672954304
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4244060224273373456}
+  - component: {fileID: 6157559521667735768}
+  m_Layer: 0
+  m_Name: VariablePowerStreams
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4244060224273373456
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8986833435672954304}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 8041321529513965087}
+  m_RootOrder: 31
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6157559521667735768
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8986833435672954304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 431933528, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  techType: {fileID: 11400000, guid: 0e9c33782ef0f5148b428e0ec9db301d, type: 2}
+  enableWithInstallation: []
+  unlockedAtStart: 0
+  defaultUpgradeTime: 600
+  variableStreamsUpgradeTime: 1800
 --- !u!1 &9003882011086049376
 GameObject:
   m_ObjectHideFlags: 0

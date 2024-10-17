@@ -16,6 +16,8 @@ internal class PrototypeSaveData : ModuleDataClass
 
     public List<TechType> installedModules = new();
 
+    public float currentPowerEffectDuration;
+
     public struct PowerSourceData
     {
         public bool defaultBatteryCreated;
