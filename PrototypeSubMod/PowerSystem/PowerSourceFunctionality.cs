@@ -50,6 +50,7 @@ internal abstract class PowerSourceFunctionality : MonoBehaviour, ISaveDataListe
     }
 
     public void SetTime(float time) => currentTime = time;
+    public float GetTimeLeft() => currentTime;
 
     public abstract void OnAbilityActivated();
     protected abstract void OnAbilityStopped();

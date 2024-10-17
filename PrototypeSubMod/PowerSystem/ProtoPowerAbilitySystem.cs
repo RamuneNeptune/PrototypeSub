@@ -23,6 +23,7 @@ internal class ProtoPowerAbilitySystem : MonoBehaviour, ISaveDataListener, ILate
     [SerializeField] private FMODAsset unequipSound;
 
     private bool justRemoved;
+    private PowerSourceFunctionality currentPowerFunctionality;
 
     private void Awake()
     {
@@ -58,13 +59,28 @@ internal class ProtoPowerAbilitySystem : MonoBehaviour, ISaveDataListener, ILate
     public void OnHover(HandTargetEventData eventData)
     {
         HandReticle main = HandReticle.main;
-        main.SetText(HandReticle.TextType.Hand, "UsePowerAbilitySystem", true, GameInput.Button.LeftHand);
-        main.SetText(HandReticle.TextType.HandSubscript, string.Empty, false, GameInput.Button.None);
-        main.SetIcon(HandReticle.IconType.Hand, 1f);
+
+        if (PowerSourceActive())
+        {
+            string text1 = Language.main.Get("ProtoAbilitySystemActive");
+            string text2 = Language.main.Get("ProtoAbilityTimeRemaining");
+            string message = $"{text1} ({GetPowerAbilityTimeRemaining()}{text2})";
+
+            main.SetText(HandReticle.TextType.Hand, message, false, GameInput.Button.None);
+            main.SetText(HandReticle.TextType.HandSubscript, string.Empty, false, GameInput.Button.None);
+        }
+        else
+        {
+            main.SetText(HandReticle.TextType.Hand, "UsePowerAbilitySystem", true, GameInput.Button.LeftHand);
+            main.SetText(HandReticle.TextType.HandSubscript, string.Empty, false, GameInput.Button.None);
+            main.SetIcon(HandReticle.IconType.Hand, 1f);
+        }
     }
 
     public void OnUse(HandTargetEventData eventData)
     {
+        if (PowerSourceActive()) return;
+
         PDA pda = Player.main.GetPDA();
         Inventory.main.SetUsedStorage(equipment);
         pda.Open(PDATab.Inventory);
@@ -102,13 +118,16 @@ internal class ProtoPowerAbilitySystem : MonoBehaviour, ISaveDataListener, ILate
         if (effectType != null)
         {
             var component = functionalityRoot.gameObject.AddComponent(effectType);
-            //(component as PowerSourceFunctionality).OnAbilityActivated();
+            currentPowerFunctionality = component as PowerSourceFunctionality;
         }
 
         justRemoved = true;
 
         equipment.RemoveItem(SlotName, true, true);
         Destroy(currentItem.item.gameObject);
+
+        PDA pda = Player.main.GetPDA();
+        pda.Close();
     }
 
     public bool HasItem()
@@ -138,5 +157,15 @@ internal class ProtoPowerAbilitySystem : MonoBehaviour, ISaveDataListener, ILate
         {
             StorageHelper.TransferEquipment(storageRoot.gameObject, data.serializedPowerAbilityEquipment, equipment);
         }
+    }
+
+    public bool PowerSourceActive()
+    {
+        return currentPowerFunctionality != null;
+    }
+
+    public float GetPowerAbilityTimeRemaining()
+    {
+        return currentPowerFunctionality.GetTimeLeft();
     }
 }
