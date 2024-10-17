@@ -35,7 +35,6 @@ internal class ProtoUpgradeManager : MonoBehaviour, ISaveDataListener
     private bool upgradesDirty;
 
     private Dictionary<TechType, ProtoUpgrade> upgrades = new();
-    private PrototypeSaveData saveData;
 
     private void Awake()
     {
@@ -60,11 +59,6 @@ internal class ProtoUpgradeManager : MonoBehaviour, ISaveDataListener
                 upgrades.Add(protoUpgrade.techType.TechType, protoUpgrade);
             }
         }
-
-        if (saveData == null)
-        {
-            saveData = new PrototypeSaveData();
-        }
     }
 
     public void SetUpgradeInstalled(TechType techType, bool installed)
@@ -72,15 +66,6 @@ internal class ProtoUpgradeManager : MonoBehaviour, ISaveDataListener
         if (!upgrades.TryGetValue(techType, out var upgrade)) throw new Exception($"There is no upgrade with the tech type {techType} on the Prototype sub");
 
         (upgrade as IProtoUpgrade).SetUpgradeInstalled(installed);
-
-        if (saveData.installedModules.Contains(techType) && !installed)
-        {
-            saveData.installedModules.Remove(techType);
-        }
-        else if (!saveData.installedModules.Contains(techType) && installed)
-        {
-            saveData.installedModules.Add(techType);
-        }
 
         upgradesDirty = true;
     }
@@ -97,10 +82,10 @@ internal class ProtoUpgradeManager : MonoBehaviour, ISaveDataListener
             upgrades.Add(protoUpgrade.techType.TechType, protoUpgrade);
         }
 
-        this.saveData = saveData.EnsureAsPrototypeData();
+        var protoData = saveData.EnsureAsPrototypeData();
         foreach (var upgrade in upgrades)
         {
-            bool installed = this.saveData.installedModules.Contains(upgrade.Key);
+            bool installed = protoData.installedModules.Contains(upgrade.Key);
 
             (upgrade.Value as IProtoUpgrade).SetUpgradeInstalled(installed);
         }
@@ -108,7 +93,7 @@ internal class ProtoUpgradeManager : MonoBehaviour, ISaveDataListener
 
     public void OnBeforeDataSaved(ref BaseSubDataClass saveData)
     {
-        saveData.EnsureAsPrototypeData().installedModules = this.saveData.installedModules;
+        saveData.EnsureAsPrototypeData().installedModules = InstalledUpgrades;
     }
 
     public List<TechType> GetInstalledUpgrades()

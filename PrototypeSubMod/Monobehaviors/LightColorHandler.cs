@@ -28,10 +28,11 @@ internal class LightColorHandler : MonoBehaviour
 
     private void Update()
     {
+        if (originalColors == null || targetColors == null) return;
+
         for (int i = 0; i < controller.lights.Length; i++)
         {
             var light = controller.lights[i].light;
-            if (light == null) continue;
 
             Color col = usingTempColors ? targetColors[i] : originalColors[i];
             light.color = Color.Lerp(light.color, col, Time.deltaTime * fadeSpeed);

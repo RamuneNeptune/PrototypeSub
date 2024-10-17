@@ -62,12 +62,15 @@ internal class ProtoPowerAbilitySystem : MonoBehaviour, ISaveDataListener, ILate
 
         if (PowerSourceActive())
         {
-            string text1 = Language.main.Get("ProtoAbilitySystemActive");
-            string text2 = Language.main.Get("ProtoAbilityTimeRemaining");
-            string message = $"{text1} ({GetPowerAbilityTimeRemaining()}{text2})";
+            string text1 = Language.main.Get("ProtoAbilityMinRemaining");
+            string text2 = Language.main.Get("ProtoAbilitySecRemaining");
+            int minutesLeft = (int)(GetPowerAbilityTimeRemaining() / 60);
+            int secondsLeft = Mathf.RoundToInt(GetPowerAbilityTimeRemaining() % (minutesLeft * 60));
 
-            main.SetText(HandReticle.TextType.Hand, message, false, GameInput.Button.None);
-            main.SetText(HandReticle.TextType.HandSubscript, string.Empty, false, GameInput.Button.None);
+            string message = $"{minutesLeft} {text1}, {secondsLeft} {text2}";
+
+            main.SetText(HandReticle.TextType.Hand, "ProtoAbilitySystemActive", true, GameInput.Button.None);
+            main.SetText(HandReticle.TextType.HandSubscript, message, false, GameInput.Button.None);
         }
         else
         {
