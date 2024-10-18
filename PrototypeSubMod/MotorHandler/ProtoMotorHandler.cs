@@ -15,7 +15,7 @@ internal class ProtoMotorHandler : MonoBehaviour
     private float speedBonus;
     private float powerMultiplier = 1f;
     private float overrideNoiseValue = -1;
-    private float powerEfficiencyMultiplier;
+    private float powerEfficiencyMultiplier = 1f;
 
     private void Start()
     {

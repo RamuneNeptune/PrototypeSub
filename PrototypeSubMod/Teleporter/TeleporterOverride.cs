@@ -5,6 +5,7 @@ namespace PrototypeSubMod.Teleporter;
 internal class TeleporterOverride : MonoBehaviour
 {
     private static readonly Color OverrideColor = new(0f, 0.285f, 0.555f, 0.588f);
+    private static Color CurrentOverrideColor = OverrideColor;
 
     public static string FullOverrideTeleporterID { get; private set; }
     public static float OverrideTime { get; private set; }
@@ -43,6 +44,16 @@ internal class TeleporterOverride : MonoBehaviour
     public static void OnTeleportToSubFinished()
     {
         QueuedTeleportedBackToSub = false;
+    }
+
+    public static void SetTempTeleporterColor(Color color)
+    {
+        CurrentOverrideColor = color;
+    }
+
+    public static void ResetTeleporterColor()
+    {
+        CurrentOverrideColor = OverrideColor;
     }
 
     private void Start()
@@ -118,7 +129,7 @@ internal class TeleporterOverride : MonoBehaviour
             TryRetrieveFxMaterial();
         }
 
-        targetColor = overrideActive ? OverrideColor : originalColor;
+        targetColor = overrideActive ? CurrentOverrideColor : originalColor;
 
         Color color = Color.Lerp(fxMaterial.GetColor("_ColorOuter"), targetColor, Time.deltaTime);
 

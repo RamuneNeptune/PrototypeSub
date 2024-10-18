@@ -24,6 +24,7 @@ internal class ProtoTeleporterManager : ProtoUpgrade
 
     private bool teleporterClosed = true;
     private float currentStayOpenTime;
+    private float powerCostMultiplier = 1f;
     private PrecursorTeleporterActivationTerminal activationTerminal;
 
     private void Awake()
@@ -89,7 +90,7 @@ internal class ProtoTeleporterManager : ProtoUpgrade
             TeleporterOverride.OnTeleportStarted();
         }
 
-        float energyCost = Vector3.Distance(positionData.teleportPosition, transform.position) * costPerMeter;
+        float energyCost = Vector3.Distance(positionData.teleportPosition, transform.position) * costPerMeter * powerCostMultiplier;
         energyCost = Mathf.Clamp(energyCost, minPowercost, maxPowerCost);
         subRoot.powerRelay.ConsumeEnergy(energyCost, out _);
     }
@@ -151,4 +152,6 @@ internal class ProtoTeleporterManager : ProtoUpgrade
     }
 
     public override bool GetUpgradeEnabled() => upgradeInstalled;
+
+    public void SetPowerMultiplier(float multiplier) => powerCostMultiplier = multiplier;
 }
