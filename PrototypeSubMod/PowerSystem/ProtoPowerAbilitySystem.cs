@@ -154,6 +154,11 @@ internal class ProtoPowerAbilitySystem : MonoBehaviour, ISaveDataListener, ILate
             Destroy(col);
         }
 
+        foreach (var emitter in powerPrefabObj.GetComponentsInChildren<FMOD_CustomEmitter>(true))
+        {
+            Destroy(emitter);
+        }
+
         Destroy(powerPrefabObj, 5f);
 
         justRemoved = true;
@@ -211,6 +216,7 @@ internal class ProtoPowerAbilitySystem : MonoBehaviour, ISaveDataListener, ILate
     public void CheckForCurrentFunctionality()
     {
         currentPowerFunctionality = functionalityRoot.GetComponent<PowerSourceFunctionality>();
+        animator.SetBool("AwaitingCooldown", currentPowerFunctionality != null);
     }
 
     private void CheckForPlayerProxy()
