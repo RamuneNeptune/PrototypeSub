@@ -94,8 +94,9 @@ internal class ProtoUpgradeManager : MonoBehaviour, ISaveDataListener
     public void OnBeforeDataSaved(ref BaseSubDataClass saveData)
     {
         var protoData = saveData.EnsureAsPrototypeData();
-        protoData.installedModules = InstalledUpgrades;
 
+        upgradesDirty = true;
+        protoData.installedModules = InstalledUpgrades;
         saveData = protoData;
     }
 
@@ -162,5 +163,6 @@ internal class ProtoUpgradeManager : MonoBehaviour, ISaveDataListener
         upgrade.SetUpgradeInstalled(!upgrade.GetUpgradeInstalled());
 
         ErrorMessage.AddError($"{techType} installed set to {upgrade.GetUpgradeInstalled()}");
+        upgradesDirty = true;
     }
 }
