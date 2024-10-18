@@ -93,7 +93,10 @@ internal class ProtoUpgradeManager : MonoBehaviour, ISaveDataListener
 
     public void OnBeforeDataSaved(ref BaseSubDataClass saveData)
     {
-        saveData.EnsureAsPrototypeData().installedModules = InstalledUpgrades;
+        var protoData = saveData.EnsureAsPrototypeData();
+        protoData.installedModules = InstalledUpgrades;
+
+        saveData = protoData;
     }
 
     public List<TechType> GetInstalledUpgrades()

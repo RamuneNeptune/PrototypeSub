@@ -164,7 +164,7 @@ internal class ProtoPowerAbilitySystem : MonoBehaviour, ISaveDataListener, ILate
         PDA pda = Player.main.GetPDA();
         pda.Close();
 
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.75f);
         animator.SetBool("Activated", false);
         animator.SetBool("AwaitingCooldown", true);
     }
