@@ -1,8 +1,10 @@
 ﻿using PrototypeSubMod.SaveData;
 using SubLibrary.SaveData;
 using System;
+using System.Collections;
 using System.Linq;
 using UnityEngine;
+using UWE;
 
 namespace PrototypeSubMod.PowerSystem;
 
@@ -20,6 +22,7 @@ internal class ProtoPowerAbilitySystem : MonoBehaviour, ISaveDataListener, ILate
     [Header("Animation")]
     [SerializeField] private Animator animator;
     [SerializeField] private PlayerDistanceTracker playerDistanceTracker;
+    [SerializeField] private Transform powerObjectHolder;
     [SerializeField] private float maxDistance;
 
     [Header("Equipment Setup")]
@@ -128,6 +131,11 @@ internal class ProtoPowerAbilitySystem : MonoBehaviour, ISaveDataListener, ILate
 
     public void ConsumeItem()
     {
+        CoroutineHost.StartCoroutine(ConsumeItemAsync()); 
+    }
+
+    private IEnumerator ConsumeItemAsync()
+    {
         var currentItem = equipment.GetItemInSlot(SlotName);
         var effectType = PrototypePowerSystem.AllowedPowerSources[currentItem.techType].SourceEffectFunctionality;
         if (effectType != null)
@@ -136,6 +144,18 @@ internal class ProtoPowerAbilitySystem : MonoBehaviour, ISaveDataListener, ILate
             currentPowerFunctionality = component as PowerSourceFunctionality;
         }
 
+        var prefab = CraftData.GetPrefabForTechTypeAsync(currentItem.techType);
+        yield return prefab;
+
+        var powerPrefabObj = Instantiate(prefab.GetResult(), powerObjectHolder);
+        powerPrefabObj.transform.localPosition = Vector3.zero;
+        foreach (var col in powerPrefabObj.GetComponentsInChildren<Collider>(true))
+        {
+            Destroy(col);
+        }
+
+        Destroy(powerPrefabObj, 5f);
+
         justRemoved = true;
 
         equipment.RemoveItem(SlotName, true, true);
@@ -143,7 +163,10 @@ internal class ProtoPowerAbilitySystem : MonoBehaviour, ISaveDataListener, ILate
 
         PDA pda = Player.main.GetPDA();
         pda.Close();
+
+        yield return new WaitForSeconds(0.2f);
         animator.SetBool("Activated", false);
+        animator.SetBool("AwaitingCooldown", true);
     }
 
     public bool HasItem()
@@ -196,5 +219,6 @@ internal class ProtoPowerAbilitySystem : MonoBehaviour, ISaveDataListener, ILate
 
         bool inRange = playerDistanceTracker.distanceToPlayer < maxDistance;
         animator.SetBool("Activated", inRange);
+        animator.SetBool("AwaitingCooldown", false);
     }
 }
