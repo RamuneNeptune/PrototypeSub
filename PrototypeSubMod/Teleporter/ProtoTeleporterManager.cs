@@ -8,6 +8,7 @@ internal class ProtoTeleporterManager : ProtoUpgrade
 {
     public static ProtoTeleporterManager Instance { get; private set; }
 
+    [Header("Teleporting")]
     [SerializeField] private PrecursorTeleporter teleporter;
     [SerializeField] private SubRoot subRoot;
     [SerializeField] private Transform teleportPosition;
@@ -15,6 +16,11 @@ internal class ProtoTeleporterManager : ProtoUpgrade
     [SerializeField] private string teleporterID;
     [SerializeField] private bool isHost;
     [SerializeField] private float stayOpenTime;
+
+    [Header("Power Cost")]
+    [SerializeField] private float costPerMeter = 0.6f;
+    [SerializeField] private float minPowercost = 400;
+    [SerializeField] private float maxPowerCost = 1200;
 
     private bool teleporterClosed = true;
     private float currentStayOpenTime;
@@ -67,7 +73,7 @@ internal class ProtoTeleporterManager : ProtoUpgrade
     }
 
     // Called by PrecursorTeleporterCollider.OnTriggerEnter via SendMessageUpwards
-    public void BeginTeleportPlayer(GameObject _)
+    public void BeginTeleportPlayer(GameObject player)
     {
         string alteredID = teleporterID + (isHost ? "M" : "S");
         var positionData = TeleporterPositionHandler.TeleporterPositions[alteredID];
@@ -82,6 +88,10 @@ internal class ProtoTeleporterManager : ProtoUpgrade
             TeleporterOverride.SetOverrideTime(120f);
             TeleporterOverride.OnTeleportStarted();
         }
+
+        float energyCost = Vector3.Distance(positionData.teleportPosition, transform.position) * costPerMeter;
+        energyCost = Mathf.Clamp(energyCost, minPowercost, maxPowerCost);
+        subRoot.powerRelay.ConsumeEnergy(energyCost, out _);
     }
 
     public void SetTeleporterID(string id)
