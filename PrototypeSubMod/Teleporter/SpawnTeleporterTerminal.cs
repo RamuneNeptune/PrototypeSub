@@ -37,6 +37,6 @@ internal class SpawnTeleporterTerminal : MonoBehaviour
         Destroy(identifier);
 
         newTrigger.SetSubRoot(GetComponentInParent<SubRoot>());
-        newTrigger.GetComponent<SphereCollider>().radius = 2f;
+        newTrigger.GetComponent<SphereCollider>().radius = 1.75f;
     }
 }

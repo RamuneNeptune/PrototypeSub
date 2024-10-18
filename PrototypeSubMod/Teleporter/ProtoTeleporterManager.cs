@@ -143,12 +143,12 @@ internal class ProtoTeleporterManager : ProtoUpgrade
     {
         activationTerminal = GetComponentInChildren<PrecursorTeleporterActivationTerminal>();
 
-        activationTerminal.GetComponentInChildren<Collider>().isTrigger = true;
+        activationTerminal.GetComponentInChildren<Collider>(true).isTrigger = true;
     }
 
     public void OnActivationTerminalCinematicEnded()
     {
-        activationTerminal.GetComponentInChildren<Collider>().isTrigger = false;
+        activationTerminal.GetComponentInChildren<Collider>(true).isTrigger = false;
     }
 
     public override bool GetUpgradeEnabled() => upgradeInstalled;

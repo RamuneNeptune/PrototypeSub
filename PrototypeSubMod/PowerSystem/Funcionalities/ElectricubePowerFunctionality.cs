@@ -8,7 +8,7 @@ namespace PrototypeSubMod.PowerSystem.Funcionalities;
 internal class ElectricubePowerFunctionality : PowerSourceFunctionality
 {
     private static readonly Color ElectricubeLightColor = new Color(219 / 255f, 191 / 255f, 255 / 255f);
-    private static readonly Color ElectricubeTeleporterColor = new Color(219 / 255f, 191 / 255f, 255 / 255f);
+    private static readonly Color ElectricubeTeleporterColor = new Color(0.4089f, 0f, 0.7180f, 0.6282f);
 
     private LightColorHandler colorHandler;
     private ProtoMotorHandler motorHandler;

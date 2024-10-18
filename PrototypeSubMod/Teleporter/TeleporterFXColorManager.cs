@@ -8,31 +8,37 @@ internal class TeleporterFXColorManager : MonoBehaviour
 {
     [SerializeField] private Transform fxParent;
 
-    private Dictionary<Renderer, Color> originalColors;
+    private Renderer rend;
+    private Color originalCol;
+
+    private Color tempColor;
+    private bool usingTempColor;
 
     private IEnumerator Start()
     {
         yield return new WaitUntil(() => fxParent.childCount > 0);
+        yield return new WaitForEndOfFrame();
 
-        foreach (var rend in fxParent.GetComponentsInChildren<Renderer>())
-        {
-            originalColors.Add(rend, rend.material.color);
-        }
+        rend = fxParent.GetComponentInChildren<Renderer>(true);
+        originalCol = rend.material.GetColor("_ColorOuter");
+    }
+
+    private void Update()
+    {
+        if (rend == null) return;
+
+        Color col = Color.Lerp(rend.material.GetColor("_ColorOuter"), usingTempColor ? tempColor : originalCol, Time.deltaTime);
+        rend.material.SetColor("_ColorOuter", col);
     }
 
     public void SetTempColor(Color color)
     {
-        foreach (var rend in originalColors.Keys)
-        {
-            rend.material.color = color;
-        }
+        usingTempColor = true;
+        tempColor = color;
     }
 
     public void ResetColor()
     {
-        foreach (var kvp in originalColors)
-        {
-            kvp.Key.material.color = kvp.Value;
-        }
+        usingTempColor = false;
     }
 }
