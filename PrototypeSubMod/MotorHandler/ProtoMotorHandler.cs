@@ -15,6 +15,7 @@ internal class ProtoMotorHandler : MonoBehaviour
     private float speedBonus;
     private float powerMultiplier = 1f;
     private float overrideNoiseValue = -1;
+    private float powerEfficiencyMultiplier;
 
     private void Start()
     {
@@ -50,6 +51,18 @@ internal class ProtoMotorHandler : MonoBehaviour
     {
         overrideNoiseValue = noiseValue;
     }
+
+    /// <summary>
+    /// Controls the power efficiency of the engine. Higher number = more efficient. 1 = default
+    /// </summary>
+    /// <param name="multiplier"></param>
+    /// <returns></returns>
+    public void SetPowerEfficiencyMultiplier(float multiplier)
+    {
+        powerEfficiencyMultiplier = multiplier;
+    }
+
+    public float GetEfficiencyMultiplier() => powerEfficiencyMultiplier;
 
     public float GetOverrideNoiseValue()
     {
