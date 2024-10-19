@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using PrototypeSubMod.LightDistortionField;
+using PrototypeSubMod.Monobehaviors;
 using PrototypeSubMod.Teleporter;
 using UnityEngine;
 
@@ -15,6 +16,7 @@ internal class PlayerPatches
     private static void Start_Postfix()
     {
         Camera.main.gameObject.AddComponent<LightDistortionApplier>();
+        Camera.main.gameObject.AddComponent<ProtoScreenTeleporterFXManager>();
     }
 
     [HarmonyPatch(nameof(Player.FixedUpdate)), HarmonyPostfix]
@@ -31,5 +33,14 @@ internal class PlayerPatches
         {
             __result = false;
         }
+    }
+
+    [HarmonyPatch(nameof(Player.CheckTeleportationComplete)), HarmonyPostfix]
+    private static void CheckForTeleportationComplete_Postfix()
+    {
+        if (!LargeWorldStreamer.main.IsWorldSettled()) return;
+
+        var teleportManager = Camera.main.GetComponent<ProtoScreenTeleporterFXManager>();
+        teleportManager.ResetColors();
     }
 }

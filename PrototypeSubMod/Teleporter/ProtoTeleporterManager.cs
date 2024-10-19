@@ -1,4 +1,5 @@
-﻿using PrototypeSubMod.Upgrades;
+﻿using PrototypeSubMod.Monobehaviors;
+using PrototypeSubMod.Upgrades;
 using System.Collections;
 using UnityEngine;
 
@@ -26,6 +27,8 @@ internal class ProtoTeleporterManager : ProtoUpgrade
     private float currentStayOpenTime;
     private float powerCostMultiplier = 1f;
     private PrecursorTeleporterActivationTerminal activationTerminal;
+
+    private ColorOverrideData colorOverrideData;
 
     private void Awake()
     {
@@ -90,6 +93,11 @@ internal class ProtoTeleporterManager : ProtoUpgrade
             TeleporterOverride.OnTeleportStarted();
         }
 
+        if (colorOverrideData.overrideActive)
+        {
+            Camera.main.GetComponent<ProtoScreenTeleporterFXManager>().SetColors(colorOverrideData.innerColor, colorOverrideData.middleColor, colorOverrideData.outerColor);
+        }
+
         float energyCost = Vector3.Distance(positionData.teleportPosition, transform.position) * costPerMeter * powerCostMultiplier;
         energyCost = Mathf.Clamp(energyCost, minPowercost, maxPowerCost);
         subRoot.powerRelay.ConsumeEnergy(energyCost, out _);
@@ -151,7 +159,26 @@ internal class ProtoTeleporterManager : ProtoUpgrade
         activationTerminal.GetComponentInChildren<Collider>(true).isTrigger = false;
     }
 
+    public void SetColorOverrideData(ColorOverrideData overrideData) => colorOverrideData = overrideData;
+    public void ResetOverrideData() => colorOverrideData = default;
+
     public override bool GetUpgradeEnabled() => upgradeInstalled;
 
     public void SetPowerMultiplier(float multiplier) => powerCostMultiplier = multiplier;
+}
+
+public struct ColorOverrideData
+{
+    public bool overrideActive;
+    public Color innerColor;
+    public Color middleColor;
+    public Color outerColor;
+
+    public ColorOverrideData(bool overrideActive, Color innerColor, Color middleColor, Color outerColor)
+    {
+        this.overrideActive = overrideActive;
+        this.innerColor = innerColor;
+        this.middleColor = middleColor;
+        this.outerColor = outerColor;
+    }
 }
