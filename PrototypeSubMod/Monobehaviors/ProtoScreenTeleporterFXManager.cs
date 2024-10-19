@@ -12,7 +12,7 @@ internal class ProtoScreenTeleporterFXManager : MonoBehaviour
 
     private void Start()
     {
-        Camera.main.GetComponent<TeleportScreenFX>();
+        teleportFX = Camera.main.GetComponent<TeleportScreenFX>();
         teleportInnerCol = teleportFX.mat.GetColor("_ColorCenter");
         teleportMiddleCol = teleportFX.mat.GetColor("_ColorStrength");
         teleportOuterCol = teleportFX.mat.GetColor("_ColorOuter");
