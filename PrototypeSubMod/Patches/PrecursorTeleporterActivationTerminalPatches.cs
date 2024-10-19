@@ -9,6 +9,8 @@ internal class PrecursorTeleporterActivationTerminalPatches
     [HarmonyPatch(nameof(PrecursorTeleporterActivationTerminal.OnProxyHandClick)), HarmonyPostfix]
     private static void OnProxyHandClick_Postfix(PrecursorTeleporterActivationTerminal __instance)
     {
+        if (!__instance.unlocked) return;
+
         var manager = __instance.GetComponentInParent<ProtoTeleporterManager>();
         if (!manager) return;
 

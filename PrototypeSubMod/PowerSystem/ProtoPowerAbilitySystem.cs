@@ -170,8 +170,8 @@ internal class ProtoPowerAbilitySystem : MonoBehaviour, ISaveDataListener, ILate
         pda.Close();
 
         yield return new WaitForSeconds(0.75f);
-        animator.SetBool("Activated", false);
-        animator.SetBool("AwaitingCooldown", true);
+        animator.SetBool("ProxyActivated", false);
+        animator.SetBool("OnCooldown", true);
     }
 
     public bool HasItem()
@@ -216,7 +216,7 @@ internal class ProtoPowerAbilitySystem : MonoBehaviour, ISaveDataListener, ILate
     public void CheckForCurrentFunctionality()
     {
         currentPowerFunctionality = functionalityRoot.GetComponent<PowerSourceFunctionality>();
-        animator.SetBool("AwaitingCooldown", currentPowerFunctionality != null);
+        animator.SetBool("OnCooldown", currentPowerFunctionality != null);
     }
 
     private void CheckForPlayerProxy()
@@ -224,7 +224,7 @@ internal class ProtoPowerAbilitySystem : MonoBehaviour, ISaveDataListener, ILate
         if (currentPowerFunctionality != null) return;
 
         bool inRange = playerDistanceTracker.distanceToPlayer < maxDistance;
-        animator.SetBool("Activated", inRange);
-        animator.SetBool("AwaitingCooldown", false);
+        animator.SetBool("ProxyActivated", inRange);
+        animator.SetBool("OnCooldown", false);
     }
 }
