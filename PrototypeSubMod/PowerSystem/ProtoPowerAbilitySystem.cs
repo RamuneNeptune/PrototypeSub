@@ -2,6 +2,7 @@
 using SubLibrary.SaveData;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UWE;
@@ -34,6 +35,8 @@ internal class ProtoPowerAbilitySystem : MonoBehaviour, ISaveDataListener, ILate
     private bool justRemoved;
     private PowerSourceFunctionality currentPowerFunctionality;
 
+    private Dictionary<TechType, GameObject> powerSourceGameObjects = new();
+
     private void Awake()
     {
         if (Instance != null)
@@ -47,10 +50,52 @@ internal class ProtoPowerAbilitySystem : MonoBehaviour, ISaveDataListener, ILate
         Initialize();
     }
 
-    private void Start()
+    private IEnumerator Start()
     {
-        InvokeRepeating(nameof(CheckForPlayerProxy), 0, 0.25f);
         animator.SetBool("Activated", false);
+
+        foreach (var availableSource in PrototypePowerSystem.AllowedPowerSources.Keys)
+        {
+            var prefab = CraftData.GetPrefabForTechTypeAsync(availableSource);
+            yield return prefab;
+
+            var powerPrefabObj = Instantiate(prefab.GetResult(), powerObjectHolder);
+            powerPrefabObj.transform.localPosition = Vector3.zero;
+            foreach (var col in powerPrefabObj.GetComponentsInChildren<Collider>(true))
+            {
+                Destroy(col);
+            }
+
+            foreach (var emitter in powerPrefabObj.GetComponentsInChildren<FMOD_CustomEmitter>(true))
+            {
+                Destroy(emitter);
+            }
+
+            foreach (var rigidBody in powerPrefabObj.GetComponentsInChildren<Rigidbody>(true))
+            {
+                Destroy(rigidBody);
+            }
+
+            Vector3 modelCenter = Vector3.zero;
+            int rendCount = 0;
+            foreach (var rend in powerPrefabObj.GetComponentsInChildren<Renderer>(true))
+            {
+                rendCount++;
+                modelCenter += rend.bounds.center;
+            }
+            modelCenter /= rendCount;
+
+            Vector3 delta = powerObjectHolder.InverseTransformPoint(powerObjectHolder.position) - powerObjectHolder.InverseTransformPoint(modelCenter);
+            powerPrefabObj.transform.localPosition = delta;
+
+            Plugin.Logger.LogInfo($"Model delta for {availableSource} = {delta} (Rend count = {rendCount} | Center = {modelCenter} | Power obj pos = {powerObjectHolder.position})");
+
+            powerSourceGameObjects.Add(availableSource, powerPrefabObj);
+
+            var itemInSlot = equipment.GetItemInSlot(SlotName);
+            bool active = itemInSlot != null && itemInSlot.techType == availableSource;
+            powerPrefabObj.SetActive(active);
+        }
     }
 
     private void Initialize()
@@ -108,6 +153,16 @@ internal class ProtoPowerAbilitySystem : MonoBehaviour, ISaveDataListener, ILate
     {
         FMODUWE.PlayOneShot(equipSound, transform.position, 1f);
         onEquip?.Invoke();
+
+        foreach (var obj in powerSourceGameObjects.Values)
+        {
+            obj.SetActive(false);
+        }
+
+        if (powerSourceGameObjects.TryGetValue(item.techType, out var powerObj))
+        {
+            powerObj.SetActive(true);
+        }
     }
 
     private void OnUnequip(string slot, InventoryItem item)
@@ -121,6 +176,11 @@ internal class ProtoPowerAbilitySystem : MonoBehaviour, ISaveDataListener, ILate
         else
         {
             justRemoved = false;
+        }
+
+        foreach (var obj in powerSourceGameObjects.Values)
+        {
+            obj.SetActive(false);
         }
     }
 
@@ -143,23 +203,6 @@ internal class ProtoPowerAbilitySystem : MonoBehaviour, ISaveDataListener, ILate
             var component = functionalityRoot.gameObject.AddComponent(effectType);
             currentPowerFunctionality = component as PowerSourceFunctionality;
         }
-
-        var prefab = CraftData.GetPrefabForTechTypeAsync(currentItem.techType);
-        yield return prefab;
-
-        var powerPrefabObj = Instantiate(prefab.GetResult(), powerObjectHolder);
-        powerPrefabObj.transform.localPosition = Vector3.zero;
-        foreach (var col in powerPrefabObj.GetComponentsInChildren<Collider>(true))
-        {
-            Destroy(col);
-        }
-
-        foreach (var emitter in powerPrefabObj.GetComponentsInChildren<FMOD_CustomEmitter>(true))
-        {
-            Destroy(emitter);
-        }
-
-        Destroy(powerPrefabObj, 5f);
 
         justRemoved = true;
 
@@ -219,12 +262,19 @@ internal class ProtoPowerAbilitySystem : MonoBehaviour, ISaveDataListener, ILate
         animator.SetBool("OnCooldown", currentPowerFunctionality != null);
     }
 
-    private void CheckForPlayerProxy()
+    public void OnEnterProxy()
     {
         if (currentPowerFunctionality != null) return;
 
-        bool inRange = playerDistanceTracker.distanceToPlayer < maxDistance;
-        animator.SetBool("ProxyActivated", inRange);
+        animator.SetBool("ProxyActivated", true);
+        animator.SetBool("OnCooldown", false);
+    }
+
+    public void OnExitProxy()
+    {
+        if (currentPowerFunctionality != null) return;
+
+        animator.SetBool("ProxyActivated", false);
         animator.SetBool("OnCooldown", false);
     }
 }
