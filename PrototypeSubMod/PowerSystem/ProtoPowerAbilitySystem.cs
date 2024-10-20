@@ -17,8 +17,8 @@ internal class ProtoPowerAbilitySystem : MonoBehaviour, ISaveDataListener, ILate
     public static ProtoPowerAbilitySystem Instance { get; private set; }
 
     public Equipment equipment { get; private set; }
-    public Action onEquip;
-    public Action onUnequip;
+    public event Action onEquip;
+    public event Action onUnequip;
 
     [Header("Animation")]
     [SerializeField] private Animator animator;
@@ -169,14 +169,13 @@ internal class ProtoPowerAbilitySystem : MonoBehaviour, ISaveDataListener, ILate
     {
         onUnequip?.Invoke();
 
-        if (!justRemoved)
-        {
-            FMODUWE.PlayOneShot(unequipSound, transform.position, 1f);
-        }
-        else
+        if (justRemoved)
         {
             justRemoved = false;
+            return;
         }
+
+        FMODUWE.PlayOneShot(unequipSound, transform.position, 1f);
 
         foreach (var obj in powerSourceGameObjects.Values)
         {
@@ -215,6 +214,12 @@ internal class ProtoPowerAbilitySystem : MonoBehaviour, ISaveDataListener, ILate
         yield return new WaitForSeconds(0.75f);
         animator.SetBool("ProxyActivated", false);
         animator.SetBool("OnCooldown", true);
+
+        yield return new WaitForSeconds(2f);
+        foreach (var obj in powerSourceGameObjects.Values)
+        {
+            obj.SetActive(false);
+        }
     }
 
     public bool HasItem()
