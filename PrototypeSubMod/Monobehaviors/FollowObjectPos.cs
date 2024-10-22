@@ -9,6 +9,6 @@ internal class FollowObjectPos : MonoBehaviour
 
     private void LateUpdate()
     {
-        transform.localPosition = transform.parent.InverseTransformPoint(followObj.position) + localOffset;
+        transform.position = followObj.position + transform.parent.TransformPoint(localOffset);
     }
 }
