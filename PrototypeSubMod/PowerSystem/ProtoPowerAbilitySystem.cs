@@ -88,8 +88,6 @@ internal class ProtoPowerAbilitySystem : MonoBehaviour, ISaveDataListener, ILate
             Vector3 delta = powerObjectHolder.InverseTransformPoint(powerObjectHolder.position) - powerObjectHolder.InverseTransformPoint(modelCenter);
             powerPrefabObj.transform.localPosition = delta;
 
-            Plugin.Logger.LogInfo($"Model delta for {availableSource} = {delta} (Rend count = {rendCount} | Center = {modelCenter} | Power obj pos = {powerObjectHolder.position})");
-
             powerSourceGameObjects.Add(availableSource, powerPrefabObj);
 
             var itemInSlot = equipment.GetItemInSlot(SlotName);
