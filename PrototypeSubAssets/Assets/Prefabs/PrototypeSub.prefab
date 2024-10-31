@@ -10941,7 +10941,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   followObj: {fileID: 8675327115258762869}
-  localOffset: {x: 0, y: 0, z: 0}
 --- !u!1 &1271407875339603935
 GameObject:
   m_ObjectHideFlags: 0
@@ -24831,6 +24830,7 @@ MonoBehaviour:
   canvasGroup: {fileID: 1178562909987698232}
   creatureDamagesSFX: {fileID: 433739094945648899}
   noiseManager: {fileID: 4493698966587842884}
+  minCollisionDamageForHUDShake: 0
 --- !u!114 &5193505614781930889
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -71018,7 +71018,6 @@ GameObject:
   - component: {fileID: 3375597217491408192}
   - component: {fileID: 5233162340513866403}
   - component: {fileID: 4493698966587842884}
-  - component: {fileID: 3881327147361589387}
   - component: {fileID: 6218713047661039472}
   - component: {fileID: 2895879338249793368}
   - component: {fileID: 7922656283304429163}
@@ -71604,27 +71603,6 @@ MonoBehaviour:
   lightingPanel: {fileID: 0}
   subControl: {fileID: 5378019260895971750}
   silentRunningDuration: 120
---- !u!114 &3881327147361589387
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8041321529513965086}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 338116859, guid: 06dd3d5416bf43ea368cc39ff96e6d5a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lightsParent: {fileID: 5428298258671590896}
-  lightsOnSound: {fileID: 0}
-  lightsOffSound: {fileID: 0}
-  onSound: {fileID: 0}
-  offSound: {fileID: 0}
-  energyMixin: {fileID: 0}
-  energyPerSecond: 1
-  lightState: 0
-  maxLightStates: 2
 --- !u!114 &6218713047661039472
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -71794,6 +71772,7 @@ MonoBehaviour:
   m_Script: {fileID: 1892793675, guid: 05b2873035fc0cb47b172f8f145ed69c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  subRoot: {fileID: 6246764057006774658}
   exteriorSkyApplier: {fileID: 1461529087654139827}
   interiorSkyApplier: {fileID: 3139905901443945886}
   windowSkyApplier: {fileID: 460158318661139844}

@@ -1,9 +1,10 @@
-﻿using SubLibrary.CyclopsReferencers;
+﻿using SubLibrary.Handlers;
+using SubLibrary.Monobehaviors;
 using UnityEngine;
 
 namespace PrototypeSubMod.Monobehaviors;
 
-internal class CyclopsMaterialAssigner : MonoBehaviour, ICyclopsReferencer
+internal class CyclopsMaterialAssigner : PrefabModifier
 {
     [SerializeField] private string objectPath;
     [SerializeField] private int materialIndex;
@@ -14,9 +15,9 @@ internal class CyclopsMaterialAssigner : MonoBehaviour, ICyclopsReferencer
         if (!renderer) TryGetComponent(out renderer);
     }
 
-    public void OnCyclopsReferenceFinished(GameObject cyclops)
+    public override void OnLateMaterialOperation()
     {
-        var meshRenderer = cyclops.transform.Find(objectPath).GetComponent<MeshRenderer>();
+        var meshRenderer = CyclopsReferenceHandler.CyclopsReference.transform.Find(objectPath).GetComponent<MeshRenderer>();
         renderer.material = meshRenderer.materials[materialIndex];
     }
 }
