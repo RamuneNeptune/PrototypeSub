@@ -6,9 +6,14 @@ internal class ProtoEngineLever : CinematicModeTriggerBase
 {
     [SerializeField] private Animator leverAnimator;
     [SerializeField] private Animator playerAnimator;
+    [SerializeField] private Collider interactableCollider;
     [SerializeField] private CyclopsMotorMode motorMode;
     [SerializeField] private Transform leftIKTarget;
     [SerializeField] private Transform rightIKTarget;
+    [SerializeField] private FMOD_CustomEmitter startupSound;
+    [SerializeField] private FMOD_CustomEmitter shutdownSound;
+
+    private bool ensureAnimFinished;
 
     private void Start()
     {
@@ -32,10 +37,37 @@ internal class ProtoEngineLever : CinematicModeTriggerBase
         bool nextState = !leverAnimator.GetBool("LeverEnabled");
         leverAnimator.SetBool("LeverEnabled", nextState);
         playerAnimator.SetTrigger(nextState ? "LeverDown" : "LeverUp");
+
+        if (nextState)
+        {
+            startupSound.Play();
+        }
+        else
+        {
+            shutdownSound.Play();
+        }
     }
     
     public void OnCinematicEnd()
     {
         Player.main.armsController.SetWorldIKTarget(null, null);
+        interactableCollider.enabled = false;
+        ensureAnimFinished = true;
+
+        UWE.CoroutineHost.StartCoroutine(motorMode.ChangeEngineState(true));
+    }
+
+    private void Update()
+    {
+        if (ensureAnimFinished)
+        {
+            bool currentlyEnabled = leverAnimator.GetCurrentAnimatorStateInfo(0).IsName("LeverEnabled");
+            bool currentlyDisabled = leverAnimator.GetCurrentAnimatorStateInfo(0).IsName("LeverDisabled");
+            if (currentlyEnabled || currentlyDisabled)
+            {
+                ensureAnimFinished = false;
+                interactableCollider.enabled = true;
+            }
+        }
     }
 }
