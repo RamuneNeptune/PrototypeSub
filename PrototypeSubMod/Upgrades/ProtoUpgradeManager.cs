@@ -107,62 +107,49 @@ internal class ProtoUpgradeManager : MonoBehaviour, ISaveDataListener
 
     public void OnConsoleCommand_toggleupgradeenabled(NotificationCenter.Notification notification)
     {
-        if (notification == null)
-        {
-            ErrorMessage.AddError($"'toggleupgradeenabled' expects an upgrade tech type.");
-            return;
-        }
+        (bool, TechType) techTypeResult = TryParseTTFromNotification(notification);
+        if (!techTypeResult.Item1) return;
 
-        if (notification.data.Count > 1 || notification.data.Count <= 0)
+        if (!upgrades.TryGetValue(techTypeResult.Item2, out var upgrade))
         {
-            ErrorMessage.AddError($"Invalid argument count. ToggleUpgradeEnabled expects the tech type for an upgrade");
-            return;
-        }
-
-        string upgradeTechType = "";
-        try
-        {
-            upgradeTechType = notification.data[0] as string;
-        }
-        catch (Exception e)
-        {
-            throw e;
-        }
-
-        TechType techType = TechType.None;
-        try
-        {
-            techType = (TechType)Enum.Parse(typeof(TechType), upgradeTechType, true);
-        }
-        catch (Exception e)
-        {
-            ErrorMessage.AddError($"Error parsing \"{upgradeTechType}\" as a tech type. Check log for full details.");
-            throw e;
-        }
-
-        if (!upgrades.TryGetValue(techType, out var upgrade))
-        {
-            ErrorMessage.AddError($"Upgrade with tech type \"{upgradeTechType}\" is not on the prototype");
+            ErrorMessage.AddError($"Upgrade with tech type \"{techTypeResult.Item2}\" is not on the prototype");
             return;
         }
 
         upgrade.SetUpgradeEnabled(!upgrade.GetUpgradeEnabled());
 
-        ErrorMessage.AddError($"{techType} enabled set to {upgrade.GetUpgradeEnabled()}");
+        ErrorMessage.AddError($"{techTypeResult.Item2} enabled set to {upgrade.GetUpgradeEnabled()}");
     }
 
     public void OnConsoleCommand_toggleupgradeinstalled(NotificationCenter.Notification notification)
     {
+        (bool, TechType) techTypeResult = TryParseTTFromNotification(notification);
+        if (!techTypeResult.Item1) return;
+
+        if (!upgrades.TryGetValue(techTypeResult.Item2, out var upgrade))
+        {
+            ErrorMessage.AddError($"Upgrade with tech type \"{techTypeResult.Item2}\" is not on the prototype");
+            return;
+        }
+
+        upgrade.SetUpgradeInstalled(!upgrade.GetUpgradeInstalled());
+
+        ErrorMessage.AddError($"{techTypeResult.Item2} installed set to {upgrade.GetUpgradeInstalled()}");
+        upgradesDirty = true;
+    }
+
+    private (bool, TechType) TryParseTTFromNotification(NotificationCenter.Notification notification)
+    {
         if (notification == null)
         {
             ErrorMessage.AddError($"'toggleupgradeinstalled' expects an upgrade tech type.");
-            return;
+            return (false, TechType.None);
         }
 
         if (notification.data.Count > 1 || notification.data.Count <= 0)
         {
             ErrorMessage.AddError($"Invalid argument count. ToggleUpgradeInstalled expects the tech type for an upgrade");
-            return;
+            return (false, TechType.None);
         }
 
         string upgradeTechType = "";
@@ -186,15 +173,6 @@ internal class ProtoUpgradeManager : MonoBehaviour, ISaveDataListener
             throw e;
         }
 
-        if (!upgrades.TryGetValue(techType, out var upgrade))
-        {
-            ErrorMessage.AddError($"Upgrade with tech type \"{upgradeTechType}\" is not on the prototype");
-            return;
-        }
-
-        upgrade.SetUpgradeInstalled(!upgrade.GetUpgradeInstalled());
-
-        ErrorMessage.AddError($"{techType} installed set to {upgrade.GetUpgradeInstalled()}");
-        upgradesDirty = true;
+        return (true, techType);
     }
 }
