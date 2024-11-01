@@ -18,6 +18,7 @@ internal class ProtoEngineLever : CinematicModeTriggerBase
     private void Start()
     {
         cinematicController.animator = Player.main.playerAnimator;
+        leverAnimator.SetBool("LeverEnabled", motorMode.engineOn);
     }
 
     public override void OnHandHover(GUIHand hand)
@@ -54,7 +55,7 @@ internal class ProtoEngineLever : CinematicModeTriggerBase
         interactableCollider.enabled = false;
         ensureAnimFinished = true;
 
-        UWE.CoroutineHost.StartCoroutine(motorMode.ChangeEngineState(true));
+        UWE.CoroutineHost.StartCoroutine(motorMode.ChangeEngineState(!motorMode.engineOn));
     }
 
     private void Update()
