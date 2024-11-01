@@ -107,6 +107,12 @@ internal class ProtoUpgradeManager : MonoBehaviour, ISaveDataListener
 
     public void OnConsoleCommand_toggleupgradeenabled(NotificationCenter.Notification notification)
     {
+        if (notification == null)
+        {
+            ErrorMessage.AddError($"'toggleupgradeenabled' expects an upgrade tech type.");
+            return;
+        }
+
         if (notification.data.Count > 1 || notification.data.Count <= 0)
         {
             ErrorMessage.AddError($"Invalid argument count. ToggleUpgradeEnabled expects the tech type for an upgrade");
@@ -123,7 +129,17 @@ internal class ProtoUpgradeManager : MonoBehaviour, ISaveDataListener
             throw e;
         }
 
-        TechType techType = (TechType)Enum.Parse(typeof(TechType), upgradeTechType, true);
+        TechType techType = TechType.None;
+        try
+        {
+            techType = (TechType)Enum.Parse(typeof(TechType), upgradeTechType, true);
+        }
+        catch (Exception e)
+        {
+            ErrorMessage.AddError($"Error parsing \"{upgradeTechType}\" as a tech type. Check log for full details.");
+            throw e;
+        }
+
         if (!upgrades.TryGetValue(techType, out var upgrade))
         {
             ErrorMessage.AddError($"Upgrade with tech type \"{upgradeTechType}\" is not on the prototype");
@@ -137,6 +153,12 @@ internal class ProtoUpgradeManager : MonoBehaviour, ISaveDataListener
 
     public void OnConsoleCommand_toggleupgradeinstalled(NotificationCenter.Notification notification)
     {
+        if (notification == null)
+        {
+            ErrorMessage.AddError($"'toggleupgradeinstalled' expects an upgrade tech type.");
+            return;
+        }
+
         if (notification.data.Count > 1 || notification.data.Count <= 0)
         {
             ErrorMessage.AddError($"Invalid argument count. ToggleUpgradeInstalled expects the tech type for an upgrade");
@@ -153,7 +175,17 @@ internal class ProtoUpgradeManager : MonoBehaviour, ISaveDataListener
             throw e;
         }
 
-        TechType techType = (TechType)Enum.Parse(typeof(TechType), upgradeTechType, true);
+        TechType techType = TechType.None;
+        try
+        {
+            techType = (TechType)Enum.Parse(typeof(TechType), upgradeTechType, true);
+        }
+        catch (Exception e)
+        {
+            ErrorMessage.AddError($"Error parsing \"{upgradeTechType}\" as a tech type. Check log for full details.");
+            throw e;
+        }
+
         if (!upgrades.TryGetValue(techType, out var upgrade))
         {
             ErrorMessage.AddError($"Upgrade with tech type \"{upgradeTechType}\" is not on the prototype");

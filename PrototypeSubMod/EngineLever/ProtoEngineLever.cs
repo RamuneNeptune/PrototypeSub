@@ -4,10 +4,11 @@ namespace PrototypeSubMod.EngineLever;
 
 internal class ProtoEngineLever : CinematicModeTriggerBase
 {
+    [SerializeField] private SubRoot subRoot;
+    [SerializeField] private CyclopsMotorMode motorMode;
     [SerializeField] private Animator leverAnimator;
     [SerializeField] private Animator playerAnimator;
     [SerializeField] private Collider interactableCollider;
-    [SerializeField] private CyclopsMotorMode motorMode;
     [SerializeField] private Transform leftIKTarget;
     [SerializeField] private Transform rightIKTarget;
     [SerializeField] private FMOD_CustomEmitter startupSound;
@@ -42,10 +43,12 @@ internal class ProtoEngineLever : CinematicModeTriggerBase
         if (nextState)
         {
             startupSound.Play();
+            subRoot.voiceNotificationManager.PlayVoiceNotification(subRoot.enginePowerUpNotification);
         }
         else
         {
             shutdownSound.Play();
+            subRoot.voiceNotificationManager.PlayVoiceNotification(subRoot.enginePowerDownNotification);
         }
     }
     
