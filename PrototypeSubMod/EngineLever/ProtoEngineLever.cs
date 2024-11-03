@@ -6,6 +6,7 @@ internal class ProtoEngineLever : CinematicModeTriggerBase
 {
     [SerializeField] private SubRoot subRoot;
     [SerializeField] private CyclopsMotorMode motorMode;
+    [SerializeField] private EmissiveIntensityPingPong emissivePingPong;
     [SerializeField] private Animator leverAnimator;
     [SerializeField] private Animator playerAnimator;
     [SerializeField] private Collider interactableCollider;
@@ -20,6 +21,7 @@ internal class ProtoEngineLever : CinematicModeTriggerBase
     {
         cinematicController.animator = Player.main.playerAnimator;
         leverAnimator.SetBool("LeverEnabled", motorMode.engineOn);
+        emissivePingPong.SetActive(motorMode.engineOn);
     }
 
     public override void OnHandHover(GUIHand hand)
