@@ -48,6 +48,7 @@ internal class uGUI_ProtoBuildScreen : MonoBehaviour
 
     public void OnConstructionStarted(float duration)
     {
+        tooltip.gameObject.SetActive(false);
         buildScreen.SetActive(false);
         animationScreen.gameObject.SetActive(true);
         animationScreen.StartAnimation(duration);
