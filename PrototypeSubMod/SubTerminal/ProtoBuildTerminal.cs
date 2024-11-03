@@ -49,6 +49,9 @@ internal class ProtoBuildTerminal : Crafter
 
     private IEnumerator OnCraftingBeginAsync(TechType techType, float duration)
     {
+        var screen = GetComponentInChildren<uGUI_ProtoBuildScreen>();
+        screen.OnConstructionAsyncStarted();
+
         var prefab = CraftData.GetPrefabForTechTypeAsync(techType);
         yield return prefab;
 
@@ -68,7 +71,7 @@ internal class ProtoBuildTerminal : Crafter
 
         vfxConstructing.informGameObject = gameObject;
 
-        GetComponentInChildren<uGUI_ProtoBuildScreen>().OnConstructionStarted(duration + vfxConstructing.delay);
+        screen.OnConstructionStarted(duration + vfxConstructing.delay);
 
         LargeWorldEntity.Register(instantiatedPrefab);
 

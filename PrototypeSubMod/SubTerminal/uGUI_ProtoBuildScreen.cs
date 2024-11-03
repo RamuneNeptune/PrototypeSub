@@ -48,12 +48,16 @@ internal class uGUI_ProtoBuildScreen : MonoBehaviour
 
     public void OnConstructionStarted(float duration)
     {
-        tooltip.gameObject.SetActive(false);
         buildScreen.SetActive(false);
         animationScreen.gameObject.SetActive(true);
         animationScreen.StartAnimation(duration);
 
         isBuilding = true;
+    }
+
+    public void OnConstructionAsyncStarted()
+    {
+        tooltip.gameObject.SetActive(false);
     }
 
     // Called by VFX Constructing in Update via SendMessage()
