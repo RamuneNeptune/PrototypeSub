@@ -26,6 +26,7 @@ internal class ProtoIonGenerator : ProtoUpgrade
     private GameObject empPrefab;
     private bool empFired;
     private float currentEMPChargeTime;
+    private float energyMultiplier = 1;
 
     private IEnumerator Start()
     {
@@ -76,7 +77,7 @@ internal class ProtoIonGenerator : ProtoUpgrade
         if (currentEMPChargeTime < empChargeUpTime && !empFired)
         {
             currentEMPChargeTime += Time.deltaTime;
-            powerRelay.AddEnergy(energyPerSecond * Time.deltaTime, out _);
+            powerRelay.AddEnergy(energyPerSecond * Time.deltaTime * energyMultiplier, out _);
         }
         else if (!empFired)
         {
@@ -90,5 +91,10 @@ internal class ProtoIonGenerator : ProtoUpgrade
 
             Utils.PlayEnvSound(empSoundEffect, empSpawnPos.position, soundEffectVolume);
         }
+    }
+
+    public void SetEnergyMultiplier(float multiplier)
+    {
+        energyMultiplier = multiplier;
     }
 }
