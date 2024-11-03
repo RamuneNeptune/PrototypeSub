@@ -22,7 +22,7 @@ public class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTree
     internal static readonly Dictionary<TechType, PowerConfigData> AllowedPowerSources = new()
     {
         { TechType.PrecursorIonCrystal, new(1000, typeof(IonCubePowerFunctionality)) },
-        { TechType.PrecursorIonPowerCell, new(1500, null) },
+        { TechType.PrecursorIonPowerCell, new(1500, typeof(IonPowerCellFunctionality)) },
         { TechType.PrecursorIonCrystalMatrix, new(3500, null) },
         { IonPrism_Craftable.prefabInfo.TechType, new(5000, null) }
     };
