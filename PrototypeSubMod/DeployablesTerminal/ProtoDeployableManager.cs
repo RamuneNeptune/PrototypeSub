@@ -39,7 +39,7 @@ internal class ProtoDeployableManager : ProtoUpgrade
 
     public void TryLaunchLight()
     {
-        if (!upgradeEnabled) return;
+        if (!upgradeInstalled) return;
 
         if (ionGenerator.GetUpgradeInstalled()) return;
 
@@ -56,7 +56,7 @@ internal class ProtoDeployableManager : ProtoUpgrade
 
     public void TryLaunchDecoy()
     {
-        if (!upgradeEnabled) return;
+        if (!upgradeInstalled) return;
 
         if (ionGenerator.GetUpgradeInstalled()) return;
 
