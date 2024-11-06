@@ -17,12 +17,15 @@ internal class LightDistortionApplier : MonoBehaviour
         if (!material) material = new Material(CloakEffectHandler.Instance.shader);
 
         Transform sphere = CloakEffectHandler.Instance.ovoid;
-
+        
         if (CloakEffectHandler.Instance.GetIsDirty())
         {
-            RefreshVariables(sphere);
+            RefreshVariables();
             CloakEffectHandler.Instance.ClearDirty();
         }
+
+        material.SetVector("_OvoidCenter", sphere.position);
+        material.SetVector("_OvoidRadii", sphere.localScale);
 
         Matrix4x4 rotationMatrix = Matrix4x4.Rotate(sphere.rotation);
         material.SetMatrix("_InverseRotationMatrix", rotationMatrix);
@@ -30,14 +33,12 @@ internal class LightDistortionApplier : MonoBehaviour
         Graphics.Blit(source, destination, material);
     }
 
-    private void RefreshVariables(Transform sphere)
+    private void RefreshVariables()
     {
         material.SetColor("_Color", CloakEffectHandler.Instance.color);
         material.SetColor("_DistortionColor", CloakEffectHandler.Instance.distortionColor);
         material.SetColor("_InteriorColor", CloakEffectHandler.Instance.interiorColor);
         material.SetColor("_VignetteColor", CloakEffectHandler.Instance.vignetteColor);
-        material.SetVector("_OvoidCenter", sphere.position);
-        material.SetVector("_OvoidRadii", sphere.localScale);
         material.SetFloat("_Multiplier", CloakEffectHandler.Instance.falloffMultiplier);
         material.SetFloat("_EffectBoundaryMin", CloakEffectHandler.Instance.distortionBoundaryMin);
         material.SetFloat("_EffectBoundaryMax", CloakEffectHandler.Instance.distortionBoundaryMax);
