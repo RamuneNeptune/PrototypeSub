@@ -164,7 +164,7 @@ internal class ProtoTeleporterManager : ProtoUpgrade
     {
         yield return new WaitForSeconds(7f);
 
-        activationTerminal.GetComponentInChildren<Collider>(true).isTrigger = true;
+        activationTerminal.GetComponentInChildren<Collider>(true).isTrigger = false;
     }
 
     public void SetColorOverrideData(ColorOverrideData overrideData) => colorOverrideData = overrideData;
