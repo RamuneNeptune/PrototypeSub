@@ -8,7 +8,7 @@ internal abstract class ProtoUpgrade : MonoBehaviour, IProtoUpgrade
 {
     public DummyTechType techType;
     public GameObject[] enableWithInstallation;
-    public bool unlockedAtStart;
+    public bool installedAtStart;
 
     protected bool upgradeEnabled;
     protected bool upgradeInstalled;
@@ -34,10 +34,12 @@ internal abstract class ProtoUpgrade : MonoBehaviour, IProtoUpgrade
         }
     }
 
-    private void Awake()
+    private void Start()
     {
-        if (!unlockedAtStart) return;
-
-        KnownTech.Add(techType.TechType);
+        if (installedAtStart)
+        {
+            KnownTech.Add(techType.TechType);
+            upgradeInstalled = true;
+        }        
     }
 }
