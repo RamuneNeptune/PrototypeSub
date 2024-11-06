@@ -1,4 +1,6 @@
-﻿using System;
+﻿using PrototypeSubMod.Monobehaviors;
+using PrototypeSubMod.PowerSystem.Funcionalities;
+using System;
 using UnityEngine;
 
 namespace PrototypeSubMod.Teleporter;
@@ -181,6 +183,12 @@ internal class TeleporterOverride : MonoBehaviour
         {
             QueuedTeleportedBackToSub = true;
             Player.main.SetPrecursorOutOfWater(false);
+
+            if (CurrentOverrideColor != OverrideColor)
+            {
+                var teleportManager = Camera.main.GetComponent<ProtoScreenTeleporterFXManager>();
+                teleportManager.SetColors(ElectricubePowerFunctionality.TeleportScreenColInner, ElectricubePowerFunctionality.TeleportScreenColMiddle, ElectricubePowerFunctionality.TeleportScreenColOuter);
+            }
         }
     }
 

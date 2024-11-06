@@ -2,6 +2,7 @@
 using PrototypeSubMod.LightDistortionField;
 using PrototypeSubMod.Monobehaviors;
 using PrototypeSubMod.Teleporter;
+using System.Collections;
 using UnityEngine;
 
 namespace PrototypeSubMod.Patches;
@@ -39,6 +40,13 @@ internal class PlayerPatches
     private static void CheckForTeleportationComplete_Postfix()
     {
         if (!LargeWorldStreamer.main.IsWorldSettled()) return;
+
+        UWE.CoroutineHost.StartCoroutine(ResetTeleporterColors());
+    }
+
+    private static IEnumerator ResetTeleporterColors()
+    {
+        yield return new WaitForSeconds(3f);
 
         var teleportManager = Camera.main.GetComponent<ProtoScreenTeleporterFXManager>();
         teleportManager.ResetColors();

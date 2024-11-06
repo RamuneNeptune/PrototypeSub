@@ -150,6 +150,7 @@ internal class ProtoTeleporterManager : ProtoUpgrade
     public void OnActivationTerminalCinematicStarted()
     {
         activationTerminal = GetComponentInChildren<PrecursorTeleporterActivationTerminal>();
+        activationTerminal.OpenDeck();
 
         activationTerminal.GetComponentInChildren<Collider>(true).isTrigger = true;
         StartCoroutine(FallbackEnableCollider());
@@ -162,7 +163,7 @@ internal class ProtoTeleporterManager : ProtoUpgrade
 
     private IEnumerator FallbackEnableCollider()
     {
-        yield return new WaitForSeconds(7f);
+        yield return new WaitForSeconds(7.5f);
 
         activationTerminal.GetComponentInChildren<Collider>(true).isTrigger = false;
     }
