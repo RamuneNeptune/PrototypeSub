@@ -152,11 +152,19 @@ internal class ProtoTeleporterManager : ProtoUpgrade
         activationTerminal = GetComponentInChildren<PrecursorTeleporterActivationTerminal>();
 
         activationTerminal.GetComponentInChildren<Collider>(true).isTrigger = true;
+        StartCoroutine(FallbackEnableCollider());
     }
 
     public void OnActivationTerminalCinematicEnded()
     {
         activationTerminal.GetComponentInChildren<Collider>(true).isTrigger = false;
+    }
+
+    private IEnumerator FallbackEnableCollider()
+    {
+        yield return new WaitForSeconds(7f);
+
+        activationTerminal.GetComponentInChildren<Collider>(true).isTrigger = true;
     }
 
     public void SetColorOverrideData(ColorOverrideData overrideData) => colorOverrideData = overrideData;

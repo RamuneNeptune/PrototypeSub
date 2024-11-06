@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace PrototypeSubMod.Teleporter;
 
@@ -13,6 +14,9 @@ internal class TeleporterOverride : MonoBehaviour
     public static bool QueuedTeleportedBackToSub { get; private set; }
     private static float TimeWhenPortalUnloaded;
     private static float TimeLeftWhenUnloaded;
+    private static bool OverrideRequested;
+
+    private static event Action OnTeleportStart;
 
     private Vector3 originalTeleportPosition;
     private PrecursorTeleporter teleporter;
@@ -39,11 +43,14 @@ internal class TeleporterOverride : MonoBehaviour
     public static void OnTeleportStarted()
     {
         QueuedResetOverrideTime = true;
+        OverrideRequested = true;
+        OnTeleportStart?.Invoke();
     }
 
     public static void OnTeleportToSubFinished()
     {
         QueuedTeleportedBackToSub = false;
+        OverrideRequested = false;
     }
 
     public static void SetTempTeleporterColor(Color color)
@@ -57,6 +64,14 @@ internal class TeleporterOverride : MonoBehaviour
     }
 
     private void Start()
+    {
+        Initialize();
+    }
+
+    private void OnEnable() => OnTeleportStart += TargetTeleporterCheck;
+    private void OnDisable() => OnTeleportStart -= TargetTeleporterCheck;
+
+    private void Initialize()
     {
         //This stuff may look weird but remember that the portal is only loaded in when it's being teleported to, so this is called when it's loaded in
 
@@ -87,6 +102,18 @@ internal class TeleporterOverride : MonoBehaviour
         }
     }
 
+    private void TargetTeleporterCheck()
+    {
+        teleporterID = teleporter.teleporterIdentifier + (GetComponentInParent<PrecursorTeleporterActivationTerminal>() != null ? "M" : "S");
+
+        if (teleporterID != FullOverrideTeleporterID) return;
+
+        if (QueuedResetOverrideTime && !overrideActive)
+        {
+            Initialize();
+        }
+    }
+
     private void Update()
     {
         HandleOverrideCountdown();
@@ -96,6 +123,8 @@ internal class TeleporterOverride : MonoBehaviour
     private void HandleOverrideCountdown()
     {
         if (teleporterID != FullOverrideTeleporterID) return;
+
+        if (!OverrideRequested) return;
 
         if (currentOverrideTime > 0)
         {
