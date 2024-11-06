@@ -16,6 +16,7 @@ internal class InterfloorTeleporter : MonoBehaviour
     [SerializeField] private FMODAsset soundEffect;
     [SerializeField] private Transform teleportPosition;
     [SerializeField] private float teleporterCooldown = 1f;
+    [SerializeField] private Collider collider;
 
     private bool allowedToTeleport = true;
     private float prevDuration;
@@ -38,6 +39,8 @@ internal class InterfloorTeleporter : MonoBehaviour
         if (!allowedToTeleport) return;
 
         if (col.gameObject != Player.main.gameObject) return;
+
+        collider.enabled = false;
 
         FMODUWE.PlayOneShot(soundEffect, teleportPosition.position, 0.25f);
 
@@ -62,6 +65,8 @@ internal class InterfloorTeleporter : MonoBehaviour
     {
         Player.main.SetPosition(teleportPosition.position, teleportPosition.rotation);
         Player.main.rigidBody.velocity = Vector3.zero;
+
+        collider.enabled = true;
     }
 
     private void ResetDuration()
