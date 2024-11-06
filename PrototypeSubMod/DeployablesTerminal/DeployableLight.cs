@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using PrototypeSubMod.Monobehaviors;
+using UnityEngine;
 
 namespace PrototypeSubMod.DeployablesTerminal;
 
@@ -54,6 +55,8 @@ internal class DeployableLight : MonoBehaviour, IProtoEventListener
 
         Invoke(nameof(StartLifetime), deployDelay);
         Destroy(pickupable);
+
+        light.GetComponentInChildren<CyclopsMaterialAssigner>().OnLateMaterialOperation();
     }
 
     private void OnDrop()

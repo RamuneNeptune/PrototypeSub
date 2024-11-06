@@ -77,7 +77,6 @@ internal class ProtoDeployableManager : ProtoUpgrade
         lightComponent.gameObject.SetActive(true);
 
         lightComponent.LaunchWithForce(lightLaunchForce, subRoot.rb.velocity);
-        lightComponent.GetComponentInChildren<CyclopsMaterialAssigner>().OnLateMaterialOperation();
     }
 
     private void SpawnDecoyDelayed()
