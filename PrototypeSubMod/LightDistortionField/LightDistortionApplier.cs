@@ -17,6 +17,21 @@ internal class LightDistortionApplier : MonoBehaviour
         if (!material) material = new Material(CloakEffectHandler.Instance.shader);
 
         Transform sphere = CloakEffectHandler.Instance.ovoid;
+
+        if (CloakEffectHandler.Instance.GetIsDirty())
+        {
+            RefreshVariables(sphere);
+            CloakEffectHandler.Instance.ClearDirty();
+        }
+
+        Matrix4x4 rotationMatrix = Matrix4x4.Rotate(sphere.rotation);
+        material.SetMatrix("_InverseRotationMatrix", rotationMatrix);
+
+        Graphics.Blit(source, destination, material);
+    }
+
+    private void RefreshVariables(Transform sphere)
+    {
         material.SetColor("_Color", CloakEffectHandler.Instance.color);
         material.SetColor("_DistortionColor", CloakEffectHandler.Instance.distortionColor);
         material.SetColor("_InteriorColor", CloakEffectHandler.Instance.interiorColor);
@@ -38,10 +53,5 @@ internal class LightDistortionApplier : MonoBehaviour
         material.SetInt("_WaveCount", CloakEffectHandler.Instance.waveCount);
         material.SetFloat("_FrequencyIncrease", CloakEffectHandler.Instance.frequencyIncrease);
         material.SetFloat("_AmplitudeFalloff", CloakEffectHandler.Instance.amplitudeFalloff);
-
-        Matrix4x4 rotationMatrix = Matrix4x4.Rotate(sphere.rotation);
-        material.SetMatrix("_InverseRotationMatrix", rotationMatrix);
-
-        Graphics.Blit(source, destination, material);
     }
 }

@@ -59,6 +59,7 @@ internal class CloakEffectHandler : ProtoUpgrade
 
     private Vector3 originalScale;
     private float currentScaleTime;
+    private bool isDirty = true;
 
     private void Awake()
     {
@@ -75,6 +76,11 @@ internal class CloakEffectHandler : ProtoUpgrade
     {
         originalScale = ovoid.localScale;
         ovoid.localScale = originalScale * TargetScaleMultiplier;
+    }
+
+    private void OnValidate()
+    {
+        isDirty = true;
     }
 
     private void Update()
@@ -119,4 +125,7 @@ internal class CloakEffectHandler : ProtoUpgrade
     {
         return TargetScaleMultiplier;
     }
+
+    public bool GetIsDirty() => isDirty;
+    public void ClearDirty() => isDirty = false;
 }
