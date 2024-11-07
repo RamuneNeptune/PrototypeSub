@@ -25,6 +25,8 @@ internal class ProtoPowerAbilitySystem : MonoBehaviour, ISaveDataListener, ILate
     [SerializeField] private PlayerDistanceTracker playerDistanceTracker;
     [SerializeField] private Transform powerObjectHolder;
     [SerializeField] private float maxDistance;
+    [SerializeField] private FMODAsset depotOpenSFX;
+    [SerializeField] private FMODAsset depotCloseSFX;
 
     [Header("Equipment Setup")]
     [SerializeField] private ChildObjectIdentifier storageRoot;
@@ -271,6 +273,8 @@ internal class ProtoPowerAbilitySystem : MonoBehaviour, ISaveDataListener, ILate
 
         animator.SetBool("ProxyActivated", true);
         animator.SetBool("OnCooldown", false);
+
+        FMODUWE.PlayOneShot(depotOpenSFX, transform.position, 0.4f);
     }
 
     public void OnExitProxy()
@@ -279,5 +283,7 @@ internal class ProtoPowerAbilitySystem : MonoBehaviour, ISaveDataListener, ILate
 
         animator.SetBool("ProxyActivated", false);
         animator.SetBool("OnCooldown", false);
+
+        FMODUWE.PlayOneShot(depotCloseSFX, transform.position, 0.4f);
     }
 }
