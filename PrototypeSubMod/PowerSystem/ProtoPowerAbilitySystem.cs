@@ -274,7 +274,7 @@ internal class ProtoPowerAbilitySystem : MonoBehaviour, ISaveDataListener, ILate
         animator.SetBool("ProxyActivated", true);
         animator.SetBool("OnCooldown", false);
 
-        FMODUWE.PlayOneShot(depotOpenSFX, transform.position, 0.4f);
+        FMODUWE.PlayOneShot(depotOpenSFX, transform.position, 0.35f);
     }
 
     public void OnExitProxy()
@@ -284,6 +284,6 @@ internal class ProtoPowerAbilitySystem : MonoBehaviour, ISaveDataListener, ILate
         animator.SetBool("ProxyActivated", false);
         animator.SetBool("OnCooldown", false);
 
-        FMODUWE.PlayOneShot(depotCloseSFX, transform.position, 0.4f);
+        FMODUWE.PlayOneShot(depotCloseSFX, transform.position, 0.35f);
     }
 }
