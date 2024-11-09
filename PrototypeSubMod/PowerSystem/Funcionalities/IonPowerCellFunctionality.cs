@@ -14,11 +14,11 @@ internal class IonPowerCellFunctionality : PowerSourceFunctionality
         var root = GetComponentInParent<SubRoot>();
         motorHandler = root.GetComponentInChildren<ProtoMotorHandler>();
 
-        motorHandler.SetPowerEfficiencyMultiplier(ENGINE_EFFICIENCY_MULTIPLIER);
+        motorHandler.AddPowerEfficiencyMultiplier(new ProtoMotorHandler.ValueRegistrar(this, ENGINE_EFFICIENCY_MULTIPLIER));
     }
 
     protected override void OnAbilityStopped()
     {
-        motorHandler.SetPowerEfficiencyMultiplier(1f);
+        motorHandler.RemovePowerEfficiencyMultiplier(this);
     }
 }

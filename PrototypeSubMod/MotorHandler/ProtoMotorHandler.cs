@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace PrototypeSubMod.MotorHandler;
 
@@ -9,13 +10,12 @@ internal class ProtoMotorHandler : MonoBehaviour
     private bool allowedToMove;
     private float[] originalMotorSpeeds;
     private float[] originalPowerValues;
-
     private float originalTurningTorque;
-    private float speedMultiplier = 1f;
-    private float speedBonus;
-    private float powerMultiplier = 1f;
-    private float overrideNoiseValue = -1;
-    private float powerEfficiencyMultiplier = 1f;
+
+    private Dictionary<Component, float> speedMultipliers;
+    private Dictionary<Component, float> speedBonuses;
+    private Dictionary<Component, float> powerEfficiencyMultipliers;
+    private Dictionary<Component, float> overrideNoiseValues;
 
     private void Start()
     {
@@ -29,27 +29,69 @@ internal class ProtoMotorHandler : MonoBehaviour
         this.allowedToMove = allowedToMove;
     }
 
-    public void SetSpeedMultiplier(float multiplier)
+    public void AddSpeedMultiplier(ValueRegistrar speedMultiplier)
     {
-        speedMultiplier = multiplier;
+        if (speedMultipliers.ContainsKey(speedMultiplier.component))
+        {
+            speedMultipliers[speedMultiplier.component] = speedMultiplier.value;
+            return;
+        }
+
+        speedMultipliers.Add(speedMultiplier.component, speedMultiplier.value);
+    }
+
+    public bool RemoveSpeedMultiplier(Component component)
+    {
+        if (!speedMultipliers.ContainsKey(component)) return false;
+
+        speedMultipliers.Remove(component);
+        return true;
     }
 
     /// <summary>
     /// Adds the given speed parameter to the existing speed multiplier
     /// </summary>
-    /// <param name="extraSpeed">How much extra speed to add</param>
-    public void SetSpeedMultiplierBonus(float extraSpeed)
+    /// <param name="extraSpeed"></param>
+    public void AddSpeedMultiplierBonus(ValueRegistrar multiplierBonus)
     {
-        speedBonus = extraSpeed;
+        if (speedBonuses.ContainsKey(multiplierBonus.component))
+        {
+            speedBonuses[multiplierBonus.component] = multiplierBonus.value;
+            return;
+        }
+
+        speedBonuses.Add(multiplierBonus.component, multiplierBonus.value);
+    }
+
+    public bool RemoveSpeedMultiplierBonus(Component component)
+    {
+        if (!speedBonuses.ContainsKey(component)) return false;
+
+        speedBonuses.Remove(component);
+        return true;
     }
 
     /// <summary>
     /// Set this to -1 if you don't want to change it
     /// </summary>
     /// <param name="noiseValue"></param>
-    public void SetOverrideNoiseValue(float noiseValue)
+    public void AddOverrideNoiseValue(ValueRegistrar overrideValue)
     {
-        overrideNoiseValue = noiseValue;
+        if (overrideNoiseValues.ContainsKey(overrideValue.component))
+        {
+            overrideNoiseValues[overrideValue.component] = overrideValue.value;
+            return;
+        }
+
+        overrideNoiseValues.Add(overrideValue.component, overrideValue.value);
+    }
+
+    public bool RemoveOverrideNoiseValue(Component component)
+    {
+        if (!overrideNoiseValues.ContainsKey(component)) return false;
+
+        overrideNoiseValues.Remove(component);
+        return true;
     }
 
     /// <summary>
@@ -57,21 +99,47 @@ internal class ProtoMotorHandler : MonoBehaviour
     /// </summary>
     /// <param name="multiplier"></param>
     /// <returns></returns>
-    public void SetPowerEfficiencyMultiplier(float multiplier)
+    public void AddPowerEfficiencyMultiplier(ValueRegistrar efficiencyMultiplier)
     {
-        powerEfficiencyMultiplier = multiplier;
+        if (powerEfficiencyMultipliers.ContainsKey(efficiencyMultiplier.component))
+        {
+            powerEfficiencyMultipliers[efficiencyMultiplier.component] = efficiencyMultiplier.value;
+            return;
+        }
+
+        powerEfficiencyMultipliers.Add(efficiencyMultiplier.component, efficiencyMultiplier.value);
     }
 
-    public float GetEfficiencyMultiplier() => powerEfficiencyMultiplier;
+    public bool RemovePowerEfficiencyMultiplier(Component component)
+    {
+        if (!powerEfficiencyMultipliers.ContainsKey(component)) return false;
+
+        powerEfficiencyMultipliers.Remove(component);
+        return true;
+    }
+
+    public float GetEfficiencyMultiplier()
+    {
+        float total = 1;
+        foreach (var registrar in powerEfficiencyMultipliers)
+        {
+            total *= registrar.Value;
+        }
+
+        return total;
+    }
 
     public float GetOverrideNoiseValue()
     {
-        return overrideNoiseValue;
-    }
+        if (overrideNoiseValues.Count == 0) return -1;
 
-    public void SetPowerMultiplier(float multiplier)
-    {
-        powerMultiplier = multiplier;
+        float total = 0;
+        foreach (var item in overrideNoiseValues)
+        {
+            total += item.Value;
+        }
+
+        return total;
     }
 
     private void Update()
@@ -82,6 +150,18 @@ internal class ProtoMotorHandler : MonoBehaviour
             motorMode.ChangeCyclopsMotorMode(motorMode.cyclopsMotorMode);
             motorMode.subController.BaseTurningTorque = 0;
             return;
+        }
+
+        float speedMultiplier = 1f;
+        foreach (var item in speedMultipliers)
+        {
+            speedMultiplier *= item.Value;
+        }
+
+        float speedBonus = 0f;
+        foreach (var item in speedBonuses)
+        {
+            speedBonus += item.Value;
         }
 
         float[] newSpeeds = originalMotorSpeeds;
@@ -98,5 +178,22 @@ internal class ProtoMotorHandler : MonoBehaviour
     public bool GetAllowedToMove()
     {
         return allowedToMove;
+    }
+
+    public struct ValueRegistrar
+    {
+        public Component component;
+        public float value;
+
+        /// <summary>
+        /// Creates a new value registrar
+        /// </summary>
+        /// <param name="component">The component registering the value</param>
+        /// <param name="value">The value to register</param>
+        public ValueRegistrar(Component component, float value)
+        {
+            this.component = component;
+            this.value = value;
+        }
     }
 }

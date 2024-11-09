@@ -20,14 +20,14 @@ internal class ProtoPressureConverters : ProtoUpgrade
 
         if (depth < activationDepth)
         {
-            motorHandler.SetPowerMultiplier(1f);
+            motorHandler.RemovePowerEfficiencyMultiplier(this);
             return;
         }
 
         float normalizedDepth = (depth - activationDepth) / (maxDepth - activationDepth);
         float multiplier = powerMultiplierCurve.Evaluate(normalizedDepth);
 
-        motorHandler.SetPowerMultiplier(multiplier);
+        motorHandler.AddPowerEfficiencyMultiplier(new ProtoMotorHandler.ValueRegistrar(this, multiplier));
     }
 
     public override bool GetUpgradeEnabled() => upgradeInstalled;

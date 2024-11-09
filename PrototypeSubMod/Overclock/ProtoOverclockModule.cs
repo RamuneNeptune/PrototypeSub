@@ -24,12 +24,12 @@ internal class ProtoOverclockModule : ProtoUpgrade
     {
         if (!upgradeInstalled)
         {
-            motorHandler.SetSpeedMultiplierBonus(0);
+            motorHandler.RemoveSpeedMultiplierBonus(this);
             return;
         }
 
         float speedBonus = upgradeEnabled ? speedPercentBonus / 100f : 0;
-        motorHandler.SetSpeedMultiplierBonus(speedBonus);
+        motorHandler.AddSpeedMultiplierBonus(new ProtoMotorHandler.ValueRegistrar(this, speedBonus));
         if (GetUpgradeEnabled())
         {
             powerRelay.ConsumeEnergy(powerDrainPerSecond * Time.deltaTime, out _);
