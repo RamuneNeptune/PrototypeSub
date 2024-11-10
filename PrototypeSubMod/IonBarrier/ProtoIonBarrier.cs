@@ -14,6 +14,7 @@ internal class ProtoIonBarrier : ProtoUpgrade, IOnTakeDamage
     [SerializeField] private float defaultReduction;
     [SerializeField] private DamageReductor[] damageReductors;
     [SerializeField] private Animator hydrolockController;
+    [SerializeField] private VoiceNotification shieldsUpNotification;
 
     [SerializeField, HideInInspector] private float[] multipliers;
     [SerializeField, HideInInspector] private DamageType[] damageTypes;
@@ -126,6 +127,10 @@ internal class ProtoIonBarrier : ProtoUpgrade, IOnTakeDamage
 
         base.SetUpgradeEnabled(enabled);
         hydrolockController.SetBool("HydrolockEnabled", enabled);
+        if (enabled)
+        {
+            subRoot.voiceNotificationManager.PlayVoiceNotification(shieldsUpNotification);
+        }
     }
 
     private void ActivateShield()

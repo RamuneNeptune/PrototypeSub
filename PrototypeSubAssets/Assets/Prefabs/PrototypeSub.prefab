@@ -30380,7 +30380,7 @@ GameObject:
   - component: {fileID: 2730560139074176839}
   - component: {fileID: 3723397233647011922}
   m_Layer: 0
-  m_Name: PrototypeShield
+  m_Name: IonBarrier
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30454,6 +30454,7 @@ MonoBehaviour:
   - reductionMultiplier: 0.6
     type: 8
   hydrolockController: {fileID: 8394726852095685677}
+  shieldsUpNotification: {fileID: 6586898058465506349}
   multipliers:
   - 0.1
   - 0.6
@@ -51644,7 +51645,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   text: Proto_ShieldsRaised
   sound: {fileID: 11400000, guid: ade7c1c9450b1624a86fbf1720fc3527, type: 2}
-  minInterval: 0
+  minInterval: 30
 --- !u!1 &5738033958969088095
 GameObject:
   m_ObjectHideFlags: 0
