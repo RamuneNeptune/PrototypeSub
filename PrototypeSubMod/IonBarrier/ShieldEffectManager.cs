@@ -22,7 +22,7 @@ internal class ShieldEffectManager : MonoBehaviour, ICyclopsReferencer
 
     private void Start()
     {
-        transitionTimeOut = tempColorTransitionSpeed * 4f;
+        transitionTimeOut = (1 / tempColorTransitionSpeed) * 8f;
         currentTransitionTime = transitionTimeOut;
     }
 
