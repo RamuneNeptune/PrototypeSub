@@ -23,6 +23,7 @@ internal class ProtoIonBarrier : ProtoUpgrade, IOnTakeDamage
     private float targetShieldIntensity;
     private float currentShieldIntensity;
     private float currentImpactIntensity;
+    private float damageReductionMultipier;
 
     private void OnValidate()
     {
@@ -87,7 +88,7 @@ internal class ProtoIonBarrier : ProtoUpgrade, IOnTakeDamage
             return defaultReduction;
         }
 
-        return reductor.reductionMultiplier;
+        return reductor.reductionMultiplier * damageReductionMultipier;
     }
 
     public void OnTakeDamage(DamageInfo damageInfo)
@@ -145,6 +146,11 @@ internal class ProtoIonBarrier : ProtoUpgrade, IOnTakeDamage
     private void DeactivateShield()
     {
         targetShieldIntensity = 0;
+    }
+
+    public void SetDamageReductionMultiplier(float multiplier)
+    {
+        damageReductionMultipier = multiplier;
     }
 }
 

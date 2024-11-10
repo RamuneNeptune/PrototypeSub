@@ -12,10 +12,10 @@ internal class ProtoMotorHandler : MonoBehaviour
     private float[] originalPowerValues;
     private float originalTurningTorque;
 
-    private Dictionary<Component, float> speedMultipliers;
-    private Dictionary<Component, float> speedBonuses;
-    private Dictionary<Component, float> powerEfficiencyMultipliers;
-    private Dictionary<Component, float> overrideNoiseValues;
+    private Dictionary<Component, float> speedMultipliers = new();
+    private Dictionary<Component, float> speedBonuses = new();
+    private Dictionary<Component, float> powerEfficiencyMultipliers = new();
+    private Dictionary<Component, float> overrideNoiseValues = new();
 
     private void Start()
     {
