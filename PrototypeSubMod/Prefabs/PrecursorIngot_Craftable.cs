@@ -13,7 +13,7 @@ internal class PrecursorIngot_Craftable
 
     public static void Register()
     {
-        prefabInfo = PrefabInfo.WithTechType("ProtoPrecursorIngot", null, null, "English")
+        prefabInfo = PrefabInfo.WithTechType("Proto_PrecursorIngot", null, null, "English")
             .WithIcon(SpriteManager.Get(TechType.PlasteelIngot))
             .WithSizeInInventory(new Vector2int(2, 1));
 
@@ -33,7 +33,7 @@ internal class PrecursorIngot_Craftable
 
         if (!ROTACompatManager.ArchitectsLibInstalled)
         {
-            prefab.SetRecipeFromJson(Path.Combine(Plugin.RecipesFolderPath, "Normal\\PrecursorIngot.json"))
+            prefab.SetRecipeFromJson(Path.Combine(Plugin.RecipesFolderPath, "Normal\\Proto_PrecursorIngot.json"))
                 .WithFabricatorType(CraftTree.Type.Fabricator)
                 .WithStepsToFabricatorTab("Resources", "AdvancedMaterials")
                 .WithCraftingTime(10f);
