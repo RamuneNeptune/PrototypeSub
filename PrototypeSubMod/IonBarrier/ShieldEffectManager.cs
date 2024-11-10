@@ -82,5 +82,6 @@ internal class ShieldEffectManager : MonoBehaviour, ICyclopsReferencer
     public void ClearTempColor()
     {
         tempColActive = false;
+        currentTransitionTime = 0;
     }
 }
