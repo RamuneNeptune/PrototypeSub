@@ -14,9 +14,6 @@ namespace PrototypeSubMod.Compatibility;
 
 internal static class ROTACompatManager
 {
-    // ~3 Proto ingots to one Architect one
-    private const float INGOT_CONVERSION_RATE = 0.3f;
-
     public static bool RotAInstalled
     {
         get
@@ -60,40 +57,7 @@ internal static class ROTACompatManager
 
         var powerSources = PrototypePowerSystem.AllowedPowerSources;
         powerSources.Add(electricube, new PowerConfigData(2500, typeof(ElectricubePowerFunctionality)));
-        powerSources.Add(powerCube, new PowerConfigData(3000, null));
-    }
-
-    /// <summary>
-    /// Corrects references to "PrecursorIngot" in a json recipe to either the ArchitectsLibrary precursor ingot or
-    /// the Prototype Precursor Ingot, depending on if the library is installed
-    /// </summary>
-    /// <param name="jsonRecipeData">The json recipe data</param>
-    /// <returns>The recipe data with the correct ingot type</returns>
-    public static RecipeData SwapRecipeToCorrectIngot(string jsonRecipeData)
-    {
-        if (ArchitectsLibInstalled)
-        {
-            var data = JsonConvert.DeserializeObject<RecipeData>(jsonRecipeData, new CustomEnumConverter());
-            foreach (var item in data.Ingredients)
-            {
-                if (item.techType.ToString().ToLower() != "precursoringot")
-                {
-                    continue;
-                }
-
-                item._amount = Mathf.FloorToInt(Mathf.Max(1, item.amount * INGOT_CONVERSION_RATE));
-            }
-
-            return data;
-        }
-
-        var dummyRecipeData = JsonConvert.DeserializeObject<DummyRecipeData>(jsonRecipeData);
-        var recipeData = new RecipeData();
-
-        recipeData.craftAmount = dummyRecipeData.craftAmount;
-        recipeData.Ingredients = DummyToRealIngredients(dummyRecipeData.Ingredients);
-
-        return recipeData;
+        powerSources.Add(powerCube, new PowerConfigData(3000, typeof(PowerCubeFunctionality)));
     }
 
     /// <summary>
@@ -111,27 +75,6 @@ internal static class ROTACompatManager
 
         string json = File.ReadAllText(path);
         return JsonConvert.DeserializeObject<RecipeData>(json, new CustomEnumConverter());
-    }
-
-    private static List<Ingredient> DummyToRealIngredients(List<DummyIngredient> ingredients)
-    {
-        List<Ingredient> newIngredients = new();
-        foreach (var item in ingredients)
-        {
-            TechType type = TechType.None;
-            if (item.techType.ToLower() == "precursoringot")
-            {
-                type = PrecursorIngot_Craftable.prefabInfo.TechType;
-            }
-            else
-            {
-                type = (TechType)Enum.Parse(typeof(TechType), item.techType);
-            }
-
-            newIngredients.Add(new Ingredient(type, item.amount));
-        }
-
-        return newIngredients;
     }
 
     private struct DummyRecipeData
