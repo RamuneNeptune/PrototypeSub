@@ -31,4 +31,9 @@ internal class ProtoPressureConverters : ProtoUpgrade
     }
 
     public override bool GetUpgradeEnabled() => upgradeInstalled;
+
+    private void OnDestroy()
+    {
+        motorHandler.RemovePowerEfficiencyMultiplier(this);
+    }
 }
