@@ -3,7 +3,10 @@ using BepInEx.Logging;
 using EpicStructureLoader;
 using HarmonyLib;
 using ModStructureFormat;
+using Nautilus.Assets;
+using Nautilus.Assets.PrefabTemplates;
 using Nautilus.Handlers;
+using Nautilus.Utility;
 using Newtonsoft.Json;
 using PrototypeSubMod.Compatibility;
 using PrototypeSubMod.PowerSystem;
@@ -70,6 +73,7 @@ namespace PrototypeSubMod
             RegisterStructures();
             RegisterPrefabs();
             RegisterStoryGoals();
+            RegisterBiomes();
             InitializeSlotMapping();
 
             LoadEasyPrefabs.LoadPrefabs(AssetBundle);
@@ -196,6 +200,24 @@ namespace PrototypeSubMod
 
             int entityCount = 0;
             StructureLoading.RegisterStructure(structure, ref entityCount);
+        }
+
+        private void RegisterBiomes()
+        {
+            var settings = BiomeUtils.CreateBiomeSettings(new Vector3(18, 15, 13), 1.1f, Color.white, 0.15f, Color.white, 0, temperature: 10);
+
+            BiomeHandler.RegisterBiome("protodefensefacility", settings, new BiomeHandler.SkyReference("SkyMountains"));
+            PrefabInfo volumePrefabInfo = PrefabInfo.WithTechType("ProtoDefenseFacilityBiomeVolume");
+            CustomPrefab volumePrefab = new CustomPrefab(volumePrefabInfo);
+            AtmosphereVolumeTemplate template = new (volumePrefabInfo, AtmosphereVolumeTemplate.VolumeShape.Cube, 
+                "protodefensefacility", cellLevel: LargeWorldEntity.CellLevel.VeryFar);
+            volumePrefab.SetGameObject(template);
+            volumePrefab.Register();
+
+            var spawnInfo = new SpawnInfo(volumePrefabInfo.ClassID, new Vector3(710f, -375f, -1493f), Quaternion.identity, new Vector3(250, 800, 300));
+            CoordinatedSpawnsHandler.RegisterCoordinatedSpawn(spawnInfo);
+
+            ConsoleCommandsHandler.AddGotoTeleportPosition("protodefensefacility", new Vector3(710f, -508f, -1493f));
         }
     }
 }
