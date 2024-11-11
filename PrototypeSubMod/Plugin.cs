@@ -74,6 +74,7 @@ namespace PrototypeSubMod
             RegisterPrefabs();
             RegisterStoryGoals();
             RegisterBiomes();
+            RegisterCommands();
             InitializeSlotMapping();
 
             LoadEasyPrefabs.LoadPrefabs(AssetBundle);
@@ -211,7 +212,7 @@ namespace PrototypeSubMod
             PrefabInfo volumePrefabInfo = PrefabInfo.WithTechType("ProtoDefenseFacilityBiomeVolume");
             CustomPrefab volumePrefab = new CustomPrefab(volumePrefabInfo);
             AtmosphereVolumeTemplate template = new (volumePrefabInfo, AtmosphereVolumeTemplate.VolumeShape.Cube, 
-                "protodefensefacility", cellLevel: LargeWorldEntity.CellLevel.VeryFar);
+                "protodefensefacility", cellLevel: LargeWorldEntity.CellLevel.Global);
             volumePrefab.SetGameObject(template);
             volumePrefab.Register();
 
