@@ -12,6 +12,7 @@ internal class EasyPrefab : ScriptableObject
     public bool applySNShaders;
     public bool applyPrecursorMaterialChanges;
     public bool unlockAtStart;
+    public bool craftable = true;
 
     public bool includeInPDA;
     public bool isProtoUpgrade;
