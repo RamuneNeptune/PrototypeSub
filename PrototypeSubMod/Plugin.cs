@@ -217,8 +217,12 @@ namespace PrototypeSubMod
 
             var spawnInfo = new SpawnInfo(volumePrefabInfo.ClassID, new Vector3(710f, -375f, -1493f), Quaternion.identity, new Vector3(250, 800, 300));
             CoordinatedSpawnsHandler.RegisterCoordinatedSpawn(spawnInfo);
+        }
 
-            ConsoleCommandsHandler.AddGotoTeleportPosition("protodefensefacility", new Vector3(710f, -508f, -1493f));
+        private void RegisterCommands()
+        {
+            ConsoleCommandsHandler.AddGotoTeleportPosition("interceptorfacility", new Vector3(547, -709, 955));
+            ConsoleCommandsHandler.AddGotoTeleportPosition("defensefacility", new Vector3(710f, -508f, -1493f));
         }
     }
 }

@@ -11,7 +11,7 @@ internal class TeleporterTerminal_World
 
     public static void Register()
     {
-        prefabInfo = PrefabInfo.WithTechType("ProtoTeaserTerminal", "Teaser Terminal", "Mysterious...");
+        prefabInfo = PrefabInfo.WithTechType("InterceptorDataTerminal", null, null);
 
         var prefab = new CustomPrefab(prefabInfo);
 
