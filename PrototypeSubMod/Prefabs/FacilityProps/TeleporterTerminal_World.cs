@@ -3,7 +3,7 @@ using Nautilus.Assets.PrefabTemplates;
 using PrototypeSubMod.Monobehaviors;
 using Story;
 
-namespace PrototypeSubMod.Prefabs.UpgradePlatforms;
+namespace PrototypeSubMod.Prefabs.FacilityProps;
 
 internal class TeleporterTerminal_World
 {

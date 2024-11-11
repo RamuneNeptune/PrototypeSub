@@ -11,7 +11,7 @@ using Newtonsoft.Json;
 using PrototypeSubMod.Compatibility;
 using PrototypeSubMod.PowerSystem;
 using PrototypeSubMod.Prefabs;
-using PrototypeSubMod.Prefabs.UpgradePlatforms;
+using PrototypeSubMod.Prefabs.FacilityProps;
 using PrototypeSubMod.SaveData;
 using PrototypeSubMod.Upgrades;
 using PrototypeSubMod.Utility;
@@ -134,6 +134,7 @@ namespace PrototypeSubMod
             DeployableLight_Craftable.Register();
             ProtoRepairBot_Spawned.Register();
             CrystalMatrix_Craftable.Register();
+            DeactivatedTeleporter_World.Register();
 
             ProtoPlaque_World.Register();
             ProtoLogo_World.Register();
@@ -199,7 +200,7 @@ namespace PrototypeSubMod
             var structure = JsonConvert.DeserializeObject<Structure>(interceptorStructure.text);
 
             int entityCount = 0;
-            StructureLoading.RegisterStructure(structure, ref entityCount);
+            //StructureLoading.RegisterStructure(structure, ref entityCount);
         }
 
         private void RegisterBiomes()

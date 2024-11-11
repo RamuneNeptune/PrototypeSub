@@ -3,7 +3,7 @@ using Nautilus.Utility;
 using System.Collections;
 using UnityEngine;
 
-namespace PrototypeSubMod.Prefabs.UpgradePlatforms;
+namespace PrototypeSubMod.Prefabs.FacilityProps;
 
 internal class ProtoPlaque_World
 {

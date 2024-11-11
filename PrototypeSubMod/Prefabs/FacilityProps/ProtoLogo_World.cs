@@ -3,15 +3,15 @@ using Nautilus.Utility;
 using System.Collections;
 using UnityEngine;
 
-namespace PrototypeSubMod.Prefabs.UpgradePlatforms;
+namespace PrototypeSubMod.Prefabs.FacilityProps;
 
-internal class DamagedProtoLogo_World
+internal class ProtoLogo_World
 {
     public static PrefabInfo prefabInfo { get; private set; }
 
     public static void Register()
     {
-        prefabInfo = PrefabInfo.WithTechType("DamagedProtoLogo", null, null, "English");
+        prefabInfo = PrefabInfo.WithTechType("WorldProtoLogo", null, null, "English");
 
         var prefab = new CustomPrefab(prefabInfo);
 
@@ -22,7 +22,7 @@ internal class DamagedProtoLogo_World
 
     private static IEnumerator GetPrefab(IOut<GameObject> prefabOut)
     {
-        var prefab = Plugin.AssetBundle.LoadAsset<GameObject>("ProtoLogo_Damaged");
+        var prefab = Plugin.AssetBundle.LoadAsset<GameObject>("ProtoLogo");
         prefab.SetActive(false);
 
         var gameObject = GameObject.Instantiate(prefab, new Vector3(0, 500f, 0), Quaternion.identity);
