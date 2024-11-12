@@ -218,6 +218,8 @@ namespace PrototypeSubMod
 
             var spawnInfo = new SpawnInfo(volumePrefabInfo.ClassID, new Vector3(710f, -375f, -1493f), Quaternion.identity, new Vector3(250, 800, 300));
             CoordinatedSpawnsHandler.RegisterCoordinatedSpawn(spawnInfo);
+
+            BiomeHandler.AddBiomeMusic("protodefensefacility", AudioUtils.GetFmodAsset("DefenseFacilityMusic"));
         }
 
         private void RegisterCommands()
