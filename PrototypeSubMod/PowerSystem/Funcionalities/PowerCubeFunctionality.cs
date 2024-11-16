@@ -10,7 +10,7 @@ internal class PowerCubeFunctionality : PowerSourceFunctionality
     private const float MAX_SPEED_MULTIPLIER = 1.1f;
     private const float BARRIER_DAMAGE_MULTIPLIER = 0.85f;
     private readonly Color barrierMainCol = new Color(0.91f, 0.05f, 0.15f, 0.35f);
-    private readonly Color barrierSolidCol = new Color(55f, 0.25f, 0.25f, 0.098f);
+    private readonly Color barrierSolidCol = new Color(0.55f, 0.25f, 0.25f, 0.098f);
 
     private ProtoMotorHandler motorHandler;
     private ProtoIonBarrier ionBarrier;
