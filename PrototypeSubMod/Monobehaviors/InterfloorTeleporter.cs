@@ -41,6 +41,7 @@ internal class InterfloorTeleporter : MonoBehaviour
         if (col.gameObject != Player.main.gameObject) return;
 
         collider.enabled = false;
+        Player.main.liveMixin.invincible = true;
 
         FMODUWE.PlayOneShot(soundEffect, teleportPosition.position, 0.25f);
 
@@ -67,6 +68,7 @@ internal class InterfloorTeleporter : MonoBehaviour
         Player.main.rigidBody.velocity = Vector3.zero;
 
         collider.enabled = true;
+        Player.main.liveMixin.invincible = false;
     }
 
     private void ResetDuration()
