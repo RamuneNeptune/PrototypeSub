@@ -226,6 +226,10 @@
 
                     return fixed4(cutoffCol.rgb, 1);
                 }
+                else if (effectStrength > _EffectBoundaryMax)
+                {
+                    return originalCol;
+                }
                 else
                 {
                     //Vignette UV

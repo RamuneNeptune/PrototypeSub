@@ -47,11 +47,6 @@ internal class DefenseCloakManager : MonoBehaviour
     private bool deactivated;
     private float currentScaleTime;
 
-    private void Start()
-    {
-        cloakApplier = Camera.main.GetComponent<CloakCutoutApplier>();
-    }
-
     private void OnValidate()
     {
         isDirty = true;
@@ -75,6 +70,7 @@ internal class DefenseCloakManager : MonoBehaviour
 
     private void OnEnable()
     {
+        cloakApplier = Camera.main.GetComponent<CloakCutoutApplier>();
         cloakApplier.SetCloakManager(this);
     }
 
