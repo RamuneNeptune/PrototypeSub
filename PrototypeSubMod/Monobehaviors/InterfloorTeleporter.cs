@@ -68,7 +68,6 @@ internal class InterfloorTeleporter : MonoBehaviour
         Player.main.rigidBody.velocity = Vector3.zero;
 
         collider.enabled = true;
-        Player.main.liveMixin.invincible = false;
     }
 
     private void ResetDuration()
@@ -78,6 +77,7 @@ internal class InterfloorTeleporter : MonoBehaviour
         warpController.fx.mat.SetColor("_ColorCenter", originalInnerCol);
         warpController.fx.mat.SetColor("_ColorStrength", originalMiddleCol);
         warpController.fx.mat.SetColor("_ColorOuter", originalOuterCol);
+        Player.main.liveMixin.invincible = false;
     }
 
     private void ResetAllowedToTeleport()
