@@ -12,6 +12,7 @@ internal class ShieldEffectManager : MonoBehaviour, ICyclopsReferencer
     [SerializeField] private Color solidColor;
     [SerializeField] private Vector4 scrollSpeed;
     [SerializeField] private Vector4 wobbleParams;
+    [SerializeField] private bool swapMesh = true;
     [SerializeField] private float tempColorTransitionSpeed = 1f;
 
     private Color tempMainCol;
@@ -43,7 +44,10 @@ internal class ShieldEffectManager : MonoBehaviour, ICyclopsReferencer
         foreach (var rend in renderersToApply)
         {
             rend.material = newMaterial;
-            rend.GetComponent<MeshFilter>().mesh = shieldObj.GetComponent<MeshFilter>().mesh;
+            if(swapMesh)
+            {
+                rend.GetComponent<MeshFilter>().mesh = shieldObj.GetComponent<MeshFilter>().mesh;
+            }
         }
     }
 
