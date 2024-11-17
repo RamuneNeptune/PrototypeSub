@@ -140,6 +140,7 @@
 
                 float3 rayOvoidInfo = rayOvoid(_OvoidCenter, _OvoidRadii, rayOrigin, offsetDir, _InverseRotationMatrix);
                 float distToSphere = rayOvoidInfo.x;
+                float distThroughSphere = rayOvoidInfo.y;
                 float distInsideSphere = rayOvoidInfo.z;
 
                 float nonLinearDepth = SAMPLE_DEPTH_TEXTURE(_CameraDepthTexture, i.uv);
@@ -147,13 +148,11 @@
 
                 fixed4 col = tex2D(_MainTex, i.uv);
 
-                bool hitFromOutside = distToSphere >= 0 && distInsideSphere > 0;
-                bool hitFromInside = distToSphere < 0 && distInsideSphere > 0;   
+                bool hitOvoid = distToSphere >= 0 || distThroughSphere > 0;
 
                 if (depth < distToSphere) return col;
 
-                bool hitBounds = hitFromOutside || hitFromInside;
-                if(!hitBounds)
+                if(!hitOvoid)
                 {
                     return col; 
                 }

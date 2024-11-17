@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using PrototypeSubMod.Facilities.Defense;
 using PrototypeSubMod.LightDistortionField;
 using PrototypeSubMod.Monobehaviors;
 using PrototypeSubMod.Teleporter;
@@ -18,6 +19,7 @@ internal class PlayerPatches
     {
         Camera.main.gameObject.AddComponent<LightDistortionApplier>();
         Camera.main.gameObject.AddComponent<ProtoScreenTeleporterFXManager>();
+        Camera.main.gameObject.AddComponent<CloakCutoutApplier>();
     }
 
     [HarmonyPatch(nameof(Player.FixedUpdate)), HarmonyPostfix]
