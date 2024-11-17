@@ -67,7 +67,7 @@ internal class DefenseCloakManager : MonoBehaviour
         if (currentScaleTime < scaleTime)
         {
             currentScaleTime += Time.deltaTime;
-            referencesParent.localScale = Vector3.one * scaleOverTime.Evaluate(currentScaleTime / scaleTime);
+            sphere.localScale = Vector3.one * scaleOverTime.Evaluate(currentScaleTime / scaleTime);
         }
     }
 
@@ -78,7 +78,7 @@ internal class DefenseCloakManager : MonoBehaviour
 
         if (Plugin.GlobalSaveData.defenseCloakDisabled)
         {
-            referencesParent.localScale = Vector3.zero;
+            sphere.localScale = Vector3.zero;
         }
     }
 
