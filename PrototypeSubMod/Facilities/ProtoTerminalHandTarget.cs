@@ -2,7 +2,7 @@
 
 namespace PrototypeSubMod.Facilities;
 
-internal class ProtoTerminalHandTarget : MonoBehaviour
+internal class ProtoTerminalHandTarget : MonoBehaviour, IHandTarget
 {
     public void OnHandHover(GUIHand hand)
     {

@@ -34,6 +34,8 @@ internal class MultipurposeAlienTerminal : MonoBehaviour
         protoTarget.informGameObjects = new[] { storyTarget.informGameObject, gameObject };
         protoTarget.primaryTooltip = primaryTooltip;
         protoTarget.secondaryTooltip = secondaryTooltip;
+
+        Destroy(storyTarget);
     }
 
     public void OnStoryHandTarget()
