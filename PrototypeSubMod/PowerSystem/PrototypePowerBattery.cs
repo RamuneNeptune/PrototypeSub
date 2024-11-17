@@ -159,7 +159,7 @@ internal class PrototypePowerBattery : MonoBehaviour, IBattery, IProtoTreeEventL
     {
         if (connectedBattery != null) return;
 
-        var data = Plugin.BatterySaveData;
+        var data = Plugin.GlobalSaveData;
         if (!data.normalizedBatteryCharges.ContainsKey(prefabIdentifier.Id))
         {
             data.normalizedBatteryCharges.Add(prefabIdentifier.Id, charge / capacity);
@@ -170,12 +170,12 @@ internal class PrototypePowerBattery : MonoBehaviour, IBattery, IProtoTreeEventL
         }
     }
 
-    private void OnEnable() => Plugin.BatterySaveData.OnStartedSaving += OnBeforeDataSaved;
-    private void OnDisable() => Plugin.BatterySaveData.OnStartedSaving -= OnBeforeDataSaved;
+    private void OnEnable() => Plugin.GlobalSaveData.OnStartedSaving += OnBeforeDataSaved;
+    private void OnDisable() => Plugin.GlobalSaveData.OnStartedSaving -= OnBeforeDataSaved;
 
     private void OnDestroy()
     {
-        Plugin.BatterySaveData.normalizedBatteryCharges.Remove(prefabIdentifier.Id);
+        Plugin.GlobalSaveData.normalizedBatteryCharges.Remove(prefabIdentifier.Id);
     }
 
     public void OnProtoSerializeObjectTree(ProtobufSerializer serializer) { }
@@ -183,7 +183,7 @@ internal class PrototypePowerBattery : MonoBehaviour, IBattery, IProtoTreeEventL
     {
         Initialize();
 
-        if (Plugin.BatterySaveData.normalizedBatteryCharges.TryGetValue(prefabIdentifier.Id, out float normalizedCharge))
+        if (Plugin.GlobalSaveData.normalizedBatteryCharges.TryGetValue(prefabIdentifier.Id, out float normalizedCharge))
         {
             charge = capacity * normalizedCharge;
         }

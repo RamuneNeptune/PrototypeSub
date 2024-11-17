@@ -54,7 +54,10 @@ internal class DefenseCloakManager : MonoBehaviour
 
     public void DeactivateCloak()
     {
+        if (Plugin.GlobalSaveData.defenseCloakDisabled) return;
+
         deactivated = true;
+        Plugin.GlobalSaveData.defenseCloakDisabled = true;
     }
 
     private void Update()
@@ -72,6 +75,11 @@ internal class DefenseCloakManager : MonoBehaviour
     {
         cloakApplier = Camera.main.GetComponent<CloakCutoutApplier>();
         cloakApplier.SetCloakManager(this);
+
+        if (Plugin.GlobalSaveData.defenseCloakDisabled)
+        {
+            referencesParent.localScale = Vector3.zero;
+        }
     }
 
     private void OnDestroy()
