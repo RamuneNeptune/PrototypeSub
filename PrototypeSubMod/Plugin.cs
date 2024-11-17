@@ -225,7 +225,7 @@ namespace PrototypeSubMod
         private void RegisterCommands()
         {
             ConsoleCommandsHandler.AddGotoTeleportPosition("interceptorfacility", new Vector3(547, -709, 955));
-            ConsoleCommandsHandler.AddGotoTeleportPosition("defensefacility", new Vector3(710f, -508f, -1493f));
+            ConsoleCommandsHandler.AddGotoTeleportPosition("defensefacility", new Vector3(689, -483, -1404f));
         }
     }
 }
