@@ -4,8 +4,17 @@ namespace PrototypeSubMod.Facilities;
 
 internal class ProtoTerminalHandTarget : MonoBehaviour, IHandTarget
 {
+    public bool interactionAllowed = true;
+    public string primaryTooltip;
+    public string secondaryTooltip;
+
+    public GameObject[] informGameObjects;
+    public GameObject destroyGameObject;
+
     public void OnHandHover(GUIHand hand)
     {
+        if (!interactionAllowed) return;
+
         HandReticle.main.SetText(HandReticle.TextType.Hand, primaryTooltip, true, GameInput.Button.LeftHand);
         HandReticle.main.SetText(HandReticle.TextType.HandSubscript, secondaryTooltip, true, GameInput.Button.None);
         HandReticle.main.SetIcon(HandReticle.IconType.Hand, 1f);
@@ -13,6 +22,8 @@ internal class ProtoTerminalHandTarget : MonoBehaviour, IHandTarget
 
     public void OnHandClick(GUIHand hand)
     {
+        if (!interactionAllowed) return;
+
         foreach (var item in informGameObjects)
         {
             // Keeping the same name so as not the break events on the original prefab
@@ -20,10 +31,4 @@ internal class ProtoTerminalHandTarget : MonoBehaviour, IHandTarget
         }
         Destroy(destroyGameObject);
     }
-
-    public string primaryTooltip;
-    public string secondaryTooltip;
-
-    public GameObject[] informGameObjects;
-    public GameObject destroyGameObject;
 }

@@ -10,7 +10,6 @@ internal class DefenseCloakManager : MonoBehaviour
     public Shader shader;
 
     [Header("References")]
-    public Transform referencesParent;
     public Transform sphere;
     public Transform hexPrism;
 
@@ -39,17 +38,30 @@ internal class DefenseCloakManager : MonoBehaviour
     public float frequencyIncrease = 1.18f;
     public float amplitudeFalloff = 0.82f;
 
-    [Header("Activation")]
+    [Header("Deactivation")]
     [SerializeField] private float scaleTime;
     [SerializeField] private AnimationCurve scaleOverTime;
+    [SerializeField] private MultipurposeAlienTerminal deactivationTerminal;
 
     private CloakCutoutApplier cloakApplier;
     private bool deactivated;
     private float currentScaleTime;
+    private float originalScale;
 
     private void OnValidate()
     {
         isDirty = true;
+    }
+
+    private void Start()
+    {
+        originalScale = sphere.lossyScale.x;
+
+        if (Plugin.GlobalSaveData.defenseCloakDisabled)
+        {
+            sphere.localScale = Vector3.zero;
+            deactivationTerminal.ForceInteracted();
+        }
     }
 
     public void DeactivateCloak()
@@ -67,7 +79,7 @@ internal class DefenseCloakManager : MonoBehaviour
         if (currentScaleTime < scaleTime)
         {
             currentScaleTime += Time.deltaTime;
-            sphere.localScale = Vector3.one * scaleOverTime.Evaluate(currentScaleTime / scaleTime);
+            sphere.localScale = Vector3.one * originalScale * scaleOverTime.Evaluate(currentScaleTime / scaleTime);
         }
     }
 
@@ -76,14 +88,12 @@ internal class DefenseCloakManager : MonoBehaviour
         cloakApplier = Camera.main.GetComponent<CloakCutoutApplier>();
         cloakApplier.SetCloakManager(this);
 
-        if (Plugin.GlobalSaveData.defenseCloakDisabled)
-        {
-            sphere.localScale = Vector3.zero;
-        }
+        deactivationTerminal.onTerminalInteracted += DeactivateCloak;
     }
 
     private void OnDestroy()
     {
         cloakApplier.SetCloakManager(null);
+        deactivationTerminal.onTerminalInteracted -= DeactivateCloak;
     }
 }

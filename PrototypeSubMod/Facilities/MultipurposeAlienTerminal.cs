@@ -1,17 +1,20 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Events;
 using UWE;
 
 namespace PrototypeSubMod.Facilities;
 
 internal class MultipurposeAlienTerminal : MonoBehaviour
 {
-    public UnityEvent onTerminalInteracted;
+    public event Action onTerminalInteracted;
 
     public string primaryTooltip = "GenericConsole";
     public string secondaryTooltip = "Tooltip_GenericConsole";
+    public bool allowMultipleUses;
+
+    private bool queuedForceInteract;
+    private ProtoTerminalHandTarget handTarget;
 
     private IEnumerator Start()
     {
@@ -28,18 +31,36 @@ internal class MultipurposeAlienTerminal : MonoBehaviour
         instance.transform.localScale = Vector3.one;
 
         var storyTarget = instance.GetComponentInChildren<StoryHandTarget>();
-        var protoTarget = storyTarget.gameObject.EnsureComponent<ProtoTerminalHandTarget>();
+        handTarget = storyTarget.gameObject.EnsureComponent<ProtoTerminalHandTarget>();
 
-        protoTarget.destroyGameObject = storyTarget.destroyGameObject;
-        protoTarget.informGameObjects = new[] { storyTarget.informGameObject, gameObject };
-        protoTarget.primaryTooltip = primaryTooltip;
-        protoTarget.secondaryTooltip = secondaryTooltip;
+        handTarget.destroyGameObject = storyTarget.destroyGameObject;
+        handTarget.informGameObjects = new[] { storyTarget.informGameObject, gameObject };
+        handTarget.primaryTooltip = primaryTooltip;
+        handTarget.secondaryTooltip = secondaryTooltip;
 
         Destroy(storyTarget);
+
+        if (queuedForceInteract)
+        {
+            GetComponentInChildren<PrecursorComputerTerminal>().OnStoryHandTarget();
+        }
     }
 
     public void OnStoryHandTarget()
     {
         onTerminalInteracted?.Invoke();
+        handTarget.interactionAllowed = allowMultipleUses;
+    }
+
+    public void ForceInteracted()
+    {
+        var terminal = GetComponentInChildren<PrecursorComputerTerminal>();
+        if (!terminal)
+        {
+            queuedForceInteract = true;
+            return;
+        }
+        
+        terminal.OnStoryHandTarget();
     }
 }
