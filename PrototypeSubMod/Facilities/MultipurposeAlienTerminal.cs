@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 using UWE;
 
 namespace PrototypeSubMod.Facilities;
 
 internal class MultipurposeAlienTerminal : MonoBehaviour
 {
-    public event Action onTerminalInteracted;
+    public UnityEvent onTerminalInteracted;
 
     public string primaryTooltip = "GenericConsole";
     public string secondaryTooltip = "Tooltip_GenericConsole";
@@ -30,8 +31,13 @@ internal class MultipurposeAlienTerminal : MonoBehaviour
         var protoTarget = storyTarget.gameObject.EnsureComponent<ProtoTerminalHandTarget>();
 
         protoTarget.destroyGameObject = storyTarget.destroyGameObject;
-        protoTarget.informGameObject = storyTarget.informGameObject;
+        protoTarget.informGameObjects = new[] { storyTarget.informGameObject, gameObject };
         protoTarget.primaryTooltip = primaryTooltip;
         protoTarget.secondaryTooltip = secondaryTooltip;
+    }
+
+    public void OnStoryHandTarget()
+    {
+        onTerminalInteracted?.Invoke();
     }
 }

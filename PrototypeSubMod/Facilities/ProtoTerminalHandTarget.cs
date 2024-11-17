@@ -13,9 +13,10 @@ internal class ProtoTerminalHandTarget : MonoBehaviour
 
     public void OnHandClick(GUIHand hand)
     {
-        if (informGameObject)
+        foreach (var item in informGameObjects)
         {
-            informGameObject.SendMessage("OnStoryHandTarget", SendMessageOptions.DontRequireReceiver);
+            // Keeping the same name so as not the break events on the original prefab
+            item.SendMessage("OnStoryHandTarget");
         }
         Destroy(destroyGameObject);
     }
@@ -23,6 +24,6 @@ internal class ProtoTerminalHandTarget : MonoBehaviour
     public string primaryTooltip;
     public string secondaryTooltip;
 
-    public GameObject informGameObject;
+    public GameObject[] informGameObjects;
     public GameObject destroyGameObject;
 }
