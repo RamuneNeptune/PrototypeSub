@@ -55,7 +55,7 @@ internal class DefenseCloakManager : MonoBehaviour
 
     private void Start()
     {
-        originalScale = sphere.lossyScale.x;
+        originalScale = sphere.localScale.x;
 
         if (Plugin.GlobalSaveData.defenseCloakDisabled)
         {

@@ -14,7 +14,7 @@ internal class DefenseDoorHandler : MonoBehaviour
         FMODUWE.PlayOneShot(doorOpenSFX, openSFXPos.position);
         animator.SetTrigger("OpenDoor");
 
-        Invoke(nameof(PlaySwoosh), 4.25f);
+        Invoke(nameof(PlaySwoosh), 4.5f);
     }
 
     private void PlaySwoosh()
