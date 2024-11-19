@@ -54,6 +54,7 @@
             float _FrequencyIncrease;
 
             uniform float4x4 _HexRotationMatrix;
+            uniform fixed _EnabledAmount = 1;
 
             struct appdata
             {
@@ -160,29 +161,37 @@
                 float oscillationX = 0;
                 float oscillationY = 0;
 
+                // Sum of sines (I think it's calculated wrong but it works)
                 for(int j = 0; j < _WaveCount; j++)
                 {
                     oscillationX += sin(samplePosX + _FrequencyIncrease * j) * (_OscillationAmplitude * pow(_AmplitudeFalloff, j));
                     oscillationY += sin(samplePosY + _FrequencyIncrease * j) * (_OscillationAmplitude * pow(_AmplitudeFalloff, j));
                 }
 
+                // Offset ray from waves (Results in wavy sphere)
                 float3 offsetDir = rayDir + float3(oscillationX, oscillationY, oscillationX);
                 
+                // Calculate pixel depth
                 float nonLinearDepth = SAMPLE_DEPTH_TEXTURE(_CameraDepthTexture, i.uv);
                 float depth = LinearEyeDepth(nonLinearDepth) * length(i.viewVector);
 
+                // Retrieve original pixel color
                 fixed4 originalCol = tex2D(_MainTex, i.uv);
                 
+                // Calculate sphere info
                 float2 sphereInfo = sphIntersect(rayOrigin, offsetDir, _SphereCenter, _SphereRadius);
                 float distToSphere = sphereInfo.x;
                 float distInsideSphere = sphereInfo.x > 0 ? (sphereInfo.y - sphereInfo.x) : -1;
 
+                // Fix weird artifact where sphere appears behind camera
                 float atten = dot(rayOrigin - _SphereCenter, offsetDir);
                 bool hitOutsideSphere = distToSphere >= 0 && distInsideSphere > 0;
                 if (atten > 0 && hitOutsideSphere) return originalCol;
 
+                // Calculate sphere normal
                 float3 sphereNormal = sphNormal(rayOrigin + offsetDir * distToSphere, _SphereCenter, _SphereRadius);
 
+                // Calculate hexagonal prism intersection info
                 float2 hexInfo = iHexPrism(rayOrigin, rayDir, _HexCenter, _HexRadius, _HexHeight, _HexRotationMatrix);
                 bool hitHex = hexInfo.y > 0;
                 bool hitSphere = distToSphere >= 0 || sphereInfo.y > 0;
@@ -197,30 +206,48 @@
                     return originalCol;
                 }
 
+                // Calculate near and far points of intersection
+                float3 pointOnSphereN = rayOrigin + offsetDir * distToSphere;
+                float3 pointOnSphereF = rayOrigin + offsetDir * sphereInfo.y;
+
+                // Calculate cutoff threshold
+                float threshold = lerp(_SphereCenter.y + _SphereRadius, _SphereCenter.y - _SphereRadius, 1 - _EnabledAmount) - 0.01;
+
+                // Clip sphere depending on threshold
+                if (pointOnSphereN.y > threshold && pointOnSphereF.y > threshold)
+                {
+                    return originalCol
+                }
+
+                // Calculate distortion effect strength
                 float effectStrength = 1 - dot(sphereNormal, -rayDir);
                 
+                // Distortion effect boundary
                 if (effectStrength < _EffectBoundaryMax && effectStrength > _EffectBoundaryMin)
                 {
                     float3 dir = normalize(i.worldPos - _SphereCenter + 1e-5);
 
+                    // Calculate distortion strength
                     float distortionStrength = _DistortionAmplitude * (effectStrength / _EffectBoundaryMax);
                     distortionStrength = clamp(distortionStrength, 0, _DistortionAmplitude);
 
+                    // Calculate angle from camera to point on sphere
                     float viewAttenuation = dot(rayDir, normalize(_SphereCenter - _WorldSpaceCameraPos));
                     viewAttenuation = clamp(abs(viewAttenuation), 0.1, 1.0);
                     distortionStrength *= viewAttenuation;
 
-                    float3 hitPoint = rayOrigin + rayDir * distToSphere;
-                    float centerProximity = length(hitPoint - _SphereCenter);
+                    float centerProximity = length(pointOnSphereN - _SphereCenter);
+                    float3 dirToCenter = normalize(pointOnSphereN - _SphereCenter);
 
-                    float3 dirToCenter = normalize(hitPoint - _SphereCenter);
-
+                    // Calculate distortion
                     float2 distortion = dir.xy * clamp(distortionStrength, 0, _DistortionAmplitude);
 
+                    // Retrieve UV from warped pixel
                     float2 uv = i.uv + distortion;
                     fixed4 warpedCol = tex2D(_MainTex, uv) * _DistortionColor;
                     warpedCol = clamp(warpedCol, 0.0, 1.0);
 
+                    // Lerp between original and warped color
                     fixed4 cutoffCol = lerp(originalCol, warpedCol, length(warpedCol.rgb) + _BoundaryOffset);
                     cutoffCol = clamp(cutoffCol, 0, 1);
 

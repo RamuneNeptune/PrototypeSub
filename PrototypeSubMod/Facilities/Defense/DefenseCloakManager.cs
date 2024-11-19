@@ -4,7 +4,8 @@ namespace PrototypeSubMod.Facilities.Defense;
 
 internal class DefenseCloakManager : MonoBehaviour
 {
-    [HideInInspector] public bool isDirty;
+    [HideInInspector] public bool isDirty = true;
+    [HideInInspector] public float enabledAmount = 1;
 
     [Header("Shader")]
     public Shader shader;
@@ -79,7 +80,13 @@ internal class DefenseCloakManager : MonoBehaviour
         if (currentScaleTime < scaleTime)
         {
             currentScaleTime += Time.deltaTime;
-            sphere.localScale = Vector3.one * originalScale * scaleOverTime.Evaluate(currentScaleTime / scaleTime);
+            enabledAmount = scaleOverTime.Evaluate(currentScaleTime / scaleTime);
+            isDirty = true;
+
+            if (currentScaleTime + Time.deltaTime >= scaleTime)
+            {
+                sphere.localScale = Vector3.zero;
+            }
         }
     }
 
