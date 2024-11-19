@@ -52,7 +52,7 @@
             int _WaveCount;
             float _AmplitudeFalloff;
             float _FrequencyIncrease;
-
+            
             uniform float4x4 _HexRotationMatrix;
             uniform fixed _EnabledAmount = 1;
 
@@ -216,7 +216,7 @@
                 // Clip sphere depending on threshold
                 if (pointOnSphereN.y > threshold && pointOnSphereF.y > threshold)
                 {
-                    return originalCol
+                    return originalCol;
                 }
 
                 // Calculate distortion effect strength
