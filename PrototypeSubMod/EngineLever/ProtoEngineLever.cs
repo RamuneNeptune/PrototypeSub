@@ -53,7 +53,7 @@ internal class ProtoEngineLever : CinematicModeTriggerBase
             subRoot.voiceNotificationManager.PlayVoiceNotification(subRoot.enginePowerDownNotification);
         }
     }
-    
+
     public void OnCinematicEnd()
     {
         Player.main.armsController.SetWorldIKTarget(null, null);

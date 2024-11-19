@@ -1,6 +1,5 @@
 ﻿using PrototypeSubMod.IonBarrier;
 using PrototypeSubMod.MotorHandler;
-using System;
 using UnityEngine;
 
 namespace PrototypeSubMod.PowerSystem.Funcionalities;

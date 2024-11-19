@@ -40,6 +40,6 @@ internal abstract class ProtoUpgrade : MonoBehaviour, IProtoUpgrade
         {
             KnownTech.Add(techType.TechType);
             upgradeInstalled = true;
-        }        
+        }
     }
 }

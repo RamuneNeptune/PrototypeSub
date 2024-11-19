@@ -51,7 +51,7 @@ internal class AbilityConsumptionButton : MonoBehaviour, IPointerDownHandler, IP
         {
             currentConfirmTime = 0;
             progressBar.fillAmount = 0;
-            consumed = false;            
+            consumed = false;
             animator.SetBool("Charging", false);
             return;
         }

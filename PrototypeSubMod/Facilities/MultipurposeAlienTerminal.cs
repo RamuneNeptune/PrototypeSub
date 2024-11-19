@@ -62,7 +62,7 @@ internal class MultipurposeAlienTerminal : MonoBehaviour
             queuedForceInteract = true;
             return;
         }
-        
+
         terminal.OnStoryHandTarget();
     }
 }

@@ -44,7 +44,7 @@ internal class ShieldEffectManager : MonoBehaviour, ICyclopsReferencer
         foreach (var rend in renderersToApply)
         {
             rend.material = newMaterial;
-            if(swapMesh)
+            if (swapMesh)
             {
                 rend.GetComponent<MeshFilter>().mesh = shieldObj.GetComponent<MeshFilter>().mesh;
             }
@@ -63,7 +63,7 @@ internal class ShieldEffectManager : MonoBehaviour, ICyclopsReferencer
         }
 
         Color targetMainCol = tempColActive ? tempMainCol : mainColor;
-        Color targetSolidCol = tempColActive? tempSolidCol : solidColor;
+        Color targetSolidCol = tempColActive ? tempSolidCol : solidColor;
 
         foreach (var rend in renderersToApply)
         {

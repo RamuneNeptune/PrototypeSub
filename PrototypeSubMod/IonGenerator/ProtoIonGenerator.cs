@@ -58,7 +58,7 @@ internal class ProtoIonGenerator : ProtoUpgrade
         }
 
         motorHandler.SetAllowedToMove(!upgradeEnabled);
-        if(upgradeEnabled)
+        if (upgradeEnabled)
         {
             motorHandler.AddOverrideNoiseValue(new ProtoMotorHandler.ValueRegistrar(this, activeNoiseValue));
         }

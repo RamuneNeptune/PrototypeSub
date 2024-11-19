@@ -1,6 +1,5 @@
 ﻿using BepInEx;
 using BepInEx.Logging;
-using EpicStructureLoader;
 using HarmonyLib;
 using ModStructureFormat;
 using Nautilus.Assets;
@@ -211,7 +210,7 @@ namespace PrototypeSubMod
             BiomeHandler.RegisterBiome("protodefensefacility", settings, new BiomeHandler.SkyReference("SkyMountains"));
             PrefabInfo volumePrefabInfo = PrefabInfo.WithTechType("ProtoDefenseFacilityBiomeVolume");
             CustomPrefab volumePrefab = new CustomPrefab(volumePrefabInfo);
-            AtmosphereVolumeTemplate template = new (volumePrefabInfo, AtmosphereVolumeTemplate.VolumeShape.Cube, 
+            AtmosphereVolumeTemplate template = new(volumePrefabInfo, AtmosphereVolumeTemplate.VolumeShape.Cube,
                 "protodefensefacility", cellLevel: LargeWorldEntity.CellLevel.Global);
             volumePrefab.SetGameObject(template);
             volumePrefab.Register();

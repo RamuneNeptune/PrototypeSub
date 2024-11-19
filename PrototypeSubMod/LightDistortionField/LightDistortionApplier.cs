@@ -17,7 +17,7 @@ internal class LightDistortionApplier : MonoBehaviour
         if (!material) material = new Material(CloakEffectHandler.Instance.shader);
 
         Transform sphere = CloakEffectHandler.Instance.ovoid;
-        
+
         if (CloakEffectHandler.Instance.GetIsDirty())
         {
             RefreshVariables();

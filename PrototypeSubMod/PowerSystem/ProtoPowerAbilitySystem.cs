@@ -190,7 +190,7 @@ internal class ProtoPowerAbilitySystem : MonoBehaviour, ISaveDataListener, ILate
 
     public void ConsumeItem()
     {
-        CoroutineHost.StartCoroutine(ConsumeItemAsync()); 
+        CoroutineHost.StartCoroutine(ConsumeItemAsync());
     }
 
     private IEnumerator ConsumeItemAsync()

@@ -3,12 +3,9 @@ using Nautilus.Json.Converters;
 using Newtonsoft.Json;
 using PrototypeSubMod.PowerSystem;
 using PrototypeSubMod.PowerSystem.Funcionalities;
-using PrototypeSubMod.Prefabs;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using UnityEngine;
-using Ingredient = CraftData.Ingredient;
 
 namespace PrototypeSubMod.Compatibility;
 

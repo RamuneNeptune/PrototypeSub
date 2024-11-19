@@ -1,7 +1,5 @@
 ﻿using PrototypeSubMod.IonGenerator;
-using PrototypeSubMod.Monobehaviors;
 using PrototypeSubMod.Upgrades;
-using SubLibrary.Handlers;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
