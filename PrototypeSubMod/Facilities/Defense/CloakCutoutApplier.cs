@@ -9,7 +9,7 @@ internal class CloakCutoutApplier : MonoBehaviour
 
     private void OnRenderImage(RenderTexture source, RenderTexture destination)
     {
-        if (!defenseCloakManager)
+        if (!defenseCloakManager || Plugin.GlobalSaveData.defenseCloakDisabled)
         {
             Graphics.Blit(source, destination);
             return;

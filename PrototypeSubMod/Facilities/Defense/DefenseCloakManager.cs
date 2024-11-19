@@ -70,7 +70,6 @@ internal class DefenseCloakManager : MonoBehaviour
         if (Plugin.GlobalSaveData.defenseCloakDisabled) return;
 
         deactivated = true;
-        Plugin.GlobalSaveData.defenseCloakDisabled = true;
     }
 
     private void Update()
@@ -86,6 +85,7 @@ internal class DefenseCloakManager : MonoBehaviour
             if (currentScaleTime + Time.deltaTime >= scaleTime)
             {
                 sphere.localScale = Vector3.zero;
+                Plugin.GlobalSaveData.defenseCloakDisabled = true;
             }
         }
     }
