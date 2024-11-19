@@ -40,6 +40,11 @@ internal class InterfloorTeleporter : MonoBehaviour
 
         if (col.gameObject != Player.main.gameObject) return;
 
+        StartTeleportPlayer();
+    }
+
+    private void StartTeleportPlayer()
+    {
         collider.enabled = false;
         Player.main.liveMixin.invincible = true;
 
