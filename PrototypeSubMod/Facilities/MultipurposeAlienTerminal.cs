@@ -44,6 +44,7 @@ internal class MultipurposeAlienTerminal : MonoBehaviour
         {
             GetComponentInChildren<PrecursorComputerTerminal>().OnStoryHandTarget();
             queuedForceInteract = false;
+            handTarget.interactionAllowed = allowMultipleUses;
         }
     }
 
