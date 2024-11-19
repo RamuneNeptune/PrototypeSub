@@ -37,7 +37,7 @@ internal class InterfloorTeleporter : MonoBehaviour
     private void OnTriggerEnter(Collider col)
     {
         if (!allowedToTeleport) return;
-
+        
         if (col.gameObject != Player.main.gameObject) return;
 
         collider.enabled = false;
