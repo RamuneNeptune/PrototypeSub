@@ -25,6 +25,7 @@ internal class MultipurposeAlienTerminal : MonoBehaviour
         GameObject prefab = null;
         if (!prefabRequest.TryGetPrefab(out prefab)) throw new Exception("Error retrieving alien terminal prefab");
 
+        prefab.gameObject.SetActive(false);
         var instance = Instantiate(prefab, transform, false);
         instance.transform.localPosition = Vector3.zero;
         instance.transform.localRotation = Quaternion.identity;
