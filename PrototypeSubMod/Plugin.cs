@@ -207,18 +207,18 @@ namespace PrototypeSubMod
         {
             var settings = BiomeUtils.CreateBiomeSettings(new Vector3(18, 15, 13), 1.1f, Color.white, 0.15f, Color.white, 0, temperature: 10);
 
-            BiomeHandler.RegisterBiome("protodefensefacility", settings, new BiomeHandler.SkyReference("SkyMountains"));
+            BiomeHandler.RegisterBiome("precursor_protodefensefacility", settings, new BiomeHandler.SkyReference("SkyMountains"));
             PrefabInfo volumePrefabInfo = PrefabInfo.WithTechType("ProtoDefenseFacilityBiomeVolume");
             CustomPrefab volumePrefab = new CustomPrefab(volumePrefabInfo);
             AtmosphereVolumeTemplate template = new(volumePrefabInfo, AtmosphereVolumeTemplate.VolumeShape.Cube,
-                "protodefensefacility", cellLevel: LargeWorldEntity.CellLevel.Global);
+                "precursor_protodefensefacility", cellLevel: LargeWorldEntity.CellLevel.Global, priority: 20);
             volumePrefab.SetGameObject(template);
             volumePrefab.Register();
 
             var spawnInfo = new SpawnInfo(volumePrefabInfo.ClassID, new Vector3(710f, -375f, -1493f), Quaternion.identity, new Vector3(250, 800, 300));
             CoordinatedSpawnsHandler.RegisterCoordinatedSpawn(spawnInfo);
 
-            BiomeHandler.AddBiomeMusic("protodefensefacility", AudioUtils.GetFmodAsset("DefenseFacilityExterior"));
+            BiomeHandler.AddBiomeMusic("precursor_protodefensefacility", AudioUtils.GetFmodAsset("DefenseFacilityExterior"));
         }
 
         private void RegisterCommands()
