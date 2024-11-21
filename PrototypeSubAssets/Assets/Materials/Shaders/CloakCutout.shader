@@ -22,39 +22,40 @@
             sampler2D _MainTex; //<-- Set by the Graphics.Blit; Contains the scene as a render texture
             sampler2D _CameraDepthTexture;
 
-            float3 _SphereCenter;
-            float _SphereRadius;
+            uniform float3 _SphereCenter;
+            uniform float _SphereRadius;
             
-            float3 _HexCenter;
-            float _HexHeight;
-            float _HexRadius;
+            uniform float3 _HexCenter;
+            uniform float _HexHeight;
+            uniform float _HexRadius;
 
-            fixed4 _InteriorColor;
-            fixed4 _DistortionColor;
-            fixed4 _VignetteColor;
+            uniform fixed4 _InteriorColor;
+            uniform fixed4 _DistortionColor;
+            uniform fixed4 _VignetteColor;
 
-            float _DistortionAmplitude;
-            float _Multiplier;
-            float _EffectBoundaryMax;
-            float _EffectBoundaryMin;
-            float _BoundaryOffset;
-            float _RippleFrequency;
-            float _RippleAmplitude;
+            uniform float _DistortionAmplitude;
+            uniform float _Multiplier;
+            uniform float _EffectBoundaryMax;
+            uniform float _EffectBoundaryMin;
+            uniform float _BoundaryOffset;
+            uniform float _RippleFrequency;
+            uniform float _RippleAmplitude;
 
-            float _VignetteIntensity;
-            float _VignetteSmoothness;
-            float _VignetteOffset;
-            float _VignetteFadeInDist;
+            uniform float _VignetteIntensity;
+            uniform float _VignetteSmoothness;
+            uniform float _VignetteOffset;
+            uniform float _VignetteFadeInDist;
 
-            float _OscillationFrequency;
-            float _OscillationAmplitude;
-            float _OscillationSpeed;
-            int _WaveCount;
-            float _AmplitudeFalloff;
-            float _FrequencyIncrease;
+            uniform float _OscillationFrequency;
+            uniform float _OscillationAmplitude;
+            uniform float _OscillationSpeed;
+            uniform int _WaveCount;
+            uniform float _AmplitudeFalloff;
+            uniform float _FrequencyIncrease;
             
             uniform float4x4 _HexRotationMatrix;
             uniform fixed _EnabledAmount = 1;
+            uniform float _ExteriorCutoutRatio;
 
             struct appdata
             {
@@ -196,12 +197,6 @@
                 bool hitHex = hexInfo.y > 0;
                 bool hitSphere = distToSphere >= 0 || sphereInfo.y > 0;
 
-                float hexAtten = dot(normalize(_SphereCenter - _HexCenter), offsetDir);
-                if (hitHex && hexAtten < 0)
-                {
-                    return originalCol;
-                }
-
                 if (!hitSphere || distToSphere >= depth)
                 {
                     return originalCol;
@@ -222,7 +217,8 @@
 
                 // Calculate distortion effect strength
                 float effectStrength = 1 - dot(sphereNormal, -rayDir);
-                
+                fixed4 targetCol = 1;
+
                 // Distortion effect boundary
                 if (effectStrength < _EffectBoundaryMax && effectStrength > _EffectBoundaryMin)
                 {
@@ -252,7 +248,7 @@
                     fixed4 cutoffCol = lerp(originalCol, warpedCol, length(warpedCol.rgb) + _BoundaryOffset);
                     cutoffCol = clamp(cutoffCol, 0, 1);
 
-                    return fixed4(cutoffCol.rgb, 1);
+                    targetCol = fixed4(cutoffCol.rgb, 1);
                 }
                 else if (effectStrength > _EffectBoundaryMax)
                 {
@@ -282,8 +278,21 @@
                     //Vignette color lerp
                     fixed4 finalColor = lerp(vignetteCol * nonVignetteCol, nonVignetteCol, vignetteVal);
 
-                    return finalColor;
+                    targetCol = finalColor;
                 }
+
+                float hexAtten = dot(normalize(_SphereCenter - _HexCenter), offsetDir);
+                bool insideSphere = length(rayOrigin - _SphereCenter) <= _SphereRadius * _EffectBoundaryMax;
+                if (hitHex && hexAtten < 0 && !insideSphere)
+                {
+                    return lerp(targetCol, originalCol, _ExteriorCutoutRatio);
+                }
+                else if (hitHex && insideSphere)
+                {
+                    return originalCol;
+                }
+
+                return targetCol;
             }
             ENDCG
         }

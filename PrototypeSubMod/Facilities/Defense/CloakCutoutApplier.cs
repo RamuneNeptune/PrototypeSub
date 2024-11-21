@@ -59,6 +59,7 @@ internal class CloakCutoutApplier : MonoBehaviour
         material.SetFloat("_FrequencyIncrease", defenseCloakManager.frequencyIncrease);
 
         material.SetFloat("_EnabledAmount", defenseCloakManager.enabledAmount);
+        material.SetFloat("_ExteriorCutoutRatio", defenseCloakManager.exteriorCutoutRatio);
     }
 
     public void SetCloakManager(DefenseCloakManager cloakManager)
