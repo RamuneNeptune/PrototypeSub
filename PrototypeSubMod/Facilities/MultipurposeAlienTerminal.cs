@@ -30,6 +30,7 @@ internal class MultipurposeAlienTerminal : MonoBehaviour
         instance.transform.localPosition = Vector3.zero;
         instance.transform.localRotation = Quaternion.identity;
         instance.transform.localScale = Vector3.one;
+        instance.SetActive(true);
 
         var storyTarget = instance.GetComponentInChildren<StoryHandTarget>();
         handTarget = storyTarget.gameObject.EnsureComponent<ProtoTerminalHandTarget>();

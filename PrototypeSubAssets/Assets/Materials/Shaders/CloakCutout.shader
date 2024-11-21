@@ -207,7 +207,7 @@
                 float3 pointOnSphereF = rayOrigin + offsetDir * sphereInfo.y;
 
                 // Calculate cutoff threshold
-                float threshold = lerp(_SphereCenter.y + _SphereRadius, _SphereCenter.y - _SphereRadius, 1 - _EnabledAmount) + 0.01;
+                float threshold = lerp(_SphereCenter.y + _SphereRadius, _SphereCenter.y - _SphereRadius, 1 - _EnabledAmount) + 0.005 * _SphereRadius;
 
                 // Clip sphere depending on threshold
                 if (pointOnSphereF.y > threshold)
