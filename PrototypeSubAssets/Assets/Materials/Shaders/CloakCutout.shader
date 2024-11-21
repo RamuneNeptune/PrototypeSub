@@ -196,7 +196,8 @@
                 bool hitHex = hexInfo.y > 0;
                 bool hitSphere = distToSphere >= 0 || sphereInfo.y > 0;
 
-                if (hitHex && atten > 0)
+                float hexAtten = dot(normalize(_SphereCenter - _HexCenter), offsetDir);
+                if (hitHex && hexAtten < 0)
                 {
                     return originalCol;
                 }
@@ -211,10 +212,10 @@
                 float3 pointOnSphereF = rayOrigin + offsetDir * sphereInfo.y;
 
                 // Calculate cutoff threshold
-                float threshold = lerp(_SphereCenter.y + _SphereRadius, _SphereCenter.y - _SphereRadius, 1 - _EnabledAmount) - 0.01;
+                float threshold = lerp(_SphereCenter.y + _SphereRadius, _SphereCenter.y - _SphereRadius, 1 - _EnabledAmount) + 0.01;
 
                 // Clip sphere depending on threshold
-                if (pointOnSphereN.y > threshold && pointOnSphereF.y > threshold)
+                if (pointOnSphereF.y > threshold)
                 {
                     return originalCol;
                 }
