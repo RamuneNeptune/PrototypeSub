@@ -8,6 +8,7 @@ using Nautilus.Handlers;
 using Nautilus.Utility;
 using Newtonsoft.Json;
 using PrototypeSubMod.Compatibility;
+using PrototypeSubMod.Monobehaviors;
 using PrototypeSubMod.PowerSystem;
 using PrototypeSubMod.Prefabs;
 using PrototypeSubMod.Prefabs.FacilityProps;
@@ -210,18 +211,24 @@ namespace PrototypeSubMod
         {
             var settings = BiomeUtils.CreateBiomeSettings(new Vector3(18, 15, 13), 1.1f, Color.white, 0.15f, Color.white, 0, temperature: 10);
 
-            BiomeHandler.RegisterBiome("precursor_protodefensefacility", settings, new BiomeHandler.SkyReference("SkyMountains"));
+            BiomeHandler.RegisterBiome("protodefensefacility", settings, new BiomeHandler.SkyReference("SkyMountains"));
             PrefabInfo volumePrefabInfo = PrefabInfo.WithTechType("ProtoDefenseFacilityBiomeVolume");
             CustomPrefab volumePrefab = new CustomPrefab(volumePrefabInfo);
             AtmosphereVolumeTemplate template = new(volumePrefabInfo, AtmosphereVolumeTemplate.VolumeShape.Cube,
-                "precursor_protodefensefacility", cellLevel: LargeWorldEntity.CellLevel.Global, priority: 20);
+                "protodefensefacility", 15, LargeWorldEntity.CellLevel.Global);
+            template.ModifyPrefab = prefab =>
+            {
+                var volum = prefab.GetComponent<AtmosphereVolume>();
+                prefab.AddComponent<AtmospherePriorityEnsurer>().priority = volum.priority;
+            };
+
             volumePrefab.SetGameObject(template);
             volumePrefab.Register();
 
             var spawnInfo = new SpawnInfo(volumePrefabInfo.ClassID, new Vector3(710f, -375f, -1493f), Quaternion.identity, new Vector3(250, 800, 300));
             CoordinatedSpawnsHandler.RegisterCoordinatedSpawn(spawnInfo);
 
-            BiomeHandler.AddBiomeMusic("precursor_protodefensefacility", AudioUtils.GetFmodAsset("DefenseFacilityExterior"));
+            BiomeHandler.AddBiomeMusic("protodefensefacility", AudioUtils.GetFmodAsset("DefenseFacilityExterior"));
         }
 
         private void RegisterCommands()
