@@ -15,7 +15,6 @@ internal class CustomPoster
         prefabInfo = PrefabInfo.WithTechType(classId, displayName, description, unlockAtStart: true).WithIcon(new Atlas.Sprite(posterIcon));
         _posterImage = posterImage;
 
-        Plugin.Logger.LogInfo($"Registering poster with classID = {classId}");
         var prefab = new CustomPrefab(prefabInfo);
         var cloneTemplate = new CloneTemplate(prefabInfo, TechType.PosterAurora);
         cloneTemplate.ModifyPrefab = prefab =>

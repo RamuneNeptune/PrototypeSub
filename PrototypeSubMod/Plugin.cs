@@ -142,7 +142,7 @@ namespace PrototypeSubMod
             TeleporterTerminal_World.Register();
 
             Texture2D sprite = AssetBundle.LoadAsset<Texture2D>("dogPosterIcon");
-            new CustomPoster("ProtoDogPoster", "ProtoDogPoster", "Tooltip_ProtoDogPoster", AssetBundle.LoadAsset<Texture2D>("DogPoster"), sprite);
+            new CustomPoster("ProtoDogPoster", null, null, AssetBundle.LoadAsset<Texture2D>("DogPoster"), sprite);
         }
 
         private void RegisterEncyEntries()
