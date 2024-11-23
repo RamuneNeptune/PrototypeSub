@@ -68,7 +68,7 @@ namespace PrototypeSubMod
             LanguageHandler.RegisterLocalizationFolder();
             //PrototypeAudio.RegisterAudio(AssetBundle);
             SubAudioLoader.LoadAllAudio(AssetBundle);
-
+            
             RegisterEncyEntries();
             RegisterStructures();
             RegisterPrefabs();

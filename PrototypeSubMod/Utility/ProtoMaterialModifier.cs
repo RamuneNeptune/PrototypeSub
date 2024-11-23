@@ -1,5 +1,7 @@
 ﻿using Nautilus.Utility;
 using Nautilus.Utility.MaterialModifiers;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace PrototypeSubMod.Utility;
@@ -15,6 +17,8 @@ internal class ProtoMaterialModifier : MaterialModifier
     private static readonly int _fresnelID = Shader.PropertyToID("_Fresnel");
 
     private static Color precursorSpecularGreen = new Color(0.25f, 0.54f, 0.41f);
+
+    private Dictionary<(Renderer, int), MaterialData> materialDatas = new();
 
     public ProtoMaterialModifier(float specInt, float fresnelStrength = 0.4f)
     {
@@ -39,8 +43,41 @@ internal class ProtoMaterialModifier : MaterialModifier
             renderer.materials = materials;
         }
 
+        if (materialDatas.TryGetValue((renderer, materialIndex), out var materialData))
+        {
+            material.SetColor("_GlowColor", materialData.emissionColor);
+            material.SetFloat("_GlowStrength", materialData.emissionIntensity);
+            material.SetFloat("_GlowStrengthNight", materialData.emissionIntensity);
+        }
+
         material.SetColor(ShaderPropertyID._SpecColor, precursorSpecularGreen);
         material.SetFloat(_specIntID, _specInt);
         material.SetFloat(_fresnelID, _fresnelStrength);
+    }
+
+    public void OnPreShaderConversion(Material material, Renderer renderer)
+    {
+        if (renderer.TryGetComponent<DontApplyProtoMaterial>(out _)) return;
+
+        if (material.IsKeywordEnabled("_EMISSION"))
+        {
+            var emissionColor = material.GetColor("_EmissionColor");
+            float emissionIntensity = Mathf.Max(emissionColor.r, emissionColor.g, emissionColor.b);
+
+            int index = Array.IndexOf(renderer.materials, material);
+            materialDatas.Add((renderer, index), new MaterialData(emissionIntensity, emissionColor / emissionIntensity));
+        }
+    }
+
+    private struct MaterialData
+    {
+        public float emissionIntensity;
+        public Color emissionColor;
+
+        public MaterialData(float emissionIntensity, Color emissionColor)
+        {
+            this.emissionIntensity = emissionIntensity;
+            this.emissionColor = emissionColor;
+        }
     }
 }

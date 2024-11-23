@@ -1,5 +1,11 @@
 ﻿using HarmonyLib;
 using Nautilus.Utility;
+using Nautilus.Utility.MaterialModifiers;
+using PrototypeSubMod.Utility;
+using System.Collections;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Reflection.Emit;
 using UnityEngine;
 
 namespace PrototypeSubMod.Patches;
@@ -22,5 +28,49 @@ internal class MaterialUtilsPatches
         if (!__state.Item1) return;
 
         material.SetFloat("_Shininess", __state.Item2 * 8f);
+    }
+
+    [HarmonyPatch(nameof(MaterialUtils.ApplySNShaders)), HarmonyTranspiler]
+    private static IEnumerable<CodeInstruction> ApplySNShaders_Transpiler(IEnumerable<CodeInstruction> instructions)
+    {
+        var methodParams = new[] { typeof(Material), typeof(float), typeof(float), typeof(float), typeof(MaterialUtils.MaterialType) };
+        var method = AccessTools.Method(typeof(MaterialUtils), nameof(MaterialUtils.ApplyUBERShader), methodParams);
+
+        var match = new CodeMatch(i => i.opcode == OpCodes.Call && (MethodInfo)i.operand == method);
+
+        var matcher = new CodeMatcher(instructions)
+            .MatchForward(false, match)
+            .Advance(-7);
+
+        var blockShaderConv = matcher.Instruction.operand;
+
+        matcher
+            .Advance(-26);
+
+        var modifiers = matcher.Instruction.operand;
+        
+        matcher
+            .Advance(26)
+            .InsertAndAdvance(new CodeInstruction(OpCodes.Ldloc_0))
+            .InsertAndAdvance(new CodeInstruction(OpCodes.Ldloc_1))
+            .InsertAndAdvance(new CodeInstruction(OpCodes.Ldelem_Ref))
+            .InsertAndAdvance(new CodeInstruction(OpCodes.Ldloc_3))
+            .InsertAndAdvance(new CodeInstruction(OpCodes.Ldarg_S, modifiers))
+            .InsertAndAdvance(new CodeInstruction(OpCodes.Ldloc_S, blockShaderConv))
+            .Insert(Transpilers.EmitDelegate(CallPreConversionMethod));
+
+        return matcher.InstructionEnumeration();
+    }
+
+    public static void CallPreConversionMethod(Renderer rend, Material mat, MaterialModifier[] modifiers, bool blockShaderConversion)
+    {
+        if (blockShaderConversion) return;
+
+        foreach (var modifier in modifiers)
+        {
+            if (modifier is not ProtoMaterialModifier) continue;
+
+            (modifier as ProtoMaterialModifier).OnPreShaderConversion(mat, rend);
+        }
     }
 }
