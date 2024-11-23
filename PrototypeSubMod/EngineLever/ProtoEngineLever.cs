@@ -9,6 +9,7 @@ internal class ProtoEngineLever : CinematicModeTriggerBase
     [SerializeField] private EmissiveIntensityPingPong emissivePingPong;
     [SerializeField] private Animator leverAnimator;
     [SerializeField] private Animator playerAnimator;
+    [SerializeField] private Animator finsAnimator;
     [SerializeField] private Collider interactableCollider;
     [SerializeField] private Transform leftIKTarget;
     [SerializeField] private Transform rightIKTarget;
@@ -21,6 +22,7 @@ internal class ProtoEngineLever : CinematicModeTriggerBase
     {
         cinematicController.animator = Player.main.playerAnimator;
         leverAnimator.SetBool("LeverEnabled", motorMode.engineOn);
+        finsAnimator.SetBool("EngineOn", motorMode.engineOn);
         emissivePingPong.SetActive(motorMode.engineOn);
     }
 
@@ -40,6 +42,7 @@ internal class ProtoEngineLever : CinematicModeTriggerBase
 
         bool nextState = !leverAnimator.GetBool("LeverEnabled");
         leverAnimator.SetBool("LeverEnabled", nextState);
+        finsAnimator.SetBool("EngineOn", nextState);
         playerAnimator.SetTrigger(nextState ? "LeverDown" : "LeverUp");
 
         if (nextState)
