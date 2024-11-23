@@ -1,4 +1,5 @@
 ﻿using PrototypeSubMod.IonGenerator;
+using PrototypeSubMod.Monobehaviors;
 using PrototypeSubMod.Upgrades;
 using UnityEngine;
 
@@ -48,6 +49,8 @@ internal class CloakEffectHandler : ProtoUpgrade
 
     [Header("Miscellaneous")]
     public ProtoIonGenerator ionGenerator;
+    [SerializeField] private EmissionColorController emissionController;
+    [SerializeField] private Color emissiveColor = Color.black;
 
     private float TargetScaleMultiplier
     {
@@ -124,6 +127,19 @@ internal class CloakEffectHandler : ProtoUpgrade
     public float GetTargetScale()
     {
         return TargetScaleMultiplier;
+    }
+
+    public override void SetUpgradeEnabled(bool enabled)
+    {
+        base.SetUpgradeEnabled(enabled);
+        if (enabled)
+        {
+            emissionController.RegisterTempColor(new EmissionColorController.EmissionRegistrarData(this, emissiveColor, 20));
+        }
+        else
+        {
+            emissionController.RemoveTempColor(this);
+        }
     }
 
     public bool GetIsDirty() => isDirty;
