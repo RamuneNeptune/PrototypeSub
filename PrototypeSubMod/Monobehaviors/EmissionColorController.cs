@@ -1,6 +1,8 @@
-﻿using SubLibrary.Materials.Tags;
+﻿using PrototypeSubMod.Extensions;
+using SubLibrary.Materials.Tags;
 using SubLibrary.Monobehaviors;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace PrototypeSubMod.Monobehaviors;
@@ -11,6 +13,7 @@ internal class EmissionColorController : PrefabModifier
     [SerializeField] private float transitionSpeed;
 
     private Dictionary<Material, Color> trackedMaterials = new();
+    private List<EmissionRegistrarData> overrideColorData = new();
     private bool initialized;
 
     private Color tempColor;
@@ -59,16 +62,51 @@ internal class EmissionColorController : PrefabModifier
         }
     }
 
-    public void SetTempColor(Color color)
+    public void RegisterTempColor(EmissionRegistrarData registerData)
     {
+        overrideColorData.Add(registerData);
         tempColorActive = true;
-        tempColor = color;
         currentTransitionTime = 0;
+
+        UpdateTempColor();
     }
 
-    public void ClearTempColor()
+    public void RemoveTempColor(Component component)
     {
-        tempColorActive = false;
+        var data = overrideColorData.FirstOrDefault(i => i.owner == component);
+        if (data.Equals(default)) return;
+
+        overrideColorData.Remove(data);
+        tempColorActive = overrideColorData.Count > 0;
         currentTransitionTime = 0;
+
+        UpdateTempColor();
+    }
+
+    private void UpdateTempColor()
+    {
+        int greatestPriority = int.MinValue;
+        foreach (var data in overrideColorData)
+        {
+            if (data.priority > greatestPriority)
+            {
+                greatestPriority = data.priority;
+                tempColor = data.overrideColor;
+            }
+        }
+    }
+
+    public struct EmissionRegistrarData
+    {
+        public Component owner;
+        public Color overrideColor;
+        public int priority;
+
+        public EmissionRegistrarData(Component owner, Color overrideColor, int priority = 10)
+        {
+            this.owner = owner;
+            this.overrideColor = overrideColor;
+            this.priority = priority;
+        }
     }
 }
