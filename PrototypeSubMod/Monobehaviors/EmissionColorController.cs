@@ -1,12 +1,11 @@
 ﻿using SubLibrary.Materials.Tags;
 using SubLibrary.Monobehaviors;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace PrototypeSubMod.Monobehaviors;
 
-internal class ExternalEmissionController : PrefabModifier
+internal class EmissionColorController : PrefabModifier
 {
     [SerializeField] private GameObject subRoot;
     [SerializeField] private float transitionSpeed;
@@ -26,7 +25,7 @@ internal class ExternalEmissionController : PrefabModifier
 
         foreach (var rend in subRoot.GetComponentsInChildren<Renderer>(true))
         {
-            if (!rend.GetComponent<SubExteriorTag>()) continue;
+            if (rend.GetComponent<EmissionControllerExempt>()) continue;
 
             foreach (var mat in rend.materials)
             {
