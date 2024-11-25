@@ -64,7 +64,7 @@ namespace PrototypeSubMod
 
             // Set project-scoped logger instance
             Logger = base.Logger;
-
+            
             LanguageHandler.RegisterLocalizationFolder();
             //PrototypeAudio.RegisterAudio(AssetBundle);
             SubAudioLoader.LoadAllAudio(AssetBundle);
