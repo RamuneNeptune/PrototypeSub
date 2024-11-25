@@ -66,7 +66,6 @@ namespace PrototypeSubMod
             Logger = base.Logger;
             
             LanguageHandler.RegisterLocalizationFolder();
-            //PrototypeAudio.RegisterAudio(AssetBundle);
             SubAudioLoader.LoadAllAudio(AssetBundle);
             
             RegisterEncyEntries();
