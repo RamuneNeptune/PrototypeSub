@@ -94,21 +94,19 @@ internal class ProtoRepairBot : PathfindingObject
 
         animator.enabled = true;
         walkLoopEmitter.Start();
-        Vector3 posOnPlane = Vector3.ProjectOnPlane(directionToNextPoint + visual.position, lastNormal);
-        posOnPlane += visual.position;
 
-        Vector3 dir = posOnPlane - visual.position;
-        Vector3 localDir = visual.InverseTransformDirection(dir);
+        float forwardAmount = Vector3.Dot(directionToNextPoint, transform.forward);
+        float sidewaysAmount = Vector3.Dot(directionToNextPoint, transform.right);
 
-        animator.SetFloat(AnimatorHashID.move_speed_x, localDir.normalized.x);
-        animator.SetFloat(AnimatorHashID.move_speed_y, localDir.normalized.z);
-        animator.SetFloat(AnimatorHashID.speed, localDir.magnitude);
+        animator.SetFloat(AnimatorHashID.move_speed_x, sidewaysAmount);
+        animator.SetFloat(AnimatorHashID.move_speed_z, forwardAmount);
+        animator.SetFloat(AnimatorHashID.speed, new Vector2(forwardAmount, sidewaysAmount).magnitude);
     }
 
     new private void OnPathFinished()
     {
         animator.SetFloat(AnimatorHashID.move_speed_x, 0);
-        animator.SetFloat(AnimatorHashID.move_speed_y, 0);
+        animator.SetFloat(AnimatorHashID.move_speed_z, 0);
         animator.SetFloat(AnimatorHashID.speed, 0);
         animator.enabled = false;
 
