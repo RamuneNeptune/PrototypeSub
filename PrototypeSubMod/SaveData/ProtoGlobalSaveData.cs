@@ -9,4 +9,5 @@ internal class ProtoGlobalSaveData : SaveDataCache
     public Dictionary<string, float> normalizedBatteryCharges = new();
 
     public bool defenseCloakDisabled;
+    public bool moonpoolDoorOpened;
 }
