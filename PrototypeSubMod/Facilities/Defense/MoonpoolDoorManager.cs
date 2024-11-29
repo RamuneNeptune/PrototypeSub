@@ -5,6 +5,7 @@ namespace PrototypeSubMod.Facilities.Defense;
 internal class MoonpoolDoorManager : MonoBehaviour
 {
     [SerializeField] private Animator animator;
+    [SerializeField] private FMOD_CustomEmitter openSFX;
 
     private void Start()
     {
@@ -19,6 +20,7 @@ internal class MoonpoolDoorManager : MonoBehaviour
         if (Plugin.GlobalSaveData.moonpoolDoorOpened) return;
 
         animator.SetTrigger("OpenDoor");
+        openSFX.Play();
         Plugin.GlobalSaveData.moonpoolDoorOpened = true;
     }
 }

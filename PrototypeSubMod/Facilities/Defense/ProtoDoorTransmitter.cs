@@ -55,6 +55,11 @@ internal class ProtoDoorTransmitter : MonoBehaviour
 
     private void OpenDoor()
     {
+        if (Plugin.GlobalSaveData.moonpoolDoorOpened)
+        {
+            return;
+        }
+
         GetDoorReference();
         subRoot.voiceNotificationManager.PlayVoiceNotification(openDoorsNotification);
         doorManager.OpenDoor();
