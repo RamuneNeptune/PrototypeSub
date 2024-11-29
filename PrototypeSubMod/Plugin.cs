@@ -1,5 +1,6 @@
 ﻿using BepInEx;
 using BepInEx.Logging;
+using EpicStructureLoader;
 using HarmonyLib;
 using ModStructureFormat;
 using Nautilus.Assets;
@@ -199,11 +200,20 @@ namespace PrototypeSubMod
 
         private void RegisterStructures()
         {
-            var interceptorStructure = AssetBundle.LoadAsset<TextAsset>("InterceptorUnlockStructure");
-            var structure = JsonConvert.DeserializeObject<Structure>(interceptorStructure.text);
+            var interceptorStructureFile = AssetBundle.LoadAsset<TextAsset>("ProtoInterceptorFacility");
+            var interceptorStructure = JsonConvert.DeserializeObject<Structure>(interceptorStructureFile.text);
 
             int entityCount = 0;
-            //StructureLoading.RegisterStructure(structure, ref entityCount);
+            StructureLoading.RegisterStructure(interceptorStructure, ref entityCount);
+            entityCount = 0;
+
+            if (TRPCompatManager.TRPInstalled)
+            {
+                var trpIslandFile = AssetBundle.LoadAsset<TextAsset>("RedPlagueProtoIslands");
+                var trpIsland = JsonConvert.DeserializeObject<Structure>(trpIslandFile.text);
+
+                StructureLoading.RegisterStructure(trpIsland, ref entityCount);
+            }
         }
 
         private void RegisterBiomes()
