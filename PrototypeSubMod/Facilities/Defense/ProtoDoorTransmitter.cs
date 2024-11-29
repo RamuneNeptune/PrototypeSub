@@ -26,6 +26,8 @@ internal class ProtoDoorTransmitter : MonoBehaviour
             return;
         }
 
+        if (Player.main.currentSub != subRoot) return;
+
         float distToDoor = Vector3.Distance(Camera.main.transform.position, MoonpoolPos);
         if (distToDoor < activationDistance)
         {
@@ -57,6 +59,7 @@ internal class ProtoDoorTransmitter : MonoBehaviour
     {
         if (Plugin.GlobalSaveData.moonpoolDoorOpened)
         {
+            CancelInvoke(nameof(CheckPlayerPos));
             return;
         }
 
