@@ -1,6 +1,7 @@
 ﻿using UnityEditor;
 using SubLibrary.Utilities;
 using UnityEngine;
+using static Int3;
 
 [CustomEditor(typeof(GenerateDistanceField))]
 public class DistanceFieldGeneratorEditor : Editor
@@ -13,8 +14,9 @@ public class DistanceFieldGeneratorEditor : Editor
 
         EditorGUILayout.LabelField("Config values");
 
+        EditorGUILayout.PrefixLabel("Bounds");
         EditorGUILayout.BeginHorizontal();
-        EditorGUILayout.LabelField("Bounds", GUILayout.MaxWidth(50));
+        EditorGUILayout.LabelField("Center", GUILayout.MaxWidth(50));
 
         EditorGUILayout.LabelField("X", GUILayout.MaxWidth(10));
         float x1 = EditorGUILayout.FloatField(generator.bounds.center.x);
@@ -45,6 +47,18 @@ public class DistanceFieldGeneratorEditor : Editor
         if(GUILayout.Button("Generate texture"))
         {
             generator.GenerateTexture();
+        }
+
+        if (GUILayout.Button("Create empty texture"))
+        {
+            Vector3 resolution = generator.bounds.size * generator.pixelsPerUnit;
+            var texture = new Texture3D((int)resolution.x, (int)resolution.y, (int)resolution.z, TextureFormat.Alpha8, 1)
+            {
+                //Idk why this is needed but Lee said so in the Seal commits ¯\_(ツ)_/¯
+                wrapMode = TextureWrapMode.Clamp
+            };
+
+            AssetDatabase.CreateAsset(texture, "Assets/New3dTexture.asset");
         }
 
         if (GUILayout.Button("Toggle preview"))
