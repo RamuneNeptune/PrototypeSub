@@ -38,7 +38,7 @@ namespace PrototypeSubMod
 
         public new static ManualLogSource Logger { get; private set; }
 
-        private static Assembly Assembly { get; } = Assembly.GetExecutingAssembly();
+        internal static Assembly Assembly { get; } = Assembly.GetExecutingAssembly();
 
         public static string AssetsFolderPath { get; } = Path.Combine(Path.GetDirectoryName(Assembly.Location), "Assets");
         public static string RecipesFolderPath { get; } = Path.Combine(Path.GetDirectoryName(Assembly.Location), "Recipes");
@@ -57,6 +57,8 @@ namespace PrototypeSubMod
 
         internal static ProtoGlobalSaveData GlobalSaveData = SaveDataHandler.RegisterSaveDataCache<ProtoGlobalSaveData>();
         internal static GameObject welderPrefab;
+
+        internal static Sprite PrototypeSaveIcon = AssetBundle.LoadAsset<Sprite>("ProtoSaveIcon");
 
         private static bool Initialized;
 

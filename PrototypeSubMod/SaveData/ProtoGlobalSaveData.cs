@@ -8,6 +8,8 @@ internal class ProtoGlobalSaveData : SaveDataCache
     //Key: Prefab identifier ID | Value: Normalized battery charge
     public Dictionary<string, float> normalizedBatteryCharges = new();
 
+    public bool prototypePresent;
+
     public bool defenseCloakDisabled;
     public bool moonpoolDoorOpened;
 }
