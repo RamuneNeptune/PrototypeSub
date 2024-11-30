@@ -6,7 +6,7 @@ namespace PrototypeSubMod.SaveIcon;
 
 internal static class SaveSlotManager
 {
-    private readonly static string SubnauticaFolder = Directory.GetParent(Directory.GetParent(Plugin.Assembly.Location).FullName).FullName;
+    private readonly static string SubnauticaFolder = Plugin.Assembly.Location.Split(new[] { "Subnautica" }, System.StringSplitOptions.None)[0] + "Subnautica";
     private readonly static string SavesFolder = Path.Combine(SubnauticaFolder, "SNAppData", "SavedGames");
 
     public static bool SaveContainsProtoData(string slotName, out ProtoGlobalSaveData saveData)

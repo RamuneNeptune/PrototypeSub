@@ -9,7 +9,7 @@ namespace PrototypeSubMod.Patches;
 internal class MainMenuLoadPanelPatch
 {
     [HarmonyPatch(nameof(MainMenuLoadPanel.UpdateLoadButtonState)), HarmonyPostfix]
-    private static void UpdateLoadButtonState_Postfix(MainMenuLoadPanel __instance, MainMenuLoadButton lb)
+    private static void UpdateLoadButtonState_Postfix(MainMenuLoadButton lb)
     {
         var protoIcon = lb.saveIcons.FindChild("SavedPrototype");
 
