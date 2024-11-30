@@ -17,6 +17,7 @@ internal class ElectricubePowerFunctionality : PowerSourceFunctionality
     private LightColorHandler colorHandler;
     private ProtoMotorHandler motorHandler;
     private TeleporterFXColorManager colorManager;
+    private EmissionColorController emissiveController;
 
     public override void OnAbilityActivated()
     {
@@ -24,10 +25,12 @@ internal class ElectricubePowerFunctionality : PowerSourceFunctionality
         colorHandler = root.GetComponentInChildren<LightColorHandler>();
         motorHandler = root.GetComponentInChildren<ProtoMotorHandler>();
         colorManager = root.GetComponentInChildren<TeleporterFXColorManager>();
+        emissiveController = root.GetComponentInChildren<EmissionColorController>();
 
         colorHandler.SetTempColor(ElectricubeLightColor);
         motorHandler.AddPowerEfficiencyMultiplier(new ProtoMotorHandler.ValueRegistrar(this, 1.2f));
         colorManager.SetTempColor(ElectricubeTeleporterColor);
+        emissiveController.RegisterTempColor(new EmissionColorController.EmissionRegistrarData(this, new Color(1, 0, 1, 1)));
 
         TeleporterOverride.SetTempTeleporterColor(ElectricubeTeleporterColor);
         ProtoTeleporterManager.Instance.SetPowerMultiplier(0.85f);
@@ -40,6 +43,7 @@ internal class ElectricubePowerFunctionality : PowerSourceFunctionality
         colorHandler.ResetColor();
         colorManager.ResetColor();
         motorHandler.RemovePowerEfficiencyMultiplier(this);
+        emissiveController.RemoveTempColor(this);
 
         ProtoTeleporterManager.Instance.SetPowerMultiplier(1f);
         ProtoTeleporterManager.Instance.ResetOverrideData();
