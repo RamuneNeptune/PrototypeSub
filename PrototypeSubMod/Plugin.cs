@@ -29,6 +29,7 @@ namespace PrototypeSubMod
     [BepInDependency("com.indigocoder.sublibrary")]
     [BepInDependency("com.lee23.epicstructureloader", "1.0.1")]
     [BepInDependency("ArchitectsLibrary", BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency("com.lee23.theredplague", BepInDependency.DependencyFlags.SoftDependency)]
     public class Plugin : BaseUnityPlugin
     {
         private const string GUID = "com.prototech.prototypesub";

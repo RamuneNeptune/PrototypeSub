@@ -16,7 +16,12 @@ internal class MultipurposeAlienTerminal : MonoBehaviour
     private bool queuedForceInteract;
     private ProtoTerminalHandTarget handTarget;
 
-    private IEnumerator Start()
+    private void Start()
+    {
+        CoroutineHost.StartCoroutine(SpawnTerminal());
+    }
+
+    private IEnumerator SpawnTerminal()
     {
         var prefabRequest = PrefabDatabase.GetPrefabAsync("d200d747-b802-43f4-80b1-5c3d2155fbcd");
 
