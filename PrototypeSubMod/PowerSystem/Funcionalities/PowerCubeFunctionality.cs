@@ -1,4 +1,5 @@
 ﻿using PrototypeSubMod.IonBarrier;
+using PrototypeSubMod.Monobehaviors;
 using PrototypeSubMod.MotorHandler;
 using UnityEngine;
 
@@ -14,6 +15,7 @@ internal class PowerCubeFunctionality : PowerSourceFunctionality
     private ProtoMotorHandler motorHandler;
     private ProtoIonBarrier ionBarrier;
     private ShieldEffectManager shieldEffectManager;
+    private EmissionColorController emissiveController;
 
     public override void OnAbilityActivated()
     {
@@ -21,10 +23,12 @@ internal class PowerCubeFunctionality : PowerSourceFunctionality
         motorHandler = subRoot.GetComponentInChildren<ProtoMotorHandler>();
         ionBarrier = subRoot.GetComponentInChildren<ProtoIonBarrier>();
         shieldEffectManager = subRoot.GetComponentInChildren<ShieldEffectManager>();
+        emissiveController = subRoot.GetComponentInChildren<EmissionColorController>();
 
         motorHandler.AddSpeedMultiplier(new ProtoMotorHandler.ValueRegistrar(this, MAX_SPEED_MULTIPLIER));
         ionBarrier.SetDamageReductionMultiplier(BARRIER_DAMAGE_MULTIPLIER);
         shieldEffectManager.SetTempColor(barrierMainCol, barrierSolidCol);
+        emissiveController.RegisterTempColor(new EmissionColorController.EmissionRegistrarData(this, new Color(1, 0, 0, 1)));
     }
 
     protected override void OnAbilityStopped()
@@ -32,5 +36,6 @@ internal class PowerCubeFunctionality : PowerSourceFunctionality
         motorHandler.RemoveSpeedMultiplier(this);
         ionBarrier.SetDamageReductionMultiplier(1f);
         shieldEffectManager.ClearTempColor();
+        emissiveController.RemoveTempColor(this);
     }
 }
