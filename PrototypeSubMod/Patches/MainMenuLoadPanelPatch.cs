@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using PrototypeSubMod.SaveData;
 using PrototypeSubMod.SaveIcon;
 using UnityEngine;
 using UnityEngine.UI;
@@ -23,7 +24,7 @@ internal class MainMenuLoadPanelPatch
             protoIcon.SetActive(false);
         }
 
-        if (SaveSlotManager.SaveContainsProtoData(lb.saveGame, out var saveData))
+        if (SaveSlotManager.SaveContainsProtoData<ProtoGlobalSaveData>(lb.saveGame, out var saveData))
         {
             protoIcon.SetActive(saveData.prototypePresent);
         }
