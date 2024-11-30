@@ -21,9 +21,13 @@ internal class ProtoEngineLever : CinematicModeTriggerBase
     private void Start()
     {
         cinematicController.animator = Player.main.playerAnimator;
-        leverAnimator.SetBool("LeverEnabled", motorMode.engineOn);
         finsAnimator.SetBool("EngineOn", motorMode.engineOn);
         emissivePingPong.SetActive(motorMode.engineOn);
+
+        if (motorMode.engineOn)
+        {
+            leverAnimator.SetTrigger("EnabledFromSave");
+        }
     }
 
     public override void OnHandHover(GUIHand hand)
