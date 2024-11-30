@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 namespace PrototypeSubMod.EngineLever;
 
@@ -18,16 +19,20 @@ internal class ProtoEngineLever : CinematicModeTriggerBase
 
     private bool ensureAnimFinished;
 
-    private void Start()
+    private IEnumerator Start()
     {
         cinematicController.animator = Player.main.playerAnimator;
         finsAnimator.SetBool("EngineOn", motorMode.engineOn);
-        emissivePingPong.SetActive(motorMode.engineOn);
 
         if (motorMode.engineOn)
         {
             leverAnimator.SetTrigger("EnabledFromSave");
         }
+
+        leverAnimator.SetBool("LeverEnabled", motorMode.engineOn);
+        yield return new WaitForEndOfFrame();
+
+        emissivePingPong.SetActive(motorMode.engineOn);
     }
 
     public override void OnHandHover(GUIHand hand)
