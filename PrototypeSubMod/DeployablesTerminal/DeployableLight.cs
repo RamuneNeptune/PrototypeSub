@@ -29,6 +29,7 @@ internal class DeployableLight : MonoBehaviour, IProtoEventListener
     private Vector3 volumetricSize;
     private Pickupable pickupable;
     private EcoTarget ecoTarget;
+    private PrefabIdentifier identifier;
 
     private bool piecesSeparated;
     private bool activated;
@@ -44,6 +45,7 @@ internal class DeployableLight : MonoBehaviour, IProtoEventListener
         light.transform.localScale = Vector3.zero;
         pickupable = GetComponent<Pickupable>();
         ecoTarget = GetComponent<EcoTarget>();
+        identifier = GetComponent<PrefabIdentifier>();
         ecoTarget.enabled = false;
     }
 
@@ -53,7 +55,7 @@ internal class DeployableLight : MonoBehaviour, IProtoEventListener
 
         rb.AddForce((transform.forward * force) + previousVelocity, ForceMode.Impulse);
 
-        Invoke(nameof(StartLifetime), deployDelay);
+        Invoke(nameof(ActivateLight), deployDelay);
         Destroy(pickupable);
 
         light.GetComponentInChildren<CyclopsMaterialAssigner>().OnLateMaterialOperation();
@@ -61,11 +63,11 @@ internal class DeployableLight : MonoBehaviour, IProtoEventListener
 
     private void OnDrop()
     {
-        Invoke(nameof(StartLifetime), deployDelay);
+        Invoke(nameof(ActivateLight), deployDelay);
         Destroy(pickupable);
     }
 
-    private void StartLifetime()
+    private void ActivateLight()
     {
         activated = true;
         ecoTarget.enabled = true;
@@ -137,7 +139,20 @@ internal class DeployableLight : MonoBehaviour, IProtoEventListener
         {
             Destroy(gameObject);
         }
+
+        if (Plugin.GlobalSaveData.deployableLightLifetimes.ContainsKey(identifier.Id))
+        {
+            Plugin.GlobalSaveData.deployableLightLifetimes[identifier.Id] = currentLifetime;
+        }
+        else
+        {
+            Plugin.GlobalSaveData.deployableLightLifetimes.Add(identifier.Id, currentLifetime);
+        }
     }
 
-    public void OnProtoDeserialize(ProtobufSerializer serializer) { }
+    public void OnProtoDeserialize(ProtobufSerializer serializer) 
+    {
+        currentLifetime = Plugin.GlobalSaveData.deployableLightLifetimes[identifier.Id];
+        ActivateLight();
+    }
 }
