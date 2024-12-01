@@ -5,6 +5,7 @@ using PrototypeSubMod.Compatibility;
 using PrototypeSubMod.Utility;
 using SubLibrary.CyclopsReferencers;
 using SubLibrary.Handlers;
+using SubLibrary.Monobehaviors;
 using System.Collections;
 using UnityEngine;
 
@@ -53,6 +54,12 @@ internal class DeployableLight_Craftable
         foreach (var referencer in prefab.GetComponentsInChildren<ICyclopsReferencer>(true))
         {
             referencer.OnCyclopsReferenceFinished(CyclopsReferenceHandler.CyclopsReference);
+        }
+
+        foreach (var item in prefab.GetComponentsInChildren<PrefabModifier>(true))
+        {
+            item.OnLateMaterialOperation();
+            item.OnAsyncPrefabTasksCompleted();
         }
 
         prefabOut.Set(prefab);
