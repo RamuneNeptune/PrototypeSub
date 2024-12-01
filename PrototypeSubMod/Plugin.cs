@@ -145,8 +145,12 @@ namespace PrototypeSubMod
             DamagedProtoLogo_World.Register();
             TeleporterTerminal_World.Register();
 
-            Texture2D sprite = AssetBundle.LoadAsset<Texture2D>("dogPosterIcon");
-            new CustomPoster("ProtoDogPoster", null, null, AssetBundle.LoadAsset<Texture2D>("DogPoster"), sprite);
+            Texture2D dogIco = AssetBundle.LoadAsset<Texture2D>("dogPosterIcon");
+            new CustomPoster("ProtoDogPoster", null, null, AssetBundle.LoadAsset<Texture2D>("DogPoster"), dogIco);
+            Texture2D regular1Ico = AssetBundle.LoadAsset<Texture2D>("RegularIcon1");
+            new CustomPoster("HamCheesePoster1", null, null, AssetBundle.LoadAsset<Texture2D>("HamAndCheesePoster1_Small"), regular1Ico);
+            Texture2D regular2Ico = AssetBundle.LoadAsset<Texture2D>("RegularIcon2");
+            new CustomPoster("HamCheesePoster2", null, null, AssetBundle.LoadAsset<Texture2D>("RegularPoster2"), regular2Ico, TechType.PosterExoSuit1);
         }
 
         private void RegisterEncyEntries()

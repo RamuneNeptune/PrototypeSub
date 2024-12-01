@@ -10,13 +10,13 @@ internal class CustomPoster
     public readonly PrefabInfo prefabInfo;
     private readonly Texture2D _posterImage;
 
-    public CustomPoster(string classId, string displayName, string description, Texture2D posterImage, Texture2D posterIcon)
+    public CustomPoster(string classId, string displayName, string description, Texture2D posterImage, Texture2D posterIcon, TechType basePoster = TechType.PosterAurora)
     {
         prefabInfo = PrefabInfo.WithTechType(classId, displayName, description, unlockAtStart: true).WithIcon(new Atlas.Sprite(posterIcon));
         _posterImage = posterImage;
 
         var prefab = new CustomPrefab(prefabInfo);
-        var cloneTemplate = new CloneTemplate(prefabInfo, TechType.PosterAurora);
+        var cloneTemplate = new CloneTemplate(prefabInfo, basePoster);
         cloneTemplate.ModifyPrefab = prefab =>
         {
             var material = prefab.GetComponentInChildren<MeshRenderer>().materials[1];
