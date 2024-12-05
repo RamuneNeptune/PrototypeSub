@@ -5,6 +5,7 @@ using PrototypeSubMod.Compatibility;
 using PrototypeSubMod.Utility;
 using System.Collections;
 using UnityEngine;
+using static GameObjectPoolPrefabMap;
 
 namespace PrototypeSubMod.Prefabs;
 
@@ -28,6 +29,8 @@ internal class IonPrism_Craftable
 
         prefab.SetEquipment(Plugin.PrototypePowerType);
         prefab.SetPdaGroupCategory(TechGroup.Resources, TechCategory.AdvancedMaterials);
+
+        CraftData.pickupSoundList.Add(prefabInfo.TechType, "event:/loot/pickup_precursorioncrystal");
 
         prefab.Register();
     }
