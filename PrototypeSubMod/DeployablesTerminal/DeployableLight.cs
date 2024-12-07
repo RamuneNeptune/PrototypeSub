@@ -150,7 +150,7 @@ internal class DeployableLight : MonoBehaviour, IProtoEventListener
         }
     }
 
-    public void OnProtoDeserialize(ProtobufSerializer serializer) 
+    public void OnProtoDeserialize(ProtobufSerializer serializer)
     {
         currentLifetime = Plugin.GlobalSaveData.deployableLightLifetimes[identifier.Id];
         ActivateLight();

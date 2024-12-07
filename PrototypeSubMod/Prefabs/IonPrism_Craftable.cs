@@ -5,7 +5,6 @@ using PrototypeSubMod.Compatibility;
 using PrototypeSubMod.Utility;
 using System.Collections;
 using UnityEngine;
-using static GameObjectPoolPrefabMap;
 
 namespace PrototypeSubMod.Prefabs;
 

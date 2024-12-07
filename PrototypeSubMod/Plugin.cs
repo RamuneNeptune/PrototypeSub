@@ -69,10 +69,10 @@ namespace PrototypeSubMod
 
             // Set project-scoped logger instance
             Logger = base.Logger;
-            
+
             LanguageHandler.RegisterLocalizationFolder();
             SubAudioLoader.LoadAllAudio(AssetBundle);
-            
+
             RegisterEncyEntries();
             RegisterStructures();
             RegisterPrefabs();

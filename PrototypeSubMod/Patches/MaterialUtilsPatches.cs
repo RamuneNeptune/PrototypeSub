@@ -2,7 +2,6 @@
 using Nautilus.Utility;
 using Nautilus.Utility.MaterialModifiers;
 using PrototypeSubMod.Utility;
-using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -48,7 +47,7 @@ internal class MaterialUtilsPatches
             .Advance(-26);
 
         var modifiers = matcher.Instruction.operand;
-        
+
         matcher
             .Advance(26)
             .InsertAndAdvance(new CodeInstruction(OpCodes.Ldloc_0))
