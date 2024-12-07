@@ -1603,6 +1603,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4891945186220071142}
+  - component: {fileID: 5677559867955236737}
+  - component: {fileID: 1144649536757455627}
   - component: {fileID: 448048713605049459}
   m_Layer: 0
   m_Name: OrionBlackGoo
@@ -1619,13 +1621,41 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 977862792996815168}
   m_LocalRotation: {x: -0, y: 0.7071065, z: -0, w: 0.7071071}
-  m_LocalPosition: {x: 8.95, y: 0.25, z: -13.35}
+  m_LocalPosition: {x: 8.511673, y: 0.15493774, z: -67.02968}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8939258787306221855}
   m_Father: {fileID: 2055188084176233035}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 90.00001, z: 0}
+--- !u!114 &5677559867955236737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 977862792996815168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -919520072, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  alemPlayer: {fileID: 448048713605049459}
+  playbackSpeed: 1
+--- !u!114 &1144649536757455627
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 977862792996815168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1757052680, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 448048713605049459}
+  bytesModelName: OrionBlackGoo.bytes
 --- !u!114 &448048713605049459
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9739,7 +9769,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7109343321033830282}
   m_LocalRotation: {x: -0, y: 0, z: 0, w: -1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -53.679676, y: -0.095062256, z: -0.4383266}
   m_LocalScale: {x: 5.6391616, y: 5.6391616, z: 5.6391616}
   m_Children:
   - {fileID: 3865151551114672828}
