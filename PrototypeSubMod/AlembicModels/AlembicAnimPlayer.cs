@@ -11,6 +11,9 @@ internal class AlembicAnimPlayer : MonoBehaviour
     private void Update()
     {
         alemPlayer.CurrentTime += playbackSpeed * Time.deltaTime;
-        alemPlayer.CurrentTime = alemPlayer.CurrentTime % alemPlayer.EndTime;
+        if (alemPlayer.CurrentTime >= alemPlayer.Duration)
+        {
+            alemPlayer.CurrentTime = 0;
+        }
     }
 }
