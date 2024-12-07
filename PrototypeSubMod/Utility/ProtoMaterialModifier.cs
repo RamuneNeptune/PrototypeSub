@@ -28,7 +28,7 @@ internal class ProtoMaterialModifier : MaterialModifier
 
     public override bool BlockShaderConversion(Material material, Renderer renderer, MaterialUtils.MaterialType materialType)
     {
-        return renderer is ParticleSystemRenderer;
+        return renderer is ParticleSystemRenderer || renderer.TryGetComponent<DontApplySNShaders>(out _);
     }
 
     public override void EditMaterial(Material material, Renderer renderer, int materialIndex, MaterialUtils.MaterialType materialType)

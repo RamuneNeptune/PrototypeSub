@@ -1,6 +1,7 @@
 ﻿using Nautilus.Assets;
 using Nautilus.Assets.Gadgets;
 using Nautilus.Utility;
+using PrototypeSubMod.Utility;
 using System.Collections;
 using UnityEngine;
 
@@ -37,7 +38,7 @@ internal class ProtoBuildTerminal_World
 
         yield return new WaitUntil(() => MaterialUtils.IsReady);
 
-        MaterialUtils.ApplySNShaders(instantiatedPrefab);
+        MaterialUtils.ApplySNShaders(instantiatedPrefab, modifiers: new ProtoMaterialModifier(3, 0));
 
         prefabOut.Set(instantiatedPrefab);
     }
