@@ -96,12 +96,19 @@ internal class DefenseCloakManager : MonoBehaviour
         cloakApplier = Camera.main.GetComponent<CloakCutoutApplier>();
         cloakApplier.SetCloakManager(this);
 
-        deactivationTerminal.onTerminalInteracted += DeactivateCloak;
+        if (deactivationTerminal != null)
+        {
+            deactivationTerminal.onTerminalInteracted += DeactivateCloak;
+        }
     }
 
     private void OnDestroy()
     {
         cloakApplier.SetCloakManager(null);
-        deactivationTerminal.onTerminalInteracted -= DeactivateCloak;
+
+        if (deactivationTerminal != null)
+        {
+            deactivationTerminal.onTerminalInteracted -= DeactivateCloak;
+        }
     }
 }
