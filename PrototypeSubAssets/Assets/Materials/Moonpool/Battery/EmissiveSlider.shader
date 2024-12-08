@@ -3,6 +3,7 @@
     Properties
     {
         _EmisiveTex ("Emissive Texture", 2D) = "white" {}
+        _EmissiveStrength ("Emissive Strength", Float) = 1
         _FilledAmount ("Amount filled", Range(0, 1)) = 1
         _UnderlyingCol ("Underlying Color", Color) = (1, 1, 1, 1)
         _SpecColor ("Spec color", Color) = (1, 1, 1, 1)
@@ -42,6 +43,7 @@
 
             sampler2D _EmisiveTex;
             float4 _EmisiveTex_ST;
+            float _EmissiveStrength;
 
             fixed4 _UnderlyingCol;
             fixed4 _SpecColor;
@@ -71,7 +73,7 @@
 
                 if (i.uv.y > (1 - _FilledAmount))
                 {
-                    return emissiveCol;
+                    return emissiveCol * _EmissiveStrength;
                 }
 
                 float3 normalDir = i.normalDir;
