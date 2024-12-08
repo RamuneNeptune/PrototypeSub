@@ -13,11 +13,11 @@
     }
     SubShader
     {
-        Tags { "RenderType"="Opaque" }
-        LOD 100
-
         Pass
         {
+            Tags { "RenderType"="Opaque" "LightMode" = "ForwardBase" }
+            LOD 100
+
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
@@ -112,5 +112,92 @@
             }
             ENDCG
         }
+        Pass
+		{
+			Tags { "LightMode" = "ForwardAdd" }
+			Blend One One
+			LOD 100
+
+			CGPROGRAM
+
+			//Pragmas
+			#pragma vertex vert
+			#pragma fragment frag
+
+			//User defined variables
+			fixed4 _UnderlyingCol;
+            fixed4 _SpecColor;
+            fixed4 _RimColor;
+            fixed _FilledAmount;
+            float _Shininess;
+            float _RimPower;
+
+			//Uniy defined variables
+			uniform float4 _LightColor0;
+
+			struct appdata
+            {
+                float4 vertex : POSITION;
+                float3 normal : NORMAL;
+            };
+
+            struct v2f
+            {
+                float4 vertex : SV_POSITION;
+                float4 posWorld : TEXCOORD0;
+                float3 normalDir : TEXCOORD1;
+            };
+
+			v2f vert (appdata v)
+            {
+                v2f o;
+
+                o.vertex = UnityObjectToClipPos(v.vertex);
+                o.posWorld = mul(unity_ObjectToWorld, v.vertex);
+                o.normalDir = mul(float4(v.normal, 0), unity_WorldToObject).xyz;
+
+                return o;
+            }
+            
+			//Fragment function
+			float4 frag(v2f i) : COLOR
+			{
+				float3 normalDir = i.normalDir;
+                float3 viewDir = normalize(_WorldSpaceCameraPos.xyz - i.posWorld.xyz);
+                float3 lightDir;
+                float atten;
+
+                if (_WorldSpaceLightPos0.w == 0.0) // Directional lightDir
+                {
+                    atten = 1;
+                    lightDir = normalize(_WorldSpaceCameraPos.xyz);
+                }
+                else // Point light or spotlight
+                {
+                    float3 fragmentToLightSource = _WorldSpaceLightPos0.xyz - i.posWorld.xyz;
+					float distance = length(fragmentToLightSource);
+					atten = 1.0 / distance;
+					lightDir = normalize(fragmentToLightSource);
+                }
+
+                // Lighting
+                float3 lightingModel = max(0.0, dot(normalDir, lightDir));
+                float3 diffuseReflection = atten * _LightColor0.xyz * lightingModel;
+
+                float3 specularNoShiny = atten * max(0.0, dot(reflect(-lightDir, normalDir), viewDir)) * lightingModel;
+				float3 specularWithColor = pow(specularNoShiny, _Shininess) * _SpecColor.rgb;
+				float3 specularReflectionFinal = specularWithColor + diffuseReflection + UNITY_LIGHTMODEL_AMBIENT;
+				
+				//Rim Lighting
+				float rim = 1 - saturate(dot(viewDir, normalDir));
+				float3 rimLighting = saturate(dot(normalDir, lightDir)) * pow(rim, 10 - _RimPower) * _RimColor * atten * _LightColor0.xyz;
+
+				float3 lightFinal = rimLighting + diffuseReflection + specularReflectionFinal + UNITY_LIGHTMODEL_AMBIENT.rgb;
+
+                return fixed4(lightFinal * _UnderlyingCol, 1);
+			}
+
+			ENDCG
+		}
     }
 }
