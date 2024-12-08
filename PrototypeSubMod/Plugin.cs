@@ -28,7 +28,7 @@ namespace PrototypeSubMod
     [BepInDependency("com.snmodding.nautilus")]
     [BepInDependency("com.indigocoder.sublibrary")]
     [BepInDependency("com.lee23.epicstructureloader", "1.0.1")]
-    [BepInDependency("com.alembic.unitypackage")]
+    [BepInDependency("com.alembic.package")]
     [BepInDependency("ArchitectsLibrary", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.lee23.theredplague", BepInDependency.DependencyFlags.SoftDependency)]
     public class Plugin : BaseUnityPlugin
