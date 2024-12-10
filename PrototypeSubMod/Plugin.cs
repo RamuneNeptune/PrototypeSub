@@ -209,11 +209,17 @@ namespace PrototypeSubMod
 
         private void RegisterStructures()
         {
-            var interceptorStructureFile = AssetBundle.LoadAsset<TextAsset>("ProtoInterceptorFacility");
-            var interceptorStructure = JsonConvert.DeserializeObject<Structure>(interceptorStructureFile.text);
-
             int entityCount = 0;
-            StructureLoading.RegisterStructure(interceptorStructure, ref entityCount);
+            StructureLoading.RegisterStructure(LoadStructureFromBundle("ProtoInterceptorFacility"), ref entityCount);
+            entityCount = 0;
+
+            StructureLoading.RegisterStructure(LoadStructureFromBundle("DefenseChamber"), ref entityCount);
+            entityCount = 0;
+
+            StructureLoading.RegisterStructure(LoadStructureFromBundle("DefenseTunnel"), ref entityCount);
+            entityCount = 0;
+
+            StructureLoading.RegisterStructure(LoadStructureFromBundle("EngineFacility"), ref entityCount);
             entityCount = 0;
 
             if (TRPCompatManager.TRPInstalled)
@@ -254,6 +260,12 @@ namespace PrototypeSubMod
             ConsoleCommandsHandler.AddGotoTeleportPosition("interceptorfacility", new Vector3(547, -709, 955));
             ConsoleCommandsHandler.AddGotoTeleportPosition("defensefacility", new Vector3(689, -483, -1404f));
             ConsoleCommandsHandler.AddGotoTeleportPosition("enginefacility", new Vector3(306, -1156, 131f));
+        }
+
+        private Structure LoadStructureFromBundle(string name)
+        {
+            var structureFile = AssetBundle.LoadAsset<TextAsset>(name);
+            return JsonConvert.DeserializeObject<Structure>(structureFile.text);
         }
     }
 }
