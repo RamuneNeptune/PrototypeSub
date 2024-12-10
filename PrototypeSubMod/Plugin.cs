@@ -140,6 +140,7 @@ namespace PrototypeSubMod
             ProtoRepairBot_Spawned.Register();
             CrystalMatrix_Craftable.Register();
             DeactivatedTeleporter_World.Register();
+            ProtoEngineFacilityRoom.Register();
 
             ProtoPlaque_World.Register();
             ProtoLogo_World.Register();
