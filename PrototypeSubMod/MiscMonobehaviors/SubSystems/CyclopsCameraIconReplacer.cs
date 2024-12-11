@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace PrototypeSubMod.Monobehaviors;
+namespace PrototypeSubMod.MiscMonobehaviors.SubSystems;
 
 internal class CyclopsCameraIconReplacer : MonoBehaviour
 {

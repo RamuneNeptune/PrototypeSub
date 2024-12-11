@@ -1,5 +1,5 @@
 ﻿using PrototypeSubMod.IonBarrier;
-using PrototypeSubMod.Monobehaviors;
+using PrototypeSubMod.MiscMonobehaviors.Emission;
 using PrototypeSubMod.MotorHandler;
 using UnityEngine;
 

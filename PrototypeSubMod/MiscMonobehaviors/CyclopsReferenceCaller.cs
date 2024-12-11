@@ -3,7 +3,7 @@ using SubLibrary.Handlers;
 using System.Collections;
 using UnityEngine;
 
-namespace PrototypeSubMod.Monobehaviors;
+namespace PrototypeSubMod.MiscMonobehaviors;
 
 internal class CyclopsReferenceCaller : MonoBehaviour
 {

@@ -1,6 +1,6 @@
 ﻿using Nautilus.Assets;
 using Nautilus.Assets.PrefabTemplates;
-using PrototypeSubMod.Monobehaviors;
+using PrototypeSubMod.MiscMonobehaviors;
 using Story;
 
 namespace PrototypeSubMod.Prefabs.FacilityProps;
@@ -21,8 +21,6 @@ internal class TeleporterTerminal_World
         {
             var handTarget = gameObject.GetComponent<StoryHandTarget>();
             handTarget.goal = new StoryGoal("OnInterceptorTestDataDownloaded", Story.GoalType.PDA, 0f);
-
-            gameObject.EnsureComponent<TeleporterDisablerBehavior>();
         };
 
         prefab.SetGameObject(cloneTemplate);

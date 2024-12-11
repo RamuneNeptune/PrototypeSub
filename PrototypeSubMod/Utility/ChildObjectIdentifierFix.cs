@@ -1,6 +1,6 @@
 ﻿using SubLibrary.Monobehaviors;
 
-namespace PrototypeSubMod.Monobehaviors;
+namespace PrototypeSubMod.Utility;
 
 internal class ChildObjectIdentifierFix : PrefabModifier
 {

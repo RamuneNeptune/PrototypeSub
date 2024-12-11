@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace PrototypeSubMod.Monobehaviors;
+namespace PrototypeSubMod.MiscMonobehaviors.Emission;
 
 internal class EmissionControllerExempt : MonoBehaviour
 {

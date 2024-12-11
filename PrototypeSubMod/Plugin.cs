@@ -9,7 +9,7 @@ using Nautilus.Handlers;
 using Nautilus.Utility;
 using Newtonsoft.Json;
 using PrototypeSubMod.Compatibility;
-using PrototypeSubMod.Monobehaviors;
+using PrototypeSubMod.MiscMonobehaviors.Materials;
 using PrototypeSubMod.PowerSystem;
 using PrototypeSubMod.Prefabs;
 using PrototypeSubMod.Prefabs.FacilityProps;

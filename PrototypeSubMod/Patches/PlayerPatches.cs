@@ -1,7 +1,7 @@
 ﻿using HarmonyLib;
 using PrototypeSubMod.Facilities.Defense;
 using PrototypeSubMod.LightDistortionField;
-using PrototypeSubMod.Monobehaviors;
+using PrototypeSubMod.MiscMonobehaviors.SubSystems;
 using PrototypeSubMod.Teleporter;
 using System.Collections;
 using UnityEngine;

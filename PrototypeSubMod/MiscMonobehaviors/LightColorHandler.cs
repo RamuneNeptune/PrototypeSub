@@ -2,7 +2,7 @@
 using System.Linq;
 using UnityEngine;
 
-namespace PrototypeSubMod.Monobehaviors;
+namespace PrototypeSubMod.MiscMonobehaviors;
 
 internal class LightColorHandler : MonoBehaviour
 {

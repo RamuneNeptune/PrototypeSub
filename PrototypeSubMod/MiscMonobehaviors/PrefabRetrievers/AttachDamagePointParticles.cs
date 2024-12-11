@@ -1,7 +1,7 @@
 ﻿using SubLibrary.Handlers;
 using UnityEngine;
 
-namespace PrototypeSubMod.Monobehaviors;
+namespace PrototypeSubMod.MiscMonobehaviors.PrefabRetrievers;
 
 internal class AttachDamagePointParticles : MonoBehaviour
 {

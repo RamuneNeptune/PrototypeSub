@@ -2,7 +2,7 @@
 using System.Linq;
 using UnityEngine;
 
-namespace PrototypeSubMod.Monobehaviors;
+namespace PrototypeSubMod.MiscMonobehaviors.SubSystems;
 
 internal class Proximity3dViewer : MonoBehaviour
 {

@@ -1,4 +1,4 @@
-﻿using PrototypeSubMod.Monobehaviors;
+﻿using PrototypeSubMod.MiscMonobehaviors.SubSystems;
 using PrototypeSubMod.PowerSystem.Funcionalities;
 using System;
 using UnityEngine;

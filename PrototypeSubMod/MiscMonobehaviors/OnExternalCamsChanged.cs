@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 
-namespace PrototypeSubMod.Monobehaviors;
+namespace PrototypeSubMod.MiscMonobehaviors;
 
 [RequireComponent(typeof(CyclopsExternalCams))]
 internal class OnExternalCamsChanged : MonoBehaviour

@@ -1,4 +1,5 @@
-﻿using PrototypeSubMod.Monobehaviors;
+﻿using PrototypeSubMod.MiscMonobehaviors;
+using PrototypeSubMod.MiscMonobehaviors.Emission;
 using PrototypeSubMod.MotorHandler;
 using PrototypeSubMod.Teleporter;
 using UnityEngine;

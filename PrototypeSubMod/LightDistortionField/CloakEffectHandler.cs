@@ -1,5 +1,5 @@
 ﻿using PrototypeSubMod.IonGenerator;
-using PrototypeSubMod.Monobehaviors;
+using PrototypeSubMod.MiscMonobehaviors.Emission;
 using PrototypeSubMod.Upgrades;
 using UnityEngine;
 

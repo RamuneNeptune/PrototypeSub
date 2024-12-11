@@ -1,4 +1,4 @@
-﻿using PrototypeSubMod.Monobehaviors;
+﻿using PrototypeSubMod.MiscMonobehaviors.SubSystems;
 using PrototypeSubMod.Upgrades;
 using System.Collections;
 using UnityEngine;

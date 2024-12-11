@@ -1,7 +1,7 @@
 ﻿using SubLibrary.CyclopsReferencers;
 using UnityEngine;
 
-namespace PrototypeSubMod.Monobehaviors;
+namespace PrototypeSubMod.MiscMonobehaviors.PrefabRetrievers;
 
 internal class FirePrefabSetter : MonoBehaviour, ICyclopsReferencer
 {

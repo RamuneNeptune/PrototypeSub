@@ -1,4 +1,4 @@
-﻿using PrototypeSubMod.Monobehaviors;
+﻿using PrototypeSubMod.MiscMonobehaviors.Materials;
 using UnityEngine;
 
 namespace PrototypeSubMod.DeployablesTerminal;

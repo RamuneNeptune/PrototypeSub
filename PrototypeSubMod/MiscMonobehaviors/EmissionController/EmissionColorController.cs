@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace PrototypeSubMod.Monobehaviors;
+namespace PrototypeSubMod.MiscMonobehaviors.Emission;
 
 internal class EmissionColorController : PrefabModifier
 {
@@ -21,7 +21,7 @@ internal class EmissionColorController : PrefabModifier
 
     private void Start()
     {
-        transitionTimeOut = (1 / transitionSpeed) * 8f;
+        transitionTimeOut = 1 / transitionSpeed * 8f;
         currentTransitionTime = transitionTimeOut;
 
         foreach (var rend in subRoot.GetComponentsInChildren<Renderer>(true))
