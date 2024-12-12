@@ -15,7 +15,12 @@ internal class SpawnPrefabAtRuntime : MonoBehaviour
     [SerializeField] private Vector3 localRot;
     [SerializeField] private Vector3 localScale = Vector3.one;
     
-    private IEnumerator Start()
+    private void Start()
+    {
+        CoroutineHost.StartCoroutine(SpawnPrefab());
+    }
+
+    private IEnumerator SpawnPrefab()
     {
         var task = PrefabDatabase.GetPrefabAsync(classID);
         yield return task;
