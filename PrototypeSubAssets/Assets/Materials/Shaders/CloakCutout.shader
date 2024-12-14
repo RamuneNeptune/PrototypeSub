@@ -286,7 +286,7 @@
                     targetCol = finalColor;
                 }
 
-                float hexAtten = dot(normalize(_SphereCenter - _HexCenter), offsetDir);
+                float hexAtten = dot(normalize(_HexCenter - _SphereCenter), offsetDir);
                 if (hitHex && hexAtten < 0 && !insideSphere)
                 {
                     return lerp(targetCol, originalCol, _ExteriorCutoutRatio);
