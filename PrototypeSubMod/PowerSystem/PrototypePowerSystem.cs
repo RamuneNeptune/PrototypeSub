@@ -33,7 +33,6 @@ public class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTree
 
     [SerializeField] private SubSerializationManager serializationManager;
     [SerializeField] private ChildObjectIdentifier storageRoot;
-    [SerializeField] private ChildObjectIdentifier powerSourceFunctionsRoot;
     [SerializeField] private PrototypePowerSource[] batterySources;
     [SerializeField] private FMODAsset equipBatterySound;
     [SerializeField] private FMODAsset unequipBatterySound;
