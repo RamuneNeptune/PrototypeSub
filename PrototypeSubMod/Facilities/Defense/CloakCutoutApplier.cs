@@ -43,13 +43,15 @@ internal class CloakCutoutApplier : MonoBehaviour
 
         material.SetFloat("_BoundaryOffset", defenseCloakManager.boundaryOffset);
         material.SetFloat("_DistortionAmplitude", defenseCloakManager.distortionAmplitude);
-        material.SetColor("_DistortionColor", defenseCloakManager.distortionColor);
         material.SetFloat("_VignetteIntensity", defenseCloakManager.vignetteIntensity);
         material.SetFloat("_VignetteSmoothness", defenseCloakManager.vignetteSmoothness);
         material.SetFloat("_VignetteOffset", defenseCloakManager.vignetteOffset);
         material.SetFloat("_VignetteFadeInDist", defenseCloakManager.vignetteFadeInDist);
+
+        material.SetColor("_DistortionColor", defenseCloakManager.distortionColor);
         material.SetColor("_InteriorColor", defenseCloakManager.interiorColor);
         material.SetColor("_VignetteColor", defenseCloakManager.vignetteColor);
+        material.SetColor("_OutsideInColor", defenseCloakManager.outsideInColor);
 
         material.SetFloat("_OscillationFrequency", defenseCloakManager.oscillationFrequency);
         material.SetFloat("_OscillationAmplitude", defenseCloakManager.oscillationAmplitude);

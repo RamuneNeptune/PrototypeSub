@@ -32,6 +32,7 @@
             uniform fixed4 _InteriorColor;
             uniform fixed4 _DistortionColor;
             uniform fixed4 _VignetteColor;
+            uniform fixed4 _OutsideInColor;
 
             uniform float _DistortionAmplitude;
             uniform float _Multiplier;
@@ -219,6 +220,8 @@
                 float effectStrength = 1 - dot(sphereNormal, -rayDir);
                 fixed4 targetCol = 1;
 
+                bool insideSphere = length(rayOrigin - _SphereCenter) <= _SphereRadius * _EffectBoundaryMax;
+
                 // Distortion effect boundary
                 if (effectStrength < _EffectBoundaryMax && effectStrength > _EffectBoundaryMin)
                 {
@@ -256,11 +259,11 @@
                 }
                 else
                 {
-                    //Vignette UV
+                    // Vignette UV
                     float2 screenUV = i.uv - fixed2(0.5, 0.5);
                     float dist = length(screenUV) + _VignetteOffset;
 
-                    //Dist to surface
+                    // Dist to surface
                     float normalizedDistToSurf = clamp(distToSphere, 0, _VignetteFadeInDist) / _VignetteFadeInDist;
 
                     //Vignette values
@@ -268,21 +271,22 @@
                     float fadeFactor = 1 - smoothstep(0, 1, normalizedDistToSurf);
                     float vignetteVal = lerp(1, vignette, _VignetteIntensity * fadeFactor);
 
-                    //Interior color
-                    fixed4 newCol = fixed4(_InteriorColor.rgb * (1 - effectStrength), _InteriorColor.a);                    
+                    fixed4 color = insideSphere ? _InteriorColor : _OutsideInColor;
+
+                    // Interior/Exterior-In color
+                    fixed4 newCol = fixed4(color.rgb * (1 - effectStrength), color.a);                    
                     fixed4 nonVignetteCol = fixed4((originalCol.rgb * newCol.rgb), originalCol.a);
 
-                    //Vignette color
+                    // Vignette color
                     fixed4 vignetteCol = fixed4(_VignetteColor.rgb, nonVignetteCol.a);
 
-                    //Vignette color lerp
+                    // Vignette color lerp
                     fixed4 finalColor = lerp(vignetteCol * nonVignetteCol, nonVignetteCol, vignetteVal);
 
                     targetCol = finalColor;
                 }
 
                 float hexAtten = dot(normalize(_SphereCenter - _HexCenter), offsetDir);
-                bool insideSphere = length(rayOrigin - _SphereCenter) <= _SphereRadius * _EffectBoundaryMax;
                 if (hitHex && hexAtten < 0 && !insideSphere)
                 {
                     return lerp(targetCol, originalCol, _ExteriorCutoutRatio);

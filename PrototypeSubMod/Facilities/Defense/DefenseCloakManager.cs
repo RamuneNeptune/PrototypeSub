@@ -18,6 +18,7 @@ internal class DefenseCloakManager : MonoBehaviour
     public Color interiorColor;
     public Color distortionColor;
     public Color vignetteColor;
+    public Color outsideInColor;
     [Range(0, 1)] public float exteriorCutoutRatio;
 
     [Header("Distortion")]
