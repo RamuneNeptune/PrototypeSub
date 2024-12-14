@@ -18,6 +18,9 @@ internal class ProtoEngineFacilityRoom
         {
             var biomeObject = gameObject.transform.Find("Precursor_LavaBase_ThermalRoom_instances/biomeArea");
             GameObject.Destroy(biomeObject.gameObject);
+
+            var occlusionManager = gameObject.transform.Find("CullVolumeManager");
+            GameObject.Destroy(occlusionManager.gameObject);
         };
 
         prefab.SetGameObject(cloneTemplate);
