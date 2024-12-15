@@ -684,6 +684,50 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 0.4779305}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &5020449032548276321
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2798505525367894276}
+  - component: {fileID: 2728902778173129382}
+  m_Layer: 0
+  m_Name: PlayerDistanceTracker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2798505525367894276
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5020449032548276321}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 12.8}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6851870246365677237}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2728902778173129382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5020449032548276321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 146425932, guid: 06dd3d5416bf43ea368cc39ff96e6d5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxDistance: 60
 --- !u!1 &5177445608139242261
 GameObject:
   m_ObjectHideFlags: 0
@@ -1092,8 +1136,8 @@ GameObject:
   - component: {fileID: 4813117616799156430}
   - component: {fileID: 7064008183995491807}
   - component: {fileID: 6938799003443382306}
-  - component: {fileID: 749349204999364027}
   - component: {fileID: 1263010821839949664}
+  - component: {fileID: 749349204999364027}
   m_Layer: 0
   m_Name: DefenseFacilityMoonpoolHatch
   m_TagString: Untagged
@@ -1115,6 +1159,7 @@ Transform:
   - {fileID: 7238113976066529647}
   - {fileID: 3496405596876379247}
   - {fileID: 6141988302645658856}
+  - {fileID: 2798505525367894276}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1174,20 +1219,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
---- !u!114 &749349204999364027
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6851870246365677226}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -922260419, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 8231370940859981378}
-  openSFX: {fileID: 1263010821839949664}
 --- !u!114 &1263010821839949664
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1208,6 +1239,23 @@ MonoBehaviour:
   debug: 0
   subtitlesKey: 
   playSubtitlesWithUnscaledTime: 1
+--- !u!114 &749349204999364027
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6851870246365677226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -922260419, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 8231370940859981378}
+  openSFX: {fileID: 1263010821839949664}
+  playerDistanceTracker: {fileID: 2728902778173129382}
+  checkIntermittance: 5
+  noEntryPlayerDistance: 50
 --- !u!1 &7068696026500969990
 GameObject:
   m_ObjectHideFlags: 0
@@ -1453,6 +1501,8 @@ MonoBehaviour:
   root: {fileID: 6851870246365677237}
   localOffset: {x: 0, y: 0, z: 25.7}
   halfExtents: {x: 45.805, y: 45.805, z: 27}
+  timesToRepeat: 3
+  interimDelay: 10
 --- !u!1 &8447461655754311870
 GameObject:
   m_ObjectHideFlags: 0

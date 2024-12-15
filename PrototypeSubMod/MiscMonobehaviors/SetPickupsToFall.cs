@@ -8,11 +8,23 @@ internal class SetPickupsToFall : MonoBehaviour
     [SerializeField] private Transform root;
     [SerializeField] private Vector3 localOffset;
     [SerializeField] private Vector3 halfExtents;
+    [SerializeField] private int timesToRepeat = 1;
+    [SerializeField] private float interimDelay = 0;
 
     private IEnumerator Start()
     {
         yield return new WaitUntil(LargeWorldStreamer.main.IsWorldSettled);
+        yield return new WaitForSeconds(1f);
 
+        for (int i = 0; i < timesToRepeat; i++)
+        {
+            SetObjectsToFall();
+            yield return new WaitForSeconds(interimDelay);
+        }    
+    }
+
+    private void SetObjectsToFall()
+    {
         int numItems = UWE.Utils.OverlapBoxIntoSharedBuffer(transform.position + localOffset, halfExtents, root.rotation);
         for (int i = 0; i < numItems; i++)
         {

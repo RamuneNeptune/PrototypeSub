@@ -218,6 +218,8 @@ namespace PrototypeSubMod
             {
                 PDALog.Add("OnEnterDefenseMoonpool");
             });
+
+            StoryGoalHandler.RegisterLocationGoal("OnEnterDefenseMoonpool", Story.GoalType.PDA, new Vector3(778, -433, -1049), 50, 0);
             #endregion
 
             #region Moonpool Open Disallowed
