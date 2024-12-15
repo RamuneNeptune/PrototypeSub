@@ -14,6 +14,7 @@ internal class ProtoEmergencyWarp : ProtoUpgrade
 
     [SerializeField] private Rigidbody subRigidbody;
     [SerializeField] private SubRoot subRoot;
+    [SerializeField] private VoiceNotification emergencyWarpNotification;
     [SerializeField] private PilotingChair pilotingChair;
     [SerializeField] private int requiredPower;
     [SerializeField] private float chargeTime;
@@ -43,6 +44,8 @@ internal class ProtoEmergencyWarp : ProtoUpgrade
         {
             throw new NotImplementedException("No power voiceline not yet implemented");
         }
+
+        subRoot.voiceNotificationManager.PlayVoiceNotification(emergencyWarpNotification);
 
         subRoot.powerRelay.ConsumeEnergy(999999, out _);
         currentChargeTime = 0;
