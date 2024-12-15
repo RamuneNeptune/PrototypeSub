@@ -18,14 +18,18 @@ internal class SetPickupsToFall : MonoBehaviour
         {
             Collider col = UWE.Utils.sharedColliderBuffer[i];
             var rb = col.GetComponentInParent<Rigidbody>();
-            var pickupable = col.GetComponentInParent<Pickupable>();
 
-            if (rb == null || pickupable == null) continue;
+            if (rb == null) continue;
 
             if (rb.GetComponentInParent<SubRoot>() != null) continue;
 
             UWE.Utils.SetIsKinematicAndUpdateInterpolation(rb, false);
-            pickupable.isKinematic = PickupableKinematicState.NonKinematic;
+
+            var pickupable = col.GetComponentInParent<Pickupable>();
+            if (pickupable != null)
+            {
+                pickupable.isKinematic = PickupableKinematicState.NonKinematic;
+            }
         }
     }
 
