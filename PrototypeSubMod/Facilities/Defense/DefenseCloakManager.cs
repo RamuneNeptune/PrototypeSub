@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Story;
+using UnityEngine;
 
 namespace PrototypeSubMod.Facilities.Defense;
 
@@ -72,6 +73,7 @@ internal class DefenseCloakManager : MonoBehaviour
         if (Plugin.GlobalSaveData.defenseCloakDisabled) return;
 
         deactivated = true;
+        StoryGoalManager.main.OnGoalComplete("OnDefenseCloakDisabled");
     }
 
     private void Update()

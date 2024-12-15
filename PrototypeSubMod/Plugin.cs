@@ -80,6 +80,7 @@ namespace PrototypeSubMod
             RegisterStoryGoals();
             RegisterBiomes();
             RegisterCommands();
+            RegisterPDAMessages();
             InitializeSlotMapping();
 
             LoadEasyPrefabs.LoadPrefabs(AssetBundle);
@@ -193,7 +194,6 @@ namespace PrototypeSubMod
             #endregion
 
             #region Interceptor Unlock
-
             StoryGoalHandler.RegisterCustomEvent("OnInterceptorTestDataDownloaded", () =>
             {
                 PDALog.Add("OnInterceptorTestDataDownloaded");
@@ -204,7 +204,27 @@ namespace PrototypeSubMod
             {
                 PDAEncyclopedia.Add("InterceptorTestEncy", true);
             });
+            #endregion
 
+            #region Disable Defense Cloak
+            StoryGoalHandler.RegisterCustomEvent("OnDefenseCloakDisabled", () =>
+            {
+                PDALog.Add("OnDefenseCloakDisabled");
+            });
+            #endregion
+
+            #region Moonpool Enter
+            StoryGoalHandler.RegisterCustomEvent("OnEnterDefenseMoonpool", () =>
+            {
+                PDALog.Add("OnEnterDefenseMoonpool");
+            });
+            #endregion
+
+            #region Moonpool Open Disallowed
+            StoryGoalHandler.RegisterCustomEvent("OnMoonpoolNoPrototype", () =>
+            {
+                PDALog.Add("OnMoonpoolNoPrototype");
+            });
             #endregion
         }
 
