@@ -10,6 +10,7 @@ using Nautilus.Utility;
 using Newtonsoft.Json;
 using PrototypeSubMod.Compatibility;
 using PrototypeSubMod.MiscMonobehaviors.Materials;
+using PrototypeSubMod.Patches;
 using PrototypeSubMod.PowerSystem;
 using PrototypeSubMod.Prefabs;
 using PrototypeSubMod.Prefabs.FacilityProps;
@@ -260,6 +261,11 @@ namespace PrototypeSubMod
             ConsoleCommandsHandler.AddGotoTeleportPosition("interceptorfacility", new Vector3(547, -709, 955));
             ConsoleCommandsHandler.AddGotoTeleportPosition("defensefacility", new Vector3(689, -483, -1404f));
             ConsoleCommandsHandler.AddGotoTeleportPosition("enginefacility", new Vector3(306, -1156, 131f));
+        }
+
+        private void RegisterPDAMessages()
+        {
+            PDALog_Patches.entries.Add(("PDA_InterceptorUnlock", "OnInterceptorTestDataDownloaded"));
         }
 
         private Structure LoadStructureFromBundle(string name)

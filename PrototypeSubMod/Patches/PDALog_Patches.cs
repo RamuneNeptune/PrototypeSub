@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using Nautilus.Utility;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -8,6 +9,8 @@ namespace PrototypeSubMod.Patches;
 [HarmonyPatch(typeof(PDALog))]
 internal class PDALog_Patches
 {
+    public static List<(string assetName, string key)> entries = new();
+
     private static Sprite pdaSprite;
 
     [HarmonyPatch(nameof(PDALog.Initialize)), HarmonyPostfix]
@@ -20,18 +23,21 @@ internal class PDALog_Patches
 
     private static void AddEntries()
     {
-        var fmodAsset = AudioUtils.GetFmodAsset("PDA_InterceptorUnlock");
-        fmodAsset.id = fmodAsset.path;
-
-        PDALog.EntryData interceptorTestEncy = new()
+        foreach (var item in entries)
         {
-            key = "OnInterceptorTestDataDownloaded",
-            type = PDALog.EntryType.Default,
-            icon = pdaSprite,
-            sound = fmodAsset,
-            doNotAutoPlay = false
-        };
+            var fmodAsset = AudioUtils.GetFmodAsset(item.assetName);
+            fmodAsset.id = fmodAsset.path;
 
-        PDALog.mapping.Add("OnInterceptorTestDataDownloaded", interceptorTestEncy);
+            PDALog.EntryData interceptorTestEncy = new()
+            {
+                key = item.key,
+                type = PDALog.EntryType.Default,
+                icon = pdaSprite,
+                sound = fmodAsset,
+                doNotAutoPlay = false
+            };
+
+            PDALog.mapping.Add(item.key, interceptorTestEncy);
+        }
     }
 }
