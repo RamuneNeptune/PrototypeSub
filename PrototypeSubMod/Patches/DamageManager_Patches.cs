@@ -7,7 +7,7 @@ using System.Reflection.Emit;
 namespace PrototypeSubMod.Patches;
 
 [HarmonyPatch(typeof(CyclopsExternalDamageManager))]
-internal class DamageManagerPatches
+internal class DamageManager_Patches
 {
     [HarmonyPatch(nameof(CyclopsExternalDamageManager.CreatePoint)), HarmonyTranspiler]
     private static IEnumerable<CodeInstruction> CreatePoint_Postfix(IEnumerable<CodeInstruction> instructions)

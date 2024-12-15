@@ -10,7 +10,7 @@ using UnityEngine;
 namespace PrototypeSubMod.Patches;
 
 [HarmonyPatch(typeof(MaterialUtils))]
-internal class MaterialUtilsPatches
+internal class MaterialUtils_Patches
 {
     [HarmonyPatch(nameof(MaterialUtils.ApplyUBERShader)), HarmonyPrefix]
     private static void ApplyUBERShader_Prefix(Material material, ref (bool, float) __state)

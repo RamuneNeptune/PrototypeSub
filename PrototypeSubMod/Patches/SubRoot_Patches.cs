@@ -4,7 +4,7 @@ using PrototypeSubMod.MotorHandler;
 namespace PrototypeSubMod.Patches;
 
 [HarmonyPatch(typeof(SubRoot))]
-internal class SubRootPatches
+internal class SubRoot_Patches
 {
     [HarmonyPatch(nameof(SubRoot.UpdatePowerRating)), HarmonyPostfix]
     private static void UpdatePowerRating_Postfix(SubRoot __instance)

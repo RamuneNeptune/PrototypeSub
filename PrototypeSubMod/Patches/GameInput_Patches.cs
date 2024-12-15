@@ -4,7 +4,7 @@ using UnityEngine;
 namespace PrototypeSubMod.Patches;
 
 [HarmonyPatch(typeof(GameInput))]
-internal class GameInputPatches
+internal class GameInput_Patches
 {
     [HarmonyPatch(nameof(GameInput.GetLookDelta)), HarmonyPostfix]
     private static void GetLookDelta_Postfix(ref Vector2 __result)

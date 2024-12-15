@@ -8,7 +8,7 @@ using System.Reflection.Emit;
 namespace PrototypeSubMod.Patches;
 
 [HarmonyPatch(typeof(Equipment))]
-internal class EquipmentPatches
+internal class Equipment_Patches
 {
     [HarmonyPatch(nameof(Equipment.AllowedToAdd)), HarmonyPostfix]
     private static void AllowedToAdd_Postfix(Equipment __instance, Pickupable pickupable, ref bool __result)
@@ -30,7 +30,7 @@ internal class EquipmentPatches
             .Advance(1)
             .InsertAndAdvance(new CodeInstruction(OpCodes.Ldarg_1))
             .InsertAndAdvance(new CodeInstruction(OpCodes.Ldarg_0))
-            .Insert(Transpilers.EmitDelegate(InventoryPatches.GetModifiedEquipmentType));
+            .Insert(Transpilers.EmitDelegate(Inventory_Patches.GetModifiedEquipmentType));
 
         return matcher.InstructionEnumeration();
     }
@@ -45,7 +45,7 @@ internal class EquipmentPatches
             .Advance(1)
             .InsertAndAdvance(new CodeInstruction(OpCodes.Ldarg_1))
             .InsertAndAdvance(new CodeInstruction(OpCodes.Ldarg_0))
-            .Insert(Transpilers.EmitDelegate(InventoryPatches.GetModifiedEquipmentType));
+            .Insert(Transpilers.EmitDelegate(Inventory_Patches.GetModifiedEquipmentType));
 
         return matcher.InstructionEnumeration();
     }

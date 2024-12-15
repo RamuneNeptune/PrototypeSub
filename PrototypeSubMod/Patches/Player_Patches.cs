@@ -9,7 +9,7 @@ using UnityEngine;
 namespace PrototypeSubMod.Patches;
 
 [HarmonyPatch(typeof(Player))]
-internal class PlayerPatches
+internal class Player_Patches
 {
     public static Vector3[] lastPlayerPositions = new Vector3[5];
     private static int playerPosIndex;

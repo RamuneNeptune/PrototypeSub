@@ -6,7 +6,7 @@ using System.Reflection.Emit;
 namespace PrototypeSubMod.Patches;
 
 [HarmonyPatch(typeof(uGUI_ItemsContainer))]
-internal class uGUI_ItemsContainerPatches
+internal class uGUI_ItemsContainer_Patches
 {
     [HarmonyPatch(nameof(uGUI_ItemsContainer.SelectItem)), HarmonyTranspiler]
     private static IEnumerable<CodeInstruction> SelectItem_Transpiler(IEnumerable<CodeInstruction> instructions)
@@ -21,7 +21,7 @@ internal class uGUI_ItemsContainerPatches
             .InsertAndAdvance(new CodeInstruction(OpCodes.Ldloc_1))
             .InsertAndAdvance(new CodeInstruction(OpCodes.Ldfld, containerInfo))
             .InsertAndAdvance(new CodeInstruction(OpCodes.Ldloc_1))
-            .Insert(Transpilers.EmitDelegate(InventoryPatches.GetModifiedEquipmentTypeItemsContainer));
+            .Insert(Transpilers.EmitDelegate(Inventory_Patches.GetModifiedEquipmentTypeItemsContainer));
 
         return matcher.InstructionEnumeration();
     }

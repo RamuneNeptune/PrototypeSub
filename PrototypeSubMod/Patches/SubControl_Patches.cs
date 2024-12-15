@@ -4,7 +4,7 @@ using PrototypeSubMod.MotorHandler;
 namespace PrototypeSubMod.Patches;
 
 [HarmonyPatch(typeof(SubControl))]
-internal class SubControlPatches
+internal class SubControl_Patches
 {
     [HarmonyPatch(nameof(SubControl.FixedUpdate)), HarmonyPrefix]
     private static bool FixedUpdate_Prefix(SubControl __instance)

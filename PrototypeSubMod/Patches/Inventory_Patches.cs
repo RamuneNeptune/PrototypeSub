@@ -9,7 +9,7 @@ using System.Reflection.Emit;
 namespace PrototypeSubMod.Patches;
 
 [HarmonyPatch(typeof(Inventory))]
-internal class InventoryPatches
+internal class Inventory_Patches
 {
     [HarmonyPatch(nameof(Inventory.AddOrSwap)), HarmonyTranspiler]
     [HarmonyPatch(new Type[] { typeof(InventoryItem), typeof(Equipment), typeof(string) })]

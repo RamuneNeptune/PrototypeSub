@@ -11,7 +11,7 @@ using UnityEngine.UI;
 namespace PrototypeSubMod.Patches;
 
 [HarmonyPatch(typeof(uGUI_Equipment))]
-internal class uGUI_EquipmentPatches
+internal class uGUI_Equipment_Patches
 {
     private static DraggedItem LastDraggedItem;
 
@@ -86,7 +86,7 @@ internal class uGUI_EquipmentPatches
             .InsertAndAdvance(new CodeInstruction(OpCodes.Ldfld, containerInfo))
             .InsertAndAdvance(new CodeInstruction(OpCodes.Ldarg_1))
             .InsertAndAdvance(new CodeInstruction(OpCodes.Ldfld, inventoryItemInfo))
-            .Insert(Transpilers.EmitDelegate(InventoryPatches.GetModifiedEquipmentTypeItemsContainer));
+            .Insert(Transpilers.EmitDelegate(Inventory_Patches.GetModifiedEquipmentTypeItemsContainer));
 
         return matcher.InstructionEnumeration();
     }
@@ -105,7 +105,7 @@ internal class uGUI_EquipmentPatches
             .InsertAndAdvance(new CodeInstruction(OpCodes.Ldloc_0))
             .InsertAndAdvance(new CodeInstruction(OpCodes.Ldfld, containerInfo))
             .InsertAndAdvance(new CodeInstruction(OpCodes.Ldloc_0))
-            .Insert(Transpilers.EmitDelegate(InventoryPatches.GetModifiedEquipmentTypeItemsContainer));
+            .Insert(Transpilers.EmitDelegate(Inventory_Patches.GetModifiedEquipmentTypeItemsContainer));
 
         return matcher.InstructionEnumeration();
     }

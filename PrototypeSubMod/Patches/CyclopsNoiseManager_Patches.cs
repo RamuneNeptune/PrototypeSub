@@ -8,7 +8,7 @@ using UnityEngine;
 namespace PrototypeSubMod.Patches;
 
 [HarmonyPatch(typeof(CyclopsNoiseManager))]
-internal class CyclopsNoiseManagerPatches
+internal class CyclopsNoiseManager_Patches
 {
     [HarmonyPatch(nameof(CyclopsNoiseManager.RecalculateNoiseValues)), HarmonyTranspiler]
     private static IEnumerable<CodeInstruction> RecalculateNoiseValues_Transpiler(IEnumerable<CodeInstruction> instructions)

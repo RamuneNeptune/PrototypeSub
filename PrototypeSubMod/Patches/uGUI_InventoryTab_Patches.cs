@@ -6,7 +6,7 @@ using System.Reflection.Emit;
 namespace PrototypeSubMod.Patches;
 
 [HarmonyPatch(typeof(uGUI_InventoryTab))]
-internal class uGUI_InventoryTabPatches
+internal class uGUI_InventoryTab_Patches
 {
     [HarmonyPatch(nameof(uGUI_InventoryTab.OnPointerEnter)), HarmonyTranspiler]
     private static IEnumerable<CodeInstruction> OnPointerEnter_Transpiler(IEnumerable<CodeInstruction> instructions)
@@ -21,7 +21,7 @@ internal class uGUI_InventoryTabPatches
             .InsertAndAdvance(new CodeInstruction(OpCodes.Ldarg_1))
             .InsertAndAdvance(new CodeInstruction(OpCodes.Ldfld, containerInfo))
             .InsertAndAdvance(new CodeInstruction(OpCodes.Ldarg_1))
-            .Insert(Transpilers.EmitDelegate(InventoryPatches.GetModifiedEquipmentTypeItemsContainer));
+            .Insert(Transpilers.EmitDelegate(Inventory_Patches.GetModifiedEquipmentTypeItemsContainer));
 
         return matcher.InstructionEnumeration();
     }

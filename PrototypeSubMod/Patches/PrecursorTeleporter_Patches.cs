@@ -7,7 +7,7 @@ using System.Reflection.Emit;
 namespace PrototypeSubMod.Patches;
 
 [HarmonyPatch(typeof(PrecursorTeleporter))]
-internal class PrecursorTeleporterPatches
+internal class PrecursorTeleporter_Patches
 {
     private static string lastTeleporterID;
     private static bool lastTeleporterWasProtoSub;

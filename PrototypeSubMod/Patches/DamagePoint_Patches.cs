@@ -6,7 +6,7 @@ using UnityEngine;
 namespace PrototypeSubMod.Patches;
 
 [HarmonyPatch(typeof(CyclopsDamagePoint))]
-internal class DamagePointPatches
+internal class DamagePoint_Patches
 {
     [HarmonyPatch(nameof(CyclopsDamagePoint.SpawnFx)), HarmonyTranspiler]
     private static IEnumerable<CodeInstruction> SpawnFX_Transpiler(IEnumerable<CodeInstruction> instructions)

@@ -4,7 +4,7 @@ using PrototypeSubMod.Teleporter;
 namespace PrototypeSubMod.Patches;
 
 [HarmonyPatch(typeof(PrecursorTeleporterActivationTerminal))]
-internal class PrecursorTeleporterActivationTerminalPatches
+internal class PrecursorTeleporterActivationTerminal_Patches
 {
     [HarmonyPatch(nameof(PrecursorTeleporterActivationTerminal.OnProxyHandClick)), HarmonyPostfix]
     private static void OnProxyHandClick_Postfix(PrecursorTeleporterActivationTerminal __instance)

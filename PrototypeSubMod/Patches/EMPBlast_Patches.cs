@@ -5,7 +5,7 @@ using UnityEngine;
 namespace PrototypeSubMod.Patches;
 
 [HarmonyPatch(typeof(EMPBlast))]
-internal class EMPBlastPatches
+internal class EMPBlast_Patches
 {
     [HarmonyPatch(nameof(EMPBlast.OnTouch)), HarmonyPostfix]
     private static void OnTouch_Postfix(EMPBlast __instance, Collider collider)
