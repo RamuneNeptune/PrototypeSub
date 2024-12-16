@@ -57,6 +57,7 @@
             uniform float4x4 _HexRotationMatrix;
             uniform fixed _EnabledAmount = 1;
             uniform float _ExteriorCutoutRatio;
+            uniform fixed _FadeInAmount;
 
             struct appdata
             {
@@ -289,14 +290,14 @@
                 float hexAtten = dot(normalize(_HexCenter - _SphereCenter), offsetDir);
                 if (hitHex && hexAtten < 0 && !insideSphere)
                 {
-                    return lerp(targetCol, originalCol, _ExteriorCutoutRatio);
+                    targetCol = lerp(targetCol, originalCol, _ExteriorCutoutRatio);
                 }
                 else if (hitHex && insideSphere)
                 {
-                    return originalCol;
+                    targetCol = originalCol;
                 }
 
-                return targetCol;
+                return lerp(originalCol, targetCol, _FadeInAmount);
             }
             ENDCG
         }

@@ -66311,6 +66311,31 @@ MonoBehaviour:
   shader: {fileID: 4800000, guid: cfb2bf31f8a8c0b4c828851c3cddc6b1, type: 3}
   sphere: {fileID: 8959639664065291025}
   hexPrism: {fileID: 8770888918353102466}
+  fadeInTime: 5
+  opacityOverFadeIn:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   interiorColor: {r: 0.3490566, g: 0.3490566, b: 0.3490566, a: 1}
   distortionColor: {r: 1, g: 1, b: 1, a: 1}
   vignetteColor: {r: 0.3113208, g: 0.3113208, b: 0.3113208, a: 1}

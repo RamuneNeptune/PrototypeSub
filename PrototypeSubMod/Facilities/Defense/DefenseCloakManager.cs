@@ -15,6 +15,10 @@ internal class DefenseCloakManager : MonoBehaviour
     public Transform sphere;
     public Transform hexPrism;
 
+    [Header("Fade In")]
+    [SerializeField] private float fadeInTime;
+    [SerializeField] private AnimationCurve opacityOverFadeIn;
+
     [Header("Colors")]
     public Color interiorColor;
     public Color distortionColor;
@@ -51,6 +55,7 @@ internal class DefenseCloakManager : MonoBehaviour
     private bool deactivated;
     private float currentScaleTime;
     private float originalScale;
+    private float currentFadeInTime;
 
     private void OnValidate()
     {
@@ -78,6 +83,11 @@ internal class DefenseCloakManager : MonoBehaviour
 
     private void Update()
     {
+        if (currentFadeInTime < fadeInTime && !deactivated)
+        {
+            currentFadeInTime += Time.deltaTime;
+        }
+
         if (!deactivated || currentScaleTime > scaleTime) return;
 
         if (currentScaleTime < scaleTime)
@@ -113,5 +123,10 @@ internal class DefenseCloakManager : MonoBehaviour
         {
             deactivationTerminal.onTerminalInteracted -= DeactivateCloak;
         }
+    }
+
+    public float GetFadeInOpacity()
+    {
+        return opacityOverFadeIn.Evaluate(currentFadeInTime / fadeInTime);
     }
 }

@@ -32,6 +32,7 @@ internal class CloakCutoutApplier : MonoBehaviour
         material.SetVector("_HexCenter", defenseCloakManager.hexPrism.position);
         material.SetFloat("_HexRadius", defenseCloakManager.hexPrism.lossyScale.x);
         material.SetFloat("_HexHeight", defenseCloakManager.hexPrism.lossyScale.y);
+        material.SetFloat("_FadeInAmount", defenseCloakManager.GetFadeInOpacity());
 
         Graphics.Blit(source, destination, material);
     }
