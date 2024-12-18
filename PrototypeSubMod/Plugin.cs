@@ -276,7 +276,7 @@ namespace PrototypeSubMod
             CoordinatedSpawnsHandler.RegisterCoordinatedSpawn(spawnInfo);
 
             BiomeHandler.AddBiomeMusic("protodefensefacility", AudioUtils.GetFmodAsset("DefenseFacilityExterior"));
-
+            
             #region Tunnel Biomes
             var tunnelSettings = BiomeUtils.CreateBiomeSettings(new Vector3(20, 20, 20), 1f, Color.white, 0.12f, Color.white, 0, startDistance: 20);
 
