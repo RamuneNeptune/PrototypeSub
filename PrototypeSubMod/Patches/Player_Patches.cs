@@ -11,9 +11,6 @@ namespace PrototypeSubMod.Patches;
 [HarmonyPatch(typeof(Player))]
 internal class Player_Patches
 {
-    public static Vector3[] lastPlayerPositions = new Vector3[5];
-    private static int playerPosIndex;
-
     [HarmonyPatch(nameof(Player.Start)), HarmonyPostfix]
     private static void Start_Postfix()
     {
@@ -21,13 +18,6 @@ internal class Player_Patches
         Camera.main.gameObject.AddComponent<ProtoScreenTeleporterFXManager>();
         Camera.main.gameObject.AddComponent<CloakCutoutApplier>();
     }
-    /*
-    [HarmonyPatch(nameof(Player.FixedUpdate)), HarmonyPostfix]
-    private static void FixedUpdate_Postfix(Player __instance)
-    {
-        lastPlayerPositions[playerPosIndex] = __instance.transform.position;
-        playerPosIndex = (playerPosIndex + 1) % lastPlayerPositions.Length;
-    }*/
 
     [HarmonyPatch(nameof(Player.CanEject)), HarmonyPostfix]
     private static void CanEject_Postfix(Player __instance, ref bool __result)
