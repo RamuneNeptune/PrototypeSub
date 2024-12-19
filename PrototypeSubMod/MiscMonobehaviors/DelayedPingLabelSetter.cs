@@ -12,6 +12,7 @@ internal class DelayedPingLabelSetter : MonoBehaviour
         if (TryGetComponent(out SignalPing ping))
         {
             ping.pos = transform.position;
+            ping.descriptionKey = translationKey;
         }
     }
 

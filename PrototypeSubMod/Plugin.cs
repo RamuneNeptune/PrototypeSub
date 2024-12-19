@@ -159,7 +159,7 @@ namespace PrototypeSubMod
             new CustomPoster("HamCheesePoster2", null, null, AssetBundle.LoadAsset<Texture2D>("RegularPoster2"), regular2Ico, TechType.PosterExoSuit1);
             
             var enginePing = FacilityPing.CreatePing("ProtoEngineFacilityPing", EngineFacilityPingType);
-            CoordinatedSpawnsHandler.RegisterCoordinatedSpawn(new SpawnInfo(enginePing.TechType, new Vector3(305, -1160, 112)));
+            CoordinatedSpawnsHandler.RegisterCoordinatedSpawn(new SpawnInfo(enginePing.TechType, new Vector3(307, -1155, 110)));
         }
 
         private void RegisterEncyEntries()
