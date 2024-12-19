@@ -57,6 +57,8 @@ namespace PrototypeSubMod
         public static TechCategory ProtoModuleCategory { get; } = EnumHandler.AddEntry<TechCategory>("ProtoModules").RegisterToTechGroup(PrototypeGroup)
             .WithPdaInfo(null);
 
+        public static PingType EngineFacilityPingType = EnumHandler.AddEntry<PingType>("EngineFacility").WithIcon(AssetBundle.LoadAsset<Sprite>("ReactorFacilityLogo"));
+
         internal static ProtoGlobalSaveData GlobalSaveData = SaveDataHandler.RegisterSaveDataCache<ProtoGlobalSaveData>();
         internal static GameObject welderPrefab;
 
@@ -155,6 +157,8 @@ namespace PrototypeSubMod
             new CustomPoster("HamCheesePoster1", null, null, AssetBundle.LoadAsset<Texture2D>("HamAndCheesePoster1_Small"), regular1Ico);
             Texture2D regular2Ico = AssetBundle.LoadAsset<Texture2D>("RegularIcon2");
             new CustomPoster("HamCheesePoster2", null, null, AssetBundle.LoadAsset<Texture2D>("RegularPoster2"), regular2Ico, TechType.PosterExoSuit1);
+            
+            FacilityPing.CreatePing("ProtoEngineFacilityPing", EngineFacilityPingType, new Vector3(305, -1160, 112));
         }
 
         private void RegisterEncyEntries()
