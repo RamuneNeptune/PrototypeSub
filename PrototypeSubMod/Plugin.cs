@@ -22,6 +22,7 @@ using System.Collections;
 using System.IO;
 using System.Reflection;
 using UnityEngine;
+using static GameObjectPoolPrefabMap;
 
 namespace PrototypeSubMod
 {
@@ -158,7 +159,8 @@ namespace PrototypeSubMod
             Texture2D regular2Ico = AssetBundle.LoadAsset<Texture2D>("RegularIcon2");
             new CustomPoster("HamCheesePoster2", null, null, AssetBundle.LoadAsset<Texture2D>("RegularPoster2"), regular2Ico, TechType.PosterExoSuit1);
             
-            FacilityPing.CreatePing("ProtoEngineFacilityPing", EngineFacilityPingType, new Vector3(305, -1160, 112));
+            var enginePing = FacilityPing.CreatePing("ProtoEngineFacilityPing", EngineFacilityPingType);
+            CoordinatedSpawnsHandler.RegisterCoordinatedSpawn(new SpawnInfo(enginePing.TechType, new Vector3(305, -1160, 112)));
         }
 
         private void RegisterEncyEntries()

@@ -1,26 +1,28 @@
 ﻿using Nautilus.Assets;
-using Nautilus.Handlers;
+using Nautilus.Utility;
 using UnityEngine;
 
 namespace PrototypeSubMod.Prefabs.FacilityProps;
 
 internal class FacilityPing
 {
-    public static void CreatePing(string techType, PingType pingType, Vector3 spawnPos)
+    public static PrefabInfo CreatePing(string techType, PingType pingType)
     {
         var prefabInfo = PrefabInfo.WithTechType(techType);
 
         var prefab = new CustomPrefab(prefabInfo);
-        prefab.SetGameObject(GetGameObject(techType));
+        prefab.SetGameObject(GetGameObject(techType, prefabInfo));
         prefab.Register();
 
-        CoordinatedSpawnsHandler.RegisterCoordinatedSpawn(new SpawnInfo(prefabInfo.TechType, spawnPos));
+        return prefabInfo;
     }
 
-    private static GameObject GetGameObject(string name)
+    private static GameObject GetGameObject(string name, PrefabInfo info)
     {
-        var empty = new GameObject();
+        var empty = Plugin.AssetBundle.LoadAsset<GameObject>("Empty");
         empty.name = name;
+
+        PrefabUtils.AddBasicComponents(empty, info.ClassID, info.TechType, LargeWorldEntity.CellLevel.Global);
 
         var pingInstance = empty.EnsureComponent<PingInstance>();
         pingInstance.pingType = Plugin.EngineFacilityPingType;
@@ -30,6 +32,7 @@ internal class FacilityPing
         pingInstance.visitable = true;
         pingInstance.visitDistance = 25;
         pingInstance.visitDuration = 5f;
+        pingInstance.SetLabel(info.TechType.ToString());
         pingInstance.SetColor(3);
 
         return empty;
