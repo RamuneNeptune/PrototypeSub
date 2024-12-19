@@ -29,16 +29,26 @@ internal class FacilityPing
         pingInstance.pingType = Plugin.EngineFacilityPingType;
         pingInstance.origin = empty.transform;
         pingInstance.displayPingInManager = false;
-        pingInstance.range = 25;
+        pingInstance.minDist = 25;
+        pingInstance.range = 10;
         pingInstance.visitable = true;
-        pingInstance.visitDistance = 25;
-        pingInstance.visitDuration = 5f;
+        pingInstance.visitDistance = 100;
+        pingInstance.visitDuration = 2f;
         pingInstance.SetColor(3);
 
         var pingSetter = empty.AddComponent<DelayedPingLabelSetter>();
 
         pingSetter.translationKey = info.TechType.ToString();
         pingSetter.pingInstance = pingInstance;
+
+        var signalPing = empty.AddComponent<SignalPing>();
+        signalPing.pingInstance = pingInstance;
+        signalPing.disableOnEnter = true;
+        signalPing.descriptionKey = info.TechType.ToString();
+
+        var col = empty.AddComponent<SphereCollider>();
+        col.radius = 10;
+        col.isTrigger = true;
 
         return empty;
     }
