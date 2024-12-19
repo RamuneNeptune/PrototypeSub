@@ -185,7 +185,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderersToApply:
   - {fileID: 515260861452226625}
-  startIntensity: 0
+  startIntensity: 1
   enabledSize: 0
   mainColor: {r: 0.054901965, g: 0.52156866, b: 0.16078432, a: 0.3529412}
   solidColor: {r: 0.078431375, g: 0.5529412, b: 0.37647063, a: 0.09803922}
@@ -2429,7 +2429,7 @@ Transform:
   m_GameObject: {fileID: 515260862691236446}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 95, y: 95, z: 95}
   m_Children:
   - {fileID: 515260861469582288}
   - {fileID: 515260861928053886}
@@ -2514,6 +2514,7 @@ GameObject:
   - component: {fileID: 515260862742977240}
   - component: {fileID: 515260862742977243}
   - component: {fileID: 515260862742977241}
+  - component: {fileID: 7320703494433889930}
   m_Layer: 0
   m_Name: ProtoShieldProp
   m_TagString: Untagged
@@ -2576,6 +2577,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cellLevel: 0
+--- !u!114 &7320703494433889930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 515260862742977245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 180063717, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &515260862755590122
 GameObject:
   m_ObjectHideFlags: 0
