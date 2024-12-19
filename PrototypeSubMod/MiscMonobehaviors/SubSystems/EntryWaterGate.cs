@@ -7,6 +7,7 @@ namespace PrototypeSubMod.MiscMonobehaviors.SubSystems;
 internal class EntryWaterGate : MonoBehaviour
 {
     [SerializeField] private SubRoot subRoot;
+    [SerializeField] private bool setInSub;
 
     private void OnTriggerEnter(Collider col)
     {
@@ -14,6 +15,9 @@ internal class EntryWaterGate : MonoBehaviour
 
         if (!player || player.currChair != null) return;
 
+        player.SetCurrentSub(setInSub ? subRoot : null, true);
+
+        /*
         int positionsBehindGate = 0;
         int positionsInFrontOfGate = 0;
 
@@ -52,5 +56,6 @@ internal class EntryWaterGate : MonoBehaviour
         {
             player.SetCurrentSub(subRoot, true);
         }
+        */
     }
 }

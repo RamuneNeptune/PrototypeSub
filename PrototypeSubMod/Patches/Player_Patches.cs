@@ -21,13 +21,13 @@ internal class Player_Patches
         Camera.main.gameObject.AddComponent<ProtoScreenTeleporterFXManager>();
         Camera.main.gameObject.AddComponent<CloakCutoutApplier>();
     }
-
+    /*
     [HarmonyPatch(nameof(Player.FixedUpdate)), HarmonyPostfix]
     private static void FixedUpdate_Postfix(Player __instance)
     {
         lastPlayerPositions[playerPosIndex] = __instance.transform.position;
         playerPosIndex = (playerPosIndex + 1) % lastPlayerPositions.Length;
-    }
+    }*/
 
     [HarmonyPatch(nameof(Player.CanEject)), HarmonyPostfix]
     private static void CanEject_Postfix(Player __instance, ref bool __result)
