@@ -39,7 +39,7 @@ internal class ProtoDoorTransmitter : MonoBehaviour
     {
         if (doorManager != null) return;
 
-        var colliders = Physics.OverlapSphere(MoonpoolPos, 5);
+        var colliders = Physics.OverlapSphere(MoonpoolPos, 20);
         foreach (var collider in colliders)
         {
             var manager = collider.GetComponentInParent<MoonpoolDoorManager>();
