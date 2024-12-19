@@ -9,17 +9,17 @@ internal class GenericPlayerTrigger : MonoBehaviour
     [SerializeField] private UnityEvent onTriggerEnter;
     [SerializeField] private UnityEvent onTriggerExit;
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider col)
     {
-        if (other != Player.mainCollider) return;
+        if (!col.gameObject.Equals(Player.main.gameObject)) return;
 
-        onTriggerEnter?.Invoke();
+        onTriggerEnter.Invoke();
     }
 
-    private void OnTriggerExit(Collider other)
+    private void OnTriggerExit(Collider col)
     {
-        if (other != Player.mainCollider) return;
+        if (!col.gameObject.Equals(Player.main.gameObject)) return;
 
-        onTriggerExit?.Invoke();
+        onTriggerExit.Invoke();
     }
 }
