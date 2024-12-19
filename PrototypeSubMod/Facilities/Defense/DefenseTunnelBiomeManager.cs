@@ -11,7 +11,9 @@ internal class DefenseTunnelBiomeManager : MonoBehaviour
     {
         for (int i = 0; i < atmosphereVolumes.Length; i++)
         {
-            atmosphereVolumes[i].overrideBiome = $"{baseBiomeName}{i + 1}";
+            var volum = atmosphereVolumes[i];
+            volum.overrideBiome = $"{baseBiomeName}{i + 1}";
+            volum.settings.overrideBiome = volum.overrideBiome;
         }
     }
 
@@ -19,7 +21,9 @@ internal class DefenseTunnelBiomeManager : MonoBehaviour
     {
         for (int i = 0; i < atmosphereVolumes.Length; i++)
         {
-            atmosphereVolumes[atmosphereVolumes.Length - 1 - i].overrideBiome = $"{baseBiomeName}{i + 1}";
+            var volum = atmosphereVolumes[atmosphereVolumes.Length - 1 - i];
+            volum.overrideBiome = $"{baseBiomeName}{i + 1}";
+            volum.settings.overrideBiome = volum.overrideBiome;
         }
     }
 }
