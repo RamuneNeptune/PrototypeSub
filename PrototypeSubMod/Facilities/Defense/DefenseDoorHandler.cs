@@ -9,12 +9,17 @@ internal class DefenseDoorHandler : MonoBehaviour
     [SerializeField] private Transform openSFXPos;
     [SerializeField] private Animator animator;
 
+    private bool hasOpened;
+
     public void OpenDoor()
     {
+        if (hasOpened) return;
+
         FMODUWE.PlayOneShot(doorOpenSFX, openSFXPos.position);
         animator.SetTrigger("OpenDoor");
 
         Invoke(nameof(PlaySwoosh), 4.5f);
+        hasOpened = true;
     }
 
     private void PlaySwoosh()
