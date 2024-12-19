@@ -1,5 +1,6 @@
 ﻿using Nautilus.Assets;
 using Nautilus.Utility;
+using PrototypeSubMod.MiscMonobehaviors;
 using UnityEngine;
 
 namespace PrototypeSubMod.Prefabs.FacilityProps;
@@ -32,8 +33,12 @@ internal class FacilityPing
         pingInstance.visitable = true;
         pingInstance.visitDistance = 25;
         pingInstance.visitDuration = 5f;
-        pingInstance.SetLabel(info.TechType.ToString());
         pingInstance.SetColor(3);
+
+        var pingSetter = empty.AddComponent<DelayedPingLabelSetter>();
+
+        pingSetter.translationKey = info.TechType.ToString();
+        pingSetter.pingInstance = pingInstance;
 
         return empty;
     }
