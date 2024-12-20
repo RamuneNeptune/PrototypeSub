@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 namespace PrototypeSubMod.MiscMonobehaviors;
 
@@ -16,9 +17,11 @@ internal class DelayedPingLabelSetter : MonoBehaviour
         }
     }
 
-    private void Start()
+    private IEnumerator Start()
     {
         pingInstance.SetLabel(Language.main.Get(translationKey));
+        yield return new WaitForEndOfFrame();
+
         pingInstance.SetColor(0);
     }
 }
