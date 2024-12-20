@@ -19,5 +19,6 @@ internal class DelayedPingLabelSetter : MonoBehaviour
     private void Start()
     {
         pingInstance.SetLabel(Language.main.Get(translationKey));
+        pingInstance.SetColor(0);
     }
 }
