@@ -64,6 +64,8 @@ namespace PrototypeSubMod
 
         internal static Sprite PrototypeSaveIcon = AssetBundle.LoadAsset<Sprite>("ProtoSaveIcon");
 
+        internal const string DEFENSE_CHAMBER_BIOME_NAME = "protodefensefacility";
+
         private static bool Initialized;
 
         private void Awake()
@@ -281,7 +283,7 @@ namespace PrototypeSubMod
             var spawnInfo = new SpawnInfo(volumePrefabInfo.ClassID, new Vector3(710f, -375f, -1493f), Quaternion.identity, new Vector3(250, 800, 300));
             CoordinatedSpawnsHandler.RegisterCoordinatedSpawn(spawnInfo);
 
-            BiomeHandler.AddBiomeMusic("protodefensefacility", AudioUtils.GetFmodAsset("DefenseFacilityExterior"));
+            BiomeHandler.AddBiomeMusic(DEFENSE_CHAMBER_BIOME_NAME, AudioUtils.GetFmodAsset("DefenseFacilityExterior"));
             
             #region Tunnel Biomes
             var tunnelSettings = BiomeUtils.CreateBiomeSettings(new Vector3(20, 20, 20), 1f, Color.white, 0.12f, Color.white, 0, startDistance: 20);
