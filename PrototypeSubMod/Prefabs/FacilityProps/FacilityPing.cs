@@ -7,18 +7,18 @@ namespace PrototypeSubMod.Prefabs.FacilityProps;
 
 internal class FacilityPing
 {
-    public static PrefabInfo CreatePing(string techType, PingType pingType)
+    public static PrefabInfo CreatePing(string techType, PingType pingType, ColorOverrideData colorOverride = null)
     {
         var prefabInfo = PrefabInfo.WithTechType(techType);
 
         var prefab = new CustomPrefab(prefabInfo);
-        prefab.SetGameObject(GetGameObject(techType, prefabInfo));
+        prefab.SetGameObject(GetGameObject(techType, prefabInfo, colorOverride));
         prefab.Register();
 
         return prefabInfo;
     }
 
-    private static GameObject GetGameObject(string name, PrefabInfo info)
+    private static GameObject GetGameObject(string name, PrefabInfo info, ColorOverrideData colorOverride)
     {
         var empty = Plugin.AssetBundle.LoadAsset<GameObject>("Empty");
         empty.name = name;
@@ -50,6 +50,21 @@ internal class FacilityPing
         col.radius = 10;
         col.isTrigger = true;
 
+        if (colorOverride != null)
+        {
+            empty.AddComponent<PingColorOverride>().overrideColor = colorOverride.overrideColor;
+        }
+
         return empty;
+    }
+
+    public class ColorOverrideData
+    {
+        public Color overrideColor;
+
+        public ColorOverrideData(Color overrideColor)
+        {
+            this.overrideColor = overrideColor;
+        }
     }
 }

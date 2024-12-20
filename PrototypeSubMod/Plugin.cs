@@ -160,7 +160,7 @@ namespace PrototypeSubMod
             Texture2D regular2Ico = AssetBundle.LoadAsset<Texture2D>("RegularIcon2");
             new CustomPoster("HamCheesePoster2", null, null, AssetBundle.LoadAsset<Texture2D>("RegularPoster2"), regular2Ico, TechType.PosterExoSuit1);
             
-            var enginePing = FacilityPing.CreatePing("ProtoEngineFacilityPing", EngineFacilityPingType);
+            var enginePing = FacilityPing.CreatePing("ProtoEngineFacilityPing", EngineFacilityPingType, new FacilityPing.ColorOverrideData(new Color(0.54f, 1f, 0.54f)));
             CoordinatedSpawnsHandler.RegisterCoordinatedSpawn(new SpawnInfo(enginePing.TechType, new Vector3(307, -1155, 110)));
         }
 
