@@ -1,4 +1,5 @@
 ﻿using BepInEx;
+using BepInEx.Bootstrap;
 using BepInEx.Logging;
 using EpicStructureLoader;
 using HarmonyLib;
@@ -32,6 +33,7 @@ namespace PrototypeSubMod
     [BepInDependency("com.alembic.package")]
     [BepInDependency("ArchitectsLibrary", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.lee23.theredplague", BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency("com.danithedani.deepercreatures", BepInDependency.DependencyFlags.SoftDependency)]
     public class Plugin : BaseUnityPlugin
     {
         private const string GUID = "com.prototech.prototypesub";
@@ -67,6 +69,7 @@ namespace PrototypeSubMod
         internal const string DEFENSE_CHAMBER_BIOME_NAME = "protodefensefacility";
 
         private static bool Initialized;
+        private static Harmony harmony = new Harmony(GUID);
 
         private void Awake()
         {
@@ -85,13 +88,14 @@ namespace PrototypeSubMod
             RegisterBiomes();
             RegisterCommands();
             RegisterPDAMessages();
+            RegisterDependantPatches();
             InitializeSlotMapping();
 
             LoadEasyPrefabs.LoadPrefabs(AssetBundle);
             ROTACompatManager.AddCompatiblePowerSources();
-            
+
             // Register harmony patches, if there are any
-            Harmony.CreateAndPatchAll(Assembly, $"{GUID}");
+            harmony.PatchAll(Assembly);
             Logger.LogInfo($"Plugin {GUID} is loaded!");
         }
 
@@ -299,6 +303,16 @@ namespace PrototypeSubMod
             BiomeHandler.RegisterBiome("protodefensetunnel5", tunnelSettings, new BiomeHandler.SkyReference("SkyCrashZone"));
             BiomeHandler.AddBiomeMusic("protodefensetunnel5", AudioUtils.GetFmodAsset("DefenseTunnelMusic5"), FMODGameParams.InteriorState.OnlyOutside);
             #endregion
+        }
+
+        private void RegisterDependantPatches()
+        {
+            if (Chainloader.PluginInfos.ContainsKey("com.danithedani.deepercreatures"))
+            {
+                var structureTranspiler = AccessTools.Method(typeof(StructureLoading_Patches), nameof(StructureLoading_Patches.RegisterStructure_Transpiler));
+                var originalMethod = AccessTools.Method(typeof(StructureLoading), nameof(StructureLoading.RegisterStructure));
+                harmony.Patch(originalMethod, transpiler: new HarmonyMethod(structureTranspiler));
+            }
         }
 
         private void RegisterCommands()
