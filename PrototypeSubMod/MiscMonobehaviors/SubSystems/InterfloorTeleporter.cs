@@ -69,8 +69,9 @@ internal class InterfloorTeleporter : MonoBehaviour
 
     private void ActuallyTeleport()
     {
-        Player.main.SetPosition(teleportPosition.position, teleportPosition.rotation);
+        Player.main.SetPosition(teleportPosition.position);
         Player.main.rigidBody.velocity = Vector3.zero;
+        MainCameraControl.main.LookAt(Camera.main.transform.position + teleportPosition.forward);
 
         collider.enabled = true;
     }
