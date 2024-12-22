@@ -19,6 +19,11 @@ internal class uGUI_BuildAnimScreen : MonoBehaviour
         startAnim = true;
     }
 
+    public void StartPreWarm(float duration)
+    {
+
+    }
+
     private void Update()
     {
         if (currentProgress < duration && startAnim)

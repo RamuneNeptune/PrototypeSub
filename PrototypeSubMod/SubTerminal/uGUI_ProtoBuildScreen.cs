@@ -23,10 +23,21 @@ internal class uGUI_ProtoBuildScreen : MonoBehaviour
     private void Start()
     {
         tooltip.rocketTechType = Prototype_Craftable.SubInfo.TechType;
-        UpdateActiveScreens();
+
+        if (Plugin.GlobalSaveData.prototypePresent)
+        {
+            upgradeScreen.SetActive(occupiedHandler.MoonpoolHasSub);
+            emptyScreen.SetActive(!occupiedHandler.MoonpoolHasSub);
+            buildScreen.SetActive(false);
+        }
+        else
+        {
+            buildScreen.SetActive(true);
+            upgradeScreen.SetActive(false);
+            emptyScreen.SetActive(false);
+        }
 
         distanceTracker.OnPlayerTriggerChanged += UpdateTooltipActive;
-        occupiedHandler.onHasSubChanged.AddListener(UpdateActiveScreens);
     }
 
 
@@ -35,10 +46,15 @@ internal class uGUI_ProtoBuildScreen : MonoBehaviour
         onBuildStarted.Invoke();
     }
 
-    public void OnConstructionStarted(float duration)
+    public void OnConstructionPreWarm(float duration)
     {
         buildScreen.SetActive(false);
         animationScreen.gameObject.SetActive(true);
+        animationScreen.StartPreWarm(duration);
+    }
+
+    public void OnConstructionStarted(float duration)
+    {
         animationScreen.StartAnimation(duration);
 
         isBuilding = true;
@@ -73,22 +89,6 @@ internal class uGUI_ProtoBuildScreen : MonoBehaviour
     {
         tooltipsActive = inTrigger;
         tooltip.gameObject.SetActive(tooltipsActive);
-    }
-
-    private void UpdateActiveScreens()
-    {
-        if (Plugin.GlobalSaveData.prototypePresent)
-        {
-            upgradeScreen.SetActive(occupiedHandler.MoonpoolHasSub);
-            emptyScreen.SetActive(!occupiedHandler.MoonpoolHasSub);
-            buildScreen.SetActive(false);
-        }
-        else
-        {
-            buildScreen.SetActive(true);
-            upgradeScreen.SetActive(false);
-            emptyScreen.SetActive(false);
-        }
     }
 
     public bool IsTooltipActive()

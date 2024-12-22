@@ -15,6 +15,15 @@ internal class ProtoBuildTerminal : Crafter
     [SerializeField] private ProtoBatteryManager[] batteryManagers;
     [SerializeField] private Animator spikesAnimator;
 
+    private uGUI_ProtoBuildScreen buildScreen;
+
+    public override void Start()
+    {
+        base.Start();
+
+        buildScreen = GetComponentInChildren<uGUI_ProtoBuildScreen>();
+    }
+
     public void CraftSub()
     {
         Craft(Prototype_Craftable.SubInfo.TechType, buildDuration);
@@ -30,6 +39,8 @@ internal class ProtoBuildTerminal : Crafter
     private IEnumerator StartCraftChargeUp(TechType techType, float duration)
     {
         spikesAnimator.SetTrigger("BuildWarmup");
+        buildScreen.OnConstructionPreWarm(buildDelay);
+
         yield return new WaitForSeconds(buildDelay);
 
         base.Craft(techType, duration);
@@ -46,8 +57,7 @@ internal class ProtoBuildTerminal : Crafter
 
     private IEnumerator OnCraftingBeginAsync(TechType techType, float duration)
     {
-        var screen = GetComponentInChildren<uGUI_ProtoBuildScreen>();
-        screen.OnConstructionAsyncStarted();
+        buildScreen.OnConstructionAsyncStarted();
 
         var prefab = CraftData.GetPrefabForTechTypeAsync(techType);
         yield return prefab;
@@ -68,7 +78,7 @@ internal class ProtoBuildTerminal : Crafter
 
         vfxConstructing.informGameObject = gameObject;
 
-        screen.OnConstructionStarted(duration + vfxConstructing.delay);
+        buildScreen.OnConstructionStarted(duration + vfxConstructing.delay);
 
         LargeWorldEntity.Register(instantiatedPrefab);
     }
