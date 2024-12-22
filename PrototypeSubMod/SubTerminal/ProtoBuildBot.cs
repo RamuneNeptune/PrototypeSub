@@ -31,22 +31,12 @@ internal class ProtoBuildBot : MonoBehaviour
     private Vector3 startPos;
     private Quaternion startRot;
 
-    private IEnumerable Start()
+    private void Start()
     {
-        yield return RetrieveBeamMaterial();
-
         var hoverSounds = hoverSoundsObject.GetComponents<FMOD_CustomLoopingEmitter>();
-        hoverEmitter = hoverSounds[gameObject.GetInstanceID() % hoverSounds.Length];
+        hoverEmitter = hoverSounds[UnityEngine.Random.Range(0, hoverSounds.Length - 1)];
 
-        lineRend = gameObject.AddComponent<LineRenderer>();
-        lineRend.useWorldSpace = true;
-        lineRend.positionCount = 2;
-        lineRend.startWidth = 0.1f;
-        lineRend.endWidth = 1;
-        lineRend.startColor = new Color(0.42f, 1, 0.42f);
-        lineRend.endColor = new Color(1f, 0.55f, 0.42f);
-        lineRend.material = LineRendMaterial;
-        lineRend.enabled = false;
+        UWE.CoroutineHost.StartCoroutine(InitializeLineRend());
 
         buildingSub = false;
     }
@@ -90,8 +80,25 @@ internal class ProtoBuildBot : MonoBehaviour
         LineRendMaterial = new Material(botPrefab.GetComponent<ConstructorBuildBot>().beamMaterial);
     }
 
+    private IEnumerator InitializeLineRend()
+    {
+        yield return RetrieveBeamMaterial();
+
+        lineRend = gameObject.AddComponent<LineRenderer>();
+        lineRend.useWorldSpace = true;
+        lineRend.positionCount = 2;
+        lineRend.startWidth = 0.1f;
+        lineRend.endWidth = 1;
+        lineRend.startColor = new Color(0.42f, 1, 0.42f);
+        lineRend.endColor = new Color(1f, 0.55f, 0.42f);
+        lineRend.material = LineRendMaterial;
+        lineRend.enabled = false;
+    }
+
     private void Update()
     {
+        if (lineRend == null) return;
+
         bool enableBeam = currentBeamPoint != null && (currentBeamPoint.position - transform.position).magnitude < 8f;
         lineRend.enabled = enableBeam;
         if (enableBeam)
@@ -105,7 +112,9 @@ internal class ProtoBuildBot : MonoBehaviour
             buildLoopingSound.Stop();
         }
 
-        Quaternion targetRotation = (!buildingSub && !animatorControlled) ? startRot : Quaternion.LookRotation(currentBeamPoint.position - transform.position);
+        if (animatorControlled) return;
+
+        Quaternion targetRotation = !buildingSub ? startRot : Quaternion.LookRotation(currentBeamPoint.position - transform.position);
 
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
     }
