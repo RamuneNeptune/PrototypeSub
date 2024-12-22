@@ -5083,7 +5083,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1260344633130760521
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5117,7 +5117,10 @@ MonoBehaviour:
   m_Script: {fileID: -1242795316, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  displayText: {fileID: 7224306089131178824}
   progressBar: {fileID: 1450003275031506671}
+  chargingLocalizationKey: BuildTerminalCharging
+  buildingLocalizationKey: BuildTerminalConstructing
 --- !u!1 &2798565185419588854
 GameObject:
   m_ObjectHideFlags: 0
@@ -9379,7 +9382,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 8a35c3e1796a9a145a659550d162070a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 993394170cb58b441b0d8bfc8207a5ea, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -11596,7 +11599,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sliderRend: {fileID: 2622975591288659083}
-  rechargeTime: 30
 --- !u!1 &6961057183848524191
 GameObject:
   m_ObjectHideFlags: 0
@@ -13516,7 +13518,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sliderRend: {fileID: 1074029094838414980}
-  rechargeTime: 30
 --- !u!1 &8422491651594603255
 GameObject:
   m_ObjectHideFlags: 0
