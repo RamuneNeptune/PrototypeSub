@@ -140,8 +140,8 @@ internal class ProtoPowerAbilitySystem : MonoBehaviour, ISaveDataListener, ILate
         PDA pda = Player.main.GetPDA();
         Inventory.main.SetUsedStorage(equipment);
 
-        pda.Open(PDATab.Inventory, null, new PDA.OnClose(abilityConsumptionButton.OnClosePDA));
         abilityConsumptionButton.SetActiveAbilitySystem(this);
+        pda.Open(PDATab.Inventory, null, new PDA.OnClose(abilityConsumptionButton.OnClosePDA));
     }
 
     private void OnEquip(string slot, InventoryItem item)
