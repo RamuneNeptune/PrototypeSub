@@ -137,8 +137,6 @@ internal class ProtoTeleporterManager : ProtoUpgrade
     public void OnActivationTerminalCinematicStarted()
     {
         activationTerminal = GetComponentInChildren<PrecursorTeleporterActivationTerminal>();
-        activationTerminal.OpenDeck();
-
         activationTerminal.GetComponentInChildren<Collider>(true).isTrigger = true;
         StartCoroutine(FallbackEnableCollider());
     }

@@ -15,6 +15,7 @@ internal class PrecursorTeleporterActivationTerminal_Patches
         if (!manager) return;
 
         manager.OnActivationTerminalCinematicStarted();
+        __instance.OpenDeck();
     }
 
     [HarmonyPatch(nameof(PrecursorTeleporterActivationTerminal.OnPlayerCinematicModeEnd)), HarmonyPostfix]
