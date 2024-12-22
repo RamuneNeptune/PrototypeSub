@@ -27,9 +27,9 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
     {
         get
         {
-            if (ProtoUpgradeManager.Instance == null) return techType.TechType;
+            if (upgradeManager == null) return techType.TechType;
 
-            return ProtoUpgradeManager.Instance.GetUpgradeInstalled(techType.TechType) ? uninstallationTechType : techType.TechType;
+            return upgradeManager.GetUpgradeInstalled(techType.TechType) ? uninstallationTechType : techType.TechType;
         }
     }
 
@@ -59,6 +59,7 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
     private Vector2 originalSize;
     private RectTransform rectTransform;
     private UpgradeScreen upgradeScreen;
+    private ProtoUpgradeManager upgradeManager;
 
     private Atlas.Sprite atlasSpriteBGNormal;
     private Atlas.Sprite atlasSpriteBGHovered;
@@ -77,10 +78,14 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
         crafterLogic = GetComponent<CrafterLogic>();
         originalSize = rectTransform.sizeDelta;
 
-        if (ProtoUpgradeManager.Instance == null) return;
+        var subInMoonpool = buildScreen.GetMoonpoolHandler().SubInMoonpool;
+
+        if (subInMoonpool == null) return;
+
+        upgradeManager = subInMoonpool.GetComponentInChildren<ProtoUpgradeManager>();
 
         SetUpgradeTechType(CurrentTechType);
-        if (ProtoUpgradeManager.Instance.GetInstalledUpgrades().Contains(techType.TechType))
+        if (upgradeManager.GetInstalledUpgrades().Contains(techType.TechType))
         {
             upgradeScreen.InstallUpgrade(this);
         }
@@ -94,7 +99,7 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
         yield return new WaitForEndOfFrame();
         yield return new WaitForEndOfFrame();
 
-        OnUpgradesChanged(null, new UpgradeChangedEventArgs(upgradeScreen, ProtoUpgradeManager.Instance.GetInstalledUpgrades()));
+        OnUpgradesChanged(null, new UpgradeChangedEventArgs(upgradeScreen, upgradeManager.GetInstalledUpgrades()));
     }
 
     private void OnEnable()
@@ -112,7 +117,7 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
         yield return new WaitForEndOfFrame();
 
         SetUpgradeTechType(CurrentTechType);
-        if (ProtoUpgradeManager.Instance.GetInstalledUpgrades().Contains(techType.TechType))
+        if (upgradeManager.GetInstalledUpgrades().Contains(techType.TechType))
         {
             upgradeScreen.InstallUpgrade(this);
         }
@@ -254,8 +259,8 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
         currentConfirmTime = confirmTime;
         craftTriggered = true;
 
-        bool currentlyInstalled = ProtoUpgradeManager.Instance.GetUpgradeInstalled(techType.TechType);
-        ProtoUpgradeManager.Instance.SetUpgradeInstalled(techType.TechType, !currentlyInstalled);
+        bool currentlyInstalled = upgradeManager.GetUpgradeInstalled(techType.TechType);
+        upgradeManager.SetUpgradeInstalled(techType.TechType, !currentlyInstalled);
 
         ErrorMessage.AddError($"Changing {techType.TechType} to installed = {!currentlyInstalled}");
 
@@ -268,7 +273,7 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
             upgradeScreen.UninstallUpgrade(this);
         }
 
-        UpgradeChangedEventArgs args = new(upgradeScreen, ProtoUpgradeManager.Instance.GetInstalledUpgrades());
+        UpgradeChangedEventArgs args = new(upgradeScreen, upgradeManager.GetInstalledUpgrades());
         onUpgradeChanged?.Invoke(this, args);
 
         if (currentlyInstalled)

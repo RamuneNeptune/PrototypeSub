@@ -91,4 +91,6 @@ internal class uGUI_ProtoBuildScreen : MonoBehaviour
     {
         return tooltipsActive;
     }
+
+    public MoonpoolOccupiedHandler GetMoonpoolHandler() => occupiedHandler;
 }

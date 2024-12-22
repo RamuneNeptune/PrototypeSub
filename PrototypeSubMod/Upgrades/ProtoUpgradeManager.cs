@@ -9,8 +9,6 @@ namespace PrototypeSubMod.Upgrades;
 
 internal class ProtoUpgradeManager : MonoBehaviour, ISaveDataListener
 {
-    public static ProtoUpgradeManager Instance { get; private set; }
-
     private List<TechType> InstalledUpgrades
     {
         get
@@ -35,17 +33,6 @@ internal class ProtoUpgradeManager : MonoBehaviour, ISaveDataListener
     private bool upgradesDirty;
 
     private Dictionary<TechType, ProtoUpgrade> upgrades = new();
-
-    private void Awake()
-    {
-        if (Instance != null)
-        {
-            Destroy(this);
-            throw new Exception($"More than one ProtoUpgradeManager in the scene! Destroying {this}");
-        }
-
-        Instance = this;
-    }
 
     private void Start()
     {
