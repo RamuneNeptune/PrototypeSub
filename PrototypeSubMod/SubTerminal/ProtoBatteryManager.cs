@@ -5,36 +5,57 @@ namespace PrototypeSubMod.SubTerminal;
 internal class ProtoBatteryManager : MonoBehaviour
 {
     [SerializeField] private Renderer sliderRend;
-    [SerializeField] private float rechargeTime;
 
     private float currentDrainTime;
     private float drainTime;
-    private float currentRechargeTime;
+
+    private float currentChargeTime;
+    private float chargeTime;
+    private bool charging;
 
     private void Start()
     {
-        currentRechargeTime = rechargeTime;
-        sliderRend.material.SetFloat("_FilledAmount", 1);
+        sliderRend.material.SetFloat("_FilledAmount", 0);
     }
 
     public void StartBatteryDrain(float duration)
     {
         currentDrainTime = duration;
         drainTime = duration;
-        currentRechargeTime = 0;
+    }
+
+    public void StartBatteryCharge(float duration)
+    {
+        charging = true;
+        chargeTime = duration;
+        currentChargeTime = 0;
     }
 
     private void Update()
     {
-        if (currentDrainTime > 0)
+        HandleCharge();
+        HandleDrain();
+    }
+
+    private void HandleCharge()
+    {
+        if (charging && currentChargeTime < chargeTime)
+        {
+            currentChargeTime += Time.deltaTime;
+            sliderRend.material.SetFloat("_FilledAmount", currentChargeTime / chargeTime);
+        }
+        else if (currentChargeTime >= chargeTime)
+        {
+            charging = false;
+        }
+    }
+
+    private void HandleDrain()
+    {
+        if (currentDrainTime > 0 && !charging)
         {
             currentDrainTime -= Time.deltaTime;
             sliderRend.material.SetFloat("_FilledAmount", currentDrainTime / drainTime);
-        }
-        else if (currentRechargeTime < rechargeTime)
-        {
-            currentRechargeTime += Time.deltaTime;
-            sliderRend.material.SetFloat("_FilledAmount", currentRechargeTime / rechargeTime);
         }
     }
 }

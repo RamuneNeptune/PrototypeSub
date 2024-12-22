@@ -40,6 +40,10 @@ internal class ProtoBuildTerminal : Crafter
     {
         spikesAnimator.SetTrigger("BuildWarmup");
         buildScreen.OnConstructionPreWarm(buildDelay);
+        foreach (var item in batteryManagers)
+        {
+            item.StartBatteryCharge(buildDelay);
+        }
 
         yield return new WaitForSeconds(buildDelay);
 
