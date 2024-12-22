@@ -78,17 +78,10 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
         crafterLogic = GetComponent<CrafterLogic>();
         originalSize = rectTransform.sizeDelta;
 
-        var subInMoonpool = buildScreen.GetMoonpoolHandler().SubInMoonpool;
+        var occupiedHandler = buildScreen.GetMoonpoolHandler();
+        occupiedHandler.onHasSubChanged.AddListener(OnSubInMoonpoolChanged);
 
-        if (subInMoonpool == null) return;
-
-        upgradeManager = subInMoonpool.GetComponentInChildren<ProtoUpgradeManager>();
-
-        SetUpgradeTechType(CurrentTechType);
-        if (upgradeManager.GetInstalledUpgrades().Contains(techType.TechType))
-        {
-            upgradeScreen.InstallUpgrade(this);
-        }
+        OnSubInMoonpoolChanged();
 
         UWE.CoroutineHost.StartCoroutine(RefreshUpgrades());
         initialized = true;
@@ -129,6 +122,25 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
     private void OnDisable()
     {
         onUpgradeChanged -= OnUpgradesChanged;
+    }
+
+    private void OnSubInMoonpoolChanged()
+    {
+        var occupiedHandler = buildScreen.GetMoonpoolHandler();
+
+        if (occupiedHandler.SubInMoonpool == null)
+        {
+            upgradeManager = null;
+            return;
+        }
+
+        upgradeManager = occupiedHandler.SubInMoonpool.GetComponentInChildren<ProtoUpgradeManager>();
+
+        SetUpgradeTechType(CurrentTechType);
+        if (upgradeManager.GetInstalledUpgrades().Contains(techType.TechType))
+        {
+            upgradeScreen.InstallUpgrade(this);
+        }
     }
 
     public void SetUpgradeTechType(TechType techType)

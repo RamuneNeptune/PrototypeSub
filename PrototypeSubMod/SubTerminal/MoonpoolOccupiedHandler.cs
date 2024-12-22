@@ -15,7 +15,7 @@ internal class MoonpoolOccupiedHandler : MonoBehaviour
 
     public GameObject SubInMoonpool { get; private set; }
 
-    [SerializeField] private UnityEvent onHasSubChanged;
+    public UnityEvent onHasSubChanged;
     [SerializeField] private ProtoBuildTerminal buildTerminal;
     [SerializeField] private Collider moonpoolBounds;
     [SerializeField] private float maxDistanceFromMoonpool;
@@ -33,7 +33,7 @@ internal class MoonpoolOccupiedHandler : MonoBehaviour
         bool foundSub = false;
         SubInMoonpool = null;
 
-        int count = UWE.Utils.OverlapBoxIntoSharedBuffer(moonpoolBounds.transform.position, moonpoolBounds.bounds.extents / 2, moonpoolBounds.transform.rotation);
+        int count = UWE.Utils.OverlapBoxIntoSharedBuffer(moonpoolBounds.bounds.center, moonpoolBounds.bounds.extents, moonpoolBounds.transform.rotation);
         for (int i = 0; i < count; i++)
         {
             var collider = UWE.Utils.sharedColliderBuffer[i];
