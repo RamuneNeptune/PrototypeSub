@@ -14,8 +14,6 @@ internal class ProtoPowerAbilitySystem : MonoBehaviour, ISaveDataListener, ILate
     public static readonly string EquipmentLabel = "ProtoPowerExtractorLabel";
     public static readonly string SlotName = "ProtoPowerConsumptionSlot";
 
-    public static ProtoPowerAbilitySystem Instance { get; private set; }
-
     public Equipment equipment { get; private set; }
     public event Action onEquip;
     public event Action onUnequip;
@@ -42,14 +40,6 @@ internal class ProtoPowerAbilitySystem : MonoBehaviour, ISaveDataListener, ILate
 
     private void Awake()
     {
-        if (Instance != null)
-        {
-            Destroy(this);
-            throw new Exception($"More than 1 ProtoPowerAbilitySystem in the scene! Destroying {this}");
-        }
-
-        Instance = this;
-
         Initialize();
     }
 
@@ -151,6 +141,7 @@ internal class ProtoPowerAbilitySystem : MonoBehaviour, ISaveDataListener, ILate
         Inventory.main.SetUsedStorage(equipment);
         
         pda.Open(PDATab.Inventory, null, new PDA.OnClose(abilityConsumptionButton.OnClosePDA));
+        abilityConsumptionButton.SetActiveAbilitySystem(this);
     }
 
     private void OnEquip(string slot, InventoryItem item)

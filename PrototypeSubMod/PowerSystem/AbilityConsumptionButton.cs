@@ -24,6 +24,8 @@ internal class AbilityConsumptionButton : MonoBehaviour, IPointerDownHandler, IP
     private bool consumed;
     private bool interactable;
 
+    private ProtoPowerAbilitySystem activeAbilitySystem;
+
     private void Start()
     {
         animator.speed = 1 / confirmTime;
@@ -45,11 +47,11 @@ internal class AbilityConsumptionButton : MonoBehaviour, IPointerDownHandler, IP
 
         progressBar.fillAmount = currentConfirmTime / confirmTime;
         currentConfirmTime += Time.deltaTime;
-        if (currentConfirmTime >= confirmTime && !consumed)
+        if (currentConfirmTime >= confirmTime && !consumed && activeAbilitySystem != null)
         {
             consumed = true;
             progressBar.fillAmount = 0;
-            ProtoPowerAbilitySystem.Instance.ConsumeItem();
+            activeAbilitySystem.ConsumeItem();
             animator.SetBool("Charging", false);
         }
     }
@@ -73,23 +75,23 @@ internal class AbilityConsumptionButton : MonoBehaviour, IPointerDownHandler, IP
 
     private void OnEnable()
     {
-        if (ProtoPowerAbilitySystem.Instance == null)
+        if (activeAbilitySystem == null)
         {
             interactable = false;
             return;
         }
 
-        interactable = ProtoPowerAbilitySystem.Instance.HasItem();
-        ProtoPowerAbilitySystem.Instance.onEquip += EnableButton;
-        ProtoPowerAbilitySystem.Instance.onUnequip += DisableButton;
+        interactable = activeAbilitySystem.HasItem();
+        activeAbilitySystem.onEquip += EnableButton;
+        activeAbilitySystem.onUnequip += DisableButton;
     }
 
     private void OnDisable()
     {
-        if (ProtoPowerAbilitySystem.Instance == null) return;
+        if (activeAbilitySystem == null) return;
 
-        ProtoPowerAbilitySystem.Instance.onEquip -= EnableButton;
-        ProtoPowerAbilitySystem.Instance.onUnequip -= DisableButton;
+        activeAbilitySystem.onEquip -= EnableButton;
+        activeAbilitySystem.onUnequip -= DisableButton;
     }
 
     private void EnableButton()
@@ -116,6 +118,11 @@ internal class AbilityConsumptionButton : MonoBehaviour, IPointerDownHandler, IP
         buttonImage.sprite = sprite;
     }
 
+    public void SetActiveAbilitySystem(ProtoPowerAbilitySystem system)
+    {
+        activeAbilitySystem = system;
+    }
+
     public void OnPointerEnter(PointerEventData eventData)
     {
         hovering = true;
@@ -130,5 +137,6 @@ internal class AbilityConsumptionButton : MonoBehaviour, IPointerDownHandler, IP
     {
         clicking = false;
         hovering = false;
+        activeAbilitySystem = null;
     }
 }
