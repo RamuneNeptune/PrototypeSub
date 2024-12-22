@@ -19,6 +19,7 @@ internal class ElectricubePowerFunctionality : PowerSourceFunctionality
     private ProtoMotorHandler motorHandler;
     private TeleporterFXColorManager colorManager;
     private EmissionColorController emissiveController;
+    private ProtoTeleporterManager teleporterManager;
 
     public override void OnAbilityActivated()
     {
@@ -27,6 +28,7 @@ internal class ElectricubePowerFunctionality : PowerSourceFunctionality
         motorHandler = root.GetComponentInChildren<ProtoMotorHandler>();
         colorManager = root.GetComponentInChildren<TeleporterFXColorManager>();
         emissiveController = root.GetComponentInChildren<EmissionColorController>();
+        teleporterManager = root.GetComponentInChildren<ProtoTeleporterManager>();
 
         colorHandler.SetTempColor(ElectricubeLightColor);
         motorHandler.AddPowerEfficiencyMultiplier(new ProtoMotorHandler.ValueRegistrar(this, 1.2f));
@@ -34,9 +36,9 @@ internal class ElectricubePowerFunctionality : PowerSourceFunctionality
         emissiveController.RegisterTempColor(new EmissionColorController.EmissionRegistrarData(this, new Color(1, 0, 1, 1)));
 
         TeleporterOverride.SetTempTeleporterColor(ElectricubeTeleporterColor);
-        ProtoTeleporterManager.Instance.SetPowerMultiplier(0.85f);
+        teleporterManager.SetPowerMultiplier(0.85f);
         ColorOverrideData overrideData = new ColorOverrideData(true, TeleportScreenColInner, TeleportScreenColMiddle, TeleportScreenColOuter);
-        ProtoTeleporterManager.Instance.SetColorOverrideData(overrideData);
+        teleporterManager.SetColorOverrideData(overrideData);
     }
 
     protected override void OnAbilityStopped()
@@ -46,8 +48,8 @@ internal class ElectricubePowerFunctionality : PowerSourceFunctionality
         motorHandler.RemovePowerEfficiencyMultiplier(this);
         emissiveController.RemoveTempColor(this);
 
-        ProtoTeleporterManager.Instance.SetPowerMultiplier(1f);
-        ProtoTeleporterManager.Instance.ResetOverrideData();
+        teleporterManager.SetPowerMultiplier(1f);
+        teleporterManager.ResetOverrideData();
         TeleporterOverride.ResetTeleporterColor();
     }
 }

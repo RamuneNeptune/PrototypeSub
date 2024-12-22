@@ -17,6 +17,7 @@ internal class TeleporterOverride : MonoBehaviour
     private static float TimeWhenPortalUnloaded;
     private static float TimeLeftWhenUnloaded;
     private static bool OverrideRequested;
+    private static ProtoTeleporterManager LastOverrideOwner;
 
     private static event Action OnTeleportStart;
 
@@ -42,17 +43,19 @@ internal class TeleporterOverride : MonoBehaviour
         OverrideTime = time;
     }
 
-    public static void OnTeleportStarted()
+    public static void OnTeleportStarted(ProtoTeleporterManager overrideOwner)
     {
         QueuedResetOverrideTime = true;
         OverrideRequested = true;
         OnTeleportStart?.Invoke();
+        LastOverrideOwner = overrideOwner;
     }
 
     public static void OnTeleportToSubFinished()
     {
         QueuedTeleportedBackToSub = false;
         OverrideRequested = false;
+        LastOverrideOwner = null;
     }
 
     public static void SetTempTeleporterColor(Color color)
@@ -82,7 +85,7 @@ internal class TeleporterOverride : MonoBehaviour
         originalTeleportAngle = teleporter.warpToAngle;
 
         teleporterID = teleporter.teleporterIdentifier + (GetComponentInParent<PrecursorTeleporterActivationTerminal>() != null ? "M" : "S");
-
+        
         if (teleporterID != FullOverrideTeleporterID) return;
 
         float timeLeft = TimeWhenPortalUnloaded - Time.time + TimeLeftWhenUnloaded;
@@ -132,7 +135,7 @@ internal class TeleporterOverride : MonoBehaviour
         {
             currentOverrideTime -= Time.deltaTime;
 
-            Transform teleportPos = ProtoTeleporterManager.Instance.GetTeleportPosition();
+            Transform teleportPos = LastOverrideOwner.GetTeleportPosition();
             teleporter.warpToPos = teleportPos.position;
             teleporter.warpToAngle = teleportPos.eulerAngles.y;
         }

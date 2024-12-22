@@ -7,8 +7,6 @@ namespace PrototypeSubMod.Teleporter;
 
 internal class ProtoTeleporterManager : ProtoUpgrade
 {
-    public static ProtoTeleporterManager Instance { get; private set; }
-
     [Header("Teleporting")]
     [SerializeField] private PrecursorTeleporter teleporter;
     [SerializeField] private SubRoot subRoot;
@@ -29,17 +27,6 @@ internal class ProtoTeleporterManager : ProtoUpgrade
     private PrecursorTeleporterActivationTerminal activationTerminal;
 
     private ColorOverrideData colorOverrideData;
-
-    private void Awake()
-    {
-        if (Instance != null)
-        {
-            Destroy(this);
-            return;
-        }
-
-        Instance = this;
-    }
 
     private void OnValidate()
     {
@@ -90,7 +77,7 @@ internal class ProtoTeleporterManager : ProtoUpgrade
         {
             TeleporterOverride.SetOverrideTeleporterID(alteredID);
             TeleporterOverride.SetOverrideTime(120f);
-            TeleporterOverride.OnTeleportStarted();
+            TeleporterOverride.OnTeleportStarted(this);
         }
 
         if (colorOverrideData.overrideActive)
