@@ -11,6 +11,12 @@ internal class ProtoBatteryManager : MonoBehaviour
     private float drainTime;
     private float currentRechargeTime;
 
+    private void Start()
+    {
+        currentRechargeTime = rechargeTime;
+        sliderRend.material.SetFloat("_FilledAmount", 1);
+    }
+
     public void StartBatteryDrain(float duration)
     {
         currentDrainTime = duration;
@@ -28,7 +34,7 @@ internal class ProtoBatteryManager : MonoBehaviour
         else if (currentRechargeTime < rechargeTime)
         {
             currentRechargeTime += Time.deltaTime;
-            sliderRend.material.SetFloat("_FilledAmount", currentDrainTime / drainTime);
+            sliderRend.material.SetFloat("_FilledAmount", currentRechargeTime / rechargeTime);
         }
     }
 }

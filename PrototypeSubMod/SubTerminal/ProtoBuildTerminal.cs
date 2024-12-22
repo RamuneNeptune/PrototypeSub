@@ -13,6 +13,7 @@ internal class ProtoBuildTerminal : Crafter
     [SerializeField] private Transform buildPosition;
     [SerializeField] private GameObject upgradeIconPrefab;
     [SerializeField] private ProtoBatteryManager[] batteryManagers;
+    [SerializeField] private Animator spikesAnimator;
 
     public void CraftSub()
     {
@@ -28,6 +29,7 @@ internal class ProtoBuildTerminal : Crafter
 
     private IEnumerator StartCraftChargeUp(TechType techType, float duration)
     {
+        spikesAnimator.SetTrigger("BuildWarmup");
         yield return new WaitForSeconds(buildDelay);
 
         base.Craft(techType, duration);
