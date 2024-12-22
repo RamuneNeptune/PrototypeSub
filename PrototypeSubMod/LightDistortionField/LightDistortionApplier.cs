@@ -5,23 +5,24 @@ namespace PrototypeSubMod.LightDistortionField;
 internal class LightDistortionApplier : MonoBehaviour
 {
     private static Material material;
+    private CloakEffectHandler activeCloakHandler;
 
     private void OnRenderImage(RenderTexture source, RenderTexture destination)
     {
-        if (CloakEffectHandler.Instance == null || !CloakEffectHandler.Instance.GetUpgradeInstalled())
+        if (activeCloakHandler == null || !activeCloakHandler.GetUpgradeInstalled())
         {
             Graphics.Blit(source, destination);
             return;
         }
 
-        if (!material) material = new Material(CloakEffectHandler.Instance.shader);
+        if (!material) material = new Material(activeCloakHandler.shader);
 
-        Transform sphere = CloakEffectHandler.Instance.ovoid;
+        Transform sphere = activeCloakHandler.ovoid;
 
-        if (CloakEffectHandler.Instance.GetIsDirty())
+        if (activeCloakHandler.GetIsDirty())
         {
             RefreshVariables();
-            CloakEffectHandler.Instance.ClearDirty();
+            activeCloakHandler.ClearDirty();
         }
 
         material.SetVector("_OvoidCenter", sphere.position);
@@ -35,24 +36,29 @@ internal class LightDistortionApplier : MonoBehaviour
 
     private void RefreshVariables()
     {
-        material.SetColor("_Color", CloakEffectHandler.Instance.color);
-        material.SetColor("_DistortionColor", CloakEffectHandler.Instance.distortionColor);
-        material.SetColor("_InteriorColor", CloakEffectHandler.Instance.interiorColor);
-        material.SetColor("_VignetteColor", CloakEffectHandler.Instance.vignetteColor);
-        material.SetFloat("_Multiplier", CloakEffectHandler.Instance.falloffMultiplier);
-        material.SetFloat("_EffectBoundaryMin", CloakEffectHandler.Instance.distortionBoundaryMin);
-        material.SetFloat("_EffectBoundaryMax", CloakEffectHandler.Instance.distortionBoundaryMax);
-        material.SetFloat("_DistortionAmplitude", CloakEffectHandler.Instance.distortionAmplitude);
-        material.SetFloat("_BoundaryOffset", CloakEffectHandler.Instance.distortionBoundaryOffset);
-        material.SetFloat("_VignetteIntensity", CloakEffectHandler.Instance.vignetteIntensity);
-        material.SetFloat("_VignetteSmoothness", CloakEffectHandler.Instance.vignetteSmoothness);
-        material.SetFloat("_VignetteOffset", CloakEffectHandler.Instance.vignetteOffset);
-        material.SetFloat("_VignetteFadeInDist", CloakEffectHandler.Instance.vignetteFadeInDist);
-        material.SetFloat("_OscillationFrequency", CloakEffectHandler.Instance.oscillationFrequency);
-        material.SetFloat("_OscillationAmplitude", CloakEffectHandler.Instance.oscillationAmplitude);
-        material.SetFloat("_OscillationSpeed", CloakEffectHandler.Instance.oscillationSpeed);
-        material.SetInt("_WaveCount", CloakEffectHandler.Instance.waveCount);
-        material.SetFloat("_FrequencyIncrease", CloakEffectHandler.Instance.frequencyIncrease);
-        material.SetFloat("_AmplitudeFalloff", CloakEffectHandler.Instance.amplitudeFalloff);
+        material.SetColor("_Color", activeCloakHandler.color);
+        material.SetColor("_DistortionColor", activeCloakHandler.distortionColor);
+        material.SetColor("_InteriorColor", activeCloakHandler.interiorColor);
+        material.SetColor("_VignetteColor", activeCloakHandler.vignetteColor);
+        material.SetFloat("_Multiplier", activeCloakHandler.falloffMultiplier);
+        material.SetFloat("_EffectBoundaryMin", activeCloakHandler.distortionBoundaryMin);
+        material.SetFloat("_EffectBoundaryMax", activeCloakHandler.distortionBoundaryMax);
+        material.SetFloat("_DistortionAmplitude", activeCloakHandler.distortionAmplitude);
+        material.SetFloat("_BoundaryOffset", activeCloakHandler.distortionBoundaryOffset);
+        material.SetFloat("_VignetteIntensity", activeCloakHandler.vignetteIntensity);
+        material.SetFloat("_VignetteSmoothness", activeCloakHandler.vignetteSmoothness);
+        material.SetFloat("_VignetteOffset", activeCloakHandler.vignetteOffset);
+        material.SetFloat("_VignetteFadeInDist", activeCloakHandler.vignetteFadeInDist);
+        material.SetFloat("_OscillationFrequency", activeCloakHandler.oscillationFrequency);
+        material.SetFloat("_OscillationAmplitude", activeCloakHandler.oscillationAmplitude);
+        material.SetFloat("_OscillationSpeed", activeCloakHandler.oscillationSpeed);
+        material.SetInt("_WaveCount", activeCloakHandler.waveCount);
+        material.SetFloat("_FrequencyIncrease", activeCloakHandler.frequencyIncrease);
+        material.SetFloat("_AmplitudeFalloff", activeCloakHandler.amplitudeFalloff);
+    }
+
+    public void RegisterCloakHandler(CloakEffectHandler handler)
+    {
+        activeCloakHandler = handler;
     }
 }

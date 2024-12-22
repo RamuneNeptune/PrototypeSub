@@ -7,8 +7,6 @@ namespace PrototypeSubMod.LightDistortionField;
 
 internal class CloakEffectHandler : ProtoUpgrade
 {
-    public static CloakEffectHandler Instance { get; private set; }
-
     [Header("Shader Parameters")]
     public Shader shader;
     public Transform ovoid;
@@ -64,21 +62,13 @@ internal class CloakEffectHandler : ProtoUpgrade
     private float currentScaleTime;
     private bool isDirty = true;
 
-    private void Awake()
-    {
-        if (Instance != null)
-        {
-            Destroy(this);
-            return;
-        }
-
-        Instance = this;
-    }
-
     private void Start()
     {
         originalScale = ovoid.localScale;
         ovoid.localScale = originalScale * TargetScaleMultiplier;
+
+        var distortionApplier = Camera.main.GetComponent<LightDistortionApplier>();
+        distortionApplier.RegisterCloakHandler(this);
     }
 
     private void OnValidate()
