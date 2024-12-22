@@ -1,6 +1,5 @@
 ﻿using Nautilus.Assets;
 using Nautilus.Assets.PrefabTemplates;
-using PrototypeSubMod.MiscMonobehaviors;
 using Story;
 
 namespace PrototypeSubMod.Prefabs.FacilityProps;

@@ -96,7 +96,6 @@ internal class uGUI_Equipment_Patches
     {
         CodeMatch match = new CodeMatch(i => i.opcode == OpCodes.Call && ((MethodInfo)i.operand).Name == "GetEquipmentType");
 
-        //FieldInfo inventoryItemInfo = typeof(Pickupable).GetField("inventoryItem", BindingFlags.NonPublic | BindingFlags.Instance);
         FieldInfo containerInfo = typeof(InventoryItem).GetField("container");
 
         var matcher = new CodeMatcher(instructions)

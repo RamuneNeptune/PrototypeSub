@@ -85,7 +85,7 @@ internal class TeleporterOverride : MonoBehaviour
         originalTeleportAngle = teleporter.warpToAngle;
 
         teleporterID = teleporter.teleporterIdentifier + (GetComponentInParent<PrecursorTeleporterActivationTerminal>() != null ? "M" : "S");
-        
+
         if (teleporterID != FullOverrideTeleporterID) return;
 
         float timeLeft = TimeWhenPortalUnloaded - Time.time + TimeLeftWhenUnloaded;

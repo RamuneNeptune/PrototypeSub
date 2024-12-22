@@ -14,7 +14,7 @@ internal class SpawnPrefabAtRuntime : MonoBehaviour
     [SerializeField] private Vector3 localPos;
     [SerializeField] private Vector3 localRot;
     [SerializeField] private Vector3 localScale = Vector3.one;
-    
+
     private void Start()
     {
         CoroutineHost.StartCoroutine(SpawnPrefab());

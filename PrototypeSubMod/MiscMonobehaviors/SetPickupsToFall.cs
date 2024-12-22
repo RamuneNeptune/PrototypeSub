@@ -20,7 +20,7 @@ internal class SetPickupsToFall : MonoBehaviour
         {
             SetObjectsToFall();
             yield return new WaitForSeconds(interimDelay);
-        }    
+        }
     }
 
     private void SetObjectsToFall()
