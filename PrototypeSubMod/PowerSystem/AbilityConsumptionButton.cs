@@ -6,8 +6,6 @@ namespace PrototypeSubMod.PowerSystem;
 
 internal class AbilityConsumptionButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler
 {
-    public static AbilityConsumptionButton Instance { get; private set; }
-
     [SerializeField] private Image buttonImage;
     [SerializeField] private Image progressBar;
     [SerializeField] private Animator animator;
@@ -25,17 +23,6 @@ internal class AbilityConsumptionButton : MonoBehaviour, IPointerDownHandler, IP
     private bool hovering;
     private bool consumed;
     private bool interactable;
-
-    private void Awake()
-    {
-        if (Instance != null)
-        {
-            Destroy(this);
-            throw new System.Exception($"More than one AbilityConsumptionButton in the scene! Destroying {this}");
-        }
-
-        Instance = this;
-    }
 
     private void Start()
     {

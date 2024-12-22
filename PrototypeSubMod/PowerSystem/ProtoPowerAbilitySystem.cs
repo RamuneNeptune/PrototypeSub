@@ -36,6 +36,7 @@ internal class ProtoPowerAbilitySystem : MonoBehaviour, ISaveDataListener, ILate
 
     private bool justRemoved;
     private PowerSourceFunctionality currentPowerFunctionality;
+    private AbilityConsumptionButton abilityConsumptionButton;
 
     private Dictionary<TechType, GameObject> powerSourceGameObjects = new();
 
@@ -114,6 +115,8 @@ internal class ProtoPowerAbilitySystem : MonoBehaviour, ISaveDataListener, ILate
         {
             return true;
         };
+
+        abilityConsumptionButton = uGUI_PDA.main.transform.Find("Content/InventoryTab/Equipment/PowerAbilityConsumeButton(Clone)").GetComponent<AbilityConsumptionButton>();
     }
 
     public void OnHover(HandTargetEventData eventData)
@@ -146,7 +149,8 @@ internal class ProtoPowerAbilitySystem : MonoBehaviour, ISaveDataListener, ILate
 
         PDA pda = Player.main.GetPDA();
         Inventory.main.SetUsedStorage(equipment);
-        pda.Open(PDATab.Inventory, null, new PDA.OnClose(AbilityConsumptionButton.Instance.OnClosePDA));
+        
+        pda.Open(PDATab.Inventory, null, new PDA.OnClose(abilityConsumptionButton.OnClosePDA));
     }
 
     private void OnEquip(string slot, InventoryItem item)
