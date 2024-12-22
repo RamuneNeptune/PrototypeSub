@@ -12,7 +12,7 @@ internal class ProtoBuildBot : MonoBehaviour
     [SerializeField] private Transform parentObj;
     [SerializeField] private Transform originalParentObj;
     [SerializeField] private Rigidbody rigidbody;
-    [SerializeField] private FMOD_CustomLoopingEmitter[] hoverSounds;
+    [SerializeField] private GameObject hoverSoundsObject;
     [SerializeField] private FMOD_CustomEmitter buildLoopingSound;
     [SerializeField] private Transform beamOrigin;
     [SerializeField] private float rotationSpeed = 1f;
@@ -35,6 +35,7 @@ internal class ProtoBuildBot : MonoBehaviour
     {
         yield return RetrieveBeamMaterial();
 
+        var hoverSounds = hoverSoundsObject.GetComponents<FMOD_CustomLoopingEmitter>();
         hoverEmitter = hoverSounds[gameObject.GetInstanceID() % hoverSounds.Length];
 
         lineRend = gameObject.AddComponent<LineRenderer>();
@@ -153,6 +154,7 @@ internal class ProtoBuildBot : MonoBehaviour
         buildingSub = false;
         objectToBuild = null;
         currentPath = null;
+        currentBeamPoint = null;
 
         CancelInvoke(nameof(FindClosestBeamPoint));
         onReturnedToStart = onBotReturnedToStart;
