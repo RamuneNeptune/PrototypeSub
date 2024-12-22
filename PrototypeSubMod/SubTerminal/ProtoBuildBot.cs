@@ -8,11 +8,14 @@ internal class ProtoBuildBot : MonoBehaviour
 {
     private static Material LineRendMaterial;
 
+    [SerializeField] private Transform botBone;
+    [SerializeField] private Transform parentObj;
+    [SerializeField] private Transform originalParentObj;
     [SerializeField] private Rigidbody rigidbody;
     [SerializeField] private FMOD_CustomLoopingEmitter[] hoverSounds;
     [SerializeField] private FMOD_CustomEmitter buildLoopingSound;
     [SerializeField] private Transform beamOrigin;
-    [SerializeField] private float returnToRotSpeed = 1f;
+    [SerializeField] private float rotationSpeed = 1f;
 
     private Action onReturnedToStart;
     private BuildBotPath currentPath;
@@ -49,6 +52,10 @@ internal class ProtoBuildBot : MonoBehaviour
 
     public void SetPath(BuildBotPath newPath, GameObject toConstruct)
     {
+        transform.position = botBone.position + parentObj.localPosition;
+        transform.rotation = botBone.rotation * parentObj.localRotation;
+        botBone.SetParent(parentObj, false);
+
         startPos = transform.position;
         startRot = transform.rotation;
 
@@ -97,10 +104,9 @@ internal class ProtoBuildBot : MonoBehaviour
             buildLoopingSound.Stop();
         }
 
-        if (!buildingSub && !animatorControlled)
-        {
-            transform.rotation = Quaternion.Slerp(transform.rotation, startRot, Time.deltaTime * returnToRotSpeed);
-        }
+        Quaternion targetRotation = (!buildingSub && !animatorControlled) ? startRot : Quaternion.LookRotation(currentBeamPoint.position - transform.position);
+
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
     }
 
     private void FixedUpdate()
@@ -157,5 +163,7 @@ internal class ProtoBuildBot : MonoBehaviour
         onReturnedToStart?.Invoke();
         animatorControlled = true;
         UWE.Utils.SetIsKinematicAndUpdateInterpolation(rigidbody, true);
+
+        botBone.SetParent(originalParentObj, false);
     }
 }
