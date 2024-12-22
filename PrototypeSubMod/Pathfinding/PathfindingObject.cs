@@ -8,6 +8,7 @@ public class PathfindingObject : MonoBehaviour
 {
     public event Action OnPathFinished;
 
+    [SerializeField] private PathRequestManager pathManager;
     [SerializeField] private Transform targetPoint;
     [SerializeField] protected Transform visual;
     [SerializeField] private float moveSpeed;
@@ -36,7 +37,7 @@ public class PathfindingObject : MonoBehaviour
         if (runPathfindingOnStart)
         {
             PathRequest request = new PathRequest(transform.position, targetPoint.position, OnPathFound);
-            PathRequestManager.RequestPath(request);
+            pathManager.RequestPath(request);
         }
     }
 
@@ -131,17 +132,15 @@ public class PathfindingObject : MonoBehaviour
     public void UpdatePath()
     {
         originalTargetPos = targetPoint.position;
-        Plugin.Logger.LogInfo($"Requesting path");
         PathRequest request = new PathRequest(transform.position, targetPoint.position, OnPathFound);
-        PathRequestManager.RequestPath(request);
+        pathManager.RequestPath(request);
     }
 
     public void UpdatePath(Vector3 position)
     {
         originalTargetPos = position;
-        Plugin.Logger.LogInfo($"Requesting path");
         PathRequest request = new PathRequest(transform.position, position, OnPathFound);
-        PathRequestManager.RequestPath(request);
+        pathManager.RequestPath(request);
     }
 
     private void OnDrawGizmos()
@@ -164,125 +163,10 @@ public class PathfindingObject : MonoBehaviour
         path.DrawWithGizmos(transform.position, offsetFromGenPos, grid?.transform);
     }
 
-    /*
-    for (int i = targetIndex; i < path.Length; i++)
-        {
-            Vector3 offsetFromGenPos = Vector3.zero;
-            if (useLocalPos) offsetFromGenPos = grid.transform.position - grid.GetPositionAtGridGen();
-
-            Gizmos.color = Color.black;
-            Gizmos.DrawCube(path[i].position + offsetFromGenPos, Vector3.one * 0.2f);
-
-            Vector3 pointA = path[i].position + offsetFromGenPos;
-            Vector3 pointB = i != path.Length - 1 ? path[i + 1].position + offsetFromGenPos : path[i].position + offsetFromGenPos;
-
-            Gizmos.DrawLine(pointA, pointB);
-        } 
-    */
-
-    /*
-    if (path == null || path.Length <= 0) yield break;
-
-        PathData currentWaypoint = path[0];
-        Vector3 dirToNext = currentWaypoint.position - visual.position;
-        targetIndex = 0;
-
-        while (true)
-        {
-            Vector3 offsetFromGenPos = Vector3.zero;
-            if (useLocalPos)
-            {
-                offsetFromGenPos = grid.transform.position - grid.GetPositionAtGridGen();
-            }
-
-            Vector3 targetPointPosition = useLocalPos ? grid.GetWorldToLocalPoint(currentWaypoint.position + offsetFromGenPos) : currentWaypoint.position;
-
-            Vector3 posToCheck = useLocalPos ? transform.localPosition : transform.position;
-            if (posToCheck == targetPointPosition)
-            {
-                targetIndex++;
-
-                if (targetIndex >= path.Length)
-                {
-                    path = null;
-                    visual.rotation = Quaternion.LookRotation(dirToNext, currentWaypoint.normal);
-                    yield break;
-                }
-
-                dirToNext = path[targetIndex].position - transform.position;
-                currentWaypoint = path[targetIndex];
-            }
-
-            posToCheck = Vector3.MoveTowards(posToCheck, targetPointPosition, moveSpeed * Time.deltaTime);
-            Quaternion targetRot = Quaternion.LookRotation(dirToNext, currentWaypoint.normal);
-            visual.rotation = Quaternion.RotateTowards(visual.rotation, targetRot, rotationSpeed * Time.deltaTime);
-
-            if (useLocalPos)
-            {
-                transform.localPosition = posToCheck;
-            }
-            else
-            {
-                transform.position = posToCheck;
-            }
-
-            yield return null;
-        } 
-    */
-
-    //Smooth path following. Can't get it to work with rotations
-    /*
-     bool followingPath = true;
-        int pathIndex = 0;
-        transform.LookAt(path.pathData[0].position);
-
-        while(followingPath)
-        {
-            Vector3 offsetFromGenPos = Vector3.zero;
-            if (useLocalPos) offsetFromGenPos = grid.transform.position - grid.GetPositionAtGridGen();
-
-            path.UpdatePlanes(offsetFromGenPos, grid?.transform);
-
-            Vector3 checkPoint = transform.position + offsetFromGenPos;
-            if(useLocalPos)
-            {
-                checkPoint = grid.transform.TransformPoint(checkPoint);
-            }
-
-            while (path.turnBoundaries[pathIndex].HasCrossedPlane(checkPoint))
-            {
-                path.UpdatePlanes(offsetFromGenPos, grid?.transform);
-
-                if (pathIndex == path.finishLineIndex)
-                {
-                    followingPath = false;
-                    break;
-                }
-                else
-                {
-                    pathIndex++;
-                }
-            }
-
-            if(followingPath)
-            {
-                Vector3 relativeLocalPos = grid.transform.TransformPoint(transform.position - grid.transform.position);
-
-                Vector3 targetDir = path.GetLocalPathPoint(pathIndex, grid?.transform, offsetFromGenPos) - relativeLocalPos;
-                Vector3 normal = path.GetLocalPathNormal(pathIndex, grid?.transform);
-
-                //if (useLocalPos) targetDir += grid.transform.position;
-                Debug.DrawRay(transform.position, targetDir, Color.green);
-                Debug.DrawRay(transform.position, normal, Color.cyan);
-
-                Quaternion targetRot = Quaternion.LookRotation(targetDir.normalized, normal);
-                transform.localRotation = Quaternion.Slerp(transform.localRotation, targetRot, Time.deltaTime * rotationSpeed);
-                transform.localPosition += targetDir.normalized * Time.deltaTime * moveSpeed;
-            }
-
-            yield return null;
-        }
-    */
+    public void SetPathfindingManager(PathRequestManager pathManager)
+    {
+        this.pathManager = pathManager;
+    }
 }
 
 public struct PathData

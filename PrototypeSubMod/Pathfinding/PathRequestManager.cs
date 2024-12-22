@@ -7,17 +7,9 @@ namespace PrototypeSubMod.Pathfinding;
 
 public class PathRequestManager : MonoBehaviour
 {
-    private static PathRequestManager Instance;
-
     [SerializeField] private Pathfinder pathfinder;
 
     private Queue<PathResult> results = new Queue<PathResult>();
-
-    private void Awake()
-    {
-        Debug.Assert(Instance == null);
-        Instance = this;
-    }
 
     private void Update()
     {
@@ -35,21 +27,21 @@ public class PathRequestManager : MonoBehaviour
         }
     }
 
-    public static void RequestPath(Vector3 pathStart, Vector3 pathEnd, Action<PathData[], bool> callback)
+    public void RequestPath(Vector3 pathStart, Vector3 pathEnd, Action<PathData[], bool> callback)
     {
         RequestPath(new PathRequest(pathStart, pathEnd, callback));
     }
 
-    public static void RequestPath(PathRequest request)
+    public void RequestPath(PathRequest request)
     {
-        if (!Instance.pathfinder.pathfindingGrid.initialized)
+        if (!pathfinder.pathfindingGrid.initialized)
         {
             request.callback(new PathData[0], false);
         }
 
         ThreadStart threadStart = delegate
         {
-            Instance.pathfinder.FindPath(request, Instance.FinishedProcessingPath);
+            pathfinder.FindPath(request, FinishedProcessingPath);
         };
 
         threadStart.Invoke();

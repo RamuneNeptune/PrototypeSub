@@ -1,4 +1,5 @@
-﻿using PrototypeSubMod.Prefabs;
+﻿using PrototypeSubMod.Pathfinding;
+using PrototypeSubMod.Prefabs;
 using System.Collections;
 using UnityEngine;
 
@@ -15,6 +16,8 @@ internal class SpawnRepairBot : MonoBehaviour
     }
 
     private static GameObject botPrefab;
+
+    [SerializeField] private PathRequestManager requestManager;
 
     private IEnumerator Start()
     {
@@ -39,7 +42,9 @@ internal class SpawnRepairBot : MonoBehaviour
         newBot.transform.localPosition = transform.localPosition;
         newBot.transform.localRotation = transform.localRotation;
 
-        newBot.GetComponent<ProtoRepairBot>().SetBotLocalPos();
+        var repairBot = newBot.GetComponent<ProtoRepairBot>();
+        repairBot.SetBotLocalPos();
+        repairBot.SetPathfindingManager(requestManager);
 
         newBot.gameObject.SetActive(false);
 
