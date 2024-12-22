@@ -1,34 +1,16 @@
-﻿using PrototypeSubMod.PowerSystem;
-using PrototypeSubMod.Prefabs;
+﻿using PrototypeSubMod.Prefabs;
 using Story;
-using SubLibrary.SaveData;
 using System.Collections;
-using System.Linq;
 using UnityEngine;
 
 namespace PrototypeSubMod.SubTerminal;
 
 internal class ProtoBuildTerminal : Crafter
 {
-    public bool HasBuiltProtoSub
-    {
-        get
-        {
-            return PrototypeSub != null;
-        }
-    }
-
-    public GameObject PrototypeSub { get; private set; }
-
     [SerializeField] private float buildDuration = 20f;
     [SerializeField] private FMODAsset buildSoundEffect;
     [SerializeField] private Transform buildPosition;
     [SerializeField] private GameObject upgradeIconPrefab;
-
-    new private void Start()
-    {
-        RetrieveSubInstance();
-    }
 
     public void CraftSub()
     {
@@ -74,20 +56,10 @@ internal class ProtoBuildTerminal : Crafter
         screen.OnConstructionStarted(duration + vfxConstructing.delay);
 
         LargeWorldEntity.Register(instantiatedPrefab);
-
-        RetrieveSubInstance();
     }
 
     private void SendBuildBots(GameObject toBuild)
     {
         throw new System.NotImplementedException("Build bots not implemented yet");
-    }
-
-    private void RetrieveSubInstance()
-    {
-        if (PrototypeSub != null) return;
-
-        var serializationManagers = FindObjectsOfType<SubSerializationManager>();
-        PrototypeSub = serializationManagers.FirstOrDefault(s => s.GetComponentInChildren<PrototypePowerSystem>() != null)?.gameObject;
     }
 }

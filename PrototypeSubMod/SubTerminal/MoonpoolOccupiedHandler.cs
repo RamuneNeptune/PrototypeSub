@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using PrototypeSubMod.PowerSystem;
+using SubLibrary.SaveData;
+using UnityEngine;
 using UnityEngine.Events;
 
 namespace PrototypeSubMod.SubTerminal;
@@ -11,11 +13,14 @@ internal class MoonpoolOccupiedHandler : MonoBehaviour
         private set;
     }
 
-    private bool occupiedLastCheck;
+    public GameObject SubInMoonpool { get; private set; }
 
     [SerializeField] private UnityEvent onHasSubChanged;
     [SerializeField] private ProtoBuildTerminal buildTerminal;
+    [SerializeField] private Collider moonpoolBounds;
     [SerializeField] private float maxDistanceFromMoonpool;
+
+    private bool occupiedLastCheck;
 
     private void Start()
     {
@@ -25,15 +30,27 @@ internal class MoonpoolOccupiedHandler : MonoBehaviour
 
     private void CheckForSub()
     {
-        if (buildTerminal.PrototypeSub == null)
+        bool foundSub = false;
+        SubInMoonpool = null;
+
+        int count = UWE.Utils.OverlapBoxIntoSharedBuffer(moonpoolBounds.transform.position, moonpoolBounds.bounds.extents / 2, moonpoolBounds.transform.rotation);
+        for (int i = 0; i < count; i++)
         {
-            MoonpoolHasSub = false;
-            return;
+            var collider = UWE.Utils.sharedColliderBuffer[i];
+            var serializationManager = collider.GetComponentInParent<SubSerializationManager>();
+
+            if (serializationManager == null) continue;
+
+            var powerSystem = serializationManager.GetComponentInChildren<PrototypePowerSystem>();
+
+            if (powerSystem == null) continue;
+
+            SubInMoonpool = serializationManager.gameObject;
+            foundSub = true;
+            break;
         }
 
-        Vector3 distance = transform.position - buildTerminal.PrototypeSub.transform.position;
-
-        MoonpoolHasSub = buildTerminal.HasBuiltProtoSub && distance.sqrMagnitude < (maxDistanceFromMoonpool * maxDistanceFromMoonpool);
+        MoonpoolHasSub = foundSub;
 
         if (occupiedLastCheck != MoonpoolHasSub)
         {

@@ -24,7 +24,7 @@ internal class uGUI_ProtoBuildScreen : MonoBehaviour
     private void Start()
     {
         tooltip.rocketTechType = Prototype_Craftable.SubInfo.TechType;
-        if (buildTerminal.HasBuiltProtoSub)
+        if (Plugin.GlobalSaveData.prototypePresent)
         {
             upgradeScreen.SetActive(occupiedHandler.MoonpoolHasSub);
             emptyScreen.SetActive(!occupiedHandler.MoonpoolHasSub);
