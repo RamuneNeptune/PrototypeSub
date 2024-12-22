@@ -2,6 +2,7 @@
 using Story;
 using System.Collections;
 using UnityEngine;
+using static Nautilus.Utility.AudioUtils;
 
 namespace PrototypeSubMod.SubTerminal;
 
@@ -14,9 +15,11 @@ internal class ProtoBuildTerminal : Crafter
     [SerializeField] private Transform buildPosition;
     [SerializeField] private GameObject upgradeIconPrefab;
     [SerializeField] private ProtoBatteryManager[] batteryManagers;
+    [SerializeField] private ProtoBuildBot[] buildBots;
     [SerializeField] private Animator spikesAnimator;
 
     private uGUI_ProtoBuildScreen buildScreen;
+    private int returnedBotCount;
 
     public override void Start()
     {
@@ -86,10 +89,43 @@ internal class ProtoBuildTerminal : Crafter
         buildScreen.OnConstructionStarted(duration + vfxConstructing.delay);
 
         LargeWorldEntity.Register(instantiatedPrefab);
+        SendBuildBots(instantiatedPrefab);
     }
 
     private void SendBuildBots(GameObject toBuild)
     {
-        throw new System.NotImplementedException("Build bots not implemented yet");
+        returnedBotCount = 0;
+        spikesAnimator.enabled = false;
+
+        var botPaths = toBuild.GetComponentsInChildren<BuildBotPath>();
+        if (botPaths.Length == 0)
+        {
+            Plugin.Logger.LogWarning($"No bot paths found on {toBuild}");
+            return;
+        }
+
+        for ( int i = 0; i < buildBots.Length; i++)
+        {
+            int index = i % botPaths.Length;
+            buildBots[i].SetPath(botPaths[index], toBuild);
+        }
+    }
+
+    // Called by VFX Constructing
+    public void OnConstructionDone(GameObject constructedObject)
+    {
+        for (int i = 0; i < buildBots.Length; i++)
+        {
+            buildBots[i].FinishConstruction(OnBotReturned);
+        }
+    }
+
+    private void OnBotReturned()
+    {
+        returnedBotCount++;
+        if (returnedBotCount >= buildBots.Length)
+        {
+            spikesAnimator.enabled = true;
+        }
     }
 }
