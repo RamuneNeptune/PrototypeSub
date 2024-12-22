@@ -4286,6 +4286,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   crafterLogic: {fileID: 3284521603484954665}
   buildDuration: 20
+  buildDelay: 0
   buildSoundEffect: {fileID: 11400000, guid: b7a0b24b15c03584aaf41efcd4965dee, type: 2}
   buildPosition: {fileID: 2267562880022589075}
   upgradeIconPrefab: {fileID: 3971835248657469078, guid: 5418e3a01238018418614cf516b1dcbe,
@@ -12210,6 +12211,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1716387572143541902}
+  - component: {fileID: 4007709174811682470}
   m_Layer: 0
   m_Name: Battery
   m_TagString: Untagged
@@ -12234,6 +12236,20 @@ Transform:
   m_Father: {fileID: 2055188084176233035}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 270, z: 0}
+--- !u!114 &4007709174811682470
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6952048422383648799}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -127688237, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sliderRend: {fileID: 2622975591288659083}
+  rechargeTime: 20
 --- !u!1 &6961057183848524191
 GameObject:
   m_ObjectHideFlags: 0
@@ -14324,6 +14340,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7591851568858325111}
+  - component: {fileID: 7239207028449941985}
   m_Layer: 0
   m_Name: Battery (1)
   m_TagString: Untagged
@@ -14348,6 +14365,20 @@ Transform:
   m_Father: {fileID: 2055188084176233035}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 270, z: 0}
+--- !u!114 &7239207028449941985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8351649556881597368}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -127688237, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sliderRend: {fileID: 1074029094838414980}
+  rechargeTime: 20
 --- !u!1 &8422491651594603255
 GameObject:
   m_ObjectHideFlags: 0
@@ -17102,6 +17133,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0e63f04a731ca394b948b6f8d33eea48, type: 3}
+--- !u!23 &2622975591288659083 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -200346911032139157, guid: 0e63f04a731ca394b948b6f8d33eea48,
+    type: 3}
+  m_PrefabInstance: {fileID: 6439751561170321120}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6833137737280755979 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 0e63f04a731ca394b948b6f8d33eea48,
@@ -17339,15 +17376,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0e63f04a731ca394b948b6f8d33eea48, type: 3}
---- !u!4 &8382666977007594244 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 0e63f04a731ca394b948b6f8d33eea48,
+--- !u!23 &1074029094838414980 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -200346911032139157, guid: 0e63f04a731ca394b948b6f8d33eea48,
     type: 3}
   m_PrefabInstance: {fileID: 8349548702852058351}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &928409058957113202 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -54657477031576675, guid: 0e63f04a731ca394b948b6f8d33eea48,
+    type: 3}
+  m_PrefabInstance: {fileID: 8349548702852058351}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &8382666977007594244 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 0e63f04a731ca394b948b6f8d33eea48,
     type: 3}
   m_PrefabInstance: {fileID: 8349548702852058351}
   m_PrefabAsset: {fileID: 0}

@@ -8,9 +8,11 @@ namespace PrototypeSubMod.SubTerminal;
 internal class ProtoBuildTerminal : Crafter
 {
     [SerializeField] private float buildDuration = 20f;
+    [SerializeField] private float buildDelay;
     [SerializeField] private FMODAsset buildSoundEffect;
     [SerializeField] private Transform buildPosition;
     [SerializeField] private GameObject upgradeIconPrefab;
+    [SerializeField] private ProtoBatteryManager[] batteryManagers;
 
     public void CraftSub()
     {
@@ -21,7 +23,18 @@ internal class ProtoBuildTerminal : Crafter
     {
         if (!CrafterLogic.ConsumeResources(techType)) return;
 
+        UWE.CoroutineHost.StartCoroutine(StartCraftChargeUp(techType, duration));
+    }
+
+    private IEnumerator StartCraftChargeUp(TechType techType, float duration)
+    {
+        yield return new WaitForSeconds(buildDelay);
+
         base.Craft(techType, duration);
+        foreach (var item in batteryManagers)
+        {
+            item.StartBatteryDrain(buildDuration);
+        }
     }
 
     public override void OnCraftingBegin(TechType techType, float duration)
