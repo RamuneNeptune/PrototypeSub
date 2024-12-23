@@ -127,6 +127,10 @@ internal class ProtoBuildTerminal : Crafter
         if (returnedBotCount >= buildBots.Length)
         {
             spikesAnimator.enabled = true;
+            foreach (var item in buildBots)
+            {
+                item.OnAllBotsReturned();
+            }
         }
     }
 }

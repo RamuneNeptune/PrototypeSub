@@ -43,8 +43,9 @@ internal class ProtoBuildBot : MonoBehaviour
 
     public void SetPath(BuildBotPath newPath, GameObject toConstruct)
     {
-        transform.position = botBone.position - parentObj.localPosition;
-        transform.rotation = botBone.rotation;
+        transform.position = transform.position + originalParentObj.InverseTransformVector(botBone.position - parentObj.position);
+        transform.rotation = Quaternion.LookRotation(botBone.forward, botBone.up);
+
         botBone.SetParent(parentObj);
         botBone.transform.localPosition = Vector3.zero;
         botBone.transform.localRotation = Quaternion.identity;
@@ -174,7 +175,10 @@ internal class ProtoBuildBot : MonoBehaviour
     {
         onReturnedToStart?.Invoke();
         animatorControlled = true;
+    }
 
+    public void OnAllBotsReturned()
+    {
         botBone.SetParent(originalParentObj, false);
     }
 }
