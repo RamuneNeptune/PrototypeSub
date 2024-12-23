@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using UnityEditor;
 
-[CanEditMultipleObjects]
 public class BotPointPreview : MonoBehaviour
 {
     [SerializeField] private bool showPreview;
