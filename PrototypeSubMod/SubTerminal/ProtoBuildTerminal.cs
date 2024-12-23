@@ -43,7 +43,7 @@ internal class ProtoBuildTerminal : Crafter
     private IEnumerator StartCraftChargeUp(TechType techType, float duration)
     {
         spikesAnimator.SetTrigger("BuildWarmup");
-        buildScreen.OnConstructionPreWarm(buildDelay);
+        buildScreen.OnConstructionPreWarm(buildDelay - 1f);
         foreach (var item in batteryManagers)
         {
             item.StartBatteryCharge(buildDelay);
