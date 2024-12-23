@@ -53,7 +53,7 @@ internal class ProtoBuildBot : MonoBehaviour
         startRot = transform.rotation;
 
         currentPath = newPath;
-        currentPointIndex = 0;
+        currentPointIndex = UnityEngine.Random.Range(0, newPath.points.Length - 1);
         targetPos = newPath.points[0].position;
         objectToBuild = toConstruct;
         buildingSub = true;
