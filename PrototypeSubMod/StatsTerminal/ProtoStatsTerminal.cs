@@ -5,17 +5,12 @@ namespace PrototypeSubMod.StatsTerminal;
 internal class ProtoStatsTerminal : MonoBehaviour
 {
     [SerializeField] private Animator animator;
-    [SerializeField] private LiveMixin liveMixin;
-    [SerializeField] private GameObject modelsParent;
-    [SerializeField] private Gradient holoColorOverHealth;
-    [SerializeField] private float colorTransitionSpeed;
 
-    private Renderer[] renderers;
-    private Color currentColor;
+    private IStatistic[] statistics;
 
     private void Start()
     {
-        renderers = modelsParent.GetComponentsInChildren<Renderer>();
+        statistics = GetComponents<IStatistic>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -34,17 +29,9 @@ internal class ProtoStatsTerminal : MonoBehaviour
 
     private void Update()
     {
-        currentColor = renderers[0].material.color;
-        var targetColor = Color.Lerp(currentColor, holoColorOverHealth.Evaluate(liveMixin.health / liveMixin.maxHealth), Time.deltaTime * colorTransitionSpeed);
-
-        foreach (var rend in renderers)
+        foreach (var item in statistics)
         {
-            var mats = rend.materials;
-            for (int i = 0; i < mats.Length; i++)
-            {
-                mats[i].color = targetColor;
-            }
-            rend.materials = mats;
+            item.UpdateStat();
         }
     }
 }
