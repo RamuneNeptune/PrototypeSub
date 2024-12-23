@@ -11,10 +11,10 @@ internal class ProtoBuildBot : MonoBehaviour
     [SerializeField] private Transform botBone;
     [SerializeField] private Transform parentObj;
     [SerializeField] private Transform originalParentObj;
-    [SerializeField] private Rigidbody rigidbody;
     [SerializeField] private GameObject hoverSoundsObject;
     [SerializeField] private FMOD_CustomEmitter buildLoopingSound;
     [SerializeField] private Transform beamOrigin;
+    [SerializeField] private float movementSpeed = 1f;
     [SerializeField] private float rotationSpeed = 1f;
 
     private Action onReturnedToStart;
@@ -43,8 +43,8 @@ internal class ProtoBuildBot : MonoBehaviour
 
     public void SetPath(BuildBotPath newPath, GameObject toConstruct)
     {
-        transform.position = botBone.position + parentObj.localPosition;
-        transform.rotation = botBone.rotation * parentObj.localRotation;
+        transform.position = botBone.position - parentObj.localPosition;
+        transform.rotation = botBone.rotation;
         botBone.SetParent(parentObj);
         botBone.transform.localPosition = Vector3.zero;
         botBone.transform.localRotation = Quaternion.identity;
@@ -58,8 +58,6 @@ internal class ProtoBuildBot : MonoBehaviour
         objectToBuild = toConstruct;
         buildingSub = true;
         animatorControlled = false;
-
-        UWE.Utils.SetIsKinematicAndUpdateInterpolation(rigidbody, false);
 
         CancelInvoke(nameof(FindClosestBeamPoint));
         InvokeRepeating(nameof(FindClosestBeamPoint), 0, 0.3f);
@@ -119,16 +117,17 @@ internal class ProtoBuildBot : MonoBehaviour
         Quaternion targetRotation = !buildingSub ? startRot : Quaternion.LookRotation(currentBeamPoint.position - transform.position);
 
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
+        HandleMovement();
     }
 
-    private void FixedUpdate()
+    private void HandleMovement()
     {
         if (animatorControlled) return;
 
-        Vector3 targetPoint = buildingSub ? targetPos - transform.position : startPos - transform.position;
-        if (targetPoint.sqrMagnitude > 1.6f)
+        Vector3 targetPoint = buildingSub ? targetPos : startPos;
+        if ((targetPoint - transform.position).sqrMagnitude > 1.6f)
         {
-            rigidbody.AddForce(targetPoint.normalized * Time.fixedDeltaTime * 5f, ForceMode.VelocityChange);
+            transform.position = Vector3.MoveTowards(transform.position, targetPoint, Time.deltaTime * movementSpeed);
         }
         else if (currentPath != null)
         {
@@ -175,7 +174,6 @@ internal class ProtoBuildBot : MonoBehaviour
     {
         onReturnedToStart?.Invoke();
         animatorControlled = true;
-        UWE.Utils.SetIsKinematicAndUpdateInterpolation(rigidbody, true);
 
         botBone.SetParent(originalParentObj, false);
     }
