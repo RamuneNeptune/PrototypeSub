@@ -7,14 +7,17 @@ namespace PrototypeSubMod.IonGenerator;
 
 internal class ProtoIonGenerator : ProtoUpgrade
 {
+    [SerializeField] private SubRoot subRoot;
     [SerializeField] private ProtoMotorHandler motorHandler;
-    [SerializeField] private PowerRelay powerRelay;
+    [SerializeField] private VoiceNotification overheatNotification;
     [SerializeField] private float energyPerSecond = 0.3f;
     [SerializeField] private float activeNoiseValue;
     [SerializeField] private float empChargeUpTime = 300;
+    [SerializeField] private float overheatVoicelineThreshold;
     [SerializeField] private float empOxygenDisableTime = 150f;
 
     [Header("EMP")]
+    [SerializeField] private VoiceNotification empNotification;
     [SerializeField] private Transform empSpawnPos;
     [SerializeField] private float empLifetime;
     [SerializeField] private AnimationCurve blastRadius;
@@ -81,23 +84,36 @@ internal class ProtoIonGenerator : ProtoUpgrade
             return;
         }
 
+        if (currentEMPChargeTime >= overheatVoicelineThreshold)
+        {
+            subRoot.voiceNotificationManager.PlayVoiceNotification(overheatNotification);
+        }
+
         if (currentEMPChargeTime < empChargeUpTime && !empFired)
         {
             currentEMPChargeTime += Time.deltaTime;
-            powerRelay.AddEnergy(energyPerSecond * Time.deltaTime * energyMultiplier, out _);
+            subRoot.powerRelay.AddEnergy(energyPerSecond * Time.deltaTime * energyMultiplier, out _);
         }
         else if (!empFired)
         {
-            //Do EMP thing
-            var newEMP = Instantiate(empPrefab, empSpawnPos.position, empSpawnPos.rotation, empSpawnPos);
-            newEMP.SetActive(true);
+            StartCoroutine(FireEMP());
             empFired = true;
-            upgradeEnabled = false;
-
-            powerRelay.DisableElectronicsForTime(empOxygenDisableTime);
-
-            Utils.PlayEnvSound(empSoundEffect, empSpawnPos.position, soundEffectVolume);
         }
+    }
+
+    private IEnumerator FireEMP()
+    {
+        subRoot.voiceNotificationManager.PlayVoiceNotification(empNotification);
+        yield return new WaitForSeconds(10.5f);
+
+        //Do EMP thing
+        var newEMP = Instantiate(empPrefab, empSpawnPos.position, empSpawnPos.rotation, empSpawnPos);
+        newEMP.SetActive(true);
+        upgradeEnabled = false;
+
+        subRoot.powerRelay.DisableElectronicsForTime(empOxygenDisableTime);
+
+        Utils.PlayEnvSound(empSoundEffect, empSpawnPos.position, soundEffectVolume);
     }
 
     public void SetEnergyMultiplier(float multiplier)
