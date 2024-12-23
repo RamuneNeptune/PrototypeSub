@@ -95,14 +95,15 @@ internal class ProtoBuildTerminal : Crafter
     private void SendBuildBots(GameObject toBuild)
     {
         returnedBotCount = 0;
-        spikesAnimator.enabled = false;
 
         var botPaths = toBuild.GetComponentsInChildren<BuildBotPath>();
         if (botPaths.Length == 0)
         {
-            Plugin.Logger.LogWarning($"No bot paths found on {toBuild}");
+            Plugin.Logger.LogError($"No bot paths found on {toBuild}");
             return;
         }
+
+        spikesAnimator.enabled = false;
 
         for ( int i = 0; i < buildBots.Length; i++)
         {
