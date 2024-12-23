@@ -32,4 +32,6 @@ internal class ProtoHealthStat : MonoBehaviour, IStatistic
             rend.materials = mats;
         }
     }
+
+    public void UpdateStatIntermittent() { }
 }

@@ -3,4 +3,5 @@
 internal interface IStatistic
 {
     public void UpdateStat();
+    public void UpdateStatIntermittent();
 }

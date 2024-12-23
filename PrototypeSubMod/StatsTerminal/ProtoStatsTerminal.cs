@@ -5,8 +5,11 @@ namespace PrototypeSubMod.StatsTerminal;
 internal class ProtoStatsTerminal : MonoBehaviour
 {
     [SerializeField] private Animator animator;
+    [SerializeField] private BehaviourLOD lod;
+    [SerializeField] private float intermittentUpdateInterval = 2f;
 
     private IStatistic[] statistics;
+    private float currentIntervalTime;
 
     private void Start()
     {
@@ -29,9 +32,24 @@ internal class ProtoStatsTerminal : MonoBehaviour
 
     private void Update()
     {
+        if (!lod.IsFull()) return;
+
         foreach (var item in statistics)
         {
             item.UpdateStat();
+        }
+
+        if (currentIntervalTime < intermittentUpdateInterval)
+        {
+            currentIntervalTime += Time.deltaTime;
+        }
+        else
+        {
+            currentIntervalTime = 0;
+            foreach (var item in statistics)
+            {
+                item.UpdateStatIntermittent();
+            }
         }
     }
 }
