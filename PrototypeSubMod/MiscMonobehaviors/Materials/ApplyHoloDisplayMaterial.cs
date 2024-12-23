@@ -1,4 +1,5 @@
 ﻿using SubLibrary.CyclopsReferencers;
+using SubLibrary.Materials.Tags;
 using UnityEngine;
 
 namespace PrototypeSubMod.MiscMonobehaviors.Materials;
@@ -10,6 +11,19 @@ internal class ApplyHoloDisplayMaterial : MonoBehaviour, ICyclopsReferencer
 
     [Header("Single Rend Mode")]
     [SerializeField] private Renderer singleRenderer;
+
+    private void Awake()
+    {
+        foreach (var item in GetComponentsInChildren<SubExteriorTag>())
+        {
+            Destroy(item);
+        }
+
+        foreach (var item in GetComponentsInChildren<SubWindowTag>())
+        {
+            Destroy(item);
+        }
+    }
 
     public void OnCyclopsReferenceFinished(GameObject cyclops)
     {
@@ -25,9 +39,14 @@ internal class ApplyHoloDisplayMaterial : MonoBehaviour, ICyclopsReferencer
                 singleRenderer.material = newMaterial;
                 break;
             case ApplyMode.AllChildren:
-                foreach (var rend in GetComponentsInChildren<Renderer>())
+                foreach (var rend in GetComponentsInChildren<Renderer>(true))
                 {
-                    rend.material = newMaterial;
+                    var mats = rend.materials;
+                    for (int i = 0; i < mats.Length; i++)
+                    {
+                        mats[i] = newMaterial;
+                    }
+                    rend.materials = mats;
                 }
                 break;
         }
