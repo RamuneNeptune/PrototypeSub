@@ -157,12 +157,12 @@ internal class ProtoTeleporterManager : ProtoUpgrade
 
     public void PlayOverrideMarker1()
     {
-        subRoot.voiceNotificationManager.PlayVoiceNotification(overrideStatus1);
+        subRoot.voiceNotificationManager.PlayVoiceNotification(overrideStatus1, false, true);
     }
 
     public void PlayOverrideMarker2()
     {
-        subRoot.voiceNotificationManager.PlayVoiceNotification(overrideStatus2);
+        subRoot.voiceNotificationManager.PlayVoiceNotification(overrideStatus2, false, true);
     }
 
     public void SetColorOverrideData(ColorOverrideData overrideData) => colorOverrideData = overrideData;

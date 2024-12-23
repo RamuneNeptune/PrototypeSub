@@ -87,7 +87,7 @@ internal class ProtoIonGenerator : ProtoUpgrade
             return;
         }
 
-        if (currentEMPChargeTime >= overheatVoicelineThreshold)
+        if (currentEMPChargeTime >= overheatVoicelineThreshold && !empFired)
         {
             subRoot.voiceNotificationManager.PlayVoiceNotification(overheatNotification);
         }
@@ -106,7 +106,7 @@ internal class ProtoIonGenerator : ProtoUpgrade
 
     private IEnumerator FireEMP()
     {
-        subRoot.voiceNotificationManager.PlayVoiceNotification(empNotification);
+        subRoot.voiceNotificationManager.PlayVoiceNotification(empNotification, false, true);
         yield return new WaitForSeconds(10.5f);
 
         //Do EMP thing
