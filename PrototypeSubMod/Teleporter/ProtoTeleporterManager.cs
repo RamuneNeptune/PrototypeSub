@@ -12,6 +12,8 @@ internal class ProtoTeleporterManager : ProtoUpgrade
     [SerializeField] private SubRoot subRoot;
     [SerializeField] private Transform teleportPosition;
     [SerializeField] private FMOD_CustomLoopingEmitter activeLoopSound;
+    [SerializeField] private VoiceNotification overrideStatus1;
+    [SerializeField] private VoiceNotification overrideStatus2;
     [SerializeField] private string teleporterID;
     [SerializeField] private bool isHost;
     [SerializeField] private float stayOpenTime;
@@ -151,6 +153,16 @@ internal class ProtoTeleporterManager : ProtoUpgrade
         yield return new WaitForSeconds(7.5f);
 
         activationTerminal.GetComponentInChildren<Collider>(true).isTrigger = false;
+    }
+
+    public void PlayOverrideMarker1()
+    {
+        subRoot.voiceNotificationManager.PlayVoiceNotification(overrideStatus1);
+    }
+
+    public void PlayOverrideMarker2()
+    {
+        subRoot.voiceNotificationManager.PlayVoiceNotification(overrideStatus2);
     }
 
     public void SetColorOverrideData(ColorOverrideData overrideData) => colorOverrideData = overrideData;

@@ -1,6 +1,7 @@
 ﻿using PrototypeSubMod.MiscMonobehaviors.SubSystems;
 using PrototypeSubMod.PowerSystem.Funcionalities;
 using System;
+using System.Collections;
 using UnityEngine;
 
 namespace PrototypeSubMod.Teleporter;
@@ -71,6 +72,7 @@ internal class TeleporterOverride : MonoBehaviour
     private void Start()
     {
         Initialize();
+        UWE.CoroutineHost.StartCoroutine(WaitToPlayFirstStatus());
     }
 
     private void OnEnable() => OnTeleportStart += TargetTeleporterCheck;
@@ -144,13 +146,11 @@ internal class TeleporterOverride : MonoBehaviour
             teleporter.warpToPos = originalTeleportPosition;
             teleporter.warpToAngle = originalTeleportAngle;
             overrideActive = false;
-
-            ErrorMessage.AddError("WARNING: Link to Prototype sub collapsed. Normal portal functions resumed.");
         }
 
         if (overrideTimeLastFrame > 30f && currentOverrideTime <= 30f)
         {
-            ErrorMessage.AddError("WARNING: Archway override will remain stable for 30 more seconds.");
+            LastOverrideOwner.PlayOverrideMarker2();
         }
 
         overrideTimeLastFrame = currentOverrideTime;
@@ -207,6 +207,16 @@ internal class TeleporterOverride : MonoBehaviour
         {
             TimeWhenPortalUnloaded = Time.time;
             TimeLeftWhenUnloaded = currentOverrideTime;
+        }
+    }
+
+    private IEnumerator WaitToPlayFirstStatus()
+    {
+        yield return new WaitUntil(LargeWorldStreamer.main.IsWorldSettled);
+
+        if (LastOverrideOwner != null)
+        {
+            LastOverrideOwner.PlayOverrideMarker1();
         }
     }
 }
