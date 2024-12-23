@@ -8,15 +8,15 @@ internal class ProtoStatsTerminal : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other != Player.mainCollider) return;
+        if (!other.gameObject.Equals(Player.main.gameObject)) return;
 
         animator.SetBool("TerminalOpen", true);
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other != Player.mainCollider) return;
+        if (!other.gameObject.Equals(Player.main.gameObject)) return;
 
-        animator.SetBool("TerminalOpen", true);
+        animator.SetBool("TerminalOpen", false);
     }
 }
