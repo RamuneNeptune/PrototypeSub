@@ -45,7 +45,9 @@ internal class ProtoBuildBot : MonoBehaviour
     {
         transform.position = botBone.position + parentObj.localPosition;
         transform.rotation = botBone.rotation * parentObj.localRotation;
-        botBone.SetParent(parentObj, false);
+        botBone.SetParent(parentObj);
+        botBone.transform.localPosition = Vector3.zero;
+        botBone.transform.localRotation = Quaternion.identity;
 
         startPos = transform.position;
         startRot = transform.rotation;
@@ -123,7 +125,7 @@ internal class ProtoBuildBot : MonoBehaviour
     {
         if (animatorControlled) return;
 
-        Vector3 targetPoint = buildingSub ? targetPos - transform.position : startPos;
+        Vector3 targetPoint = buildingSub ? targetPos - transform.position : startPos - transform.position;
         if (targetPoint.sqrMagnitude > 1.6f)
         {
             rigidbody.AddForce(targetPoint.normalized * Time.fixedDeltaTime * 5f, ForceMode.VelocityChange);
