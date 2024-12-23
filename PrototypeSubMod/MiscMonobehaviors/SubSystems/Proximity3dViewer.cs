@@ -9,6 +9,8 @@ internal class Proximity3dViewer : MonoBehaviour
     [SerializeField] private Transform targetPointsParent;
     [SerializeField] private Transform objToRotate;
     [SerializeField] private Transform rotationTarget;
+    [Tooltip("If the target points are zero, it will align the center of the objToRotate through this point towards the rotationTarget")]
+    [SerializeField] private Transform backupForwardOrientation;
     [SerializeField] private float rotationSpeed;
     [SerializeField] private bool disableWhenNoPointsActive;
 
@@ -24,7 +26,8 @@ internal class Proximity3dViewer : MonoBehaviour
 
     private void Update()
     {
-        if (!targets.Any(t => t.gameObject.activeSelf) && disableWhenNoPointsActive)
+        bool anyTargetsActive = targets.Any(t => t.gameObject.activeSelf);
+        if (!anyTargetsActive && disableWhenNoPointsActive)
         {
             objToRotate.gameObject.SetActive(false);
             return;
@@ -36,8 +39,14 @@ internal class Proximity3dViewer : MonoBehaviour
 
         Vector3 center = GetAveragePositions(targets);
         Vector3 dirToTarget = (rotationTarget.position - objToRotate.position).normalized;
+        var currentOrientation = center - objToRotate.position;
 
-        Quaternion targetRotation = Quaternion.FromToRotation((center - objToRotate.position).normalized, dirToTarget) * objToRotate.rotation;
+        if (!anyTargetsActive && backupForwardOrientation != null)
+        {
+            currentOrientation = backupForwardOrientation.position - objToRotate.position;
+        }
+
+        Quaternion targetRotation = Quaternion.FromToRotation(currentOrientation.normalized, dirToTarget) * objToRotate.rotation;
 
         Debug.DrawLine(objToRotate.position, center, Color.red);
         Debug.DrawLine(center, rotationTarget.position, Color.magenta);

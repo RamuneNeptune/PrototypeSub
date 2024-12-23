@@ -2334,6 +2334,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2223216809864577721}
+  - component: {fileID: 1243820207683953899}
   m_Layer: 0
   m_Name: SubDisplay
   m_TagString: Untagged
@@ -2354,9 +2355,28 @@ Transform:
   m_Children:
   - {fileID: 763710592923741831}
   - {fileID: 8524114293872315923}
+  - {fileID: 1373335898611810823}
   m_Father: {fileID: 4186435366359125763}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 90.00001, z: 0}
+--- !u!114 &1243820207683953899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 207042571708797787}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 676706296, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetPointsParent: {fileID: 763710592923741831}
+  objToRotate: {fileID: 2223216809864577721}
+  rotationTarget: {fileID: 5870461968114657818}
+  backupForwardOrientation: {fileID: 1373335898611810823}
+  rotationSpeed: 1
+  disableWhenNoPointsActive: 0
 --- !u!1 &216634739110745774
 GameObject:
   m_ObjectHideFlags: 0
@@ -15161,8 +15181,6 @@ GameObject:
   - component: {fileID: 6008707254195474804}
   - component: {fileID: 6515594946916357405}
   - component: {fileID: 960738842597127116}
-  - component: {fileID: 2334385402752917835}
-  - component: {fileID: 9175902772936549185}
   m_Layer: 0
   m_Name: LowerEngineRoomInteriorBlock
   m_TagString: Untagged
@@ -15231,33 +15249,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &2334385402752917835
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1353801243674116982}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1933020355, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  objectPath: FX/x_SmokeScreenImpostor
-  materialIndex: 0
-  renderer: {fileID: 960738842597127116}
---- !u!114 &9175902772936549185
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1353801243674116982}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 768246226, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1356010161003608684
 GameObject:
   m_ObjectHideFlags: 0
@@ -21158,7 +21149,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7383964735154344874}
   m_Layer: 0
-  m_Name: SmokeImposterRenderers (1)
+  m_Name: SmokeImposterRenderers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26184,6 +26175,7 @@ MonoBehaviour:
   targetPointsParent: {fileID: 2689237032950136057}
   objToRotate: {fileID: 3613104265641422849}
   rotationTarget: {fileID: 4553780683453276435}
+  backupForwardOrientation: {fileID: 0}
   rotationSpeed: 2
   disableWhenNoPointsActive: 1
 --- !u!114 &7876428895607546161
@@ -26201,6 +26193,7 @@ MonoBehaviour:
   targetPointsParent: {fileID: 8204091081527474028}
   objToRotate: {fileID: 6411192652498146397}
   rotationTarget: {fileID: 4553780683453276435}
+  backupForwardOrientation: {fileID: 0}
   rotationSpeed: 2
   disableWhenNoPointsActive: 1
 --- !u!114 &2327087130261213689
@@ -39167,8 +39160,6 @@ GameObject:
   - component: {fileID: 2367350912246110189}
   - component: {fileID: 1413944893038374106}
   - component: {fileID: 9043556341221393905}
-  - component: {fileID: 3564306405276216898}
-  - component: {fileID: 8179128219859066379}
   m_Layer: 0
   m_Name: PilotsCabinInteriorBlock
   m_TagString: Untagged
@@ -39237,33 +39228,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &3564306405276216898
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3580563418595193777}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1933020355, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  objectPath: FX/x_SmokeScreenImpostor
-  materialIndex: 0
-  renderer: {fileID: 9043556341221393905}
---- !u!114 &8179128219859066379
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3580563418595193777}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 768246226, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &3582258607362887851
 GameObject:
   m_ObjectHideFlags: 0
@@ -64697,8 +64661,6 @@ GameObject:
   - component: {fileID: 1773677902004793757}
   - component: {fileID: 7988940631059677069}
   - component: {fileID: 5757068117657657035}
-  - component: {fileID: 8731519201416301964}
-  - component: {fileID: 6620052222812830618}
   m_Layer: 0
   m_Name: UpperEngineRoomInteriorBlock
   m_TagString: Untagged
@@ -64767,33 +64729,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &8731519201416301964
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5730260908847709120}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1933020355, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  objectPath: FX/x_SmokeScreenImpostor
-  materialIndex: 0
-  renderer: {fileID: 5757068117657657035}
---- !u!114 &6620052222812830618
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5730260908847709120}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 768246226, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &5732238715203855417
 GameObject:
   m_ObjectHideFlags: 0
@@ -76367,6 +76302,36 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!1 &6938481951190595525
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1373335898611810823}
+  m_Layer: 0
+  m_Name: BackupForward
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1373335898611810823
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6938481951190595525}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.236, y: 0, z: -0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2223216809864577721}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6957124177564021156
 GameObject:
   m_ObjectHideFlags: 0
@@ -91226,8 +91191,6 @@ GameObject:
   - component: {fileID: 877828941332449677}
   - component: {fileID: 8726827309561006023}
   - component: {fileID: 8340133074723275980}
-  - component: {fileID: 6105240381253709672}
-  - component: {fileID: 2563868712745482712}
   m_Layer: 0
   m_Name: CockpitAndBridgeInteriorBlock
   m_TagString: Untagged
@@ -91296,33 +91259,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &6105240381253709672
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8308294443421916307}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1933020355, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  objectPath: FX/x_SmokeScreenImpostor
-  materialIndex: 0
-  renderer: {fileID: 8340133074723275980}
---- !u!114 &2563868712745482712
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8308294443421916307}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 768246226, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &8308694273084197921
 GameObject:
   m_ObjectHideFlags: 0
@@ -102068,6 +102004,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d6cc3db34565c3a4ba68573b0eeec2a0, type: 3}
+--- !u!4 &1224879765472228638 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2253812858737788773, guid: d6cc3db34565c3a4ba68573b0eeec2a0,
+    type: 3}
+  m_PrefabInstance: {fileID: 1132799834664678011}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &4466343788103864506 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3621781888743187137, guid: d6cc3db34565c3a4ba68573b0eeec2a0,
@@ -102080,12 +102022,6 @@ MonoBehaviour:
   m_Script: {fileID: -2039529286, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &1224879765472228638 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2253812858737788773, guid: d6cc3db34565c3a4ba68573b0eeec2a0,
-    type: 3}
-  m_PrefabInstance: {fileID: 1132799834664678011}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1946072641967388923
 PrefabInstance:
   m_ObjectHideFlags: 0
