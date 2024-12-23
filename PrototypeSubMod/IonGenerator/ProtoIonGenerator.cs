@@ -1,5 +1,6 @@
 ﻿using PrototypeSubMod.MotorHandler;
 using PrototypeSubMod.Upgrades;
+using SubLibrary.SubFire;
 using System.Collections;
 using UnityEngine;
 
@@ -19,6 +20,8 @@ internal class ProtoIonGenerator : ProtoUpgrade
     [Header("EMP")]
     [SerializeField] private VoiceNotification empNotification;
     [SerializeField] private Transform empSpawnPos;
+    [SerializeField] private ModdedSubFire subFire;
+    [SerializeField] private SubRoom engineRoom;
     [SerializeField] private float empLifetime;
     [SerializeField] private AnimationCurve blastRadius;
     [SerializeField] private AnimationCurve blastHeight;
@@ -112,8 +115,8 @@ internal class ProtoIonGenerator : ProtoUpgrade
         upgradeEnabled = false;
 
         subRoot.powerRelay.DisableElectronicsForTime(empOxygenDisableTime);
-
         Utils.PlayEnvSound(empSoundEffect, empSpawnPos.position, soundEffectVolume);
+        subFire.CreateFire(engineRoom);
     }
 
     public void SetEnergyMultiplier(float multiplier)
