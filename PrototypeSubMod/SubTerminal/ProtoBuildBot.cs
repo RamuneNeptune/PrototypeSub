@@ -55,7 +55,7 @@ internal class ProtoBuildBot : MonoBehaviour
 
         currentPath = newPath;
         currentPointIndex = UnityEngine.Random.Range(0, newPath.points.Length - 1);
-        targetPos = newPath.points[0].position;
+        targetPos = newPath.points[currentPointIndex].position;
         objectToBuild = toConstruct;
         buildingSub = true;
         animatorControlled = false;
@@ -90,8 +90,8 @@ internal class ProtoBuildBot : MonoBehaviour
         lineRend.positionCount = 2;
         lineRend.startWidth = 0.1f;
         lineRend.endWidth = 1;
-        lineRend.startColor = new Color(0.42f, 1, 0.42f);
-        lineRend.endColor = new Color(1f, 0.55f, 0.42f);
+        lineRend.startColor = new Color(0, 1, 0, 1);
+        lineRend.endColor = new Color(1, 0, 1, 1);
         lineRend.material = LineRendMaterial;
         lineRend.enabled = false;
     }
