@@ -34,7 +34,7 @@ internal class ProtoWarningPing : MonoBehaviour
         Vector3 dotPos = parent.TransformPoint(transform.position + parentOffset * 0.35f);
         labelDot.transform.localPosition = dotPos;
 
-        var color = new Color(0.835f, 1f, 0.792f);
+        var color = new Color(0.6191f, 1f, 0.7619f);
         lineRenderer.startColor = color;
         lineRenderer.endColor = color;
         lineRenderer.material.color = color;
