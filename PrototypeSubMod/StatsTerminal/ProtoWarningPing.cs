@@ -40,7 +40,7 @@ internal class ProtoWarningPing : MonoBehaviour
         lineRenderer.material.color = color;
 
         lineRenderer.SetPositions(new[] { transform.position, labelDot.transform.position });
-        Vector3 textOffset = new Vector3(0, 0, 58f);
+        Vector3 textOffset = new Vector3(0, 0, 88f);
 
         if (labelDot.transform.localPosition.z < transform.localPosition.z)
         {
