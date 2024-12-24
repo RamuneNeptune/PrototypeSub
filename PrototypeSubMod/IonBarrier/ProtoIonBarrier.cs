@@ -8,6 +8,7 @@ internal class ProtoIonBarrier : ProtoUpgrade, IOnTakeDamage
 {
     [SerializeField] private Renderer[] shieldRenderers;
     [SerializeField] private PowerRelay powerRelay;
+    [SerializeField] private GameObject lavaLarvaeRoot;
     [SerializeField] private float constantPowerDraw;
     [SerializeField] private float powerPerDamage;
     [SerializeField] private float maxShieldIntensity;
@@ -130,6 +131,10 @@ internal class ProtoIonBarrier : ProtoUpgrade, IOnTakeDamage
         if (enabled)
         {
             subRoot.voiceNotificationManager.PlayVoiceNotification(shieldsUpNotification);
+            foreach (var larva in lavaLarvaeRoot.GetComponentsInChildren<LavaLarva>())
+            {
+                larva.GetComponent<LiveMixin>().TakeDamage(1, type: DamageType.Electrical);
+            }
         }
     }
 
