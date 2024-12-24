@@ -10,7 +10,7 @@ internal class AggressiveWhenSeePlayer_Patches
     [HarmonyPatch(nameof(AggressiveWhenSeePlayer.GetAggressionTarget)), HarmonyPostfix]
     private static void GetAggressionTarget_Postfix(ref GameObject __result)
     {
-        if (Player.main.currentSub) return;
+        if (Player.main.currentSub == null) return;
 
         var cloakHandler = Player.main.currentSub.GetComponentInChildren<CloakEffectHandler>();
         if (cloakHandler == null) return;
