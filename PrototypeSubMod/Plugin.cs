@@ -165,11 +165,8 @@ namespace PrototypeSubMod
             Texture2D regular2Ico = AssetBundle.LoadAsset<Texture2D>("RegularIcon2");
             new CustomPoster("HamCheesePoster2", null, null, AssetBundle.LoadAsset<Texture2D>("RegularPoster2"), regular2Ico, TechType.PosterExoSuit1);
 
-            var enginePing = FacilityPing.CreatePing("ProtoEngineFacilityPing", EngineFacilityPingType, new FacilityPing.ColorOverrideData(new Color(0.54f, 1f, 0.54f)));
-            CoordinatedSpawnsHandler.RegisterCoordinatedSpawn(new SpawnInfo(enginePing.TechType, new Vector3(307, -1155, 110)));
-
-            var defensePing = FacilityPing.CreatePing("ProtoDefenseFacilityPing", DefenseFacilityPingType, new FacilityPing.ColorOverrideData(new Color(0.54f, 1f, 0.54f)));
-            CoordinatedSpawnsHandler.RegisterCoordinatedSpawn(new SpawnInfo(defensePing.TechType, new Vector3(692, -481, -1414)));
+            CustomPing.CreatePing("ProtoEngineFacilityPing", EngineFacilityPingType, new Vector3(307, -1155, 110), new Color(0.54f, 1f, 0.54f));
+            CustomPing.CreatePing("ProtoDefenseFacilityPing", DefenseFacilityPingType, new Vector3(692, -481, -1414), new Color(0.54f, 1f, 0.54f));
         }
 
         private void RegisterEncyEntries()
