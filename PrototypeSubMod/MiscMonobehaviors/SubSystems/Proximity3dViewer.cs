@@ -9,8 +9,6 @@ internal class Proximity3dViewer : MonoBehaviour
     [SerializeField] private Transform targetPointsParent;
     [SerializeField] private Transform objToRotate;
     [SerializeField] private Transform rotationTarget;
-    [Tooltip("If the target points are zero, it will align the center of the objToRotate through this point towards the rotationTarget")]
-    [SerializeField] private Transform backupForwardOrientation;
     [SerializeField] private float rotationSpeed;
     [SerializeField] private bool disableWhenNoPointsActive;
 
@@ -41,9 +39,9 @@ internal class Proximity3dViewer : MonoBehaviour
         Vector3 dirToTarget = (rotationTarget.position - objToRotate.position).normalized;
         var currentOrientation = center - objToRotate.position;
 
-        if (!anyTargetsActive && backupForwardOrientation != null)
+        if (!anyTargetsActive)
         {
-            currentOrientation = backupForwardOrientation.position - objToRotate.position;
+            currentOrientation = dirToTarget;
         }
 
         Quaternion targetRotation = Quaternion.FromToRotation(currentOrientation.normalized, dirToTarget) * objToRotate.rotation;
