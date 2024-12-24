@@ -60,6 +60,7 @@ namespace PrototypeSubMod
             .WithPdaInfo(null);
 
         public static PingType EngineFacilityPingType = EnumHandler.AddEntry<PingType>("EngineFacility").WithIcon(AssetBundle.LoadAsset<Sprite>("ReactorFacilityLogo"));
+        public static PingType DefenseFacilityPingType = EnumHandler.AddEntry<PingType>("DefenseFacility").WithIcon(AssetBundle.LoadAsset<Sprite>("DefenseFacilityLogo"));
 
         internal static ProtoGlobalSaveData GlobalSaveData = SaveDataHandler.RegisterSaveDataCache<ProtoGlobalSaveData>();
         internal static GameObject welderPrefab;
@@ -166,6 +167,9 @@ namespace PrototypeSubMod
 
             var enginePing = FacilityPing.CreatePing("ProtoEngineFacilityPing", EngineFacilityPingType, new FacilityPing.ColorOverrideData(new Color(0.54f, 1f, 0.54f)));
             CoordinatedSpawnsHandler.RegisterCoordinatedSpawn(new SpawnInfo(enginePing.TechType, new Vector3(307, -1155, 110)));
+
+            var defensePing = FacilityPing.CreatePing("ProtoDefenseFacilityPing", DefenseFacilityPingType, new FacilityPing.ColorOverrideData(new Color(0.54f, 1f, 0.54f)));
+            CoordinatedSpawnsHandler.RegisterCoordinatedSpawn(new SpawnInfo(defensePing.TechType, new Vector3(692, -481, -1414)));
         }
 
         private void RegisterEncyEntries()
