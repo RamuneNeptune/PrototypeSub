@@ -21,8 +21,6 @@ internal class CustomPing
 
     public static void CreatePing(string techType, PingType pingType, Vector3 spawnPos, Color colorOverride = default)
     {
-        Plugin.Logger.LogInfo($"Registering {techType} with ping type {pingType} at {spawnPos}");
-
         var prefabInfo = PrefabInfo.WithTechType(techType);
 
         var prefab = new CustomPrefab(prefabInfo);
@@ -87,7 +85,5 @@ internal class CustomPing
         {
             beacon.EnsureComponent<PingColorOverride>().overrideColor = colorOverride;
         }
-
-        Plugin.Logger.LogInfo($"Ping prefab = {beacon}");
     }
 }
