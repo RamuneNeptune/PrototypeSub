@@ -1,8 +1,6 @@
 ﻿using Nautilus.Assets;
 using Nautilus.Assets.Gadgets;
-using Nautilus.Assets.PrefabTemplates;
 using Nautilus.Utility;
-using PrototypeSubMod.Compatibility;
 using PrototypeSubMod.Utility;
 using System.Collections;
 using System.IO;
@@ -18,7 +16,8 @@ internal class PrecursorIngot_Craftable
     {
         prefabInfo = PrefabInfo.WithTechType("Proto_PrecursorIngot", null, null, "English")
             .WithIcon(SpriteManager.Get(TechType.PlasteelIngot))
-            .WithSizeInInventory(new Vector2int(2, 1));
+            .WithSizeInInventory(new Vector2int(2, 2))
+            .WithIcon(Plugin.AssetBundle.LoadAsset<Sprite>("AlienFramework_Icon"));
 
         var prefab = new CustomPrefab(prefabInfo);
 
