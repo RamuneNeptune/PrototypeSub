@@ -1,7 +1,10 @@
 ﻿using Nautilus.Assets;
 using Nautilus.Assets.Gadgets;
 using Nautilus.Assets.PrefabTemplates;
+using Nautilus.Utility;
 using PrototypeSubMod.Compatibility;
+using PrototypeSubMod.Utility;
+using System.Collections;
 using System.IO;
 using UnityEngine;
 
@@ -19,28 +22,27 @@ internal class PrecursorIngot_Craftable
 
         var prefab = new CustomPrefab(prefabInfo);
 
-        var cloneTemplate = new CloneTemplate(prefabInfo, TechType.PlasteelIngot);
+        prefab.SetGameObject(GetPrefab);
 
-        cloneTemplate.ModifyPrefab += gameObject =>
-        {
-            foreach (var rend in gameObject.GetComponentsInChildren<Renderer>(true))
-            {
-                rend.material.color = new Color(0.25f, 1f, 0.25f);
-            }
-        };
-
-        prefab.SetGameObject(cloneTemplate);
-
-        if (!ROTACompatManager.ArchitectsLibInstalled)
-        {
-            prefab.SetRecipeFromJson(Path.Combine(Plugin.RecipesFolderPath, "Normal\\Proto_PrecursorIngot.json"))
+        prefab.SetRecipeFromJson(Path.Combine(Plugin.RecipesFolderPath, "Normal\\Proto_PrecursorIngot.json"))
                 .WithFabricatorType(CraftTree.Type.Fabricator)
                 .WithStepsToFabricatorTab("Resources", "AdvancedMaterials")
                 .WithCraftingTime(10f);
 
-            prefab.SetPdaGroupCategory(TechGroup.Resources, TechCategory.BasicMaterials);
-        }
+        prefab.SetPdaGroupCategory(TechGroup.Resources, TechCategory.BasicMaterials);
 
         prefab.Register();
+    }
+
+    private static IEnumerator GetPrefab(IOut<GameObject> prefabOut)
+    {
+        var prefab = Plugin.AssetBundle.LoadAsset<GameObject>("AlienFramework");
+        prefab.SetActive(false);
+
+        var instance = GameObject.Instantiate(prefab);
+        yield return new WaitUntil(() => MaterialUtils.IsReady);
+
+        MaterialUtils.ApplySNShaders(prefab, modifiers: new ProtoMaterialModifier(3f));
+        prefabOut.Set(instance);
     }
 }
