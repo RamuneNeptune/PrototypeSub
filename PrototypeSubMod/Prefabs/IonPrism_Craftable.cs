@@ -34,15 +34,11 @@ internal class IonPrism_Craftable
         prefab.Register();
     }
 
-    private static IEnumerator GetPrefab(IOut<GameObject> prefabOut)
+    private static GameObject GetPrefab()
     {
         var assetPrefab = Plugin.AssetBundle.LoadAsset<GameObject>("IonPrism_Prefab");
 
-        yield return new WaitUntil(() => MaterialUtils.IsReady);
-
         var prefab = GameObject.Instantiate(assetPrefab);
-
-        MaterialUtils.ApplySNShaders(prefab, modifiers: new ProtoMaterialModifier(3f));
-        prefabOut.Set(prefab);
+        return prefab;
     }
 }

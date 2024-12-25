@@ -33,15 +33,12 @@ internal class PrecursorIngot_Craftable
         prefab.Register();
     }
 
-    private static IEnumerator GetPrefab(IOut<GameObject> prefabOut)
+    private static GameObject GetPrefab()
     {
         var prefab = Plugin.AssetBundle.LoadAsset<GameObject>("AlienFramework");
         prefab.SetActive(false);
 
         var instance = GameObject.Instantiate(prefab);
-        yield return new WaitUntil(() => MaterialUtils.IsReady);
-
-        MaterialUtils.ApplySNShaders(prefab, modifiers: new ProtoMaterialModifier(3f));
-        prefabOut.Set(instance);
+        return instance;
     }
 }
