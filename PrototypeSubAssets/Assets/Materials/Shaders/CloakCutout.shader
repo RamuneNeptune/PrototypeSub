@@ -292,7 +292,7 @@
                 {
                     targetCol = lerp(targetCol, originalCol, _ExteriorCutoutRatio);
                 }
-                else if (hitHex && insideSphere)
+                else if (hitHex && insideSphere && hexInfo.x < depth)
                 {
                     targetCol = originalCol;
                 }

@@ -10,7 +10,7 @@ internal class uGUI_ProtoBuildScreen : MonoBehaviour
 
     [SerializeField] private ProtoBuildTerminal buildTerminal;
     [SerializeField] private RocketBuilderTooltip tooltip;
-    [SerializeField] private ProtoPlayerDistanceTracker distanceTracker;
+    [SerializeField] private PlayerDistanceTracker distanceTracker;
     [SerializeField] private MoonpoolOccupiedHandler occupiedHandler;
     [SerializeField] private GameObject buildScreen;
     [SerializeField] private uGUI_BuildAnimScreen animationScreen;
@@ -37,7 +37,7 @@ internal class uGUI_ProtoBuildScreen : MonoBehaviour
             emptyScreen.SetActive(false);
         }
 
-        distanceTracker.OnPlayerTriggerChanged += UpdateTooltipActive;
+        InvokeRepeating(nameof(UpdateTooltipActive), 0, 0.25f);
     }
 
 
@@ -85,8 +85,10 @@ internal class uGUI_ProtoBuildScreen : MonoBehaviour
         emptyScreen.SetActive(!occupied);
     }
 
-    public void UpdateTooltipActive(bool inTrigger)
+    public void UpdateTooltipActive()
     {
+        bool inTrigger = distanceTracker.distanceToPlayer <= 2;
+
         tooltipsActive = inTrigger;
         tooltip.gameObject.SetActive(tooltipsActive);
     }
