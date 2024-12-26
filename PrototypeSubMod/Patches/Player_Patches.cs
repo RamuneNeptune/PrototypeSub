@@ -68,4 +68,35 @@ internal class Player_Patches
 
         return false;
     }
+
+    private const int TUNNEL_REQ_OX = 68;
+    private const int MIN_OX_REQ = 135;
+
+    [HarmonyPatch(nameof(Player.GetOxygenPerBreath)), HarmonyPostfix]
+    private static void GetOxygenPerBreath_Postfix(Player __instance, ref float __result)
+    {
+        var biome = __instance.GetBiomeString();
+        bool inTunnel = biome.StartsWith("protodefensetunnel");
+
+        if (!inTunnel) return;
+
+        float oxCapacity = __instance.oxygenMgr.GetOxygenCapacity();
+
+        if (oxCapacity < MIN_OX_REQ) return;
+
+        int depth = __instance.depthClass.value;
+
+        bool hasRebreather = Inventory.main.equipment.GetCount(TechType.Rebreather) > 0;
+        float depthMultiplier = 1;
+        if (!hasRebreather)
+        {
+            depthMultiplier = 1 + (depth - 1) * 0.5f * 1.75f;
+        }
+
+        if (oxCapacity / depthMultiplier < TUNNEL_REQ_OX) return;
+
+        float multiplier = oxCapacity / TUNNEL_REQ_OX / depthMultiplier;
+
+        __result *= multiplier;
+    }
 }
