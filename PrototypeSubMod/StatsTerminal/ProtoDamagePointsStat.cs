@@ -1,5 +1,6 @@
 ﻿using SubLibrary.CyclopsReferencers;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace PrototypeSubMod.StatsTerminal;
@@ -11,7 +12,7 @@ internal class ProtoDamagePointsStat : MonoBehaviour, IStatistic, ICyclopsRefere
     [SerializeField] private Transform displayPointsParent;
 
     [SerializeField, HideInInspector] public GameObject damagePointPrefab;
-    private Dictionary<GameObject, GameObject> activeDamagePoints = new();
+    private List<ManagedDamagePoint> activeDamagePoints = new();
 
     private void Start()
     {
@@ -43,28 +44,54 @@ internal class ProtoDamagePointsStat : MonoBehaviour, IStatistic, ICyclopsRefere
 
     public void UpdateStatIntermittent()
     {
-        for (int i = 0; i < damagePointsParent.childCount; i++)
+        foreach (var point in damagePointsParent.GetComponentsInChildren<CyclopsDamagePoint>(true))
         {
-            var point = damagePointsParent.GetChild(i).gameObject;
-            var displayChild = displayPointsParent.GetChild(i).gameObject;
-            if (activeDamagePoints.TryGetValue(point, out GameObject controlledPing))
-            {
-                if (!point.activeSelf)
-                {
-                    activeDamagePoints.Remove(point);
-                    controlledPing.GetComponent<ProtoWarningPing>().DespawnIcon();
-                }
-            }
-            else if (point.activeSelf)
-            {
-                var ping = Instantiate(damagePointPrefab, displayChild.transform, false);
-                activeDamagePoints.Add(point, ping);
+            var displayChild = displayPointsParent.GetChild(point.transform.GetSiblingIndex()).gameObject;
+            ManagedDamagePoint damagePoint = activeDamagePoints.FirstOrDefault(i => i.damagePoint == point || (i.damagePoint == null && i.managedPoint != null));
 
-                var protoPing = ping.GetComponent<ProtoWarningPing>();
-                protoPing.SetLOD(lod);
-                protoPing.SetParent(transform);
-                ping.gameObject.SetActive(true);
+            if (damagePoint!= null && damagePoint.damagePoint == null && damagePoint.managedPoint != null)
+            {
+                RemovePing(damagePoint);
+                continue;
             }
+
+            if (point.gameObject.activeSelf && damagePoint == null)
+            {
+                SpawnDamagePing(displayChild.transform, point);
+            }
+            else if (!point.gameObject.activeSelf && damagePoint != null)
+            {
+                RemovePing(damagePoint);
+            }
+        }
+    }
+
+    private void SpawnDamagePing(Transform parent, CyclopsDamagePoint ownerPoint)
+    {
+        var ping = Instantiate(damagePointPrefab, parent, false);
+        activeDamagePoints.Add(new ManagedDamagePoint(ownerPoint, ping.gameObject));
+
+        var protoPing = ping.GetComponent<ProtoWarningPing>();
+        protoPing.SetLOD(lod);
+        protoPing.SetParent(transform);
+        ping.gameObject.SetActive(true);
+    }
+
+    private void RemovePing(ManagedDamagePoint damagePoint)
+    {
+        damagePoint.managedPoint.GetComponent<ProtoWarningPing>().DespawnIcon();
+        activeDamagePoints.Remove(damagePoint);
+    }
+
+    private class ManagedDamagePoint
+    {
+        public CyclopsDamagePoint damagePoint;
+        public GameObject managedPoint;
+
+        public ManagedDamagePoint(CyclopsDamagePoint damagePoint, GameObject managedPoint)
+        {
+            this.damagePoint = damagePoint;
+            this.managedPoint = managedPoint;
         }
     }
 }

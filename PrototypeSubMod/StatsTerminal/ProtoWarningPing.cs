@@ -76,16 +76,11 @@ internal class ProtoWarningPing : MonoBehaviour
         this.parent = parent;
     }
 
-    private void Despawn()
-    {
-        Destroy(gameObject);
-    }
-
     public void DespawnIcon()
     {
         if (despawning) return;
         despawning = true;
         animator.SetTrigger("Death");
-        Invoke(nameof(Despawn), 3f);
+        Destroy(gameObject, 3f);
     }
 }
