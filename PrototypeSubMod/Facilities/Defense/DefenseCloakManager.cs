@@ -50,12 +50,15 @@ internal class DefenseCloakManager : MonoBehaviour
     [SerializeField] private float scaleTime;
     [SerializeField] private AnimationCurve scaleOverTime;
     [SerializeField] private MultipurposeAlienTerminal deactivationTerminal;
+    [SerializeField] private Light[] activatedLights;
 
     private CloakCutoutApplier cloakApplier;
     private bool deactivated;
     private float currentScaleTime;
     private float originalScale;
     private float currentFadeInTime;
+
+    private float[] lightIntensities;
 
     private void OnValidate()
     {
@@ -70,6 +73,16 @@ internal class DefenseCloakManager : MonoBehaviour
         {
             sphere.localScale = Vector3.zero;
             deactivationTerminal.ForceInteracted();
+        }
+        else
+        {
+            lightIntensities = new float[activatedLights.Length];
+
+            for (int i = 0; i < activatedLights.Length; i++)
+            {
+                lightIntensities[i] = activatedLights[i].intensity;
+                activatedLights[i].intensity = 0;
+            }
         }
     }
 
@@ -96,10 +109,18 @@ internal class DefenseCloakManager : MonoBehaviour
             enabledAmount = scaleOverTime.Evaluate(currentScaleTime / scaleTime);
             isDirty = true;
 
+            float intensityMultiplier = currentScaleTime / scaleTime;
+
             if (currentScaleTime + Time.deltaTime >= scaleTime)
             {
                 sphere.localScale = Vector3.zero;
                 Plugin.GlobalSaveData.defenseCloakDisabled = true;
+                intensityMultiplier = 1;
+            }
+
+            for (int i = 0; i < activatedLights.Length; i++)
+            {
+                activatedLights[i].intensity = lightIntensities[i] * intensityMultiplier;
             }
         }
     }
