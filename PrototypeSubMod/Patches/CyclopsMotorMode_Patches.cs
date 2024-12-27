@@ -12,6 +12,9 @@ internal class CyclopsMotorMode_Patches
         var motorHandler = __instance.GetComponentInChildren<ProtoMotorHandler>();
         if (!motorHandler) return;
 
-        __result = motorHandler.GetOverrideNoiseValue();
+        float overrideValue = motorHandler.GetOverrideNoiseValue();
+        if (overrideValue < 0) return;
+
+        __result = overrideValue;
     }
 }

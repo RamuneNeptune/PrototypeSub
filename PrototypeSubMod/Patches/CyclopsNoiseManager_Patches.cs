@@ -14,36 +14,28 @@ internal class CyclopsNoiseManager_Patches
     private static IEnumerable<CodeInstruction> RecalculateNoiseValues_Transpiler(IEnumerable<CodeInstruction> instructions)
     {
         MethodInfo clamp01Info = typeof(Mathf).GetMethod("Clamp01", BindingFlags.Static | BindingFlags.Public);
-        PropertyInfo noiseScalarInfo = typeof(CyclopsNoiseManager).GetProperty("noiseScalar", BindingFlags.Instance | BindingFlags.Public);
-        FieldInfo subRootInfo = typeof(CyclopsNoiseManager).GetField("subRoot", BindingFlags.Instance | BindingFlags.Public);
 
         var match = new CodeMatch(i => i.opcode == OpCodes.Call && (MethodInfo)i.operand == clamp01Info);
 
         var matcher = new CodeMatcher(instructions)
             .MatchForward(false, match)
-            .Advance(-5)
+            .Advance(-2)
             .InsertAndAdvance(new CodeInstruction(OpCodes.Ldarg_0))
-            .InsertAndAdvance(new CodeInstruction(OpCodes.Ldarg_0))
-            .InsertAndAdvance(new CodeInstruction(OpCodes.Call, noiseScalarInfo.GetGetMethod(false)))
-            .InsertAndAdvance(new CodeInstruction(OpCodes.Ldarg_0))
-            .InsertAndAdvance(new CodeInstruction(OpCodes.Ldfld, subRootInfo))
-            .InsertAndAdvance(Transpilers.EmitDelegate(GetCloakMultiplier))
-            .InsertAndAdvance(new CodeInstruction(OpCodes.Mul))
-            .Insert(new CodeInstruction(OpCodes.Call, noiseScalarInfo.GetSetMethod(true)));
+            .InsertAndAdvance(Transpilers.EmitDelegate(GetCloakMultiplier));
 
         return matcher.InstructionEnumeration();
     }
 
-    public static float GetCloakMultiplier(SubRoot subRoot)
+    public static float GetCloakMultiplier(float previousValue, CyclopsNoiseManager instance)
     {
-        var effectHandler = subRoot.gameObject.GetComponentInChildren<CloakEffectHandler>();
-        if (!effectHandler) return 1f;
+        var effectHandler = instance.subRoot.gameObject.GetComponentInChildren<CloakEffectHandler>();
+        if (!effectHandler) return previousValue;
 
-        if (effectHandler.GetUpgradeInstalled())
+        if (effectHandler.GetUpgradeInstalled() && effectHandler.GetUpgradeEnabled())
         {
             return effectHandler.soundMultiplier;
         }
 
-        return 1f;
+        return previousValue;
     }
 }
