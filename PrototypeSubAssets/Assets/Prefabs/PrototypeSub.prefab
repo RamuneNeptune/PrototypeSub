@@ -33018,6 +33018,7 @@ GameObject:
   - component: {fileID: 1023472354084001354}
   - component: {fileID: 1178562909987698232}
   - component: {fileID: 2693669977633419039}
+  - component: {fileID: 600606614172022126}
   m_Layer: 0
   m_Name: PrototypeHUD
   m_TagString: Untagged
@@ -33055,13 +33056,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   subRoot: {fileID: 6246764057006774658}
-  subLiveMixin: {fileID: 4453924424643417328}
-  behaviourLOD: {fileID: 4867459689348228103}
   hornObject: {fileID: 0}
   canvasGroup: {fileID: 1178562909987698232}
-  creatureDamagesSFX: {fileID: 433739094945648899}
-  noiseManager: {fileID: 4493698966587842884}
-  minCollisionDamageForHUDShake: 0
 --- !u!225 &1178562909987698232
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -33091,6 +33087,21 @@ MonoBehaviour:
   runAtStart: 1
   renderer: {fileID: 0}
   materialIndices: 
+--- !u!114 &600606614172022126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2839363564248993924}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -716020330, guid: 05b2873035fc0cb47b172f8f145ed69c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  subRoot: {fileID: 6246764057006774658}
+  creatureDamagesSFX: {fileID: 433739094945648899}
+  minCollisionDamageForHUDShake: 10
 --- !u!1 &2839735315091937562
 GameObject:
   m_ObjectHideFlags: 0
