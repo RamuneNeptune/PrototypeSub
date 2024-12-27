@@ -72,7 +72,6 @@ internal class TeleporterOverride : MonoBehaviour
     private void Start()
     {
         Initialize();
-        UWE.CoroutineHost.StartCoroutine(WaitToPlayFirstStatus());
     }
 
     private void OnEnable() => OnTeleportStart += TargetTeleporterCheck;
@@ -89,6 +88,8 @@ internal class TeleporterOverride : MonoBehaviour
         teleporterID = teleporter.teleporterIdentifier + (GetComponentInParent<PrecursorTeleporterActivationTerminal>() != null ? "M" : "S");
 
         if (teleporterID != FullOverrideTeleporterID) return;
+
+        UWE.CoroutineHost.StartCoroutine(WaitToPlayFirstStatus());
 
         float timeLeft = TimeWhenPortalUnloaded - Time.time + TimeLeftWhenUnloaded;
         if (QueuedResetOverrideTime)
@@ -213,6 +214,8 @@ internal class TeleporterOverride : MonoBehaviour
     private IEnumerator WaitToPlayFirstStatus()
     {
         yield return new WaitUntil(LargeWorldStreamer.main.IsWorldSettled);
+
+        yield return new WaitForSeconds(2f);
 
         if (LastOverrideOwner != null)
         {

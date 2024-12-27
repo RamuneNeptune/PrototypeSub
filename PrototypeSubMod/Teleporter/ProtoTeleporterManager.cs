@@ -69,7 +69,13 @@ internal class ProtoTeleporterManager : ProtoUpgrade
     public void BeginTeleportPlayer(GameObject player)
     {
         string alteredID = teleporterID + (isHost ? "M" : "S");
-        var positionData = TeleporterPositionHandler.TeleporterPositions[alteredID];
+
+        TeleporterPositionHandler.TeleportData positionData = default;
+        if (!TeleporterPositionHandler.TeleporterPositions.TryGetValue(alteredID, out positionData))
+        {
+            throw new System.Exception($"Tried to teleport to unknown ID: \"{alteredID}\". Position unknown");
+        }
+
         teleporter.warpToPos = positionData.teleportPosition;
         teleporter.warpToAngle = positionData.teleportAngle;
 
@@ -157,12 +163,12 @@ internal class ProtoTeleporterManager : ProtoUpgrade
 
     public void PlayOverrideMarker1()
     {
-        subRoot.voiceNotificationManager.PlayVoiceNotification(overrideStatus1, false, true);
+        overrideStatus1.Play();
     }
 
     public void PlayOverrideMarker2()
     {
-        subRoot.voiceNotificationManager.PlayVoiceNotification(overrideStatus2, false, true);
+        overrideStatus2.Play();
     }
 
     public void SetColorOverrideData(ColorOverrideData overrideData) => colorOverrideData = overrideData;
