@@ -1,11 +1,15 @@
 ﻿using PrototypeSubMod.Interfaces;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace PrototypeSubMod.UI;
 
 internal class ToggleUpgradeButton : MonoBehaviour
 {
     [SerializeField] private Component upgrade;
+    [SerializeField] private Sprite normalSprite;
+    [SerializeField] private Sprite enabledSprite;
+    [SerializeField] private Image image;
     private IProtoUpgrade protoUpgrade;
 
     private bool hovering;
@@ -24,6 +28,8 @@ internal class ToggleUpgradeButton : MonoBehaviour
             Debug.LogError($"Invalid component. Proto upgrade required");
             upgrade = null;
         }
+
+        if (!image) TryGetComponent(out image);
     }
 
     private void Start()
@@ -64,5 +70,6 @@ internal class ToggleUpgradeButton : MonoBehaviour
     public void ToggleUpgradeEnabled()
     {
         protoUpgrade.SetUpgradeEnabled(!protoUpgrade.GetUpgradeEnabled());
+        image.sprite = protoUpgrade.GetUpgradeEnabled() ? enabledSprite : normalSprite;
     }
 }
