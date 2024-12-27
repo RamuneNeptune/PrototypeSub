@@ -1,5 +1,4 @@
 ﻿using HarmonyLib;
-using PrototypeSubMod.LightDistortionField;
 using UnityEngine;
 
 namespace PrototypeSubMod.Patches;
@@ -8,16 +7,11 @@ namespace PrototypeSubMod.Patches;
 internal class AggressiveWhenSeePlayer_Patches
 {
     [HarmonyPatch(nameof(AggressiveWhenSeePlayer.GetAggressionTarget)), HarmonyPostfix]
-    private static void GetAggressionTarget_Postfix(ref GameObject __result)
+    private static void GetAggressionTarget(AggressiveWhenSeePlayer __instance, ref GameObject __result)
     {
-        if (Player.main.currentSub == null) return;
-
-        var cloakHandler = Player.main.currentSub.GetComponentInChildren<CloakEffectHandler>();
-        if (cloakHandler == null) return;
-
-        if (cloakHandler.IsInsideOvoid(Camera.main.transform.position) && cloakHandler.GetAllowedToCloak())
+        if (__result == Player.main.gameObject)
         {
-            __result = null;
+            __result = AggressiveWhenSeeTarget_Patches.RedirectPlayerTarget(__result);
         }
     }
 }

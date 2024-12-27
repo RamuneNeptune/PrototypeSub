@@ -14,12 +14,16 @@ namespace PrototypeSubMod.Patches;
 [HarmonyPatch(typeof(Player))]
 internal class Player_Patches
 {
+    public static GameObject DummyLDFTarget;
+
     [HarmonyPatch(nameof(Player.Start)), HarmonyPostfix]
     private static void Start_Postfix()
     {
         Camera.main.gameObject.AddComponent<LightDistortionApplier>();
         Camera.main.gameObject.AddComponent<ProtoScreenTeleporterFXManager>();
         Camera.main.gameObject.AddComponent<CloakCutoutApplier>();
+
+        DummyLDFTarget = new GameObject("DummyLDFPlayerTarget");
     }
 
     [HarmonyPatch(nameof(Player.CanEject)), HarmonyPostfix]

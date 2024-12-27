@@ -1,12 +1,15 @@
 ﻿using PrototypeSubMod.IonGenerator;
 using PrototypeSubMod.MiscMonobehaviors.Emission;
 using PrototypeSubMod.Upgrades;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace PrototypeSubMod.LightDistortionField;
 
 internal class CloakEffectHandler : ProtoUpgrade
 {
+    public static List<CloakEffectHandler> EffectHandlers = new();
+
     [Header("Shader Parameters")]
     public Shader shader;
     public Transform ovoid;
@@ -104,6 +107,17 @@ internal class CloakEffectHandler : ProtoUpgrade
         return normalizedPoint.sqrMagnitude < 1;
     }
 
+    public Vector3 GetClosestPointOnSurface(Vector3 point, float scalarOffset = 1)
+    {
+        Vector3 direction = point - ovoid.position;
+        var localDir = Quaternion.Inverse(ovoid.rotation) * direction;
+
+        float magnitude = Divide(localDir, ovoid.localScale).magnitude;
+        var pointOnSurf = ovoid.position + direction * (1 / magnitude);
+
+        return pointOnSurf * scalarOffset;
+    }
+
     private Vector3 Divide(Vector3 lhs, Vector3 rhs)
     {
         return new Vector3(lhs.x / rhs.x, lhs.y / rhs.y, lhs.z / rhs.z);
@@ -130,6 +144,16 @@ internal class CloakEffectHandler : ProtoUpgrade
         {
             emissionController.RemoveTempColor(this);
         }
+    }
+
+    private void OnEnable()
+    {
+        EffectHandlers.Add(this);
+    }
+
+    private void OnDisable()
+    {
+        EffectHandlers.Remove(this);
     }
 
     public bool GetIsDirty() => isDirty;
