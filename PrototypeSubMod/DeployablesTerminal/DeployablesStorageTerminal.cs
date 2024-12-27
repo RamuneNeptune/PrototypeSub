@@ -18,10 +18,10 @@ internal class DeployablesStorageTerminal : MonoBehaviour, ISaveDataListener, IL
 
     public static Vector3[] SLOT_POSITIONS { get; } = new[]
     {
-        new Vector3(-152, 102, 0),
-        new Vector3(135, 102, 0),
-        new Vector3(-152, -113, 0),
-        new Vector3(135, -113, 0),
+        new Vector3(-166, -98, 0),
+        new Vector3(28, 130, 0),
+        new Vector3(-56, -212, 0),
+        new Vector3(138.5f, 17.5f, 0),
     };
 
     public static string[] LightBeaconSlots { get; } = new[]

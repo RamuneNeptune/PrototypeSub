@@ -28,11 +28,11 @@ internal class uGUI_Equipment_Patches
 
         go.AddComponent<RectTransform>();
 
-        go.transform.localPosition = new Vector3(142, -110, 0);
-        go.transform.localScale = new Vector3(6, 6, 1);
+        go.transform.localPosition = new Vector3(152, 57, 0);
+        go.transform.localScale = new Vector3(8, 10.3f, 1);
         go.AddComponent<CanvasRenderer>();
         var img = go.AddComponent<Image>();
-        img.sprite = Plugin.AssetBundle.LoadAsset<Sprite>("DecoyStorageBackground");
+        img.sprite = Plugin.AssetBundle.LoadAsset<Sprite>("Proto_DeployablesBG");
         img.raycastTarget = false;
 
         var powerAbilitySlot = CloneSlots(__instance, new[] { ProtoPowerAbilitySystem.SlotName }, "DecoySlot", null);
