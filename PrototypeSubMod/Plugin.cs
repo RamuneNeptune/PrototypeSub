@@ -189,6 +189,12 @@ namespace PrototypeSubMod
 
             PDAHandler.AddEncyclopediaEntry("InterceptorTestEncy", "DownloadedData/Precursor/Scan", protoTeleporterText, protoTeleporterTextBody, image, unlockSound: PDAHandler.UnlockBasic);
             #endregion
+
+            #region Light Distortion Field
+            string cloakText = Language.main.Get("ProtoCloakEncyTitle");
+            string cloakBody = Language.main.Get("ProtoCloakEncyBody");
+            PDAHandler.AddEncyclopediaEntry("ProtoCloakEncy", "DownloadedData/Precursor/ProtoUpgrades", cloakText, cloakBody, unlockSound: PDAHandler.UnlockBasic);
+            #endregion
         }
 
         private void RegisterStoryGoals()
