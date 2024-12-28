@@ -120,7 +120,7 @@ internal class CloakEffectHandler : ProtoUpgrade
 
     public Vector3 GetContinuousPointOnSurface(float scalarOffset = 1)
     {
-        float sin = Mathf.Sin(Time.time);
+        float sin = Mathf.Sin(Time.time * 0.01f);
         var randVector = new Vector3(sin, sin, sin);
         return GetClosestPointOnSurface(ovoid.position + randVector, scalarOffset);
     }
