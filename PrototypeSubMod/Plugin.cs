@@ -191,27 +191,11 @@ namespace PrototypeSubMod
 
             RegisterEncyEntries("DownloadedData/Precursor/ProtoUpgrades", PDAHandler.UnlockBasic, new()
             {
-                ("ProtoCloakEncy", "ProtoCloakEncy"),
-
+                "ProtoCloakEncy",
+                "ProtoEmergencyWarpEncy",
+                "ProtoInterceptorEncy",
+                "ProtoRepairDroidsEncy"
             });
-
-            #region Light Distortion Field
-            string cloakText = Language.main.Get("ProtoCloakEncyTitle");
-            string cloakBody = Language.main.Get("ProtoCloakEncyBody");
-            PDAHandler.AddEncyclopediaEntry("ProtoCloakEncy", "DownloadedData/Precursor/ProtoUpgrades", cloakText, cloakBody, unlockSound: PDAHandler.UnlockBasic);
-            #endregion
-
-            #region Emergency Warp
-            string warpText = Language.main.Get("ProtoEmergencyWarpEncyTitle");
-            string warpBody = Language.main.Get("ProtoEmergencyWarpEncyBody");
-            PDAHandler.AddEncyclopediaEntry("ProtoEmergencyWarpEncy", "DownloadedData/Precursor/ProtoUpgrades", warpText, warpBody, unlockSound: PDAHandler.UnlockBasic);
-            #endregion
-
-            #region Interceptor
-            string interceptorText = Language.main.Get("ProtoInterceptorEncyTitle");
-            string interceptorBody = Language.main.Get("ProtoInterceptorEncyBody");
-            PDAHandler.AddEncyclopediaEntry("ProtoEmergencyWarpEncy", "DownloadedData/Precursor/ProtoUpgrades", interceptorText, interceptorBody, unlockSound: PDAHandler.UnlockBasic);
-            #endregion
         }
 
         private void RegisterStoryGoals()
@@ -359,13 +343,13 @@ namespace PrototypeSubMod
             return JsonConvert.DeserializeObject<Structure>(structureFile.text);
         }
 
-        private void RegisterEncyEntries(string path, FMODAsset unlockSound, List<(string key, string localizationPrefix)> entries)
+        private void RegisterEncyEntries(string path, FMODAsset unlockSound, List<string> entries)
         {
             foreach (var entry in entries)
             {
-                string title = Language.main.Get($"{entry.localizationPrefix}_Title");
-                string body = Language.main.Get($"{entry.localizationPrefix}_Body");
-                PDAHandler.AddEncyclopediaEntry(entry.key, path, title, body, unlockSound: unlockSound);
+                string title = Language.main.Get($"{entry}_Title");
+                string body = Language.main.Get($"{entry}_Body");
+                PDAHandler.AddEncyclopediaEntry(entry, path, title, body, unlockSound: unlockSound);
             }
         }
     }
