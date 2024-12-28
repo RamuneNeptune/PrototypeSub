@@ -15,6 +15,7 @@ using PrototypeSubMod.Patches;
 using PrototypeSubMod.PowerSystem;
 using PrototypeSubMod.Prefabs;
 using PrototypeSubMod.Prefabs.FacilityProps;
+using PrototypeSubMod.PrototypeStory;
 using PrototypeSubMod.SaveData;
 using PrototypeSubMod.Upgrades;
 using PrototypeSubMod.Utility;
@@ -225,6 +226,10 @@ namespace PrototypeSubMod
                 PDAEncyclopedia.Add("ProtoPrecursorIngot", true);
             });
 
+            #endregion
+
+            #region PPT First Interaction
+            PPTStoryManager.RegisterGoals();
             #endregion
 
             #region Interceptor Unlock
