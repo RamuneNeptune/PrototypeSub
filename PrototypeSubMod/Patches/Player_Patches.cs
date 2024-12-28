@@ -23,7 +23,7 @@ internal class Player_Patches
         Camera.main.gameObject.AddComponent<ProtoScreenTeleporterFXManager>();
         Camera.main.gameObject.AddComponent<CloakCutoutApplier>();
 
-        DummyLDFTarget = new GameObject("DummyLDFPlayerTarget");
+        DummyLDFTarget = new GameObject("DummyLDFTarget");
     }
 
     [HarmonyPatch(nameof(Player.CanEject)), HarmonyPostfix]

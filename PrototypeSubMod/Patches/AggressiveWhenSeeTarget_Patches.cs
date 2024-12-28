@@ -12,17 +12,17 @@ internal class AggressiveWhenSeeTarget_Patches
     {
         if (__result != Player.main.gameObject) return;
 
-        __result = RedirectPlayerTarget(__result);
+        __result = RedirectAggroTarget(__result);
     }
 
-    public static GameObject RedirectPlayerTarget(GameObject player)
+    public static GameObject RedirectAggroTarget(GameObject target)
     {
         bool overrideResult = false;
         CloakEffectHandler currentHandler = null;
 
         foreach (var handler in CloakEffectHandler.EffectHandlers)
         {
-            if (handler.GetAllowedToCloak() && handler.IsInsideOvoid(player.transform.position))
+            if (handler.GetAllowedToCloak() && handler.IsInsideOvoid(target.transform.position))
             {
                 overrideResult = true;
                 currentHandler = handler;
@@ -30,9 +30,9 @@ internal class AggressiveWhenSeeTarget_Patches
             }
         }
 
-        if (!overrideResult) return player;
+        if (!overrideResult) return target;
 
-        Player_Patches.DummyLDFTarget.transform.position = currentHandler.GetClosestPointOnSurface(player.transform.position, 1.1f);
+        Player_Patches.DummyLDFTarget.transform.position = currentHandler.GetClosestPointOnSurface(target.transform.position, 1.1f);
         return Player_Patches.DummyLDFTarget;
     }
 }

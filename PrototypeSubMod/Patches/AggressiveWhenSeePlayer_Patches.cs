@@ -11,7 +11,7 @@ internal class AggressiveWhenSeePlayer_Patches
     {
         if (__result == Player.main.gameObject)
         {
-            __result = AggressiveWhenSeeTarget_Patches.RedirectPlayerTarget(__result);
+            __result = AggressiveWhenSeeTarget_Patches.RedirectAggroTarget(__result);
         }
     }
 }
