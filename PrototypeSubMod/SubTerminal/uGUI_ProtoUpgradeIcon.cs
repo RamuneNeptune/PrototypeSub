@@ -109,6 +109,8 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
     {
         yield return new WaitForEndOfFrame();
 
+        if (!upgradeManager) return;
+
         SetUpgradeTechType(CurrentTechType);
         if (upgradeManager.GetInstalledUpgrades().Contains(techType.TechType))
         {
