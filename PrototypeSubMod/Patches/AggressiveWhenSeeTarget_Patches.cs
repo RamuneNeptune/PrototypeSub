@@ -22,7 +22,7 @@ internal class AggressiveWhenSeeTarget_Patches
 
         foreach (var handler in CloakEffectHandler.EffectHandlers)
         {
-            if (handler.GetAllowedToCloak() && handler.IsInsideOvoid(target.transform.position))
+            if (handler.GetIsCloaking() && handler.IsInsideOvoid(target.transform.position))
             {
                 overrideResult = true;
                 currentHandler = handler;

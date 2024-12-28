@@ -43,7 +43,7 @@ internal class AttackCyclops_Patches
         var handler = target.GetComponentInChildren<CloakEffectHandler>();
         if (!handler) return target;
 
-        if (!handler.GetAllowedToCloak()) return target;
+        if (!handler.GetIsCloaking()) return target;
 
         Player_Patches.DummyLDFTarget.transform.position = handler.GetContinuousPointOnSurface(1.1f);
         return Player_Patches.DummyLDFTarget;

@@ -57,7 +57,7 @@ internal class CloakEffectHandler : ProtoUpgrade
     {
         get
         {
-            return GetAllowedToCloak() ? 1 : 0;
+            return GetIsCloaking() ? 1 : 0;
         }
     }
 
@@ -130,7 +130,7 @@ internal class CloakEffectHandler : ProtoUpgrade
         return new Vector3(lhs.x / rhs.x, lhs.y / rhs.y, lhs.z / rhs.z);
     }
 
-    public bool GetAllowedToCloak()
+    public bool GetIsCloaking()
     {
         return !ionGenerator.GetUpgradeInstalled() && upgradeEnabled && upgradeInstalled;
     }

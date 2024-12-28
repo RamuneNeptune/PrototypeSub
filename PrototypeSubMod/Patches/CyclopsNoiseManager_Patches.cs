@@ -31,7 +31,7 @@ internal class CyclopsNoiseManager_Patches
         var effectHandler = instance.subRoot.gameObject.GetComponentInChildren<CloakEffectHandler>();
         if (!effectHandler) return previousValue;
 
-        if (effectHandler.GetUpgradeInstalled() && effectHandler.GetUpgradeEnabled())
+        if (effectHandler.GetIsCloaking())
         {
             return effectHandler.soundMultiplier;
         }
