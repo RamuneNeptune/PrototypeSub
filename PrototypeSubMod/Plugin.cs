@@ -173,11 +173,11 @@ namespace PrototypeSubMod
         private void RegisterEncyEntries()
         {
             #region Precursor Ingot
-            string title = Language.main.Get("ProtoPrecursorIngotEncy_Title");
-            string description = Language.main.Get("ProtoPrecursorIngotEncy_Body");
-            var popup = AssetBundle.LoadAsset<Sprite>("AlienFramework_EncyPopup");
+            string ingotTitle = Language.main.Get("ProtoPrecursorIngotEncy_Title");
+            string ingotDescription = Language.main.Get("ProtoPrecursorIngotEncy_Body");
+            var ingotPopup = AssetBundle.LoadAsset<Sprite>("AlienFramework_EncyPopup");
 
-            PDAHandler.AddEncyclopediaEntry("ProtoPrecursorIngot", "DownloadedData/Precursor/Scan", title, description, unlockSound: PDAHandler.UnlockBasic, popupImage: popup);
+            PDAHandler.AddEncyclopediaEntry("ProtoPrecursorIngot", "DownloadedData/Precursor/Scan", ingotTitle, ingotDescription, unlockSound: PDAHandler.UnlockBasic, popupImage: ingotPopup);
             #endregion
 
             #region Interceptor Terminal
@@ -191,7 +191,11 @@ namespace PrototypeSubMod
             #endregion
 
             #region Deployable Light
+            string lightTitle = Language.main.Get("ProtoDeployableLightEncy_Title");
+            string lightDescription = Language.main.Get("ProtoDeployableLightEncy_Body");
+            var lightPopup = AssetBundle.LoadAsset<Sprite>("DeployableLight_EncyPopup");
 
+            PDAHandler.AddEncyclopediaEntry("ProtoDeployableLightEncy", "Tech/Equipment", lightTitle, lightDescription, unlockSound: PDAHandler.UnlockBasic, popupImage: lightPopup);
             #endregion
 
             RegisterEncyEntries("DownloadedData/Precursor/ProtoUpgrades", PDAHandler.UnlockBasic, new()
