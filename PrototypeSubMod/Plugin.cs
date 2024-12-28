@@ -20,6 +20,7 @@ using PrototypeSubMod.Upgrades;
 using PrototypeSubMod.Utility;
 using SubLibrary.Audio;
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using UnityEngine;
@@ -172,10 +173,8 @@ namespace PrototypeSubMod
         private void RegisterEncyEntries()
         {
             #region Precursor Ingot
-            LanguageHandler.SetLanguageLine("DownloadedData/Precursor/Scan", "ProtoPrecursorIngotEncyLine");
-
-            string title = Language.main.Get("ProtoPrecursorIngotEncyTitle");
-            string description = Language.main.Get("ProtoPrecursorIngotEncyBody");
+            string title = Language.main.Get("ProtoPrecursorIngotEncy_Title");
+            string description = Language.main.Get("ProtoPrecursorIngotEncy_Body");
 
             PDAHandler.AddEncyclopediaEntry("ProtoPrecursorIngot", "DownloadedData/Precursor/Scan", title, description, unlockSound: PDAHandler.UnlockBasic);
             #endregion
@@ -190,10 +189,28 @@ namespace PrototypeSubMod
             PDAHandler.AddEncyclopediaEntry("InterceptorTestEncy", "DownloadedData/Precursor/Scan", protoTeleporterText, protoTeleporterTextBody, image, unlockSound: PDAHandler.UnlockBasic);
             #endregion
 
+            RegisterEncyEntries("DownloadedData/Precursor/ProtoUpgrades", PDAHandler.UnlockBasic, new()
+            {
+                ("ProtoCloakEncy", "ProtoCloakEncy"),
+
+            });
+
             #region Light Distortion Field
             string cloakText = Language.main.Get("ProtoCloakEncyTitle");
             string cloakBody = Language.main.Get("ProtoCloakEncyBody");
             PDAHandler.AddEncyclopediaEntry("ProtoCloakEncy", "DownloadedData/Precursor/ProtoUpgrades", cloakText, cloakBody, unlockSound: PDAHandler.UnlockBasic);
+            #endregion
+
+            #region Emergency Warp
+            string warpText = Language.main.Get("ProtoEmergencyWarpEncyTitle");
+            string warpBody = Language.main.Get("ProtoEmergencyWarpEncyBody");
+            PDAHandler.AddEncyclopediaEntry("ProtoEmergencyWarpEncy", "DownloadedData/Precursor/ProtoUpgrades", warpText, warpBody, unlockSound: PDAHandler.UnlockBasic);
+            #endregion
+
+            #region Interceptor
+            string interceptorText = Language.main.Get("ProtoInterceptorEncyTitle");
+            string interceptorBody = Language.main.Get("ProtoInterceptorEncyBody");
+            PDAHandler.AddEncyclopediaEntry("ProtoEmergencyWarpEncy", "DownloadedData/Precursor/ProtoUpgrades", interceptorText, interceptorBody, unlockSound: PDAHandler.UnlockBasic);
             #endregion
         }
 
@@ -340,6 +357,16 @@ namespace PrototypeSubMod
         {
             var structureFile = AssetBundle.LoadAsset<TextAsset>(name);
             return JsonConvert.DeserializeObject<Structure>(structureFile.text);
+        }
+
+        private void RegisterEncyEntries(string path, FMODAsset unlockSound, List<(string key, string localizationPrefix)> entries)
+        {
+            foreach (var entry in entries)
+            {
+                string title = Language.main.Get($"{entry.localizationPrefix}_Title");
+                string body = Language.main.Get($"{entry.localizationPrefix}_Body");
+                PDAHandler.AddEncyclopediaEntry(entry.key, path, title, body, unlockSound: unlockSound);
+            }
         }
     }
 }
