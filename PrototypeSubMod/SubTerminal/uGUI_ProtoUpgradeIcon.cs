@@ -92,6 +92,8 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
         yield return new WaitForEndOfFrame();
         yield return new WaitForEndOfFrame();
 
+        if (upgradeManager == null) yield break;
+
         OnUpgradesChanged(null, new UpgradeChangedEventArgs(upgradeScreen, upgradeManager.GetInstalledUpgrades()));
     }
 
@@ -109,7 +111,7 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
     {
         yield return new WaitForEndOfFrame();
 
-        if (!upgradeManager) return;
+        if (!upgradeManager) yield break;
 
         SetUpgradeTechType(CurrentTechType);
         if (upgradeManager.GetInstalledUpgrades().Contains(techType.TechType))
@@ -143,6 +145,8 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
         {
             upgradeScreen.InstallUpgrade(this);
         }
+
+        OnUpgradesChanged(null, new UpgradeChangedEventArgs(upgradeScreen, upgradeManager.GetInstalledUpgrades()))
     }
 
     public void SetUpgradeTechType(TechType techType)
