@@ -175,8 +175,9 @@ namespace PrototypeSubMod
             #region Precursor Ingot
             string title = Language.main.Get("ProtoPrecursorIngotEncy_Title");
             string description = Language.main.Get("ProtoPrecursorIngotEncy_Body");
+            var popup = AssetBundle.LoadAsset<Sprite>("AlienFramework_EncyPopup");
 
-            PDAHandler.AddEncyclopediaEntry("ProtoPrecursorIngot", "DownloadedData/Precursor/Scan", title, description, unlockSound: PDAHandler.UnlockBasic);
+            PDAHandler.AddEncyclopediaEntry("ProtoPrecursorIngot", "DownloadedData/Precursor/Scan", title, description, unlockSound: PDAHandler.UnlockBasic, popupImage: popup);
             #endregion
 
             #region Interceptor Terminal
@@ -189,6 +190,10 @@ namespace PrototypeSubMod
             PDAHandler.AddEncyclopediaEntry("InterceptorTestEncy", "DownloadedData/Precursor/Scan", protoTeleporterText, protoTeleporterTextBody, image, unlockSound: PDAHandler.UnlockBasic);
             #endregion
 
+            #region Deployable Light
+
+            #endregion
+
             RegisterEncyEntries("DownloadedData/Precursor/ProtoUpgrades", PDAHandler.UnlockBasic, new()
             {
                 "ProtoCloakEncy",
@@ -199,7 +204,8 @@ namespace PrototypeSubMod
                 "ProtoIonBarrierEncy",
                 "ProtoStasisPulseEncy",
                 "ProtoVentilatorsEncy",
-                "ProtoIonGeneratorEncy"
+                "ProtoIonGeneratorEncy",
+                "ProtoOverclockEncy"
             });
         }
 
