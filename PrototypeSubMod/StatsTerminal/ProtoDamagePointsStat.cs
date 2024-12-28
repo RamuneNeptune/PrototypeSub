@@ -49,7 +49,7 @@ internal class ProtoDamagePointsStat : MonoBehaviour, IStatistic, ICyclopsRefere
             var displayChild = displayPointsParent.GetChild(point.transform.GetSiblingIndex()).gameObject;
             ManagedDamagePoint damagePoint = activeDamagePoints.FirstOrDefault(i => i.damagePoint == point || (i.damagePoint == null && i.managedPoint != null));
 
-            if (damagePoint!= null && damagePoint.damagePoint == null && damagePoint.managedPoint != null)
+            if (damagePoint != null && damagePoint.damagePoint == null && damagePoint.managedPoint != null)
             {
                 RemovePing(damagePoint);
                 continue;

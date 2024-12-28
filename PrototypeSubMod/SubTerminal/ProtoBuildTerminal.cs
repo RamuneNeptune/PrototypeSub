@@ -2,7 +2,6 @@
 using Story;
 using System.Collections;
 using UnityEngine;
-using static Nautilus.Utility.AudioUtils;
 
 namespace PrototypeSubMod.SubTerminal;
 
@@ -105,7 +104,7 @@ internal class ProtoBuildTerminal : Crafter
 
         spikesAnimator.enabled = false;
 
-        for ( int i = 0; i < buildBots.Length; i++)
+        for (int i = 0; i < buildBots.Length; i++)
         {
             int index = i % botPaths.Length;
             buildBots[i].SetPath(botPaths[index], toBuild);

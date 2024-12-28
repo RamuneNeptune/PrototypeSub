@@ -28,7 +28,7 @@ internal class ProtoOverclockModule : ProtoUpgrade
             motorHandler.RemoveSpeedMultiplierBonus(this);
             return;
         }
-        
+
         float speedBonus = upgradeEnabled ? speedPercentBonus / 100f : 0;
         motorHandler.AddSpeedMultiplierBonus(new ProtoMotorHandler.ValueRegistrar(this, speedBonus));
         if (GetUpgradeEnabled())
