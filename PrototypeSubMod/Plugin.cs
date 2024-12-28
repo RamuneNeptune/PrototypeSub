@@ -197,7 +197,9 @@ namespace PrototypeSubMod
                 "ProtoRepairDroidsEncy",
                 "ProtoPressureConvertersEncy",
                 "ProtoIonBarrierEncy",
-                "ProtoStasisPulseEncy"
+                "ProtoStasisPulseEncy",
+                "ProtoVentilatorsEncy",
+                "ProtoIonGeneratorEncy"
             });
         }
 
