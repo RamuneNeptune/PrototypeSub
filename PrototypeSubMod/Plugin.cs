@@ -194,7 +194,10 @@ namespace PrototypeSubMod
                 "ProtoCloakEncy",
                 "ProtoEmergencyWarpEncy",
                 "ProtoInterceptorEncy",
-                "ProtoRepairDroidsEncy"
+                "ProtoRepairDroidsEncy",
+                "ProtoPressureConvertersEncy",
+                "ProtoIonBarrierEncy",
+                "ProtoStasisPulseEncy"
             });
         }
 
