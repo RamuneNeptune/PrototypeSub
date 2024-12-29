@@ -4,7 +4,7 @@ using UnityEngine.Events;
 
 namespace PrototypeSubMod.SubTerminal;
 
-internal class uGUI_ProtoBuildScreen : MonoBehaviour
+internal class uGUI_ProtoBuildScreen : TerminalScreen
 {
     [SerializeField] private UnityEvent onBuildStarted;
 
@@ -12,77 +12,19 @@ internal class uGUI_ProtoBuildScreen : MonoBehaviour
     [SerializeField] private RocketBuilderTooltip tooltip;
     [SerializeField] private PlayerDistanceTracker distanceTracker;
     [SerializeField] private MoonpoolOccupiedHandler occupiedHandler;
-    [SerializeField] private GameObject buildScreen;
-    [SerializeField] private uGUI_BuildAnimScreen animationScreen;
-    [SerializeField] private GameObject upgradeScreen;
-    [SerializeField] private GameObject emptyScreen;
 
-    private bool isBuilding;
     private bool tooltipsActive;
 
     private void Start()
     {
         tooltip.rocketTechType = Prototype_Craftable.SubInfo.TechType;
 
-        if (Plugin.GlobalSaveData.prototypePresent)
-        {
-            upgradeScreen.SetActive(occupiedHandler.MoonpoolHasSub);
-            emptyScreen.SetActive(!occupiedHandler.MoonpoolHasSub);
-            buildScreen.SetActive(false);
-        }
-        else
-        {
-            buildScreen.SetActive(true);
-            upgradeScreen.SetActive(false);
-            emptyScreen.SetActive(false);
-        }
-
         InvokeRepeating(nameof(UpdateTooltipActive), 0, 0.25f);
     }
-
 
     public void OnConstructPressed()
     {
         onBuildStarted.Invoke();
-    }
-
-    public void OnConstructionPreWarm(float duration)
-    {
-        buildScreen.SetActive(false);
-        animationScreen.gameObject.SetActive(true);
-        animationScreen.StartPreWarm(duration);
-    }
-
-    public void OnConstructionStarted(float duration)
-    {
-        animationScreen.StartAnimation(duration);
-
-        isBuilding = true;
-    }
-
-    public void OnConstructionAsyncStarted()
-    {
-        tooltip.gameObject.SetActive(false);
-    }
-
-    // Called by VFX Constructing in Update via SendMessage()
-    public void OnConstructionDone()
-    {
-        buildScreen.SetActive(false);
-        animationScreen.gameObject.SetActive(false);
-        upgradeScreen.SetActive(true);
-
-        isBuilding = false;
-    }
-
-    public void OnOccupiedChanged()
-    {
-        if (isBuilding) return;
-
-        var occupied = occupiedHandler.MoonpoolHasSub;
-
-        upgradeScreen.SetActive(occupied);
-        emptyScreen.SetActive(!occupied);
     }
 
     public void UpdateTooltipActive()
@@ -99,4 +41,15 @@ internal class uGUI_ProtoBuildScreen : MonoBehaviour
     }
 
     public MoonpoolOccupiedHandler GetMoonpoolHandler() => occupiedHandler;
+
+    public override void OnStageStarted()
+    {
+        gameObject.SetActive(true);
+    }
+
+    public override void OnStageFinished()
+    {
+        tooltip.gameObject.SetActive(false);
+        gameObject.SetActive(false);
+    }
 }

@@ -2,6 +2,7 @@
 using Story;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace PrototypeSubMod.SubTerminal;
 
@@ -17,15 +18,11 @@ internal class ProtoBuildTerminal : Crafter
     [SerializeField] private ProtoBuildBot[] buildBots;
     [SerializeField] private Animator spikesAnimator;
 
-    private uGUI_ProtoBuildScreen buildScreen;
+    [Header("Screens")]
+    [SerializeField] private BuildTerminalScreenManager screenManager;
+    [SerializeField] private uGUI_BuildAnimScreen animScreen;
+
     private int returnedBotCount;
-
-    public override void Start()
-    {
-        base.Start();
-
-        buildScreen = GetComponentInChildren<uGUI_ProtoBuildScreen>();
-    }
 
     public void CraftSub()
     {
@@ -42,7 +39,7 @@ internal class ProtoBuildTerminal : Crafter
     private IEnumerator StartCraftChargeUp(TechType techType, float duration)
     {
         spikesAnimator.SetTrigger("BuildWarmup");
-        buildScreen.OnConstructionPreWarm(buildDelay - 1f);
+        animScreen.StartPreWarm(duration);
         foreach (var item in batteryManagers)
         {
             item.StartBatteryCharge(buildDelay);
@@ -55,6 +52,8 @@ internal class ProtoBuildTerminal : Crafter
         {
             item.StartBatteryDrain(buildDuration);
         }
+
+        screenManager.BeginBuildStage();
     }
 
     public override void OnCraftingBegin(TechType techType, float duration)
@@ -64,7 +63,7 @@ internal class ProtoBuildTerminal : Crafter
 
     private IEnumerator OnCraftingBeginAsync(TechType techType, float duration)
     {
-        buildScreen.OnConstructionAsyncStarted();
+        screenManager.BeginBuildStage();
 
         var prefab = CraftData.GetPrefabForTechTypeAsync(techType);
         yield return prefab;
@@ -85,7 +84,7 @@ internal class ProtoBuildTerminal : Crafter
 
         vfxConstructing.informGameObject = gameObject;
 
-        buildScreen.OnConstructionStarted(duration + vfxConstructing.delay);
+        animScreen.StartAnimation(duration + vfxConstructing.delay);
 
         LargeWorldEntity.Register(instantiatedPrefab);
         SendBuildBots(instantiatedPrefab);
@@ -118,6 +117,8 @@ internal class ProtoBuildTerminal : Crafter
         {
             buildBots[i].FinishConstruction(OnBotReturned);
         }
+
+        screenManager.EndBuildStage();
     }
 
     private void OnBotReturned()

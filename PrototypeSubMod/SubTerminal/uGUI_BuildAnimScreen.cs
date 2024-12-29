@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace PrototypeSubMod.SubTerminal;
 
-internal class uGUI_BuildAnimScreen : MonoBehaviour
+internal class uGUI_BuildAnimScreen : TerminalScreen
 {
     [SerializeField] private TextMeshProUGUI displayText;
     [SerializeField] private Image progressBar;
@@ -46,5 +46,15 @@ internal class uGUI_BuildAnimScreen : MonoBehaviour
         {
             startAnim = false;
         }
+    }
+
+    public override void OnStageStarted()
+    {
+        gameObject.SetActive(true);
+    }
+
+    public override void OnStageFinished()
+    {
+        gameObject.SetActive(false);
     }
 }
