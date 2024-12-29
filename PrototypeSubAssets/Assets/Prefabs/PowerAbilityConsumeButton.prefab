@@ -132,7 +132,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.49803922}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -197,6 +197,8 @@ GameObject:
   - component: {fileID: 4619746664933072361}
   - component: {fileID: 6315127739763017743}
   - component: {fileID: 7755234238233964207}
+  - component: {fileID: 2068605636451161941}
+  - component: {fileID: 8232271109701706641}
   m_Layer: 5
   m_Name: PowerAbilityConsumeButton
   m_TagString: Untagged
@@ -236,6 +238,8 @@ MonoBehaviour:
   m_Script: {fileID: 56107470, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rect: {fileID: 3326192773669604110}
+  dummySlot: {fileID: 8232271109701706641}
   buttonImage: {fileID: 6587261128994829161}
   progressBar: {fileID: 4787909022853836823}
   animator: {fileID: 6315127739763017743}
@@ -284,6 +288,34 @@ MonoBehaviour:
   debug: 0
   subtitlesKey: 
   playSubtitlesWithUnscaledTime: 1
+--- !u!222 &2068605636451161941
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3326192773669604111}
+  m_CullTransparentMesh: 0
+--- !u!114 &8232271109701706641
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3326192773669604111}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -133816249, guid: 06dd3d5416bf43ea368cc39ff96e6d5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
+  slot: 
+  iconRect: {fileID: 6393952009514531807}
+  background: {fileID: 6587261128994829161}
+  hint: {fileID: 710133276110728945}
+  manager: {fileID: 0}
 --- !u!1 &4175227268828608597
 GameObject:
   m_ObjectHideFlags: 0

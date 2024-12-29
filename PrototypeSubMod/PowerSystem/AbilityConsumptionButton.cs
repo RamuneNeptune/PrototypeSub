@@ -4,8 +4,10 @@ using UnityEngine.UI;
 
 namespace PrototypeSubMod.PowerSystem;
 
-internal class AbilityConsumptionButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler
+internal class AbilityConsumptionButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler, ISelectable
 {
+    [SerializeField] private RectTransform rect;
+    [SerializeField] private uGUI_EquipmentSlot dummySlot;
     [SerializeField] private Image buttonImage;
     [SerializeField] private Image progressBar;
     [SerializeField] private Animator animator;
@@ -24,6 +26,8 @@ internal class AbilityConsumptionButton : MonoBehaviour, IPointerDownHandler, IP
     private bool consumed;
     private bool interactable;
 
+    private bool checkForControllerHold;
+
     private ProtoPowerAbilitySystem activeAbilitySystem;
 
     private void Start()
@@ -34,6 +38,7 @@ internal class AbilityConsumptionButton : MonoBehaviour, IPointerDownHandler, IP
 
     private void Update()
     {
+        CheckForControllerInput();
         UpdateButtonSprite();
 
         if (!clicking || !interactable)
@@ -56,7 +61,28 @@ internal class AbilityConsumptionButton : MonoBehaviour, IPointerDownHandler, IP
         }
     }
 
+    private void CheckForControllerInput()
+    {
+        if (!checkForControllerHold) return;
+
+        checkForControllerHold = GameInput.GetButtonHeld(GameInput.Button.UISubmit);
+        if (!checkForControllerHold)
+        {
+            OnStopPress();
+        }
+    }
+
     public void OnPointerDown(PointerEventData eventData)
+    {
+        OnStartPress();
+    }
+
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        OnStopPress();
+    }
+
+    private void OnStartPress()
     {
         clicking = true;
 
@@ -67,11 +93,14 @@ internal class AbilityConsumptionButton : MonoBehaviour, IPointerDownHandler, IP
         }
     }
 
-    public void OnPointerUp(PointerEventData eventData)
+    private void OnStopPress()
     {
         clicking = false;
         chargeEmitter.Stop();
     }
+
+    public Graphic GetGraphic() => buttonImage;
+    public uGUI_EquipmentSlot GetDummySlot() => dummySlot;
 
     private void OnEnable()
     {
@@ -138,5 +167,27 @@ internal class AbilityConsumptionButton : MonoBehaviour, IPointerDownHandler, IP
         clicking = false;
         hovering = false;
         activeAbilitySystem = null;
+    }
+
+    public bool IsValid()
+    {
+        return this != null && isActiveAndEnabled;
+    }
+
+    public RectTransform GetRect()
+    {
+        return rect;
+    }
+
+    public bool OnButtonDown(GameInput.Button button)
+    {
+        if (button == GameInput.Button.UISubmit)
+        {
+            checkForControllerHold = true;
+            OnStartPress();
+            return true;
+        }
+
+        return false;
     }
 }
