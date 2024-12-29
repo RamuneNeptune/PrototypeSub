@@ -146,7 +146,7 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
             upgradeScreen.InstallUpgrade(this);
         }
 
-        OnUpgradesChanged(null, new UpgradeChangedEventArgs(upgradeScreen, upgradeManager.GetInstalledUpgrades()))
+        OnUpgradesChanged(null, new UpgradeChangedEventArgs(upgradeScreen, upgradeManager.GetInstalledUpgrades()));
     }
 
     public void SetUpgradeTechType(TechType techType)
