@@ -55,11 +55,13 @@ internal class BuildTerminalScreenManager : MonoBehaviour
 
     public void BeginBuildStage()
     {
+        buildScreen.OnStageFinished();
         animatorScreen.OnStageStarted();
     }
 
     public void EndBuildStage()
     {
         animatorScreen.OnStageFinished();
+        upgradeScreen.gameObject.SetActive(true);
     }
 }

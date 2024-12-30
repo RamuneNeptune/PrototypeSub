@@ -38,8 +38,10 @@ internal class ProtoBuildTerminal : Crafter
 
     private IEnumerator StartCraftChargeUp(TechType techType, float duration)
     {
+        screenManager.BeginBuildStage();
         spikesAnimator.SetTrigger("BuildWarmup");
-        animScreen.StartPreWarm(duration);
+        animScreen.StartPreWarm(buildDelay);
+
         foreach (var item in batteryManagers)
         {
             item.StartBatteryCharge(buildDelay);
@@ -52,8 +54,6 @@ internal class ProtoBuildTerminal : Crafter
         {
             item.StartBatteryDrain(buildDuration);
         }
-
-        screenManager.BeginBuildStage();
     }
 
     public override void OnCraftingBegin(TechType techType, float duration)

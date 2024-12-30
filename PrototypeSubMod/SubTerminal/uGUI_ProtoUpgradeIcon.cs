@@ -67,7 +67,7 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
 
     private void Start()
     {
-        buildScreen = GetComponentInParent<uGUI_ProtoBuildScreen>();
+        buildScreen = GetComponentInParent<BuildTerminalScreenManager>().GetComponentInChildren<uGUI_ProtoBuildScreen>(true);
         upgradeScreen = GetComponentInParent<UpgradeScreen>();
         uninstallationTechType = uninstallationTechTypes[UpgradeIdentifier];
 
