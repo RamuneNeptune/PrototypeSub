@@ -199,6 +199,14 @@ namespace PrototypeSubMod
             PDAHandler.AddEncyclopediaEntry("ProtoDeployableLightEncy", "Tech/Equipment", lightTitle, lightDescription, unlockSound: PDAHandler.UnlockBasic, popupImage: lightPopup);
             #endregion
 
+            #region Ion Prism
+            string prismTitle = Language.main.Get("ProtoIonPrismEncy_Title");
+            string prismDescription = Language.main.Get("ProtoIonPrismEncy_Body");
+            var prismPopup = AssetBundle.LoadAsset<Sprite>("IonPrism_EncyPopup");
+
+            PDAHandler.AddEncyclopediaEntry("ProtoIonPrismEncy", "DownloadedData/Precursor/Scan", prismTitle, prismDescription, unlockSound: PDAHandler.UnlockBasic, popupImage: prismPopup);
+            #endregion
+
             RegisterEncyEntries("DownloadedData/Precursor/ProtoUpgrades", PDAHandler.UnlockBasic, new()
             {
                 "ProtoCloakEncy",
