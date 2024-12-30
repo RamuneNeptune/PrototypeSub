@@ -15,6 +15,11 @@ internal class uGUI_FirstInteractScreen : TerminalScreen
     private float currentLoadingTime;
     private bool loadingStarted;
 
+    private void Start()
+    {
+        loadingBar.fillAmount = 0;
+    }
+
     public override void OnStageStarted()
     {
         gameObject.SetActive(true);
