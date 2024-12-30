@@ -116,6 +116,8 @@ internal class ProtoIonBarrier : ProtoUpgrade, IOnTakeDamage
 
     public override void SetUpgradeEnabled(bool enabled)
     {
+        if (upgradeLocked) return;
+
         if (enabled && !upgradeEnabled)
         {
             ActivateShield();

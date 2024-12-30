@@ -12,6 +12,7 @@ internal abstract class ProtoUpgrade : MonoBehaviour, IProtoUpgrade
 
     protected bool upgradeEnabled;
     protected bool upgradeInstalled;
+    protected bool upgradeLocked;
 
     public virtual bool GetUpgradeEnabled() => upgradeEnabled;
     public virtual bool GetUpgradeInstalled() => upgradeInstalled;
@@ -20,11 +21,15 @@ internal abstract class ProtoUpgrade : MonoBehaviour, IProtoUpgrade
 
     public virtual void SetUpgradeEnabled(bool enabled)
     {
+        if (upgradeLocked) return;
+
         upgradeEnabled = enabled;
     }
 
     public virtual void SetUpgradeInstalled(bool installed)
     {
+        if (upgradeLocked) return;
+
         upgradeInstalled = installed;
         foreach (var item in enableWithInstallation)
         {
@@ -32,6 +37,11 @@ internal abstract class ProtoUpgrade : MonoBehaviour, IProtoUpgrade
 
             item.SetActive(installed);
         }
+    }
+
+    public virtual void SetUpgradeLocked(bool locked)
+    {
+        upgradeLocked = locked;
     }
 
     private void Start()

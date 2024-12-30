@@ -23,7 +23,7 @@ internal class ProtoOverclockModule : ProtoUpgrade
 
     private void Update()
     {
-        if (!upgradeInstalled)
+        if (!upgradeInstalled || ionGenerator.GetUpgradeEnabled())
         {
             motorHandler.RemoveSpeedMultiplierBonus(this);
             return;
@@ -79,7 +79,7 @@ internal class ProtoOverclockModule : ProtoUpgrade
     {
         base.SetUpgradeEnabled(enabled);
 
-        if (enabled)
+        if (upgradeEnabled)
         {
             subRoot.voiceNotificationManager.PlayVoiceNotification(enabledVoiceline);
         }

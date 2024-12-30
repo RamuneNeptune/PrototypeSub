@@ -143,7 +143,7 @@ internal class CloakEffectHandler : ProtoUpgrade
     public override void SetUpgradeEnabled(bool enabled)
     {
         base.SetUpgradeEnabled(enabled);
-        if (enabled)
+        if (upgradeEnabled)
         {
             emissionController.RegisterTempColor(new EmissionColorController.EmissionRegistrarData(this, emissiveColor, 20));
         }

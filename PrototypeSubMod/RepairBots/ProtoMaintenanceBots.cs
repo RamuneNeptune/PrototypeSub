@@ -72,7 +72,7 @@ internal class ProtoMaintenanceBots : ProtoUpgrade, IOnTakeDamage
     {
         base.SetUpgradeInstalled(installed);
 
-        if (installed)
+        if (upgradeInstalled)
         {
             timeSinceDamage = float.MaxValue;
         }
