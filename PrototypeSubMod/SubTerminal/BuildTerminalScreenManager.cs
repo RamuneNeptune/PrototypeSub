@@ -1,9 +1,11 @@
-﻿using UnityEngine;
+﻿using Story;
+using UnityEngine;
 
 namespace PrototypeSubMod.SubTerminal;
 
 internal class BuildTerminalScreenManager : MonoBehaviour
 {
+    [SerializeField] private TerminalScreen firstInteractScreen;
     [SerializeField] private TerminalScreen buildScreen;
     [SerializeField] private TerminalScreen animatorScreen;
     [SerializeField] private GameObject upgradeScreen;
@@ -29,6 +31,15 @@ internal class BuildTerminalScreenManager : MonoBehaviour
             upgradeScreen.gameObject.SetActive(false);
             emptyScreen.gameObject.SetActive(false);
         }
+
+        bool hasInteracted = StoryGoalManager.main.completedGoals.Contains("PlayerFirstPPTInteraction");
+        if (!hasInteracted)
+        {
+            firstInteractScreen.OnStageStarted();
+            buildScreen.gameObject.SetActive(false);
+            upgradeScreen.gameObject.SetActive(false);
+            emptyScreen.gameObject.SetActive(false);
+        }
     }
 
     public void OnConstructionStarted()
@@ -51,6 +62,12 @@ internal class BuildTerminalScreenManager : MonoBehaviour
 
         upgradeScreen.gameObject.SetActive(occupied);
         emptyScreen.gameObject.SetActive(!occupied);
+    }
+
+    public void BeginWaitForBuildStage()
+    {
+        firstInteractScreen.OnStageFinished();
+        buildScreen.OnStageStarted();
     }
 
     public void BeginBuildStage()
