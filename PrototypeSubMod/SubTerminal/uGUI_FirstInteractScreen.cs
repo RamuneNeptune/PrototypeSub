@@ -12,7 +12,6 @@ internal class uGUI_FirstInteractScreen : TerminalScreen
     [SerializeField] private Image loadingBar;
     [SerializeField] private Image logoImage;
     [SerializeField] private AnimationCurve progressOverTime;
-    [SerializeField] private AnimationCurve logoProgressOverTime;
     [SerializeField] private float loadingTime;
 
     private float currentLoadingTime;
@@ -49,8 +48,9 @@ internal class uGUI_FirstInteractScreen : TerminalScreen
         if (currentLoadingTime < loadingTime)
         {
             currentLoadingTime += Time.deltaTime;
-            loadingBar.fillAmount = progressOverTime.Evaluate(currentLoadingTime / loadingTime);
-            logoImage.material.SetFloat("_LoadProgress", logoProgressOverTime.Evaluate(currentLoadingTime / loadingTime));
+            float fillAmount = progressOverTime.Evaluate(currentLoadingTime / loadingTime);
+            loadingBar.fillAmount = fillAmount;
+            logoImage.material.SetFloat("_LoadProgress", fillAmount);
         }
         else
         {
