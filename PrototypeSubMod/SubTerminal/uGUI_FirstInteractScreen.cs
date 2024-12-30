@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Story;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace PrototypeSubMod.SubTerminal;
@@ -28,6 +29,7 @@ internal class uGUI_FirstInteractScreen : TerminalScreen
     public override void OnStageFinished()
     {
         gameObject.SetActive(false);
+        StoryGoalManager.main.OnGoalComplete("PlayerFirstPPTInteraction");
     }
 
     public void OnInteract()
