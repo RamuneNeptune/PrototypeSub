@@ -4,6 +4,7 @@
     {
         _MainTex ("Texture", 2D) = "white" {}
         _NoiseTex ("Nosie Texture", 2D) = "white" {}
+        _Color ("Color", Color) = (1, 1, 1, 1)
         _LoadProgress ("Load Progress", Range(0,1)) = 1
         _RemapMin ("Remap Min", Float) = 0
         _RemapMax ("Remap Max", Float) = 1
@@ -41,6 +42,7 @@
 
             sampler2D _NoiseTex;
 
+            fixed4 _Color;
             fixed _LoadProgress;
             float _RemapMin;
             float _RemapMax;
@@ -65,7 +67,7 @@
                 if (val < (1 - testValue)) discard;
 
                 fixed4 col = tex2D(_MainTex, i.uv);
-                return col;
+                return col * _Color;
             }
             ENDCG
         }
