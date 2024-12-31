@@ -1,4 +1,5 @@
 ﻿using Story;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,7 +16,15 @@ internal class uGUI_FirstInteractScreen : TerminalScreen
     [SerializeField] private AnimationCurve progressOverTime;
     [SerializeField] private float loadingTime;
 
+    [Header("Background Glitch")]
+    [SerializeField] private Image backgroundImage;
+    [SerializeField] private Sprite normalSprite;
+    [SerializeField] private Sprite glitchSprite;
+    [SerializeField] private float[] glitchTimePoints;
+    [SerializeField] private float glitchDuration;
+
     private float currentLoadingTime;
+    private float previousLoadingTime;
     private bool loadingStarted;
 
     private void Start()
@@ -58,7 +67,8 @@ internal class uGUI_FirstInteractScreen : TerminalScreen
         if (currentLoadingTime < loadingTime)
         {
             currentLoadingTime += Time.deltaTime;
-            float fillAmount = progressOverTime.Evaluate(currentLoadingTime / loadingTime);
+            float normalizedProgress = currentLoadingTime / loadingTime;
+            float fillAmount = progressOverTime.Evaluate(normalizedProgress);
             loadingBar.fillAmount = fillAmount;
             logoImage.material.SetFloat("_LoadProgress", fillAmount);
         }
@@ -67,5 +77,32 @@ internal class uGUI_FirstInteractScreen : TerminalScreen
             screenManager.BeginWaitForBuildStage();
             loadingStarted = false;
         }
+
+        HandleGlitchPoints();
+
+        previousLoadingTime = currentLoadingTime;
+    }
+
+    private void HandleGlitchPoints()
+    {
+        float normalizedProgress = currentLoadingTime / loadingTime;
+        float prevNormalizedProgress = previousLoadingTime / loadingTime;
+
+        for (int i = 0; i < glitchTimePoints.Length; i++)
+        {
+            float timePoint = glitchTimePoints[i];
+            if (prevNormalizedProgress < timePoint && normalizedProgress > timePoint)
+            {
+                backgroundImage.sprite = glitchSprite;
+                UWE.CoroutineHost.StartCoroutine(ResetBGSprite());
+            }
+        }
+    }
+
+    private IEnumerator ResetBGSprite()
+    {
+        yield return new WaitForSeconds(glitchDuration);
+
+        backgroundImage.sprite = normalSprite;
     }
 }

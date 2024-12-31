@@ -8,6 +8,7 @@
         _LoadProgress ("Load Progress", Range(0,1)) = 1
         _RemapMin ("Remap Min", Float) = 0
         _RemapMax ("Remap Max", Float) = 1
+        _Emission ("Emission", Float) = 1
     }
     SubShader
     {
@@ -46,6 +47,7 @@
             fixed _LoadProgress;
             float _RemapMin;
             float _RemapMax;
+            float _Emission;
 
             v2f vert (appdata v)
             {
@@ -67,7 +69,7 @@
                 if (val < (1 - testValue)) discard;
 
                 fixed4 col = tex2D(_MainTex, i.uv);
-                return col * _Color;
+                return col * _Color * _Emission;
             }
             ENDCG
         }
