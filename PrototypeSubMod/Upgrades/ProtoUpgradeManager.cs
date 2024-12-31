@@ -87,9 +87,20 @@ internal class ProtoUpgradeManager : MonoBehaviour, ISaveDataListener
         saveData = protoData;
     }
 
-    public List<TechType> GetInstalledUpgrades()
+    public List<TechType> GetInstalledUpgradeTypes()
     {
         return InstalledUpgrades;
+    }
+
+    public List<ProtoUpgrade> GetInstalledUpgrades()
+    {
+        List<ProtoUpgrade> upgrades = new();
+        foreach (var upgrade in this.upgrades)
+        {
+            upgrades.Add(upgrade.Value);
+        }
+
+        return upgrades;
     }
 
     public void OnConsoleCommand_toggleupgradeenabled(NotificationCenter.Notification notification)

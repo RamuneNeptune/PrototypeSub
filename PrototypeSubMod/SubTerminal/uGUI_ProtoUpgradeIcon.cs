@@ -94,7 +94,7 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
 
         if (upgradeManager == null) yield break;
 
-        OnUpgradesChanged(null, new UpgradeChangedEventArgs(upgradeScreen, upgradeManager.GetInstalledUpgrades()));
+        OnUpgradesChanged(null, new UpgradeChangedEventArgs(upgradeScreen, upgradeManager.GetInstalledUpgradeTypes()));
     }
 
     private void OnEnable()
@@ -114,7 +114,7 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
         if (!upgradeManager) yield break;
 
         SetUpgradeTechType(CurrentTechType);
-        if (upgradeManager.GetInstalledUpgrades().Contains(techType.TechType))
+        if (upgradeManager.GetInstalledUpgradeTypes().Contains(techType.TechType))
         {
             upgradeScreen.InstallUpgrade(this);
         }
@@ -141,12 +141,12 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
         upgradeManager = occupiedHandler.SubInMoonpool.GetComponentInChildren<ProtoUpgradeManager>();
 
         SetUpgradeTechType(CurrentTechType);
-        if (upgradeManager.GetInstalledUpgrades().Contains(techType.TechType))
+        if (upgradeManager.GetInstalledUpgradeTypes().Contains(techType.TechType))
         {
             upgradeScreen.InstallUpgrade(this);
         }
 
-        OnUpgradesChanged(null, new UpgradeChangedEventArgs(upgradeScreen, upgradeManager.GetInstalledUpgrades()));
+        OnUpgradesChanged(null, new UpgradeChangedEventArgs(upgradeScreen, upgradeManager.GetInstalledUpgradeTypes()));
     }
 
     public void SetUpgradeTechType(TechType techType)
@@ -291,7 +291,7 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
             upgradeScreen.UninstallUpgrade(this);
         }
 
-        UpgradeChangedEventArgs args = new(upgradeScreen, upgradeManager.GetInstalledUpgrades());
+        UpgradeChangedEventArgs args = new(upgradeScreen, upgradeManager.GetInstalledUpgradeTypes());
         onUpgradeChanged?.Invoke(this, args);
 
         if (currentlyInstalled)

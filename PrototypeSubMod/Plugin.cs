@@ -70,7 +70,7 @@ namespace PrototypeSubMod
         internal static Sprite PrototypeSaveIcon = AssetBundle.LoadAsset<Sprite>("ProtoSaveIcon");
 
         internal const string DEFENSE_CHAMBER_BIOME_NAME = "protodefensefacility";
-        internal readonly Vector3 STORY_END_POS = new Vector3(-1333, -900, -3014);
+        internal static readonly Vector3 STORY_END_POS = new Vector3(-1333, -900, -3014);
 
         private static bool Initialized;
         private static Harmony harmony = new Harmony(GUID);
