@@ -70,6 +70,7 @@ namespace PrototypeSubMod
         internal static Sprite PrototypeSaveIcon = AssetBundle.LoadAsset<Sprite>("ProtoSaveIcon");
 
         internal const string DEFENSE_CHAMBER_BIOME_NAME = "protodefensefacility";
+        internal readonly Vector3 STORY_END_POS = new Vector3(-1333, -900, -3014);
 
         private static bool Initialized;
         private static Harmony harmony = new Harmony(GUID);
@@ -169,6 +170,7 @@ namespace PrototypeSubMod
 
             CustomPing.CreatePing("ProtoEngineFacilityPing", EngineFacilityPingType, new Vector3(307, -1155, 110), new Color(0.54f, 1f, 0.54f));
             CustomPing.CreatePing("ProtoDefenseFacilityPing", DefenseFacilityPingType, new Vector3(692, -481, -1414), new Color(1f, 0.25f, 0.25f));
+            CustomPing.CreatePing("StoryEndPing", PingType.Signal, STORY_END_POS);
         }
 
         private void RegisterEncyEntries()
