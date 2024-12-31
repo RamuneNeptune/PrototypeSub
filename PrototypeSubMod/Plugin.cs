@@ -170,7 +170,7 @@ namespace PrototypeSubMod
 
             CustomPing.CreatePing("ProtoEngineFacilityPing", EngineFacilityPingType, new Vector3(307, -1155, 110), new Color(0.54f, 1f, 0.54f));
             CustomPing.CreatePing("ProtoDefenseFacilityPing", DefenseFacilityPingType, new Vector3(692, -481, -1414), new Color(1f, 0.25f, 0.25f));
-            CustomPing.CreatePing("StoryEndPing", PingType.Signal, STORY_END_POS, minDist: 150);
+            CustomPing.CreatePing("StoryEndPing", PingType.Signal, STORY_END_POS, minDist: 150, fadeRange: 25);
         }
 
         private void RegisterEncyEntries()
