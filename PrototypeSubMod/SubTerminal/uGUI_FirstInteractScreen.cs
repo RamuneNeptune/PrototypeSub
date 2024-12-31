@@ -27,6 +27,9 @@ internal class uGUI_FirstInteractScreen : TerminalScreen
         {
             lightingController.LerpToState(1, 1);
         }
+
+        normalObjects.SetActive(true);
+        loadingObjects.SetActive(false);
     }
 
     public override void OnStageStarted()
