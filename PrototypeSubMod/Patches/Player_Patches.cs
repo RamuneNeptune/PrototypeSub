@@ -2,6 +2,7 @@
 using PrototypeSubMod.Facilities.Defense;
 using PrototypeSubMod.LightDistortionField;
 using PrototypeSubMod.MiscMonobehaviors.SubSystems;
+using PrototypeSubMod.PrototypeStory;
 using PrototypeSubMod.Teleporter;
 using System.Collections;
 using System.Collections.Generic;
@@ -102,5 +103,14 @@ internal class Player_Patches
         float multiplier = oxCapacity / TUNNEL_REQ_OX / depthMultiplier;
 
         __result *= multiplier;
+    }
+
+    [HarmonyPatch(nameof(Player.ExitPilotingMode)), HarmonyPostfix]
+    private static void ExitPilotingMode_Postfix(Player __instance)
+    {
+        if (ProtoStoryLocker.StoryEndingActive)
+        {
+            __instance.currentSub.GetComponent<SubControl>().Set(SubControl.Mode.DirectInput);
+        }
     }
 }

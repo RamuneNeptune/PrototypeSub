@@ -1,4 +1,5 @@
 ﻿using PrototypeSubMod.Upgrades;
+using System.Collections;
 using UnityEngine;
 
 namespace PrototypeSubMod.PrototypeStory;
@@ -14,7 +15,18 @@ internal class ProtoStoryLocker : MonoBehaviour
 
     private void Start()
     {
-        InvokeRepeating(nameof(CheckForDistance), 0, checkInterval);
+        UWE.CoroutineHost.StartCoroutine(CheckRepeated());
+    }
+
+    private IEnumerator CheckRepeated()
+    {
+        while(true)
+        {
+            if (StoryEndingActive) yield break;
+            yield return new WaitForSeconds(checkInterval);
+
+            CheckForDistance();
+        }
     }
 
     private void CheckForDistance()
