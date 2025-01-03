@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 namespace PrototypeSubMod.MiscMonobehaviors.Materials;
 
@@ -8,6 +9,7 @@ internal class ScrollingEmissionAssigner : MonoBehaviour
     [SerializeField] private Renderer[] renderers;
     [SerializeField] private Transform objectTop;
     [SerializeField] private Transform objectBottom;
+    [SerializeField] private bool alwaysUpdateBounds;
 
     [Header("Animation")]
     [SerializeField] private AnimationCurve noiseOverTime;
@@ -19,6 +21,21 @@ internal class ScrollingEmissionAssigner : MonoBehaviour
 
     private void Start()
     {
+        SetupMinMax();
+    }
+
+    private void Update()
+    {
+        if (alwaysUpdateBounds)
+        {
+            SetupMinMax();
+        }
+
+        HandleTargetMoving();
+    }
+
+    private void SetupMinMax()
+    {
         foreach (var renderer in renderers)
         {
             renderer.material.SetFloat("_ObjMaxY", objectTop.position.y);
@@ -26,15 +43,15 @@ internal class ScrollingEmissionAssigner : MonoBehaviour
         }
     }
 
-    private void Update()
+    private void HandleTargetMoving()
     {
         if (currentTime < duration)
         {
             currentTime += Time.deltaTime;
         }
-        else if (currentTime > duration)
+        else if (currentTime > duration && !IsInvoking(nameof(ResetDuration)))
         {
-            currentTime = 0;
+            Invoke(nameof(ResetDuration), timeBetweenPasses);
         }
 
         float normaliedValue = currentTime / duration;
@@ -48,5 +65,10 @@ internal class ScrollingEmissionAssigner : MonoBehaviour
             rend.material.SetFloat("_UVTarget", normaliedValue);
             rend.material.SetFloat("_NoiseMultiplier", noiseOverTime.Evaluate(normaliedValue));
         }
+    }
+
+    private void ResetDuration()
+    {
+        currentTime = 0;
     }
 }
