@@ -2,22 +2,31 @@
 
 public class Test : MonoBehaviour
 {
-    public Transform center;
+    public Renderer rend;
+    public AnimationCurve noiseMulOverTime;
+    public float duration;
+    public bool invertDirection;
 
-    public void OnDrawGizmos()
+    private float currentTime;
+
+    private void Update()
     {
-        if (center == null) return;
+        if (currentTime < duration)
+        {
+            currentTime += Time.deltaTime;
+        }
+        else if (currentTime > duration)
+        {
+            currentTime = 0;
+        }
 
-        Vector3 pos = Vector3.ProjectOnPlane(transform.forward + transform.position, center.forward);
-        pos += center.position;
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawSphere(pos, 0.2f);
+        float normaliedValue = currentTime / duration;
+        if (invertDirection)
+        {
+            normaliedValue = 1 - normaliedValue;
+        }
 
-        Vector3 dir = pos - center.position;
-        dir.Normalize();
-        Gizmos.DrawRay(center.position, dir);
-
-        Vector3 localDir = center.InverseTransformDirection(dir);
-        //Debug.Log(localDir);
+        rend.material.SetFloat("_UVTarget", normaliedValue);
+        rend.material.SetFloat("_NoiseMultiplier", noiseMulOverTime.Evaluate(normaliedValue));
     }
 }
