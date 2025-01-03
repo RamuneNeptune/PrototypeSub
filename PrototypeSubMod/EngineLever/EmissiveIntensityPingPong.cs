@@ -8,12 +8,13 @@ internal class EmissiveIntensityPingPong : MonoBehaviour
     [SerializeField] private float osciallationSpeed;
     [SerializeField] private float minIntensity;
     [SerializeField] private float maxIntensity;
+    [SerializeField] private bool activeAtStart;
 
     private bool active;
 
     private void Start()
     {
-        SetActive(false);
+        SetActive(activeAtStart);
     }
 
     public void SetActive(bool active)
