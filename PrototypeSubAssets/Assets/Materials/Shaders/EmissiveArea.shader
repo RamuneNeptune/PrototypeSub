@@ -98,7 +98,7 @@
                 float posMin = _UVTarget - _UVSpread;
                 float posMax = _UVTarget + _UVSpread;
 
-                float uvCurrent = invLerp(_ObjMinY - _NoiseMultiplier * 3, _ObjMaxY + _NoiseMultiplier * 6, i.worldPos.y) + (noiseVal * _NoiseMultiplier);
+                float uvCurrent = invLerp(_ObjMinY - _UVSpread, _ObjMaxY + _UVSpread * 10 + _NoiseMultiplier * 4, i.worldPos.y) + (noiseVal * _NoiseMultiplier);
 
                 if (uvCurrent < posMin || uvCurrent > posMax) discard;
 
