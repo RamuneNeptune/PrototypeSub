@@ -1,5 +1,6 @@
 ﻿using PrototypeSubMod.EngineLever;
 using PrototypeSubMod.MotorHandler;
+using PrototypeSubMod.Teleporter;
 using PrototypeSubMod.Upgrades;
 using System.Collections;
 using UnityEngine;
@@ -23,6 +24,8 @@ internal class ProtoStoryLocker : MonoBehaviour
     [SerializeField] private GameObject hydrolockCloseTrigger;
     [SerializeField] private Animator watergateAnimator;
     [SerializeField] private ProtoEngineLever engineLever;
+    [SerializeField] private GameObject teleporterTerminalParent;
+    [SerializeField] private ProtoTeleporterManager teleporterManager;
 
     private void Start()
     {
@@ -75,6 +78,10 @@ internal class ProtoStoryLocker : MonoBehaviour
         motorHandler.AddPowerEfficiencyMultiplier(new ProtoMotorHandler.ValueRegistrar(this, 9999));
         hydrolockCloseTrigger.SetActive(true);
         engineLever.SetStoryLocked(true);
+
+        var protoTrigger = teleporterTerminalParent.GetComponentInChildren<ProtoKeyTerminalTrigger>();
+        protoTrigger.SetStoryLocked(true);
+        teleporterManager.ToggleDoor(false);
     }
 
     private void OnDestroy()
