@@ -160,10 +160,10 @@ namespace PrototypeSubMod
             ProtoLogo_World.Register();
             DamagedProtoLogo_World.Register();
             TeleporterTerminal_World.Register();
-            EmptyDisplayCase_World.Register();
-            PrecursorScanner1_NoScan.Register();
-            PrecursorScanner2_NoScan.Register();
-            PrecursorScanner3_NoScan.Register();
+            NonScannableProp.Register("11e731e7-bc82-4f94-90be-5db7b58b449b", "EmptyDisplayCase");
+            NonScannableProp.Register("4f5905f8-ea50-49e8-b24f-44139c6bddcf", "PrecursorScannerArmNoScan1");
+            NonScannableProp.Register("ebc943e4-200c-4789-92f3-e675cd982dbe", "PrecursorScannerArmNoScan2");
+            NonScannableProp.Register("1ac2b0798-e311-4cb1-9074-fae59cd7347a", "PrecursorScannerArmNoScan3");
 
             Texture2D dogIco = AssetBundle.LoadAsset<Texture2D>("dogPosterIcon");
             new CustomPoster("ProtoDogPoster", null, null, AssetBundle.LoadAsset<Texture2D>("DogPoster"), dogIco);

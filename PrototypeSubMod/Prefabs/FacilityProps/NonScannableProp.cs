@@ -3,16 +3,14 @@ using Nautilus.Assets;
 
 namespace PrototypeSubMod.Prefabs.FacilityProps;
 
-internal class PrecursorScanner1_NoScan
+internal class NonScannableProp
 {
-    public static PrefabInfo prefabInfo { get; private set; }
-
-    public static void Register()
+    public static void Register(string classID, string newTechType)
     {
-        prefabInfo = PrefabInfo.WithTechType("PrecursorScannerArmNoScan2", null, null, "English");
+        var prefabInfo = PrefabInfo.WithTechType(newTechType, null, null, "English");
 
         var prefab = new CustomPrefab(prefabInfo);
-        var cloneTemplate = new CloneTemplate(prefabInfo, "4f5905f8-ea50-49e8-b24f-44139c6bddcf");
+        var cloneTemplate = new CloneTemplate(prefabInfo, classID);
         cloneTemplate.ModifyPrefab += gameObject =>
         {
             var tag = gameObject.GetComponent<TechTag>();
