@@ -228,6 +228,12 @@ namespace PrototypeSubMod
             PDAHandler.AddEncyclopediaEntry("OrionFacilityLogsEncy", "DownloadedData/Precursor/Terminal", orionTitle, orionBody, unlockSound: PDAHandler.UnlockBasic);
             #endregion
 
+            #region Defense Audit Logs
+            string auditTitle = Language.main.Get("DefenseFacilityLogs_Title");
+            string auditBody = Language.main.Get("DefenseFacilityLogs_Body");
+            PDAHandler.AddEncyclopediaEntry("DefenseFacilityAuditEncy", "DownloadedData/Precursor/Terminal", auditTitle, auditBody, unlockSound: PDAHandler.UnlockBasic);
+            #endregion
+
             RegisterEncyEntries("DownloadedData/Precursor/ProtoUpgrades", PDAHandler.UnlockBasic, new()
             {
                 "ProtoCloakEncy",
@@ -247,12 +253,11 @@ namespace PrototypeSubMod
         {
             #region Precursor Ingot
 
-            StoryGoalHandler.RegisterCompoundGoal("Ency_ProtoPrecursorIngot", Story.GoalType.Encyclopedia, 12f, "Goal_BiomePrecursorGunUpper");
+            StoryGoalHandler.RegisterCompoundGoal("DefenseFacilityAuditEncy", Story.GoalType.Encyclopedia, 12f, "Unlock");
 
-            StoryGoalHandler.RegisterCustomEvent("Ency_ProtoPrecursorIngot", () =>
+            StoryGoalHandler.RegisterCustomEvent("DefenseFacilityAuditEncy", () =>
             {
-                KnownTech.Add(PrecursorIngot_Craftable.prefabInfo.TechType);
-                PDAEncyclopedia.Add("ProtoPrecursorIngot", true);
+                PDAEncyclopedia.Add("DefenseFacilityAuditEncy", true);
             });
 
             #endregion
@@ -301,6 +306,16 @@ namespace PrototypeSubMod
             StoryGoalHandler.RegisterCustomEvent("Ency_OrionFacilityLogs", () =>
             {
                 PDAEncyclopedia.Add("OrionFacilityLogsEncy", true);
+            });
+            #endregion
+
+            #region Defense Audit Logs
+            StoryGoalHandler.RegisterCompoundGoal("DefenseFacilityAuditEncy", Story.GoalType.Encyclopedia, 7f, "OnDisableDefenseCloak");
+
+            StoryGoalHandler.RegisterCustomEvent("DefenseFacilityAuditEncy", () =>
+            {
+                KnownTech.Add(PrecursorIngot_Craftable.prefabInfo.TechType);
+                PDAEncyclopedia.Add("DefenseFacilityAuditEncy", true);
             });
             #endregion
         }

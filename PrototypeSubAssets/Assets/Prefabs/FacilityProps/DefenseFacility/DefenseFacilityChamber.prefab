@@ -87441,6 +87441,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6045610865191652776}
   - component: {fileID: 2367657542260680702}
+  - component: {fileID: 2195710599917910574}
   m_Layer: 0
   m_Name: CloakDisableTerminal
   m_TagString: Untagged
@@ -87477,6 +87478,20 @@ MonoBehaviour:
   primaryTooltip: CloakDisableTerminal
   secondaryTooltip: CloakDisableTerminal_Tooltip
   allowMultipleUses: 0
+--- !u!114 &2195710599917910574
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8279907384977961774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1104637911, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  terminal: {fileID: 2367657542260680702}
+  storyGoalKey: OnDisableDefenseCloak
 --- !u!1 &8280766426284665127
 GameObject:
   m_ObjectHideFlags: 0
