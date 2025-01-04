@@ -165,6 +165,14 @@ namespace PrototypeSubMod
             NonScannableProp.Register("ebc943e4-200c-4789-92f3-e675cd982dbe", "PrecursorScannerArmNoScan2");
             NonScannableProp.Register("ac2b0798-e311-4cb1-9074-fae59cd7347a", "PrecursorScannerArmNoScan3");
             NonScannableProp.Register("d3645d71-518d-4546-9b68-a3352b07399a", "EmptyMultiDisplayCase");
+            KinematicPrefabClone.Register(IonPrism_Craftable.prefabInfo.ClassID, "KinematicIonPrism");
+            KinematicPrefabClone.Register("4af48036-40ba-46b1-a398-ede0bb106213", "KinematicLavaBoomerang");
+            KinematicPrefabClone.Register("5f6d9ad1-540d-44b1-b62d-2478cd041ae5", "KinematicLavaEyeEye");
+            KinematicPrefabClone.Register("a9da9324-84ed-4a51-9ed3-a0969f455067", "KinematicPeeper");
+            KinematicPrefabClone.Register("0db5b44d-19f1-4349-9e1f-04da097010f3", "KinematicBoomerang");
+            KinematicPrefabClone.Register("b1d88c87-fd48-495b-a707-e91dc4259858", "KinematicHoverfish");
+            KinematicPrefabClone.Register("5de7d617-c04c-4a83-b663-ebf1d3dd90a1", "KinematicGarryfish");
+            KinematicPrefabClone.Register("ba851576-86df-48e5-a0be-5cd7ba6f4617", "KinematicSpadefish");
 
             Texture2D dogIco = AssetBundle.LoadAsset<Texture2D>("dogPosterIcon");
             new CustomPoster("ProtoDogPoster", null, null, AssetBundle.LoadAsset<Texture2D>("DogPoster"), dogIco);
