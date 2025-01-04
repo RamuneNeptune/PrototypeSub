@@ -214,6 +214,12 @@ namespace PrototypeSubMod
             PDAHandler.AddEncyclopediaEntry("ProtoIonPrismEncy", "DownloadedData/Precursor/Scan", prismTitle, prismDescription, unlockSound: PDAHandler.UnlockBasic, popupImage: prismPopup);
             #endregion
 
+            #region Orion Logs
+            string orionTitle = Language.main.Get("OrionFacilityLogs_Title");
+            string orionBody = Language.main.Get("OrionFacilityLogs_Body");
+            PDAHandler.AddEncyclopediaEntry("OrionFacilityLogsEncy", "DownloadedData/Precursor/Terminal", orionTitle, orionBody, unlockSound: PDAHandler.UnlockBasic);
+            #endregion
+
             RegisterEncyEntries("DownloadedData/Precursor/ProtoUpgrades", PDAHandler.UnlockBasic, new()
             {
                 "ProtoCloakEncy",
@@ -280,6 +286,13 @@ namespace PrototypeSubMod
             StoryGoalHandler.RegisterCustomEvent("OnMoonpoolNoPrototype", () =>
             {
                 PDALog.Add("OnMoonpoolNoPrototype");
+            });
+            #endregion
+
+            #region Orion Logs
+            StoryGoalHandler.RegisterCustomEvent("Ency_OrionFacilityLogs", () =>
+            {
+                PDAEncyclopedia.Add("OrionFacilityLogsEncy", true);
             });
             #endregion
         }
