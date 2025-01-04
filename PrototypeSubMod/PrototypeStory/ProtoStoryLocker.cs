@@ -1,4 +1,5 @@
-﻿using PrototypeSubMod.MotorHandler;
+﻿using PrototypeSubMod.EngineLever;
+using PrototypeSubMod.MotorHandler;
 using PrototypeSubMod.Upgrades;
 using System.Collections;
 using UnityEngine;
@@ -21,6 +22,7 @@ internal class ProtoStoryLocker : MonoBehaviour
     [SerializeField] private ProtoMotorHandler motorHandler;
     [SerializeField] private GameObject hydrolockCloseTrigger;
     [SerializeField] private Animator watergateAnimator;
+    [SerializeField] private ProtoEngineLever engineLever;
 
     private void Start()
     {
@@ -72,6 +74,7 @@ internal class ProtoStoryLocker : MonoBehaviour
         motorHandler.RemoveAllSpeedMultipliers();
         motorHandler.AddPowerEfficiencyMultiplier(new ProtoMotorHandler.ValueRegistrar(this, 9999));
         hydrolockCloseTrigger.SetActive(true);
+        engineLever.SetStoryLocked(true);
     }
 
     private void OnDestroy()

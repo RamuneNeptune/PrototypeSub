@@ -18,6 +18,7 @@ internal class ProtoEngineLever : CinematicModeTriggerBase
     [SerializeField] private FMOD_CustomEmitter shutdownSound;
 
     private bool ensureAnimFinished;
+    private bool locked;
 
     private IEnumerator Start()
     {
@@ -42,6 +43,17 @@ internal class ProtoEngineLever : CinematicModeTriggerBase
         main.SetText(HandReticle.TextType.Hand, key, true, GameInput.Button.LeftHand);
         main.SetText(HandReticle.TextType.HandSubscript, string.Empty, false, GameInput.Button.None);
         main.SetIcon(HandReticle.IconType.Hand, 1f);
+    }
+
+    public override void OnHandClick(GUIHand hand)
+    {
+        if (locked)
+        {
+            ErrorMessage.AddError("Insert engine locked voiceline");
+            return;
+        }
+
+        base.OnHandClick(hand);
     }
 
     public override void OnStartCinematicMode()
@@ -87,5 +99,10 @@ internal class ProtoEngineLever : CinematicModeTriggerBase
                 interactableCollider.enabled = true;
             }
         }
+    }
+
+    public void SetStoryLocked(bool locked)
+    {
+        this.locked = locked;
     }
 }
