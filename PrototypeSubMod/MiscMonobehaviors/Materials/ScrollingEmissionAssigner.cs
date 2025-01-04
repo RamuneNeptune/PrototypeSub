@@ -21,6 +21,7 @@ internal class ScrollingEmissionAssigner : MonoBehaviour
 
     private void Start()
     {
+        currentTime = Random.Range(0, 0.75f) * duration;
         SetupMinMax();
     }
 
