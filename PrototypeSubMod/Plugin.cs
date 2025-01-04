@@ -164,6 +164,7 @@ namespace PrototypeSubMod
             NonScannableProp.Register("4f5905f8-ea50-49e8-b24f-44139c6bddcf", "PrecursorScannerArmNoScan1");
             NonScannableProp.Register("ebc943e4-200c-4789-92f3-e675cd982dbe", "PrecursorScannerArmNoScan2");
             NonScannableProp.Register("ac2b0798-e311-4cb1-9074-fae59cd7347a", "PrecursorScannerArmNoScan3");
+            NonScannableProp.Register("d3645d71-518d-4546-9b68-a3352b07399a", "EmptyMultiDisplayCase");
 
             Texture2D dogIco = AssetBundle.LoadAsset<Texture2D>("dogPosterIcon");
             new CustomPoster("ProtoDogPoster", null, null, AssetBundle.LoadAsset<Texture2D>("DogPoster"), dogIco);
