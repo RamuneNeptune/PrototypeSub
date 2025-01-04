@@ -11,7 +11,8 @@ internal class FreezeObjectsInBounds : MonoBehaviour
 
     private void Start()
     {
-        collider.enabled = false;
+        collider.gameObject.SetActive(false);
+        FreezeObjects();
     }
 
     private void Update()
@@ -29,10 +30,15 @@ internal class FreezeObjectsInBounds : MonoBehaviour
         for (int i = 0; i < count; i++)
         {
             var col = UWE.Utils.sharedColliderBuffer[i];
-            var rigidBody = col.GetComponent<Rigidbody>();
+            var rigidBody = col.GetComponentInParent<Rigidbody>();
             if (!rigidBody) continue;
 
+            ErrorMessage.AddError($"Freezing {rigidBody}");
             UWE.Utils.SetIsKinematic(rigidBody, true);
+            Destroy(col);
+
+            var worldForces = col.GetComponentInParent<WorldForces>();
+            if (worldForces) Destroy(worldForces);
         }
     }
 }
