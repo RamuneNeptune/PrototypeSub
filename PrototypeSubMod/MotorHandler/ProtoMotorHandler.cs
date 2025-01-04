@@ -71,6 +71,16 @@ internal class ProtoMotorHandler : MonoBehaviour
         return true;
     }
 
+    public void RemoveAllSpeedMultipliers()
+    {
+        speedMultipliers.Clear();
+    }
+
+    public void RemoveAllSpeedBonuses()
+    {
+        speedBonuses.Clear();
+    }
+
     /// <summary>
     /// Set this to -1 if you don't want to change it
     /// </summary>
@@ -92,6 +102,11 @@ internal class ProtoMotorHandler : MonoBehaviour
 
         overrideNoiseValues.Remove(component);
         return true;
+    }
+
+    public void RemoveAllNoiseOverrides()
+    {
+        overrideNoiseValues.Clear();
     }
 
     /// <summary>
@@ -116,6 +131,11 @@ internal class ProtoMotorHandler : MonoBehaviour
 
         powerEfficiencyMultipliers.Remove(component);
         return true;
+    }
+
+    public void RemoveAllPowerMultipliers()
+    {
+        powerEfficiencyMultipliers.Clear();
     }
 
     public float GetEfficiencyMultiplier()
