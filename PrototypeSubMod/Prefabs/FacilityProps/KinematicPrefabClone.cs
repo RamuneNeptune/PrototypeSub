@@ -23,7 +23,6 @@ internal class KinematicPrefabClone
             var pickupable = gameObject.GetComponent<Pickupable>();
             if (pickupable)
             {
-                pickupable.DisableColliders();
                 pickupable.attached = true;
             }
         };
