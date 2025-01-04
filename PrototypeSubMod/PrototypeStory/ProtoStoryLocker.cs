@@ -19,11 +19,13 @@ internal class ProtoStoryLocker : MonoBehaviour
     [SerializeField] private LiveMixin mixin;
     [SerializeField] private ProtoUpgradeManager upgradeManager;
     [SerializeField] private ProtoMotorHandler motorHandler;
+    [SerializeField] private GameObject hydrolockCloseTrigger;
     [SerializeField] private Animator watergateAnimator;
 
     private void Start()
     {
         UWE.CoroutineHost.StartCoroutine(CheckRepeated());
+        hydrolockCloseTrigger.SetActive(false);
     }
 
     private IEnumerator CheckRepeated()
@@ -64,12 +66,12 @@ internal class ProtoStoryLocker : MonoBehaviour
             upgrade.SetUpgradeLocked(true);
         }
 
-        watergateAnimator.SetBool("HydrolockEnabled", true);
         motorHandler.RemoveAllNoiseOverrides();
         motorHandler.RemoveAllPowerMultipliers();
         motorHandler.RemoveAllSpeedBonuses();
         motorHandler.RemoveAllSpeedMultipliers();
         motorHandler.AddPowerEfficiencyMultiplier(new ProtoMotorHandler.ValueRegistrar(this, 9999));
+        hydrolockCloseTrigger.SetActive(true);
     }
 
     private void OnDestroy()
@@ -77,5 +79,10 @@ internal class ProtoStoryLocker : MonoBehaviour
         StoryEndingActive = false;
         WithinSaveLockZone = false;
         motorHandler.RemovePowerEfficiencyMultiplier(this);
+    }
+
+    public void CloseHydrolock()
+    {
+        watergateAnimator.SetBool("HydrolockEnabled", true);
     }
 }
