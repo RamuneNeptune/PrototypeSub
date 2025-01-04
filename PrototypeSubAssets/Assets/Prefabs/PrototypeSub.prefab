@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: -1807396697, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activationDistance: 150
+  activationDistance: 200
   saveLockDistance: 250
   checkInterval: 5
   mixin: {fileID: 4453924424643417328}
@@ -53,7 +53,7 @@ MonoBehaviour:
   hydrolockCloseTrigger: {fileID: 717051085406027840}
   watergateAnimator: {fileID: 8394726852095685677}
   engineLever: {fileID: 8819186175339043410}
-  teleporterTerminalParent: {fileID: 5169064653436263022}
+  terminalTrigger: {fileID: 6564342516877091451}
   teleporterManager: {fileID: 4787321135117219906}
 --- !u!1 &13799711942520360
 GameObject:
@@ -60685,6 +60685,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6837745061939833972}
   - component: {fileID: 8147258809171069961}
+  - component: {fileID: 6564342516877091451}
   m_Layer: 0
   m_Name: TerminalSpawner
   m_TagString: Untagged
@@ -60720,6 +60721,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   teleporterRoot: {fileID: 5751862558896933820}
   addressableKey: WorldEntities/Environment/Precursor/LavaCastleBase/Precursor_LavaCastleBase_TeleporterTerminal_ToGun.prefab
+--- !u!114 &6564342516877091451
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5169064653436263022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1180541049, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5175600145606191692
 GameObject:
   m_ObjectHideFlags: 0
@@ -105826,12 +105839,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d6cc3db34565c3a4ba68573b0eeec2a0, type: 3}
---- !u!4 &1224879765472228638 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2253812858737788773, guid: d6cc3db34565c3a4ba68573b0eeec2a0,
-    type: 3}
-  m_PrefabInstance: {fileID: 1132799834664678011}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &4466343788103864506 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3621781888743187137, guid: d6cc3db34565c3a4ba68573b0eeec2a0,
@@ -105844,6 +105851,12 @@ MonoBehaviour:
   m_Script: {fileID: -2039529286, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &1224879765472228638 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2253812858737788773, guid: d6cc3db34565c3a4ba68573b0eeec2a0,
+    type: 3}
+  m_PrefabInstance: {fileID: 1132799834664678011}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1946072641967388923
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -105928,12 +105941,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d6cc3db34565c3a4ba68573b0eeec2a0, type: 3}
---- !u!4 &308197624363909022 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2253812858737788773, guid: d6cc3db34565c3a4ba68573b0eeec2a0,
-    type: 3}
-  m_PrefabInstance: {fileID: 1946072641967388923}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &2973204448809671226 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3621781888743187137, guid: d6cc3db34565c3a4ba68573b0eeec2a0,
@@ -105946,6 +105953,12 @@ MonoBehaviour:
   m_Script: {fileID: -2039529286, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &308197624363909022 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2253812858737788773, guid: d6cc3db34565c3a4ba68573b0eeec2a0,
+    type: 3}
+  m_PrefabInstance: {fileID: 1946072641967388923}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3082858037385395774
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -24,7 +24,7 @@ internal class ProtoStoryLocker : MonoBehaviour
     [SerializeField] private GameObject hydrolockCloseTrigger;
     [SerializeField] private Animator watergateAnimator;
     [SerializeField] private ProtoEngineLever engineLever;
-    [SerializeField] private GameObject teleporterTerminalParent;
+    [SerializeField] private ProtoTeleporterTerminalLocker terminalTrigger;
     [SerializeField] private ProtoTeleporterManager teleporterManager;
 
     private void Start()
@@ -79,8 +79,7 @@ internal class ProtoStoryLocker : MonoBehaviour
         hydrolockCloseTrigger.SetActive(true);
         engineLever.SetStoryLocked(true);
 
-        var protoTrigger = teleporterTerminalParent.GetComponentInChildren<ProtoKeyTerminalTrigger>();
-        protoTrigger.SetStoryLocked(true);
+        terminalTrigger.SetStoryLocked(true);
         teleporterManager.ToggleDoor(false);
     }
 

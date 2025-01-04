@@ -1,6 +1,6 @@
 ﻿namespace PrototypeSubMod.Teleporter;
 
-internal class ProtoKeyTerminalTrigger : PrecursorKeyTerminalTrigger
+internal class ProtoTeleporterTerminalLocker : PrecursorKeyTerminalTrigger
 {
     private bool locked;
 

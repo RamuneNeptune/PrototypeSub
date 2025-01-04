@@ -9,7 +9,7 @@ internal class PrecursorTeleporterActivationTerminal_Patches
     [HarmonyPatch(nameof(PrecursorTeleporterActivationTerminal.OnProxyHandClick)), HarmonyPrefix]
     private static bool OnProxyHandClick_Prefix(PrecursorTeleporterActivationTerminal __instance)
     {
-        var keyTrigger = __instance.GetComponent<ProtoKeyTerminalTrigger>();
+        var keyTrigger = __instance.GetComponentInParent<ProtoTeleporterTerminalLocker>();
         if (!keyTrigger) return true;
 
         if (!keyTrigger.GetIsLocked()) return true;
