@@ -161,6 +161,9 @@ namespace PrototypeSubMod
             DamagedProtoLogo_World.Register();
             TeleporterTerminal_World.Register();
             EmptyDisplayCase_World.Register();
+            PrecursorScanner1_NoScan.Register();
+            PrecursorScanner2_NoScan.Register();
+            PrecursorScanner3_NoScan.Register();
 
             Texture2D dogIco = AssetBundle.LoadAsset<Texture2D>("dogPosterIcon");
             new CustomPoster("ProtoDogPoster", null, null, AssetBundle.LoadAsset<Texture2D>("DogPoster"), dogIco);
