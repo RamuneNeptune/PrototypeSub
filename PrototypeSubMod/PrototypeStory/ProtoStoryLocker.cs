@@ -1,4 +1,5 @@
-﻿using PrototypeSubMod.Upgrades;
+﻿using PrototypeSubMod.MotorHandler;
+using PrototypeSubMod.Upgrades;
 using System.Collections;
 using UnityEngine;
 
@@ -9,11 +10,16 @@ internal class ProtoStoryLocker : MonoBehaviour
     public static bool StoryEndingActive;
     public static bool WithinSaveLockZone;
 
-    [SerializeField] private LiveMixin mixin;
-    [SerializeField] private ProtoUpgradeManager upgradeManager;
+    [Header("Activation")]
     [SerializeField] private float activationDistance;
     [SerializeField] private float saveLockDistance;
     [SerializeField] private float checkInterval;
+
+    [Header("Locking")]
+    [SerializeField] private LiveMixin mixin;
+    [SerializeField] private ProtoUpgradeManager upgradeManager;
+    [SerializeField] private ProtoMotorHandler motorHandler;
+    [SerializeField] private Animator watergateAnimator;
 
     private void Start()
     {
@@ -57,11 +63,19 @@ internal class ProtoStoryLocker : MonoBehaviour
             upgrade.SetUpgradeEnabled(false);
             upgrade.SetUpgradeLocked(true);
         }
+
+        watergateAnimator.SetBool("HydrolockEnabled", true);
+        motorHandler.RemoveAllNoiseOverrides();
+        motorHandler.RemoveAllPowerMultipliers();
+        motorHandler.RemoveAllSpeedBonuses();
+        motorHandler.RemoveAllSpeedMultipliers();
+        motorHandler.AddPowerEfficiencyMultiplier(new ProtoMotorHandler.ValueRegistrar(this, 9999));
     }
 
     private void OnDestroy()
     {
         StoryEndingActive = false;
         WithinSaveLockZone = false;
+        motorHandler.RemovePowerEfficiencyMultiplier(this);
     }
 }
