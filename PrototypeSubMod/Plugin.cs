@@ -86,8 +86,8 @@ namespace PrototypeSubMod
             SubAudioLoader.LoadAllAudio(AssetBundle);
 
             RegisterEncyEntries();
-            RegisterStructures();
             RegisterPrefabs();
+            RegisterStructures();
             RegisterStoryGoals();
             RegisterBiomes();
             RegisterCommands();
