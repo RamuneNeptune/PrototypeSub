@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 5364100444813581981}
   - component: {fileID: 4607686502646961617}
   - component: {fileID: 468571821549810301}
+  - component: {fileID: 272686296028562310}
   m_Layer: 0
   m_Name: DeployableLight
   m_TagString: Untagged
@@ -207,6 +208,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 4
+--- !u!114 &272686296028562310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2104510665066426310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 180063717, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2930177765370898490
 GameObject:
   m_ObjectHideFlags: 0
@@ -740,7 +753,7 @@ GameObject:
   - component: {fileID: 9210539880103495616}
   - component: {fileID: 5816486634683115723}
   - component: {fileID: 9057760973415875768}
-  - component: {fileID: 3126144986691282557}
+  - component: {fileID: 6448982409170394664}
   m_Layer: 0
   m_Name: FakeVolumetricLight
   m_TagString: Untagged
@@ -809,7 +822,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &3126144986691282557
+--- !u!114 &6448982409170394664
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -818,12 +831,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 6876294352411791360}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -1933020355, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
+  m_Script: {fileID: 1175540086, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectPath: Floodlights/VolumetricLight_Front/x_FakeVolumletricLight
-  materialIndex: 0
-  renderer: {fileID: 9057760973415875768}
+  rend: {fileID: 9057760973415875768}
+  pathToTarget: Floodlights/VolumetricLight_Front/x_FakeVolumletricLight
+  copyIndex: 0
+  applyIndex: 0
 --- !u!1 &8193863695241594124
 GameObject:
   m_ObjectHideFlags: 0

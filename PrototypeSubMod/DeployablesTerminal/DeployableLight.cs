@@ -57,8 +57,6 @@ internal class DeployableLight : MonoBehaviour, IProtoEventListener
 
         Invoke(nameof(ActivateLight), deployDelay);
         Destroy(pickupable);
-
-        light.GetComponentInChildren<CyclopsMaterialAssigner>().OnLateMaterialOperation();
     }
 
     private void OnDrop()
