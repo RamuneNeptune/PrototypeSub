@@ -7,10 +7,12 @@ namespace PrototypeSubMod.PrototypeStory;
 internal class ProtoStoryLocker : MonoBehaviour
 {
     public static bool StoryEndingActive;
+    public static bool WithinSaveLockZone;
 
     [SerializeField] private LiveMixin mixin;
     [SerializeField] private ProtoUpgradeManager upgradeManager;
     [SerializeField] private float activationDistance;
+    [SerializeField] private float saveLockDistance;
     [SerializeField] private float checkInterval;
 
     private void Start()
@@ -37,6 +39,11 @@ internal class ProtoStoryLocker : MonoBehaviour
             OnEnterStoryEnding();
             CancelInvoke(nameof(CheckForDistance));
         }
+
+        if (dist < (saveLockDistance * saveLockDistance))
+        {
+            WithinSaveLockZone = true;
+        }
     }
 
     private void OnEnterStoryEnding()
@@ -55,5 +62,6 @@ internal class ProtoStoryLocker : MonoBehaviour
     private void OnDestroy()
     {
         StoryEndingActive = false;
+        WithinSaveLockZone = false;
     }
 }
