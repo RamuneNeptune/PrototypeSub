@@ -23595,7 +23595,7 @@ GameObject:
   - component: {fileID: 1194846999076803373}
   - component: {fileID: 2826897818414029960}
   - component: {fileID: 63015070572341314}
-  - component: {fileID: 1792626983071870819}
+  - component: {fileID: 1380369046919498339}
   - component: {fileID: 6402048113713476522}
   m_Layer: 0
   m_Name: LowerEngineRoomInteriorBlock
@@ -23665,7 +23665,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &1792626983071870819
+--- !u!114 &1380369046919498339
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -23674,12 +23674,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 2008363194537101719}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -1933020355, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
+  m_Script: {fileID: 1175540086, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectPath: FX/x_SmokeScreenImpostor
-  materialIndex: 0
-  renderer: {fileID: 63015070572341314}
+  rend: {fileID: 63015070572341314}
+  pathToTarget: FX/x_SmokeScreenImpostor
+  copyIndex: 0
+  applyIndex: 0
 --- !u!114 &6402048113713476522
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60858,7 +60859,7 @@ GameObject:
   - component: {fileID: 5517620738053702418}
   - component: {fileID: 8880356598276033719}
   - component: {fileID: 6690565704130427005}
-  - component: {fileID: 4159624151937697818}
+  - component: {fileID: 5814912825075677120}
   - component: {fileID: 3281287522592135973}
   m_Layer: 0
   m_Name: CockpitAndBridgeInteriorBlock
@@ -60928,7 +60929,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &4159624151937697818
+--- !u!114 &5814912825075677120
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -60937,12 +60938,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 5177264352175413672}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -1933020355, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
+  m_Script: {fileID: 1175540086, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectPath: FX/x_SmokeScreenImpostor
-  materialIndex: 0
-  renderer: {fileID: 6690565704130427005}
+  rend: {fileID: 6690565704130427005}
+  pathToTarget: FX/x_SmokeScreenImpostor
+  copyIndex: 0
+  applyIndex: 0
 --- !u!114 &3281287522592135973
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68289,7 +68291,7 @@ GameObject:
   - component: {fileID: 6603936412814634732}
   - component: {fileID: 7785103869668385097}
   - component: {fileID: 5471532634377721219}
-  - component: {fileID: 3362459807621959488}
+  - component: {fileID: 2752914629821761484}
   - component: {fileID: 9058823451757698598}
   m_Layer: 0
   m_Name: UpperEngineRoomInteriorBlock
@@ -68359,7 +68361,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &3362459807621959488
+--- !u!114 &2752914629821761484
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -68368,12 +68370,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 5831657396726215766}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -1933020355, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
+  m_Script: {fileID: 1175540086, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectPath: FX/x_SmokeScreenImpostor
-  materialIndex: 0
-  renderer: {fileID: 5471532634377721219}
+  rend: {fileID: 5471532634377721219}
+  pathToTarget: FX/x_SmokeScreenImpostor
+  copyIndex: 0
+  applyIndex: 0
 --- !u!114 &9058823451757698598
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -97969,7 +97972,7 @@ GameObject:
   - component: {fileID: 9066654322994743165}
   - component: {fileID: 5367412815274674392}
   - component: {fileID: 7897087017983638546}
-  - component: {fileID: 5435712793937032456}
+  - component: {fileID: 2895278881403262179}
   - component: {fileID: 4762385914027216203}
   m_Layer: 0
   m_Name: PilotsCabinInteriorBlock
@@ -98039,7 +98042,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &5435712793937032456
+--- !u!114 &2895278881403262179
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -98048,12 +98051,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 8545838391846821319}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -1933020355, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
+  m_Script: {fileID: 1175540086, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectPath: FX/x_SmokeScreenImpostor
-  materialIndex: 0
-  renderer: {fileID: 7897087017983638546}
+  rend: {fileID: 7897087017983638546}
+  pathToTarget: FX/x_SmokeScreenImpostor
+  copyIndex: 0
+  applyIndex: 0
 --- !u!114 &4762385914027216203
 MonoBehaviour:
   m_ObjectHideFlags: 0
