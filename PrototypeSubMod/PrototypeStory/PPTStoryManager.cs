@@ -1,4 +1,5 @@
 ﻿using Nautilus.Handlers;
+using PrototypeSubMod.Prefabs;
 using System;
 using UnityEngine;
 
@@ -29,5 +30,7 @@ internal class PPTStoryManager : MonoBehaviour
     private void OnPlayerFirstIneract()
     {
         ErrorMessage.AddError($"Wow, it's their first interaction!");
+        PDAEncyclopedia.Add("ProtoDatabankEncy", true);
+        KnownTech.Add(Prototype_Craftable.SubInfo.TechType);
     }
 }

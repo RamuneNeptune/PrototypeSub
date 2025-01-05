@@ -193,7 +193,7 @@ namespace PrototypeSubMod
             #region Prototype
             string protoTitle = Language.main.Get("ProtoDatabankEncy_Title");
             string protoBody = Language.main.Get("ProtoDatabankEncy_Body");
-            PDAHandler.AddEncyclopediaEntry("ProtoDatabankEncy", "DownloadedData/Precursor/Terminal", protoTitle, protoBody, unlockSound: PDAHandler.UnlockBasic);
+            PDAHandler.AddEncyclopediaEntry("ProtoDatabankEncy", "DownloadedData/Precursor/Terminal", protoTitle, protoBody, unlockSound: PDAHandler.UnlockImportant);
             #endregion
 
             #region Precursor Ingot
