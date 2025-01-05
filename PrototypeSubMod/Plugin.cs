@@ -190,6 +190,12 @@ namespace PrototypeSubMod
 
         private void RegisterEncyEntries()
         {
+            #region Prototype
+            string protoTitle = Language.main.Get("ProtoDatabankEncy_Title");
+            string protoBody = Language.main.Get("ProtoDatabankEncy_Body");
+            PDAHandler.AddEncyclopediaEntry("ProtoDatabankEncy", "DownloadedData/Precursor/Terminal", protoTitle, protoBody, unlockSound: PDAHandler.UnlockBasic);
+            #endregion
+
             #region Precursor Ingot
             string ingotTitle = Language.main.Get("ProtoPrecursorIngotEncy_Title");
             string ingotDescription = Language.main.Get("ProtoPrecursorIngotEncy_Body");
