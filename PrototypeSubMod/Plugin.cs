@@ -98,16 +98,18 @@ namespace PrototypeSubMod
             LoadEasyPrefabs.LoadPrefabs(AssetBundle);
             ROTACompatManager.AddCompatiblePowerSources();
 
+            UWE.CoroutineHost.StartCoroutine(Initialize());
+
             // Register harmony patches, if there are any
             harmony.PatchAll(Assembly);
             Logger.LogInfo($"Plugin {GUID} is loaded!");
         }
 
-        private IEnumerator Start()
+        private IEnumerator Initialize()
         {
             if (Initialized) yield break;
 
-            UWE.CoroutineHost.StartCoroutine(AddBatteryComponents());
+            yield return AddBatteryComponents();
             Initialized = true;
 
             yield return new WaitUntil(() => CraftData.cacheInitialized && CraftTree.initialized);
