@@ -107,7 +107,7 @@ namespace PrototypeSubMod
         {
             if (Initialized) yield break;
 
-            StartCoroutine(AddBatteryComponents());
+            UWE.CoroutineHost.StartCoroutine(AddBatteryComponents());
             Initialized = true;
 
             yield return new WaitUntil(() => CraftData.cacheInitialized && CraftTree.initialized);
