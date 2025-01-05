@@ -57,8 +57,10 @@ internal static class UpgradeUninstallationPrefabManager
     private static GameObject GetGameObject(string classID, TechType techType)
     {
         var empty = Plugin.AssetBundle.LoadAsset<GameObject>("Empty");
+        empty.SetActive(false);
         var instance = GameObject.Instantiate(empty);
         PrefabUtils.AddBasicComponents(instance, classID, techType, LargeWorldEntity.CellLevel.Near);
+        GameObject.DestroyImmediate(instance.GetComponent<SkyApplier>());
 
         return instance;
     }
