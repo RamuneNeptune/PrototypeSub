@@ -63,7 +63,7 @@ internal class ProtoBuildTerminal : Crafter
 
     private IEnumerator OnCraftingBeginAsync(TechType techType, float duration)
     {
-        screenManager.BeginBuildStage();
+        screenManager.OnConstructionStarted();
 
         var prefab = CraftData.GetPrefabForTechTypeAsync(techType);
         yield return prefab;
