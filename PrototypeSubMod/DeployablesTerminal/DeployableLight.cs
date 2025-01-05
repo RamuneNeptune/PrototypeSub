@@ -11,6 +11,7 @@ internal class DeployableLight : MonoBehaviour, IProtoEventListener
     [SerializeField] private float scaleSpeed;
     [SerializeField] private Light light;
     [SerializeField] private Collider sphereCollider;
+    [SerializeField] private Collider[] halfColliders;
     [SerializeField] private float deployDelay;
     [SerializeField] private float lifetime;
 
@@ -57,6 +58,11 @@ internal class DeployableLight : MonoBehaviour, IProtoEventListener
 
         Invoke(nameof(ActivateLight), deployDelay);
         Destroy(pickupable);
+
+        foreach (var item in halfColliders)
+        {
+            item.enabled = false;
+        }
     }
 
     private void OnDrop()
@@ -71,6 +77,11 @@ internal class DeployableLight : MonoBehaviour, IProtoEventListener
         ecoTarget.enabled = true;
         animator.SetTrigger("Activate");
         deploySFX.Play();
+
+        foreach (var item in halfColliders)
+        {
+            item.enabled = true;
+        }
     }
 
     private void Update()
