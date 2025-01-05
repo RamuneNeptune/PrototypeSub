@@ -1,6 +1,7 @@
 ﻿using Nautilus.Assets;
 using Nautilus.Assets.Gadgets;
 using Nautilus.Handlers;
+using Nautilus.Utility;
 using PrototypeSubMod.SubTerminal;
 using System.Collections.Generic;
 using UnityEngine;
@@ -43,6 +44,7 @@ internal static class UpgradeUninstallationPrefabManager
 
             CraftDataHandler.SetRecipeData(info.TechType, data);
             prefab.SetUnlock(originalTechType);
+            prefab.SetGameObject(GetGameObject(info.ClassID, info.TechType));
 
             prefab.Register();
 
@@ -50,5 +52,14 @@ internal static class UpgradeUninstallationPrefabManager
         }
 
         Initialized = true;
+    }
+
+    private static GameObject GetGameObject(string classID, TechType techType)
+    {
+        var empty = Plugin.AssetBundle.LoadAsset<GameObject>("Empty");
+        var instance = GameObject.Instantiate(empty);
+        PrefabUtils.AddBasicComponents(instance, classID, techType, LargeWorldEntity.CellLevel.Near);
+
+        return instance;
     }
 }
