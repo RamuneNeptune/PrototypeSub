@@ -22,6 +22,8 @@ internal class ProtoLavaLarvaStat : MonoBehaviour, IStatistic, ICyclopsReference
         var warningPing = larvaPointPrefab.GetComponent<CyclopsHolographicHUD_WarningPings>();
         var protoPing = larvaPointPrefab.AddComponent<ProtoWarningPing>();
         protoPing.CopyFromWarningPing(warningPing);
+
+        Destroy(warningPing);
     }
 
     public void UpdateStat() { }
@@ -30,14 +32,18 @@ internal class ProtoLavaLarvaStat : MonoBehaviour, IStatistic, ICyclopsReference
 
     public void AttachedLavaLarva(GameObject go)
     {
-        Vector3 position = root.transform.InverseTransformPoint(go.transform.position) * 0.5f;
+        Vector3 position = larvaIconsParent.InverseTransformPoint(go.GetComponent<AttachToVehicle>().currentAttachPoint.transform.position) * 0.04f;
         var icon = Instantiate(larvaPointPrefab);
 
         icon.transform.SetParent(larvaIconsParent);
         icon.transform.localPosition = position;
+        icon.transform.localScale = Vector3.one * 0.004f;
+
         var ping = icon.GetComponent<ProtoWarningPing>();
         ping.SetLOD(root.LOD);
         ping.SetParent(larvaIconsParent);
+
+        icon.gameObject.SetActive(true);
 
         larvaPings.Add(go, ping);
     }
@@ -47,6 +53,7 @@ internal class ProtoLavaLarvaStat : MonoBehaviour, IStatistic, ICyclopsReference
         if (larvaPings.TryGetValue(go, out ProtoWarningPing ping))
         {
             Destroy(ping.gameObject);
+            larvaPings.Remove(go);
         }
     }
 }
