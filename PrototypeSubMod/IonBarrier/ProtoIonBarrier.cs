@@ -1,4 +1,5 @@
-﻿using PrototypeSubMod.Upgrades;
+﻿using PrototypeSubMod.IonGenerator;
+using PrototypeSubMod.Upgrades;
 using System.Linq;
 using UnityEngine;
 
@@ -9,6 +10,7 @@ internal class ProtoIonBarrier : ProtoUpgrade, IOnTakeDamage
     [SerializeField] private Renderer[] shieldRenderers;
     [SerializeField] private PowerRelay powerRelay;
     [SerializeField] private GameObject lavaLarvaeRoot;
+    [SerializeField] private ProtoIonGenerator ionGenerator;
     [SerializeField] private float constantPowerDraw;
     [SerializeField] private float powerPerDamage;
     [SerializeField] private float maxShieldIntensity;
@@ -85,12 +87,14 @@ internal class ProtoIonBarrier : ProtoUpgrade, IOnTakeDamage
     {
         DamageReductor reductor = serializedDamageReductors.FirstOrDefault(r => r.type == type);
 
+        float multiplier = damageReductionMultipier <= 0 ? 1 : damageReductionMultipier;
+
         if (reductor == null)
         {
-            return defaultReduction;
+            return defaultReduction * multiplier;
         }
 
-        return reductor.reductionMultiplier * damageReductionMultipier;
+        return reductor.reductionMultiplier * multiplier;
     }
 
     public void OnTakeDamage(DamageInfo damageInfo)
@@ -117,6 +121,8 @@ internal class ProtoIonBarrier : ProtoUpgrade, IOnTakeDamage
     public override void SetUpgradeEnabled(bool enabled)
     {
         if (upgradeLocked) return;
+
+        if (ionGenerator.GetUpgradeEnabled() && upgradeEnabled == false) return;
 
         if (enabled && !upgradeEnabled)
         {

@@ -7,14 +7,14 @@ namespace PrototypeSubMod.Patches;
 [HarmonyPatch(typeof(DamageSystem))]
 internal class DamageSystem_Patches
 {
-    [HarmonyPatch(nameof(DamageSystem.CalculateDamage)), HarmonyPrefix]
-    private static void CalculateDamage_Prefix(ref float damage, DamageType type, GameObject target)
+    [HarmonyPatch(nameof(DamageSystem.CalculateDamage)), HarmonyPostfix]
+    private static void CalculateDamage_Postfix(ref float __result, DamageType type, GameObject target)
     {
         var ionBarrier = target.GetComponentInChildren<ProtoIonBarrier>(true);
         if (ionBarrier == null) return;
 
         if (!ionBarrier.GetUpgradeEnabled() || !ionBarrier.GetUpgradeInstalled()) return;
 
-        damage *= ionBarrier.GetReductionForType(type);
+        __result *= ionBarrier.GetReductionForType(type);
     }
 }

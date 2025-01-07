@@ -37,6 +37,11 @@ internal abstract class ProtoUpgrade : MonoBehaviour, IProtoUpgrade
 
             item.SetActive(installed);
         }
+
+        if (!installed)
+        {
+            upgradeEnabled = false;
+        }
     }
 
     public virtual void SetUpgradeLocked(bool locked)
