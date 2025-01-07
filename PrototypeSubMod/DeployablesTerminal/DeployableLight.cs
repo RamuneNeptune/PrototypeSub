@@ -6,6 +6,7 @@ namespace PrototypeSubMod.DeployablesTerminal;
 internal class DeployableLight : MonoBehaviour, IProtoEventListener
 {
     [Header("Deployment")]
+    [SerializeField] private PrefabIdentifier identifier;
     [SerializeField] private Rigidbody rb;
     [SerializeField] private Animator animator;
     [SerializeField] private float scaleSpeed;
@@ -30,7 +31,6 @@ internal class DeployableLight : MonoBehaviour, IProtoEventListener
     private Vector3 volumetricSize;
     private Pickupable pickupable;
     private EcoTarget ecoTarget;
-    private PrefabIdentifier identifier;
 
     private bool piecesSeparated;
     private bool activated;
@@ -46,7 +46,6 @@ internal class DeployableLight : MonoBehaviour, IProtoEventListener
         light.transform.localScale = Vector3.zero;
         pickupable = GetComponent<Pickupable>();
         ecoTarget = GetComponent<EcoTarget>();
-        identifier = GetComponent<PrefabIdentifier>();
         ecoTarget.enabled = false;
     }
 
