@@ -30,12 +30,7 @@ internal class ProtoDamagePointsStat : MonoBehaviour, IStatistic, ICyclopsRefere
 
         var warningPing = damagePointPrefab.GetComponent<CyclopsHolographicHUD_WarningPings>();
         var protoPing = damagePointPrefab.AddComponent<ProtoWarningPing>();
-        protoPing.warningType = warningPing.warningType;
-        protoPing.damageText = warningPing.damageText;
-        protoPing.labelDot = warningPing.labelDot;
-        protoPing.warningPing = warningPing.warningPing;
-        protoPing.lineRenderer = warningPing.lineRenderer;
-        protoPing.animator = warningPing.animator;
+        protoPing.CopyFromWarningPing(warningPing);
 
         Destroy(warningPing);
     }

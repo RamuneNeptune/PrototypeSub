@@ -83,4 +83,14 @@ internal class ProtoWarningPing : MonoBehaviour
         animator.SetTrigger("Death");
         Destroy(gameObject, 3f);
     }
+
+    public void CopyFromWarningPing(CyclopsHolographicHUD_WarningPings warningPing)
+    {
+        warningType = warningPing.warningType;
+        damageText = warningPing.damageText;
+        labelDot = warningPing.labelDot;
+        this.warningPing = warningPing.warningPing;
+        lineRenderer = warningPing.lineRenderer;
+        animator = warningPing.animator;
+    }
 }
