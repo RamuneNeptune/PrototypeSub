@@ -71,10 +71,15 @@ internal class ProtoDamagePointsStat : MonoBehaviour, IStatistic, ICyclopsRefere
         var ping = Instantiate(damagePointPrefab, parent, false);
         activeDamagePoints.Add(new ManagedDamagePoint(ownerPoint, ping.gameObject));
 
+        Vector3 prevScale = transform.localScale;
+        transform.localScale = Vector3.one;
+
         var protoPing = ping.GetComponent<ProtoWarningPing>();
         protoPing.SetLOD(lod);
         protoPing.SetParent(transform);
         ping.gameObject.SetActive(true);
+
+        transform.localScale = prevScale;
     }
 
     private void RemovePing(ManagedDamagePoint damagePoint)
