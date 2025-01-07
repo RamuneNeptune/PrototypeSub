@@ -9,6 +9,7 @@ internal class ProtoLavaLarvaStat : MonoBehaviour, IStatistic, ICyclopsReference
     [SerializeField] private SubRoot root;
     [SerializeField] private Transform lavaLarvaParent;
     [SerializeField] private Transform larvaIconsParent;
+    [SerializeField] private float uiScale = 0.05f;
 
     [SerializeField, HideInInspector] public GameObject larvaPointPrefab;
     private Dictionary<GameObject, ProtoWarningPing> larvaPings = new();
@@ -22,6 +23,7 @@ internal class ProtoLavaLarvaStat : MonoBehaviour, IStatistic, ICyclopsReference
         var warningPing = larvaPointPrefab.GetComponent<CyclopsHolographicHUD_WarningPings>();
         var protoPing = larvaPointPrefab.AddComponent<ProtoWarningPing>();
         protoPing.CopyFromWarningPing(warningPing);
+        larvaPointPrefab.name = "ProtoLarvaPing";
 
         Destroy(warningPing);
     }
@@ -32,7 +34,7 @@ internal class ProtoLavaLarvaStat : MonoBehaviour, IStatistic, ICyclopsReference
 
     public void AttachedLavaLarva(GameObject go)
     {
-        Vector3 position = larvaIconsParent.InverseTransformPoint(go.GetComponent<AttachToVehicle>().currentAttachPoint.transform.position) * 0.04f;
+        Vector3 position = transform.InverseTransformPoint(go.GetComponent<AttachToVehicle>().currentAttachPoint.transform.position) * uiScale;
         var icon = Instantiate(larvaPointPrefab);
 
         icon.transform.SetParent(larvaIconsParent);
