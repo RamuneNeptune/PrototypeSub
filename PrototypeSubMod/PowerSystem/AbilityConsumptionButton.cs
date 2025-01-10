@@ -34,6 +34,8 @@ internal class AbilityConsumptionButton : MonoBehaviour, IPointerDownHandler, IP
     {
         animator.speed = 1 / confirmTime;
         progressBar.fillAmount = 0;
+
+        DisableButton();
     }
 
     private void Update()

@@ -45,7 +45,9 @@ internal class uGUI_Equipment_Patches
         background.transform.SetParent(powerAbilitySlot.transform);
         var rect = background.AddComponent<RectTransform>();
         rect.sizeDelta = new Vector2(800, 1030);
-        background.AddComponent<Image>().sprite = Plugin.AssetBundle.LoadAsset<Sprite>("PowerDepotBackground");
+        var image = background.AddComponent<Image>();
+        image.sprite = Plugin.AssetBundle.LoadAsset<Sprite>("PowerDepotBackground");
+        image.raycastTarget = false;
         background.transform.localPosition = new Vector3(0, -200, 0);
         background.transform.localScale = Vector3.one;
         background.transform.localRotation = Quaternion.identity;
