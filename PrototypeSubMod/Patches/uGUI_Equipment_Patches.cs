@@ -37,8 +37,18 @@ internal class uGUI_Equipment_Patches
 
         var powerAbilitySlot = CloneSlots(__instance, new[] { ProtoPowerAbilitySystem.SlotName }, "DecoySlot", null);
         GameObject consumeButton = GameObject.Instantiate(Plugin.AssetBundle.LoadAsset<GameObject>("PowerAbilityConsumeButton"), __instance.transform);
-        consumeButton.transform.localPosition = new Vector3(0, -100, 0);
+        consumeButton.transform.localPosition = new Vector3(0, -245, 0);
         consumeButton.SetActive(false);
+
+        var background = new GameObject();
+        background.name = "AbilityButtonBackground";
+        background.transform.SetParent(powerAbilitySlot.transform);
+        var rect = background.AddComponent<RectTransform>();
+        rect.sizeDelta = new Vector2(800, 1030);
+        background.AddComponent<Image>().sprite = Plugin.AssetBundle.LoadAsset<Sprite>("PowerDepotBackground");
+        background.transform.localPosition = new Vector3(0, -200, 0);
+        background.transform.localScale = Vector3.one;
+        background.transform.localRotation = Quaternion.identity;
     }
 
 #nullable enable
