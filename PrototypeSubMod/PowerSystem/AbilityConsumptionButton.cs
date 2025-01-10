@@ -8,17 +8,12 @@ internal class AbilityConsumptionButton : MonoBehaviour, IPointerDownHandler, IP
 {
     [SerializeField] private RectTransform rect;
     [SerializeField] private uGUI_EquipmentSlot dummySlot;
-    [SerializeField] private Image buttonImage;
     [SerializeField] private Image progressBar;
+    [SerializeField] private Image mainGraphic;
     [SerializeField] private Animator animator;
     [SerializeField] private FMOD_CustomEmitter chargeEmitter;
+    [SerializeField] private CanvasGroup buttonGroup;
     [SerializeField] private float confirmTime;
-
-    [Header("Sprites")]
-    [SerializeField] private Sprite normalSprite;
-    [SerializeField] private Sprite hoverSprite;
-    [SerializeField] private Sprite pressedSprite;
-    [SerializeField] private Sprite disabledSprite;
 
     private float currentConfirmTime;
     private bool clicking;
@@ -101,7 +96,7 @@ internal class AbilityConsumptionButton : MonoBehaviour, IPointerDownHandler, IP
         chargeEmitter.Stop();
     }
 
-    public Graphic GetGraphic() => buttonImage;
+    public Graphic GetGraphic() => mainGraphic;
     public uGUI_EquipmentSlot GetDummySlot() => dummySlot;
 
     private void OnEnable()
@@ -128,25 +123,25 @@ internal class AbilityConsumptionButton : MonoBehaviour, IPointerDownHandler, IP
     private void EnableButton()
     {
         interactable = true;
-        buttonImage.color = Color.white;
+        buttonGroup.alpha = 1f;
         progressBar.fillAmount = 0;
     }
 
     private void DisableButton()
     {
         interactable = false;
-        buttonImage.color = new Color(0.75f, 0.75f, 0.75f);
+        buttonGroup.alpha = 0.5f;
         progressBar.fillAmount = 0;
     }
 
     private void UpdateButtonSprite()
     {
-        Sprite sprite = normalSprite;
-        if (hovering) sprite = hoverSprite;
-        if (clicking) sprite = pressedSprite;
-        if (!interactable) sprite = disabledSprite;
+        float opacity = 1;
+        if (hovering) opacity = 0.9f;
+        if (clicking) opacity = 0.8f;
+        if (!interactable) opacity = 0.5f;
 
-        buttonImage.sprite = sprite;
+        buttonGroup.alpha = opacity;
     }
 
     public void SetActiveAbilitySystem(ProtoPowerAbilitySystem system)
