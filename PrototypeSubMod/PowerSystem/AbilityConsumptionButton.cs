@@ -137,9 +137,9 @@ internal class AbilityConsumptionButton : MonoBehaviour, IPointerDownHandler, IP
     private void UpdateButtonSprite()
     {
         float opacity = 1;
-        if (hovering) opacity = 0.9f;
-        if (clicking) opacity = 0.8f;
-        if (!interactable) opacity = 0.5f;
+        if (hovering) opacity = 0.8f;
+        if (clicking) opacity = 0.6f;
+        if (!interactable) opacity = 0.4f;
 
         buttonGroup.alpha = opacity;
     }
