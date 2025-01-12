@@ -18,8 +18,7 @@ internal class DeployableLight_Craftable
     public static void Register()
     {
         prefabInfo = PrefabInfo.WithTechType("DeployableLight", null, null, "English")
-            .WithIcon(Plugin.AssetBundle.LoadAsset<Sprite>("LightBeacon_Icon"))
-            .WithSizeInInventory(new Vector2int(2, 2));
+            .WithIcon(Plugin.AssetBundle.LoadAsset<Sprite>("LightBeacon_Icon"));
 
         var prefab = new CustomPrefab(prefabInfo);
 
