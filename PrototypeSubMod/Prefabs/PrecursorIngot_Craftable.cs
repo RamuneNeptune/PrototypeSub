@@ -32,7 +32,7 @@ internal class PrecursorIngot_Craftable
 
     private static GameObject GetPrefab()
     {
-        var prefab = Plugin.AssetBundle.LoadAsset<GameObject>("AlienFramework");
+        var prefab = Plugin.AssetBundle.LoadAsset<GameObject>("PrecursorCross");
         prefab.SetActive(false);
 
         var instance = GameObject.Instantiate(prefab);

@@ -157,6 +157,7 @@ namespace PrototypeSubMod
             CrystalMatrix_Craftable.Register();
             DeactivatedTeleporter_World.Register();
             ProtoEngineFacilityRoom.Register();
+            PrecursorCross.Register();
 
             ProtoPlaque_World.Register();
             ProtoLogo_World.Register();
