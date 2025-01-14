@@ -1,4 +1,5 @@
 ﻿using Nautilus.Assets;
+using Nautilus.Assets.Gadgets;
 using Nautilus.Utility;
 using PrototypeSubMod.Utility;
 using System.Collections;
@@ -17,6 +18,10 @@ internal class PrecursorRadio
         var prefab = new CustomPrefab(prefabInfo);
 
         prefab.SetGameObject(GetPrefab);
+        prefab.SetSpawns(new[]
+        {
+            new SpawnLocation(new Vector3(402.734f, -76.59f, 1052.08f))
+        });
 
         prefab.Register();
     }
