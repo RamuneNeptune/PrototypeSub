@@ -12,7 +12,6 @@ internal class PrecursorIngot_Craftable
     public static void Register()
     {
         prefabInfo = PrefabInfo.WithTechType("Proto_PrecursorIngot", null, null, "English")
-            .WithIcon(SpriteManager.Get(TechType.PlasteelIngot))
             .WithSizeInInventory(new Vector2int(2, 2))
             .WithIcon(Plugin.AssetBundle.LoadAsset<Sprite>("AlienFramework_Icon"));
 

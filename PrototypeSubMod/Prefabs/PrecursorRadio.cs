@@ -1,5 +1,4 @@
 ﻿using Nautilus.Assets;
-using Nautilus.Assets.Gadgets;
 using Nautilus.Utility;
 using PrototypeSubMod.Utility;
 using System.Collections;
@@ -7,26 +6,24 @@ using UnityEngine;
 
 namespace PrototypeSubMod.Prefabs;
 
-internal class PrecursorCross
+internal class PrecursorRadio
 {
     public static PrefabInfo prefabInfo { get; private set; }
 
     public static void Register()
     {
-        prefabInfo = PrefabInfo.WithTechType("PrecursorCross", null, null, "English")
-            .WithIcon(Plugin.AssetBundle.LoadAsset<Sprite>("AlienFramework_Icon"));
+        prefabInfo = PrefabInfo.WithTechType("PrecursorRadio", null, null, "English");
 
         var prefab = new CustomPrefab(prefabInfo);
 
         prefab.SetGameObject(GetPrefab);
-        prefab.SetEquipment(EquipmentType.Hand);
 
         prefab.Register();
     }
 
     private static IEnumerator GetPrefab(IOut<GameObject> prefabOut)
     {
-        var prefab = Plugin.AssetBundle.LoadAsset<GameObject>("PrecursorCross");
+        var prefab = Plugin.AssetBundle.LoadAsset<GameObject>("PrecursorRadio");
         prefab.SetActive(false);
 
         var instance = GameObject.Instantiate(prefab);

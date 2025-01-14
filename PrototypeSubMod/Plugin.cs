@@ -158,6 +158,7 @@ namespace PrototypeSubMod
             DeactivatedTeleporter_World.Register();
             ProtoEngineFacilityRoom.Register();
             PrecursorCross.Register();
+            PrecursorRadio.Register();
 
             ProtoPlaque_World.Register();
             ProtoLogo_World.Register();
