@@ -29,6 +29,7 @@ internal class ProtoStoryLocker : MonoBehaviour
     [SerializeField] private ProtoTeleporterManager teleporterManager;
 
     private bool wasInLockZone;
+    private bool enteredFullLock;
 
     private void Start()
     {
@@ -50,7 +51,7 @@ internal class ProtoStoryLocker : MonoBehaviour
     private void CheckForDistance()
     {
         float dist = (Plugin.STORY_END_POS - transform.position).sqrMagnitude;
-        if (dist < (activationDistance * activationDistance))
+        if (dist < (activationDistance * activationDistance) && !enteredFullLock)
         {
             OnEnterStoryEnding();
             CancelInvoke(nameof(CheckForDistance));
@@ -91,6 +92,8 @@ internal class ProtoStoryLocker : MonoBehaviour
 
         terminalTrigger.SetStoryLocked(true);
         teleporterManager.ToggleDoor(false);
+
+        enteredFullLock = true;
     }
 
     private void OnEnterSaveLock()
