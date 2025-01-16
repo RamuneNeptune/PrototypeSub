@@ -2,6 +2,7 @@
 using PrototypeSubMod.MotorHandler;
 using PrototypeSubMod.Teleporter;
 using PrototypeSubMod.Upgrades;
+using SubLibrary.Monobehaviors;
 using System.Collections;
 using UnityEngine;
 
@@ -26,6 +27,8 @@ internal class ProtoStoryLocker : MonoBehaviour
     [SerializeField] private ProtoEngineLever engineLever;
     [SerializeField] private ProtoTeleporterTerminalLocker terminalTrigger;
     [SerializeField] private ProtoTeleporterManager teleporterManager;
+
+    private bool wasInLockZone;
 
     private void Start()
     {
@@ -53,10 +56,17 @@ internal class ProtoStoryLocker : MonoBehaviour
             CancelInvoke(nameof(CheckForDistance));
         }
 
-        if (dist < (saveLockDistance * saveLockDistance) && Player.main.currentSub == subRoot)
+        WithinSaveLockZone = dist < (saveLockDistance * saveLockDistance) && Player.main.currentSub == subRoot;
+        if (wasInLockZone != WithinSaveLockZone && WithinSaveLockZone)
         {
-            WithinSaveLockZone = true;
+            OnEnterSaveLock();
         }
+        else if(wasInLockZone != WithinSaveLockZone && !WithinSaveLockZone)
+        {
+            OnExitSaveLock();
+        }
+
+        wasInLockZone = WithinSaveLockZone;
     }
 
     private void OnEnterStoryEnding()
@@ -81,6 +91,16 @@ internal class ProtoStoryLocker : MonoBehaviour
 
         terminalTrigger.SetStoryLocked(true);
         teleporterManager.ToggleDoor(false);
+    }
+
+    private void OnEnterSaveLock()
+    {
+        Destroy(subRoot.GetComponent<AttackableLikeCyclops>());
+    }
+
+    private void OnExitSaveLock()
+    {
+        subRoot.gameObject.EnsureComponent<AttackableLikeCyclops>();
     }
 
     private void OnDestroy()
