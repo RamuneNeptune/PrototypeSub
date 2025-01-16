@@ -18,7 +18,7 @@ internal class ProtoStoryLocker : MonoBehaviour
     [SerializeField] private float checkInterval;
 
     [Header("Locking")]
-    [SerializeField] private LiveMixin mixin;
+    [SerializeField] private SubRoot subRoot;
     [SerializeField] private ProtoUpgradeManager upgradeManager;
     [SerializeField] private ProtoMotorHandler motorHandler;
     [SerializeField] private GameObject hydrolockCloseTrigger;
@@ -53,7 +53,7 @@ internal class ProtoStoryLocker : MonoBehaviour
             CancelInvoke(nameof(CheckForDistance));
         }
 
-        if (dist < (saveLockDistance * saveLockDistance))
+        if (dist < (saveLockDistance * saveLockDistance) && Player.main.currentSub == subRoot)
         {
             WithinSaveLockZone = true;
         }
@@ -62,7 +62,7 @@ internal class ProtoStoryLocker : MonoBehaviour
     private void OnEnterStoryEnding()
     {
         StoryEndingActive = true;
-        mixin.invincible = true;
+        subRoot.live.invincible = true;
 
         ErrorMessage.AddError("Entered story ending; locking upgrades");
         foreach (var upgrade in upgradeManager.GetInstalledUpgrades())
