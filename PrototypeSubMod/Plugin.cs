@@ -421,6 +421,11 @@ namespace PrototypeSubMod
         private Structure LoadStructureFromBundle(string name)
         {
             var structureFile = AssetBundle.LoadAsset<TextAsset>(name);
+            if (!structureFile)
+            {
+                return new Structure(new Entity[0]);
+            }
+
             return JsonConvert.DeserializeObject<Structure>(structureFile.text);
         }
 
