@@ -14,7 +14,7 @@ internal class PrecursorCross
     public static void Register()
     {
         prefabInfo = PrefabInfo.WithTechType("PrecursorCross", null, null, "English")
-            .WithIcon(Plugin.AssetBundle.LoadAsset<Sprite>("AlienFramework_Icon"));
+            .WithIcon(Plugin.AssetBundle.LoadAsset<Sprite>("CrucifixIcon"));
 
         var prefab = new CustomPrefab(prefabInfo);
 
