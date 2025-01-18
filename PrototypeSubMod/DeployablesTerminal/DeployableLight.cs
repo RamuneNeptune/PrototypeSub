@@ -111,6 +111,16 @@ internal class DeployableLight : MonoBehaviour, IProtoEventListener
         {
             loopingSFX.Play();
         }
+
+        if (light.range < 1e-5)
+        {
+            light.range = 0;
+            light.enabled = false;
+        }
+        else
+        {
+            light.enabled = true;
+        }
     }
 
     private void BreakLight()
