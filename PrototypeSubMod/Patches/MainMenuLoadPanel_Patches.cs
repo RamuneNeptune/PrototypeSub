@@ -3,6 +3,7 @@ using PrototypeSubMod.SaveData;
 using PrototypeSubMod.SaveIcon;
 using UnityEngine;
 using UnityEngine.UI;
+using static FlexibleGridLayout;
 
 namespace PrototypeSubMod.Patches;
 
@@ -24,9 +25,11 @@ internal class MainMenuLoadPanel_Patches
             protoIcon.SetActive(false);
         }
 
-        if (SaveSlotManager.SaveContainsProtoData<ProtoGlobalSaveData>(lb.saveGame, out var saveData))
+        SaveSlotManager.SaveSlotContainsData(lb.saveGame, "PrototypeSubMod\\PrototypeSubMod.json", (bool success, ProtoGlobalSaveData saveData) =>
         {
+            if (!success) return;
+
             protoIcon.SetActive(saveData.prototypePresent);
-        }
+        });
     }
 }

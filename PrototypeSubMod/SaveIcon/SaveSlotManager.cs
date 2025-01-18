@@ -1,31 +1,42 @@
 ﻿using Nautilus.Json;
 using Newtonsoft.Json;
-using System.IO;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Text;
+using UnityEngine;
 
 namespace PrototypeSubMod.SaveIcon;
 
 internal static class SaveSlotManager
 {
-    private readonly static string SubnauticaFolder = Plugin.Assembly.Location.Split(new[] { "Subnautica" }, System.StringSplitOptions.None)[0] + "Subnautica";
-    private readonly static string SavesFolder = Path.Combine(SubnauticaFolder, "SNAppData", "SavedGames");
-
-    public static bool SaveContainsProtoData<T>(string slotName, out T saveData) where T : SaveDataCache
+    /// <summary>
+    /// Checks if the given save slot contains the specified SaveDataCache 
+    /// </summary>
+    /// <typeparam name="T">The save data type</typeparam>
+    /// <param name="slotName">The name of the save slot to chech. I.e. slot0005</param>
+    /// <param name="dataFilePath">The file path of the save data. I.e. MyCoolMod\MyCoolMod.json</param>
+    /// <param name="onComplete">The action to call when the check is complete</param>
+    /// <returns></returns>
+    public static void SaveSlotContainsData<T>(string slotName, string dataFilePath, Action<bool, T> onComplete) where T : SaveDataCache
     {
-        saveData = null;
-        string saveDataPath = Path.Combine(SavesFolder, slotName, "PrototypeSubMod");
-        if (!Directory.Exists(saveDataPath)) return false;
+        UWE.CoroutineHost.StartCoroutine(SaveSlotContainsDataAsync(slotName, dataFilePath, onComplete));
+    }
 
-        string saveDataJson = File.ReadAllText(Path.Combine(saveDataPath, "PrototypeSubMod.json"));
-        try
+    private static IEnumerator SaveSlotContainsDataAsync<T>(string slotName, string dataFilePath, Action<bool, T> onComplete) where T : SaveDataCache
+    {
+        var storage = PlatformUtils.main.GetUserStorage();
+        var loadOp = storage.LoadFilesAsync(slotName, new List<string>() { dataFilePath });
+
+        yield return new WaitUntil(() => loadOp.done);
+
+        bool success = loadOp.files.TryGetValue(dataFilePath, out var bytes) && bytes != null;
+        T saveData = null;
+        if (success)
         {
-            saveData = JsonConvert.DeserializeObject<T>(saveDataJson);
-        }
-        catch (System.Exception e)
-        {
-            Plugin.Logger.LogError($"Problem deserializing prototype data at path {Path.Combine(saveDataPath, "PrototypeSubMod.json")}");
-            throw e;
+            saveData = JsonConvert.DeserializeObject<T>(Encoding.Default.GetString(bytes));
         }
 
-        return true;
+        onComplete(success, saveData);
     }
 }
