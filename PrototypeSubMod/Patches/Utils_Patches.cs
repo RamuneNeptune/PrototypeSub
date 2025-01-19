@@ -10,8 +10,9 @@ internal class Utils_Patches
     [HarmonyPatch(nameof(UWE.Utils.GetEntityRoot)), HarmonyPostfix]
     private static void GetEntityRoot_Postfix(GameObject go, ref GameObject __result)
     {
-        if (!go.GetComponent<MarkAsEntityRoot>()) return;
+        var marker = go.GetComponentInParent<MarkAsEntityRoot>();
+        if (!marker) return;
 
-        __result = go;
+        __result = marker.gameObject;
     }
 }

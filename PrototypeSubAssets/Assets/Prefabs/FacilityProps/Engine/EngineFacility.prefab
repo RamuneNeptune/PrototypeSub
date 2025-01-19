@@ -3861,9 +3861,6 @@ GameObject:
   - component: {fileID: 3273919805237258404}
   - component: {fileID: 6744364917742549312}
   - component: {fileID: 654930529529669324}
-  - component: {fileID: 654930529529669315}
-  - component: {fileID: 6571764645205860525}
-  - component: {fileID: 4416838761923283758}
   m_Layer: 0
   m_Name: Plane.475
   m_TagString: Untagged
@@ -3883,7 +3880,7 @@ Transform:
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children: []
   m_Father: {fileID: 4974766086362149936}
-  m_RootOrder: 3
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3273919805237258404
 MeshFilter:
@@ -3945,55 +3942,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.019, y: 0.019, z: 0.010000011}
   m_Center: {x: 0.009999989, y: 0.0099999895, z: -0.004999998}
---- !u!54 &654930529529669315
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 654930529529669325}
-  serializedVersion: 2
-  m_Mass: 50
-  m_Drag: 1
-  m_AngularDrag: 1
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
---- !u!114 &6571764645205860525
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 654930529529669325}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 815910612, guid: 06dd3d5416bf43ea368cc39ff96e6d5a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  handleGravity: 1
-  aboveWaterGravity: 9.81
-  underwaterGravity: 0
-  handleDrag: 1
-  aboveWaterDrag: 0.1
-  underwaterDrag: 1
-  aboveWaterOverride: 0
-  useRigidbody: {fileID: 654930529529669315}
-  moveWithPlatform: 0
---- !u!114 &4416838761923283758
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 654930529529669325}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1046032896, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &677282227914506621
 GameObject:
   m_ObjectHideFlags: 0
@@ -8711,9 +8659,6 @@ GameObject:
   - component: {fileID: 5567172983863620002}
   - component: {fileID: 9131655129296091691}
   - component: {fileID: 1721240389215035455}
-  - component: {fileID: 1721240389215035454}
-  - component: {fileID: 371490122262237097}
-  - component: {fileID: 6128244559953233866}
   m_Layer: 0
   m_Name: Plane.491
   m_TagString: Untagged
@@ -8733,7 +8678,7 @@ Transform:
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children: []
   m_Father: {fileID: 4974766086362149936}
-  m_RootOrder: 4
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &5567172983863620002
 MeshFilter:
@@ -8795,55 +8740,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.019, y: 0.019, z: 0.010000011}
   m_Center: {x: 0.009999989, y: 0.0099999895, z: -0.004999998}
---- !u!54 &1721240389215035454
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1721240389215035448}
-  serializedVersion: 2
-  m_Mass: 50
-  m_Drag: 1
-  m_AngularDrag: 1
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
---- !u!114 &371490122262237097
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1721240389215035448}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 815910612, guid: 06dd3d5416bf43ea368cc39ff96e6d5a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  handleGravity: 1
-  aboveWaterGravity: 9.81
-  underwaterGravity: 0
-  handleDrag: 1
-  aboveWaterDrag: 0.1
-  underwaterDrag: 1
-  aboveWaterOverride: 0
-  useRigidbody: {fileID: 1721240389215035454}
-  moveWithPlatform: 0
---- !u!114 &6128244559953233866
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1721240389215035448}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1046032896, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1746072893880342272
 GameObject:
   m_ObjectHideFlags: 0
@@ -10130,9 +10026,6 @@ GameObject:
   - component: {fileID: 8727638313228101671}
   - component: {fileID: 1863974715284722536}
   - component: {fileID: 1927728488039787183}
-  - component: {fileID: 1927728488039787182}
-  - component: {fileID: 2884250975589930443}
-  - component: {fileID: 363147085531957572}
   m_Layer: 0
   m_Name: Plane.506
   m_TagString: Untagged
@@ -10152,7 +10045,7 @@ Transform:
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children: []
   m_Father: {fileID: 4974766086362149936}
-  m_RootOrder: 8
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8727638313228101671
 MeshFilter:
@@ -10214,55 +10107,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.019, y: 0.019, z: 0.01000001}
   m_Center: {x: 0.009999989, y: 0.00999999, z: -0.0049999976}
---- !u!54 &1927728488039787182
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1927728488039787176}
-  serializedVersion: 2
-  m_Mass: 50
-  m_Drag: 1
-  m_AngularDrag: 1
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
---- !u!114 &2884250975589930443
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1927728488039787176}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 815910612, guid: 06dd3d5416bf43ea368cc39ff96e6d5a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  handleGravity: 1
-  aboveWaterGravity: 9.81
-  underwaterGravity: 0
-  handleDrag: 1
-  aboveWaterDrag: 0.1
-  underwaterDrag: 1
-  aboveWaterOverride: 0
-  useRigidbody: {fileID: 1927728488039787182}
-  moveWithPlatform: 0
---- !u!114 &363147085531957572
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1927728488039787176}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1046032896, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1933501560647791833
 GameObject:
   m_ObjectHideFlags: 0
@@ -11703,9 +11547,6 @@ GameObject:
   - component: {fileID: 2577842090237347242}
   - component: {fileID: 3062739792178187483}
   - component: {fileID: 2155306764339482389}
-  - component: {fileID: 2155306764339482388}
-  - component: {fileID: 53098650409983554}
-  - component: {fileID: 4542029163166314433}
   m_Layer: 0
   m_Name: Plane.498
   m_TagString: Untagged
@@ -11725,7 +11566,7 @@ Transform:
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children: []
   m_Father: {fileID: 4974766086362149936}
-  m_RootOrder: 5
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &2577842090237347242
 MeshFilter:
@@ -11787,55 +11628,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.019, y: 0.019, z: 0.01000001}
   m_Center: {x: 0.009999989, y: 0.00999999, z: -0.0049999976}
---- !u!54 &2155306764339482388
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2155306764339482390}
-  serializedVersion: 2
-  m_Mass: 50
-  m_Drag: 1
-  m_AngularDrag: 1
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
---- !u!114 &53098650409983554
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2155306764339482390}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 815910612, guid: 06dd3d5416bf43ea368cc39ff96e6d5a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  handleGravity: 1
-  aboveWaterGravity: 9.81
-  underwaterGravity: 0
-  handleDrag: 1
-  aboveWaterDrag: 0.1
-  underwaterDrag: 1
-  aboveWaterOverride: 0
-  useRigidbody: {fileID: 2155306764339482388}
-  moveWithPlatform: 0
---- !u!114 &4542029163166314433
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2155306764339482390}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1046032896, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2164343754439918811
 GameObject:
   m_ObjectHideFlags: 0
@@ -27439,9 +27231,6 @@ GameObject:
   - component: {fileID: 7243476421894066572}
   - component: {fileID: 2495089786898037676}
   - component: {fileID: 4936317941088752403}
-  - component: {fileID: 4936317941088752402}
-  - component: {fileID: 7208261935163177348}
-  - component: {fileID: 8979343681708466676}
   m_Layer: 0
   m_Name: Plane.504
   m_TagString: Untagged
@@ -27461,7 +27250,7 @@ Transform:
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children: []
   m_Father: {fileID: 4974766086362149936}
-  m_RootOrder: 7
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &7243476421894066572
 MeshFilter:
@@ -27523,55 +27312,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.019, y: 0.019, z: 0.01000001}
   m_Center: {x: 0.009999981, y: 0.00999999, z: -0.0049999976}
---- !u!54 &4936317941088752402
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4936317941088752412}
-  serializedVersion: 2
-  m_Mass: 50
-  m_Drag: 1
-  m_AngularDrag: 1
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
---- !u!114 &7208261935163177348
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4936317941088752412}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 815910612, guid: 06dd3d5416bf43ea368cc39ff96e6d5a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  handleGravity: 1
-  aboveWaterGravity: 9.81
-  underwaterGravity: 0
-  handleDrag: 1
-  aboveWaterDrag: 0.1
-  underwaterDrag: 1
-  aboveWaterOverride: 0
-  useRigidbody: {fileID: 4936317941088752402}
-  moveWithPlatform: 0
---- !u!114 &8979343681708466676
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4936317941088752412}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1046032896, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &4936908798444482820
 GameObject:
   m_ObjectHideFlags: 0
@@ -44779,9 +44519,7 @@ Transform:
   m_LocalPosition: {x: -6.4532347, y: 4.659, z: 7.369}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 5662010415922909546}
-  - {fileID: 4942413295200408596}
-  - {fileID: 3264186960322873453}
+  - {fileID: 155847985254323410}
   - {fileID: 4335199490405023267}
   - {fileID: 326394282084170353}
   - {fileID: 2652668080903574761}
@@ -51626,9 +51364,6 @@ GameObject:
   - component: {fileID: 3939674268740015227}
   - component: {fileID: 686616407454431547}
   - component: {fileID: 5451576925529014469}
-  - component: {fileID: 5451576925529014468}
-  - component: {fileID: 3074921527704575724}
-  - component: {fileID: 2374241159633787566}
   m_Layer: 0
   m_Name: MetaTileSlantComplete.016
   m_TagString: Untagged
@@ -51644,11 +51379,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5451576925529014470}
   m_LocalRotation: {x: 0.000000015454313, y: 0.70710677, z: -0.000000015454312, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 2.7501755, z: -1.9975}
+  m_LocalPosition: {x: 0.573, y: 2.7501755, z: -1.9975}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children: []
-  m_Father: {fileID: 4974766086362149936}
-  m_RootOrder: 0
+  m_Father: {fileID: 155847985254323410}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3939674268740015227
 MeshFilter:
@@ -51711,55 +51446,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.040000003, y: 0.054999996, z: 0.009682511}
   m_Center: {x: -0.01999999, y: -0.027499987, z: 0.0048412527}
---- !u!54 &5451576925529014468
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5451576925529014470}
-  serializedVersion: 2
-  m_Mass: 50
-  m_Drag: 1
-  m_AngularDrag: 1
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
---- !u!114 &3074921527704575724
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5451576925529014470}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 815910612, guid: 06dd3d5416bf43ea368cc39ff96e6d5a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  handleGravity: 1
-  aboveWaterGravity: 9.81
-  underwaterGravity: 0
-  handleDrag: 1
-  aboveWaterDrag: 0.1
-  underwaterDrag: 1
-  aboveWaterOverride: 0
-  useRigidbody: {fileID: 5451576925529014468}
-  moveWithPlatform: 0
---- !u!114 &2374241159633787566
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5451576925529014470}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1046032896, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &5454773165509996357
 GameObject:
   m_ObjectHideFlags: 0
@@ -54540,9 +54226,6 @@ GameObject:
   - component: {fileID: 287599594212610459}
   - component: {fileID: 1447038667778082415}
   - component: {fileID: 5949885622774731596}
-  - component: {fileID: 5949885622774731587}
-  - component: {fileID: 489412878332151134}
-  - component: {fileID: 9060839459029106330}
   m_Layer: 0
   m_Name: Plane.483
   m_TagString: Untagged
@@ -54558,10 +54241,10 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5949885622774731597}
   m_LocalRotation: {x: 0.50000006, y: -0.50000006, z: 0.49999997, w: -0.49999994}
-  m_LocalPosition: {x: 0, y: -1.9498248, z: 1.0025}
+  m_LocalPosition: {x: 0.573, y: -1.9498248, z: 1.0025}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children: []
-  m_Father: {fileID: 4974766086362149936}
+  m_Father: {fileID: 155847985254323410}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &287599594212610459
@@ -54624,55 +54307,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.019, y: 0.019, z: 0.010000011}
   m_Center: {x: 0.009999989, y: 0.0099999895, z: -0.0050000055}
---- !u!54 &5949885622774731587
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5949885622774731597}
-  serializedVersion: 2
-  m_Mass: 50
-  m_Drag: 1
-  m_AngularDrag: 1
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
---- !u!114 &489412878332151134
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5949885622774731597}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 815910612, guid: 06dd3d5416bf43ea368cc39ff96e6d5a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  handleGravity: 1
-  aboveWaterGravity: 9.81
-  underwaterGravity: 0
-  handleDrag: 1
-  aboveWaterDrag: 0.1
-  underwaterDrag: 1
-  aboveWaterOverride: 0
-  useRigidbody: {fileID: 5949885622774731587}
-  moveWithPlatform: 0
---- !u!114 &9060839459029106330
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5949885622774731597}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1046032896, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &5952537236987009304
 GameObject:
   m_ObjectHideFlags: 0
@@ -64258,9 +63892,6 @@ GameObject:
   - component: {fileID: 8982404293844169690}
   - component: {fileID: 7743783414940643463}
   - component: {fileID: 7582506355152572546}
-  - component: {fileID: 7582506355152572545}
-  - component: {fileID: 4077747837638495810}
-  - component: {fileID: 4475465938883273913}
   m_Layer: 0
   m_Name: Plane.510
   m_TagString: Untagged
@@ -64280,7 +63911,7 @@ Transform:
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children: []
   m_Father: {fileID: 4974766086362149936}
-  m_RootOrder: 9
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8982404293844169690
 MeshFilter:
@@ -64342,55 +63973,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.019, y: 0.019, z: 0.01000001}
   m_Center: {x: 0.009999983, y: 0.0099999895, z: -0.0050000055}
---- !u!54 &7582506355152572545
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7582506355152572547}
-  serializedVersion: 2
-  m_Mass: 50
-  m_Drag: 1
-  m_AngularDrag: 1
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
---- !u!114 &4077747837638495810
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7582506355152572547}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 815910612, guid: 06dd3d5416bf43ea368cc39ff96e6d5a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  handleGravity: 1
-  aboveWaterGravity: 9.81
-  underwaterGravity: 0
-  handleDrag: 1
-  aboveWaterDrag: 0.1
-  underwaterDrag: 1
-  aboveWaterOverride: 0
-  useRigidbody: {fileID: 7582506355152572545}
-  moveWithPlatform: 0
---- !u!114 &4475465938883273913
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7582506355152572547}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1046032896, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &7583950914647381324
 GameObject:
   m_ObjectHideFlags: 0
@@ -68527,9 +68109,6 @@ GameObject:
   - component: {fileID: 4266168214318536263}
   - component: {fileID: 2800459825923650570}
   - component: {fileID: 8408325557960282077}
-  - component: {fileID: 8408325557960282076}
-  - component: {fileID: 5207192326488087539}
-  - component: {fileID: 527017666587985201}
   m_Layer: 0
   m_Name: Plane.501
   m_TagString: Untagged
@@ -68549,7 +68128,7 @@ Transform:
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children: []
   m_Father: {fileID: 4974766086362149936}
-  m_RootOrder: 6
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &4266168214318536263
 MeshFilter:
@@ -68611,55 +68190,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.019, y: 0.019, z: 0.01000001}
   m_Center: {x: 0.009999981, y: 0.00999999, z: -0.0049999976}
---- !u!54 &8408325557960282076
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8408325557960282078}
-  serializedVersion: 2
-  m_Mass: 50
-  m_Drag: 1
-  m_AngularDrag: 1
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
---- !u!114 &5207192326488087539
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8408325557960282078}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 815910612, guid: 06dd3d5416bf43ea368cc39ff96e6d5a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  handleGravity: 1
-  aboveWaterGravity: 9.81
-  underwaterGravity: 0
-  handleDrag: 1
-  aboveWaterDrag: 0.1
-  underwaterDrag: 1
-  aboveWaterOverride: 0
-  useRigidbody: {fileID: 8408325557960282076}
-  moveWithPlatform: 0
---- !u!114 &527017666587985201
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8408325557960282078}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1046032896, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &8413174755076998496
 GameObject:
   m_ObjectHideFlags: 0
@@ -68739,6 +68269,91 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!1 &8414988765471141339
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 155847985254323410}
+  - component: {fileID: 2152776558971870460}
+  - component: {fileID: 3183518463857976144}
+  - component: {fileID: 1931023348809685400}
+  m_Layer: 0
+  m_Name: MoveableBit
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &155847985254323410
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8414988765471141339}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.573, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 3264186960322873453}
+  - {fileID: 4942413295200408596}
+  - {fileID: 5662010415922909546}
+  m_Father: {fileID: 4974766086362149936}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &2152776558971870460
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8414988765471141339}
+  serializedVersion: 2
+  m_Mass: 50
+  m_Drag: 1
+  m_AngularDrag: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &3183518463857976144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8414988765471141339}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 815910612, guid: 06dd3d5416bf43ea368cc39ff96e6d5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  handleGravity: 1
+  aboveWaterGravity: 0
+  underwaterGravity: 1
+  handleDrag: 1
+  aboveWaterDrag: 0.1
+  underwaterDrag: 1
+  aboveWaterOverride: 0
+  useRigidbody: {fileID: 2152776558971870460}
+  moveWithPlatform: 0
+--- !u!114 &1931023348809685400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8414988765471141339}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1046032896, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8419690196430953859
 GameObject:
   m_ObjectHideFlags: 0
@@ -71441,9 +71056,6 @@ GameObject:
   - component: {fileID: 3353425074747344914}
   - component: {fileID: 861480533595544030}
   - component: {fileID: 8784025454633946261}
-  - component: {fileID: 8784025454633946260}
-  - component: {fileID: 3539688874715989942}
-  - component: {fileID: 9078778441850403295}
   m_Layer: 0
   m_Name: Plane.499
   m_TagString: Untagged
@@ -71459,11 +71071,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8784025454633946262}
   m_LocalRotation: {x: 0.50000006, y: -0.50000006, z: 0.49999997, w: -0.49999994}
-  m_LocalPosition: {x: 0, y: 0.05017519, z: 1.0025}
+  m_LocalPosition: {x: 0.573, y: 0.05017519, z: 1.0025}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children: []
-  m_Father: {fileID: 4974766086362149936}
-  m_RootOrder: 2
+  m_Father: {fileID: 155847985254323410}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3353425074747344914
 MeshFilter:
@@ -71525,55 +71137,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.019, y: 0.019, z: 0.010000011}
   m_Center: {x: 0.00999999, y: 0.0099999895, z: -0.0050000055}
---- !u!54 &8784025454633946260
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8784025454633946262}
-  serializedVersion: 2
-  m_Mass: 50
-  m_Drag: 1
-  m_AngularDrag: 1
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
---- !u!114 &3539688874715989942
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8784025454633946262}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 815910612, guid: 06dd3d5416bf43ea368cc39ff96e6d5a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  handleGravity: 1
-  aboveWaterGravity: 9.81
-  underwaterGravity: 0
-  handleDrag: 1
-  aboveWaterDrag: 0.1
-  underwaterDrag: 1
-  aboveWaterOverride: 0
-  useRigidbody: {fileID: 8784025454633946260}
-  moveWithPlatform: 0
---- !u!114 &9078778441850403295
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8784025454633946262}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1046032896, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &8789375750329941263
 GameObject:
   m_ObjectHideFlags: 0
