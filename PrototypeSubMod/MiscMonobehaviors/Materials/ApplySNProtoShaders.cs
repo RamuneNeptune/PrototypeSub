@@ -8,6 +8,9 @@ namespace PrototypeSubMod.MiscMonobehaviors.Materials;
 internal class ApplySNProtoShaders : MonoBehaviour
 {
     [SerializeField] private GameObject applyTo;
+    [SerializeField] private float shininess = 4;
+    [SerializeField] private float specularIntensity = 1;
+    [SerializeField] private float glowStrength = 1;
 
     private void OnValidate()
     {
@@ -18,6 +21,6 @@ internal class ApplySNProtoShaders : MonoBehaviour
     {
         yield return new WaitUntil(() => MaterialUtils.IsReady);
 
-        MaterialUtils.ApplySNShaders(applyTo, modifiers: new ProtoMaterialModifier(3f, 0));
+        MaterialUtils.ApplySNShaders(applyTo, shininess, specularIntensity, glowStrength, new ProtoMaterialModifier(3f, 0));
     }
 }
