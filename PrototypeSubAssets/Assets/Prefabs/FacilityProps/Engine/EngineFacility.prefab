@@ -66328,7 +66328,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e709fc1ba92a1ce4a997fc33754ffc4a, type: 2}
+  - {fileID: 2100000, guid: d12a7e59ba7235d4a9a3626dcf0d13b9, type: 2}
   - {fileID: 2100000, guid: 5b36989e7d9164446ba4f5838beba8c2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -68279,7 +68279,7 @@ GameObject:
   m_Component:
   - component: {fileID: 155847985254323410}
   - component: {fileID: 2152776558971870460}
-  - component: {fileID: 3183518463857976144}
+  - component: {fileID: 2988548540067252363}
   - component: {fileID: 1931023348809685400}
   - component: {fileID: 260900289232698807}
   m_Layer: 0
@@ -68314,7 +68314,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8414988765471141339}
   serializedVersion: 2
-  m_Mass: 50
+  m_Mass: 800
   m_Drag: 1
   m_AngularDrag: 1
   m_UseGravity: 0
@@ -68322,7 +68322,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &3183518463857976144
+--- !u!114 &2988548540067252363
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -68335,8 +68335,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   handleGravity: 1
-  aboveWaterGravity: 0
-  underwaterGravity: 1
+  aboveWaterGravity: 9.81
+  underwaterGravity: 9.81
   handleDrag: 1
   aboveWaterDrag: 0.1
   underwaterDrag: 1
