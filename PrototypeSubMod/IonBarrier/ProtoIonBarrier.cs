@@ -120,7 +120,7 @@ internal class ProtoIonBarrier : ProtoUpgrade, IOnTakeDamage
 
     public override void SetUpgradeEnabled(bool enabled)
     {
-        if (upgradeLocked) return;
+        if (upgradeLocked || !upgradeInstalled) return;
 
         if (ionGenerator.GetUpgradeEnabled() && upgradeEnabled == false) return;
 
