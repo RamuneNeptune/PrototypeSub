@@ -89,20 +89,15 @@ internal class Player_Patches
 
         if (oxCapacity < MIN_OX_REQ) return;
 
-        int depth = __instance.depthClass.value;
-
         bool hasRebreather = Inventory.main.equipment.GetCount(TechType.Rebreather) > 0;
-        float depthMultiplier = 1;
-        if (!hasRebreather)
+        float normalizedOx = oxCapacity / MIN_OX_REQ;
+        float dividend = normalizedOx <= 1 ? Mathf.Pow(0.727f, normalizedOx - 1) + 0.07f : Mathf.Pow(0.65f, normalizedOx) + 0.1f;
+        if (hasRebreather)
         {
-            depthMultiplier = 1 + (depth - 1) * 0.5f * 1.75f;
+            dividend /= 2;
         }
 
-        if (oxCapacity / depthMultiplier < TUNNEL_REQ_OX) return;
-
-        float multiplier = oxCapacity / TUNNEL_REQ_OX / depthMultiplier;
-
-        __result *= multiplier;
+        __result *= 1 / dividend;
     }
 
     [HarmonyPatch(nameof(Player.ExitPilotingMode)), HarmonyPostfix]
