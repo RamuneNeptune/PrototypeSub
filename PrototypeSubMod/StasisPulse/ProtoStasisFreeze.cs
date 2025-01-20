@@ -24,6 +24,7 @@ internal class ProtoStasisFreeze : MonoBehaviour
         rigidbody = GetComponent<Rigidbody>();
         UWE.Utils.SetIsKinematicAndUpdateInterpolation(rigidbody, true);
         rigidbody.SendMessage("OnFreezeByStasisSphere", SendMessageOptions.DontRequireReceiver);
+        GetComponent<LiveMixin>()?.TakeDamage(1);
     }
 
     private void Update()
