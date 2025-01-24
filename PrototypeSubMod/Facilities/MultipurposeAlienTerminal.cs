@@ -8,6 +8,7 @@ namespace PrototypeSubMod.Facilities;
 internal class MultipurposeAlienTerminal : MonoBehaviour
 {
     public event Action onTerminalInteracted;
+    private static GameObject prefab;
 
     public string primaryTooltip = "GenericConsole";
     public string secondaryTooltip = "Tooltip_GenericConsole";
@@ -30,7 +31,8 @@ internal class MultipurposeAlienTerminal : MonoBehaviour
         GameObject prefab = null;
         if (!prefabRequest.TryGetPrefab(out prefab)) throw new Exception("Error retrieving alien terminal prefab");
 
-        prefab.gameObject.SetActive(false);
+        prefab.SetActive(false);
+        MultipurposeAlienTerminal.prefab = prefab;
         var instance = Instantiate(prefab, transform, false);
         instance.transform.localPosition = Vector3.zero;
         instance.transform.localRotation = Quaternion.identity;
@@ -39,6 +41,8 @@ internal class MultipurposeAlienTerminal : MonoBehaviour
 
         var storyTarget = instance.GetComponentInChildren<StoryHandTarget>();
         handTarget = storyTarget.gameObject.EnsureComponent<ProtoTerminalHandTarget>();
+        Destroy(instance.GetComponent<LargeWorldEntity>());
+        Destroy(instance.GetComponent<PrefabIdentifier>());
 
         handTarget.destroyGameObject = storyTarget.destroyGameObject;
         handTarget.informGameObjects = new[] { storyTarget.informGameObject, gameObject };
