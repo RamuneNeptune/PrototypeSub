@@ -17,10 +17,8 @@ internal class ApplySNProtoShaders : MonoBehaviour
         if (applyTo == null) applyTo = gameObject;
     }
 
-    private IEnumerator Start()
+    private void Start()
     {
-        yield return new WaitUntil(() => MaterialUtils.IsReady);
-
         MaterialUtils.ApplySNShaders(applyTo, shininess, specularIntensity, glowStrength, new ProtoMaterialModifier(specularIntensity, 0));
     }
 }
