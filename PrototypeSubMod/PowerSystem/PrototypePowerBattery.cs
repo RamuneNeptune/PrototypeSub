@@ -81,7 +81,8 @@ internal class PrototypePowerBattery : MonoBehaviour, IBattery, IProtoTreeEventL
         {
             initialized = true;
             string ttName = techTag != null ? techTag.type.ToString() : "Null tech tag";
-            Plugin.Logger.LogWarning($"Prototype battery on {gameObject} with invalid tech type ({ttName})");
+            Plugin.Logger.LogWarning($"Prototype battery on {gameObject} with invalid tech type ({ttName}). Destroying battery component.");
+            Destroy(this);
             return;
         }
 
