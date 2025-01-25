@@ -38,7 +38,7 @@ internal class ProtoBuildTerminal_World
 
         yield return new WaitUntil(() => MaterialUtils.IsReady);
 
-        MaterialUtils.ApplySNShaders(instantiatedPrefab, modifiers: new ProtoMaterialModifier(3, 0));
+        MaterialUtils.ApplySNShaders(instantiatedPrefab, modifiers: new ProtoMaterialModifier(30, 0));
 
         prefabOut.Set(instantiatedPrefab);
     }
