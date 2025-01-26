@@ -9,6 +9,8 @@ namespace PrototypeSubMod.Upgrades;
 
 internal class ProtoUpgradeManager : MonoBehaviour, ISaveDataListener
 {
+    public Action onInstalledUpgradesChanged;
+
     private List<TechType> InstalledUpgrades
     {
         get
@@ -55,6 +57,7 @@ internal class ProtoUpgradeManager : MonoBehaviour, ISaveDataListener
         (upgrade as IProtoUpgrade).SetUpgradeInstalled(installed);
 
         upgradesDirty = true;
+        onInstalledUpgradesChanged?.Invoke();
     }
 
     public bool GetUpgradeInstalled(TechType techType)

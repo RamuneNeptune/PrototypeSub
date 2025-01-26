@@ -5,33 +5,18 @@ namespace PrototypeSubMod.UI.AbilitySelection;
 
 public class IconDistributor : MonoBehaviour
 {
-    [SerializeField] private List<GameObject> icons;
     [SerializeField] private GameObject radialIconPrefab;
     [SerializeField] private float distanceFromCenter;
 
     private float increment;
-    private List<IAbilityIcon> abilityIcons = new();
 
-    private void OnValidate()
+    public void RegenerateIcons(List<IAbilityIcon> abilityIcons)
     {
-        abilityIcons.Clear();
-
-        for (int i = icons.Count - 1; i >= 0; i--)
+        foreach (Transform child in transform)
         {
-            var ability = icons[i].GetComponent<IAbilityIcon>();
-            if (ability == null)
-            {
-                icons.RemoveAt(i);
-            }
-            else
-            {
-                abilityIcons.Add(ability);
-            }
+            Destroy(child.gameObject);
         }
-    }
 
-    private void Start()
-    {
         increment = 360f / abilityIcons.Count;
         for (int i = 0; i < abilityIcons.Count; i++)
         {
