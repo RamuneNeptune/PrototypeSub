@@ -38,4 +38,9 @@ public class IconDistributor : MonoBehaviour
         float incrementIndex = Mathf.RoundToInt(angle / increment);
         return transform.GetChild((int)incrementIndex % transform.childCount).gameObject;
     }
+
+    public GameObject GetIconAtIndex(int index)
+    {
+        return transform.GetChild(index).gameObject;
+    }
 }

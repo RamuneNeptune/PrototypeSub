@@ -3,7 +3,6 @@ using PrototypeSubMod.SaveData;
 using PrototypeSubMod.SaveIcon;
 using UnityEngine;
 using UnityEngine.UI;
-using static FlexibleGridLayout;
 
 namespace PrototypeSubMod.Patches;
 

@@ -10,6 +10,7 @@ namespace PrototypeSubMod.UI.AbilitySelection;
 internal class SelectionMenuManager : MonoBehaviour, IUIElement
 {
     [SerializeField] private List<GameObject> abilities;
+    [SerializeField] private int defaultAbilityIndex;
     [SerializeField] private IconDistributor distributor;
     [SerializeField] private TetherManager tetherManager;
     [SerializeField] private ProtoUpgradeManager upgradeManager;
@@ -45,6 +46,8 @@ internal class SelectionMenuManager : MonoBehaviour, IUIElement
         RefreshIcons();
         upgradeManager.onInstalledUpgradesChanged += RefreshIcons;
         tetherManager.onAbilitySelected += () => SetMenuEnabled(false);
+
+        tetherManager.SelectIcon(distributor.GetIconAtIndex(defaultAbilityIndex).GetComponent<RadialIcon>());
     }
 
     private void RetrieveIconsToShow()
