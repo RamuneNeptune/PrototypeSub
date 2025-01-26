@@ -120,10 +120,12 @@ internal class ProtoIonBarrier : ProtoUpgrade, IOnTakeDamage
 
     public override void SetUpgradeEnabled(bool enabled)
     {
-        if (upgradeLocked || !upgradeInstalled) return;
+        SetUpgradeEnabled(enabled);
+        base.SetUpgradeEnabled(enabled);
+    }
 
-        if (ionGenerator.GetUpgradeEnabled() && upgradeEnabled == false) return;
-
+    private void SetShieldEnabled(bool enabled)
+    {
         if (enabled && !upgradeEnabled)
         {
             ActivateShield();
@@ -134,7 +136,6 @@ internal class ProtoIonBarrier : ProtoUpgrade, IOnTakeDamage
             DeactivateShield();
         }
 
-        base.SetUpgradeEnabled(enabled);
         hydrolockController.SetBool("HydrolockEnabled", enabled);
         if (enabled)
         {
@@ -170,6 +171,13 @@ internal class ProtoIonBarrier : ProtoUpgrade, IOnTakeDamage
     {
         damageReductionMultipier = multiplier;
     }
+
+    public override void OnActivated()
+    {
+        SetShieldEnabled(!upgradeEnabled);
+    }
+
+    public override void OnSelectedChanged(bool changed) { }
 }
 
 [System.Serializable]

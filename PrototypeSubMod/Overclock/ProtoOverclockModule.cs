@@ -84,4 +84,11 @@ internal class ProtoOverclockModule : ProtoUpgrade
             subRoot.voiceNotificationManager.PlayVoiceNotification(enabledVoiceline);
         }
     }
+
+    public override void OnActivated()
+    {
+        SetUpgradeEnabled(!upgradeEnabled);
+    }
+
+    public override void OnSelectedChanged(bool changed) { }
 }

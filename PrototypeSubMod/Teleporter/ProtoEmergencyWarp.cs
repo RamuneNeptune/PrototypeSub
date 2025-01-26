@@ -22,6 +22,7 @@ internal class ProtoEmergencyWarp : ProtoUpgrade
     private float currentChargeTime = Mathf.Infinity;
     private bool startedTeleport = true;
     private bool teleportingToMoonpool;
+    private bool selected;
 
     private void Start()
     {
@@ -112,5 +113,15 @@ internal class ProtoEmergencyWarp : ProtoUpgrade
         Player.main.EnterPilotingMode(pilotingChair);
     }
 
-    public override bool GetUpgradeEnabled() => upgradeInstalled;
+    public override bool GetUpgradeEnabled() => selected;
+
+    public override void OnActivated()
+    {
+        TeleportToMoonpool();
+    }
+
+    public override void OnSelectedChanged(bool changed)
+    {
+        selected = changed;
+    }
 }

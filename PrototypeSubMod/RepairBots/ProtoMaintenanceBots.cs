@@ -15,6 +15,8 @@ internal class ProtoMaintenanceBots : ProtoUpgrade, IOnTakeDamage
     private float timeSinceDamage = float.MaxValue;
     private Queue<CyclopsDamagePoint> queuedPoints = new();
 
+    private bool currentlySelected;
+
     private void Start()
     {
         pointManager.onRepairPointCreated += OnDamagePointCreated;
@@ -42,7 +44,7 @@ internal class ProtoMaintenanceBots : ProtoUpgrade, IOnTakeDamage
     {
         queuedPoints.Enqueue(point);
 
-        if (!upgradeInstalled) return;
+        if (!currentlySelected) return;
     }
 
     private void OnDamagePointRepaired(CyclopsDamagePoint point)
@@ -76,5 +78,12 @@ internal class ProtoMaintenanceBots : ProtoUpgrade, IOnTakeDamage
         {
             timeSinceDamage = float.MaxValue;
         }
+    }
+
+    public override void OnActivated() { }
+
+    public override void OnSelectedChanged(bool changed)
+    {
+        currentlySelected = changed;
     }
 }

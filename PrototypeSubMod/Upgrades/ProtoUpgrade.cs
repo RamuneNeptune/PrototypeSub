@@ -1,10 +1,11 @@
 ﻿using PrototypeSubMod.Interfaces;
+using PrototypeSubMod.UI.AbilitySelection;
 using PrototypeSubMod.Utility;
 using UnityEngine;
 
 namespace PrototypeSubMod.Upgrades;
 
-internal abstract class ProtoUpgrade : MonoBehaviour, IProtoUpgrade
+internal abstract class ProtoUpgrade : MonoBehaviour, IProtoUpgrade, IAbilityIcon
 {
     public DummyTechType techType;
     public GameObject[] enableWithInstallation;
@@ -56,5 +57,19 @@ internal abstract class ProtoUpgrade : MonoBehaviour, IProtoUpgrade
             KnownTech.Add(techType.TechType);
             upgradeInstalled = true;
         }
+    }
+
+    public abstract void OnActivated();
+    public abstract void OnSelectedChanged(bool changed);
+
+    public virtual bool GetShouldShow()
+    {
+        return upgradeInstalled;
+    }
+
+    public virtual Sprite GetSprite()
+    {
+        var atlasSprite = SpriteManager.Get(techType.TechType);
+        return SpriteConverter.SpriteFromAtlasSprite(atlasSprite);
     }
 }

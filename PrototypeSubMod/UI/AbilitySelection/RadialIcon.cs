@@ -14,7 +14,7 @@ public class RadialIcon : MonoBehaviour
     [SerializeField] private float targetTransitionSpeed = 1;
 
     private bool hovered;
-    private bool enabled;
+    private bool selected;
     private float originalScale;
     private float targetScale;
     private float currentScale;
@@ -24,7 +24,7 @@ public class RadialIcon : MonoBehaviour
         originalScale = transform.localScale.x;
         targetScale = originalScale;
         currentScale = originalScale;
-        image.color = enabled ? enabledCol : disabledCol;
+        image.color = selected ? enabledCol : disabledCol;
     }
 
     private void Update()
@@ -33,7 +33,7 @@ public class RadialIcon : MonoBehaviour
         float scale = Mathf.Lerp(transform.localScale.x, currentScale, Time.deltaTime * scaleSpeed);
         transform.localScale = Vector3.one * scale;
 
-        image.color = Color.Lerp(image.color, enabled ? enabledCol : disabledCol, Time.deltaTime * colorTransitionSpeed);
+        image.color = Color.Lerp(image.color, selected ? enabledCol : disabledCol, Time.deltaTime * colorTransitionSpeed);
     }
 
     public void SetSprite(Sprite sprite)
@@ -58,12 +58,12 @@ public class RadialIcon : MonoBehaviour
     public void Select()
     {
         currentScale = 1f;
-        enabled = true;
+        selected = true;
     }
 
     public void Deselect()
     {
-        enabled = false;
+        selected = false;
     }
 
     public void Activate()

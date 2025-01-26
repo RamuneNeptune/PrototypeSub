@@ -13,6 +13,7 @@ internal class ProtoHydrodynamicVentilators : ProtoUpgrade
     [SerializeField] private AnimationCurve speedMultiplierCurve;
 
     private bool speedReset;
+    private bool selected;
 
     private void FixedUpdate()
     {
@@ -32,10 +33,17 @@ internal class ProtoHydrodynamicVentilators : ProtoUpgrade
         motorHandler.AddSpeedMultiplier(new ProtoMotorHandler.ValueRegistrar(this, multiplier));
     }
 
-    public override bool GetUpgradeEnabled() => upgradeInstalled;
+    public override bool GetUpgradeEnabled() => selected;
 
     private void OnDestroy()
     {
         motorHandler.RemoveSpeedMultiplier(this);
+    }
+
+    public override void OnActivated() { }
+
+    public override void OnSelectedChanged(bool nowSelected)
+    {
+        selected = nowSelected;
     }
 }

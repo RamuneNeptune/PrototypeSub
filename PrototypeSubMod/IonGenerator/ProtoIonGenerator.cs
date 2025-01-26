@@ -119,4 +119,11 @@ internal class ProtoIonGenerator : ProtoUpgrade
     {
         energyMultiplier = multiplier;
     }
+
+    public override void OnActivated()
+    {
+        SetUpgradeEnabled(!upgradeEnabled);
+    }
+
+    public override void OnSelectedChanged(bool changed) { }
 }

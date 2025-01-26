@@ -28,6 +28,7 @@ internal class ProtoTeleporterManager : ProtoUpgrade
     private float powerCostMultiplier = 1f;
     private PrecursorTeleporterActivationTerminal activationTerminal;
 
+    private bool overrideSelected;
     private ColorOverrideData colorOverrideData;
 
     private void OnValidate()
@@ -81,7 +82,7 @@ internal class ProtoTeleporterManager : ProtoUpgrade
 
         currentStayOpenTime = 0;
 
-        if (upgradeInstalled)
+        if (overrideSelected)
         {
             TeleporterOverride.SetOverrideTeleporterID(alteredID);
             TeleporterOverride.SetOverrideTime(120f);
@@ -174,9 +175,15 @@ internal class ProtoTeleporterManager : ProtoUpgrade
     public void SetColorOverrideData(ColorOverrideData overrideData) => colorOverrideData = overrideData;
     public void ResetOverrideData() => colorOverrideData = default;
 
-    public override bool GetUpgradeEnabled() => upgradeInstalled;
+    public override bool GetUpgradeEnabled() => overrideSelected;
 
     public void SetPowerMultiplier(float multiplier) => powerCostMultiplier = multiplier;
+
+    public override void OnActivated() { }
+    public override void OnSelectedChanged(bool changed)
+    {
+        overrideSelected = changed;
+    }
 }
 
 public struct ColorOverrideData

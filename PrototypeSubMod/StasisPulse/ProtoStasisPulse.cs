@@ -195,4 +195,11 @@ internal class ProtoStasisPulse : ProtoUpgrade
     }
 
     public override bool GetUpgradeEnabled() => upgradeInstalled;
+
+    public override void OnActivated()
+    {
+        ActivateSphere();
+    }
+
+    public override void OnSelectedChanged(bool changed) { }
 }

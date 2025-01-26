@@ -165,4 +165,11 @@ internal class CloakEffectHandler : ProtoUpgrade
 
     public bool GetIsDirty() => isDirty;
     public void ClearDirty() => isDirty = false;
+
+    public override void OnActivated()
+    {
+        SetUpgradeEnabled(!upgradeEnabled);
+    }
+
+    public override void OnSelectedChanged(bool changed) { }
 }

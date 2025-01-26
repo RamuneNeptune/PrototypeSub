@@ -12,6 +12,8 @@ internal class ProtoVariablePowerStreams : ProtoUpgrade, ILateSaveDataListener
     [SerializeField] private float variableStreamsUpgradeTime = 1800f;
     [SerializeField] private ChildObjectIdentifier functionalityRoot;
 
+    private bool selected;
+
     public float GetDefaultTime() => defaultUpgradeTime;
     public float GetUpgradedTime() => variableStreamsUpgradeTime;
 
@@ -21,7 +23,7 @@ internal class ProtoVariablePowerStreams : ProtoUpgrade, ILateSaveDataListener
     /// <returns></returns>
     public float GetApplicableDuration()
     {
-        return upgradeInstalled ? variableStreamsUpgradeTime : defaultUpgradeTime;
+        return selected ? variableStreamsUpgradeTime : defaultUpgradeTime;
     }
 
     public void OnLateSaveDataLoaded(BaseSubDataClass saveData)
@@ -34,5 +36,12 @@ internal class ProtoVariablePowerStreams : ProtoUpgrade, ILateSaveDataListener
 
         var abilitySystem = transform.parent.GetComponentInChildren<ProtoPowerAbilitySystem>(true);
         abilitySystem.CheckForCurrentFunctionality();
+    }
+
+    public override void OnActivated() { }
+
+    public override void OnSelectedChanged(bool changed)
+    {
+        selected = changed;
     }
 }
