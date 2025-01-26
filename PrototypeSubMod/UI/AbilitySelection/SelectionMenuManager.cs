@@ -74,11 +74,7 @@ internal class SelectionMenuManager : MonoBehaviour, IUIElement
 
     public void UpdateUI()
     {
-        if (!menuEnabled)
-        {
-            MainCameraControl_Patches.SetOverwriteDelta(Vector2.zero, false);
-            return;
-        }
+        if (!menuEnabled) return;
 
         MainCameraControl_Patches.SetOverwriteDelta(ProtoCameraUtils.CalculateTargetAngleDelta(cameraFocus, maxAlignmentSpeed), true);
     }
@@ -87,7 +83,12 @@ internal class SelectionMenuManager : MonoBehaviour, IUIElement
     {
         tetherManager.SetMenuOpen(enabled);
         menuEnabled = enabled;
-        menuManager.SetBool("MenuEnabled", enabled);
+        menuManager.SetBool("MenuOpen", enabled);
+
+        if (!enabled)
+        {
+            MainCameraControl_Patches.SetOverwriteDelta(Vector2.zero, false);
+        }
     }
 
     public void OpenMenu()

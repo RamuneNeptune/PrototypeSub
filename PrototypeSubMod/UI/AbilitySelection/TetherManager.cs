@@ -27,13 +27,13 @@ public class TetherManager : MonoBehaviour, IUIElement
     private float lastTetherAngle;
     private float timeLastAngleCalculated;
     private bool menuOpen;
+    private float timeOpened;
 
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         selectionHighlight.gameObject.SetActive(false);
-        selectionPreview.gameObject.SetActive(false);
 
         float increment = distributor.GetIncrement();
         selectionHighlight.SetTargetAngle(increment);
@@ -42,6 +42,7 @@ public class TetherManager : MonoBehaviour, IUIElement
     public void UpdateUI()
     {
         if (!menuOpen) return;
+        if (Time.time - 0.01f <= timeOpened) return; 
 
         UpdateTetherPoint();
         UpdateIconNotifs();
@@ -101,7 +102,6 @@ public class TetherManager : MonoBehaviour, IUIElement
 
         lastIcon.Select();
         selectedIcon = lastIcon;
-        selectionPreview.gameObject.SetActive(true);
         selectionPreview.sprite = selectedIcon.GetAbility().GetSprite();
         onAbilitySelected?.Invoke();
     }
@@ -151,5 +151,9 @@ public class TetherManager : MonoBehaviour, IUIElement
     {
         menuOpen = open;
         selectionHighlight.gameObject.SetActive(open);
+        if (open)
+        {
+            timeOpened = Time.time;
+        }
     }
 }
