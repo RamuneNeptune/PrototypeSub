@@ -13,6 +13,7 @@ internal class SelectionMenuManager : MonoBehaviour, IUIElement
     [SerializeField] private IconDistributor distributor;
     [SerializeField] private TetherManager tetherManager;
     [SerializeField] private ProtoUpgradeManager upgradeManager;
+    [SerializeField] private Animator menuManager;
     [SerializeField] private Transform cameraFocus;
     [SerializeField] private float maxAlignmentSpeed;
 
@@ -43,6 +44,7 @@ internal class SelectionMenuManager : MonoBehaviour, IUIElement
         AssignIcons();
         RefreshIcons();
         upgradeManager.onInstalledUpgradesChanged += RefreshIcons;
+        tetherManager.onAbilitySelected += () => SetMenuEnabled(false);
     }
 
     private void RetrieveIconsToShow()
@@ -85,6 +87,14 @@ internal class SelectionMenuManager : MonoBehaviour, IUIElement
     {
         tetherManager.SetMenuOpen(enabled);
         menuEnabled = enabled;
+        menuManager.SetBool("MenuEnabled", enabled);
+    }
+
+    public void OpenMenu()
+    {
+        if (menuEnabled) return;
+
+        SetMenuEnabled(true);
     }
 
     private void OnDestroy()

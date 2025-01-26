@@ -1,6 +1,7 @@
 ﻿using PrototypeSubMod.Patches;
 using PrototypeSubMod.UI.ProceduralArcGenerator;
 using SubLibrary.UI;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -10,6 +11,8 @@ namespace PrototypeSubMod.UI.AbilitySelection;
 
 public class TetherManager : MonoBehaviour, IUIElement
 {
+    public Action onAbilitySelected;
+
     [SerializeField] private Transform tetherPoint;
     [SerializeField] private CircularMeshApplier selectionHighlight;
     [SerializeField] private IconDistributor distributor;
@@ -100,11 +103,12 @@ public class TetherManager : MonoBehaviour, IUIElement
         selectedIcon = lastIcon;
         selectionPreview.gameObject.SetActive(true);
         selectionPreview.sprite = selectedIcon.GetAbility().GetSprite();
+        onAbilitySelected?.Invoke();
     }
 
     private void HandleActivation()
     {
-        if (!Input.GetMouseButtonDown(1)) return;
+        if (!GameInput.GetButtonDown(GameInput.Button.RightHand)) return;
 
         if (!selectedIcon) return;
 
@@ -146,5 +150,6 @@ public class TetherManager : MonoBehaviour, IUIElement
     public void SetMenuOpen(bool open)
     {
         menuOpen = open;
+        selectionHighlight.gameObject.SetActive(open);
     }
 }
