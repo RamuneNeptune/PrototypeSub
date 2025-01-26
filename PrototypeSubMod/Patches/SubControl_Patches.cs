@@ -1,6 +1,8 @@
 ﻿using HarmonyLib;
+using PrototypeSubMod.MiscMonobehaviors;
 using PrototypeSubMod.MotorHandler;
 using PrototypeSubMod.PrototypeStory;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
@@ -43,11 +45,15 @@ internal class SubControl_Patches
     private static IEnumerable<CodeInstruction> Update_Transpiler(IEnumerable<CodeInstruction> instructions)
     {
         var throttleField = typeof(SubControl).GetField("throttle", BindingFlags.NonPublic | BindingFlags.Instance);
-        var match = new CodeMatch(i => i.opcode == OpCodes.Stfld && (FieldInfo)i.operand == throttleField);
+        var throttleMatch = new CodeMatch(i => i.opcode == OpCodes.Stfld && (FieldInfo)i.operand == throttleField);
 
         var matcher = new CodeMatcher(instructions)
-            .MatchForward(false, match)
-            .InsertAndAdvance(Transpilers.EmitDelegate(OverrideMoveDirIfNeeded));
+            .MatchForward(false, throttleMatch)
+            .InsertAndAdvance(Transpilers.EmitDelegate(OverrideMoveDirIfNeeded))
+            .MatchForward(true, GetButtonMatch())
+            .Advance(1)
+            .InsertAndAdvance(new CodeInstruction(OpCodes.Ldarg_0))
+            .InsertAndAdvance(Transpilers.EmitDelegate(GetAllowedToToggleLights));
 
         return matcher.InstructionEnumeration();
     }
@@ -57,5 +63,40 @@ internal class SubControl_Patches
         if (!ProtoStoryLocker.StoryEndingActive) return oldDir;
 
         return new Vector3(0, 0, 1);
+    }
+
+    public static bool GetAllowedToToggleLights(bool wasClicking, SubControl subControl)
+    {
+        var blocker = subControl.GetComponentInChildren<BlockTogglingLights>();
+
+        if (!blocker) return wasClicking;
+
+        return false;
+    }
+
+    private static CodeMatch[] GetButtonMatch()
+    {
+        CodeMatch[] match = null;
+
+        if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.aci.hydra") || BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.aci.callofthevoid"))
+        {
+            match = new[]
+            {
+                new CodeMatch(i => i.opcode == OpCodes.Ldc_I4_5),
+                new CodeMatch(i => i.opcode == OpCodes.Ldarg_0),
+                new CodeMatch(i => i.opcode == OpCodes.Call)
+            };
+        }
+        else
+        {
+            var getButtonDownMethod = typeof(GameInput).GetMethod("GetButtonDown", BindingFlags.Public | BindingFlags.Static);
+            match = new[]
+            {
+                new CodeMatch(i => i.opcode == OpCodes.Ldc_I4_5),
+                new CodeMatch(i => i.opcode == OpCodes.Call && (MethodInfo)i.operand == getButtonDownMethod)
+            };
+        }
+
+        return match;
     }
 }
