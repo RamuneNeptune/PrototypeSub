@@ -8,7 +8,7 @@ public class IconDistributor : MonoBehaviour
     [SerializeField] private GameObject radialIconPrefab;
     [SerializeField] private float distanceFromCenter;
 
-    private float increment;
+    private float increment = 1;
 
     public void RegenerateIcons(List<IAbilityIcon> abilityIcons)
     {

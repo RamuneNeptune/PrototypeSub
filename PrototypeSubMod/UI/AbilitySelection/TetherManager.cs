@@ -22,6 +22,7 @@ public class TetherManager : MonoBehaviour
 
     private float lastTetherAngle;
     private float timeLastAngleCalculated;
+    private bool menuOpen;
 
     private void Start()
     {
@@ -36,6 +37,8 @@ public class TetherManager : MonoBehaviour
 
     private void Update()
     {
+        if (!menuOpen) return;
+
         UpdateTetherPoint();
         UpdateIconNotifs();
         UpdateSelection();
@@ -135,5 +138,10 @@ public class TetherManager : MonoBehaviour
         List<RaycastResult> raysastResults = new List<RaycastResult>();
         EventSystem.current.RaycastAll(eventData, raysastResults);
         return raysastResults;
+    }
+
+    public void SetMenuOpen(bool open)
+    {
+        menuOpen = open;
     }
 }

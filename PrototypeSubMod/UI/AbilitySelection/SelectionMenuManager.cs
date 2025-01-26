@@ -10,7 +10,7 @@ internal class SelectionMenuManager : MonoBehaviour
     [SerializeField] private IconDistributor distributor;
     [SerializeField] private ProtoUpgradeManager upgradeManager;
 
-    private List<IAbilityIcon> abilityIcons = new();
+    [SerializeField, HideInInspector] public List<IAbilityIcon> abilityIcons = new();
     private List<IAbilityIcon> iconsToShow = new();
 
     private void OnValidate()
