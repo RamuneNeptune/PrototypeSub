@@ -11,6 +11,7 @@ public class TetherManager : MonoBehaviour, IUIElement
 {
     public Action onAbilitySelected;
 
+    [SerializeField] private PilotingChair chair;
     [SerializeField] private Transform tetherPoint;
     [SerializeField] private CircularMeshApplier selectionHighlight;
     [SerializeField] private IconDistributor distributor;
@@ -39,13 +40,15 @@ public class TetherManager : MonoBehaviour, IUIElement
 
     public void UpdateUI()
     {
-        if (!menuOpen) return;
         if (Time.time - 0.01f <= timeOpened) return;
+
+        HandleActivation();
+
+        if (!menuOpen) return;
 
         UpdateTetherPoint();
         UpdateIconNotifs();
         UpdateSelection();
-        HandleActivation();
     }
 
     public void OnSubDestroyed() { }
@@ -111,6 +114,8 @@ public class TetherManager : MonoBehaviour, IUIElement
 
     private void HandleActivation()
     {
+        if (Player.main.currChair != chair) return;
+
         if (!GameInput.GetButtonDown(GameInput.Button.RightHand)) return;
 
         if (!selectedIcon) return;
