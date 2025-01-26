@@ -33,4 +33,14 @@ internal class MainCameraControl_Patches
         _overwrittenDelta = originalDelta;
         return Vector2.zero;
     }
+
+    public static Vector2 GetOverwrittenLookDelta()
+    {
+        return _overwrittenDelta;
+    }
+
+    public static void SetOverwriteDelta(bool overwrite)
+    {
+        _overwrite = overwrite;
+    }
 }

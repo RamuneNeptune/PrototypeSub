@@ -1,4 +1,5 @@
-﻿using PrototypeSubMod.UI.ProceduralArcGenerator;
+﻿using PrototypeSubMod.Patches;
+using PrototypeSubMod.UI.ProceduralArcGenerator;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -9,7 +10,6 @@ namespace PrototypeSubMod.UI.AbilitySelection;
 public class TetherManager : MonoBehaviour
 {
     [SerializeField] private Transform tetherPoint;
-    [SerializeField] private Transform tetherLine;
     [SerializeField] private CircularMeshApplier selectionHighlight;
     [SerializeField] private IconDistributor distributor;
     [SerializeField] private Image selectionPreview;
@@ -37,7 +37,6 @@ public class TetherManager : MonoBehaviour
     private void Update()
     {
         UpdateTetherPoint();
-        UpdateLine();
         UpdateIconNotifs();
         UpdateSelection();
         HandleActivation();
@@ -45,20 +44,11 @@ public class TetherManager : MonoBehaviour
 
     private void UpdateTetherPoint()
     {
-        float x = Input.GetAxis("Mouse X") * Time.deltaTime * tetherSensitivity;
-        float y = Input.GetAxis("Mouse Y") * Time.deltaTime * tetherSensitivity;
-        Vector2 delta = new Vector2(x, y);
+        Vector2 delta = MainCameraControl_Patches.GetOverwrittenLookDelta() * Time.deltaTime * tetherSensitivity;
         tetherPoint.localPosition += (Vector3)delta;
 
         tetherPoint.localPosition = tetherPoint.localPosition.normalized * tetherLength;
         tetherPoint.localEulerAngles = new Vector3(0, 0, CalculateTetherAngle());
-    }
-
-    private void UpdateLine()
-    {
-        float magnitude = tetherPoint.localPosition.magnitude;
-        tetherLine.eulerAngles = new Vector3(0, 0, CalculateTetherAngle());
-        tetherLine.transform.localScale = new Vector3(magnitude, 1, 1);
     }
 
     private void UpdateIconNotifs()
