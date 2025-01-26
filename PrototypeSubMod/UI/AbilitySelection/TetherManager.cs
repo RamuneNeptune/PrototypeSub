@@ -1,5 +1,6 @@
 ﻿using PrototypeSubMod.Patches;
 using PrototypeSubMod.UI.ProceduralArcGenerator;
+using SubLibrary.UI;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -7,7 +8,7 @@ using UnityEngine.UI;
 
 namespace PrototypeSubMod.UI.AbilitySelection;
 
-public class TetherManager : MonoBehaviour
+public class TetherManager : MonoBehaviour, IUIElement
 {
     [SerializeField] private Transform tetherPoint;
     [SerializeField] private CircularMeshApplier selectionHighlight;
@@ -35,7 +36,7 @@ public class TetherManager : MonoBehaviour
         selectionHighlight.SetTargetAngle(increment);
     }
 
-    private void Update()
+    public void UpdateUI()
     {
         if (!menuOpen) return;
 
@@ -44,6 +45,8 @@ public class TetherManager : MonoBehaviour
         UpdateSelection();
         HandleActivation();
     }
+
+    public void OnSubDestroyed() { }
 
     private void UpdateTetherPoint()
     {

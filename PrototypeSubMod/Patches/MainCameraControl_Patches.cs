@@ -11,6 +11,7 @@ internal class MainCameraControl_Patches
 {
     private static bool _overwrite;
     private static Vector2 _overwrittenDelta;
+    private static Vector2 _replacementDelta;
 
     [HarmonyPatch(nameof(MainCameraControl.OnUpdate)), HarmonyTranspiler]
     private static IEnumerable<CodeInstruction> OnUpdate_Transpiler(IEnumerable<CodeInstruction> instructions)
@@ -31,7 +32,7 @@ internal class MainCameraControl_Patches
         if (!_overwrite) return originalDelta;
 
         _overwrittenDelta = originalDelta;
-        return Vector2.zero;
+        return _replacementDelta;
     }
 
     public static Vector2 GetOverwrittenLookDelta()
@@ -39,8 +40,9 @@ internal class MainCameraControl_Patches
         return _overwrittenDelta;
     }
 
-    public static void SetOverwriteDelta(bool overwrite)
+    public static void SetOverwriteDelta(Vector2 replacementDelta, bool overwrite)
     {
         _overwrite = overwrite;
+        _replacementDelta = replacementDelta;
     }
 }
