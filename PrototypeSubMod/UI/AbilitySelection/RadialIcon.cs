@@ -1,0 +1,75 @@
+﻿using UnityEngine;
+using UnityEngine.UI;
+
+namespace PrototypeSubMod.UI.AbilitySelection;
+
+public class RadialIcon : MonoBehaviour
+{
+    [SerializeField] private Image image;
+    [SerializeField] private Color enabledCol = Color.white;
+    [SerializeField] private Color disabledCol = Color.black;
+    [SerializeField] private float colorTransitionSpeed = 1;
+    [SerializeField] private float hoverScale;
+    [SerializeField] private float scaleSpeed;
+    [SerializeField] private float targetTransitionSpeed = 1;
+
+    private bool hovered;
+    private bool enabled;
+    private float originalScale;
+    private float targetScale;
+    private float currentScale;
+
+    private void Start()
+    {
+        originalScale = transform.localScale.x;
+        targetScale = originalScale;
+        currentScale = originalScale;
+        image.color = enabled ? enabledCol : disabledCol;
+    }
+
+    private void Update()
+    {
+        currentScale = Mathf.Lerp(currentScale, targetScale, Time.deltaTime * targetTransitionSpeed);
+        float scale = Mathf.Lerp(transform.localScale.x, currentScale, Time.deltaTime * scaleSpeed);
+        transform.localScale = Vector3.one * scale;
+
+        image.color = Color.Lerp(image.color, enabled ? enabledCol : disabledCol, Time.deltaTime * colorTransitionSpeed);
+    }
+
+    public void SetSprite(Sprite sprite)
+    {
+        image.sprite = sprite;
+    }
+
+    public Sprite GetSprite() => image.sprite;
+
+    public void OnTetherEnter()
+    {
+        hovered = true;
+        targetScale = hoverScale;
+    }
+
+    public void OnTetherExit()
+    {
+        hovered = false;
+        targetScale = originalScale;
+    }
+
+    public void Select()
+    {
+        currentScale = 1f;
+        enabled = true;
+    }
+
+    public void Deselect()
+    {
+        enabled = false;
+    }
+
+    public void Activate()
+    {
+        Debug.Log($"{gameObject} activated");
+    }
+
+    public bool GetHovering() => hovered;
+}
