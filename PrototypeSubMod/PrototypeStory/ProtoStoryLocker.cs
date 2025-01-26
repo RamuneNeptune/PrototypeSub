@@ -39,7 +39,7 @@ internal class ProtoStoryLocker : MonoBehaviour
 
     private IEnumerator CheckRepeated()
     {
-        while(true)
+        while (true)
         {
             if (StoryEndingActive) yield break;
             yield return new WaitForSeconds(checkInterval);
@@ -62,7 +62,7 @@ internal class ProtoStoryLocker : MonoBehaviour
         {
             OnEnterSaveLock();
         }
-        else if(wasInLockZone != WithinSaveLockZone && !WithinSaveLockZone)
+        else if (wasInLockZone != WithinSaveLockZone && !WithinSaveLockZone)
         {
             OnExitSaveLock();
         }

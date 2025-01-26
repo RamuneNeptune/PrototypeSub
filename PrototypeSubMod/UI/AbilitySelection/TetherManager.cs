@@ -2,9 +2,7 @@
 using PrototypeSubMod.UI.ProceduralArcGenerator;
 using SubLibrary.UI;
 using System;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace PrototypeSubMod.UI.AbilitySelection;
@@ -42,7 +40,7 @@ public class TetherManager : MonoBehaviour, IUIElement
     public void UpdateUI()
     {
         if (!menuOpen) return;
-        if (Time.time - 0.01f <= timeOpened) return; 
+        if (Time.time - 0.01f <= timeOpened) return;
 
         UpdateTetherPoint();
         UpdateIconNotifs();

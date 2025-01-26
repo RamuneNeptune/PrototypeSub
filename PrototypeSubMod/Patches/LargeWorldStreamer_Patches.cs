@@ -15,7 +15,7 @@ internal class LargeWorldStreamer_Patches
     [HarmonyPatch(nameof(LargeWorldStreamer.Start)), HarmonyPatch(MethodType.Enumerator), HarmonyTranspiler]
     private static IEnumerable<CodeInstruction> Start_Transpiler(IEnumerable<CodeInstruction> instructions)
     {
-        var getPosCall = typeof(Transform).GetProperty("position", BindingFlags.Public| BindingFlags.Instance).GetGetMethod();
+        var getPosCall = typeof(Transform).GetProperty("position", BindingFlags.Public | BindingFlags.Instance).GetGetMethod();
 
         var matches = new CodeMatch[]
         {
@@ -23,7 +23,7 @@ internal class LargeWorldStreamer_Patches
             new CodeMatch(i => i.opcode == OpCodes.Ldloc_S),
             new CodeMatch(i => i.opcode == OpCodes.Callvirt)
         };
-         
+
         var matcher = new CodeMatcher(instructions)
             .MatchForward(true, matches)
             .Advance(1)

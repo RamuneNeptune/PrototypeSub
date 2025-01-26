@@ -1,6 +1,5 @@
 ﻿using Nautilus.Utility;
 using PrototypeSubMod.Utility;
-using System.Collections;
 using UnityEngine;
 
 namespace PrototypeSubMod.MiscMonobehaviors.Materials;

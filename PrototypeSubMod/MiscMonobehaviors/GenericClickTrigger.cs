@@ -14,6 +14,6 @@ internal class GenericClickTrigger : MonoBehaviour, IHandTarget
 
     public void OnHandHover(GUIHand hand)
     {
-        
+
     }
 }

@@ -36,7 +36,7 @@ internal class UnlockProtoUpgrade : MonoBehaviour
         {
             message = Language.main.GetFormat("ProtoUpgradeSetComplete", Language.main.Get(techType.TechType));
         }
-  
+
         ErrorMessage.AddError(message);
 
         if (!string.IsNullOrEmpty(encyclopediaKey))

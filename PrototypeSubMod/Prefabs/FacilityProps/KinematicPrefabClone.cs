@@ -1,5 +1,5 @@
-﻿using Nautilus.Assets.PrefabTemplates;
-using Nautilus.Assets;
+﻿using Nautilus.Assets;
+using Nautilus.Assets.PrefabTemplates;
 using UnityEngine;
 
 namespace PrototypeSubMod.Prefabs.FacilityProps;

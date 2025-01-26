@@ -2,7 +2,6 @@
 using Story;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace PrototypeSubMod.SubTerminal;
 
