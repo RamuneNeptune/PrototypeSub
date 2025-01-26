@@ -93,7 +93,7 @@ public class TetherManager : MonoBehaviour
         lastIcon.Select();
         selectedIcon = lastIcon;
         selectionPreview.gameObject.SetActive(true);
-        selectionPreview.sprite = selectedIcon.GetSprite();
+        selectionPreview.sprite = selectedIcon.GetAbility().GetSprite();
     }
 
     private void HandleActivation()

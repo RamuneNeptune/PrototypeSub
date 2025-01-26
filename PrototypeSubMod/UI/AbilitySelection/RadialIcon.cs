@@ -13,6 +13,7 @@ public class RadialIcon : MonoBehaviour
     [SerializeField] private float scaleSpeed;
     [SerializeField] private float targetTransitionSpeed = 1;
 
+    private IAbilityIcon ability;
     private bool hovered;
     private bool selected;
     private float originalScale;
@@ -36,12 +37,13 @@ public class RadialIcon : MonoBehaviour
         image.color = Color.Lerp(image.color, selected ? enabledCol : disabledCol, Time.deltaTime * colorTransitionSpeed);
     }
 
-    public void SetSprite(Sprite sprite)
+    public void SetAbility(IAbilityIcon ability)
     {
-        image.sprite = sprite;
+        this.ability = ability;
+        image.sprite = ability.GetSprite();
     }
 
-    public Sprite GetSprite() => image.sprite;
+    public IAbilityIcon GetAbility() => ability;
 
     public void OnTetherEnter()
     {
@@ -59,16 +61,18 @@ public class RadialIcon : MonoBehaviour
     {
         currentScale = 1f;
         selected = true;
+        ability.OnSelectedChanged(true);
     }
 
     public void Deselect()
     {
         selected = false;
+        ability.OnSelectedChanged(false);
     }
 
     public void Activate()
     {
-        Debug.Log($"{gameObject} activated");
+        ability.OnActivated();
     }
 
     public bool GetHovering() => hovered;

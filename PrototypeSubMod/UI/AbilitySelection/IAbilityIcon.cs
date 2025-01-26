@@ -2,7 +2,7 @@
 
 namespace PrototypeSubMod.UI.AbilitySelection;
 
-internal interface IAbilityIcon
+public interface IAbilityIcon
 { 
     public void OnActivated();
     public void OnSelectedChanged(bool changed);
