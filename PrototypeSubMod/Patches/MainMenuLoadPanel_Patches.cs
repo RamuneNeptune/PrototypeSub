@@ -17,7 +17,7 @@ internal class MainMenuLoadPanel_Patches
 
         if (protoIcon == null)
         {
-            protoIcon = GameObject.Instantiate(lb.saveIcons.FindChild("SavedRocket").gameObject, lb.saveIcons.transform);
+            protoIcon = GameObject.Instantiate(lb.saveIcons.FindChild("SavedCyclops").gameObject, lb.saveIcons.transform);
 
             protoIcon.name = "SavedPrototype";
 
