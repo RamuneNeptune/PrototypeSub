@@ -1,36 +1,35 @@
 ﻿using UnityEngine;
 
-namespace PrototypeSubMod.UI.ProceduralArcGenerator
+namespace PrototypeSubMod.UI.ProceduralArcGenerator;
+
+public class UICircularMeshApplier : CircularMeshApplier
 {
-    public class UICircularMeshApplier : CircularMeshApplier
+    [SerializeField] private CanvasRenderer canvasRend;
+    [SerializeField] private Material material;
+
+    private void OnValidate()
     {
-        [SerializeField] private CanvasRenderer canvasRend;
-        [SerializeField] private Material material;
+        if (!canvasRend) TryGetComponent(out canvasRend);
+    }
 
-        private void OnValidate()
-        {
-            if (!canvasRend) TryGetComponent(out canvasRend);
-        }
+    public override void UpdateMesh()
+    {
+        base.UpdateMesh();
 
-        public override void UpdateMesh()
-        {
-            base.UpdateMesh();
+        if (!canvasRend) return;
 
-            if (!canvasRend) return;
+        canvasRend.materialCount = 1;
+        canvasRend.SetMaterial(material, 0);
+        canvasRend.SetMesh(lastMesh);
+    }
 
-            canvasRend.materialCount = 1;
-            canvasRend.SetMaterial(material, 0);
-            canvasRend.SetMesh(lastMesh);
-        }
+    private void OnDisable()
+    {
+        canvasRend.Clear();
+    }
 
-        private void OnDisable()
-        {
-            canvasRend.Clear();
-        }
-
-        private void OnEnable()
-        {
-            UpdateMesh();
-        }
+    private void OnEnable()
+    {
+        UpdateMesh();
     }
 }
