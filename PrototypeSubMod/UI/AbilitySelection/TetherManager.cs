@@ -103,12 +103,17 @@ public class TetherManager : MonoBehaviour, IUIElement
         SelectIcon(lastIcon);
     }
 
-    public void SelectIcon(RadialIcon icon)
+    public void SelectIcon(RadialIcon icon, bool forceColSwap = false)
     {
         icon.Select();
         selectedIcon = icon;
         selectionPreview.sprite = icon.GetAbility().GetSprite();
         onAbilitySelected?.Invoke();
+
+        if (forceColSwap)
+        {
+            icon.ForceColorSwap();
+        }
     }
 
     private void HandleActivation()

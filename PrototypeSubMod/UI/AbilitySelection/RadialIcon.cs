@@ -64,6 +64,11 @@ public class RadialIcon : MonoBehaviour
         ability.OnSelectedChanged(true);
     }
 
+    public void ForceColorSwap()
+    {
+        image.color = selected ? enabledCol : disabledCol;
+    }
+
     public void Deselect()
     {
         selected = false;
