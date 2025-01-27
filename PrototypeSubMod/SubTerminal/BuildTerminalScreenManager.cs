@@ -1,4 +1,5 @@
 ﻿using Story;
+using System.Collections;
 using UnityEngine;
 
 namespace PrototypeSubMod.SubTerminal;
@@ -15,8 +16,10 @@ internal class BuildTerminalScreenManager : MonoBehaviour
     private bool isBuilding;
     private int currentStageIndex;
 
-    private void Start()
+    private IEnumerator Start()
     {
+        yield return new WaitForEndOfFrame();
+
         animatorScreen.gameObject.SetActive(false);
 
         if (Plugin.GlobalSaveData.prototypePresent)
@@ -39,6 +42,10 @@ internal class BuildTerminalScreenManager : MonoBehaviour
             buildScreen.gameObject.SetActive(false);
             upgradeScreen.gameObject.SetActive(false);
             emptyScreen.gameObject.SetActive(false);
+        }
+        else
+        {
+            firstInteractScreen.gameObject.SetActive(false);
         }
     }
 

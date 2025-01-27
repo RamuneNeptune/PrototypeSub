@@ -1,4 +1,5 @@
 ﻿using PrototypeSubMod.Prefabs;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -15,11 +16,11 @@ internal class uGUI_ProtoBuildScreen : TerminalScreen
 
     private bool tooltipsActive;
 
-    private void Start()
+    private void Awake()
     {
         tooltip.rocketTechType = Prototype_Craftable.SubInfo.TechType;
 
-        InvokeRepeating(nameof(UpdateTooltipActive), 0, 0.25f);
+        UWE.CoroutineHost.StartCoroutine(UpdateTooltipActive());
     }
 
     public void OnConstructPressed()
@@ -27,12 +28,17 @@ internal class uGUI_ProtoBuildScreen : TerminalScreen
         onBuildStarted.Invoke();
     }
 
-    public void UpdateTooltipActive()
+    public IEnumerator UpdateTooltipActive()
     {
-        bool inTrigger = distanceTracker.distanceToPlayer <= 2;
+        while(true)
+        {
+            bool inTrigger = distanceTracker.distanceToPlayer <= 4;
 
-        tooltipsActive = inTrigger;
-        tooltip.gameObject.SetActive(tooltipsActive);
+            tooltipsActive = inTrigger;
+            tooltip.gameObject.SetActive(tooltipsActive);
+
+            yield return new WaitForSeconds(0.25f);
+        }
     }
 
     public bool IsTooltipActive()
