@@ -125,5 +125,11 @@ internal class ProtoIonGenerator : ProtoUpgrade
         SetUpgradeEnabled(!upgradeEnabled);
     }
 
-    public override void OnSelectedChanged(bool changed) { }
+    public override void OnSelectedChanged(bool changed)
+    {
+        if (!changed)
+        {
+            SetUpgradeEnabled(false);
+        }
+    }
 }
