@@ -9,8 +9,8 @@ namespace PrototypeSubMod.Utility;
 // This class is pretty much a copy of the PrecursorMaterialModifier in RotA, which coincidentally is more feature-rich. Make sure to check it out!
 internal class ProtoMaterialModifier : MaterialModifier
 {
-    private readonly float _specInt;
-    private readonly float _fresnelStrength;
+    private float _specInt;
+    private float _fresnelStrength;
 
     private static readonly int _specIntID = Shader.PropertyToID("_SpecInt");
 
