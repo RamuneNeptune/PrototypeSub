@@ -50,6 +50,13 @@ internal class SelectionMenuManager : MonoBehaviour, IUIElement
         tetherManager.SelectIcon(distributor.GetIconAtIndex(defaultAbilityIndex).GetComponent<RadialIcon>());
     }
 
+    private void Update()
+    {
+        if (!GameInput.GetButtonDown(GameInput.Button.Exit)) return;
+
+        SetMenuEnabled(false);
+    }
+
     private void RetrieveIconsToShow()
     {
         iconsToShow.Clear();
