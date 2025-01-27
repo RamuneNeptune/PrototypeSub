@@ -45,7 +45,7 @@ internal class Prototype_Craftable
 
         yield return new WaitUntil(() => MaterialUtils.IsReady);
 
-        MaterialUtils.ApplySNShaders(prototype, modifiers: new ProtoMaterialModifier(15f, 0));
+        MaterialUtils.ApplySNShaders(prototype, modifiers: new ProtoMaterialModifier(10f, 0));
 
         yield return CyclopsReferenceHandler.EnsureCyclopsReference();
 
