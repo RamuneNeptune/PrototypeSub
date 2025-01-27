@@ -34,8 +34,7 @@ public class TetherManager : MonoBehaviour, IUIElement
         Cursor.visible = false;
         selectionHighlight.gameObject.SetActive(false);
 
-        float increment = distributor.GetIncrement();
-        selectionHighlight.SetTargetAngle(increment);
+        RegenerateHighlightArc();
     }
 
     public void UpdateUI()
@@ -152,5 +151,11 @@ public class TetherManager : MonoBehaviour, IUIElement
         {
             timeOpened = Time.time;
         }
+    }
+
+    public void RegenerateHighlightArc()
+    {
+        float increment = distributor.GetIncrement();
+        selectionHighlight.SetTargetAngle(increment);
     }
 }

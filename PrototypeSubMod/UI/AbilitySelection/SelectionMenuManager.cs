@@ -64,6 +64,7 @@ internal class SelectionMenuManager : MonoBehaviour, IUIElement
     {
         RetrieveIconsToShow();
         distributor.RegenerateIcons(iconsToShow);
+        tetherManager.RegenerateHighlightArc();
     }
 
     private void AssignIcons()
