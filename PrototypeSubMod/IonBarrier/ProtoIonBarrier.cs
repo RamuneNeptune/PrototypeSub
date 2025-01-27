@@ -120,7 +120,7 @@ internal class ProtoIonBarrier : ProtoUpgrade, IOnTakeDamage
 
     public override void SetUpgradeEnabled(bool enabled)
     {
-        SetUpgradeEnabled(enabled);
+        SetShieldEnabled(enabled);
         base.SetUpgradeEnabled(enabled);
     }
 
@@ -174,7 +174,7 @@ internal class ProtoIonBarrier : ProtoUpgrade, IOnTakeDamage
 
     public override void OnActivated()
     {
-        SetShieldEnabled(!upgradeEnabled);
+        SetUpgradeEnabled(!upgradeEnabled);
     }
 
     public override void OnSelectedChanged(bool changed) { }
