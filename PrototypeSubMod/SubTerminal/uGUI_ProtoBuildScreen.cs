@@ -32,12 +32,12 @@ internal class uGUI_ProtoBuildScreen : TerminalScreen
     {
         while(true)
         {
-            bool inTrigger = distanceTracker.distanceToPlayer <= 4;
+            bool inTrigger = distanceTracker.distanceToPlayer <= 3;
 
             tooltipsActive = inTrigger;
             tooltip.gameObject.SetActive(tooltipsActive);
 
-            yield return new WaitForSeconds(0.25f);
+            yield return new WaitForSeconds(0.5f);
         }
     }
 

@@ -17,7 +17,9 @@ internal class ProtoHealthStat : MonoBehaviour, IStatistic
         renderers = modelsParent.GetComponentsInChildren<Renderer>();
     }
 
-    public void UpdateStat()
+    public void UpdateStat() { }
+
+    public void UpdateStatIntermittent()
     {
         currentColor = renderers[0].material.color;
         var targetColor = Color.Lerp(currentColor, holoColorOverHealth.Evaluate(liveMixin.health / liveMixin.maxHealth), Time.deltaTime * colorTransitionSpeed);
@@ -32,6 +34,4 @@ internal class ProtoHealthStat : MonoBehaviour, IStatistic
             rend.materials = mats;
         }
     }
-
-    public void UpdateStatIntermittent() { }
 }

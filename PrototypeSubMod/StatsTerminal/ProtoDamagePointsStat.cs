@@ -14,8 +14,12 @@ internal class ProtoDamagePointsStat : MonoBehaviour, IStatistic, ICyclopsRefere
     [SerializeField, HideInInspector] public GameObject damagePointPrefab;
     private List<ManagedDamagePoint> activeDamagePoints = new();
 
+    private List<CyclopsDamagePoint> damagePoints = new();
+
     private void Start()
     {
+        damagePoints = damagePointsParent.GetComponentsInChildren<CyclopsDamagePoint>(true).ToList();
+
         foreach (Transform child in displayPointsParent.transform)
         {
             child.gameObject.SetActive(true);
@@ -39,7 +43,7 @@ internal class ProtoDamagePointsStat : MonoBehaviour, IStatistic, ICyclopsRefere
 
     public void UpdateStatIntermittent()
     {
-        foreach (var point in damagePointsParent.GetComponentsInChildren<CyclopsDamagePoint>(true))
+        foreach (var point in damagePoints)
         {
             var displayChild = displayPointsParent.GetChild(point.transform.GetSiblingIndex()).gameObject;
             ManagedDamagePoint damagePoint = activeDamagePoints.FirstOrDefault(i => i.damagePoint == point || (i.damagePoint == null && i.managedPoint != null));
