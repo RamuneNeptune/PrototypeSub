@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using Nautilus.Json;
+using UnityEngine;
 
 namespace PrototypeSubMod.DeployablesTerminal;
 
-internal class DeployableLight : MonoBehaviour, IProtoEventListener
+internal class DeployableLight : MonoBehaviour, IProtoTreeEventListener
 {
     [Header("Deployment")]
     [SerializeField] private PrefabIdentifier identifier;
@@ -46,6 +47,8 @@ internal class DeployableLight : MonoBehaviour, IProtoEventListener
         pickupable = GetComponent<Pickupable>();
         ecoTarget = GetComponent<EcoTarget>();
         ecoTarget.enabled = false;
+
+        Plugin.GlobalSaveData.OnStartedSaving += SaveLifetimes;
     }
 
     public void LaunchWithForce(float force, Vector3 previousVelocity)
@@ -150,11 +153,25 @@ internal class DeployableLight : MonoBehaviour, IProtoEventListener
         ecoTarget.enabled = false;
     }
 
-    public void OnProtoSerialize(ProtobufSerializer serializer)
+    public void OnProtoSerializeObjectTree(ProtobufSerializer serializer) { }
+
+    public void OnProtoDeserializeObjectTree(ProtobufSerializer serializer)
+    {
+        currentLifetime = Plugin.GlobalSaveData.deployableLightLifetimes[identifier.Id];
+        ActivateLight();
+    }
+
+    private void OnDestroy()
+    {
+        Plugin.GlobalSaveData.OnStartedSaving -= SaveLifetimes;
+    }
+
+    private void SaveLifetimes(object sender, JsonFileEventArgs args)
     {
         if (piecesSeparated)
         {
             Destroy(gameObject);
+            return;
         }
 
         if (Plugin.GlobalSaveData.deployableLightLifetimes.ContainsKey(identifier.Id))
@@ -165,11 +182,5 @@ internal class DeployableLight : MonoBehaviour, IProtoEventListener
         {
             Plugin.GlobalSaveData.deployableLightLifetimes.Add(identifier.Id, currentLifetime);
         }
-    }
-
-    public void OnProtoDeserialize(ProtobufSerializer serializer)
-    {
-        currentLifetime = Plugin.GlobalSaveData.deployableLightLifetimes[identifier.Id];
-        ActivateLight();
     }
 }
