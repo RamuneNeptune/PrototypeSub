@@ -49,7 +49,7 @@ internal class DeployableLight_Craftable
 
         yield return CyclopsReferenceHandler.EnsureCyclopsReference();
 
-        MaterialUtils.ApplySNShaders(prefab, modifiers: new ProtoMaterialModifier(1f));
+        MaterialUtils.ApplySNShaders(prefab, modifiers: new ProtoMaterialModifier(30f));
 
         foreach (var referencer in prefab.GetComponentsInChildren<ICyclopsReferencer>(true))
         {
