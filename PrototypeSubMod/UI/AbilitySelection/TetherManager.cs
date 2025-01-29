@@ -132,6 +132,11 @@ public class TetherManager : MonoBehaviour, IUIElement
         return distributor.GetIconClosestToAngle(CalculateTetherAngle()).GetComponent<RadialIcon>();
     }
 
+    public RadialIcon GetSelectedIcon()
+    {
+        return selectedIcon;
+    }
+
     private float CalculateTetherAngle()
     {
         if (timeLastAngleCalculated == Time.time)
