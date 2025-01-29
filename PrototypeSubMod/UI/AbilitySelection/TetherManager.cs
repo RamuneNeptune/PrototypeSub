@@ -94,7 +94,7 @@ public class TetherManager : MonoBehaviour, IUIElement
 
     private void UpdateSelection()
     {
-        if (!Input.GetMouseButtonDown(0)) return;
+        if (!GameInput.GetButtonDown(GameInput.Button.LeftHand)) return;
 
         if (!lastIcon) return;
 
@@ -168,4 +168,6 @@ public class TetherManager : MonoBehaviour, IUIElement
         float increment = distributor.GetIncrement();
         selectionHighlight.SetTargetAngle(increment);
     }
+
+    public PilotingChair GetPilotingChair() => chair;
 }
