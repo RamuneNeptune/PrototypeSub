@@ -15,12 +15,13 @@ internal class uGUI_ProtoBuildScreen : TerminalScreen
     [SerializeField] private MoonpoolOccupiedHandler occupiedHandler;
 
     private bool tooltipsActive;
+    private Coroutine tooltipCoroutine;
 
     private void Awake()
     {
         tooltip.rocketTechType = Prototype_Craftable.SubInfo.TechType;
 
-        UWE.CoroutineHost.StartCoroutine(UpdateTooltipActive());
+        tooltipCoroutine = UWE.CoroutineHost.StartCoroutine(UpdateTooltipActive());
     }
 
     public void OnConstructPressed()
@@ -57,5 +58,10 @@ internal class uGUI_ProtoBuildScreen : TerminalScreen
     {
         tooltip.gameObject.SetActive(false);
         gameObject.SetActive(false);
+    }
+
+    private void OnDestroy()
+    {
+        UWE.CoroutineHost.StopCoroutine(tooltipCoroutine);
     }
 }
