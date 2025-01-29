@@ -21,6 +21,7 @@ internal class SelectionMenuManager : MonoBehaviour, IUIElement
     [SerializeField, HideInInspector] public List<IAbilityIcon> abilityIcons = new();
     private List<IAbilityIcon> iconsToShow = new();
     private bool menuEnabled;
+    private PilotingChair chair;
 
     private void OnValidate()
     {
@@ -48,11 +49,12 @@ internal class SelectionMenuManager : MonoBehaviour, IUIElement
         tetherManager.onAbilitySelected += () => SetMenuEnabled(false);
 
         tetherManager.SelectIcon(distributor.GetIconAtIndex(defaultAbilityIndex).GetComponent<RadialIcon>(), true);
+        chair = tetherManager.GetPilotingChair();
     }
 
     private void Update()
     {
-        if (!GameInput.GetButtonDown(GameInput.Button.Exit)) return;
+        if (Player.main.currChair == chair) return;
 
         SetMenuEnabled(false);
     }
