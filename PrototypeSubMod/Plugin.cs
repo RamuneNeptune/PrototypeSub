@@ -345,6 +345,9 @@ namespace PrototypeSubMod
             StructureLoading.RegisterStructure(LoadStructureFromBundle("EngineFacility"), ref entityCount);
             entityCount = 0;
 
+            StructureLoading.RegisterStructure(LoadStructureFromBundle("ProtoIslands"), ref entityCount);
+            entityCount = 0;
+
             if (TRPCompatManager.TRPInstalled)
             {
                 var trpIslandFile = AssetBundle.LoadAsset<TextAsset>("RedPlagueProtoIslands");
