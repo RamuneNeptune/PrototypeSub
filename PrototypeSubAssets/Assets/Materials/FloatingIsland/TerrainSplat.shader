@@ -2,6 +2,7 @@
 {
     Properties
     {
+        _AmbientColor ("Ambient Color", Color) = (1,1,1,1)
         _SpecColor ("Specular Color", Color) = (1,1,1,1)
         _Shininess ("Shininess", Float) = 10
         _RimColor ("Rim Color", Color) = (1.0,1.0,1.0,1.0)
@@ -19,8 +20,10 @@
     {
         Pass
         {
-            Tags { "LightMode"="ForwardBase" }
+            Tags { "LightMode" = "ForwardBase" "Queue"="Transparent" "IgnoreProjector"="True" "RenderType"="Transparent" }
+            Blend One Zero
             LOD 100
+            ZWrite On
 
             CGPROGRAM
             #pragma vertex vert
@@ -49,6 +52,7 @@
 
             float4 _LightColor0;
 
+            fixed4 _AmbientColor;
             fixed4 _SpecColor;
             half _Shininess;
             fixed4 _RimColor;
@@ -139,7 +143,7 @@
 				float rim = 1 - saturate(dot(viewDir, normalDirection));
 				float3 rimLighting = saturate(dot(normalDirection, lightDir)) * pow(rim, 10 - _RimPower) * _RimColor * atten * _LightColor0.xyz;
 
-				float3 lightFinal = rimLighting + diffuseReflection + specularWithColor + UNITY_LIGHTMODEL_AMBIENT.rgb;
+				float3 lightFinal = rimLighting + diffuseReflection + specularWithColor + _AmbientColor.rgb;
 
 				return fixed4(lightFinal, 1.0);
             }
@@ -156,6 +160,8 @@
             Tags { "LightMode"="ForwardAdd" }
             Blend One One
             LOD 100
+            ZWrite Off
+            ZTest LEqual
 
             CGPROGRAM
             #pragma vertex vert
