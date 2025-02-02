@@ -20,7 +20,6 @@
         [NoScaleOffset]_DetailTex3 ("Detail Tex 3", 2D) = "white" {}
         [NoScaleOffset] _DetailNormal3 ("Detail Normal 1", 2D) = "bump" {}
         _DetailScale3 ("Detail Scale 3", Float) = 1
-        _Test ("Debug", Float) = 1
     }
     SubShader
     {
@@ -39,7 +38,6 @@
             #pragma multi_compile SPOT POINT
 
             #include "UnityCG.cginc"
-            #include "UnityShaderVariables.cginc"
             #include "AutoLight.cginc"
 
             struct appdata
@@ -86,8 +84,6 @@
             half _DetailScale1;
             half _DetailScale2;
             half _DetailScale3;
-
-            half _Test;
 
             v2f vert (appdata v)
             {
@@ -335,8 +331,6 @@
             half _DetailScale1;
             half _DetailScale2;
             half _DetailScale3;
-
-            half _Test;
 
             v2f vert (appdata v)
             {
