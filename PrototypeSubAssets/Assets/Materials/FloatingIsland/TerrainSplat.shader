@@ -8,18 +8,19 @@
         _RimColor ("Rim Color", Color) = (1.0,1.0,1.0,1.0)
 		_RimPower ("Rim Power", Range(0, 9.99)) = 3
         _BumpStrength ("Normal Strength", Range(-2, 2)) = 1
-        _MainTex ("Albedo (RGB)", 2D) = "white" {}
-        _BaseNormal ("Base Normal", 2D) = "bump" {}
+        [NoScaleOffset] _MainTex ("Albedo (RGB)", 2D) = "white" {}
+        [NoScaleOffset] _BaseNormal ("Base Normal", 2D) = "bump" {}
         _BaseScale ("Base Scale", Float) = 1
-        _DetailTex1 ("Detail Tex 1", 2D) = "white" {}
-        _DetailNormal1 ("Detail Normal 1", 2D) = "bump" {}
+        [NoScaleOffset] _DetailTex1 ("Detail Tex 1", 2D) = "white" {}
+        [NoScaleOffset] _DetailNormal1 ("Detail Normal 1", 2D) = "bump" {}
         _DetailScale1 ("Detail Scale 1", Float) = 1
-        _DetailTex2 ("Detail Tex 2", 2D) = "white" {}
-        _DetailNormal2 ("Detail Normal 1", 2D) = "bump" {}
+        [NoScaleOffset] _DetailTex2 ("Detail Tex 2", 2D) = "white" {}
+        [NoScaleOffset] _DetailNormal2 ("Detail Normal 1", 2D) = "bump" {}
         _DetailScale2 ("Detail Scale 2", Float) = 1
-        _DetailTex3 ("Detail Tex 3", 2D) = "white" {}
-        _DetailNormal3 ("Detail Normal 1", 2D) = "bump" {}
+        [NoScaleOffset]_DetailTex3 ("Detail Tex 3", 2D) = "white" {}
+        [NoScaleOffset] _DetailNormal3 ("Detail Normal 1", 2D) = "bump" {}
         _DetailScale3 ("Detail Scale 3", Float) = 1
+        _Test ("Debug", Float) = 1
     }
     SubShader
     {
@@ -33,10 +34,13 @@
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-            // make fog work
-            #pragma multi_compile_fog
+
+            #pragma multi_compile_fwdbase nolightmap nodirlightmap nodynlightmap novertexlight
+            #pragma multi_compile SPOT POINT
 
             #include "UnityCG.cginc"
+            #include "UnityShaderVariables.cginc"
+            #include "AutoLight.cginc"
 
             struct appdata
             {
@@ -56,10 +60,11 @@
                 fixed3 normalWorld : TEXCOORD2;
                 fixed3 tangentWorld : TEXCOORD3;
                 fixed3 binormalWorld : TEXCOORD4;
+                SHADOW_COORDS(5)
             };
 
             float4 _LightColor0;
-
+            
             fixed4 _AmbientColor;
             fixed4 _SpecColor;
             half _Shininess;
@@ -82,6 +87,8 @@
             half _DetailScale2;
             half _DetailScale3;
 
+            half _Test;
+
             v2f vert (appdata v)
             {
                 v2f o;
@@ -94,6 +101,8 @@
                 o.normalWorld = normalize(mul(float4(v.normal, 0), unity_WorldToObject).xyz);
                 o.tangentWorld = normalize(mul(v.tangent, unity_WorldToObject).xyz);
                 o.binormalWorld = normalize(cross(o.normalWorld, o.tangentWorld) * v.tangent.w); // Multiply by W to get correct length
+
+                TRANSFER_SHADOW(o)
 
                 return o;
             }
@@ -142,29 +151,89 @@
                 return lerp(base, detailCol, alpha);
             }
 
-            fixed4 calculateLightFinal(float3 normalDirection, float3 posWorld, fixed4 vertexColor, float3 tangentWorld, float3 binormalWorld, float3 normalWorld)
+            float angleBetween(float3 dirA, float3 dirB)
+            {
+                const fixed epsilon = 1e-6;
+
+                float sqrMagA = length(dirA);
+                sqrMagA *= sqrMagA;
+                float sqrMagB = length(dirB);
+                sqrMagB *= sqrMagB;
+
+                float denominator = sqrt(sqrMagA * sqrMagB);
+                if (denominator < epsilon) return 0;
+
+                float dotProd = clamp(dot(dirA, dirB) / denominator, -1, 1);
+                return acos(dotProd);
+            }
+
+            float invLerp(float from, float to, float value)
+            {
+                return (value - from) / (to - from);
+            }
+
+            #ifdef SPOT
+            float4 calculateLightProperties(float3 posWorld)
+            {
+                float4 lightCoord = mul(unity_WorldToLight, float4(posWorld, 1));
+                float3 fragmentToLightSource = _WorldSpaceLightPos0.xyz - posWorld.xyz;
+                float distance = length(fragmentToLightSource);
+                float range = distance / length(lightCoord.xyz);
+                float cotanHalfSpotAngle = 2 * lightCoord.z / lightCoord.w;
+  
+                float3 lightDir = normalize(fragmentToLightSource);
+
+                float3 worldLightUnitDir = normalize(mul(float3(0,0,-1), (float3x3)unity_WorldToLight));
+
+                float outerCutoff = atan(1 / cotanHalfSpotAngle);
+
+                float normAngle = invLerp(0, outerCutoff, angleBetween(lightDir, worldLightUnitDir));
+                float angleMultiplier = lerp(1, 0, normAngle);
+
+                float atten = angleMultiplier * lerp(1, 0, smoothstep(0, range, distance * 0.9));
+
+                return float4(lightDir, atten);
+            }
+            #endif
+
+            #ifdef POINT
+            float4 calculateLightProperties(float3 posWorld)
+            {
+                float3 fragmentToLightSource = _WorldSpaceLightPos0.xyz - posWorld.xyz;
+                float3 lightDir = normalize(fragmentToLightSource);
+			    float distance = length(fragmentToLightSource);
+
+                float4 lightCoord = mul(unity_WorldToLight, float4(posWorld, 1));
+                float range = distance / length(lightCoord.xyz);
+
+                float normDist = distance / range;
+                float remappedDist = lerp(0, 5000, invLerp(0, range * range, normDist * normDist));
+			    float atten = (range / 10) / (1 + distance * distance);
+                return float4(lightDir, atten);
+            }
+            #endif
+
+            float4 calculateLightFinal(float3 normalDirection, float3 posWorld, fixed4 vertexColor, float3 tangentWorld, float3 binormalWorld, float3 normalWorld, float shadow)
             {
                 //Vectors
 				float3 viewDir = normalize(_WorldSpaceCameraPos.xyz - posWorld.xyz);
 				float3 lightDir;
-				float atten;
+                float atten;
 
 				if(_WorldSpaceLightPos0.w == 0.0) //Directional light
 				{
 					atten = 1.0;
 					lightDir = normalize(_WorldSpaceLightPos0.xyz);
 				}
-				else //Point light or spotlight
+				else //Point light or spot light
 				{
-					float3 fragmentToLightSource = _WorldSpaceLightPos0.xyz - posWorld.xyz;
-					float distance = length(fragmentToLightSource);
-					atten = 1 / (distance * distance);
-					lightDir = normalize(fragmentToLightSource);
+                    float4 properties = calculateLightProperties(posWorld);
+                    lightDir = properties.xyz;
+                    atten = properties.w;                    
 				}
 
                 fixed4 normalTex = calculateNormalTex(posWorld, normalDirection, vertexColor);
 
-                // unpackNormal function - Included in Unity
                 float3 localCoords = float3(2 * normalTex.ag - float2(1, 1), 0);
                 localCoords.z = _BumpStrength;
 
@@ -190,31 +259,37 @@
 				float3 rimLighting = saturate(dot(newNormalDirection, lightDir)) * pow(rim, 10 - _RimPower) * _RimColor * atten * _LightColor0.xyz;
 
 				float3 lightFinal = rimLighting + diffuseReflection + specularWithColor + _AmbientColor.rgb;
+                lightFinal *= shadow;
 
-				return fixed4(lightFinal, 1.0);
+				return float4(lightFinal, 1);
             }
 
             fixed4 frag (v2f i) : SV_Target
             {
-                fixed4 lightFinal = calculateLightFinal(i.normalWorld, i.worldPos, i.color, i.tangentWorld, i.binormalWorld, i.normalWorld);
+                float shadowMult = SHADOW_ATTENUATION(i);
+
+                fixed4 lightFinal = calculateLightFinal(i.normalWorld, i.worldPos, i.color, i.tangentWorld, i.binormalWorld, i.normalWorld, shadowMult);
                 return calculateBaseColor(i.worldPos, i.normalWorld, i.color) * lightFinal;
             }
             ENDCG
         }
         Pass
         {
-            Tags { "LightMode"="ForwardAdd" }
+            Tags { "LightMode" = "ForwardAdd" }
             Blend One One
             LOD 100
-            ZWrite On
+            ZWrite Off
 
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-            // make fog work
-            #pragma multi_compile_fog
+
+            #pragma multi_compile_fwdbase nolightmap nodirlightmap nodynlightmap novertexlight
+            #pragma multi_compile SPOT POINT
 
             #include "UnityCG.cginc"
+            #include "UnityShaderVariables.cginc"
+            #include "AutoLight.cginc"
 
             struct appdata
             {
@@ -234,10 +309,11 @@
                 fixed3 normalWorld : TEXCOORD2;
                 fixed3 tangentWorld : TEXCOORD3;
                 fixed3 binormalWorld : TEXCOORD4;
+                SHADOW_COORDS(5)
             };
 
             float4 _LightColor0;
-
+            
             fixed4 _AmbientColor;
             fixed4 _SpecColor;
             half _Shininess;
@@ -260,6 +336,8 @@
             half _DetailScale2;
             half _DetailScale3;
 
+            half _Test;
+
             v2f vert (appdata v)
             {
                 v2f o;
@@ -272,6 +350,8 @@
                 o.normalWorld = normalize(mul(float4(v.normal, 0), unity_WorldToObject).xyz);
                 o.tangentWorld = normalize(mul(v.tangent, unity_WorldToObject).xyz);
                 o.binormalWorld = normalize(cross(o.normalWorld, o.tangentWorld) * v.tangent.w); // Multiply by W to get correct length
+
+                TRANSFER_SHADOW(o)
 
                 return o;
             }
@@ -320,29 +400,89 @@
                 return lerp(base, detailCol, alpha);
             }
 
-            fixed4 calculateLightFinal(float3 normalDirection, float3 posWorld, fixed4 vertexColor, float3 tangentWorld, float3 binormalWorld, float3 normalWorld)
+            float angleBetween(float3 dirA, float3 dirB)
+            {
+                const fixed epsilon = 1e-6;
+
+                float sqrMagA = length(dirA);
+                sqrMagA *= sqrMagA;
+                float sqrMagB = length(dirB);
+                sqrMagB *= sqrMagB;
+
+                float denominator = sqrt(sqrMagA * sqrMagB);
+                if (denominator < epsilon) return 0;
+
+                float dotProd = clamp(dot(dirA, dirB) / denominator, -1, 1);
+                return acos(dotProd);
+            }
+
+            float invLerp(float from, float to, float value)
+            {
+                return (value - from) / (to - from);
+            }
+
+            #ifdef SPOT
+            float4 calculateLightProperties(float3 posWorld)
+            {
+                float4 lightCoord = mul(unity_WorldToLight, float4(posWorld, 1));
+                float3 fragmentToLightSource = _WorldSpaceLightPos0.xyz - posWorld.xyz;
+                float distance = length(fragmentToLightSource);
+                float range = distance / length(lightCoord.xyz);
+                float cotanHalfSpotAngle = 2 * lightCoord.z / lightCoord.w;
+  
+                float3 lightDir = normalize(fragmentToLightSource);
+
+                float3 worldLightUnitDir = normalize(mul(float3(0,0,-1), (float3x3)unity_WorldToLight));
+
+                float outerCutoff = atan(1 / cotanHalfSpotAngle);
+
+                float normAngle = invLerp(0, outerCutoff, angleBetween(lightDir, worldLightUnitDir));
+                float angleMultiplier = lerp(1, 0, normAngle);
+
+                float atten = angleMultiplier * lerp(1, 0, smoothstep(0, range, distance * 0.9));
+
+                return float4(lightDir, saturate(atten));
+            }
+            #endif
+
+            #ifdef POINT
+            float4 calculateLightProperties(float3 posWorld)
+            {
+                float3 fragmentToLightSource = _WorldSpaceLightPos0.xyz - posWorld.xyz;
+                float3 lightDir = normalize(fragmentToLightSource);
+			    float distance = length(fragmentToLightSource);
+
+                float4 lightCoord = mul(unity_WorldToLight, float4(posWorld, 1));
+                float range = distance / length(lightCoord.xyz);
+
+                float normDist = distance / range;
+                float remappedDist = lerp(0, 5000, invLerp(0, range * range, normDist * normDist));
+			    float atten = (range / 10) / (1 + distance * distance);
+                return float4(lightDir, atten);
+            }
+            #endif
+
+            float4 calculateLightFinal(float3 normalDirection, float3 posWorld, fixed4 vertexColor, float3 tangentWorld, float3 binormalWorld, float3 normalWorld, float shadow)
             {
                 //Vectors
 				float3 viewDir = normalize(_WorldSpaceCameraPos.xyz - posWorld.xyz);
 				float3 lightDir;
-				float atten;
+                float atten;
 
 				if(_WorldSpaceLightPos0.w == 0.0) //Directional light
 				{
 					atten = 1.0;
 					lightDir = normalize(_WorldSpaceLightPos0.xyz);
 				}
-				else //Point light or spotlight
+				else //Point light or spot light
 				{
-					float3 fragmentToLightSource = _WorldSpaceLightPos0.xyz - posWorld.xyz;
-					float distance = length(fragmentToLightSource);
-					atten = 1 / (distance * distance);
-					lightDir = normalize(fragmentToLightSource);
+                    float4 properties = calculateLightProperties(posWorld);
+                    lightDir = properties.xyz;
+                    atten = properties.w;                    
 				}
 
                 fixed4 normalTex = calculateNormalTex(posWorld, normalDirection, vertexColor);
 
-                // unpackNormal function - Included in Unity
                 float3 localCoords = float3(2 * normalTex.ag - float2(1, 1), 0);
                 localCoords.z = _BumpStrength;
 
@@ -368,18 +508,20 @@
 				float3 rimLighting = saturate(dot(newNormalDirection, lightDir)) * pow(rim, 10 - _RimPower) * _RimColor * atten * _LightColor0.xyz;
 
 				float3 lightFinal = rimLighting + diffuseReflection + specularWithColor;
+                lightFinal *= shadow;
 
-				return fixed4(lightFinal, 1.0);
+				return float4(lightFinal, 1);
             }
 
             fixed4 frag (v2f i) : SV_Target
             {
-                fixed4 lightFinal = calculateLightFinal(i.normalWorld, i.worldPos, i.color, i.tangentWorld, i.binormalWorld, i.normalWorld);
+                float shadowMult = SHADOW_ATTENUATION(i);
+
+                fixed4 lightFinal = calculateLightFinal(i.normalWorld, i.worldPos, i.color, i.tangentWorld, i.binormalWorld, i.normalWorld, shadowMult);
                 return calculateBaseColor(i.worldPos, i.normalWorld, i.color) * lightFinal;
             }
             ENDCG
-        }
-    }
+        }    }
 
     Fallback "Diffuse"
 }
