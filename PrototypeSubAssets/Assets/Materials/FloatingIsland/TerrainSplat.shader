@@ -20,6 +20,7 @@
         [NoScaleOffset]_DetailTex3 ("Detail Tex 3", 2D) = "white" {}
         [NoScaleOffset] _DetailNormal3 ("Detail Normal 1", 2D) = "bump" {}
         _DetailScale3 ("Detail Scale 3", Float) = 1
+        _NightMultiplier ("Debug Night Multiplier", Range(0,1)) = 1
     }
     SubShader
     {
@@ -86,6 +87,8 @@
             half _DetailScale1;
             half _DetailScale2;
             half _DetailScale3;
+
+            fixed _NightMultiplier = 1;
 
             v2f vert (appdata v)
             {
@@ -221,7 +224,7 @@
 
 				if(_WorldSpaceLightPos0.w == 0.0) //Directional light
 				{
-					atten = 1.0;
+					atten = _NightMultiplier;
 					lightDir = normalize(_WorldSpaceLightPos0.xyz);
 				}
 				else //Point light or spot light
@@ -259,6 +262,7 @@
 
 				float3 lightFinal = rimLighting + diffuseReflection + specularWithColor + _AmbientColor.rgb;
                 lightFinal *= shadow;
+                lightFinal;
 
 				return float4(lightFinal, 1);
             }
