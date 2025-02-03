@@ -34,6 +34,7 @@
             #pragma vertex vert
             #pragma fragment frag
 
+            #pragma multi_compile_fog
             #pragma multi_compile_fwdbase nolightmap nodirlightmap nodynlightmap novertexlight
             #pragma multi_compile SPOT POINT
 
@@ -59,6 +60,7 @@
                 fixed3 tangentWorld : TEXCOORD3;
                 fixed3 binormalWorld : TEXCOORD4;
                 SHADOW_COORDS(5)
+                UNITY_FOG_COORDS(6)
             };
 
             float4 _LightColor0;
@@ -98,6 +100,7 @@
                 o.tangentWorld = normalize(mul(v.tangent, unity_WorldToObject).xyz);
                 o.binormalWorld = normalize(cross(o.normalWorld, o.tangentWorld) * v.tangent.w); // Multiply by W to get correct length
 
+                UNITY_TRANSFER_FOG(o, o.vertex);
                 TRANSFER_SHADOW(o)
 
                 return o;
@@ -265,7 +268,10 @@
                 float shadowMult = SHADOW_ATTENUATION(i);
 
                 fixed4 lightFinal = calculateLightFinal(i.normalWorld, i.worldPos, i.color, i.tangentWorld, i.binormalWorld, i.normalWorld, shadowMult);
-                return calculateBaseColor(i.worldPos, i.normalWorld, i.color) * lightFinal;
+                fixed4 finalColor = calculateBaseColor(i.worldPos, i.normalWorld, i.color) * lightFinal;
+                UNITY_APPLY_FOG(i.fogCoord, finalColor);
+
+                return finalColor;
             }
             ENDCG
         }
@@ -280,6 +286,7 @@
             #pragma vertex vert
             #pragma fragment frag
 
+            #pragma multi_compile_fog
             #pragma multi_compile_fwdbase nolightmap nodirlightmap nodynlightmap novertexlight
             #pragma multi_compile SPOT POINT
 
@@ -306,6 +313,7 @@
                 fixed3 tangentWorld : TEXCOORD3;
                 fixed3 binormalWorld : TEXCOORD4;
                 SHADOW_COORDS(5)
+                UNITY_FOG_COORDS(6)
             };
 
             float4 _LightColor0;
@@ -345,6 +353,7 @@
                 o.tangentWorld = normalize(mul(v.tangent, unity_WorldToObject).xyz);
                 o.binormalWorld = normalize(cross(o.normalWorld, o.tangentWorld) * v.tangent.w); // Multiply by W to get correct length
 
+                UNITY_TRANSFER_FOG(o, o.vertex);
                 TRANSFER_SHADOW(o)
 
                 return o;
@@ -512,7 +521,10 @@
                 float shadowMult = SHADOW_ATTENUATION(i);
 
                 fixed4 lightFinal = calculateLightFinal(i.normalWorld, i.worldPos, i.color, i.tangentWorld, i.binormalWorld, i.normalWorld, shadowMult);
-                return calculateBaseColor(i.worldPos, i.normalWorld, i.color) * lightFinal;
+                fixed4 finalColor = calculateBaseColor(i.worldPos, i.normalWorld, i.color) * lightFinal;
+                UNITY_APPLY_FOG(i.fogCoord, finalColor);
+
+                return finalColor;
             }
             ENDCG
         }    }
