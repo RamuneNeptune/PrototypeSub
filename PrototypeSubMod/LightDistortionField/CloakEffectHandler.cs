@@ -49,6 +49,7 @@ internal class CloakEffectHandler : ProtoUpgrade
     public float soundMultiplier;
 
     [Header("Miscellaneous")]
+    [SerializeField] private FMOD_CustomLoopingEmitter emitter;
     public ProtoIonGenerator ionGenerator;
     [SerializeField] private EmissionColorController emissionController;
     [SerializeField] private Color emissiveColor = Color.black;
@@ -146,10 +147,12 @@ internal class CloakEffectHandler : ProtoUpgrade
         if (upgradeEnabled)
         {
             emissionController.RegisterTempColor(new EmissionColorController.EmissionRegistrarData(this, emissiveColor, 20));
+            emitter.Play();
         }
         else
         {
             emissionController.RemoveTempColor(this);
+            emitter.Stop();
         }
     }
 
