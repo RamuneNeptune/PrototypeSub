@@ -1,4 +1,5 @@
 ﻿using PrototypeSubMod.MiscMonobehaviors.SubSystems;
+using PrototypeSubMod.Patches;
 using UnityEngine;
 
 namespace PrototypeSubMod.Facilities.Interceptor;
@@ -24,12 +25,16 @@ internal class InterceptorIslandManager : MonoBehaviour
     private void Start()
     {
         terminal.onTerminalInteracted += OnTerminalInteracted;
+        SetIslandEnabled(false);
     }
 
     private void OnTerminalInteracted()
     {
         teleporter.StartTeleportPlayer(voidTeleportPos, Camera.main.transform.forward);
         sequenceManager.OnTeleportToVoid();
+        SetIslandEnabled(false);
+        GUIController.SetHidePhase(GUIController.HidePhase.HUD);
+        GUIController_Patches.SetDenyHideCycling(true);
     }
 
     public void SetIslandEnabled(bool enabled)

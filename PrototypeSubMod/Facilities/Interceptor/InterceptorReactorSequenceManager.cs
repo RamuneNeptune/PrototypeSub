@@ -39,6 +39,8 @@ internal class InterceptorReactorSequenceManager : MonoBehaviour
         teleporter.StartTeleportPlayer(returnPos.position, returnPos.forward);
         Plugin.GlobalSaveData.reactorSequenceComplete = true;
         LargeWorldStreamer_Patches.SetOverwriteCamPos(false, Vector3.zero);
+        GUIController_Patches.SetDenyHideCycling(false);
+        GUIController.SetHidePhase(GUIController.HidePhase.None);
     }
 
     public void OnTeleportToVoid()
