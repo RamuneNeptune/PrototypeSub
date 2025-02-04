@@ -42,7 +42,7 @@ internal class InterceptorIslandManager : MonoBehaviour
         KnownTech.Add(emergencyWarpTechType.TechType);
         PDAEncyclopedia.Add(emergencyWarpEncyKey, true);
 
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(10f);
 
         teleporter.StartTeleportPlayer(voidTeleportPos, Camera.main.transform.forward);
         sequenceManager.OnTeleportToVoid();
