@@ -47,10 +47,6 @@ internal static class LoadEasyPrefabs
             {
                 prefab.SetUnlock(TechType.None);
             }
-            else
-            {
-                prefab.SetUnlock(TechType.PrecursorKey_White);
-            }
 
             if (easyPrefab.isProtoUpgrade && easyPrefab.includeInPDA)
             {
