@@ -95,7 +95,7 @@ internal class ProtoStoryLocker : MonoBehaviour
         teleporterManager.ToggleDoor(false);
 
         enteredFullLock = true;
-        IngameMenu_Patches.SetAllowSavingOverride(false);
+        IngameMenu_Patches.SetDenySaving(true);
     }
 
     private void OnEnterSaveLock()
@@ -113,7 +113,7 @@ internal class ProtoStoryLocker : MonoBehaviour
         StoryEndingActive = false;
         WithinSaveLockZone = false;
         motorHandler.RemovePowerEfficiencyMultiplier(this);
-        IngameMenu_Patches.SetAllowSavingOverride(true);
+        IngameMenu_Patches.SetDenySaving(false);
     }
 
     public void CloseHydrolock()

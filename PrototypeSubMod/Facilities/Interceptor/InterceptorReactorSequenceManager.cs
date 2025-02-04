@@ -25,14 +25,21 @@ internal class InterceptorReactorSequenceManager : MonoBehaviour
 
     public void StartReactorSequence()
     {
-        IngameMenu_Patches.SetAllowSavingOverride(false);
+        IngameMenu_Patches.SetDenySaving(true);
         teleporter.StartTeleportPlayer(islandTeleportPos, Camera.main.transform.forward);
+        LargeWorldStreamer_Patches.SetOverwriteCamPos(true, transform.position);
     }
 
     public void EndReactorSequence()
     {
-        IngameMenu_Patches.SetAllowSavingOverride(false);
+        IngameMenu_Patches.SetDenySaving(false);
         teleporter.StartTeleportPlayer(returnPos.position, returnPos.forward);
         Plugin.GlobalSaveData.reactorSequenceComplete = true;
+        LargeWorldStreamer_Patches.SetOverwriteCamPos(false, Vector3.zero);
+    }
+
+    private void OnDestroy()
+    {
+        IngameMenu_Patches.SetDenySaving(false);
     }
 }
