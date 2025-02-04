@@ -46,9 +46,12 @@ internal class InterceptorIslandManager : MonoBehaviour
 
         teleporter.StartTeleportPlayer(voidTeleportPos, Camera.main.transform.forward);
         sequenceManager.OnTeleportToVoid();
-        SetIslandEnabled(false);
         GUIController.SetHidePhase(GUIController.HidePhase.HUD);
         GUIController_Patches.SetDenyHideCycling(true);
+
+        yield return new WaitForSeconds(0.5f);
+
+        SetIslandEnabled(false);
     }
 
     public void SetIslandEnabled(bool enabled)
