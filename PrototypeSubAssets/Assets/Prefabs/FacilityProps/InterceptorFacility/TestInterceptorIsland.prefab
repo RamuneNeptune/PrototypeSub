@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1415268551694277858}
   - component: {fileID: 1070208034470292851}
-  - component: {fileID: 759776300512679701}
   m_Layer: 0
   m_Name: UpgradeTerminal
   m_TagString: Untagged
@@ -47,22 +46,6 @@ MonoBehaviour:
   primaryTooltip: GenericConsole
   secondaryTooltip: Tooltip_GenericConsole
   allowMultipleUses: 0
---- !u!114 &759776300512679701
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1813735569788770658}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1663715994, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  terminal: {fileID: 1070208034470292851}
-  upgradeCategory: {fileID: 11400000, guid: 2c05c1940cd3aa2459c00cd2afe2478d, type: 2}
-  techType: {fileID: 11400000, guid: de6e1b2d637172f479b0df5a5fcf2856, type: 2}
-  encyclopediaKey: ProtoEmergencyWarpEncy
 --- !u!1 &4448613577207552233
 GameObject:
   m_ObjectHideFlags: 0
@@ -190,6 +173,9 @@ MonoBehaviour:
   terminal: {fileID: 1070208034470292851}
   teleporter: {fileID: 7553169309381334295}
   islandObjects: {fileID: 8605504854609786654}
+  emergencyWarpTechType: {fileID: 11400000, guid: de6e1b2d637172f479b0df5a5fcf2856,
+    type: 2}
+  emergencyWarpEncyKey: ProtoEmergencyWarpEncy
 --- !u!1 &4935695065295228186
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,5 +1,6 @@
 ﻿using PrototypeSubMod.MiscMonobehaviors.SubSystems;
 using PrototypeSubMod.Patches;
+using PrototypeSubMod.Utility;
 using System.Collections;
 using UnityEngine;
 
@@ -12,6 +13,8 @@ internal class InterceptorIslandManager : MonoBehaviour
     [SerializeField] private MultipurposeAlienTerminal terminal;
     [SerializeField] private InterfloorTeleporter teleporter;
     [SerializeField] private GameObject islandObjects;
+    [SerializeField] private DummyTechType emergencyWarpTechType;
+    [SerializeField] private string emergencyWarpEncyKey;
 
     private Vector3 voidTeleportPos;
     private InterceptorReactorSequenceManager sequenceManager;
@@ -36,7 +39,10 @@ internal class InterceptorIslandManager : MonoBehaviour
 
     private IEnumerator TeleportPlayerDelayed()
     {
-        yield return new WaitForSeconds(2f);
+        KnownTech.Add(emergencyWarpTechType.TechType);
+        PDAEncyclopedia.Add(emergencyWarpEncyKey, true);
+
+        yield return new WaitForSeconds(5f);
 
         teleporter.StartTeleportPlayer(voidTeleportPos, Camera.main.transform.forward);
         sequenceManager.OnTeleportToVoid();
