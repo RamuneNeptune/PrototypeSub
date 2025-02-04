@@ -49,7 +49,7 @@ internal class InterceptorIslandManager : MonoBehaviour
         GUIController.SetHidePhase(GUIController.HidePhase.HUD);
         GUIController_Patches.SetDenyHideCycling(true);
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1f);
 
         SetIslandEnabled(false);
     }
