@@ -1,5 +1,6 @@
 ﻿using PrototypeSubMod.EngineLever;
 using PrototypeSubMod.MotorHandler;
+using PrototypeSubMod.Patches;
 using PrototypeSubMod.Teleporter;
 using PrototypeSubMod.Upgrades;
 using SubLibrary.Monobehaviors;
@@ -94,6 +95,7 @@ internal class ProtoStoryLocker : MonoBehaviour
         teleporterManager.ToggleDoor(false);
 
         enteredFullLock = true;
+        IngameMenu_Patches.SetAllowSavingOverride(false);
     }
 
     private void OnEnterSaveLock()
@@ -111,6 +113,7 @@ internal class ProtoStoryLocker : MonoBehaviour
         StoryEndingActive = false;
         WithinSaveLockZone = false;
         motorHandler.RemovePowerEfficiencyMultiplier(this);
+        IngameMenu_Patches.SetAllowSavingOverride(true);
     }
 
     public void CloseHydrolock()
