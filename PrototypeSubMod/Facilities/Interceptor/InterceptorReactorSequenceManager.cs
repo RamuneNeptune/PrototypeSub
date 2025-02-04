@@ -1,5 +1,6 @@
 ﻿using PrototypeSubMod.MiscMonobehaviors.SubSystems;
 using PrototypeSubMod.Patches;
+using System.Collections;
 using UnityEngine;
 
 namespace PrototypeSubMod.Facilities.Interceptor;
@@ -10,6 +11,7 @@ internal class InterceptorReactorSequenceManager : MonoBehaviour
     [SerializeField] private InterfloorTeleporter teleporter;
     [SerializeField] private Transform returnPos;
     [SerializeField] private Vector3 islandTeleportPos;
+    [SerializeField] private Vector3 voidTeleportPos;
 
     private void Start()
     {
@@ -28,6 +30,7 @@ internal class InterceptorReactorSequenceManager : MonoBehaviour
         IngameMenu_Patches.SetDenySaving(true);
         teleporter.StartTeleportPlayer(islandTeleportPos, Camera.main.transform.forward);
         LargeWorldStreamer_Patches.SetOverwriteCamPos(true, transform.position);
+        InterceptorIslandManager.Instance.OnTeleportToIsland(voidTeleportPos, this);
     }
 
     public void EndReactorSequence()
@@ -36,6 +39,18 @@ internal class InterceptorReactorSequenceManager : MonoBehaviour
         teleporter.StartTeleportPlayer(returnPos.position, returnPos.forward);
         Plugin.GlobalSaveData.reactorSequenceComplete = true;
         LargeWorldStreamer_Patches.SetOverwriteCamPos(false, Vector3.zero);
+    }
+
+    public void OnTeleportToVoid()
+    {
+        StartCoroutine(TeleportBackAfterDuration());
+    }
+
+    private IEnumerator TeleportBackAfterDuration()
+    {
+        yield return new WaitForSeconds(20f);
+
+        EndReactorSequence();
     }
 
     private void OnDestroy()
