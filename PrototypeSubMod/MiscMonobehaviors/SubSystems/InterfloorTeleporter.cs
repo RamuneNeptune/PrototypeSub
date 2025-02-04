@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 namespace PrototypeSubMod.MiscMonobehaviors.SubSystems;
 
@@ -40,15 +41,15 @@ internal class InterfloorTeleporter : MonoBehaviour
 
         if (col.gameObject != Player.main.gameObject) return;
 
-        StartTeleportPlayer();
+        StartTeleportPlayer(teleportPosition.position, teleportPosition.forward);
     }
 
-    private void StartTeleportPlayer()
+    public void StartTeleportPlayer(Vector3 position, Vector3 lookDir)
     {
         collider.enabled = false;
         Player.main.liveMixin.invincible = true;
 
-        FMODUWE.PlayOneShot(soundEffect, teleportPosition.position, 0.25f);
+        FMODUWE.PlayOneShot(soundEffect, position, 0.25f);
 
         prevDuration = warpController.duration;
         warpController.duration = VFX_DURATION;
@@ -64,14 +65,16 @@ internal class InterfloorTeleporter : MonoBehaviour
         allowedToTeleport = false;
         Invoke(nameof(ResetAllowedToTeleport), teleporterCooldown);
 
-        Invoke(nameof(ActuallyTeleport), FADE_IN_DURATION + 0.1f);
+        UWE.CoroutineHost.StartCoroutine(ActuallyTeleport(position, lookDir));
     }
 
-    private void ActuallyTeleport()
+    private IEnumerator ActuallyTeleport(Vector3 position, Vector3 lookDir)
     {
-        Player.main.SetPosition(teleportPosition.position);
+        yield return new WaitForSeconds(FADE_IN_DURATION + 0.1f);
+
+        Player.main.SetPosition(position);
         Player.main.rigidBody.velocity = Vector3.zero;
-        MainCameraControl.main.LookAt(Camera.main.transform.position + teleportPosition.forward);
+        MainCameraControl.main.LookAt(Camera.main.transform.position + lookDir);
 
         collider.enabled = true;
     }
