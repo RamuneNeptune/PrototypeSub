@@ -14,4 +14,5 @@ internal class ProtoGlobalSaveData : SaveDataCache
 
     public bool defenseCloakDisabled;
     public bool moonpoolDoorOpened;
+    public bool reactorSequenceComplete;
 }
