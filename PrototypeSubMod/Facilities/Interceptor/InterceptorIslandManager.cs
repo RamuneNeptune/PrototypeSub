@@ -1,5 +1,6 @@
 ﻿using PrototypeSubMod.MiscMonobehaviors.SubSystems;
 using PrototypeSubMod.Patches;
+using System.Collections;
 using UnityEngine;
 
 namespace PrototypeSubMod.Facilities.Interceptor;
@@ -30,6 +31,13 @@ internal class InterceptorIslandManager : MonoBehaviour
 
     private void OnTerminalInteracted()
     {
+        StartCoroutine(TeleportPlayerDelayed());
+    }
+
+    private IEnumerator TeleportPlayerDelayed()
+    {
+        yield return new WaitForSeconds(2f);
+
         teleporter.StartTeleportPlayer(voidTeleportPos, Camera.main.transform.forward);
         sequenceManager.OnTeleportToVoid();
         SetIslandEnabled(false);
