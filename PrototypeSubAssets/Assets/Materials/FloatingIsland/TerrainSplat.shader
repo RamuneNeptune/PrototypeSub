@@ -7,7 +7,7 @@
         _Shininess ("Shininess", Float) = 10
         _RimColor ("Rim Color", Color) = (1.0,1.0,1.0,1.0)
 		_RimPower ("Rim Power", Range(0, 9.99)) = 3
-        _BumpStrength ("Normal Strength", Range(-2, 2)) = 1
+        _BumpStrength ("Normal Strength", Range(0, 1)) = 0.5
         [NoScaleOffset] _MainTex ("Albedo (RGB)", 2D) = "white" {}
         [NoScaleOffset] _BaseNormal ("Base Normal", 2D) = "bump" {}
         _BaseScale ("Base Scale", Float) = 1
@@ -57,9 +57,9 @@
                 fixed4 color : COLOR;
                 float2 uv : TEXCOORD0;
                 float3 worldPos : TEXCOORD1;
-                fixed3 normalWorld : TEXCOORD2;
-                fixed3 tangentWorld : TEXCOORD3;
-                fixed3 binormalWorld : TEXCOORD4;
+                float3 normalWorld : TEXCOORD2;
+                float3 tangentWorld : TEXCOORD3;
+                float3 binormalWorld : TEXCOORD4;
                 SHADOW_COORDS(5)
                 UNITY_FOG_COORDS(6)
             };
@@ -100,15 +100,17 @@
                 o.color = v.color;
 
                 o.normalWorld = normalize(mul(float4(v.normal, 0), unity_WorldToObject).xyz);
-                o.tangentWorld = normalize(mul(v.tangent, unity_WorldToObject).xyz);
-                o.binormalWorld = normalize(cross(o.normalWorld, o.tangentWorld) * v.tangent.w); // Multiply by W to get correct length
+                float3 tangent = max(cross(v.normal, fixed3(0,1,0)), cross(v.normal, fixed3(0,0,1)));
+                tangent = normalize(tangent);
+                o.tangentWorld = normalize(mul(tangent, unity_ObjectToWorld).xyz);
+                o.binormalWorld = normalize(cross(o.normalWorld, o.tangentWorld)); // Multiply by W to get correct length
 
                 UNITY_TRANSFER_FOG(o, o.vertex);
                 TRANSFER_SHADOW(o)
 
                 return o;
             }
-
+            
             float4 triplanarMap(sampler2D tex, float3 worldPos, float3 normal, float scale)
             {
                 float3 blendWeights = abs(normal);
@@ -236,18 +238,13 @@
 
                 fixed4 normalTex = calculateNormalTex(posWorld, normalDirection, vertexColor);
 
-                float3 localCoords = float3(2 * normalTex.ag - float2(1, 1), 0);
-                localCoords.z = _BumpStrength;
-
-                // Normal transpose matrix
-                float3x3 local2WorldTranspose = float3x3(
-                    tangentWorld,
-                    binormalWorld,
-                    normalWorld
-                );
-
                 // Calcuate normal direction
-                float3 newNormalDirection = normalize(mul(localCoords, local2WorldTranspose));
+                float3 newNormalDirection;
+                newNormalDirection.xy = normalTex.wy * 2 - 1;
+	            newNormalDirection.z = sqrt(1 - saturate(dot(normalTex.xy, normalTex.xy)));
+	            newNormalDirection = newNormalDirection.xzy;
+	            newNormalDirection = normalize(newNormalDirection);
+                newNormalDirection = lerp(normalDirection, newNormalDirection, _BumpStrength);
 
 				//Lighting
 				float3 lightingModel = max(0.0, dot(newNormalDirection, lightDir));
@@ -260,9 +257,8 @@
 				float rim = 1 - saturate(dot(viewDir, newNormalDirection));
 				float3 rimLighting = saturate(dot(newNormalDirection, lightDir)) * pow(rim, 10 - _RimPower) * _RimColor * atten * _LightColor0.xyz;
 
-				float3 lightFinal = rimLighting + diffuseReflection + specularWithColor + _AmbientColor.rgb;
+				float3 lightFinal = max(rimLighting + diffuseReflection + specularWithColor, _AmbientColor.rgb);
                 lightFinal *= shadow;
-                lightFinal;
 
 				return float4(lightFinal, 1);
             }
