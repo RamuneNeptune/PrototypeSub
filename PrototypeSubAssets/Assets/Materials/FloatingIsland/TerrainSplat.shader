@@ -60,8 +60,6 @@
                 float3 normalWorld : TEXCOORD2;
                 float3 tangentWorld : TEXCOORD3;
                 float3 binormalWorld : TEXCOORD4;
-                SHADOW_COORDS(5)
-                UNITY_FOG_COORDS(6)
             };
 
             float4 _LightColor0;
@@ -104,9 +102,6 @@
                 tangent = normalize(tangent);
                 o.tangentWorld = normalize(mul(tangent, unity_ObjectToWorld).xyz);
                 o.binormalWorld = normalize(cross(o.normalWorld, o.tangentWorld)); // Multiply by W to get correct length
-
-                //UNITY_TRANSFER_FOG(o, o.vertex);
-                TRANSFER_SHADOW(o)
 
                 return o;
             }
@@ -217,7 +212,7 @@
             }
             #endif
 
-            float4 calculateLightFinal(float3 normalDirection, float3 posWorld, fixed4 vertexColor, float3 tangentWorld, float3 binormalWorld, float3 normalWorld, float shadow)
+            float4 calculateLightFinal(float3 normalDirection, float3 posWorld, fixed4 vertexColor, float3 tangentWorld, float3 binormalWorld, float3 normalWorld)
             {
                 //Vectors
 				float3 viewDir = normalize(_WorldSpaceCameraPos.xyz - posWorld.xyz);
@@ -258,18 +253,14 @@
 				float3 rimLighting = saturate(dot(newNormalDirection, lightDir)) * pow(rim, 10 - _RimPower) * _RimColor * atten * _LightColor0.xyz;
 
 				float3 lightFinal = max(rimLighting + diffuseReflection + specularWithColor, _AmbientColor.rgb);
-                lightFinal *= shadow;
 
 				return float4(lightFinal, 1);
             }
 
             fixed4 frag (v2f i) : SV_Target
             {
-                float shadowMult = SHADOW_ATTENUATION(i);
-
-                fixed4 lightFinal = calculateLightFinal(i.normalWorld, i.worldPos, i.color, i.tangentWorld, i.binormalWorld, i.normalWorld, shadowMult);
+                fixed4 lightFinal = calculateLightFinal(i.normalWorld, i.worldPos, i.color, i.tangentWorld, i.binormalWorld, i.normalWorld);
                 fixed4 finalColor = calculateBaseColor(i.worldPos, i.normalWorld, i.color) * lightFinal;
-                //UNITY_APPLY_FOG(i.fogCoord, finalColor);
 
                 return finalColor;
             }
