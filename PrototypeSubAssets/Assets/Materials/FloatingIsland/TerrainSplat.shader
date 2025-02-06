@@ -105,7 +105,7 @@
                 o.tangentWorld = normalize(mul(tangent, unity_ObjectToWorld).xyz);
                 o.binormalWorld = normalize(cross(o.normalWorld, o.tangentWorld)); // Multiply by W to get correct length
 
-                UNITY_TRANSFER_FOG(o, o.vertex);
+                //UNITY_TRANSFER_FOG(o, o.vertex);
                 TRANSFER_SHADOW(o)
 
                 return o;
@@ -269,7 +269,7 @@
 
                 fixed4 lightFinal = calculateLightFinal(i.normalWorld, i.worldPos, i.color, i.tangentWorld, i.binormalWorld, i.normalWorld, shadowMult);
                 fixed4 finalColor = calculateBaseColor(i.worldPos, i.normalWorld, i.color) * lightFinal;
-                UNITY_APPLY_FOG(i.fogCoord, finalColor);
+                //UNITY_APPLY_FOG(i.fogCoord, finalColor);
 
                 return finalColor;
             }
