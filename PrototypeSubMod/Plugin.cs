@@ -185,9 +185,11 @@ namespace PrototypeSubMod
             Texture2D regular2Ico = AssetBundle.LoadAsset<Texture2D>("RegularIcon2");
             new CustomPoster("HamCheesePoster2", null, null, AssetBundle.LoadAsset<Texture2D>("RegularPoster2"), regular2Ico, TechType.PosterExoSuit1);
 
+            /*
             CustomPing.CreatePing("ProtoEngineFacilityPing", EngineFacilityPingType, new Vector3(307, -1155, 110), new Color(0.54f, 1f, 0.54f));
             CustomPing.CreatePing("ProtoDefenseFacilityPing", DefenseFacilityPingType, new Vector3(692, -481, -1414), new Color(1f, 0.25f, 0.25f));
             CustomPing.CreatePing("StoryEndPing", PingType.Signal, STORY_END_POS, minDist: 150, fadeRange: 25);
+            */
         }
 
         private void RegisterEncyEntries()
