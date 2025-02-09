@@ -31,7 +31,7 @@ internal class uGUI_ProtoBuildScreen : TerminalScreen
 
     public IEnumerator UpdateTooltipActive()
     {
-        while(true)
+        while (true)
         {
             bool inTrigger = distanceTracker.distanceToPlayer <= 3;
 
