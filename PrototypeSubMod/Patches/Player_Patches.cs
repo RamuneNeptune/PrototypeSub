@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using PrototypeSubMod.Facilities.Defense;
+using PrototypeSubMod.Facilities.Interceptor;
 using PrototypeSubMod.LightDistortionField;
 using PrototypeSubMod.MiscMonobehaviors.SubSystems;
 using PrototypeSubMod.PrototypeStory;
@@ -34,6 +35,14 @@ internal class Player_Patches
         {
             __result = false;
         }
+    }
+
+    [HarmonyPatch(nameof(Player.GetRespawnPosition)), HarmonyPostfix]
+    private static void GetRespawnPosition_Postfix(ref Vector3 __result)
+    {
+        if (!InterceptorIslandManager.Instance.GetIslandEnabled() || Plugin.GlobalSaveData.reactorSequenceComplete) return;
+
+        __result = InterceptorIslandManager.Instance.GetRespawnPoint();
     }
 
     [HarmonyPatch(nameof(Player.CheckTeleportationComplete)), HarmonyPostfix]

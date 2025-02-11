@@ -14,6 +14,7 @@ internal class InterceptorIslandManager : MonoBehaviour
     [SerializeField] private InterfloorTeleporter teleporter;
     [SerializeField] private GameObject islandObjects;
     [SerializeField] private DummyTechType emergencyWarpTechType;
+    [SerializeField] private Transform respawnPoint;
     [SerializeField] private string emergencyWarpEncyKey;
 
     private Vector3 voidTeleportPos;
@@ -65,4 +66,7 @@ internal class InterceptorIslandManager : MonoBehaviour
         this.sequenceManager = sequenceManager;
         SetIslandEnabled(true);
     }
+
+    public Vector3 GetRespawnPoint() => respawnPoint.position;
+    public bool GetIslandEnabled() => islandObjects.activeSelf;
 }
