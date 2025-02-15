@@ -2,27 +2,54 @@
 
 public class Test : MonoBehaviour
 {
-    public Transform target;
+    public MeshFilter filter;
+    public Transform testObj;
+    public float range;
+    public float offset;
+    public float scale;
+    public bool enabled;
 
     private void OnDrawGizmosSelected()
     {
-        if (!target) return;
+        if (!enabled) return;
 
-        Vector3 delta = target.position - transform.position;
-        float vertAngle = Mathf.Atan(delta.y / delta.z) * Mathf.Rad2Deg;
-        float hozAngle = Mathf.Atan(delta.z / delta.x) * Mathf.Rad2Deg;
+        if (!filter || !testObj) return;
 
-        Debug.Log(Vector3.Angle(transform.forward, delta.normalized));
-        Gizmos.DrawLine(transform.position, target.position);
+        Mesh mesh = filter.sharedMesh;
+        if (mesh == null) return;
+
+        ShowTangentSpace(mesh);
+    }
+
+    private void ShowTangentSpace(Mesh mesh)
+    {
+        Vector3[] vertices = mesh.vertices;
+        Vector3[] normals = mesh.normals;
+        Vector4[] tangents = mesh.tangents;
+        for (int i = 0; i < vertices.Length; i++)
+        {
+            if (vertices[i].magnitude > range * 0.01f) continue;
+
+            ShowTangentSpace(
+                transform.TransformPoint(vertices[i]),
+                transform.TransformDirection(normals[i]),
+                transform.TransformDirection(tangents[i]),
+                tangents[i].w
+            );
+        }
+    }
+
+    private void ShowTangentSpace(Vector3 vertex, Vector3 normal, Vector3 tangent, float binormalSign)
+    {
+        vertex += normal * offset;
 
         Gizmos.color = Color.green;
-        Vector3 yPos = transform.position + new Vector3(0, delta.y, 0);
-        Gizmos.DrawLine(transform.position, yPos);
-        Gizmos.color = Color.blue;
-        Vector3 zPos = yPos + new Vector3(0, 0, delta.z);
-        Gizmos.DrawLine(yPos, zPos);
+        Gizmos.DrawLine(vertex, vertex + normal * scale);
         Gizmos.color = Color.red;
-        Vector3 xPos = zPos + new Vector3(delta.x, 0, 0);
-        Gizmos.DrawLine(zPos, xPos);
+        Gizmos.DrawLine(vertex, vertex + tangent * scale);
+
+        Vector3 binormal = Vector3.Cross(normal, tangent) * binormalSign;
+        Gizmos.color = Color.blue;
+        Gizmos.DrawLine(vertex, vertex + binormal * scale);
     }
 }
