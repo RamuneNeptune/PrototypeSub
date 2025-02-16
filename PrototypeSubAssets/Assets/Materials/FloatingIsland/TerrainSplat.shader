@@ -58,8 +58,6 @@
                 float2 uv : TEXCOORD0;
                 float3 worldPos : TEXCOORD1;
                 float3 normalWorld : TEXCOORD2;
-                float3 tangentWorld : TEXCOORD3;
-                float3 binormalWorld : TEXCOORD4;
             };
 
             float4 _LightColor0;
@@ -97,11 +95,7 @@
                 o.worldPos = mul(unity_ObjectToWorld, v.vertex);
                 o.color = v.color;
 
-                o.normalWorld = normalize(mul(float4(v.normal, 0), unity_WorldToObject).xyz);
-                float3 tangent = max(cross(v.normal, fixed3(0,1,0)), cross(v.normal, fixed3(0,0,1)));
-                tangent = normalize(tangent);
-                o.tangentWorld = normalize(mul(tangent, unity_ObjectToWorld).xyz);
-                o.binormalWorld = normalize(cross(o.normalWorld, o.tangentWorld)); // Multiply by W to get correct length
+                o.normalWorld = UnityObjectToWorldNormal(v.normal);
 
                 return o;
             }
@@ -121,6 +115,51 @@
                 return texX * blendWeights.x + texY * blendWeights.y + texZ * blendWeights.z;
             }
 
+            // Reoriented Normal Mapping
+            // http://blog.selfshadow.com/publications/blending-in-detail/
+            // Altered to take normals (-1 to 1 ranges) rather than unsigned normal maps (0 to 1 ranges)
+            float3 blend_rnm(float3 n1, float3 n2)
+            {
+	            n1.z += 1;
+	            n2.xy = -n2.xy;
+
+	            return n1 * dot(n1, n2) / n1.z - n2;
+            }
+
+            // Taken from Sebastian Lague
+            // https://github.com/SebLague/Solar-System/blob/0c60882be69b8e96d6660c28405b9d19caee76d5/Assets/Scripts/Celestial/Shaders/Includes/Triplanar.cginc
+            float3 triplanarNormal(float3 worldPos, float3 normal, float scale, sampler2D normalMap)
+            {
+                float3 absNormal = abs(normal);
+                float3 blendWeight = saturate(pow(normal, 4));
+                blendWeight /= dot(blendWeight, 1);
+
+                float2 uvX = worldPos.zy * scale;
+	            float2 uvY = worldPos.xz * scale;
+	            float2 uvZ = worldPos.xy * scale;
+
+                float3 tangentNormalX = UnpackNormal(tex2D(normalMap, uvX));
+	            float3 tangentNormalY = UnpackNormal(tex2D(normalMap, uvY));
+	            float3 tangentNormalZ = UnpackNormal(tex2D(normalMap, uvZ));
+
+                tangentNormalX = blend_rnm(half3(normal.zy, absNormal.x), tangentNormalX);
+	            tangentNormalY = blend_rnm(half3(normal.xz, absNormal.y), tangentNormalY);
+	            tangentNormalZ = blend_rnm(half3(normal.xy, absNormal.z), tangentNormalZ);
+
+                float3 axisSign = sign(normal);
+	            tangentNormalX.z *= axisSign.x;
+	            tangentNormalY.z *= axisSign.y;
+	            tangentNormalZ.z *= axisSign.z;
+
+                float3 outputNormal = normalize(
+		            tangentNormalX.zyx * blendWeight.x +
+		            tangentNormalY.xzy * blendWeight.y +
+		            tangentNormalZ.xyz * blendWeight.z
+	            );
+
+                return outputNormal;
+            }
+
             fixed4 calculateBaseColor(float3 worldPos, float3 normalDir, fixed4 vertexColor)
             {
                 fixed4 base = triplanarMap(_MainTex, worldPos, normalDir, _BaseScale);
@@ -136,18 +175,18 @@
                 return lerp(base, detailCol, alpha);
             }
 
-            fixed4 calculateNormalTex(float3 worldPos, float3 normalDir, fixed4 vertexColor)
+            fixed3 calculateNormalTex(float3 worldPos, float3 normalDir, fixed4 vertexColor)
             {
-                fixed4 base = triplanarMap(_BaseNormal, worldPos, normalDir, _BaseScale);
-                fixed4 detail1 = triplanarMap(_DetailNormal1, worldPos, normalDir, _DetailScale1) * vertexColor.r;
-                fixed4 detail2 = triplanarMap(_DetailNormal2, worldPos, normalDir, _DetailScale2) * vertexColor.g;
-                fixed4 detail3 = triplanarMap(_DetailNormal3, worldPos, normalDir, _DetailScale3) * vertexColor.b;
+                fixed3 base = triplanarNormal(worldPos, normalDir, _BaseScale, _BaseNormal);
+                fixed3 detail1 = triplanarNormal(worldPos, normalDir, _DetailScale1, _DetailNormal1) * vertexColor.r;
+                fixed3 detail2 = triplanarNormal(worldPos, normalDir, _DetailScale2, _DetailNormal2) * vertexColor.g;
+                fixed3 detail3 = triplanarNormal(worldPos, normalDir, _DetailScale3, _DetailNormal3) * vertexColor.b;
 
-                fixed4 detailCol = (detail1 + detail2 + detail3) / (vertexColor.r + vertexColor.g + vertexColor.b);
+                fixed3 detailCol = (detail1 + detail2 + detail3) / (vertexColor.r + vertexColor.g + vertexColor.b);
                 detailCol = saturate(detailCol);
                 float alpha = saturate(length(vertexColor.rgb));
 
-                return lerp(base, detailCol, alpha);
+                return lerp(base, detailCol, alpha).xyz;
             }
 
             float angleBetween(float3 dirA, float3 dirB)
@@ -212,7 +251,7 @@
             }
             #endif
 
-            float4 calculateLightFinal(float3 normalDirection, float3 posWorld, fixed4 vertexColor, float3 tangentWorld, float3 binormalWorld, float3 normalWorld)
+            float4 calculateLightFinal(float3 normalDirection, float3 posWorld, fixed4 vertexColor, float3 normalWorld)
             {
                 //Vectors
 				float3 viewDir = normalize(_WorldSpaceCameraPos.xyz - posWorld.xyz);
@@ -231,15 +270,9 @@
                     atten = properties.w;                    
 				}
 
-                fixed4 normalTex = calculateNormalTex(posWorld, normalDirection, vertexColor);
-
                 // Calcuate normal direction
-                float3 newNormalDirection;
-                newNormalDirection.xy = normalTex.wy * 2 - 1;
-	            newNormalDirection.z = sqrt(1 - saturate(dot(normalTex.xy, normalTex.xy)));
-	            newNormalDirection = newNormalDirection.xzy;
-	            newNormalDirection = normalize(newNormalDirection);
-                newNormalDirection = lerp(normalDirection, newNormalDirection, _BumpStrength);
+                float3 newNormalDirection = calculateNormalTex(posWorld, normalWorld, vertexColor);
+                newNormalDirection = lerp(normalWorld, newNormalDirection, _BumpStrength);
 
 				//Lighting
 				float3 lightingModel = max(0.0, dot(newNormalDirection, lightDir));
@@ -259,7 +292,7 @@
 
             fixed4 frag (v2f i) : SV_Target
             {
-                fixed4 lightFinal = calculateLightFinal(i.normalWorld, i.worldPos, i.color, i.tangentWorld, i.binormalWorld, i.normalWorld);
+                fixed4 lightFinal = calculateLightFinal(i.normalWorld, i.worldPos, i.color, i.normalWorld);
                 fixed4 finalColor = calculateBaseColor(i.worldPos, i.normalWorld, i.color) * lightFinal;
 
                 return finalColor;
@@ -270,7 +303,6 @@
         {
             Tags { "LightMode" = "ForwardAdd" }
             Blend One One
-            LOD 100
             ZWrite Off
 
             CGPROGRAM
@@ -282,7 +314,6 @@
             #pragma multi_compile SPOT POINT
 
             #include "UnityCG.cginc"
-            #include "UnityShaderVariables.cginc"
             #include "AutoLight.cginc"
 
             struct appdata
@@ -300,11 +331,7 @@
                 fixed4 color : COLOR;
                 float2 uv : TEXCOORD0;
                 float3 worldPos : TEXCOORD1;
-                fixed3 normalWorld : TEXCOORD2;
-                fixed3 tangentWorld : TEXCOORD3;
-                fixed3 binormalWorld : TEXCOORD4;
-                SHADOW_COORDS(5)
-                UNITY_FOG_COORDS(6)
+                float3 normalWorld : TEXCOORD2;
             };
 
             float4 _LightColor0;
@@ -331,6 +358,8 @@
             half _DetailScale2;
             half _DetailScale3;
 
+            fixed _NightMultiplier = 1;
+
             v2f vert (appdata v)
             {
                 v2f o;
@@ -340,16 +369,11 @@
                 o.worldPos = mul(unity_ObjectToWorld, v.vertex);
                 o.color = v.color;
 
-                o.normalWorld = normalize(mul(float4(v.normal, 0), unity_WorldToObject).xyz);
-                o.tangentWorld = normalize(mul(v.tangent, unity_WorldToObject).xyz);
-                o.binormalWorld = normalize(cross(o.normalWorld, o.tangentWorld) * v.tangent.w); // Multiply by W to get correct length
-
-                UNITY_TRANSFER_FOG(o, o.vertex);
-                TRANSFER_SHADOW(o)
+                o.normalWorld = UnityObjectToWorldNormal(v.normal);
 
                 return o;
             }
-
+            
             float4 triplanarMap(sampler2D tex, float3 worldPos, float3 normal, float scale)
             {
                 float3 blendWeights = abs(normal);
@@ -363,6 +387,51 @@
                 float4 texZ = tex2D(tex, uvZ);
 
                 return texX * blendWeights.x + texY * blendWeights.y + texZ * blendWeights.z;
+            }
+
+            // Reoriented Normal Mapping
+            // http://blog.selfshadow.com/publications/blending-in-detail/
+            // Altered to take normals (-1 to 1 ranges) rather than unsigned normal maps (0 to 1 ranges)
+            float3 blend_rnm(float3 n1, float3 n2)
+            {
+	            n1.z += 1;
+	            n2.xy = -n2.xy;
+
+	            return n1 * dot(n1, n2) / n1.z - n2;
+            }
+
+            // Taken from Sebastian Lague
+            // https://github.com/SebLague/Solar-System/blob/0c60882be69b8e96d6660c28405b9d19caee76d5/Assets/Scripts/Celestial/Shaders/Includes/Triplanar.cginc
+            float3 triplanarNormal(float3 worldPos, float3 normal, float scale, sampler2D normalMap)
+            {
+                float3 absNormal = abs(normal);
+                float3 blendWeight = saturate(pow(normal, 4));
+                blendWeight /= dot(blendWeight, 1);
+
+                float2 uvX = worldPos.zy * scale;
+	            float2 uvY = worldPos.xz * scale;
+	            float2 uvZ = worldPos.xy * scale;
+
+                float3 tangentNormalX = UnpackNormal(tex2D(normalMap, uvX));
+	            float3 tangentNormalY = UnpackNormal(tex2D(normalMap, uvY));
+	            float3 tangentNormalZ = UnpackNormal(tex2D(normalMap, uvZ));
+
+                tangentNormalX = blend_rnm(half3(normal.zy, absNormal.x), tangentNormalX);
+	            tangentNormalY = blend_rnm(half3(normal.xz, absNormal.y), tangentNormalY);
+	            tangentNormalZ = blend_rnm(half3(normal.xy, absNormal.z), tangentNormalZ);
+
+                float3 axisSign = sign(normal);
+	            tangentNormalX.z *= axisSign.x;
+	            tangentNormalY.z *= axisSign.y;
+	            tangentNormalZ.z *= axisSign.z;
+
+                float3 outputNormal = normalize(
+		            tangentNormalX.zyx * blendWeight.x +
+		            tangentNormalY.xzy * blendWeight.y +
+		            tangentNormalZ.xyz * blendWeight.z
+	            );
+
+                return outputNormal;
             }
 
             fixed4 calculateBaseColor(float3 worldPos, float3 normalDir, fixed4 vertexColor)
@@ -380,18 +449,18 @@
                 return lerp(base, detailCol, alpha);
             }
 
-            fixed4 calculateNormalTex(float3 worldPos, float3 normalDir, fixed4 vertexColor)
+            fixed3 calculateNormalTex(float3 worldPos, float3 normalDir, fixed4 vertexColor)
             {
-                fixed4 base = triplanarMap(_BaseNormal, worldPos, normalDir, _BaseScale);
-                fixed4 detail1 = triplanarMap(_DetailNormal1, worldPos, normalDir, _DetailScale1) * vertexColor.r;
-                fixed4 detail2 = triplanarMap(_DetailNormal2, worldPos, normalDir, _DetailScale2) * vertexColor.g;
-                fixed4 detail3 = triplanarMap(_DetailNormal3, worldPos, normalDir, _DetailScale3) * vertexColor.b;
+                fixed3 base = triplanarNormal(worldPos, normalDir, _BaseScale, _BaseNormal);
+                fixed3 detail1 = triplanarNormal(worldPos, normalDir, _DetailScale1, _DetailNormal1) * vertexColor.r;
+                fixed3 detail2 = triplanarNormal(worldPos, normalDir, _DetailScale2, _DetailNormal2) * vertexColor.g;
+                fixed3 detail3 = triplanarNormal(worldPos, normalDir, _DetailScale3, _DetailNormal3) * vertexColor.b;
 
-                fixed4 detailCol = (detail1 + detail2 + detail3) / (vertexColor.r + vertexColor.g + vertexColor.b);
+                fixed3 detailCol = (detail1 + detail2 + detail3) / (vertexColor.r + vertexColor.g + vertexColor.b);
                 detailCol = saturate(detailCol);
                 float alpha = saturate(length(vertexColor.rgb));
 
-                return lerp(base, detailCol, alpha);
+                return lerp(base, detailCol, alpha).xyz;
             }
 
             float angleBetween(float3 dirA, float3 dirB)
@@ -435,7 +504,7 @@
 
                 float atten = angleMultiplier * lerp(1, 0, smoothstep(0, range, distance * 0.9));
 
-                return float4(lightDir, saturate(atten));
+                return float4(lightDir, atten);
             }
             #endif
 
@@ -456,7 +525,7 @@
             }
             #endif
 
-            float4 calculateLightFinal(float3 normalDirection, float3 posWorld, fixed4 vertexColor, float3 tangentWorld, float3 binormalWorld, float3 normalWorld, float shadow)
+            float4 calculateLightFinal(float3 normalDirection, float3 posWorld, fixed4 vertexColor, float3 normalWorld)
             {
                 //Vectors
 				float3 viewDir = normalize(_WorldSpaceCameraPos.xyz - posWorld.xyz);
@@ -465,7 +534,7 @@
 
 				if(_WorldSpaceLightPos0.w == 0.0) //Directional light
 				{
-					atten = 1.0;
+					atten = _NightMultiplier;
 					lightDir = normalize(_WorldSpaceLightPos0.xyz);
 				}
 				else //Point light or spot light
@@ -475,20 +544,9 @@
                     atten = properties.w;                    
 				}
 
-                fixed4 normalTex = calculateNormalTex(posWorld, normalDirection, vertexColor);
-
-                float3 localCoords = float3(2 * normalTex.ag - float2(1, 1), 0);
-                localCoords.z = _BumpStrength;
-
-                // Normal transpose matrix
-                float3x3 local2WorldTranspose = float3x3(
-                    tangentWorld,
-                    binormalWorld,
-                    normalWorld
-                );
-
                 // Calcuate normal direction
-                float3 newNormalDirection = normalize(mul(localCoords, local2WorldTranspose));
+                float3 newNormalDirection = calculateNormalTex(posWorld, normalWorld, vertexColor);
+                newNormalDirection = lerp(normalWorld, newNormalDirection, _BumpStrength);
 
 				//Lighting
 				float3 lightingModel = max(0.0, dot(newNormalDirection, lightDir));
@@ -502,23 +560,20 @@
 				float3 rimLighting = saturate(dot(newNormalDirection, lightDir)) * pow(rim, 10 - _RimPower) * _RimColor * atten * _LightColor0.xyz;
 
 				float3 lightFinal = rimLighting + diffuseReflection + specularWithColor;
-                lightFinal *= shadow;
 
 				return float4(lightFinal, 1);
             }
 
             fixed4 frag (v2f i) : SV_Target
             {
-                float shadowMult = SHADOW_ATTENUATION(i);
-
-                fixed4 lightFinal = calculateLightFinal(i.normalWorld, i.worldPos, i.color, i.tangentWorld, i.binormalWorld, i.normalWorld, shadowMult);
+                fixed4 lightFinal = calculateLightFinal(i.normalWorld, i.worldPos, i.color, i.normalWorld);
                 fixed4 finalColor = calculateBaseColor(i.worldPos, i.normalWorld, i.color) * lightFinal;
-                UNITY_APPLY_FOG(i.fogCoord, finalColor);
 
                 return finalColor;
             }
             ENDCG
-        }    }
+        }
+    }
 
     Fallback "Diffuse"
 }
