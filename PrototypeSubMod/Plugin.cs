@@ -36,6 +36,7 @@ namespace PrototypeSubMod
     [BepInDependency("ArchitectsLibrary", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.lee23.theredplague", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.danithedani.deepercreatures", BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency("com.lee23.epicweather", BepInDependency.DependencyFlags.SoftDependency)]
     public class Plugin : BaseUnityPlugin
     {
         private const string GUID = "com.prototech.prototypesub";
@@ -97,6 +98,7 @@ namespace PrototypeSubMod
 
             LoadEasyPrefabs.LoadPrefabs(AssetBundle);
             ROTACompatManager.AddCompatiblePowerSources();
+            WeatherCompatManager.Initialize();
 
             UWE.CoroutineHost.StartCoroutine(Initialize());
 

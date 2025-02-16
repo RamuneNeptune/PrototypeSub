@@ -1,4 +1,5 @@
-﻿using PrototypeSubMod.MiscMonobehaviors.SubSystems;
+﻿using PrototypeSubMod.Compatibility;
+using PrototypeSubMod.MiscMonobehaviors.SubSystems;
 using PrototypeSubMod.Patches;
 using System.Collections;
 using UnityEngine;
@@ -31,6 +32,9 @@ internal class InterceptorReactorSequenceManager : MonoBehaviour
         teleporter.StartTeleportPlayer(islandTeleportPos, Camera.main.transform.forward);
         LargeWorldStreamer_Patches.SetOverwriteCamPos(true, transform.position);
         InterceptorIslandManager.Instance.OnTeleportToIsland(voidTeleportPos, this);
+
+        WeatherCompatManager.SetWeatherEnabled(false);
+        WeatherCompatManager.SetWeatherClear();
     }
 
     public void EndReactorSequence()
@@ -41,6 +45,7 @@ internal class InterceptorReactorSequenceManager : MonoBehaviour
         LargeWorldStreamer_Patches.SetOverwriteCamPos(false, Vector3.zero);
         GUIController_Patches.SetDenyHideCycling(false);
         GUIController.SetHidePhase(GUIController.HidePhase.None);
+        WeatherCompatManager.SetWeatherEnabled(true);
     }
 
     public void OnTeleportToVoid()
