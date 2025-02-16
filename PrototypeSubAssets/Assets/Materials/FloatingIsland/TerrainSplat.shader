@@ -58,6 +58,7 @@
                 float2 uv : TEXCOORD0;
                 float3 worldPos : TEXCOORD1;
                 float3 normalWorld : TEXCOORD2;
+                UNITY_FOG_COORDS(3)
             };
 
             float4 _LightColor0;
@@ -96,6 +97,7 @@
                 o.color = v.color;
 
                 o.normalWorld = UnityObjectToWorldNormal(v.normal);
+                UNITY_TRANSFER_FOG(o, o.vertex);
 
                 return o;
             }
@@ -233,7 +235,7 @@
                 return float4(lightDir, saturate(atten));
             }
             #endif
-
+            
             #ifdef POINT
             float4 calculateLightProperties(float3 posWorld)
             {
@@ -295,6 +297,7 @@
                 fixed4 lightFinal = calculateLightFinal(i.normalWorld, i.worldPos, i.color, i.normalWorld);
                 fixed4 finalColor = calculateBaseColor(i.worldPos, i.normalWorld, i.color) * lightFinal;
 
+                UNITY_APPLY_FOG(i.fogCoord, finalColor);
                 return finalColor;
             }
             ENDCG
@@ -332,6 +335,7 @@
                 float2 uv : TEXCOORD0;
                 float3 worldPos : TEXCOORD1;
                 float3 normalWorld : TEXCOORD2;
+                UNITY_FOG_COORDS(3)
             };
 
             float4 _LightColor0;
@@ -370,6 +374,7 @@
                 o.color = v.color;
 
                 o.normalWorld = UnityObjectToWorldNormal(v.normal);
+                UNITY_TRANSFER_FOG(o, o.vertex);
 
                 return o;
             }
@@ -569,6 +574,7 @@
                 fixed4 lightFinal = calculateLightFinal(i.normalWorld, i.worldPos, i.color, i.normalWorld);
                 fixed4 finalColor = calculateBaseColor(i.worldPos, i.normalWorld, i.color) * lightFinal;
 
+                UNITY_APPLY_FOG(i.fogCoord, finalColor);
                 return finalColor;
             }
             ENDCG
