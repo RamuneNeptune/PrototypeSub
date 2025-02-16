@@ -3,6 +3,8 @@
     Properties
     {
         _AmbientColor ("Ambient Color", Color) = (1,1,1,1)
+        _FogColor ("Fog Color", Color) = (1, 1, 1, 1)
+        _FogMaxDist ("Fog Max Dist", Float) = 50
         _SpecColor ("Specular Color", Color) = (1,1,1,1)
         _Shininess ("Shininess", Float) = 10
         _RimColor ("Rim Color", Color) = (1.0,1.0,1.0,1.0)
@@ -58,16 +60,17 @@
                 float2 uv : TEXCOORD0;
                 float3 worldPos : TEXCOORD1;
                 float3 normalWorld : TEXCOORD2;
-                UNITY_FOG_COORDS(3)
             };
 
             float4 _LightColor0;
             
             fixed4 _AmbientColor;
             fixed4 _SpecColor;
+            fixed4 _FogColor;
             half _Shininess;
             fixed4 _RimColor;
 			half _RimPower;
+            float _FogMaxDist;
 
             sampler2D _MainTex;
             sampler2D _BaseNormal;
@@ -97,7 +100,6 @@
                 o.color = v.color;
 
                 o.normalWorld = UnityObjectToWorldNormal(v.normal);
-                UNITY_TRANSFER_FOG(o, o.vertex);
 
                 return o;
             }
@@ -292,13 +294,21 @@
 				return float4(lightFinal, 1);
             }
 
+            fixed getFogScalar(float3 posWorld)
+            {
+                float dist = length(posWorld - _WorldSpaceCameraPos);
+                float scalar = _FogMaxDist * 50 / (dist * dist);
+                scalar = 1 - saturate(scalar);
+
+                return scalar;
+            }
+
             fixed4 frag (v2f i) : SV_Target
             {
                 fixed4 lightFinal = calculateLightFinal(i.normalWorld, i.worldPos, i.color, i.normalWorld);
                 fixed4 finalColor = calculateBaseColor(i.worldPos, i.normalWorld, i.color) * lightFinal;
 
-                UNITY_APPLY_FOG(i.fogCoord, finalColor);
-                return finalColor;
+                return lerp(finalColor, _FogColor, getFogScalar(i.worldPos));
             }
             ENDCG
         }
@@ -335,16 +345,17 @@
                 float2 uv : TEXCOORD0;
                 float3 worldPos : TEXCOORD1;
                 float3 normalWorld : TEXCOORD2;
-                UNITY_FOG_COORDS(3)
             };
 
             float4 _LightColor0;
             
             fixed4 _AmbientColor;
             fixed4 _SpecColor;
+            fixed4 _FogColor;
             half _Shininess;
             fixed4 _RimColor;
 			half _RimPower;
+            float _FogMaxDist;
 
             sampler2D _MainTex;
             sampler2D _BaseNormal;
@@ -374,7 +385,6 @@
                 o.color = v.color;
 
                 o.normalWorld = UnityObjectToWorldNormal(v.normal);
-                UNITY_TRANSFER_FOG(o, o.vertex);
 
                 return o;
             }
@@ -530,6 +540,15 @@
             }
             #endif
 
+            fixed getFogScalar(float3 posWorld)
+            {
+                float dist = length(posWorld - _WorldSpaceCameraPos);
+                float scalar = _FogMaxDist * 50 / (dist * dist);
+                scalar = 1 - saturate(scalar);
+
+                return scalar;
+            }
+
             float4 calculateLightFinal(float3 normalDirection, float3 posWorld, fixed4 vertexColor, float3 normalWorld)
             {
                 //Vectors
@@ -574,8 +593,7 @@
                 fixed4 lightFinal = calculateLightFinal(i.normalWorld, i.worldPos, i.color, i.normalWorld);
                 fixed4 finalColor = calculateBaseColor(i.worldPos, i.normalWorld, i.color) * lightFinal;
 
-                UNITY_APPLY_FOG(i.fogCoord, finalColor);
-                return finalColor;
+                return lerp(finalColor, _FogColor, getFogScalar(i.worldPos));;
             }
             ENDCG
         }
