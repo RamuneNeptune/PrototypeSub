@@ -230,7 +230,7 @@
 
                 float atten = angleMultiplier * lerp(1, 0, smoothstep(0, range, distance * 0.9));
 
-                return float4(lightDir, atten);
+                return float4(lightDir, saturate(atten));
             }
             #endif
 
@@ -504,7 +504,7 @@
 
                 float atten = angleMultiplier * lerp(1, 0, smoothstep(0, range, distance * 0.9));
 
-                return float4(lightDir, atten);
+                return float4(lightDir, saturate(atten));
             }
             #endif
 
