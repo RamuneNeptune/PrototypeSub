@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 using UWE;
 
@@ -19,12 +20,18 @@ internal class MultipurposeAlienTerminal : MonoBehaviour
 
     private void Start()
     {
-        CoroutineHost.StartCoroutine(SpawnTerminal());
+        if (prefab != null)
+        {
+            SetupTerminal(prefab);
+            return;
+        }
+
+        CoroutineHost.StartCoroutine(RetrievePrefab());
     }
 
-    private IEnumerator SpawnTerminal()
+    private IEnumerator RetrievePrefab()
     {
-        var prefabRequest = PrefabDatabase.GetPrefabAsync("d200d747-b802-43f4-80b1-5c3d2155fbcd");
+        var prefabRequest = PrefabDatabase.GetPrefabAsync("PrototypeGenericTerminal");
 
         yield return prefabRequest;
 
@@ -33,23 +40,24 @@ internal class MultipurposeAlienTerminal : MonoBehaviour
 
         prefab.SetActive(false);
         MultipurposeAlienTerminal.prefab = prefab;
+        SetupTerminal(prefab);
+    }
+
+    private void SetupTerminal(GameObject prefab)
+    {
         var instance = Instantiate(prefab, transform, false);
         instance.transform.localPosition = Vector3.zero;
         instance.transform.localRotation = Quaternion.identity;
         instance.transform.localScale = Vector3.one;
         instance.SetActive(true);
 
-        var storyTarget = instance.GetComponentInChildren<StoryHandTarget>();
-        handTarget = storyTarget.gameObject.EnsureComponent<ProtoTerminalHandTarget>();
+        handTarget = instance.EnsureComponent<ProtoTerminalHandTarget>();
         Destroy(instance.GetComponent<LargeWorldEntity>());
         Destroy(instance.GetComponent<PrefabIdentifier>());
 
-        handTarget.destroyGameObject = storyTarget.destroyGameObject;
-        handTarget.informGameObjects = new[] { storyTarget.informGameObject, gameObject };
+        handTarget.informGameObjects.Append(gameObject);
         handTarget.primaryTooltip = primaryTooltip;
         handTarget.secondaryTooltip = secondaryTooltip;
-
-        Destroy(storyTarget);
 
         if (queuedForceInteract)
         {

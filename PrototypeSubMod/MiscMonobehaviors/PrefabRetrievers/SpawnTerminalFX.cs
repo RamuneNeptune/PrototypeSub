@@ -1,0 +1,32 @@
+﻿using System;
+using System.Collections;
+using UnityEngine;
+using UWE;
+
+namespace PrototypeSubMod.MiscMonobehaviors.PrefabRetrievers;
+
+internal class SpawnTerminalFX : MonoBehaviour
+{
+    [SerializeField] private PrecursorComputerTerminal terminal;
+
+    private IEnumerator Start()
+    {
+        var prefabRequest = PrefabDatabase.GetPrefabAsync("d200d747-b802-43f4-80b1-5c3d2155fbcd");
+
+        yield return prefabRequest;
+
+        GameObject prefab = null;
+        if (!prefabRequest.TryGetPrefab(out prefab)) throw new Exception("Error retrieving alien terminal prefab");
+
+        prefab.SetActive(false);
+        GameObject fx = prefab.transform.Find("FX").gameObject;
+
+        var newFX = Instantiate(fx, transform, false);
+        if (terminal)
+        {
+            terminal.fx = newFX;
+            terminal.fxControl = newFX.GetComponent<VFXController>();
+            terminal.scaleControl = newFX.GetComponent<VFXLerpScale>();
+        }
+    }
+}
