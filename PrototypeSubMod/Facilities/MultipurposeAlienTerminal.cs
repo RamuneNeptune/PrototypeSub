@@ -11,9 +11,10 @@ internal class MultipurposeAlienTerminal : MonoBehaviour
     public event Action onTerminalInteracted;
     private static GameObject prefab;
 
-    public string primaryTooltip = "GenericConsole";
-    public string secondaryTooltip = "Tooltip_GenericConsole";
-    public bool allowMultipleUses;
+    [SerializeField] private string primaryTooltip = "GenericConsole";
+    [SerializeField] private string secondaryTooltip = "Tooltip_GenericConsole";
+    [SerializeField] private bool allowMultipleUses;
+    [SerializeField] private bool spawnWithLight = true;
 
     private bool queuedForceInteract;
     private ProtoTerminalHandTarget handTarget;
@@ -64,6 +65,14 @@ internal class MultipurposeAlienTerminal : MonoBehaviour
             GetComponentInChildren<PrecursorComputerTerminal>().OnStoryHandTarget();
             queuedForceInteract = false;
             handTarget.interactionAllowed = allowMultipleUses;
+        }
+
+        if (!spawnWithLight)
+        {
+            foreach (var item in GetComponentsInChildren<Light>())
+            {
+                Destroy(item);
+            }
         }
     }
 

@@ -352,11 +352,9 @@
             
             fixed4 _AmbientColor;
             fixed4 _SpecColor;
-            fixed4 _FogColor;
             half _Shininess;
             fixed4 _RimColor;
 			half _RimPower;
-            float _FogMaxDist;
 
             sampler2D _MainTex;
             sampler2D _BaseNormal;
@@ -580,21 +578,12 @@
 				return float4(lightFinal, 1);
             }
 
-            fixed getFogScalar(float3 posWorld)
-            {
-                float dist = length(posWorld - _WorldSpaceCameraPos);
-                float scalar = _FogMaxDist * 50 / (dist * dist);
-                scalar = 1 - saturate(scalar);
-
-                return scalar;
-            }
-
             fixed4 frag (v2f i) : SV_Target
             {
                 fixed4 lightFinal = calculateLightFinal(i.normalWorld, i.worldPos, i.color, i.normalWorld);
                 fixed4 finalColor = calculateBaseColor(i.worldPos, i.normalWorld, i.color) * lightFinal;
 
-                return lerp(finalColor, _FogColor, getFogScalar(i.worldPos));
+                return finalColor;
             }
             ENDCG
         }

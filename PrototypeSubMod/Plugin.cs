@@ -337,7 +337,7 @@ namespace PrototypeSubMod
         private void RegisterStructures()
         {
             int entityCount = 0;
-            StructureLoading.RegisterStructure(LoadStructureFromBundle("ProtoInterceptorFacility"), ref entityCount);
+            StructureLoading.RegisterStructure(LoadStructureFromBundle("InterceptorFacility"), ref entityCount);
             entityCount = 0;
 
             StructureLoading.RegisterStructure(LoadStructureFromBundle("DefenseChamber"), ref entityCount);
