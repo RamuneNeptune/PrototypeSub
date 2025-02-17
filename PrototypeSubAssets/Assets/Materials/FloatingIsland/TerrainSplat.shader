@@ -312,6 +312,7 @@
             }
             ENDCG
         }
+
         Pass
         {
             Tags { "LightMode" = "ForwardAdd" }
@@ -522,7 +523,7 @@
                 return float4(lightDir, saturate(atten));
             }
             #endif
-
+            
             #ifdef POINT
             float4 calculateLightProperties(float3 posWorld)
             {
@@ -539,15 +540,6 @@
                 return float4(lightDir, atten);
             }
             #endif
-
-            fixed getFogScalar(float3 posWorld)
-            {
-                float dist = length(posWorld - _WorldSpaceCameraPos);
-                float scalar = _FogMaxDist * 50 / (dist * dist);
-                scalar = 1 - saturate(scalar);
-
-                return scalar;
-            }
 
             float4 calculateLightFinal(float3 normalDirection, float3 posWorld, fixed4 vertexColor, float3 normalWorld)
             {
@@ -588,12 +580,21 @@
 				return float4(lightFinal, 1);
             }
 
+            fixed getFogScalar(float3 posWorld)
+            {
+                float dist = length(posWorld - _WorldSpaceCameraPos);
+                float scalar = _FogMaxDist * 50 / (dist * dist);
+                scalar = 1 - saturate(scalar);
+
+                return scalar;
+            }
+
             fixed4 frag (v2f i) : SV_Target
             {
                 fixed4 lightFinal = calculateLightFinal(i.normalWorld, i.worldPos, i.color, i.normalWorld);
                 fixed4 finalColor = calculateBaseColor(i.worldPos, i.normalWorld, i.color) * lightFinal;
 
-                return lerp(finalColor, _FogColor, getFogScalar(i.worldPos));;
+                return lerp(finalColor, _FogColor, getFogScalar(i.worldPos));
             }
             ENDCG
         }

@@ -615,7 +615,6 @@ GameObject:
   - component: {fileID: 6401412950988296390}
   - component: {fileID: 5530235020650059171}
   - component: {fileID: 3003151759681038883}
-  - component: {fileID: 5482172743982012383}
   m_Layer: 0
   m_Name: ProtoIsland
   m_TagString: Untagged
@@ -698,24 +697,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 1006466092640965451, guid: 31309f2bc306f664abb0df14fb41192c, type: 3}
---- !u!114 &5482172743982012383
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6401955249564601585}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 093307065827bab42a15915570d4bf38, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  filter: {fileID: 6401412950988296390}
-  testObj: {fileID: 4799699771310362229}
-  range: 2.02
-  offset: 0.03
-  scale: 0.31
-  enabled: 0
 --- !u!1 &7809073927652816484
 GameObject:
   m_ObjectHideFlags: 0
@@ -1147,15 +1128,15 @@ PrefabInstance:
     - {fileID: -7511558181221131132, guid: 1e851c14c94d90040b506978b79d1e97, type: 3}
     - {fileID: -5754084199372789682, guid: 1e851c14c94d90040b506978b79d1e97, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 1e851c14c94d90040b506978b79d1e97, type: 3}
---- !u!1 &3710553281167312784 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 1e851c14c94d90040b506978b79d1e97,
-    type: 3}
-  m_PrefabInstance: {fileID: 4593637935029320385}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4050240335938526506 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 1e851c14c94d90040b506978b79d1e97,
+    type: 3}
+  m_PrefabInstance: {fileID: 4593637935029320385}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3710553281167312784 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 1e851c14c94d90040b506978b79d1e97,
     type: 3}
   m_PrefabInstance: {fileID: 4593637935029320385}
   m_PrefabAsset: {fileID: 0}

@@ -55,7 +55,7 @@ internal class MultipurposeAlienTerminal : MonoBehaviour
         Destroy(instance.GetComponent<LargeWorldEntity>());
         Destroy(instance.GetComponent<PrefabIdentifier>());
 
-        handTarget.informGameObjects.Append(gameObject);
+        handTarget.informGameObjects = new GameObject[] { handTarget.gameObject, gameObject };
         handTarget.primaryTooltip = primaryTooltip;
         handTarget.secondaryTooltip = secondaryTooltip;
 

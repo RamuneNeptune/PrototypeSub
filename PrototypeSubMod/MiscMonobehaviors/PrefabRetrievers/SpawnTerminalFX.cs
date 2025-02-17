@@ -20,6 +20,7 @@ internal class SpawnTerminalFX : MonoBehaviour
 
         prefab.SetActive(false);
         GameObject fx = prefab.transform.Find("FX").gameObject;
+        fx.transform.localRotation = Quaternion.identity;
 
         var newFX = Instantiate(fx, transform, false);
         if (terminal)
