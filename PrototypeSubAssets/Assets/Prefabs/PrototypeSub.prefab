@@ -83295,8 +83295,8 @@ MonoBehaviour:
   onActivated:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8864340948958703691}
-        m_MethodName: ToggleEnabled
+      - m_Target: {fileID: 4792689671795778335}
+        m_MethodName: ToggleMap
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -86474,14 +86474,14 @@ GameObject:
   m_Component:
   - component: {fileID: 641635860866624806}
   - component: {fileID: 5055747220581115849}
-  - component: {fileID: 8864340948958703691}
+  - component: {fileID: 4792689671795778335}
   m_Layer: 0
   m_Name: SeaglideMap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &641635860866624806
 Transform:
   m_ObjectHideFlags: 0
@@ -86509,10 +86509,11 @@ MonoBehaviour:
   m_Script: {fileID: 241587388, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mapColor: {r: 0.227451, g: 0.5294118, b: 0.34509805, a: 1}
   mapScale: 0.25
   fadeRadius: 0.6
   fadeSharpness: 5
---- !u!114 &8864340948958703691
+--- !u!114 &4792689671795778335
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -86521,9 +86522,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 7483557656513532704}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 2021026867, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
+  m_Script: {fileID: -400979703, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mapObject: {fileID: 7483557656513532704}
+  positionDisplay: {fileID: 2485137867201152678}
+  maxSpawnWaitFrames: 10
 --- !u!1 &7495092467282473449
 GameObject:
   m_ObjectHideFlags: 0

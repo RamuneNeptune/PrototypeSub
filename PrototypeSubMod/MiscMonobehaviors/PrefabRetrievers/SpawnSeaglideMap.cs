@@ -7,9 +7,12 @@ internal class SpawnSeaglideMap : MonoBehaviour
 {
     private static GameObject SeaglidePrefab;
 
+    [SerializeField] private Color mapColor = new Color(0.23f, 0.57f, 0.85f);
     [SerializeField] private float mapScale = 1f;
     [SerializeField] private float fadeRadius = 0.6f;
     [SerializeField] private float fadeSharpness = 5f;
+
+    private MiniWorld miniWorld;
 
     private IEnumerator Start()
     {
@@ -24,6 +27,12 @@ internal class SpawnSeaglideMap : MonoBehaviour
 
         SeaglidePrefab = seaglideTask.GetResult();
         SpawnMap();
+
+        yield return new WaitForEndOfFrame();
+
+        miniWorld.materialInstance.SetColor(ShaderPropertyID._Color, mapColor);
+        miniWorld.mapColor = mapColor;
+        miniWorld.mapColorNoAlpha = new Color(mapColor.r, mapColor.g, mapColor.b, 0);
     }
 
     private void SpawnMap()
@@ -31,7 +40,7 @@ internal class SpawnSeaglideMap : MonoBehaviour
         var mapController = SeaglidePrefab.GetComponentInChildren<VehicleInterface_MapController>();
         var mapObject = Instantiate(mapController.interfacePrefab);
         mapObject.transform.SetParent(transform, false);
-        var miniWorld = mapObject.GetComponentInChildren<MiniWorld>();
+        miniWorld = mapObject.GetComponentInChildren<MiniWorld>();
         miniWorld.active = true;
         miniWorld.hologramRadius = mapScale * 150f / 10f;
         miniWorld.fadeRadius = fadeRadius;
