@@ -41,9 +41,10 @@ public class TetherManager : MonoBehaviour, IUIElement
     {
         if (Time.time - 0.01f <= timeOpened) return;
 
+        HandleActivation();
+
         if (!menuOpen) return;
 
-        HandleActivation();
         UpdateTetherPoint();
         UpdateIconNotifs();
         UpdateSelection();
@@ -117,6 +118,8 @@ public class TetherManager : MonoBehaviour, IUIElement
 
     private void HandleActivation()
     {
+        if (menuOpen) return;
+
         if (Player.main.currChair != chair) return;
 
         if (!GameInput.GetButtonDown(GameInput.Button.RightHand)) return;
