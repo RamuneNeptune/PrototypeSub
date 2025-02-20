@@ -41,10 +41,9 @@ public class TetherManager : MonoBehaviour, IUIElement
     {
         if (Time.time - 0.01f <= timeOpened) return;
 
-        HandleActivation();
-
         if (!menuOpen) return;
 
+        HandleActivation();
         UpdateTetherPoint();
         UpdateIconNotifs();
         UpdateSelection();

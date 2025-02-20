@@ -57,6 +57,11 @@ internal class SelectionMenuManager : MonoBehaviour, IUIElement
         if (Player.main.currChair == chair) return;
 
         SetMenuEnabled(false);
+
+        if (menuEnabled && GameInput.GetButtonDown(GameInput.Button.RightHand))
+        {
+            SetMenuEnabled(false);
+        }
     }
 
     private void RetrieveIconsToShow()
