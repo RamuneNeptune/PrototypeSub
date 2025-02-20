@@ -8,6 +8,7 @@ internal class GenericRadialAbility : MonoBehaviour, IAbilityIcon
     [SerializeField] private bool showAbility = true;
     [SerializeField] private Sprite sprite;
     [SerializeField] private UnityEvent onActivated;
+    [SerializeField] private UnityEvent onUnselected;
 
     public bool GetShouldShow() => showAbility;
     public Sprite GetSprite() => sprite;
@@ -17,5 +18,11 @@ internal class GenericRadialAbility : MonoBehaviour, IAbilityIcon
         onActivated?.Invoke();
     }
 
-    public void OnSelectedChanged(bool changed) { }
+    public void OnSelectedChanged(bool changed)
+    {
+        if (!changed)
+        {
+            onUnselected?.Invoke();
+        }
+    }
 }
