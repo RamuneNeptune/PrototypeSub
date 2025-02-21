@@ -161,6 +161,7 @@ namespace PrototypeSubMod
             ProtoEngineFacilityRoom.Register();
             PrecursorCross.Register();
             PrecursorRadio.Register();
+            InterceptorIslandTeleporterKey_World.Register();
 
             ProtoPlaque_World.Register();
             ProtoLogo_World.Register();
