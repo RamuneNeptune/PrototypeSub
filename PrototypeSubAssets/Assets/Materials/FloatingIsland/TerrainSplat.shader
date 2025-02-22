@@ -318,7 +318,7 @@
                 fixed4 lightFinal = calculateLightFinal(i.normalWorld, i.worldPos, i.color, i.normalWorld);
                 fixed4 finalColor = calculateBaseColor(i.worldPos, i.normalWorld, i.color) * lightFinal;
 
-                return finalColor;//lerp(finalColor, _FogColor, getFogScalar(i.worldPos));
+                return lerp(finalColor, _FogColor, getFogScalar(i.worldPos));
             }
             ENDCG
         }
