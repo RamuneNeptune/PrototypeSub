@@ -162,6 +162,7 @@ internal class TeleporterOverride : MonoBehaviour
         if (fxMaterial == null)
         {
             TryRetrieveFxMaterial();
+            return;
         }
 
         targetColor = overrideActive ? CurrentOverrideColor : originalColor;
@@ -173,11 +174,11 @@ internal class TeleporterOverride : MonoBehaviour
 
     private void TryRetrieveFxMaterial()
     {
-        GameObject fxPrefab = teleporter.portalFxSpawnPoint.Find("x_PrecursorTeleporter_LargePortal(Clone)/x_Portal").gameObject;
+        var rend = teleporter.portalFxSpawnPoint.GetComponentInChildren<MeshRenderer>(true);
 
-        if (!fxPrefab) return;
+        if (!rend) return;
 
-        fxMaterial = fxPrefab.GetComponent<MeshRenderer>().material;
+        fxMaterial = rend.material;
         originalColor = fxMaterial.GetColor("_ColorOuter");
     }
 
