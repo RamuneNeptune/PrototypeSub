@@ -187,9 +187,10 @@
                 float3 detail3 = triplanarNormal(worldPos, normalDir, _DetailScale3, _DetailNormal3) * vertexColor.b;
 
                 float3 detailCol = (detail1 + detail2 + detail3) / (vertexColor.r + vertexColor.g + vertexColor.b);
-                float alpha = saturate(length(vertexColor.rgb));
+                detailCol = clamp(-1, 1, detailCol);
+                float alpha = length(vertexColor.rgb);
 
-                return lerp(base, detailCol, alpha).xyz;
+                return lerp(base, detailCol, alpha);
             }
 
             float angleBetween(float3 dirA, float3 dirB)
@@ -348,11 +349,11 @@
 
             float4 _LightColor0;
             
-            fixed4 _AmbientColor;
             fixed4 _SpecColor;
+            fixed4 _FogColor;
             half _Shininess;
             fixed4 _RimColor;
-			half _RimPower;
+            half _RimPower;
 
             sampler2D _MainTex;
             sampler2D _BaseNormal;
@@ -455,12 +456,13 @@
 
                 // Combine all detail textures and retain brightness
                 fixed4 detailCol = (detail1 + detail2 + detail3) / (vertexColor.r + vertexColor.g + vertexColor.b);
+                detailCol = saturate(detailCol);
                 float alpha = saturate(length(vertexColor.rgb));
 
                 return lerp(base, detailCol, alpha);
             }
 
-            fixed3 calculateNormalTex(float3 worldPos, float3 normalDir, fixed4 vertexColor)
+            float3 calculateNormalTex(float3 worldPos, float3 normalDir, fixed4 vertexColor)
             {
                 float3 base = triplanarNormal(worldPos, normalDir, _BaseScale, _BaseNormal);
                 float3 detail1 = triplanarNormal(worldPos, normalDir, _DetailScale1, _DetailNormal1) * vertexColor.r;
@@ -468,9 +470,10 @@
                 float3 detail3 = triplanarNormal(worldPos, normalDir, _DetailScale3, _DetailNormal3) * vertexColor.b;
 
                 float3 detailCol = (detail1 + detail2 + detail3) / (vertexColor.r + vertexColor.g + vertexColor.b);
-                float alpha = saturate(length(vertexColor.rgb));
+                detailCol = clamp(-1, 1, detailCol);
+                float alpha = length(vertexColor.rgb);
 
-                return lerp(base, detailCol, alpha).xyz;
+                return lerp(base, detailCol, alpha);
             }
 
             float angleBetween(float3 dirA, float3 dirB)
@@ -559,7 +562,7 @@
                 newNormalDirection = lerp(normalWorld, newNormalDirection, _BumpStrength);
 
 				//Lighting
-				float3 lightingModel = max(0.0, dot(newNormalDirection, lightDir));
+				float lightingModel = max(0.0, dot(newNormalDirection, lightDir));
 				float3 diffuseReflection = atten * _LightColor0.xyz * lightingModel;
 
 				float3 specularNoShiny = atten * max(0.0, dot(reflect(-lightDir, newNormalDirection), viewDir)) * lightingModel;
