@@ -32,6 +32,7 @@ internal class InterceptorReactorSequenceManager : MonoBehaviour
         teleporter.StartTeleportPlayer(islandTeleportPos, Camera.main.transform.forward);
         LargeWorldStreamer_Patches.SetOverwriteCamPos(true, transform.position);
         InterceptorIslandManager.Instance.OnTeleportToIsland(voidTeleportPos, this);
+        InterceptorIslandManager.Instance.UpdateSeaglideLights(true);
 
         WeatherCompatManager.SetWeatherEnabled(false);
         WeatherCompatManager.SetWeatherClear();
@@ -50,6 +51,7 @@ internal class InterceptorReactorSequenceManager : MonoBehaviour
 
     public void OnTeleportToVoid()
     {
+        InterceptorIslandManager.Instance.UpdateSeaglideLights(false);
         StartCoroutine(TeleportBackAfterDuration());
     }
 

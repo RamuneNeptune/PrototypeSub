@@ -69,4 +69,17 @@ internal class InterceptorIslandManager : MonoBehaviour
 
     public Vector3 GetRespawnPoint() => respawnPoint.position;
     public bool GetIslandEnabled() => islandObjects.activeSelf;
+
+    public void UpdateSeaglideLights(bool forceRendererd)
+    {
+        var sealigdes = Inventory.main.container.GetItems(TechType.Seaglide);
+        foreach (var item in sealigdes)
+        {
+            var lights = item.item.transform.Find("lights_parent").GetComponentsInChildren<Light>(true);
+            foreach (var light in lights)
+            {
+                light.renderMode = forceRendererd ? LightRenderMode.ForcePixel : LightRenderMode.Auto;
+            }
+        }
+    }
 }
