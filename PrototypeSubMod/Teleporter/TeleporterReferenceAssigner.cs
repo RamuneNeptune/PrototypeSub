@@ -10,6 +10,8 @@ internal class TeleporterReferenceAssigner : MonoBehaviour
 
     [SerializeField] private PrecursorTeleporter teleporter;
     [SerializeField, Tooltip("Can be null if you don't want to swap the mesh")] private Mesh fxMesh;
+    [SerializeField] private float lightRangeOverride = -1;
+    [SerializeField] private Vector3 lightLocalPos;
 
     private void OnValidate()
     {
@@ -34,8 +36,8 @@ internal class TeleporterReferenceAssigner : MonoBehaviour
         }
 
         var light = fxPrefab.GetComponentInChildren<Light>();
-        light.range = 5f;
-        light.transform.localPosition = new Vector3(0, 1.5f, -2f);
+        light.range = lightRangeOverride < 0 ? light.range : 5f;
+        light.transform.localPosition = lightLocalPos;
 
         teleporter.portalFxPrefab = fxPrefab;
         teleporter.cinematicEndControllerPrefabReference = precursorTp.cinematicEndControllerPrefabReference;

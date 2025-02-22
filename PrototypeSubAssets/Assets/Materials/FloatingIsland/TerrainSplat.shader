@@ -542,7 +542,7 @@
 
                 float normDist = distance / range;
                 float remappedDist = lerp(0, 5000, invLerp(0, range * range, normDist * normDist));
-			    float atten = (range / 10) / (1 + distance * distance);
+			    float atten = (range / 10) / (1 + distance * distance * length(_LightColor0));
                 return float4(lightDir, atten);
             }
             #endif
