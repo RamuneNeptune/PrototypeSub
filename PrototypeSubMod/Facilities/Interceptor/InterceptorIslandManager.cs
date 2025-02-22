@@ -10,14 +10,15 @@ internal class InterceptorIslandManager : MonoBehaviour
 {
     public static InterceptorIslandManager Instance { get; private set; }
 
+    [SerializeField] private PrecursorTeleporter teleporter;
     [SerializeField] private MultipurposeAlienTerminal terminal;
-    [SerializeField] private InterfloorTeleporter teleporter;
     [SerializeField] private GameObject islandObjects;
     [SerializeField] private DummyTechType emergencyWarpTechType;
     [SerializeField] private Transform respawnPoint;
     [SerializeField] private string emergencyWarpEncyKey;
 
     private Vector3 voidTeleportPos;
+    private Vector3 originalTeleportPos;
     private InterceptorReactorSequenceManager sequenceManager;
 
     private void Awake()
@@ -29,30 +30,15 @@ internal class InterceptorIslandManager : MonoBehaviour
 
     private void Start()
     {
+        originalTeleportPos = teleporter.warpToPos;
         terminal.onTerminalInteracted += OnTerminalInteracted;
         SetIslandEnabled(false);
     }
 
     private void OnTerminalInteracted()
     {
-        StartCoroutine(TeleportPlayerDelayed());
-    }
-
-    private IEnumerator TeleportPlayerDelayed()
-    {
         KnownTech.Add(emergencyWarpTechType.TechType);
         PDAEncyclopedia.Add(emergencyWarpEncyKey, true);
-
-        yield return new WaitForSeconds(10f);
-
-        teleporter.StartTeleportPlayer(voidTeleportPos, Camera.main.transform.forward);
-        sequenceManager.OnTeleportToVoid();
-        GUIController.SetHidePhase(GUIController.HidePhase.HUD);
-        GUIController_Patches.SetDenyHideCycling(true);
-
-        yield return new WaitForSeconds(1f);
-
-        SetIslandEnabled(false);
     }
 
     public void SetIslandEnabled(bool enabled)
@@ -65,6 +51,31 @@ internal class InterceptorIslandManager : MonoBehaviour
         voidTeleportPos = voidPosition;
         this.sequenceManager = sequenceManager;
         SetIslandEnabled(true);
+    }
+
+    // Called via PrecursorTeleporterCollider
+    public void BeginTeleportPlayer()
+    {
+        if (!Plugin.GlobalSaveData.reactorSequenceComplete)
+        {
+            teleporter.warpToPos = voidTeleportPos;
+            StartCoroutine(OnTeleportPlayer());
+        }
+        else
+        {
+            teleporter.warpToPos = originalTeleportPos;
+        }
+    }
+
+    private IEnumerator OnTeleportPlayer()
+    {
+        sequenceManager.OnTeleportToVoid();
+        GUIController.SetHidePhase(GUIController.HidePhase.HUD);
+        GUIController_Patches.SetDenyHideCycling(true);
+
+        yield return new WaitForSeconds(1f);
+
+        SetIslandEnabled(false);
     }
 
     public Vector3 GetRespawnPoint() => respawnPoint.position;
