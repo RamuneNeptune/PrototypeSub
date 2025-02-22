@@ -44,6 +44,7 @@ internal class InterceptorIslandManager : MonoBehaviour
     public void SetIslandEnabled(bool enabled)
     {
         islandObjects.SetActive(enabled);
+        if (enabled) UpdateTeleportPos();
     }
 
     public void OnTeleportToIsland(Vector3 voidPosition, InterceptorReactorSequenceManager sequenceManager)
@@ -56,10 +57,14 @@ internal class InterceptorIslandManager : MonoBehaviour
     // Called via PrecursorTeleporterCollider
     public void BeginTeleportPlayer()
     {
+        StartCoroutine(OnTeleportPlayer());
+    }
+
+    public void UpdateTeleportPos()
+    {
         if (!Plugin.GlobalSaveData.reactorSequenceComplete)
         {
             teleporter.warpToPos = voidTeleportPos;
-            StartCoroutine(OnTeleportPlayer());
         }
         else
         {
@@ -69,7 +74,7 @@ internal class InterceptorIslandManager : MonoBehaviour
 
     private IEnumerator OnTeleportPlayer()
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(2f);
 
         sequenceManager.OnTeleportToVoid();
         GUIController.SetHidePhase(GUIController.HidePhase.HUD);
