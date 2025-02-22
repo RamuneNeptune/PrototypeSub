@@ -19,7 +19,6 @@ internal class InterceptorIslandManager : MonoBehaviour
 
     private Vector3 voidTeleportPos;
     private Vector3 originalTeleportPos;
-    private InterceptorReactorSequenceManager sequenceManager;
 
     private void Awake()
     {
@@ -47,10 +46,9 @@ internal class InterceptorIslandManager : MonoBehaviour
         if (enabled) UpdateTeleportPos();
     }
 
-    public void OnTeleportToIsland(Vector3 voidPosition, InterceptorReactorSequenceManager sequenceManager)
+    public void OnTeleportToIsland(Vector3 voidPosition)
     {
         voidTeleportPos = voidPosition;
-        this.sequenceManager = sequenceManager;
         SetIslandEnabled(true);
     }
 
@@ -76,7 +74,7 @@ internal class InterceptorIslandManager : MonoBehaviour
     {
         yield return new WaitForSeconds(2f);
 
-        sequenceManager.OnTeleportToVoid();
+        InterceptorReactorSequenceManager.OnTeleportToVoid();
         GUIController.SetHidePhase(GUIController.HidePhase.HUD);
         GUIController_Patches.SetDenyHideCycling(true);
 

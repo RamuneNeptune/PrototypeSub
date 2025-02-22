@@ -1,4 +1,5 @@
-﻿using PrototypeSubMod.Compatibility;
+﻿using Nautilus.Extensions;
+using PrototypeSubMod.Compatibility;
 using PrototypeSubMod.MiscMonobehaviors.SubSystems;
 using PrototypeSubMod.Patches;
 using System.Collections;
@@ -8,6 +9,11 @@ namespace PrototypeSubMod.Facilities.Interceptor;
 
 internal class InterceptorReactorSequenceManager : MonoBehaviour
 {
+    private static readonly Vector3 VoidTeleportPos = new Vector3(-1590, -562, -288);
+
+    private static InterfloorTeleporter Teleporter;
+    private static Vector3 MostRecentReturnPos;
+
     [SerializeField] private MultipurposeAlienTerminal activationTerminal;
     [SerializeField] private InterfloorTeleporter teleporter;
     [SerializeField] private Transform returnPos;
@@ -22,26 +28,38 @@ internal class InterceptorReactorSequenceManager : MonoBehaviour
         }
         else
         {
-            activationTerminal.onTerminalInteracted += StartReactorSequence;
+            activationTerminal.onTerminalInteracted += () =>
+            {
+                MostRecentReturnPos = returnPos.position;
+                StartReactorSequence();
+            };
+        }
+
+        if (!Teleporter)
+        {
+            var teleporterHolder = new GameObject("IslandTeleporterHolder");
+            Teleporter = teleporterHolder.AddComponent<InterfloorTeleporter>().CopyComponent(teleporter);
         }
     }
 
-    public void StartReactorSequence()
+    public static void StartReactorSequence()
     {
         IngameMenu_Patches.SetDenySaving(true);
-        teleporter.StartTeleportPlayer(islandTeleportPos, Camera.main.transform.forward);
-        LargeWorldStreamer_Patches.SetOverwriteCamPos(true, transform.position);
-        InterceptorIslandManager.Instance.OnTeleportToIsland(voidTeleportPos, this);
+        BiomeGoalTracker_Patches.SetTrackingBlocked(true);
+
+        Teleporter.StartTeleportPlayer(InterceptorIslandManager.Instance.GetRespawnPoint(), Camera.main.transform.forward);
+        LargeWorldStreamer_Patches.SetOverwriteCamPos(true, Camera.main.transform.position);
+        InterceptorIslandManager.Instance.OnTeleportToIsland(VoidTeleportPos);
         InterceptorIslandManager.Instance.UpdateSeaglideLights(true);
 
         WeatherCompatManager.SetWeatherEnabled(false);
         WeatherCompatManager.SetWeatherClear();
     }
 
-    public void EndReactorSequence()
+    public static void EndReactorSequence()
     {
         IngameMenu_Patches.SetDenySaving(false);
-        teleporter.StartTeleportPlayer(returnPos.position, returnPos.forward);
+        Teleporter.StartTeleportPlayer(MostRecentReturnPos, Camera.main.transform.forward);
         Plugin.GlobalSaveData.reactorSequenceComplete = true;
         LargeWorldStreamer_Patches.SetOverwriteCamPos(false, Vector3.zero);
         GUIController_Patches.SetDenyHideCycling(false);
@@ -49,16 +67,17 @@ internal class InterceptorReactorSequenceManager : MonoBehaviour
         WeatherCompatManager.SetWeatherEnabled(true);
 
         Player_Patches.SetOxygenReqOverride(false, 0);
+        BiomeGoalTracker_Patches.SetTrackingBlocked(false);
     }
 
-    public void OnTeleportToVoid()
+    public static void OnTeleportToVoid()
     {
         InterceptorIslandManager.Instance.UpdateSeaglideLights(false);
-        StartCoroutine(TeleportBackAfterDuration());
+        UWE.CoroutineHost.StartCoroutine(TeleportBackAfterDuration());
         Player_Patches.SetOxygenReqOverride(true, 0);
     }
 
-    private IEnumerator TeleportBackAfterDuration()
+    private static IEnumerator TeleportBackAfterDuration()
     {
         yield return new WaitForSeconds(20f);
 
@@ -69,5 +88,7 @@ internal class InterceptorReactorSequenceManager : MonoBehaviour
     {
         IngameMenu_Patches.SetDenySaving(false);
         Player_Patches.SetOxygenReqOverride(false, 0);
+        LargeWorldStreamer_Patches.SetOverwriteCamPos(false, Vector3.zero);
+        BiomeGoalTracker_Patches.SetTrackingBlocked(false);
     }
 }
