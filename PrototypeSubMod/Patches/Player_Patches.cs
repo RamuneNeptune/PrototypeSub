@@ -103,9 +103,18 @@ internal class Player_Patches
     private const int TUNNEL_REQ_OX = 68;
     private const int MIN_OX_REQ = 135;
 
+    private static bool OverrideOxygen;
+    private static float OverrideOxygenAmount;
+
     [HarmonyPatch(nameof(Player.GetOxygenPerBreath)), HarmonyPostfix]
     private static void GetOxygenPerBreath_Postfix(Player __instance, ref float __result)
     {
+        if (OverrideOxygen)
+        {
+            __result = OverrideOxygenAmount;
+            return;
+        }
+
         var biome = __instance.GetBiomeString();
         bool inTunnel = biome.StartsWith("protodefensetunnel");
 
@@ -124,6 +133,12 @@ internal class Player_Patches
         }
 
         __result *= 1 / dividend;
+    }
+
+    public static void SetOxygenReqOverride(bool overrideOx, float overrideAmount)
+    {
+        OverrideOxygen = overrideOx;
+        OverrideOxygenAmount = overrideAmount;
     }
 
     [HarmonyPatch(nameof(Player.ExitPilotingMode)), HarmonyPostfix]

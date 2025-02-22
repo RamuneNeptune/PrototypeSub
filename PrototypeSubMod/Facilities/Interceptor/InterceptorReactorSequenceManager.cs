@@ -47,12 +47,15 @@ internal class InterceptorReactorSequenceManager : MonoBehaviour
         GUIController_Patches.SetDenyHideCycling(false);
         GUIController.SetHidePhase(GUIController.HidePhase.None);
         WeatherCompatManager.SetWeatherEnabled(true);
+
+        Player_Patches.SetOxygenReqOverride(false, 0);
     }
 
     public void OnTeleportToVoid()
     {
         InterceptorIslandManager.Instance.UpdateSeaglideLights(false);
         StartCoroutine(TeleportBackAfterDuration());
+        Player_Patches.SetOxygenReqOverride(true, 0);
     }
 
     private IEnumerator TeleportBackAfterDuration()
@@ -65,5 +68,6 @@ internal class InterceptorReactorSequenceManager : MonoBehaviour
     private void OnDestroy()
     {
         IngameMenu_Patches.SetDenySaving(false);
+        Player_Patches.SetOxygenReqOverride(false, 0);
     }
 }
