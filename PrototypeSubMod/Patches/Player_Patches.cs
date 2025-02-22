@@ -45,6 +45,23 @@ internal class Player_Patches
         __result = InterceptorIslandManager.Instance.GetRespawnPoint();
     }
 
+    [HarmonyPatch(nameof(Player.MovePlayerToRespawnPoint)), HarmonyPrefix]
+    private static bool MovePlayerToRespawnPoint_Prefix(Player __instance)
+    {
+        if (!InterceptorIslandManager.Instance.GetIslandEnabled() || Plugin.GlobalSaveData.reactorSequenceComplete) return true;
+
+        __instance.SetPosition(InterceptorIslandManager.Instance.GetRespawnPoint());
+        __instance.SetCurrentSub(null);
+        return false;
+    }
+
+    public static Vector3 SwapRespawnPosIfInIsland(Vector3 oldSpawnPos)
+    {
+        if (!InterceptorIslandManager.Instance.GetIslandEnabled() || Plugin.GlobalSaveData.reactorSequenceComplete) return oldSpawnPos;
+
+        return InterceptorIslandManager.Instance.GetRespawnPoint();
+    }
+
     [HarmonyPatch(nameof(Player.CheckTeleportationComplete)), HarmonyPostfix]
     private static void CheckForTeleportationComplete_Postfix()
     {
