@@ -3,13 +3,15 @@
     Properties
     {
         _AmbientColor ("Ambient Color", Color) = (1,1,1,1)
+        _AmbientOffset ("Ambient Offset", Range(-1, 1)) = 0
+        _AmbientMin ("Ambient Min", Range(0, 1)) = 0.5
         _FogColor ("Fog Color", Color) = (1, 1, 1, 1)
         _FogMaxDist ("Fog Max Dist", Float) = 50
         _SpecColor ("Specular Color", Color) = (1,1,1,1)
         _Shininess ("Shininess", Float) = 10
         _RimColor ("Rim Color", Color) = (1.0,1.0,1.0,1.0)
 		_RimPower ("Rim Power", Range(0, 9.99)) = 3
-        _BumpStrength ("Normal Strength", Range(0, 1)) = 0.5
+        _BumpStrength ("Normal Strength", Range(0, 1)) = 1
         [NoScaleOffset] _MainTex ("Albedo (RGB)", 2D) = "white" {}
         [NoScaleOffset] _BaseNormal ("Base Normal", 2D) = "bump" {}
         _BaseScale ("Base Scale", Float) = 1
@@ -87,6 +89,8 @@
             half _DetailScale1;
             half _DetailScale2;
             half _DetailScale3;
+            half _AmbientOffset;
+            half _AmbientMin;
 
             fixed _NightMultiplier = 1;
 
@@ -289,9 +293,15 @@
 				float rim = 1 - saturate(dot(viewDir, newNormalDirection));
 				float3 rimLighting = saturate(dot(newNormalDirection, lightDir)) * pow(rim, 10 - _RimPower) * _RimColor * atten * _LightColor0.xyz;
 
-				float3 lightFinal = max(rimLighting + diffuseReflection + specularWithColor, _AmbientColor.rgb);
+                float ambientMul = dot(newNormalDirection, fixed3(0, 1, 0));
+                ambientMul = invLerp(-1, _AmbientMin, ambientMul);
+                ambientMul = lerp(_AmbientOffset, 1, ambientMul);
 
-				return float4(lightFinal, 1);
+                fixed3 ambientCol = saturate(_AmbientColor * ambientMul);
+
+				fixed3 lightFinal = max(rimLighting + diffuseReflection + specularWithColor, ambientCol);
+
+				return fixed4(lightFinal, 1);
             }
 
             fixed getFogScalar(float3 posWorld)
@@ -308,7 +318,7 @@
                 fixed4 lightFinal = calculateLightFinal(i.normalWorld, i.worldPos, i.color, i.normalWorld);
                 fixed4 finalColor = calculateBaseColor(i.worldPos, i.normalWorld, i.color) * lightFinal;
 
-                return lerp(finalColor, _FogColor, getFogScalar(i.worldPos));
+                return finalColor;//lerp(finalColor, _FogColor, getFogScalar(i.worldPos));
             }
             ENDCG
         }
