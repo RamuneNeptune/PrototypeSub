@@ -4,6 +4,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 using UWE;
+using static PrecursorKeyTerminal;
 
 namespace PrototypeSubMod.Facilities;
 
@@ -64,15 +65,19 @@ internal class MultipurposeKeyTerminal : MonoBehaviour
         Destroy(instance.GetComponent<PrefabIdentifier>());
     }
 
-    private PrecursorKeyTerminal.PrecursorKeyType CreateOrRetrieveKeyType(TechType type)
+    private PrecursorKeyType CreateOrRetrieveKeyType(TechType type)
     {
-        if (Enum.TryParse(type.ToString(), true, out PrecursorKeyTerminal.PrecursorKeyType result))
+        PrecursorKeyType value;
+        try
         {
-            return result;
+            value = (PrecursorKeyType)Enum.Parse(typeof(PrecursorKeyType), type.ToString());
+            return value;
         }
-
-        var builder = EnumHandler.AddEntry<PrecursorKeyTerminal.PrecursorKeyType>(type.ToString());
-        return builder.Value;
+        catch
+        {
+            var builder = EnumHandler.AddEntry<PrecursorKeyType>(type.ToString());
+            return builder.Value;
+        }
     }
 
     // Called via BroadcastMessage on PrecursorKeyTerminal
