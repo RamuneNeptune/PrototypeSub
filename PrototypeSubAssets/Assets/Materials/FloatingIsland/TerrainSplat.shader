@@ -3,8 +3,8 @@
     Properties
     {
         _AmbientColor ("Ambient Color", Color) = (1,1,1,1)
-        _AmbientOffset ("Ambient Offset", Range(-1, 1)) = 0
-        _AmbientMin ("Ambient Min", Range(0, 1)) = 0.5
+        _AmbientMin ("Ambient Min", Float) = 0.5
+        _AmbientMax ("Ambient Max", Float) = 0.5
         _FogColor ("Fog Color", Color) = (1, 1, 1, 1)
         _FogMaxDist ("Fog Max Dist", Float) = 50
         _SpecColor ("Specular Color", Color) = (1,1,1,1)
@@ -89,8 +89,8 @@
             half _DetailScale1;
             half _DetailScale2;
             half _DetailScale3;
-            half _AmbientOffset;
             half _AmbientMin;
+            half _AmbientMax;
 
             fixed _NightMultiplier = 1;
 
@@ -293,13 +293,12 @@
 				float rim = 1 - saturate(dot(viewDir, newNormalDirection));
 				float3 rimLighting = saturate(dot(newNormalDirection, lightDir)) * pow(rim, 10 - _RimPower) * _RimColor * atten * _LightColor0.xyz;
 
-                float ambientMul = dot(newNormalDirection, fixed3(0, 1, 0));
-                ambientMul = invLerp(-1, _AmbientMin, ambientMul);
-                ambientMul = lerp(_AmbientOffset, 1, ambientMul);
+                float ambientMul = invLerp(_AmbientMin, _AmbientMax, newNormalDirection.y);
+                ambientMul = smoothstep(0, 1, ambientMul);
 
                 fixed3 ambientCol = saturate(_AmbientColor * ambientMul);
 
-				fixed3 lightFinal = max(rimLighting + diffuseReflection + specularWithColor, ambientCol);
+				fixed3 lightFinal = max(rimLighting + diffuseReflection + specularWithColor, saturate(_AmbientColor * ambientMul));
 
 				return fixed4(lightFinal, 1);
             }
