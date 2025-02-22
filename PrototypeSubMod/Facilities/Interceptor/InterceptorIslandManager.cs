@@ -69,6 +69,8 @@ internal class InterceptorIslandManager : MonoBehaviour
 
     private IEnumerator OnTeleportPlayer()
     {
+        yield return new WaitForSeconds(3f);
+
         sequenceManager.OnTeleportToVoid();
         GUIController.SetHidePhase(GUIController.HidePhase.HUD);
         GUIController_Patches.SetDenyHideCycling(true);
