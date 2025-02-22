@@ -57,6 +57,7 @@ internal class MultipurposeKeyTerminal : MonoBehaviour
         instance.SetActive(true);
 
         var keyTerminal = instance.GetComponent<PrecursorKeyTerminal>();
+        instance.GetComponent<TechTag>().type = TechType.None;
         keyTerminal.acceptKeyType = keyType;
         var glyphRenderer = keyTerminal.transform.Find("Precursor_key_terminal_01/glyph/Face_F").GetComponent<Renderer>();
 
