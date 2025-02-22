@@ -38,9 +38,13 @@ internal class MultipurposeKeyTerminal : MonoBehaviour
     private void SpawnPrefab(GameObject prefab)
     {
         TechType techType = TechType.None;
-        if (!Enum.TryParse(this.techType, out techType))
+        try
         {
-            throw new Exception($"Unable to parse tech type with name {this.techType}");
+            techType = (TechType)Enum.Parse(typeof(TechType), this.techType);
+        }
+        catch (Exception e)
+        {
+            throw e;
         }
 
         var keyType = CreateOrRetrieveKeyType(techType);
