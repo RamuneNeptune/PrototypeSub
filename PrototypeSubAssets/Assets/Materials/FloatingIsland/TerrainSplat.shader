@@ -30,10 +30,42 @@
     {
         Pass
         {
-            Tags { "LightMode" = "ForwardBase" "Queue"="Transparent" "IgnoreProjector"="True" "RenderType"="Transparent" }
-            Blend One Zero
+            CGPROGRAM
+            #pragma vertex vert
+            #pragma fragment frag
+
+            struct appdata
+            {
+                float4 vertex : POSITION;
+            };
+
+            struct v2f
+            {
+                float4 pos : SV_POSITION;
+            };
+
+            v2f vert (appdata v)
+            {
+                v2f o;
+
+                o.pos = UnityObjectToClipPos(v.vertex);
+
+                return o;
+            }
+
+            fixed4 frag(v2f i) : SV_Target
+            {
+                return (0, 0, 0, 1);
+            }
+            ENDCG
+        }
+        Pass
+        {
+            Tags { "LightMode" = "ForwardBase" "Queue"="Geometry" "IgnoreProjector"="True" "RenderType"="Geometry" }
+            //Blend One Zero
             LOD 100
             ZWrite On
+            ZTest LEqual
 
             CGPROGRAM
             #pragma vertex vert
@@ -57,7 +89,7 @@
 
             struct v2f
             {
-                float4 vertex : SV_POSITION;
+                float4 pos : SV_POSITION;
                 fixed4 color : COLOR;
                 float2 uv : TEXCOORD0;
                 float3 worldPos : TEXCOORD1;
@@ -98,7 +130,7 @@
             {
                 v2f o;
 
-                o.vertex = UnityObjectToClipPos(v.vertex);
+                o.pos = UnityObjectToClipPos(v.vertex);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
                 o.worldPos = mul(unity_ObjectToWorld, v.vertex);
                 o.color = v.color;
