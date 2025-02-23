@@ -9,6 +9,7 @@ using Nautilus.Assets.PrefabTemplates;
 using Nautilus.Handlers;
 using Nautilus.Utility;
 using Newtonsoft.Json;
+using PrototypeSubMod.Commands;
 using PrototypeSubMod.Compatibility;
 using PrototypeSubMod.MiscMonobehaviors.Materials;
 using PrototypeSubMod.Patches;
@@ -96,6 +97,7 @@ namespace PrototypeSubMod
             RegisterDependantPatches();
             InitializeSlotMapping();
 
+            ConsoleCommandsHandler.RegisterConsoleCommands(typeof(PrototypeCommands));
             LoadEasyPrefabs.LoadPrefabs(AssetBundle);
             ROTACompatManager.AddCompatiblePowerSources();
             WeatherCompatManager.Initialize();
