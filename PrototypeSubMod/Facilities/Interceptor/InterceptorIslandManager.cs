@@ -55,6 +55,8 @@ internal class InterceptorIslandManager : MonoBehaviour
     // Called via PrecursorTeleporterCollider
     public void BeginTeleportPlayer()
     {
+        if (!teleporter.isOpen) return;
+
         StartCoroutine(OnTeleportPlayer());
     }
 
