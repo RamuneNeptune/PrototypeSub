@@ -38,7 +38,12 @@ internal class InterceptorReactorSequenceManager : MonoBehaviour
         if (!Teleporter)
         {
             var teleporterHolder = new GameObject("IslandTeleporterHolder");
+            teleporterHolder.transform.position = new Vector3(0, 50, 0);
+
+            var col = teleporterHolder.AddComponent<SphereCollider>();
+            col.radius = 0.1f;
             Teleporter = teleporterHolder.AddComponent<InterfloorTeleporter>().CopyComponent(teleporter);
+            Teleporter.SetCollider(col);
         }
     }
 
@@ -48,7 +53,7 @@ internal class InterceptorReactorSequenceManager : MonoBehaviour
         BiomeGoalTracker_Patches.SetTrackingBlocked(true);
 
         Teleporter.StartTeleportPlayer(InterceptorIslandManager.Instance.GetRespawnPoint(), Camera.main.transform.forward);
-        LargeWorldStreamer_Patches.SetOverwriteCamPos(true, Camera.main.transform.position);
+        LargeWorldStreamer_Patches.SetOverwriteCamPos(true, InterceptorIslandManager.Instance.GetRespawnPoint());
         InterceptorIslandManager.Instance.OnTeleportToIsland(VoidTeleportPos);
         InterceptorIslandManager.Instance.UpdateSeaglideLights(true);
 
@@ -75,6 +80,8 @@ internal class InterceptorReactorSequenceManager : MonoBehaviour
         InterceptorIslandManager.Instance.UpdateSeaglideLights(false);
         UWE.CoroutineHost.StartCoroutine(TeleportBackAfterDuration());
         Player_Patches.SetOxygenReqOverride(true, 0);
+
+        LargeWorldStreamer_Patches.SetOverwriteCamPos(true, MostRecentReturnPos);
     }
 
     private static IEnumerator TeleportBackAfterDuration()
@@ -82,13 +89,5 @@ internal class InterceptorReactorSequenceManager : MonoBehaviour
         yield return new WaitForSeconds(20f);
 
         EndReactorSequence();
-    }
-
-    private void OnDestroy()
-    {
-        IngameMenu_Patches.SetDenySaving(false);
-        Player_Patches.SetOxygenReqOverride(false, 0);
-        LargeWorldStreamer_Patches.SetOverwriteCamPos(false, Vector3.zero);
-        BiomeGoalTracker_Patches.SetTrackingBlocked(false);
     }
 }

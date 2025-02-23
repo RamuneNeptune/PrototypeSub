@@ -68,6 +68,11 @@ internal class InterfloorTeleporter : MonoBehaviour
         UWE.CoroutineHost.StartCoroutine(ActuallyTeleport(position, lookDir));
     }
 
+    public void SetCollider(Collider col)
+    {
+        collider = col;
+    }
+
     private IEnumerator ActuallyTeleport(Vector3 position, Vector3 lookDir)
     {
         yield return new WaitForSeconds(FADE_IN_DURATION + 0.1f);
