@@ -1,4 +1,5 @@
 ﻿using Story;
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -23,9 +24,28 @@ internal class uGUI_FirstInteractScreen : TerminalScreen
     [SerializeField] private float[] glitchTimePoints;
     [SerializeField] private float glitchDuration;
 
+    [Header("Exposition")]
+    [SerializeField] private VoiceNotificationManager manager;
+    [SerializeField] private ExpositionData[] datas;
+
+    [SerializeField, HideInInspector] public VoiceNotification[] notifications;
+    [SerializeField, HideInInspector] public float[] durations;
+
     private float currentLoadingTime;
     private float previousLoadingTime;
     private bool loadingStarted;
+
+    private void OnValidate()
+    {
+        notifications = new VoiceNotification[datas.Length];
+        durations = new float[datas.Length];
+
+        for (int i = 0; i < datas.Length; i++)
+        {
+            notifications[i] = datas[i].voiceline;
+            durations[i] = datas[i].duration;
+        }
+    }
 
     private void Start()
     {
@@ -74,8 +94,8 @@ internal class uGUI_FirstInteractScreen : TerminalScreen
         }
         else
         {
-            screenManager.BeginWaitForBuildStage();
             loadingStarted = false;
+            StartCoroutine(OrionExposition());
         }
 
         HandleGlitchPoints();
@@ -104,5 +124,24 @@ internal class uGUI_FirstInteractScreen : TerminalScreen
         yield return new WaitForSeconds(glitchDuration);
 
         backgroundImage.sprite = normalSprite;
+    }
+
+    private IEnumerator OrionExposition()
+    {
+        for (int i = 0; i < notifications.Length; i++)
+        {
+            manager.PlayVoiceNotification(notifications[i], false, true);
+
+            yield return new WaitForSeconds(durations[i]);
+        }
+
+        screenManager.BeginWaitForBuildStage();
+    }
+
+    [Serializable]
+    private class ExpositionData
+    {
+        public VoiceNotification voiceline;
+        public float duration;
     }
 }
