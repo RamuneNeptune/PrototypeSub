@@ -34,6 +34,7 @@ internal class uGUI_FirstInteractScreen : TerminalScreen
     private float currentLoadingTime;
     private float previousLoadingTime;
     private bool loadingStarted;
+    private bool voicelinesStarted;
 
     private void OnValidate()
     {
@@ -91,11 +92,16 @@ internal class uGUI_FirstInteractScreen : TerminalScreen
             float fillAmount = progressOverTime.Evaluate(normalizedProgress);
             loadingBar.fillAmount = fillAmount;
             logoImage.material.SetFloat("_LoadProgress", fillAmount);
+
+            if (currentLoadingTime >= loadingTime * 0.75f && !voicelinesStarted)
+            {
+                voicelinesStarted = true;
+                StartCoroutine(OrionExposition());
+            }
         }
         else
         {
             loadingStarted = false;
-            StartCoroutine(OrionExposition());
         }
 
         HandleGlitchPoints();
@@ -128,6 +134,8 @@ internal class uGUI_FirstInteractScreen : TerminalScreen
 
     private IEnumerator OrionExposition()
     {
+        PDAEncyclopedia.Add("ProtoFacilitiesEncy", true);
+
         for (int i = 0; i < notifications.Length; i++)
         {
             manager.PlayVoiceNotification(notifications[i], false, true);

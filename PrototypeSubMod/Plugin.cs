@@ -189,12 +189,6 @@ namespace PrototypeSubMod
             new CustomPoster("HamCheesePoster1", null, null, AssetBundle.LoadAsset<Texture2D>("HamAndCheesePoster1_Small"), regular1Ico);
             Texture2D regular2Ico = AssetBundle.LoadAsset<Texture2D>("RegularIcon2");
             new CustomPoster("HamCheesePoster2", null, null, AssetBundle.LoadAsset<Texture2D>("RegularPoster2"), regular2Ico, TechType.PosterExoSuit1);
-
-            /*
-            CustomPing.CreatePing("ProtoEngineFacilityPing", EngineFacilityPingType, new Vector3(307, -1155, 110), new Color(0.54f, 1f, 0.54f));
-            CustomPing.CreatePing("ProtoDefenseFacilityPing", DefenseFacilityPingType, new Vector3(692, -481, -1414), new Color(1f, 0.25f, 0.25f));
-            CustomPing.CreatePing("StoryEndPing", PingType.Signal, STORY_END_POS, minDist: 150, fadeRange: 25);
-            */
         }
 
         private void RegisterEncyEntries()
@@ -249,6 +243,12 @@ namespace PrototypeSubMod
             string auditTitle = Language.main.Get("DefenseFacilityLogs_Title");
             string auditBody = Language.main.Get("DefenseFacilityLogs_Body");
             PDAHandler.AddEncyclopediaEntry("DefenseFacilityAuditEncy", "DownloadedData/Precursor/Terminal", auditTitle, auditBody, unlockSound: PDAHandler.UnlockBasic);
+            #endregion
+
+            #region Facility Locations
+            string locationsTitle = Language.main.Get("ProtoFacilitiesEncy_Title");
+            string locationsBody = Language.main.Get("ProtoFacilitiesEncy_Body");
+            PDAHandler.AddEncyclopediaEntry("ProtoFacilitiesEncy", "DownloadedData/Precursor/Terminal", locationsTitle, locationsBody, unlockSound: PDAHandler.UnlockBasic);
             #endregion
 
             RegisterEncyEntries("DownloadedData/Precursor/ProtoUpgrades", PDAHandler.UnlockBasic, new()
