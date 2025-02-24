@@ -16,6 +16,9 @@ public class TetherManager : MonoBehaviour, IUIElement
     [SerializeField] private CircularMeshApplier selectionHighlight;
     [SerializeField] private IconDistributor distributor;
     [SerializeField] private Image selectionPreview;
+    [SerializeField] private FMODAsset openSFX;
+    [SerializeField] private FMODAsset hoverSFX;
+    [SerializeField] private FMODAsset selectSFX;
     [SerializeField] private float tetherSensitivity;
     [SerializeField] private float tetherLength;
     [SerializeField] private float cursorAngleMultiplier;
@@ -76,6 +79,8 @@ public class TetherManager : MonoBehaviour, IUIElement
             {
                 currentIcon.OnTetherEnter();
             }
+
+            FMODUWE.PlayOneShot(hoverSFX, transform.position);
         }
 
         if (!currentIcon)
@@ -103,7 +108,7 @@ public class TetherManager : MonoBehaviour, IUIElement
         SelectIcon(lastIcon);
     }
 
-    public void SelectIcon(RadialIcon icon, bool forceColSwap = false)
+    public void SelectIcon(RadialIcon icon, bool forceColSwap = false, bool playSFX = true)
     {
         icon.Select();
         selectedIcon = icon;
@@ -114,6 +119,8 @@ public class TetherManager : MonoBehaviour, IUIElement
         {
             icon.ForceColorSwap();
         }
+
+        if (playSFX) FMODUWE.PlayOneShot(selectSFX, transform.position);
     }
 
     private void HandleActivation()
@@ -162,6 +169,7 @@ public class TetherManager : MonoBehaviour, IUIElement
         if (open)
         {
             timeOpened = Time.time;
+            FMODUWE.PlayOneShot(openSFX, transform.position);
         }
     }
 
