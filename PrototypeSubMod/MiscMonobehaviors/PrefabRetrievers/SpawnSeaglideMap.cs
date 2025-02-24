@@ -7,6 +7,7 @@ internal class SpawnSeaglideMap : MonoBehaviour
 {
     private static GameObject SeaglidePrefab;
 
+    [SerializeField] private MeshRenderer positionDot;
     [SerializeField] private Color mapColor = new Color(0.23f, 0.57f, 0.85f);
     [SerializeField] private float mapScale = 1f;
     [SerializeField] private float fadeRadius = 0.6f;
@@ -37,6 +38,9 @@ internal class SpawnSeaglideMap : MonoBehaviour
 
     private void SpawnMap()
     {
+        var pingRend = SeaglidePrefab.transform.Find("MapHolder/PlayerPing/Ping").GetComponent<Renderer>();
+        positionDot.material = pingRend.material;
+
         var mapController = SeaglidePrefab.GetComponentInChildren<VehicleInterface_MapController>();
         var mapObject = Instantiate(mapController.interfacePrefab);
         mapObject.transform.SetParent(transform, false);
