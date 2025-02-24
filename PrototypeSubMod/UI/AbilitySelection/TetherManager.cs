@@ -80,7 +80,7 @@ public class TetherManager : MonoBehaviour, IUIElement
                 currentIcon.OnTetherEnter();
             }
 
-            FMODUWE.PlayOneShot(hoverSFX, transform.position);
+            FMODUWE.PlayOneShot(hoverSFX, transform.position, 0.1f);
         }
 
         if (!currentIcon)
@@ -120,7 +120,7 @@ public class TetherManager : MonoBehaviour, IUIElement
             icon.ForceColorSwap();
         }
 
-        if (playSFX) FMODUWE.PlayOneShot(selectSFX, transform.position);
+        if (playSFX) FMODUWE.PlayOneShot(selectSFX, transform.position, 0.1f);
     }
 
     private void HandleActivation()
@@ -169,7 +169,7 @@ public class TetherManager : MonoBehaviour, IUIElement
         if (open)
         {
             timeOpened = Time.time;
-            FMODUWE.PlayOneShot(openSFX, transform.position);
+            FMODUWE.PlayOneShot(openSFX, transform.position, 0.1f);
         }
     }
 
