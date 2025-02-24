@@ -40,4 +40,12 @@ internal class ToggleMinimap : MonoBehaviour
         miniWorld.ToggleMap();
         positionDisplay.SetActive(!positionDisplay.activeSelf);
     }
+
+    public void ToggleMap(bool active)
+    {
+        if (!miniWorld) return;
+
+        miniWorld.active = active;
+        positionDisplay.SetActive(active);
+    }
 }
