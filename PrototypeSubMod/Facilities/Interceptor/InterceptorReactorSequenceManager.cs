@@ -50,6 +50,7 @@ internal class InterceptorReactorSequenceManager : MonoBehaviour
 
     public static void StartReactorSequence()
     {
+        Plugin.GlobalSaveData.reactorSequenceComplete = true;
         UWE.CoroutineHost.StartCoroutine(TeleportToIsland());
     }
 
@@ -59,7 +60,6 @@ internal class InterceptorReactorSequenceManager : MonoBehaviour
     {
         IngameMenu_Patches.SetDenySaving(false);
         Teleporter.StartTeleportPlayer(MostRecentReturnPos, Camera.main.transform.forward);
-        Plugin.GlobalSaveData.reactorSequenceComplete = true;
         LargeWorldStreamer_Patches.SetOverwriteCamPos(false, Vector3.zero);
         GUIController_Patches.SetDenyHideCycling(false);
         GUIController.SetHidePhase(GUIController.HidePhase.None);
@@ -67,6 +67,7 @@ internal class InterceptorReactorSequenceManager : MonoBehaviour
 
         Player_Patches.SetOxygenReqOverride(false, 0);
         BiomeGoalTracker_Patches.SetTrackingBlocked(false);
+        sequenceInProgress = false;
     }
 
     public static void OnTeleportToVoid()
