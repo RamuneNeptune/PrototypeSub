@@ -53,7 +53,6 @@ internal class InterceptorReactorSequenceManager : MonoBehaviour
         BiomeGoalTracker_Patches.SetTrackingBlocked(true);
 
         Teleporter.StartTeleportPlayer(InterceptorIslandManager.Instance.GetRespawnPoint(), Camera.main.transform.forward);
-        LargeWorldStreamer_Patches.SetOverwriteCamPos(true, InterceptorIslandManager.Instance.GetRespawnPoint());
         InterceptorIslandManager.Instance.OnTeleportToIsland(VoidTeleportPos);
         InterceptorIslandManager.Instance.UpdateSeaglideLights(true);
 
