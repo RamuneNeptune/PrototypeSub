@@ -1,4 +1,5 @@
 ﻿using Nautilus.Extensions;
+using Nautilus.Utility;
 using PrototypeSubMod.Compatibility;
 using PrototypeSubMod.MiscMonobehaviors.SubSystems;
 using PrototypeSubMod.Patches;
@@ -49,16 +50,10 @@ internal class InterceptorReactorSequenceManager : MonoBehaviour
 
     public static void StartReactorSequence()
     {
-        IngameMenu_Patches.SetDenySaving(true);
-        BiomeGoalTracker_Patches.SetTrackingBlocked(true);
-
-        Teleporter.StartTeleportPlayer(InterceptorIslandManager.Instance.GetRespawnPoint(), Camera.main.transform.forward);
-        InterceptorIslandManager.Instance.OnTeleportToIsland(VoidTeleportPos);
-        InterceptorIslandManager.Instance.UpdateSeaglideLights(true);
-
-        WeatherCompatManager.SetWeatherEnabled(false);
-        WeatherCompatManager.SetWeatherClear();
+        UWE.CoroutineHost.StartCoroutine(TeleportToIsland());
     }
+
+    private static bool sequenceInProgress;
 
     public static void EndReactorSequence()
     {
@@ -85,8 +80,46 @@ internal class InterceptorReactorSequenceManager : MonoBehaviour
 
     private static IEnumerator TeleportBackAfterDuration()
     {
+        yield return new WaitUntil(LargeWorldStreamer.main.IsWorldSettled);
+
         yield return new WaitForSeconds(20f);
 
         EndReactorSequence();
+    }
+
+    private static IEnumerator TeleportToIsland()
+    {
+        if (sequenceInProgress) yield break;
+
+        sequenceInProgress = true;
+
+        IngameMenu_Patches.SetDenySaving(true);
+        BiomeGoalTracker_Patches.SetTrackingBlocked(true);
+
+        InterceptorIslandManager.Instance.OnTeleportToIsland(VoidTeleportPos);
+        InterceptorIslandManager.Instance.UpdateSeaglideLights(true);
+        WeatherCompatManager.SetWeatherEnabled(false);
+        WeatherCompatManager.SetWeatherClear();
+
+        InterfloorTeleporter.RunTeleportEffect(5f);
+
+        yield return new WaitForSeconds(0.5f);
+
+        Player.main.cinematicModeActive = true;
+        Player.main.playerController.inputEnabled = false;
+        Inventory.main.quickSlots.SetIgnoreHotkeyInput(true);
+        Player.main.GetPDA().Close();
+        Player.main.GetPDA().SetIgnorePDAInput(true);
+        Player.main.teleportingLoopSound.Play();
+
+        Player.main.SetPosition(InterceptorIslandManager.Instance.GetRespawnPoint());
+
+        yield return new WaitForSeconds(4f);
+
+        Player.main.cinematicModeActive = false;
+        Player.main.playerController.inputEnabled = true;
+        Inventory.main.quickSlots.SetIgnoreHotkeyInput(false);
+        Player.main.GetPDA().SetIgnorePDAInput(false);
+        Player.main.teleportingLoopSound.Stop();
     }
 }

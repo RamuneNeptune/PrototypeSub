@@ -5,9 +5,9 @@ namespace PrototypeSubMod.MiscMonobehaviors.SubSystems;
 
 internal class InterfloorTeleporter : MonoBehaviour
 {
-    private readonly Color innerCol = new Color(0.142f, 0.047f, 0.476f, 0.333f);
-    private readonly Color middleCol = new Color(0f, 0.285f, 0.904f, 0.571f);
-    private readonly Color outerCol = new Color(0f, 0.285f, 0.904f, 0.238f);
+    private static readonly Color innerCol = new Color(0.142f, 0.047f, 0.476f, 0.333f);
+    private static readonly Color middleCol = new Color(0f, 0.285f, 0.904f, 0.571f);
+    private static readonly Color outerCol = new Color(0f, 0.285f, 0.904f, 0.238f);
 
     private const float FADE_IN_DURATION = 0.1f;
     private const float VFX_DURATION = 0.2f;
@@ -97,5 +97,34 @@ internal class InterfloorTeleporter : MonoBehaviour
     private void ResetAllowedToTeleport()
     {
         allowedToTeleport = true;
+    }
+
+    public static void RunTeleportEffect(float duration)
+    {
+        UWE.CoroutineHost.StartCoroutine(RunTeleportEffectAsync(duration));
+    }
+
+    private static IEnumerator RunTeleportEffectAsync(float duration)
+    {
+        var warpController = MainCamera.camera.GetComponent<WarpScreenFXController>();
+        float previousDuration = warpController.duration;
+        warpController.duration = duration;
+
+        var originalInnerCol = warpController.fx.mat.GetColor("_ColorCenter");
+        var originalMiddleCol = warpController.fx.mat.GetColor("_ColorStrength");
+        var originalOuterCol = warpController.fx.mat.GetColor("_ColorOuter");
+
+        warpController.fx.mat.SetColor("_ColorCenter", innerCol);
+        warpController.fx.mat.SetColor("_ColorStrength", middleCol);
+        warpController.fx.mat.SetColor("_ColorOuter", outerCol);
+
+        warpController.StartWarp();
+
+        yield return new WaitForSeconds(duration + 1f);
+
+        warpController.duration = previousDuration;
+        warpController.fx.mat.SetColor("_ColorCenter", originalInnerCol);
+        warpController.fx.mat.SetColor("_ColorStrength", originalMiddleCol);
+        warpController.fx.mat.SetColor("_ColorOuter", originalOuterCol);
     }
 }
