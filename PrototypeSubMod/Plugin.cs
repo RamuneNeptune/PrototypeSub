@@ -355,6 +355,27 @@ namespace PrototypeSubMod
             StructureLoading.RegisterStructure(LoadStructureFromBundle("ProtoIslands"), ref entityCount);
             entityCount = 0;
 
+            #region Interceptor Island
+            StructureLoading.RegisterStructure(LoadStructureFromBundle("ProtoIslandObjectsEndRoom"), ref entityCount);
+            entityCount = 0;
+            StructureLoading.RegisterStructure(LoadStructureFromBundle("ProtoIslandObjectsInterceptorRoom"), ref entityCount);
+            entityCount = 0;
+            StructureLoading.RegisterStructure(LoadStructureFromBundle("ProtoIslandObjectsRoom1"), ref entityCount);
+            entityCount = 0;
+            StructureLoading.RegisterStructure(LoadStructureFromBundle("ProtoIslandObjectsRoom2"), ref entityCount);
+            entityCount = 0;
+            StructureLoading.RegisterStructure(LoadStructureFromBundle("ProtoIslandObjectsRoom3"), ref entityCount);
+            entityCount = 0;
+            StructureLoading.RegisterStructure(LoadStructureFromBundle("ProtoIslandObjectsRoom4"), ref entityCount);
+            entityCount = 0;
+            StructureLoading.RegisterStructure(LoadStructureFromBundle("ProtoIslandObjectsRoom5"), ref entityCount);
+            entityCount = 0;
+            StructureLoading.RegisterStructure(LoadStructureFromBundle("ProtoIslandObjectsTabletRoom"), ref entityCount);
+            entityCount = 0;
+            StructureLoading.RegisterStructure(LoadStructureFromBundle("ProtoIslandOresAndMats"), ref entityCount);
+            entityCount = 0;
+            #endregion
+
             if (TRPCompatManager.TRPInstalled)
             {
                 var trpIslandFile = AssetBundle.LoadAsset<TextAsset>("RedPlagueProtoIslands");
