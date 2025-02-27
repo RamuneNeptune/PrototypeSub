@@ -34,7 +34,7 @@ internal static class ROTACompatManager
         {
             if (!_architectLibInitted)
             {
-                _architectLibInstalled = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("ArchitectsLibrary");
+                _architectLibInstalled = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.aotu.architectslibrary");
                 _architectLibInitted = true;
             }
 
