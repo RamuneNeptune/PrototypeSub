@@ -39,11 +39,15 @@ internal class SpawnSeaglideMap : MonoBehaviour
     private void SpawnMap()
     {
         var pingRend = SeaglidePrefab.transform.Find("MapHolder/PlayerPing/Ping").GetComponent<Renderer>();
-        var color = positionDot.material.color;
-        var tex = positionDot.material.mainTexture;
-        positionDot.material = new(pingRend.sharedMaterial);
-        positionDot.material.color = color;
-        positionDot.material.mainTexture = tex;
+
+        if (positionDot)
+        {
+            var color = positionDot.material.color;
+            var tex = positionDot.material.mainTexture;
+            positionDot.material = new(pingRend.material);
+            positionDot.material.color = color;
+            positionDot.material.mainTexture = tex;
+        }
 
         var mapController = SeaglidePrefab.GetComponentInChildren<VehicleInterface_MapController>();
         var mapObject = Instantiate(mapController.interfacePrefab);
