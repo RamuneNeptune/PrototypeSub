@@ -355,6 +355,7 @@ namespace PrototypeSubMod
             StructureLoading.RegisterStructure(LoadStructureFromBundle("ProtoIslands"), ref entityCount);
             entityCount = 0;
 
+            /*
             #region Interceptor Island
             StructureLoading.RegisterStructure(LoadStructureFromBundle("ProtoIslandObjectsEndRoom"), ref entityCount);
             entityCount = 0;
@@ -375,6 +376,7 @@ namespace PrototypeSubMod
             StructureLoading.RegisterStructure(LoadStructureFromBundle("ProtoIslandOresAndMats"), ref entityCount);
             entityCount = 0;
             #endregion
+            */
 
             if (TRPCompatManager.TRPInstalled)
             {

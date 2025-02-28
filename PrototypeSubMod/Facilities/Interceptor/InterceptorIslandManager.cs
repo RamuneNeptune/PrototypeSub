@@ -91,6 +91,8 @@ internal class InterceptorIslandManager : MonoBehaviour
     public void UpdateSeaglideLights(bool forceRendererd)
     {
         var sealigdes = Inventory.main.container.GetItems(TechType.Seaglide);
+        if (sealigdes == null) return;
+
         foreach (var item in sealigdes)
         {
             var lights = item.item.transform.Find("lights_parent").GetComponentsInChildren<Light>(true);
