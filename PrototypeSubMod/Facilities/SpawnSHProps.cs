@@ -1,5 +1,6 @@
 ﻿using ModStructureFormat;
 using Newtonsoft.Json;
+using PrototypeSubMod.MiscMonobehaviors;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -73,7 +74,6 @@ internal class SpawnSHProps : MonoBehaviour
 
     private void RemovePrefabComponents(GameObject instance)
     {
-        Destroy(instance.GetComponent<PrefabIdentifier>());
         Destroy(instance.GetComponent<LargeWorldEntity>());
     }
 }
