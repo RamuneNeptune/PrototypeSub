@@ -57,6 +57,8 @@ internal class Prototype_Craftable
             modifier.OnLateMaterialOperation();
         }
 
+        prototype.GetComponent<PingInstance>().pingType = Plugin.PrototypePingType;
+
         prefabOut.Set(prototype);
     }
 }

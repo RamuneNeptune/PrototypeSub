@@ -70,6 +70,8 @@ namespace PrototypeSubMod
         internal static GameObject welderPrefab;
 
         internal static Sprite PrototypeSaveIcon = AssetBundle.LoadAsset<Sprite>("ProtoSaveIcon");
+        internal static PingType PrototypePingType = EnumHandler.AddEntry<PingType>("PrototypeSub")
+            .WithIcon(AssetBundle.LoadAsset<Sprite>("Proto_HUD_Marker"));
 
         internal const string DEFENSE_CHAMBER_BIOME_NAME = "protodefensefacility";
         internal static readonly Vector3 STORY_END_POS = new Vector3(-1333, -900, -3014);
@@ -354,29 +356,6 @@ namespace PrototypeSubMod
 
             StructureLoading.RegisterStructure(LoadStructureFromBundle("ProtoIslands"), ref entityCount);
             entityCount = 0;
-
-            /*
-            #region Interceptor Island
-            StructureLoading.RegisterStructure(LoadStructureFromBundle("ProtoIslandObjectsEndRoom"), ref entityCount);
-            entityCount = 0;
-            StructureLoading.RegisterStructure(LoadStructureFromBundle("ProtoIslandObjectsInterceptorRoom"), ref entityCount);
-            entityCount = 0;
-            StructureLoading.RegisterStructure(LoadStructureFromBundle("ProtoIslandObjectsRoom1"), ref entityCount);
-            entityCount = 0;
-            StructureLoading.RegisterStructure(LoadStructureFromBundle("ProtoIslandObjectsRoom2"), ref entityCount);
-            entityCount = 0;
-            StructureLoading.RegisterStructure(LoadStructureFromBundle("ProtoIslandObjectsRoom3"), ref entityCount);
-            entityCount = 0;
-            StructureLoading.RegisterStructure(LoadStructureFromBundle("ProtoIslandObjectsRoom4"), ref entityCount);
-            entityCount = 0;
-            StructureLoading.RegisterStructure(LoadStructureFromBundle("ProtoIslandObjectsRoom5"), ref entityCount);
-            entityCount = 0;
-            StructureLoading.RegisterStructure(LoadStructureFromBundle("ProtoIslandObjectsTabletRoom"), ref entityCount);
-            entityCount = 0;
-            StructureLoading.RegisterStructure(LoadStructureFromBundle("ProtoIslandOresAndMats"), ref entityCount);
-            entityCount = 0;
-            #endregion
-            */
 
             if (TRPCompatManager.TRPInstalled)
             {
