@@ -14,11 +14,12 @@ internal class ProtoDamagePointsStat : MonoBehaviour, IStatistic, ICyclopsRefere
     [SerializeField, HideInInspector] public GameObject damagePointPrefab;
     private List<ManagedDamagePoint> activeDamagePoints = new();
 
-    private List<CyclopsDamagePoint> damagePoints = new();
+    private CyclopsDamagePoint[] damagePoints;
+    private int childrenLastCheck;
 
     private void Start()
     {
-        damagePoints = damagePointsParent.GetComponentsInChildren<CyclopsDamagePoint>(true).ToList();
+        damagePoints = damagePointsParent.GetComponentsInChildren<CyclopsDamagePoint>(true);
 
         foreach (Transform child in displayPointsParent.transform)
         {
@@ -43,6 +44,11 @@ internal class ProtoDamagePointsStat : MonoBehaviour, IStatistic, ICyclopsRefere
 
     public void UpdateStatIntermittent()
     {
+        if (damagePointsParent.childCount != childrenLastCheck)
+        {
+            damagePoints = damagePointsParent.GetComponentsInChildren<CyclopsDamagePoint>(true);
+        }
+
         foreach (var point in damagePoints)
         {
             var displayChild = displayPointsParent.GetChild(point.transform.GetSiblingIndex()).gameObject;
@@ -63,6 +69,8 @@ internal class ProtoDamagePointsStat : MonoBehaviour, IStatistic, ICyclopsRefere
                 RemovePing(damagePoint);
             }
         }
+
+        childrenLastCheck = damagePointsParent.childCount;
     }
 
     private void SpawnDamagePing(Transform parent, CyclopsDamagePoint ownerPoint)
