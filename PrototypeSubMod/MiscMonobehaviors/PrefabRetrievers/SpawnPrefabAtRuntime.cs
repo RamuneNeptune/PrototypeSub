@@ -11,6 +11,7 @@ internal class SpawnPrefabAtRuntime : MonoBehaviour
 
     [SerializeField] private string classID;
     [SerializeField] private string childPath;
+    [SerializeField] private Material[] materials;
     [SerializeField] private Vector3 localPos;
     [SerializeField] private Vector3 localRot;
     [SerializeField] private Vector3 localScale = Vector3.one;
@@ -39,5 +40,10 @@ internal class SpawnPrefabAtRuntime : MonoBehaviour
         worldPrefab.transform.localEulerAngles = localRot;
         worldPrefab.transform.localScale = localScale;
         OnSpawn?.Invoke(spawnObj);
+
+        if (worldPrefab.TryGetComponent(out Renderer rend) && materials.Length > 0)
+        {
+            rend.materials = materials;
+        }
     }
 }
