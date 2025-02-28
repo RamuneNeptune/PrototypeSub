@@ -57,23 +57,33 @@ internal class SpawnSHProps : MonoBehaviour
             GameObject prefab = null;
             if (!prefabTask.TryGetPrefab(out prefab)) throw new System.Exception($"Error loading prefab with class ID of {classID}");
 
+            prefab.SetActive(false);
+            var lwe = prefab.GetComponent<LargeWorldEntity>();
+            if (lwe) lwe.enabled = false;
+
             foreach (var entityData in entities[classID])
             {
                 var pos = new Vector3(entityData.position.x, entityData.position.y, entityData.position.z);
                 var rot = new Quaternion(entityData.rotation.x, entityData.rotation.y, entityData.rotation.z, entityData.rotation.w);
-                var instance = GameObject.Instantiate(prefab, pos, rot);
+                var instance = GameObject.Instantiate(prefab, parent);
+                instance.transform.position = pos;
+                instance.transform.rotation = rot;
 
-                instance.transform.SetParent(parent, true);
                 if (removeLWEs)
                 {
                     RemovePrefabComponents(instance);
-                }    
+                }
+
+                instance.SetActive(true);
             }
+
+            prefab.SetActive(true);
+            if (lwe) lwe.enabled = true;
         }
     }
 
     private void RemovePrefabComponents(GameObject instance)
     {
-        Destroy(instance.GetComponent<LargeWorldEntity>());
+        DestroyImmediate(instance.GetComponent<LargeWorldEntity>());
     }
 }
