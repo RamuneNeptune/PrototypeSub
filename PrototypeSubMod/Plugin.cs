@@ -89,8 +89,8 @@ namespace PrototypeSubMod
             LanguageHandler.RegisterLocalizationFolder();
             SubAudioLoader.LoadAllAudio(AssetBundle);
 
-            RegisterEncyEntries();
             RegisterPrefabs();
+            RegisterEncyEntries();
             RegisterStructures();
             RegisterStoryGoals();
             RegisterBiomes();
@@ -185,6 +185,8 @@ namespace PrototypeSubMod
             KinematicPrefabClone.Register("5de7d617-c04c-4a83-b663-ebf1d3dd90a1", "KinematicGarryfish");
             KinematicPrefabClone.Register("ba851576-86df-48e5-a0be-5cd7ba6f4617", "KinematicSpadefish");
 
+            DisplayCaseProp.Register(IonPrism_Craftable.prefabInfo.ClassID, "IonPrism_DisplayCase", IonPrism_Craftable.prefabInfo.TechType, new Vector3(0, 1.3f, 0));
+
             Texture2D dogIco = AssetBundle.LoadAsset<Texture2D>("dogPosterIcon");
             new CustomPoster("ProtoDogPoster", null, null, AssetBundle.LoadAsset<Texture2D>("DogPoster"), dogIco);
             Texture2D regular1Ico = AssetBundle.LoadAsset<Texture2D>("RegularIcon1");
@@ -233,6 +235,16 @@ namespace PrototypeSubMod
             var prismPopup = AssetBundle.LoadAsset<Sprite>("IonPrism_EncyPopup");
 
             PDAHandler.AddEncyclopediaEntry("ProtoIonPrismEncy", "DownloadedData/Precursor/Scan", prismTitle, prismDescription, unlockSound: PDAHandler.UnlockBasic, popupImage: prismPopup);
+            var data = new PDAScanner.EntryData()
+            {
+                key = IonPrism_Craftable.prefabInfo.TechType,
+                destroyAfterScan = false,
+                encyclopedia = "ProtoIonPrismEncy",
+                scanTime = 5f,
+                isFragment = false,
+                blueprint = IonPrism_Craftable.prefabInfo.TechType
+            };
+            PDAHandler.AddCustomScannerEntry(data);
             #endregion
 
             #region Orion Logs

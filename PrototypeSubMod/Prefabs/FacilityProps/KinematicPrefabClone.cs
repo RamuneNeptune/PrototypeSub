@@ -3,7 +3,7 @@ using Nautilus.Assets.PrefabTemplates;
 using UnityEngine;
 
 namespace PrototypeSubMod.Prefabs.FacilityProps;
-
+ 
 internal class KinematicPrefabClone
 {
     public static void Register(string classID, string newTechType)
