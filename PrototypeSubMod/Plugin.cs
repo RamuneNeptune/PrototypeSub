@@ -284,11 +284,12 @@ namespace PrototypeSubMod
         {
             #region Precursor Ingot
 
-            StoryGoalHandler.RegisterCompoundGoal("DefenseFacilityAuditEncy", Story.GoalType.Encyclopedia, 12f, "Unlock");
+            StoryGoalHandler.RegisterCompoundGoal("Ency_ProtoPrecursorIngot", Story.GoalType.Encyclopedia, 12f, "Goal_BiomePrecursorGunUpper");
 
-            StoryGoalHandler.RegisterCustomEvent("DefenseFacilityAuditEncy", () =>
+            StoryGoalHandler.RegisterCustomEvent("Ency_ProtoPrecursorIngot", () =>
             {
-                PDAEncyclopedia.Add("DefenseFacilityAuditEncy", true);
+                KnownTech.Add(PrecursorIngot_Craftable.prefabInfo.TechType);
+                PDAEncyclopedia.Add("ProtoPrecursorIngot", true);
             });
 
             #endregion
