@@ -1,4 +1,5 @@
-﻿using Nautilus.Handlers;
+﻿using HarmonyLib;
+using Nautilus.Handlers;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -64,6 +65,13 @@ internal class MultipurposeKeyTerminal : MonoBehaviour
         glyphRenderer.material.mainTexture = replacementSprite;
 
         Destroy(instance.GetComponent<PrefabIdentifier>());
+
+        var applier = GetComponentInParent<SkyApplier>();
+        if (applier)
+        {
+            applier.renderers.AddRangeToArray(GetComponentsInChildren<Renderer>(true));
+            applier.ApplySkybox();
+        }
     }
 
     private PrecursorKeyType CreateOrRetrieveKeyType(TechType type)

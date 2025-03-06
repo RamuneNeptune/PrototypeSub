@@ -1,5 +1,7 @@
-﻿using System;
+﻿using HarmonyLib;
+using System;
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 using UWE;
 
@@ -44,6 +46,13 @@ internal class SpawnPrefabAtRuntime : MonoBehaviour
         if (worldPrefab.TryGetComponent(out Renderer rend) && materials.Length > 0)
         {
             rend.materials = materials;
+        }
+
+        var applier = GetComponentInParent<SkyApplier>();
+        if (applier)
+        {
+            applier.renderers.AddRangeToArray(GetComponentsInChildren<Renderer>(true));
+            applier.ApplySkybox();
         }
     }
 }

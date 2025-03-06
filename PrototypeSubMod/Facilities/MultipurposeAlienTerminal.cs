@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HarmonyLib;
+using System;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
@@ -73,6 +74,13 @@ internal class MultipurposeAlienTerminal : MonoBehaviour
             {
                 Destroy(item);
             }
+        }
+
+        var applier = GetComponentInParent<SkyApplier>();
+        if (applier)
+        {
+            applier.renderers.AddRangeToArray(GetComponentsInChildren<Renderer>(true));
+            applier.ApplySkybox();
         }
     }
 
