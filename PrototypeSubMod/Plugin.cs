@@ -378,8 +378,10 @@ namespace PrototypeSubMod
             StructureLoading.RegisterStructure(LoadStructureFromBundle("DefenseTunnel"), ref entityCount);
             entityCount = 0;
 
+            /*
             StructureLoading.RegisterStructure(LoadStructureFromBundle("EngineFacility"), ref entityCount);
             entityCount = 0;
+            */
 
             StructureLoading.RegisterStructure(LoadStructureFromBundle("ProtoIslands"), ref entityCount);
             entityCount = 0;
