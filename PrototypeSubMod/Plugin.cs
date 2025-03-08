@@ -185,6 +185,8 @@ namespace PrototypeSubMod
             KinematicPrefabClone.Register("b1d88c87-fd48-495b-a707-e91dc4259858", "KinematicHoverfish");
             KinematicPrefabClone.Register("5de7d617-c04c-4a83-b663-ebf1d3dd90a1", "KinematicGarryfish");
             KinematicPrefabClone.Register("ba851576-86df-48e5-a0be-5cd7ba6f4617", "KinematicSpadefish");
+            KinematicPrefabClone.Register("38ebd2e5-9dcc-4d7a-ada4-86a22e01191a", "KinematicIonCrystal");
+            KinematicPrefabClone.Register("f90d7d3c-d017-426f-af1a-62ca93fae22e", "KinematicIonCrystalMatrix");
 
             DisplayCaseProp.Register(IonPrism_Craftable.prefabInfo.ClassID, "IonPrism_DisplayCase", 
                 IonPrism_Craftable.prefabInfo.TechType, new Vector3(0, 1.3f, 0), Vector3.one * 10f);
