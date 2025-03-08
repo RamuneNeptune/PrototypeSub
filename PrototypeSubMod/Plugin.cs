@@ -185,7 +185,10 @@ namespace PrototypeSubMod
             KinematicPrefabClone.Register("5de7d617-c04c-4a83-b663-ebf1d3dd90a1", "KinematicGarryfish");
             KinematicPrefabClone.Register("ba851576-86df-48e5-a0be-5cd7ba6f4617", "KinematicSpadefish");
 
-            DisplayCaseProp.Register(IonPrism_Craftable.prefabInfo.ClassID, "IonPrism_DisplayCase", IonPrism_Craftable.prefabInfo.TechType, new Vector3(0, 1.3f, 0));
+            DisplayCaseProp.Register(IonPrism_Craftable.prefabInfo.ClassID, "IonPrism_DisplayCase", 
+                IonPrism_Craftable.prefabInfo.TechType, new Vector3(0, 1.3f, 0), Vector3.one);
+            DisplayCaseProp.Register(DeployableLight_Craftable.prefabInfo.ClassID, "DeployableLight_DisplayCase", 
+                DeployableLight_Craftable.prefabInfo.TechType, new Vector3(0, 1.3f, 0), Vector3.one * 0.25f, new[] { "VolumetricLight" });
 
             Texture2D dogIco = AssetBundle.LoadAsset<Texture2D>("dogPosterIcon");
             new CustomPoster("ProtoDogPoster", null, null, AssetBundle.LoadAsset<Texture2D>("DogPoster"), dogIco);
@@ -227,6 +230,16 @@ namespace PrototypeSubMod
             var lightPopup = AssetBundle.LoadAsset<Sprite>("DeployableLight_EncyPopup");
 
             PDAHandler.AddEncyclopediaEntry("ProtoDeployableLightEncy", "Tech/Equipment", lightTitle, lightDescription, unlockSound: PDAHandler.UnlockBasic, popupImage: lightPopup);
+            var deployableLightEntryData = new PDAScanner.EntryData()
+            {
+                key = DeployableLight_Craftable.prefabInfo.TechType,
+                destroyAfterScan = false,
+                encyclopedia = "ProtoDeployableLightEncy",
+                scanTime = 5f,
+                isFragment = false,
+                blueprint = DeployableLight_Craftable.prefabInfo.TechType
+            };
+            PDAHandler.AddCustomScannerEntry(deployableLightEntryData);
             #endregion
 
             #region Ion Prism
@@ -235,7 +248,7 @@ namespace PrototypeSubMod
             var prismPopup = AssetBundle.LoadAsset<Sprite>("IonPrism_EncyPopup");
 
             PDAHandler.AddEncyclopediaEntry("ProtoIonPrismEncy", "DownloadedData/Precursor/Scan", prismTitle, prismDescription, unlockSound: PDAHandler.UnlockBasic, popupImage: prismPopup);
-            var data = new PDAScanner.EntryData()
+            var ionPrismEntryData = new PDAScanner.EntryData()
             {
                 key = IonPrism_Craftable.prefabInfo.TechType,
                 destroyAfterScan = false,
@@ -244,7 +257,7 @@ namespace PrototypeSubMod
                 isFragment = false,
                 blueprint = IonPrism_Craftable.prefabInfo.TechType
             };
-            PDAHandler.AddCustomScannerEntry(data);
+            PDAHandler.AddCustomScannerEntry(ionPrismEntryData);
             #endregion
 
             #region Orion Logs
