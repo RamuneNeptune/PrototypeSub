@@ -171,6 +171,7 @@ namespace PrototypeSubMod
             ProtoLogo_World.Register();
             DamagedProtoLogo_World.Register();
             TeleporterTerminal_World.Register();
+            SmashedDisplayCase_World.Register();
             NonScannableProp.Register("11e731e7-bc82-4f94-90be-5db7b58b449b", "EmptyDisplayCase");
             NonScannableProp.Register("4f5905f8-ea50-49e8-b24f-44139c6bddcf", "PrecursorScannerArmNoScan1");
             NonScannableProp.Register("ebc943e4-200c-4789-92f3-e675cd982dbe", "PrecursorScannerArmNoScan2");
@@ -297,7 +298,7 @@ namespace PrototypeSubMod
         {
             #region Precursor Ingot
 
-            StoryGoalHandler.RegisterCompoundGoal("Ency_ProtoPrecursorIngot", Story.GoalType.Encyclopedia, 12f, "Goal_BiomePrecursorGunUpper");
+            StoryGoalHandler.RegisterItemGoal("Ency_ProtoPrecursorIngot", Story.GoalType.Encyclopedia, PrecursorIngot_Craftable.prefabInfo.TechType);
 
             StoryGoalHandler.RegisterCustomEvent("Ency_ProtoPrecursorIngot", () =>
             {
