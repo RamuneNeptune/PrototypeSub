@@ -72,6 +72,15 @@ internal class SpawnSHProps : MonoBehaviour
                     RemovePrefabComponents(instance);
                 }
 
+                var tt = CraftData.GetTechType(instance.gameObject);
+                instance.EnsureComponent<TechTag>().type = tt;
+                var identifier = instance.GetComponent<PrefabIdentifier>();
+                if (instance.TryGetComponent(out Pickupable _))
+                {
+                    instance.EnsureComponent<AddIdentifierOnPickup>().SetOriginalValues(identifier.ClassId, identifier.Id);
+                }
+
+                DestroyImmediate(identifier);
                 instance.SetActive(true);
             }
 
