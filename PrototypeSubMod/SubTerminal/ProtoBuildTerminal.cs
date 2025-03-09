@@ -10,7 +10,6 @@ internal class ProtoBuildTerminal : Crafter
     [SerializeField] private float buildDuration = 20f;
     [SerializeField] private float buildDelay;
     [SerializeField] private FMODAsset buildSoundEffect;
-    [SerializeField] private Transform sfxSpawnPos;
     [SerializeField] private Transform buildPosition;
     [SerializeField] private GameObject upgradeIconPrefab;
     [SerializeField] private ProtoBatteryManager[] batteryManagers;
@@ -67,7 +66,7 @@ internal class ProtoBuildTerminal : Crafter
         var prefab = CraftData.GetPrefabForTechTypeAsync(techType);
         yield return prefab;
 
-        FMODUWE.PlayOneShot(buildSoundEffect, sfxSpawnPos.position);
+        FMODUWE.PlayOneShot(buildSoundEffect, buildPosition.position);
         var instantiatedPrefab = Instantiate(prefab.result.Get(), buildPosition.position, buildPosition.rotation);
         instantiatedPrefab.SetActive(true);
         prefab = null;
