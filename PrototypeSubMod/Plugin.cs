@@ -74,7 +74,7 @@ namespace PrototypeSubMod
 
         internal const string DEFENSE_CHAMBER_BIOME_NAME = "protodefensefacility";
         internal static readonly Vector3 STORY_END_POS = new Vector3(-1333, -900, -3014);
-        internal static readonly Vector3 DEFENSE_PING_POS = new Vector3(692, -481, -1414);
+        internal static readonly Vector3 DEFENSE_PING_POS = new Vector3(701, -366, -1359);
         internal static TechType DefenseFacilityPingTechType;
 
         private static bool Initialized;
@@ -167,6 +167,7 @@ namespace PrototypeSubMod
             PrecursorCross.Register();
             PrecursorRadio.Register();
             InterceptorIslandTeleporterKey_World.Register();
+            DefenseStoryGoalTrigger_World.Register();
 
             ProtoPlaque_World.Register();
             ProtoLogo_World.Register();
@@ -353,6 +354,13 @@ namespace PrototypeSubMod
             });
             #endregion
 
+            #region On Approach Defense Beacon
+            StoryGoalHandler.RegisterCustomEvent("OnApproachDefenseFacility", () =>
+            {
+                PDALog.Add("OnApproachDefenseFacility");
+            });
+            #endregion
+
             #region Orion Logs
             StoryGoalHandler.RegisterCustomEvent("Ency_OrionFacilityLogs", () =>
             {
@@ -468,6 +476,7 @@ namespace PrototypeSubMod
             PDALog_Patches.entries.Add(("PDA_OnDisableCloak", "OnDefenseCloakDisabled"));
             PDALog_Patches.entries.Add(("PDA_OnEnterMoonpool", "OnEnterDefenseMoonpool"));
             PDALog_Patches.entries.Add(("PDA_OnMoonpoolDisallow", "OnMoonpoolNoPrototype"));
+            PDALog_Patches.entries.Add(("PDA_OnApproachDefense", "OnApproachDefenseFacility"));
         }
 
         private Structure LoadStructureFromBundle(string name)
