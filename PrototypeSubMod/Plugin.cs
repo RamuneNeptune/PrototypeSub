@@ -194,7 +194,7 @@ namespace PrototypeSubMod
             DisplayCaseProp.Register(DeployableLight_Craftable.prefabInfo.ClassID, "DeployableLight_DisplayCase",
                 DeployableLight_Craftable.prefabInfo.TechType, new Vector3(0, 1.3f, 0), Vector3.one * 0.25f, new[] { "VolumetricLight" });
 
-            DefenseFacilityPingTechType = CustomPing.CreatePing("DefenseFacilityPing", DefenseFacilityPingType, new Color(1, 0, 0));
+            DefenseFacilityPingTechType = CustomPing.CreatePing("ProtoDefenseFacilityPing", DefenseFacilityPingType, new Color(1, 0, 0));
 
             Texture2D dogIco = AssetBundle.LoadAsset<Texture2D>("dogPosterIcon");
             new CustomPoster("ProtoDogPoster", null, null, AssetBundle.LoadAsset<Texture2D>("DogPoster"), dogIco);
