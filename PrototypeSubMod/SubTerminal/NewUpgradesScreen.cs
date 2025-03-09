@@ -24,6 +24,8 @@ internal class NewUpgradesScreen : MonoBehaviour
     {
         if (!downloadActive || mostRecentCategories == null || mostRecentCategories.Count == 0) return;
 
+        if (Time.timeScale == 0) return;
+
         if (currentDownloadProgress < downloadLength)
         {
             currentDownloadProgress += Time.deltaTime;
@@ -31,16 +33,23 @@ internal class NewUpgradesScreen : MonoBehaviour
             progressBar.fillAmount = normalizedProgress;
 
             var text = "";
+            int index = 0;
             foreach (var category in mostRecentCategories)
             {
                 var replacedString = ReplaceWithPrecursorChars(category.GetName(), normalizedProgress);
                 text += replacedString + "\n";
+                if (mostRecentCategories.Count > 1 && index < mostRecentCategories.Count - 1)
+                {
+                    text += "———————\n";
+                }
+                
+                index++;
             }
 
             upgradeText.text = text;
         }
     }
-
+    
     private void StartDownload()
     {
         currentDownloadProgress = 0;
