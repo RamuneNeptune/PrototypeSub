@@ -63,7 +63,6 @@ namespace PrototypeSubMod
         public static TechCategory ProtoModuleCategory { get; } = EnumHandler.AddEntry<TechCategory>("ProtoModules").RegisterToTechGroup(PrototypeGroup)
             .WithPdaInfo(null);
 
-        public static PingType EngineFacilityPingType = EnumHandler.AddEntry<PingType>("EngineFacility").WithIcon(AssetBundle.LoadAsset<Sprite>("ReactorFacilityLogo"));
         public static PingType DefenseFacilityPingType = EnumHandler.AddEntry<PingType>("DefenseFacility").WithIcon(AssetBundle.LoadAsset<Sprite>("DefenseFacilityLogo"));
 
         internal static ProtoGlobalSaveData GlobalSaveData = SaveDataHandler.RegisterSaveDataCache<ProtoGlobalSaveData>();
@@ -75,6 +74,8 @@ namespace PrototypeSubMod
 
         internal const string DEFENSE_CHAMBER_BIOME_NAME = "protodefensefacility";
         internal static readonly Vector3 STORY_END_POS = new Vector3(-1333, -900, -3014);
+        internal static readonly Vector3 DEFENSE_PING_POS = new Vector3(692, -481, -1414);
+        internal static TechType DefenseFacilityPingTechType;
 
         private static bool Initialized;
         private static Harmony harmony = new Harmony(GUID);
@@ -192,6 +193,8 @@ namespace PrototypeSubMod
                 IonPrism_Craftable.prefabInfo.TechType, new Vector3(0, 1.3f, 0), Vector3.one * 10f);
             DisplayCaseProp.Register(DeployableLight_Craftable.prefabInfo.ClassID, "DeployableLight_DisplayCase",
                 DeployableLight_Craftable.prefabInfo.TechType, new Vector3(0, 1.3f, 0), Vector3.one * 0.25f, new[] { "VolumetricLight" });
+
+            DefenseFacilityPingTechType = CustomPing.CreatePing("DefenseFacilityPing", DefenseFacilityPingType, new Color(1, 0, 0));
 
             Texture2D dogIco = AssetBundle.LoadAsset<Texture2D>("dogPosterIcon");
             new CustomPoster("ProtoDogPoster", null, null, AssetBundle.LoadAsset<Texture2D>("DogPoster"), dogIco);

@@ -67,6 +67,8 @@ internal class BuildTerminalScreenManager : MonoBehaviour
 
         var occupied = occupiedHandler.MoonpoolHasSub;
 
+        if (newUpgradesScreen.HasQueuedUnlocks()) return;
+
         upgradeScreen.gameObject.SetActive(occupied);
         emptyScreen.gameObject.SetActive(!occupied);
     }
@@ -86,6 +88,7 @@ internal class BuildTerminalScreenManager : MonoBehaviour
     public void EndBuildStage()
     {
         animatorScreen.OnStageFinished();
+        newUpgradesScreen.gameObject.SetActive(false);
         upgradeScreen.gameObject.SetActive(true);
     }
 

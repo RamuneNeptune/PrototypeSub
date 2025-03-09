@@ -1,4 +1,5 @@
 ﻿using PrototypeSubMod.Utility;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -9,6 +10,8 @@ namespace PrototypeSubMod.SubTerminal;
 internal class NewUpgradesScreen : MonoBehaviour
 {
     [SerializeField] private List<ProtoUpgradeCategory> upgradeCategories;
+    [SerializeField] private ProtoUpgradeCategory defenseCategory;
+    [SerializeField] private BuildTerminalScreenManager screenManager;
     [SerializeField] private string precursorCharacters;
     [SerializeField] private TextMeshProUGUI upgradeText;
     [SerializeField] private GameObject buttonObjects;
@@ -19,6 +22,7 @@ internal class NewUpgradesScreen : MonoBehaviour
     private List<ProtoUpgradeCategory> mostRecentCategories;
     private float currentDownloadProgress;
     private bool downloadActive;
+    private bool pingSpawnAttempted;
 
     private void Update()
     {
@@ -48,36 +52,36 @@ internal class NewUpgradesScreen : MonoBehaviour
 
             upgradeText.text = text;
         }
+        else if (!pingSpawnAttempted)
+        {
+            pingSpawnAttempted = true;
+            SpawnPingIfNeeded();
+        }
     }
     
     public void StartDownload()
     {
+        upgradeText.text = string.Empty;
+        progressBar.fillAmount = 0;
         currentDownloadProgress = 0;
         downloadActive = true;
+        pingSpawnAttempted = false;
         buttonObjects.SetActive(false);
         downloadingObjects.SetActive(true);
-        mostRecentCategories = GetUnlocksSinceLastCheck(out _);
+        mostRecentCategories = GetUnlocksSinceLastCheck();
         UpdateStoredUnlocks();
     }
 
-    public List<ProtoUpgradeCategory> GetUnlocksSinceLastCheck(out List<TechType> currentlyUnlocked)
+    public List<ProtoUpgradeCategory> GetUnlocksSinceLastCheck()
     {
-        currentlyUnlocked = new List<TechType>();
         var newUnlocks = new List<ProtoUpgradeCategory>();
 
         foreach (var category in upgradeCategories)
         {
-            var unlockedTechs = category.GetUnlockedUpgrades();
-            foreach (var tech in unlockedTechs)
+            if (category.GetUnlockedUpgrades().Count > 0 && !Plugin.GlobalSaveData.unlockedCategoriesLastCheck.Contains(category))
             {
-                if (!Plugin.GlobalSaveData.unlockedUpgradesLastCheck.Contains(tech))
-                {
-                    newUnlocks.Add(category);
-                    break;
-                }
+                newUnlocks.Add(category);
             }
-
-            currentlyUnlocked.AddRange(unlockedTechs);
         }
 
         return newUnlocks;
@@ -85,12 +89,12 @@ internal class NewUpgradesScreen : MonoBehaviour
 
     public bool HasQueuedUnlocks()
     {
-        return GetUnlocksSinceLastCheck(out _).Count > 0;
+        return GetUnlocksSinceLastCheck().Count > 0;
     }
 
     private void UpdateStoredUnlocks()
     {
-        GetUnlocksSinceLastCheck(out Plugin.GlobalSaveData.unlockedUpgradesLastCheck);
+        Plugin.GlobalSaveData.unlockedCategoriesLastCheck.AddRange(GetUnlocksSinceLastCheck());
     }
 
     private string ReplaceWithPrecursorChars(string original, float amount)
@@ -112,6 +116,36 @@ internal class NewUpgradesScreen : MonoBehaviour
         downloadActive = false;
         buttonObjects.SetActive(true);
         downloadingObjects.SetActive(false);
+    }
+
+    private void SpawnPingIfNeeded()
+    {
+        if (Plugin.GlobalSaveData.defensePingSpawned)
+        {
+            screenManager.EndBuildStage();
+            return;
+        }
+
+        foreach (var item in upgradeCategories)
+        {
+            if (item == defenseCategory) continue;
+
+            if (!Plugin.GlobalSaveData.unlockedCategoriesLastCheck.Contains(item)) return;
+        }
+
+        Plugin.GlobalSaveData.defensePingSpawned = true;
+        UWE.CoroutineHost.StartCoroutine(SpawnDefensePing());
+        ErrorMessage.AddError($"Defense ping spawned!");
+        screenManager.EndBuildStage();
+    }
+
+    private IEnumerator SpawnDefensePing()
+    {
+        var task = CraftData.GetPrefabForTechTypeAsync(Plugin.DefenseFacilityPingTechType);
+        yield return task;
+
+        var prefab = task.GetResult();
+        Instantiate(prefab, Plugin.DEFENSE_PING_POS, Quaternion.identity);
     }
 
     private void OnEnable() => ResetDownload();

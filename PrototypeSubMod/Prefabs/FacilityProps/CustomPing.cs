@@ -19,7 +19,7 @@ internal class CustomPing
         typeof(PingInstance)
     };
 
-    public static void CreatePing(string techType, PingType pingType, Vector3 spawnPos, Color colorOverride = default, float minDist = 25, float fadeRange = 10)
+    public static TechType CreatePing(string techType, PingType pingType, Color colorOverride = default, float minDist = 25, float fadeRange = 10, Vector3[] spawnPositions = null)
     {
         var prefabInfo = PrefabInfo.WithTechType(techType);
 
@@ -31,12 +31,19 @@ internal class CustomPing
         };
 
         prefab.SetGameObject(cloneTemplate);
-        prefab.SetSpawns(new SpawnLocation[]
-        {
-            new SpawnLocation(spawnPos)
-        });
 
+        if (spawnPositions != null)
+        {
+            SpawnLocation[] locations = new SpawnLocation[spawnPositions.Length];
+            for (int i = 0; i < spawnPositions.Length; i++)
+            {
+                locations[i] = new SpawnLocation(spawnPositions[i]);
+            }
+            prefab.SetSpawns(locations);
+        }
+        
         prefab.Register();
+        return prefabInfo.TechType;
     }
 
     private static void SetupGameObject(ref GameObject beacon, PrefabInfo info, PingType pingType, Color colorOverride, float minDist, float fadeRange)
