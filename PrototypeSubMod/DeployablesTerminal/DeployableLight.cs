@@ -157,8 +157,10 @@ internal class DeployableLight : MonoBehaviour, IProtoTreeEventListener
 
     public void OnProtoDeserializeObjectTree(ProtobufSerializer serializer)
     {
-        currentLifetime = Plugin.GlobalSaveData.deployableLightLifetimes[identifier.Id];
-        ActivateLight();
+        if (Plugin.GlobalSaveData.deployableLightLifetimes.TryGetValue(identifier.id, out currentLifetime))
+        {
+            ActivateLight();
+        }
     }
 
     private void OnDestroy()

@@ -22,6 +22,7 @@ internal class BuildTerminalScreenManager : MonoBehaviour
         yield return new WaitForEndOfFrame();
 
         animatorScreen.gameObject.SetActive(false);
+        newUpgradesScreen.gameObject.SetActive(false);
 
         if (Plugin.GlobalSaveData.prototypePresent)
         {
