@@ -62,7 +62,8 @@ internal class MultipurposeAlienTerminal : MonoBehaviour
 
         if (queuedForceInteract)
         {
-            GetComponentInChildren<PrecursorComputerTerminal>().OnStoryHandTarget();
+            var terminal = GetComponentInChildren<PrecursorComputerTerminal>();
+            UWE.CoroutineHost.StartCoroutine(QueuedForceInteract(terminal));
             queuedForceInteract = false;
             handTarget.interactionAllowed = allowMultipleUses;
         }
@@ -99,5 +100,20 @@ internal class MultipurposeAlienTerminal : MonoBehaviour
         }
 
         terminal.OnStoryHandTarget();
+    }
+
+    private IEnumerator QueuedForceInteract(PrecursorComputerTerminal terminal)
+    {
+        int frameCount = 0;
+        while (terminal.fxControl == null)
+        {
+            yield return new WaitForEndOfFrame();
+            frameCount++;
+
+            if (frameCount > 20) yield break;
+        }
+
+        terminal.DestroyFX();
+        terminal.used = true;
     }
 }
