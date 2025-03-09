@@ -1,9 +1,7 @@
 ﻿using ModStructureFormat;
 using Newtonsoft.Json;
-using PrototypeSubMod.MiscMonobehaviors;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UWE;
 

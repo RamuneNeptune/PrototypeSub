@@ -1,13 +1,13 @@
-﻿using Nautilus.Assets.PrefabTemplates;
+﻿using HarmonyLib;
 using Nautilus.Assets;
+using Nautilus.Assets.PrefabTemplates;
+using PrototypeSubMod.MiscMonobehaviors;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UWE;
-using System.Collections;
-using System;
-using System.Collections.Generic;
-using HarmonyLib;
-using PrototypeSubMod.MiscMonobehaviors;
-using System.Linq;
 
 namespace PrototypeSubMod.Prefabs;
 
@@ -50,7 +50,7 @@ internal class DisplayCaseProp
                 GameObject.DestroyImmediate(instance.transform.Find(path).gameObject);
             }
         }
-        
+
         TrimComponents(instance);
 
         instance.SetActive(true);
@@ -91,7 +91,7 @@ internal class DisplayCaseProp
         {
             var type = component.GetType();
             var attributes = type.GetCustomAttributes(true);
-            foreach(var attribute in attributes)
+            foreach (var attribute in attributes)
             {
                 if (attribute is RequireComponent require)
                 {
@@ -101,7 +101,7 @@ internal class DisplayCaseProp
                 }
             }
         }
-        
+
         ignoreFirstPass.AddRange(whitelistedComponents);
         TrimComponents(components, ignoreFirstPass);
         TrimComponents(components, whitelistedComponents);

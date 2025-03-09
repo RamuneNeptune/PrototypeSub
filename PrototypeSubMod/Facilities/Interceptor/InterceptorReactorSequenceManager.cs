@@ -1,5 +1,4 @@
 ﻿using Nautilus.Extensions;
-using Nautilus.Utility;
 using PrototypeSubMod.Compatibility;
 using PrototypeSubMod.MiscMonobehaviors.SubSystems;
 using PrototypeSubMod.Patches;
