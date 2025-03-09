@@ -35,6 +35,21 @@ internal class ProtoUpgradeCategory : ScriptableObject
         return lockedTechs;
     }
 
+    public List<TechType> GetUnlockedUpgrades()
+    {
+        List<TechType> unlockedTechs = new();
+
+        foreach (var item in ownedTechTypes)
+        {
+            if (KnownTech.Contains(item.TechType))
+            {
+                unlockedTechs.Add(item.TechType);
+            }
+        }
+
+        return unlockedTechs;
+    }
+
     public string GetName()
     {
         return Language.main.Get(localizationKey);

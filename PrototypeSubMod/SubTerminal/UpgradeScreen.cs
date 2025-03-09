@@ -33,6 +33,7 @@ internal class UpgradeScreen : MonoBehaviour
         CheckIfUnlocked(TechType.None, false);
     }
 
+    // The verbose bit is needed for the KnownTech event
     private void CheckIfUnlocked(TechType techType, bool verbose)
     {
         if (unlockBlockerImage == null) return;

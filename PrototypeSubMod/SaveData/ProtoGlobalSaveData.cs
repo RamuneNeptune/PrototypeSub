@@ -9,6 +9,7 @@ internal class ProtoGlobalSaveData : SaveDataCache
     public Dictionary<string, float> normalizedBatteryCharges = new();
 
     public Dictionary<string, float> deployableLightLifetimes = new();
+    public List<TechType> unlockedUpgradesLastCheck;
 
     public bool prototypePresent;
 
