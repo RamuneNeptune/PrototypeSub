@@ -22,7 +22,7 @@ internal class NewUpgradesScreen : MonoBehaviour
 
     private void Update()
     {
-        if (!downloadActive) return;
+        if (!downloadActive || mostRecentCategories == null || mostRecentCategories.Count == 0) return;
 
         if (currentDownloadProgress < downloadLength)
         {
@@ -30,17 +30,20 @@ internal class NewUpgradesScreen : MonoBehaviour
             float normalizedProgress = currentDownloadProgress / downloadLength;
             progressBar.fillAmount = normalizedProgress;
 
-            upgradeText.text = string.Empty;
+            var text = "";
             foreach (var category in mostRecentCategories)
             {
                 var replacedString = ReplaceWithPrecursorChars(category.GetName(), normalizedProgress);
-                upgradeText.text += replacedString + "\n";
+                text += replacedString + "\n";
             }
+
+            upgradeText.text = text;
         }
     }
 
     private void StartDownload()
     {
+        currentDownloadProgress = 0;
         downloadActive = true;
         buttonObjects.SetActive(false);
         downloadingObjects.SetActive(true);
@@ -74,7 +77,7 @@ internal class NewUpgradesScreen : MonoBehaviour
     private string ReplaceWithPrecursorChars(string original, float amount)
     {
         int length = original.Length;
-        int newLength = (int)Mathf.Lerp(length, 0, amount);
+        int newLength = (int)Mathf.Lerp(0, length, amount);
 
         string replacementString = string.Empty;
         for (int i = 0; i < length - newLength; i++)
