@@ -9,6 +9,7 @@ internal class BuildTerminalScreenManager : MonoBehaviour
     [SerializeField] private TerminalScreen firstInteractScreen;
     [SerializeField] private TerminalScreen buildScreen;
     [SerializeField] private TerminalScreen animatorScreen;
+    [SerializeField] private NewUpgradesScreen newUpgradesScreen;
     [SerializeField] private GameObject upgradeScreen;
     [SerializeField] private GameObject emptyScreen;
     [SerializeField] private MoonpoolOccupiedHandler occupiedHandler;
@@ -24,9 +25,7 @@ internal class BuildTerminalScreenManager : MonoBehaviour
 
         if (Plugin.GlobalSaveData.prototypePresent)
         {
-            upgradeScreen.gameObject.SetActive(occupiedHandler.MoonpoolHasSub);
-            emptyScreen.gameObject.SetActive(!occupiedHandler.MoonpoolHasSub);
-            buildScreen.gameObject.SetActive(false);
+            EnableMenusWhenSubInWorld();
         }
         else
         {
@@ -87,5 +86,23 @@ internal class BuildTerminalScreenManager : MonoBehaviour
     {
         animatorScreen.OnStageFinished();
         upgradeScreen.gameObject.SetActive(true);
+    }
+
+    private void EnableMenusWhenSubInWorld()
+    {
+        buildScreen.gameObject.SetActive(false);
+
+        if (newUpgradesScreen.HasQueuedUnlocks())
+        {
+            newUpgradesScreen.gameObject.SetActive(true);
+            upgradeScreen.gameObject.SetActive(false);
+            emptyScreen.gameObject.SetActive(false);
+        }
+        else
+        {
+            newUpgradesScreen.gameObject.SetActive(false);
+            upgradeScreen.gameObject.SetActive(occupiedHandler.MoonpoolHasSub);
+            emptyScreen.gameObject.SetActive(!occupiedHandler.MoonpoolHasSub);
+        }
     }
 }

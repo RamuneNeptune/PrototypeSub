@@ -50,18 +50,19 @@ internal class NewUpgradesScreen : MonoBehaviour
         }
     }
     
-    private void StartDownload()
+    public void StartDownload()
     {
         currentDownloadProgress = 0;
         downloadActive = true;
         buttonObjects.SetActive(false);
         downloadingObjects.SetActive(true);
-        mostRecentCategories = GetUnlocksSinceLastCheck();
+        mostRecentCategories = GetUnlocksSinceLastCheck(out _);
+        UpdateStoredUnlocks();
     }
 
-    public List<ProtoUpgradeCategory> GetUnlocksSinceLastCheck()
+    public List<ProtoUpgradeCategory> GetUnlocksSinceLastCheck(out List<TechType> currentlyUnlocked)
     {
-        var currentlyUnlocked = new List<TechType>();
+        currentlyUnlocked = new List<TechType>();
         var newUnlocks = new List<ProtoUpgradeCategory>();
 
         foreach (var category in upgradeCategories)
@@ -79,8 +80,17 @@ internal class NewUpgradesScreen : MonoBehaviour
             currentlyUnlocked.AddRange(unlockedTechs);
         }
 
-        Plugin.GlobalSaveData.unlockedUpgradesLastCheck = currentlyUnlocked;
         return newUnlocks;
+    }
+
+    public bool HasQueuedUnlocks()
+    {
+        return GetUnlocksSinceLastCheck(out _).Count > 0;
+    }
+
+    private void UpdateStoredUnlocks()
+    {
+        GetUnlocksSinceLastCheck(out Plugin.GlobalSaveData.unlockedUpgradesLastCheck);
     }
 
     private string ReplaceWithPrecursorChars(string original, float amount)
@@ -96,4 +106,13 @@ internal class NewUpgradesScreen : MonoBehaviour
 
         return original[0..newLength] + replacementString;
     }
+
+    public void ResetDownload()
+    {
+        downloadActive = false;
+        buttonObjects.SetActive(true);
+        downloadingObjects.SetActive(false);
+    }
+
+    private void OnEnable() => ResetDownload();
 }

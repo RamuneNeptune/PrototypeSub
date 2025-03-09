@@ -1102,6 +1102,7 @@ MonoBehaviour:
   firstInteractScreen: {fileID: 3102151815997746804}
   buildScreen: {fileID: 881554592531729044}
   animatorScreen: {fileID: 9057623526303307991}
+  newUpgradesScreen: {fileID: 687574536432655952}
   upgradeScreen: {fileID: 1997155807617855908}
   emptyScreen: {fileID: 6828767911130665040}
   occupiedHandler: {fileID: 3087815451263599694}
@@ -5060,7 +5061,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4198163719332697317}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 687574536432655952}
+        m_MethodName: StartDownload
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &2487089338511715203
 GameObject:
   m_ObjectHideFlags: 0
@@ -14885,7 +14897,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &7974408652939839515
 RectTransform:
   m_ObjectHideFlags: 0
@@ -16529,7 +16541,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2028496201765338627
 RectTransform:
   m_ObjectHideFlags: 0
@@ -18883,17 +18895,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Engine
-
-    -----------------
-
-    Interceptor
-
-    -----------------
-
-    Hull
-
-'
+  m_text: "Engine\n\u2014\u2014\u2014\u2014\u2014\u2014\u2014\nInterceptor\n\u2014\u2014\u2014\u2014\u2014\u2014\u2014\nHull\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
