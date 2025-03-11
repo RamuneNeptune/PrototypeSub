@@ -115,6 +115,7 @@ public class TetherManager : MonoBehaviour, IUIElement
         selectedIcon = icon;
         selectionPreview.sprite = icon.GetAbility().GetSprite();
         onAbilitySelected?.Invoke();
+        onAbilityActivatedChanged?.Invoke(selectedIcon.GetAbility());
 
         if (forceColSwap)
         {
@@ -135,7 +136,7 @@ public class TetherManager : MonoBehaviour, IUIElement
         if (!selectedIcon) return;
 
         selectedIcon.Activate();
-        onAbilityActivatedChanged.Invoke(selectedIcon.GetAbility());
+        onAbilityActivatedChanged?.Invoke(selectedIcon.GetAbility());
     }
 
     private RadialIcon GetIconClosestToPointer()

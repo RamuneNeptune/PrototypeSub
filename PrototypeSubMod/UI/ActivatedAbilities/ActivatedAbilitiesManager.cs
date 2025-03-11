@@ -24,7 +24,6 @@ internal class ActivatedAbilitiesManager : MonoBehaviour
     {
         var activeIcon = activeAbilityIcons.FirstOrDefault(i => i != null && i.GetIcon() == icon);
         bool isActive = activeIcon != null && activeIcon.GetIcon().GetActive();
-        ErrorMessage.AddError($"Selected changed on {icon} | Active icon = {activeIcon} | isActive = {isActive}");
 
         if (activeIcon == null)
         {
