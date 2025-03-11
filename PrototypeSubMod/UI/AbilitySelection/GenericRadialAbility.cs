@@ -7,6 +7,8 @@ internal class GenericRadialAbility : MonoBehaviour, IAbilityIcon
 {
     [SerializeField] private bool showAbility = true;
     [SerializeField] private Sprite sprite;
+    [Tooltip("This object should be set inactive when the upgrade is inactive, and vice versa")]
+    [SerializeField] private GameObject upgradeActiveObject;
     [SerializeField] private UnityEvent onActivated;
     [SerializeField] private UnityEvent onUnselected;
 
@@ -24,5 +26,12 @@ internal class GenericRadialAbility : MonoBehaviour, IAbilityIcon
         {
             onUnselected?.Invoke();
         }
+    }
+
+    public bool GetActive()
+    {
+        if (!upgradeActiveObject) return false;
+
+        return upgradeActiveObject.activeSelf;
     }
 }

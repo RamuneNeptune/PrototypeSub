@@ -2,6 +2,7 @@
 using PrototypeSubMod.Upgrades;
 using PrototypeSubMod.Utility;
 using SubLibrary.UI;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -131,5 +132,10 @@ internal class SelectionMenuManager : MonoBehaviour, IUIElement
     public void OnSubDestroyed()
     {
         MainCameraControl_Patches.SetOverwriteDelta(Vector2.zero, false);
+    }
+
+    public List<IAbilityIcon> GetAbilityIcons()
+    {
+        return iconsToShow;
     }
 }

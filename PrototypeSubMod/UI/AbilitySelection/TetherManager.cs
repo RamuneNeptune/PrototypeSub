@@ -9,6 +9,7 @@ namespace PrototypeSubMod.UI.AbilitySelection;
 
 public class TetherManager : MonoBehaviour, IUIElement
 {
+    public Action<IAbilityIcon> onAbilityActivatedChanged;
     public Action onAbilitySelected;
 
     [SerializeField] private PilotingChair chair;
@@ -134,6 +135,7 @@ public class TetherManager : MonoBehaviour, IUIElement
         if (!selectedIcon) return;
 
         selectedIcon.Activate();
+        onAbilityActivatedChanged.Invoke(selectedIcon.GetAbility());
     }
 
     private RadialIcon GetIconClosestToPointer()
