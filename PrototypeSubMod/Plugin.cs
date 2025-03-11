@@ -476,7 +476,7 @@ namespace PrototypeSubMod
             PDALog_Patches.entries.Add(("PDA_OnDisableCloak", "OnDefenseCloakDisabled"));
             PDALog_Patches.entries.Add(("PDA_OnEnterMoonpool", "OnEnterDefenseMoonpool"));
             PDALog_Patches.entries.Add(("PDA_OnMoonpoolDisallow", "OnMoonpoolNoPrototype"));
-            PDALog_Patches.entries.Add(("PDA_OnApproachDefense", "OnApproachDefenseFacility"));
+            PDALog_Patches.entries.Add(("PDA_ApproachDefense", "OnApproachDefenseFacility"));
         }
 
         private Structure LoadStructureFromBundle(string name)
