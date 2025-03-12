@@ -1,10 +1,12 @@
-﻿using System.Collections;
+﻿using PrototypeSubMod.Utility;
+using System.Collections;
 using UnityEngine;
 
 namespace PrototypeSubMod.MiscMonobehaviors.PrefabRetrievers;
 
 internal class SpawnSeaglideMap : MonoBehaviour
 {
+    [SaveStateReference]
     private static GameObject SeaglidePrefab;
 
     [SerializeField] private MeshRenderer positionDot;
@@ -29,6 +31,7 @@ internal class SpawnSeaglideMap : MonoBehaviour
         SeaglidePrefab = seaglideTask.GetResult();
         SpawnMap();
 
+        yield return new WaitForEndOfFrame();
         yield return new WaitForEndOfFrame();
 
         miniWorld.materialInstance.SetColor(ShaderPropertyID._Color, mapColor);
