@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using Nautilus.Handlers;
+using PrototypeSubMod.Utility;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -11,6 +12,7 @@ namespace PrototypeSubMod.Facilities;
 
 internal class MultipurposeKeyTerminal : MonoBehaviour
 {
+    [SaveStateReference]
     private static GameObject KeyTerminalPrefab;
 
     [SerializeField] private string techType;

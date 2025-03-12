@@ -2,6 +2,7 @@
 using PrototypeSubMod.Compatibility;
 using PrototypeSubMod.MiscMonobehaviors.SubSystems;
 using PrototypeSubMod.Patches;
+using PrototypeSubMod.Utility;
 using System.Collections;
 using UnityEngine;
 
@@ -11,6 +12,7 @@ internal class InterceptorReactorSequenceManager : MonoBehaviour
 {
     private static readonly Vector3 VoidTeleportPos = new Vector3(-1590, -562, -288);
 
+    [SaveStateReference]
     private static InterfloorTeleporter Teleporter;
     private static Vector3 MostRecentReturnPos;
 
@@ -53,6 +55,7 @@ internal class InterceptorReactorSequenceManager : MonoBehaviour
         UWE.CoroutineHost.StartCoroutine(TeleportToIsland());
     }
 
+    [SaveStateReference(false)]
     private static bool sequenceInProgress;
 
     public static void EndReactorSequence()

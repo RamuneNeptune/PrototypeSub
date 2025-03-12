@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using PrototypeSubMod.Utility;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -9,6 +10,7 @@ namespace PrototypeSubMod.Facilities;
 internal class MultipurposeAlienTerminal : MonoBehaviour
 {
     public event Action onTerminalInteracted;
+    [SaveStateReference]
     private static GameObject prefab;
 
     [SerializeField] private string primaryTooltip = "GenericConsole";

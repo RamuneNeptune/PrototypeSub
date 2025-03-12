@@ -7,7 +7,8 @@ namespace PrototypeSubMod.Facilities.Interceptor;
 
 internal class InterceptorIslandManager : MonoBehaviour
 {
-    public static InterceptorIslandManager Instance { get; private set; }
+    [SaveStateReference]
+    public static InterceptorIslandManager Instance;
 
     [SerializeField] private PrecursorTeleporter teleporter;
     [SerializeField] private MultipurposeAlienTerminal terminal;

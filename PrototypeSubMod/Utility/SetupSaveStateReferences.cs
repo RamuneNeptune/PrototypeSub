@@ -6,7 +6,7 @@ namespace PrototypeSubMod.Utility;
 
 internal static class SetupSaveStateReferences
 {
-    private static List<FieldInfo> SaveStateReferences = new();
+    private static Dictionary<FieldInfo, object> SaveStateReferences = new();
     private static bool eventAdded;
 
     public static void SetupReferences(Assembly assembly)
@@ -19,9 +19,9 @@ internal static class SetupSaveStateReferences
                 var attributes = field.GetCustomAttributes();
                 foreach (var attribute in attributes)
                 {
-                    if (attribute is SaveStateReferenceAttribute)
+                    if (attribute is SaveStateReferenceAttribute reference)
                     {
-                        SaveStateReferences.Add(field);
+                        SaveStateReferences.Add(field, reference.defaultValue);
                         break;
                     }
                 }
@@ -37,9 +37,9 @@ internal static class SetupSaveStateReferences
     private static void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         eventAdded = true;
-        foreach (var info in SaveStateReferences)
+        foreach (var info in SaveStateReferences.Keys)
         {
-            info.SetValue(null, null);
+            info.SetValue(null, SaveStateReferences[info]);
         }
     }
 }
