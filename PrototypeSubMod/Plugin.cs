@@ -104,6 +104,7 @@ namespace PrototypeSubMod
             LoadEasyPrefabs.LoadPrefabs(AssetBundle);
             ROTACompatManager.AddCompatiblePowerSources();
             WeatherCompatManager.Initialize();
+            SetupSaveStateReferences.SetupReferences(Assembly);
 
             UWE.CoroutineHost.StartCoroutine(Initialize());
 
