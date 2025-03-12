@@ -20,11 +20,11 @@ internal class ProtoDestructionEvent : MonoBehaviour, IOnTakeDamage
 
         if (Player.main.currentSub == subRoot)
         {
-            internalSequence.StartSequence();
+            internalSequence.StartSequence(subRoot);
         }
         else
         {
-            externalSequence.StartSequence();
+            externalSequence.StartSequence(subRoot);
         }
     }
 

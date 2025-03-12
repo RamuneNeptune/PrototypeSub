@@ -34,7 +34,7 @@ internal class EmpSpawner : MonoBehaviour
 
     public void FireEMP(float disableElectronicsTime)
     {
-        var newEMP = Instantiate(empPrefab, empSpawnPos.position, empSpawnPos.rotation, empSpawnPos);
+        var newEMP = Instantiate(empPrefab, empSpawnPos.position, empSpawnPos.rotation);
         newEMP.SetActive(true);
         newEMP.GetComponent<EMPBlast>().disableElectronicsTime = disableElectronicsTime;
     }

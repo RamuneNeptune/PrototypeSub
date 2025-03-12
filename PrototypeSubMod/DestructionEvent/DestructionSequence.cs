@@ -4,5 +4,5 @@ namespace PrototypeSubMod.DestructionEvent;
 
 internal abstract class DestructionSequence : MonoBehaviour
 {
-    public abstract void StartSequence();
+    public abstract void StartSequence(SubRoot subRoot);
 }
