@@ -17,40 +17,15 @@ internal class ProtoIonGenerator : ProtoUpgrade
     [SerializeField] private float empOxygenDisableTime = 150f;
 
     [Header("EMP")]
+    [SerializeField] private EmpSpawner empSpawner;
     [SerializeField] private VoiceNotification empNotification;
-    [SerializeField] private Transform empSpawnPos;
-    [SerializeField] private float empLifetime;
-    [SerializeField] private AnimationCurve blastRadius;
-    [SerializeField] private AnimationCurve blastHeight;
-    [SerializeField] private float disableElectronicsTime;
     [SerializeField] private FMOD_CustomEmitter empSoundEffect;
     [SerializeField] private float soundEffectVolume = 20f;
+    [SerializeField] private float disableElectronicsTime;
 
-    private GameObject empPrefab;
     private bool empFired;
     private float currentEMPChargeTime;
     private float energyMultiplier = 1;
-
-    private IEnumerator Start()
-    {
-        CoroutineTask<GameObject> crabsquidTask = CraftData.GetPrefabForTechTypeAsync(TechType.CrabSquid);
-
-        yield return crabsquidTask;
-
-        GameObject crabsquid = crabsquidTask.result.Get();
-        var empAttack = crabsquid.GetComponent<EMPAttack>();
-
-        empAttack.ammoPrefab.SetActive(false);
-        empPrefab = Instantiate(empAttack.ammoPrefab);
-
-        empAttack.ammoPrefab.SetActive(true);
-        var empBlast = empPrefab.GetComponent<EMPBlast>();
-
-        empBlast.lifeTime = empLifetime;
-        empBlast.blastRadius = blastRadius;
-        empBlast.blastHeight = blastHeight;
-        empBlast.disableElectronicsTime = disableElectronicsTime;
-    }
 
     private void Update()
     {
@@ -107,12 +82,11 @@ internal class ProtoIonGenerator : ProtoUpgrade
         yield return new WaitForSeconds(10.25f);
 
         //Do EMP thing
-        var newEMP = Instantiate(empPrefab, empSpawnPos.position, empSpawnPos.rotation, empSpawnPos);
-        newEMP.SetActive(true);
         upgradeEnabled = false;
+        empSpawner.FireEMP(disableElectronicsTime);
 
         subRoot.powerRelay.DisableElectronicsForTime(empOxygenDisableTime);
-        Utils.PlayEnvSound(empSoundEffect, empSpawnPos.position, soundEffectVolume);
+        Utils.PlayEnvSound(empSoundEffect, empSpawner.GetSpawnPos().position, soundEffectVolume);
     }
 
     public void SetEnergyMultiplier(float multiplier)
