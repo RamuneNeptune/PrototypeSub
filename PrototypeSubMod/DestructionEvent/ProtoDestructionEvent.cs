@@ -17,6 +17,19 @@ internal class ProtoDestructionEvent : MonoBehaviour, IOnTakeDamage
         yield return new WaitForSeconds(18f);
 
         ErrorMessage.AddError($"The sub just got destroyed!");
+        subRoot.subWarning = false;
+        subRoot.fireSuppressionState = false;
+        subRoot.silentRunning = false;
+        subRoot.GetComponentInChildren<SubFloodAlarm>().NewAlarmState();
+        foreach (var item in subRoot.GetComponentsInChildren<FMOD_CustomEmitter>(true))
+        {
+            item.Stop();
+        }
+
+        foreach (var item in subRoot.GetComponentsInChildren<Fire>(true))
+        {
+            item.Douse(200f);
+        }
 
         if (Player.main.currentSub == subRoot)
         {
