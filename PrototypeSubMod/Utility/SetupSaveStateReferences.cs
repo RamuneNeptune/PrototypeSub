@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using HarmonyLib;
+using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine.SceneManagement;
 
@@ -13,7 +14,8 @@ internal static class SetupSaveStateReferences
     {
         foreach (var type in assembly.GetTypes())
         {
-            var fields = type.GetFields();
+            var fields = type.GetFields(BindingFlags.Static | BindingFlags.NonPublic);
+            fields.AddRangeToArray(type.GetFields(BindingFlags.Static | BindingFlags.Public));
             foreach (var field in fields)
             {
                 var attributes = field.GetCustomAttributes();
@@ -31,12 +33,14 @@ internal static class SetupSaveStateReferences
         if (!eventAdded)
         {
             SceneManager.sceneLoaded += OnSceneLoaded;
+            eventAdded = true;
         }
     }
 
     private static void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        eventAdded = true;
+        if (scene.name != "MenuEnvironment") return;
+
         foreach (var info in SaveStateReferences.Keys)
         {
             info.SetValue(null, SaveStateReferences[info]);
