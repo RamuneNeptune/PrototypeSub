@@ -25,10 +25,10 @@ internal class ExternalDestructionSequence : DestructionSequence
     public override void StartSequence(SubRoot subRoot)
     {
         empSpawner.FireEMP(disableElectronicsTime);
-        //subRoot.gameObject.SetActive(false);
-        //subRoot.transform.position = new Vector3(0, 100, 0);
+        subRoot.gameObject.SetActive(false);
+        subRoot.transform.position = new Vector3(0, 100, 0);
 
         var fx = Instantiate(warpOutFX, warpOutSpawnPos.position, warpOutSpawnPos.rotation);
-        fx.transform.localScale = Vector3.one * 8f;
+        fx.transform.localScale = Vector3.one * 15f;
     }
 }
