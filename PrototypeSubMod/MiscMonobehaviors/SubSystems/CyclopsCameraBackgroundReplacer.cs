@@ -14,6 +14,7 @@ internal class CyclopsCameraBackgroundReplacer : MonoBehaviour
     [SerializeField] private string imageHolderName;
     [SerializeField] private Sprite backgroundSprite;
     [SerializeField] private Vector2 spriteScale = Vector2.one;
+    [SerializeField] private Color imageColor = Color.white;
 
     private Image backgroundImage;
     private GameObject titleUnderline;
@@ -38,7 +39,8 @@ internal class CyclopsCameraBackgroundReplacer : MonoBehaviour
             imageHolder.localPosition = Vector3.zero;
             imageHolder.localScale = new Vector3(spriteScale.x, spriteScale.y, 1);
             imageHolder.localRotation = Quaternion.identity;
-            imageHolder.gameObject.AddComponent<Image>();
+            var img = imageHolder.gameObject.AddComponent<Image>();
+            img.color = imageColor;
         }
 
         backgroundImage = imageHolder.GetComponent<Image>();
