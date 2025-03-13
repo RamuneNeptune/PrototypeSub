@@ -8,6 +8,7 @@ internal class BuildTerminalScreenManager : MonoBehaviour
 {
     [SerializeField] private TerminalScreen firstInteractScreen;
     [SerializeField] private TerminalScreen buildScreen;
+    [SerializeField] private TerminalScreen rebuildScreen;
     [SerializeField] private TerminalScreen animatorScreen;
     [SerializeField] private NewUpgradesScreen newUpgradesScreen;
     [SerializeField] private GameObject upgradeScreen;
@@ -24,13 +25,22 @@ internal class BuildTerminalScreenManager : MonoBehaviour
         animatorScreen.gameObject.SetActive(false);
         newUpgradesScreen.gameObject.SetActive(false);
 
-        if (Plugin.GlobalSaveData.prototypePresent)
+        if (Plugin.GlobalSaveData.prototypeDestroyed)
+        {
+            rebuildScreen.gameObject.SetActive(true);
+
+            buildScreen.gameObject.SetActive(false);
+            upgradeScreen.gameObject.SetActive(false);
+            emptyScreen.gameObject.SetActive(false);
+        }
+        else if (Plugin.GlobalSaveData.prototypePresent)
         {
             EnableMenusWhenSubInWorld();
         }
         else
         {
             buildScreen.gameObject.SetActive(true);
+            rebuildScreen.gameObject.SetActive(false);
             upgradeScreen.gameObject.SetActive(false);
             emptyScreen.gameObject.SetActive(false);
         }
@@ -95,6 +105,7 @@ internal class BuildTerminalScreenManager : MonoBehaviour
     private void EnableMenusWhenSubInWorld()
     {
         buildScreen.gameObject.SetActive(false);
+        rebuildScreen.gameObject.SetActive(false);
 
         if (newUpgradesScreen.HasQueuedUnlocks())
         {

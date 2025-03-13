@@ -1,4 +1,5 @@
 ﻿using PrototypeSubMod.Prefabs;
+using PrototypeSubMod.Utility;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
@@ -13,13 +14,15 @@ internal class uGUI_ProtoBuildScreen : TerminalScreen
     [SerializeField] private RocketBuilderTooltip tooltip;
     [SerializeField] private PlayerDistanceTracker distanceTracker;
     [SerializeField] private MoonpoolOccupiedHandler occupiedHandler;
+    [SerializeField] private DummyTechType overrideTechType;
 
     private bool tooltipsActive;
     private Coroutine tooltipCoroutine;
 
     private void Awake()
     {
-        tooltip.rocketTechType = Prototype_Craftable.SubInfo.TechType;
+        var techType = overrideTechType != null ? overrideTechType.TechType : Prototype_Craftable.SubInfo.TechType;
+        tooltip.rocketTechType = techType;
 
         tooltipCoroutine = UWE.CoroutineHost.StartCoroutine(UpdateTooltipActive());
     }
