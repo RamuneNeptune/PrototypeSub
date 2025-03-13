@@ -1,18 +1,22 @@
 ﻿using PrototypeSubMod.Utility;
+using SubLibrary.SaveData;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace PrototypeSubMod.DestructionEvent;
 
-internal class ProtoSaveStateManager : MonoBehaviour
+internal class ProtoSaveStateManager : MonoBehaviour, IProtoEventListener
 {
-    [SaveStateReference]
+    [SaveStateReference(default(List<ProtoSaveStateManager>))]
     public static List<ProtoSaveStateManager> DestroyedManagers = new();
 
     [SerializeField] private SubRoot root;
 
-    private void Start()
+    private void Awake()
     {
+        if (DestroyedManagers == null) DestroyedManagers = new();
+
         root.gameObject.SetActive(!Plugin.GlobalSaveData.prototypeDestroyed);
         if (Plugin.GlobalSaveData.prototypeDestroyed && !DestroyedManagers.Contains(this))
         {
@@ -44,4 +48,22 @@ internal class ProtoSaveStateManager : MonoBehaviour
     }
 
     public bool SubDestroyed() => Plugin.GlobalSaveData.prototypeDestroyed;
+
+    public void OnProtoSerialize(ProtobufSerializer serializer)
+    {
+        UWE.CoroutineHost.StartCoroutine(SetActiveState());
+    }
+
+    public void OnProtoDeserialize(ProtobufSerializer serializer)
+    {
+        UWE.CoroutineHost.StartCoroutine(SetActiveState());
+    }
+
+    private IEnumerator SetActiveState()
+    {
+        yield return new WaitForEndOfFrame();
+        gameObject.SetActive(true);
+        yield return new WaitForEndOfFrame();
+        root.gameObject.SetActive(!Plugin.GlobalSaveData.prototypeDestroyed);
+    }
 }

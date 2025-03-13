@@ -32,11 +32,6 @@ internal class SubReconstructionManager : MonoBehaviour
         subTransform.gameObject.SetActive(true);
         subTransform.GetComponent<LiveMixin>().ResetHealth();
 
-        foreach (var point in subTransform.GetComponentsInChildren<CyclopsDamagePoint>())
-        {
-            point.OnRepair();
-        }
-
         foreach (var source in subTransform.GetComponentsInChildren<PrototypePowerSource>())
         {
             CoroutineHost.StartCoroutine(source.SpawnDefaultBattery());
