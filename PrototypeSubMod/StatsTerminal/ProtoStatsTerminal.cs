@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace PrototypeSubMod.StatsTerminal;
 
@@ -8,12 +9,19 @@ internal class ProtoStatsTerminal : MonoBehaviour
     [SerializeField] private BehaviourLOD lod;
     [SerializeField] private float intermittentUpdateInterval = 2f;
 
-    private IStatistic[] statistics;
-    private float currentIntervalTime;
+    private event Action onUpdate;
+    private event Action onUpdateIntermittent;
 
     private void Start()
     {
-        statistics = GetComponents<IStatistic>();
+        var statistics = GetComponents<IStatistic>();
+        InvokeRepeating(nameof(UpdateIntermittent), 0, intermittentUpdateInterval);
+
+        foreach (var item in statistics)
+        {
+            onUpdate += item.UpdateStat;
+            onUpdateIntermittent += item.UpdateStatIntermittent;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -32,24 +40,13 @@ internal class ProtoStatsTerminal : MonoBehaviour
 
     private void Update()
     {
-        if (!lod.IsFull()) return;
+        if ((transform.position - Player.main.transform.position).sqrMagnitude > 50) return;
 
-        foreach (var item in statistics)
-        {
-            item.UpdateStat();
-        }
+        onUpdate?.Invoke();
+    }
 
-        if (currentIntervalTime < intermittentUpdateInterval)
-        {
-            currentIntervalTime += Time.deltaTime;
-        }
-        else
-        {
-            currentIntervalTime = 0;
-            foreach (var item in statistics)
-            {
-                item.UpdateStatIntermittent();
-            }
-        }
+    private void UpdateIntermittent()
+    {
+        onUpdateIntermittent?.Invoke();
     }
 }
