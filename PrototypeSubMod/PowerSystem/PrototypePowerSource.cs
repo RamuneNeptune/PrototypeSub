@@ -178,7 +178,7 @@ internal class PrototypePowerSource : MonoBehaviour, IPowerInterface, ISaveDataL
         protoData.powerSourceDatas[gameObject.name] = powerSourceData;
     }
 
-    private IEnumerator SpawnDefaultBattery()
+    public IEnumerator SpawnDefaultBattery()
     {
         CoroutineTask<GameObject> prefabTask = CraftData.GetPrefabForTechTypeAsync(defaultBattery);
 

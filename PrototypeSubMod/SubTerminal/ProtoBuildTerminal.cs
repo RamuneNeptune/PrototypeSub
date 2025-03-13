@@ -1,5 +1,6 @@
 ﻿using PrototypeSubMod.Prefabs;
 using Story;
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -35,7 +36,15 @@ internal class ProtoBuildTerminal : Crafter
         UWE.CoroutineHost.StartCoroutine(StartCraftChargeUp(techType, duration));
     }
 
-    private IEnumerator StartCraftChargeUp(TechType techType, float duration)
+    public void RebuildSub(SubReconstructionManager manager)
+    {
+        if (!CrafterLogic.ConsumeResources(manager.GetReconstructionTechType())) return;
+
+        UWE.CoroutineHost.StartCoroutine(StartCraftChargeUp(TechType.None, buildDuration, false));
+        UWE.CoroutineHost.StartCoroutine(StartReconstruction(manager));
+    }
+
+    private IEnumerator StartCraftChargeUp(TechType techType, float duration, bool craft = true)
     {
         chargeUpSFX.Play();
         screenManager.BeginBuildStage();
@@ -49,7 +58,10 @@ internal class ProtoBuildTerminal : Crafter
 
         yield return new WaitForSeconds(buildDelay);
 
-        base.Craft(techType, duration);
+        if (craft)
+        {
+            base.Craft(techType, duration);
+        }
         foreach (var item in batteryManagers)
         {
             item.StartBatteryDrain(buildDuration);
@@ -68,10 +80,16 @@ internal class ProtoBuildTerminal : Crafter
         var prefab = CraftData.GetPrefabForTechTypeAsync(techType);
         yield return prefab;
 
-        FMODUWE.PlayOneShot(buildSoundEffect, buildPosition.position);
         var instantiatedPrefab = Instantiate(prefab.result.Get(), buildPosition.position, buildPosition.rotation);
         instantiatedPrefab.SetActive(true);
         prefab = null;
+
+        StartConstruction(instantiatedPrefab, techType, duration);
+    }
+
+    private void StartConstruction(GameObject instantiatedPrefab, TechType techType, float duration)
+    {
+        FMODUWE.PlayOneShot(buildSoundEffect, buildPosition.position);
 
         CrafterLogic.NotifyCraftEnd(instantiatedPrefab, techType);
         ItemGoalTracker.OnConstruct(techType);
@@ -88,6 +106,14 @@ internal class ProtoBuildTerminal : Crafter
 
         LargeWorldEntity.Register(instantiatedPrefab);
         SendBuildBots(instantiatedPrefab);
+    }
+
+    private IEnumerator StartReconstruction(SubReconstructionManager manager)
+    {
+        yield return new WaitForSeconds(buildDelay);
+
+        manager.OnConstructionStarted(buildPosition.position, buildPosition.rotation);
+        StartConstruction(manager.GetSubObject(), manager.GetReconstructionTechType(), buildDuration);
     }
 
     private void SendBuildBots(GameObject toBuild)

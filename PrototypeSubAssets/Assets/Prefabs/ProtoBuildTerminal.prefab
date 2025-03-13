@@ -16160,6 +16160,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5431768966225701964}
   - component: {fileID: 2309146455900981923}
+  - component: {fileID: 4776030685502592130}
   m_Layer: 0
   m_Name: RebuildScreen
   m_TagString: Untagged
@@ -16204,12 +16205,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onBuildStarted:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4776030685502592130}
+        m_MethodName: ReconstructSub
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   buildTerminal: {fileID: 5753649986567304265}
   tooltip: {fileID: 1726423975575517321}
   distanceTracker: {fileID: 512433367911856363}
   occupiedHandler: {fileID: 3087815451263599694}
   overrideTechType: {fileID: 11400000, guid: 27e1203c368fcd14b95b1b013774fbe5, type: 2}
+--- !u!114 &4776030685502592130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7078246170509570966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1718076376, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buildTerminal: {fileID: 5753649986567304265}
+  reconstructionType: {fileID: 11400000, guid: 27e1203c368fcd14b95b1b013774fbe5, type: 2}
 --- !u!1 &7151863066135730637
 GameObject:
   m_ObjectHideFlags: 0
@@ -21821,9 +21847,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0e63f04a731ca394b948b6f8d33eea48, type: 3}
---- !u!4 &8382666977007594244 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 0e63f04a731ca394b948b6f8d33eea48,
+--- !u!1 &928409058957113202 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -54657477031576675, guid: 0e63f04a731ca394b948b6f8d33eea48,
     type: 3}
   m_PrefabInstance: {fileID: 8349548702852058351}
   m_PrefabAsset: {fileID: 0}
@@ -21833,9 +21859,9 @@ MeshRenderer:
     type: 3}
   m_PrefabInstance: {fileID: 8349548702852058351}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &928409058957113202 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: -54657477031576675, guid: 0e63f04a731ca394b948b6f8d33eea48,
+--- !u!4 &8382666977007594244 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 0e63f04a731ca394b948b6f8d33eea48,
     type: 3}
   m_PrefabInstance: {fileID: 8349548702852058351}
   m_PrefabAsset: {fileID: 0}
