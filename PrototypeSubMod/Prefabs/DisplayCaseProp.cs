@@ -77,7 +77,6 @@ internal class DisplayCaseProp
     private static readonly List<Type> whitelistedComponents = new()
     {
         typeof(Transform),
-        typeof(PrefabIdentifier),
         typeof(Renderer),
         typeof(MeshFilter),
     };

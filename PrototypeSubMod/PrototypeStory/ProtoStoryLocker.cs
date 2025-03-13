@@ -40,7 +40,7 @@ internal class ProtoStoryLocker : MonoBehaviour
 
     private IEnumerator CheckRepeated()
     {
-        while (true)
+        while (gameObject != null)
         {
             if (StoryEndingActive) yield break;
             yield return new WaitForSeconds(checkInterval);
