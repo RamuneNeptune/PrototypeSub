@@ -275,9 +275,15 @@ namespace PrototypeSubMod
             #endregion
 
             #region Defense Audit Logs
-            string auditTitle = Language.main.Get("DefenseFacilityLogs_Title");
-            string auditBody = Language.main.Get("DefenseFacilityLogs_Body");
-            PDAHandler.AddEncyclopediaEntry("DefenseFacilityAuditEncy", "DownloadedData/Precursor/Terminal", auditTitle, auditBody, unlockSound: PDAHandler.UnlockBasic);
+            string defenseAuditTitle = Language.main.Get("DefenseFacilityLogs_Title");
+            string defenseAuditBody = Language.main.Get("DefenseFacilityLogs_Body");
+            PDAHandler.AddEncyclopediaEntry("DefenseFacilityAuditEncy", "DownloadedData/Precursor/Terminal", defenseAuditTitle, defenseAuditBody, unlockSound: PDAHandler.UnlockBasic);
+            #endregion
+
+            #region Engine Audit Logs
+            string engineAuditTitle = Language.main.Get("EngineFacilityLogs_Title");
+            string engineAuditBody = Language.main.Get("EngineFacilityLogs_Body");
+            PDAHandler.AddEncyclopediaEntry("EngineFacilityAuditEncy", "DownloadedData/Precursor/Terminal", engineAuditTitle, engineAuditBody, unlockSound: PDAHandler.UnlockBasic);
             #endregion
 
             #region Facility Locations
@@ -374,8 +380,14 @@ namespace PrototypeSubMod
 
             StoryGoalHandler.RegisterCustomEvent("DefenseFacilityAuditEncy", () =>
             {
-                KnownTech.Add(PrecursorIngot_Craftable.prefabInfo.TechType);
                 PDAEncyclopedia.Add("DefenseFacilityAuditEncy", true);
+            });
+            #endregion
+
+            #region Engine Audit Logs
+            StoryGoalHandler.RegisterCustomEvent("EngineFacilityAuditEncy", () =>
+            {
+                PDAEncyclopedia.Add("EngineFacilityAuditEncy", true);
             });
             #endregion
         }
