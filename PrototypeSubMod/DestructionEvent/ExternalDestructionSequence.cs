@@ -29,6 +29,6 @@ internal class ExternalDestructionSequence : DestructionSequence
         subRoot.transform.position = new Vector3(0, 100, 0);
 
         var fx = Instantiate(warpOutFX, warpOutSpawnPos.position, warpOutSpawnPos.rotation);
-        fx.transform.localScale = Vector3.one * 15f;
+        fx.transform.localScale = Vector3.one * 10f;
     }
 }

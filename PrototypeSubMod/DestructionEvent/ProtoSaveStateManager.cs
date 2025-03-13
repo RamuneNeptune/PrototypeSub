@@ -8,7 +8,7 @@ namespace PrototypeSubMod.DestructionEvent;
 
 internal class ProtoSaveStateManager : MonoBehaviour, IProtoEventListener
 {
-    [SaveStateReference(default(List<ProtoSaveStateManager>))]
+    [SaveStateReference]
     public static List<ProtoSaveStateManager> DestroyedManagers = new();
 
     [SerializeField] private SubRoot root;

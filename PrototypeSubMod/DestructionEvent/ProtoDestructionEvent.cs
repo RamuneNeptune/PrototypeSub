@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using SubLibrary.SubFire;
+using System.Collections;
 using UnityEngine;
 
 namespace PrototypeSubMod.DestructionEvent;
@@ -27,9 +28,16 @@ internal class ProtoDestructionEvent : MonoBehaviour, IOnTakeDamage
             item.Stop();
         }
 
-        foreach (var item in subRoot.GetComponentsInChildren<Fire>(true))
+        foreach (var room in subRoot.GetComponentsInChildren<SubRoom>(true))
         {
-            item.Douse(200f);
+            var nodes = room.GetSpawnNodes();
+            foreach (var node in nodes)
+            {
+                for (int i = 0; i < node.childCount; i++)
+                {
+                    Destroy(node.GetChild(i).gameObject);
+                }
+            }
         }
 
         if (Player.main.currentSub == subRoot)
@@ -45,6 +53,8 @@ internal class ProtoDestructionEvent : MonoBehaviour, IOnTakeDamage
     public void OnTakeDamage(DamageInfo damageInfo)
     {
         if (mixin.health > 0) return;
+
+        if (Plugin.GlobalSaveData.prototypeDestroyed) return;
 
         StartCoroutine(OnDestroySub());
     }
