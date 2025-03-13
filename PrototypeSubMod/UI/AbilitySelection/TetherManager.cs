@@ -129,6 +129,8 @@ public class TetherManager : MonoBehaviour, IUIElement
     {
         if (menuOpen) return;
 
+        if (!MainCameraControl.main.enabled) return;
+
         if (Player.main.currChair != chair) return;
 
         if (!GameInput.GetButtonDown(GameInput.Button.RightHand)) return;
