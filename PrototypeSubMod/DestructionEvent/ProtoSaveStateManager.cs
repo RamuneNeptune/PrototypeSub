@@ -4,6 +4,13 @@ namespace PrototypeSubMod.DestructionEvent;
 
 internal class ProtoSaveStateManager : MonoBehaviour
 {
+    [SerializeField] private SubRoot root;
+
+    private void Start()
+    {
+        root.gameObject.SetActive(!Plugin.GlobalSaveData.prototypeDestroyed);
+    }
+
     private void OnEnable()
     {
         if (!Plugin.GlobalSaveData.prototypeDestroyed)
@@ -16,4 +23,6 @@ internal class ProtoSaveStateManager : MonoBehaviour
     {
         Plugin.GlobalSaveData.prototypePresent = false;
     }
+
+    public bool SubDestroyed() => Plugin.GlobalSaveData.prototypeDestroyed;
 }

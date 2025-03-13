@@ -13,7 +13,7 @@ internal static class LoadEasyPrefabs
     {
         foreach (var easyPrefab in assetBundle.LoadAllAssets<EasyPrefab>())
         {
-            PrefabInfo info = PrefabInfo.WithTechType(easyPrefab.techType.techTypeName, easyPrefab.unlockAtStart);
+            PrefabInfo info = PrefabInfo.WithTechType(easyPrefab.techType.techTypeName, null, null, unlockAtStart: easyPrefab.unlockAtStart);
             if (easyPrefab.sprite != null)
             {
                 info = info.WithIcon(easyPrefab.sprite);
