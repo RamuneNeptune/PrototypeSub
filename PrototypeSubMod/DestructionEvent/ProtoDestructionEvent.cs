@@ -16,6 +16,7 @@ internal class ProtoDestructionEvent : MonoBehaviour, IOnTakeDamage
     {
         yield return new WaitForSeconds(18f);
 
+        Plugin.GlobalSaveData.prototypeDestroyed = true;
         ErrorMessage.AddError($"The sub just got destroyed!");
         subRoot.subWarning = false;
         subRoot.fireSuppressionState = false;
@@ -39,8 +40,6 @@ internal class ProtoDestructionEvent : MonoBehaviour, IOnTakeDamage
         {
             externalSequence.StartSequence(subRoot);
         }
-
-        Plugin.GlobalSaveData.prototypeDestroyed = true;
     }
 
     public void OnTakeDamage(DamageInfo damageInfo)

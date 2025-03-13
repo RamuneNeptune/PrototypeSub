@@ -7,13 +7,17 @@ namespace PrototypeSubMod.DestructionEvent;
 internal class ProtoSaveStateManager : MonoBehaviour
 {
     [SaveStateReference]
-    public static List<ProtoSaveStateManager> DestroyedManagers;
+    public static List<ProtoSaveStateManager> DestroyedManagers = new();
 
     [SerializeField] private SubRoot root;
 
     private void Start()
     {
         root.gameObject.SetActive(!Plugin.GlobalSaveData.prototypeDestroyed);
+        if (Plugin.GlobalSaveData.prototypeDestroyed && !DestroyedManagers.Contains(this))
+        {
+            DestroyedManagers.Add(this);
+        }
     }
 
     private void OnEnable()

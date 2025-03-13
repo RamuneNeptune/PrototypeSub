@@ -24,6 +24,7 @@ internal class BuildTerminalScreenManager : MonoBehaviour
 
         animatorScreen.gameObject.SetActive(false);
         newUpgradesScreen.gameObject.SetActive(false);
+        rebuildScreen.gameObject.SetActive(false);
 
         if (Plugin.GlobalSaveData.prototypeDestroyed)
         {
@@ -62,6 +63,7 @@ internal class BuildTerminalScreenManager : MonoBehaviour
     public void OnConstructionStarted()
     {
         isBuilding = true;
+        rebuildScreen.gameObject.SetActive(false);
     }
 
     // Called by VFX Constructing in Update via SendMessage()
@@ -91,6 +93,7 @@ internal class BuildTerminalScreenManager : MonoBehaviour
 
     public void BeginBuildStage()
     {
+        rebuildScreen.gameObject.SetActive(false);
         buildScreen.OnStageFinished();
         animatorScreen.OnStageStarted();
     }

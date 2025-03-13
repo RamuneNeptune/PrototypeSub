@@ -19,6 +19,8 @@ internal class ProtoHealthStat : MonoBehaviour, IStatistic
 
     public void UpdateStat()
     {
+        if (renderers == null) return;
+
         currentColor = renderers[0].material.color;
         var targetColor = Color.Lerp(currentColor, holoColorOverHealth.Evaluate(liveMixin.health / liveMixin.maxHealth), Time.deltaTime * colorTransitionSpeed);
 

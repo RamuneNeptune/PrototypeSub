@@ -25,8 +25,6 @@ internal class SubReconstructionManager : MonoBehaviour
 
     public void OnConstructionStarted(Vector3 spawnPos, Quaternion spawnRotation)
     {
-        Plugin.GlobalSaveData.prototypeDestroyed = false;
-
         var subTransform = GetSubObject().transform;
         subTransform.position = spawnPos;
         subTransform.rotation = spawnRotation;
@@ -43,6 +41,11 @@ internal class SubReconstructionManager : MonoBehaviour
         {
             CoroutineHost.StartCoroutine(source.SpawnDefaultBattery());
         }
+    }
+
+    public void OnConstructionFinished()
+    {
+        Plugin.GlobalSaveData.prototypeDestroyed = false;
     }
 
     public void ReconstructSub()

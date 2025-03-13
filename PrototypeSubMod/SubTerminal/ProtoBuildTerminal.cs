@@ -114,6 +114,7 @@ internal class ProtoBuildTerminal : Crafter
 
         manager.OnConstructionStarted(buildPosition.position, buildPosition.rotation);
         StartConstruction(manager.GetSubObject(), manager.GetReconstructionTechType(), buildDuration);
+        manager.OnConstructionFinished();
     }
 
     private void SendBuildBots(GameObject toBuild)
