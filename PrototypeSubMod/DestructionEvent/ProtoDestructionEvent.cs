@@ -39,6 +39,8 @@ internal class ProtoDestructionEvent : MonoBehaviour, IOnTakeDamage
         {
             externalSequence.StartSequence(subRoot);
         }
+
+        Plugin.GlobalSaveData.prototypeDestroyed = true;
     }
 
     public void OnTakeDamage(DamageInfo damageInfo)

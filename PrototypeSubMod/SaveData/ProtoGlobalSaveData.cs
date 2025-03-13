@@ -13,6 +13,7 @@ internal class ProtoGlobalSaveData : SaveDataCache
     public List<ProtoUpgradeCategory> unlockedCategoriesLastCheck = new();
 
     public bool prototypePresent;
+    public bool prototypeDestroyed;
 
     public bool defenseCloakDisabled;
     public bool moonpoolDoorOpened;
