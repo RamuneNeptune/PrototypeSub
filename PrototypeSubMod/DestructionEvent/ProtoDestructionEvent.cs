@@ -28,6 +28,11 @@ internal class ProtoDestructionEvent : MonoBehaviour, IOnTakeDamage
             item.Stop();
         }
 
+        foreach (var damagePoint in subRoot.GetComponentsInChildren<CyclopsDamagePoint>(true))
+        {
+            subRoot.damageManager.RepairPoint(damagePoint);
+        }
+
         foreach (var room in subRoot.GetComponentsInChildren<SubRoom>(true))
         {
             var nodes = room.GetSpawnNodes();
