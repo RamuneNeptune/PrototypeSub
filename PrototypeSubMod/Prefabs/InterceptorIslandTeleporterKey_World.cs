@@ -33,6 +33,8 @@ internal class InterceptorIslandTeleporterKey_World
             tempMats[1].SetTexture("_SpecTex", replacementGlyph);
             tempMats[1].SetTexture("_Illum", replacementGlyph);
             rend2.materials = tempMats;
+
+            gameObject.GetComponent<Collider>().isTrigger = false;
         };
 
         prefab.SetGameObject(cloneTemplate);

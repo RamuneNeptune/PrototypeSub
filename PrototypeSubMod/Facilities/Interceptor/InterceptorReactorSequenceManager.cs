@@ -51,7 +51,6 @@ internal class InterceptorReactorSequenceManager : MonoBehaviour
 
     public static void StartReactorSequence()
     {
-        Plugin.GlobalSaveData.reactorSequenceComplete = true;
         UWE.CoroutineHost.StartCoroutine(TeleportToIsland());
     }
 
@@ -104,7 +103,7 @@ internal class InterceptorReactorSequenceManager : MonoBehaviour
         WeatherCompatManager.SetWeatherEnabled(false);
         WeatherCompatManager.SetWeatherClear();
 
-        InterfloorTeleporter.RunTeleportEffect(5f);
+        InterfloorTeleporter.RunTeleportEffect(5.5f);
 
         yield return new WaitForSeconds(0.5f);
 
@@ -124,5 +123,7 @@ internal class InterceptorReactorSequenceManager : MonoBehaviour
         Inventory.main.quickSlots.SetIgnoreHotkeyInput(false);
         Player.main.GetPDA().SetIgnorePDAInput(false);
         Player.main.teleportingLoopSound.Stop();
+
+        Plugin.GlobalSaveData.reactorSequenceComplete = true;
     }
 }
