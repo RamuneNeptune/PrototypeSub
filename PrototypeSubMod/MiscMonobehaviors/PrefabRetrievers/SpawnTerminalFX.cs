@@ -9,7 +9,12 @@ internal class SpawnTerminalFX : MonoBehaviour
 {
     [SerializeField] private PrecursorComputerTerminal terminal;
 
-    private IEnumerator Start()
+    private void Start()
+    {
+        CoroutineHost.StartCoroutine(SpawnFX());
+    }
+
+    private IEnumerator SpawnFX()
     {
         var prefabRequest = PrefabDatabase.GetPrefabAsync("d200d747-b802-43f4-80b1-5c3d2155fbcd");
 

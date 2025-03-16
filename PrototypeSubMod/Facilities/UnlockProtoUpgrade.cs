@@ -12,7 +12,7 @@ internal class UnlockProtoUpgrade : MonoBehaviour
 
     private bool unlocked;
 
-    private void Start()
+    private void Awake()
     {
         unlocked = KnownTech.Contains(techType.TechType);
         terminal.onTerminalInteracted += UnlockTechType;

@@ -65,7 +65,7 @@ internal class MultipurposeAlienTerminal : MonoBehaviour
         if (queuedForceInteract)
         {
             var terminal = GetComponentInChildren<PrecursorComputerTerminal>();
-            UWE.CoroutineHost.StartCoroutine(QueuedForceInteract(terminal));
+            CoroutineHost.StartCoroutine(QueuedForceInteract(terminal));
             queuedForceInteract = false;
             handTarget.interactionAllowed = allowMultipleUses;
         }
@@ -95,8 +95,7 @@ internal class MultipurposeAlienTerminal : MonoBehaviour
     public void ForceInteracted()
     {
         var terminal = GetComponentInChildren<PrecursorComputerTerminal>();
-        var controller = GetComponentInChildren<VFXController>();
-        if (!terminal || !controller)
+        if (!terminal || !terminal.fxControl || !terminal.scaleControl)
         {
             queuedForceInteract = true;
             return;
@@ -113,10 +112,9 @@ internal class MultipurposeAlienTerminal : MonoBehaviour
             yield return new WaitForEndOfFrame();
             frameCount++;
 
-            if (frameCount > 20) yield break;
+            if (frameCount > 60) yield break;
         }
 
-        terminal.DestroyFX();
-        terminal.used = true;
+        ForceInteracted();
     }
 }
