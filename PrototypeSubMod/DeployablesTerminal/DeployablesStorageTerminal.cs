@@ -45,6 +45,8 @@ internal class DeployablesStorageTerminal : MonoBehaviour, ISaveDataListener, IL
     [SerializeField] private FMODAsset unequipSound;
     [SerializeField] private ProtoDeployableManager deployableManager;
 
+    private bool ignoreSoundNextEquip;
+
     private void Awake()
     {
         Initialize();
@@ -114,12 +116,13 @@ internal class DeployablesStorageTerminal : MonoBehaviour, ISaveDataListener, IL
 
     private void OnUnequip(string slot, InventoryItem item)
     {
-        if (unequipSound != null)
+        if (unequipSound != null && !ignoreSoundNextEquip)
         {
             FMODUWE.PlayOneShot(unequipSound, transform.position, 2f);
         }
 
         deployableManager.RecalculateDeployableTotals();
+        ignoreSoundNextEquip = false;
     }
 
     public void OnSaveDataLoaded(BaseSubDataClass saveData)
@@ -142,5 +145,10 @@ internal class DeployablesStorageTerminal : MonoBehaviour, ISaveDataListener, IL
         {
             StorageHelper.TransferEquipment(storageRoot.gameObject, data.serializedDeployablesEquipment, equipment);
         }
+    }
+
+    public void IgnoreSoundNextEquip()
+    {
+        ignoreSoundNextEquip = true;
     }
 }

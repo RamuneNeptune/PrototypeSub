@@ -47,6 +47,7 @@ internal class SpawnLightsOverTime : MonoBehaviour
         pickupable.SetInventoryItem(new InventoryItem(pickupable));
 
         instance.gameObject.SetActive(false);
+        terminal.IgnoreSoundNextEquip();
         terminal.equipment.AddItem(freeSlot, pickupable.inventoryItem, true);
     }
 }
