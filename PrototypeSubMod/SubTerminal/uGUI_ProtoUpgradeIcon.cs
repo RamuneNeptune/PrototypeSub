@@ -13,7 +13,7 @@ namespace PrototypeSubMod.SubTerminal;
 internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
 {
     private static event EventHandler<UpgradeChangedEventArgs> onUpgradeChanged;
-    private static Dictionary<string, TechType> uninstallationTechTypes = new();
+    private static Dictionary<TechType, TechType> uninstallationTechTypes = new();
 
     private string UpgradeIdentifier
     {
@@ -44,7 +44,6 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
     [SerializeField] private Sprite backgroundHoverSprite;
     [SerializeField] private uGUI_ItemIcon itemIcon;
     [SerializeField] private RocketBuilderTooltip tooltip;
-    public Sprite uninstallSprite;
 
     private uGUI_ProtoBuildScreen buildScreen;
     private CrafterLogic crafterLogic;
@@ -69,7 +68,7 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
     {
         buildScreen = GetComponentInParent<BuildTerminalScreenManager>().GetComponentInChildren<uGUI_ProtoBuildScreen>(true);
         upgradeScreen = GetComponentInParent<UpgradeScreen>();
-        uninstallationTechType = uninstallationTechTypes[UpgradeIdentifier];
+        uninstallationTechType = uninstallationTechTypes[techType.TechType];
 
         atlasSpriteBGNormal = new Atlas.Sprite(backgroundNormalSprite);
         atlasSpriteBGHovered = new Atlas.Sprite(backgroundHoverSprite);
@@ -322,9 +321,9 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
         SetUpgradeTechType(CurrentTechType);
     }
 
-    public void SetUninstallationTechType(TechType techType)
+    public static void SetUninstallationTechType(TechType ownerType, TechType uninstalledType)
     {
-        uninstallationTechTypes.Add(UpgradeIdentifier, techType);
+        uninstallationTechTypes.Add(ownerType, uninstalledType);
     }
 
     public TechType GetUpgradeTechType() => techType.TechType;

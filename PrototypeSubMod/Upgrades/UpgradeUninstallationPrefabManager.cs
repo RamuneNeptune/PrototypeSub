@@ -16,13 +16,13 @@ internal static class UpgradeUninstallationPrefabManager
     {
         if (Initialized) return;
 
-        var buildTerminal = assetBundle.LoadAsset<GameObject>("ProtoBuildTerminal");
+        var uninstallationTechTypes = assetBundle.LoadAllAssets<UninstallationTechType>();
 
-        foreach (var upgrade in buildTerminal.GetComponentsInChildren<uGUI_ProtoUpgradeIcon>(true))
+        foreach (var techType in uninstallationTechTypes)
         {
-            TechType originalTechType = upgrade.GetUpgradeTechType();
-            PrefabInfo info = PrefabInfo.WithTechType($"{originalTechType}_Uninstalled")
-                .WithIcon(upgrade.uninstallSprite);
+            TechType originalTechType = techType.ownerType.TechType;
+            PrefabInfo info = PrefabInfo.WithTechType($"{originalTechType}{techType.nameSuffix}")
+                .WithIcon(techType.sprite);
 
             var prefab = new CustomPrefab(info);
             List<TechType> ingredients = new();
@@ -48,7 +48,7 @@ internal static class UpgradeUninstallationPrefabManager
 
             prefab.Register();
 
-            upgrade.SetUninstallationTechType(info.TechType);
+            uGUI_ProtoUpgradeIcon.SetUninstallationTechType(originalTechType, info.TechType);
         }
 
         Initialized = true;
