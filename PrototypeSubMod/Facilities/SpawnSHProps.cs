@@ -63,9 +63,11 @@ internal class SpawnSHProps : MonoBehaviour
             {
                 var pos = new Vector3(entityData.position.x, entityData.position.y, entityData.position.z);
                 var rot = new Quaternion(entityData.rotation.x, entityData.rotation.y, entityData.rotation.z, entityData.rotation.w);
+                var scale = new Vector3(entityData.scale.x, entityData.scale.y, entityData.scale.z);
                 var instance = GameObject.Instantiate(prefab, parent);
                 instance.transform.position = pos;
                 instance.transform.rotation = rot;
+                instance.transform.localScale = scale;
 
                 if (removeLWEs)
                 {
