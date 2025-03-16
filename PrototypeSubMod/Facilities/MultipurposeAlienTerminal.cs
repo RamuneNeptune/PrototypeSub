@@ -95,7 +95,8 @@ internal class MultipurposeAlienTerminal : MonoBehaviour
     public void ForceInteracted()
     {
         var terminal = GetComponentInChildren<PrecursorComputerTerminal>();
-        if (!terminal)
+        var controller = GetComponentInChildren<VFXController>();
+        if (!terminal || !controller)
         {
             queuedForceInteract = true;
             return;

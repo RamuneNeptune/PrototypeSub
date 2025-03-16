@@ -176,6 +176,8 @@ internal class PrototypePowerBattery : MonoBehaviour, IBattery, IProtoTreeEventL
 
     private void OnDestroy()
     {
+        if (!prefabIdentifier) return;
+
         Plugin.GlobalSaveData.normalizedBatteryCharges.Remove(prefabIdentifier.Id);
     }
 
