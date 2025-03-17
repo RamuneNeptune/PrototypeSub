@@ -46,7 +46,7 @@ internal class NewUpgradesScreen : MonoBehaviour
                 {
                     text += "———————\n";
                 }
-                
+
                 index++;
             }
 
@@ -58,7 +58,7 @@ internal class NewUpgradesScreen : MonoBehaviour
             SpawnPingIfNeeded();
         }
     }
-    
+
     public void StartDownload()
     {
         upgradeText.text = string.Empty;

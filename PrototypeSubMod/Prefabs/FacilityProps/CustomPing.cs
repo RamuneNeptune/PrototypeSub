@@ -41,7 +41,7 @@ internal class CustomPing
             }
             prefab.SetSpawns(locations);
         }
-        
+
         prefab.Register();
         return prefabInfo.TechType;
     }

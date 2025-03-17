@@ -11,7 +11,7 @@ internal class ActiveAbilityIcon : MonoBehaviour
     private IAbilityIcon icon;
 
     public void SetIcon(IAbilityIcon icon)
-    { 
+    {
         image.sprite = icon.GetSprite();
         this.icon = icon;
     }

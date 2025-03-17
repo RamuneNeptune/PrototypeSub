@@ -1,9 +1,9 @@
-﻿using Nautilus.Assets.PrefabTemplates;
-using Nautilus.Assets;
+﻿using Nautilus.Assets;
+using Nautilus.Assets.PrefabTemplates;
 using Nautilus.Handlers;
 using Nautilus.Utility;
-using UnityEngine;
 using PrototypeSubMod.MiscMonobehaviors.Materials;
+using UnityEngine;
 
 namespace PrototypeSubMod.Registration;
 

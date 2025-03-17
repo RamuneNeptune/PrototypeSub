@@ -3,27 +3,17 @@ using BepInEx.Bootstrap;
 using BepInEx.Logging;
 using EpicStructureLoader;
 using HarmonyLib;
-using ModStructureFormat;
-using Nautilus.Assets;
-using Nautilus.Assets.PrefabTemplates;
 using Nautilus.Handlers;
-using Nautilus.Utility;
-using Newtonsoft.Json;
 using PrototypeSubMod.Commands;
 using PrototypeSubMod.Compatibility;
-using PrototypeSubMod.MiscMonobehaviors.Materials;
 using PrototypeSubMod.Patches;
 using PrototypeSubMod.PowerSystem;
-using PrototypeSubMod.Prefabs;
-using PrototypeSubMod.Prefabs.FacilityProps;
-using PrototypeSubMod.PrototypeStory;
 using PrototypeSubMod.Registration;
 using PrototypeSubMod.SaveData;
 using PrototypeSubMod.Upgrades;
 using PrototypeSubMod.Utility;
 using SubLibrary.Audio;
 using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using UnityEngine;
@@ -152,7 +142,7 @@ namespace PrototypeSubMod
                 GameObject prefab = prefabTask.result.Get();
                 prefab.AddComponent<PrototypePowerBattery>();
             }
-        }     
+        }
 
         private void RegisterDependantPatches()
         {

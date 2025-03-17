@@ -1,5 +1,5 @@
-﻿using PrototypeSubMod.Prefabs.FacilityProps;
-using PrototypeSubMod.Prefabs;
+﻿using PrototypeSubMod.Prefabs;
+using PrototypeSubMod.Prefabs.FacilityProps;
 using UnityEngine;
 
 namespace PrototypeSubMod.Registration;

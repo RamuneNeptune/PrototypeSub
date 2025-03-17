@@ -100,7 +100,7 @@ internal class DeployableLight : MonoBehaviour, IProtoTreeEventListener
         {
             sphereCollider.enabled = true;
         }
-        
+
         if (!activated) return;
 
         float targetRange = activated && !piecesSeparated ? lightRange : 0;
