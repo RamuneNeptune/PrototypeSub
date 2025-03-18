@@ -184,5 +184,10 @@ public class TetherManager : MonoBehaviour, IUIElement
         selectionHighlight.SetTargetAngle(increment);
     }
 
+    public void ForceSelectedIconUpdate()
+    {
+        onAbilityActivatedChanged?.Invoke(selectedIcon == null ? selectedIcon.GetAbility() : null);
+    }
+
     public PilotingChair GetPilotingChair() => chair;
 }
