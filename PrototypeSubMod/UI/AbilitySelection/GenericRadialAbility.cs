@@ -6,6 +6,7 @@ namespace PrototypeSubMod.UI.AbilitySelection;
 internal class GenericRadialAbility : MonoBehaviour, IAbilityIcon
 {
     [SerializeField] private bool showAbility = true;
+    [SerializeField] private bool allowActivationWhenActive = true;
     [SerializeField] private Sprite sprite;
     [Tooltip("This object should be set inactive when the upgrade is inactive, and vice versa")]
     [SerializeField] private GameObject upgradeActiveObject;
@@ -17,6 +18,8 @@ internal class GenericRadialAbility : MonoBehaviour, IAbilityIcon
 
     public void OnActivated()
     {
+        if (GetActive() && !allowActivationWhenActive) return;
+
         onActivated?.Invoke();
     }
 
