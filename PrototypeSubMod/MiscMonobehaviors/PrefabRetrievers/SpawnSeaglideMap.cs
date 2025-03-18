@@ -17,14 +17,19 @@ internal class SpawnSeaglideMap : MonoBehaviour
 
     private MiniWorld miniWorld;
 
-    private IEnumerator Start()
+    private void Start()
     {
         if (SeaglidePrefab)
         {
             SpawnMap();
-            yield break;
+            return;
         }
 
+        UWE.CoroutineHost.StartCoroutine(RetrievePrefab());
+    }
+
+    private IEnumerator RetrievePrefab()
+    {
         var seaglideTask = CraftData.GetPrefabForTechTypeAsync(TechType.Seaglide);
         yield return seaglideTask;
 
