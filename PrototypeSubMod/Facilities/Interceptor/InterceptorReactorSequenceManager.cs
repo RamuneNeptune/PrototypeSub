@@ -103,7 +103,7 @@ internal class InterceptorReactorSequenceManager : MonoBehaviour
         WeatherCompatManager.SetWeatherEnabled(false);
         WeatherCompatManager.SetWeatherClear();
 
-        InterfloorTeleporter.RunTeleportEffect(5.5f);
+        InterfloorTeleporter.PlayTeleportEffect(5.5f);
 
         yield return new WaitForSeconds(0.5f);
 

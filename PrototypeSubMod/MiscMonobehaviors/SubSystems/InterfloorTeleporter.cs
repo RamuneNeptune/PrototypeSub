@@ -99,7 +99,7 @@ internal class InterfloorTeleporter : MonoBehaviour
         allowedToTeleport = true;
     }
 
-    public static void RunTeleportEffect(float duration)
+    public static void PlayTeleportEffect(float duration)
     {
         UWE.CoroutineHost.StartCoroutine(RunTeleportEffectAsync(duration));
     }
