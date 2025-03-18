@@ -13,10 +13,29 @@ internal class ProtoDestructionEvent : MonoBehaviour, IOnTakeDamage
     [SerializeField] private DestructionSequence internalSequence;
     [SerializeField] private DestructionSequence externalSequence;
 
+    private void Start()
+    {
+        DevConsole.RegisterConsoleCommand(this, "destroyproto");
+    }
+
     public IEnumerator OnDestroySub()
     {
         yield return new WaitForSeconds(18f);
 
+        DestroySub();
+    }
+
+    public void OnTakeDamage(DamageInfo damageInfo)
+    {
+        if (mixin.health > 0) return;
+
+        if (Plugin.GlobalSaveData.prototypeDestroyed) return;
+
+        StartCoroutine(OnDestroySub());
+    }
+
+    private void DestroySub()
+    {
         Plugin.GlobalSaveData.prototypeDestroyed = true;
         ErrorMessage.AddError($"The sub just got destroyed!");
         subRoot.subWarning = false;
@@ -55,12 +74,8 @@ internal class ProtoDestructionEvent : MonoBehaviour, IOnTakeDamage
         }
     }
 
-    public void OnTakeDamage(DamageInfo damageInfo)
+    private void OnConsoleCommand_destroyproto(NotificationCenter.Notification n)
     {
-        if (mixin.health > 0) return;
-
-        if (Plugin.GlobalSaveData.prototypeDestroyed) return;
-
-        StartCoroutine(OnDestroySub());
+        DestroySub();
     }
 }

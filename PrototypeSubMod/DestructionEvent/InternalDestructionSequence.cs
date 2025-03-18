@@ -7,7 +7,10 @@ namespace PrototypeSubMod.DestructionEvent;
 
 internal class InternalDestructionSequence : DestructionSequence
 {
-    private static readonly Vector3 VoidTeleportPos = new Vector3();
+    private static readonly Vector3 VoidTeleportPos = new Vector3(-2030, -612, -1551);
+
+    [SerializeField] private Transform playerPos;
+    [SerializeField] private InterfloorTeleporter[] teleporters;
 
     private void Start()
     {
@@ -17,17 +20,24 @@ internal class InternalDestructionSequence : DestructionSequence
     public override void StartSequence(SubRoot subRoot)
     {
         UWE.CoroutineHost.StartCoroutine(TeleportToVoid(subRoot));
+
+        foreach (var teleporter in teleporters)
+        {
+            teleporter.enabled = false;
+        }
     }
 
     private IEnumerator TeleportToVoid(SubRoot subRoot)
     {
         IngameMenu_Patches.SetDenySaving(true);
         InterfloorTeleporter.PlayTeleportEffect(3f);
+        subRoot.GetComponent<PingInstance>().enabled = false;
+        subRoot.GetComponent<VoiceNotificationManager>().enabled = false;
         yield return new WaitForSeconds(0.5f);
 
-        Vector3 localPlayerPos = subRoot.transform.InverseTransformPoint(Player.main.transform.position);
+        Player.main.SetCurrentSub(null, true);
+        Player.main.SetPosition(VoidTeleportPos + subRoot.transform.InverseTransformPoint(playerPos.position));
         subRoot.transform.position = VoidTeleportPos;
-        Player.main.SetPosition(VoidTeleportPos + localPlayerPos);
     }
 
     private void OnPlayerDeath(Player player)
