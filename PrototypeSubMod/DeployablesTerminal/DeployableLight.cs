@@ -1,4 +1,5 @@
 ﻿using Nautilus.Json;
+using System.Net;
 using UnityEngine;
 
 namespace PrototypeSubMod.DeployablesTerminal;
@@ -9,6 +10,7 @@ internal class DeployableLight : MonoBehaviour, IProtoTreeEventListener
     [SerializeField] private PrefabIdentifier identifier;
     [SerializeField] private Rigidbody rb;
     [SerializeField] private Animator animator;
+    [SerializeField] private Stabilizer stabilizer;
     [SerializeField] private float scaleSpeed;
     [SerializeField] private Light light;
     [SerializeField] private Collider sphereCollider;
@@ -21,7 +23,7 @@ internal class DeployableLight : MonoBehaviour, IProtoTreeEventListener
     [SerializeField] private FMOD_CustomLoopingEmitter loopingSFX;
     [SerializeField] private FMOD_CustomEmitter breakSFX;
 
-    [Header("Breaking (Bad)")]
+    [Header("Breaking")]
     [SerializeField] private GameObject topHalf;
     [SerializeField] private GameObject bottomHalf;
     [SerializeField] private GameObject lightVisual;
@@ -54,6 +56,7 @@ internal class DeployableLight : MonoBehaviour, IProtoTreeEventListener
     public void LaunchWithForce(float force, Vector3 previousVelocity)
     {
         sphereCollider.enabled = false;
+        stabilizer.enabled = false;
 
         rb.AddForce((transform.forward * force) + previousVelocity, ForceMode.Impulse);
 
@@ -76,6 +79,7 @@ internal class DeployableLight : MonoBehaviour, IProtoTreeEventListener
     {
         activated = true;
         ecoTarget.enabled = true;
+        stabilizer.enabled = true;
         animator.SetTrigger("Activate");
         deploySFX.Play();
 
