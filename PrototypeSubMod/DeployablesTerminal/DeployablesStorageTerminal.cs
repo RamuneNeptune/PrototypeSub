@@ -106,23 +106,23 @@ internal class DeployablesStorageTerminal : MonoBehaviour, ISaveDataListener, IL
 
     private void OnEquip(string slot, InventoryItem item)
     {
-        if (equipSound != null)
+        if (equipSound != null && !ignoreSoundNextEquip)
         {
             FMODUWE.PlayOneShot(equipSound, transform.position, 2f);
         }
 
         deployableManager.RecalculateDeployableTotals();
+        ignoreSoundNextEquip = false;
     }
 
     private void OnUnequip(string slot, InventoryItem item)
     {
-        if (unequipSound != null && !ignoreSoundNextEquip)
+        if (unequipSound != null)
         {
             FMODUWE.PlayOneShot(unequipSound, transform.position, 2f);
         }
 
         deployableManager.RecalculateDeployableTotals();
-        ignoreSoundNextEquip = false;
     }
 
     public void OnSaveDataLoaded(BaseSubDataClass saveData)
