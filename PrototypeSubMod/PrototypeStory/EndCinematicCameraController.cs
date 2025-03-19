@@ -7,6 +7,7 @@ namespace PrototypeSubMod.PrototypeStory;
 internal class EndCinematicCameraController : MonoBehaviour
 {
     [SerializeField] private ProtoStoryLocker storyLocker;
+    [SerializeField] private CyclopsExternalCams externalCams;
     [SerializeField] private FreezeRigidbodyWhenFar freezeWhenFar;
     [SerializeField] private Transform cameraPos;
     [SerializeField] private float cameraDelay;
@@ -32,6 +33,7 @@ internal class EndCinematicCameraController : MonoBehaviour
     {
         freezeWhenFar.enabled = false;
 
+        externalCams.SetActive(false);
         Player.main.TryEject();
         MainCameraControl.main.enabled = false;
         SNCameraRoot.main.transform.position = cameraPos.position;
