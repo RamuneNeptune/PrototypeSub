@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace PrototypeSubMod.MiscMonobehaviors.Materials;
 
-internal class SetPrefabMaterialProperty : MonoBehaviour
+public class SetPrefabMaterialProperty : MonoBehaviour
 {
     [SerializeField] private SpawnPrefabAtRuntime prefabSpawner;
     [SerializeField] private MaterialData[] materialDatas;
@@ -54,9 +54,18 @@ internal class SetPrefabMaterialProperty : MonoBehaviour
     {
         foreach (var data in serializedMaterialDatas)
         {
-            var renderer = obj.transform.Find(data.childPath)?.GetComponent<Renderer>();
-            if (!renderer) throw new System.Exception($"No renderer found at child path {data.childPath} under {obj}");
-
+            Renderer renderer = null;
+            if (string.IsNullOrEmpty(data.childPath))
+            {
+                renderer = obj.GetComponent<Renderer>();
+            }
+            else
+            {
+                renderer = obj.transform.Find(data.childPath)?.GetComponent<Renderer>();
+                if (!renderer) throw new System.Exception($"No renderer found at child path {data.childPath} under {obj}");
+            }
+            
+            
             var materials = renderer.materials;
             switch (data.type)
             {
@@ -94,9 +103,9 @@ internal class SetPrefabMaterialProperty : MonoBehaviour
     }
 }
 
-public struct MaterialData
+[System.Serializable]
+public class MaterialData
 {
-    public string name;
     public string propertyName;
     public string childPath;
     public int materialIndex;
