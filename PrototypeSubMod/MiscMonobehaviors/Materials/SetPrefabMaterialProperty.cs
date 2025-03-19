@@ -87,6 +87,8 @@ public class SetPrefabMaterialProperty : MonoBehaviour
 
     private void ReconstructMaterialDatas()
     {
+        serializedMaterialDatas = new MaterialData[propertyNames.Length];
+
         for (int i = 0; i < propertyNames.Length; i++)
         {
             serializedMaterialDatas[i] = new MaterialData();
