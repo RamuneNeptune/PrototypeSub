@@ -20,7 +20,6 @@ internal class ProtoPowerAbilitySystem : MonoBehaviour, ISaveDataListener, ILate
 
     [Header("Animation")]
     [SerializeField] private Animator animator;
-    [SerializeField] private PlayerDistanceTracker playerDistanceTracker;
     [SerializeField] private Transform powerObjectHolder;
     [SerializeField] private float maxDistance;
     [SerializeField] private FMODAsset depotOpenSFX;

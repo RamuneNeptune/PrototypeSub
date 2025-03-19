@@ -91894,7 +91894,6 @@ GameObject:
   - component: {fileID: 6727104724142906028}
   - component: {fileID: 6084648467763943676}
   - component: {fileID: 6545956557606949596}
-  - component: {fileID: 8171719074216176152}
   m_Layer: 0
   m_Name: PowerSourceAbilities
   m_TagString: Untagged
@@ -91973,7 +91972,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 4197360124944257086}
-  playerDistanceTracker: {fileID: 8171719074216176152}
+  playerDistanceTracker: {fileID: 0}
   powerObjectHolder: {fileID: 8995869395769738820}
   maxDistance: 3
   depotOpenSFX: {fileID: 11400000, guid: c68943199743a1140917e5803bda2104, type: 2}
@@ -92009,19 +92008,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   classID: d95a46c2-d48c-447f-9146-3defe8123c2f
   childObjectIdentifier: {fileID: 6084648467763943676}
---- !u!114 &8171719074216176152
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7966687399019253856}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 146425932, guid: 06dd3d5416bf43ea368cc39ff96e6d5a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxDistance: 5
 --- !u!1 &7967772738924689787
 GameObject:
   m_ObjectHideFlags: 0
@@ -107461,12 +107447,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d6cc3db34565c3a4ba68573b0eeec2a0, type: 3}
---- !u!4 &1224879765472228638 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2253812858737788773, guid: d6cc3db34565c3a4ba68573b0eeec2a0,
-    type: 3}
-  m_PrefabInstance: {fileID: 1132799834664678011}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &4466343788103864506 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3621781888743187137, guid: d6cc3db34565c3a4ba68573b0eeec2a0,
@@ -107479,6 +107459,12 @@ MonoBehaviour:
   m_Script: {fileID: -2039529286, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &1224879765472228638 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2253812858737788773, guid: d6cc3db34565c3a4ba68573b0eeec2a0,
+    type: 3}
+  m_PrefabInstance: {fileID: 1132799834664678011}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1946072641967388923
 PrefabInstance:
   m_ObjectHideFlags: 0
