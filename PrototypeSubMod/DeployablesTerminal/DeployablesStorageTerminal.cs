@@ -54,6 +54,8 @@ internal class DeployablesStorageTerminal : MonoBehaviour, ISaveDataListener, IL
 
     public void OnHover(HandTargetEventData eventData)
     {
+        if (Plugin.GlobalSaveData.prototypeDestroyed) return;
+
         HandReticle main = HandReticle.main;
         main.SetText(HandReticle.TextType.Hand, "UseDeployableTerminal", true, GameInput.Button.LeftHand);
         main.SetText(HandReticle.TextType.HandSubscript, string.Empty, false, GameInput.Button.None);
@@ -62,6 +64,8 @@ internal class DeployablesStorageTerminal : MonoBehaviour, ISaveDataListener, IL
 
     public void OnUse(HandTargetEventData eventData)
     {
+        if (Plugin.GlobalSaveData.prototypeDestroyed) return;
+
         PDA pda = Player.main.GetPDA();
         Inventory.main.SetUsedStorage(equipment);
         pda.Open(PDATab.Inventory);

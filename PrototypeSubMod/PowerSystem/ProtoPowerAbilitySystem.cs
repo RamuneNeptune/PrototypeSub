@@ -111,6 +111,8 @@ internal class ProtoPowerAbilitySystem : MonoBehaviour, ISaveDataListener, ILate
 
     public void OnHover(HandTargetEventData eventData)
     {
+        if (Plugin.GlobalSaveData.prototypeDestroyed) return;
+
         HandReticle main = HandReticle.main;
 
         if (PowerSourceActive())
@@ -133,6 +135,8 @@ internal class ProtoPowerAbilitySystem : MonoBehaviour, ISaveDataListener, ILate
 
     public void OnUse(HandTargetEventData eventData)
     {
+        if (Plugin.GlobalSaveData.prototypeDestroyed) return;
+
         if (PowerSourceActive()) return;
 
         PDA pda = Player.main.GetPDA();
@@ -262,7 +266,7 @@ internal class ProtoPowerAbilitySystem : MonoBehaviour, ISaveDataListener, ILate
 
     public void OnEnterProxy()
     {
-        if (currentPowerFunctionality != null) return;
+        if (currentPowerFunctionality != null || Plugin.GlobalSaveData.prototypeDestroyed) return;
 
         animator.SetBool("ProxyActivated", true);
         animator.SetBool("OnCooldown", false);
