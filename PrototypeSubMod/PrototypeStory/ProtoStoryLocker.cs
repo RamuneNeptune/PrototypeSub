@@ -4,6 +4,7 @@ using PrototypeSubMod.Patches;
 using PrototypeSubMod.Teleporter;
 using PrototypeSubMod.Upgrades;
 using SubLibrary.Monobehaviors;
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -13,6 +14,8 @@ internal class ProtoStoryLocker : MonoBehaviour
 {
     public static bool StoryEndingActive;
     public static bool WithinSaveLockZone;
+
+    public event Action onEndingStart;
 
     [Header("Activation")]
     [SerializeField] private float activationDistance;
@@ -96,6 +99,8 @@ internal class ProtoStoryLocker : MonoBehaviour
 
         enteredFullLock = true;
         IngameMenu_Patches.SetDenySaving(true);
+
+        onEndingStart?.Invoke();
     }
 
     private void OnEnterSaveLock()
