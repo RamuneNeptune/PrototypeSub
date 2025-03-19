@@ -49,7 +49,7 @@ internal class ProtoDestructionEvent : MonoBehaviour, IOnTakeDamage
 
         foreach (var damagePoint in subRoot.GetComponentsInChildren<CyclopsDamagePoint>(true))
         {
-            subRoot.damageManager.RepairPoint(damagePoint);
+            damagePoint.OnRepair();
         }
 
         foreach (var room in subRoot.GetComponentsInChildren<SubRoom>(true))
