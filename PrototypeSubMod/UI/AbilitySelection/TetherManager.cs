@@ -186,7 +186,7 @@ public class TetherManager : MonoBehaviour, IUIElement
 
     public void ForceSelectedIconUpdate()
     {
-        onAbilityActivatedChanged?.Invoke(selectedIcon == null ? selectedIcon.GetAbility() : null);
+        onAbilityActivatedChanged?.Invoke(selectedIcon != null ? selectedIcon.GetAbility() : null);
     }
 
     public PilotingChair GetPilotingChair() => chair;
