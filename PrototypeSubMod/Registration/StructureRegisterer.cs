@@ -32,6 +32,9 @@ internal class StructureRegisterer
         StructureLoading.RegisterStructure(LoadStructureFromBundle("ProtoIslands"), ref entityCount);
         entityCount = 0;
 
+        StructureLoading.RegisterStructure(LoadStructureFromBundle("TempHullFacility"), ref entityCount);
+        entityCount = 0;
+
         if (TRPCompatManager.TRPInstalled)
         {
             var trpIslandFile = Plugin.AssetBundle.LoadAsset<TextAsset>("RedPlagueProtoIslands");
