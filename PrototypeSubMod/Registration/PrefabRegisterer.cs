@@ -23,6 +23,7 @@ internal class PrefabRegisterer
         InterceptorIslandTeleporterKey_World.Register();
         DefenseStoryGoalTrigger_World.Register();
         DecorativeForceFieldArchway.Register();
+        NonfunctionalKeyTerminal.Register();
 
         ProtoPlaque_World.Register();
         ProtoLogo_World.Register();
