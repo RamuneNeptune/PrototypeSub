@@ -27,7 +27,7 @@ internal class Player_Patches
 
         DummyLDFTarget = new GameObject("DummyLDFTarget");
 
-        var canvas = Plugin.AssetBundle.LoadAsset<GameObject>("ProtoCreditsCanvas");
+        var canvas = Plugin.AssetBundle.LoadAsset<GameObject>("ProtoFadeCanvas");
         GameObject.Instantiate(canvas);
     }
 

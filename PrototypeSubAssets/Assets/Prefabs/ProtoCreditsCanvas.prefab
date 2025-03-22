@@ -101,6 +101,7 @@ GameObject:
   - component: {fileID: 8257832403557272616}
   - component: {fileID: 8257832403557272617}
   - component: {fileID: 8257832403557272619}
+  - component: {fileID: 6092034680262604813}
   m_Layer: 0
   m_Name: CreditsText
   m_TagString: Untagged
@@ -237,6 +238,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 2
+--- !u!114 &6092034680262604813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8257832403557272791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1076299746, guid: 06dd3d5416bf43ea368cc39ff96e6d5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8257832403910926493
 GameObject:
   m_ObjectHideFlags: 0
@@ -249,6 +262,7 @@ GameObject:
   - component: {fileID: 8257832403910926481}
   - component: {fileID: 8257832403910926494}
   - component: {fileID: 8257832403910926495}
+  - component: {fileID: 2205634496048704508}
   m_Layer: 0
   m_Name: Canvas
   m_TagString: Untagged
@@ -334,6 +348,19 @@ MonoBehaviour:
     m_Bits: 4294967295
   guiCameraSpace: 1
   interactionDistance: 0
+--- !u!114 &2205634496048704508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8257832403910926493}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1413667307, guid: d3aa744e2b032f543b53a6ee1315398f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fontSetMode: 2
 --- !u!1 &8257832404280136723
 GameObject:
   m_ObjectHideFlags: 0
@@ -344,7 +371,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8257832404280136722}
   - component: {fileID: 8793078018337830382}
-  - component: {fileID: 4346374846291416889}
   m_Layer: 0
   m_Name: ProtoCreditsCanvas
   m_TagString: Untagged
@@ -379,23 +405,10 @@ MonoBehaviour:
   m_Script: {fileID: 861398777, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fadeManager: {fileID: 4346374846291416889}
+  fadeManager: {fileID: 0}
   creditsMask: {fileID: 8257832403167823259}
   creditsText: {fileID: 8257832403557272790}
-  creditsSpeed: 1
---- !u!114 &4346374846291416889
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8257832404280136723}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -666681943, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fadeImage: {fileID: 8257832404479052766}
+  creditsSpeed: 75
 --- !u!1 &8257832404479052764
 GameObject:
   m_ObjectHideFlags: 0
