@@ -20,6 +20,8 @@ internal class ProtoDoorTransmitter : MonoBehaviour
 
     private void CheckPlayerPos()
     {
+        if (!Plugin.GlobalSaveData.defensePingSpawned) return;
+        
         if (Plugin.GlobalSaveData.moonpoolDoorOpened)
         {
             CancelInvoke(nameof(CheckPlayerPos));

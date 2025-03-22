@@ -35,6 +35,8 @@ internal class MoonpoolDoorManager : MonoBehaviour
 
     private void CheckIfPlayerClose()
     {
+        if (!Plugin.GlobalSaveData.defensePingSpawned) return;
+        
         if (playerDistanceTracker.distanceToPlayer > noEntryPlayerDistance) return;
 
         Plugin.GlobalSaveData.visitedDefenseMoonpool = true;
