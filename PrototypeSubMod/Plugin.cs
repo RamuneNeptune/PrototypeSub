@@ -43,7 +43,7 @@ namespace PrototypeSubMod
         public static string RecipesFolderPath { get; } = Path.Combine(Path.GetDirectoryName(Assembly.Location), "Recipes");
 
         public static AssetBundle AssetBundle { get; } = AssetBundle.LoadFromFile(Path.Combine(AssetsFolderPath, "prototypeassets"));
-        public static AssetBundle ScenesAssetBundle { get; } = AssetBundle.LoadFromFile(Path.Combine(AssetsFolderPath, "prototypscenes"));
+        public static AssetBundle ScenesAssetBundle { get; } = AssetBundle.LoadFromFile(Path.Combine(AssetsFolderPath, "prototypescenes"));
         
         public static EquipmentType PrototypePowerType { get; } = EnumHandler.AddEntry<EquipmentType>("PrototypePowerType");
         public static EquipmentType LightBeaconEquipmentType { get; } = EnumHandler.AddEntry<EquipmentType>("LightBeaconType");
@@ -100,6 +100,9 @@ namespace PrototypeSubMod
 
             UWE.CoroutineHost.StartCoroutine(Initialize());
 
+            // This is only to force the asset bundle to load
+            var empty = ScenesAssetBundle.name;
+            
             // Register harmony patches, if there are any
             harmony.PatchAll(Assembly);
             Logger.LogInfo($"Plugin {GUID} is loaded!");

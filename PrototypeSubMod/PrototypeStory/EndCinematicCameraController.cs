@@ -8,6 +8,8 @@ namespace PrototypeSubMod.PrototypeStory;
 
 internal class EndCinematicCameraController : MonoBehaviour
 {
+    public static bool queuedSceneOverride;
+    
     [SerializeField] private SubRoot root;
     [SerializeField] private ProtoStoryLocker storyLocker;
     [SerializeField] private CyclopsExternalCams externalCams;
@@ -48,11 +50,14 @@ internal class EndCinematicCameraController : MonoBehaviour
     {
         yield return new WaitForSeconds(creditsDelay);
 
-        var asyncOp = SceneManager.LoadSceneAsync("ProtoCredits");
-        while (!asyncOp.isDone)
-        {
-            yield return null;
-        }
+        CleanupScene();
+    }
+
+    private void CleanupScene()
+    {
+        FMODUnity.RuntimeManager.StopAllEvents(true);
+        queuedSceneOverride = true;
+        SceneCleaner.Open();
     }
 
     private void LockCameraPosition()
