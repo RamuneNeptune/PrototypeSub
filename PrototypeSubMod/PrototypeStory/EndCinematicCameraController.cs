@@ -1,5 +1,6 @@
 ﻿using PrototypeSubMod.Patches;
 using System.Collections;
+using PrototypeSubMod.Credits;
 using UnityEngine;
 
 namespace PrototypeSubMod.PrototypeStory;
@@ -26,7 +27,12 @@ internal class EndCinematicCameraController : MonoBehaviour
     {
         yield return new WaitForSeconds(cameraDelay);
 
+        ProtoCreditsManager.instance.GetFadeManager().FadeIn(2);
+        yield return new WaitForSeconds(2);
+        
         LockCameraPosition();
+        
+        ProtoCreditsManager.instance.GetFadeManager().FadeOut(2);
     }
 
     private void LockCameraPosition()
