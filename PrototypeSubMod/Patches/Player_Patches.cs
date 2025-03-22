@@ -26,6 +26,9 @@ internal class Player_Patches
         Camera.main.gameObject.AddComponent<CloakCutoutApplier>();
 
         DummyLDFTarget = new GameObject("DummyLDFTarget");
+
+        var canvas = Plugin.AssetBundle.LoadAsset<GameObject>("ProtoCreditsCanvas");
+        GameObject.Instantiate(canvas);
     }
 
     [HarmonyPatch(nameof(Player.CanEject)), HarmonyPostfix]
