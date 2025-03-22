@@ -2,16 +2,19 @@
 using System.Collections;
 using PrototypeSubMod.Credits;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace PrototypeSubMod.PrototypeStory;
 
 internal class EndCinematicCameraController : MonoBehaviour
 {
+    [SerializeField] private SubRoot root;
     [SerializeField] private ProtoStoryLocker storyLocker;
     [SerializeField] private CyclopsExternalCams externalCams;
     [SerializeField] private FreezeRigidbodyWhenFar freezeWhenFar;
     [SerializeField] private Transform cameraPos;
     [SerializeField] private float cameraDelay;
+    [SerializeField] private float creditsDelay;
 
     private void Start()
     {
@@ -27,12 +30,29 @@ internal class EndCinematicCameraController : MonoBehaviour
     {
         yield return new WaitForSeconds(cameraDelay);
 
-        ProtoCreditsManager.instance.GetFadeManager().FadeIn(2);
+        ProtoScreenFadeManager.instance.FadeIn(2);
+        Player.main.cinematicModeActive = true;
+        Inventory.main.quickSlots.SetIgnoreHotkeyInput(true);
+        Player.main.GetPDA().Close();
+        Player.main.GetPDA().SetIgnorePDAInput(true);
         yield return new WaitForSeconds(2);
         
         LockCameraPosition();
         
-        ProtoCreditsManager.instance.GetFadeManager().FadeOut(2);
+        ProtoScreenFadeManager.instance.FadeOut(2);
+
+        yield return StartCreditsDelayed();
+    }
+
+    private IEnumerator StartCreditsDelayed()
+    {
+        yield return new WaitForSeconds(creditsDelay);
+
+        var asyncOp = SceneManager.LoadSceneAsync("ProtoCredits");
+        while (!asyncOp.isDone)
+        {
+            yield return null;
+        }
     }
 
     private void LockCameraPosition()

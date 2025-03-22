@@ -6,10 +6,6 @@ namespace PrototypeSubMod.Credits;
 
 internal class ProtoCreditsManager : MonoBehaviour
 {
-    [SaveStateReference]
-    public static ProtoCreditsManager instance;
-    
-    [SerializeField] private ProtoScreenFadeManager fadeManager;
     [SerializeField] private RectTransform creditsMask;
     [SerializeField] private RectTransform creditsText;
     [SerializeField] private float creditsSpeed;
@@ -17,20 +13,15 @@ internal class ProtoCreditsManager : MonoBehaviour
     private float creditsLength;
     private bool creditsActive;
     private float currentCreditsLength;
-
-    private void Awake()
-    {
-        if (instance != null) throw new Exception("More than one ProtoCreditsManager in scene.");
-        
-        instance = this;
-    }
     
     private void Start()
     {
-        float yHeight = creditsText.rect.y;
-        creditsText.localPosition = new Vector3(0, -yHeight, 0);
+        float maskYHeight = creditsMask.rect.height;
+        float textYHeight = creditsText.rect.height;
+        float yOffset = -maskYHeight / 2 - textYHeight / 2;
+        creditsText.localPosition = new Vector3(0, yOffset, 0);
 
-        creditsLength = yHeight / creditsMask.rect.y * creditsSpeed;
+        creditsLength = Mathf.Abs(yOffset + maskYHeight) / creditsSpeed;
         
         creditsMask.gameObject.SetActive(false);
     }
@@ -53,9 +44,8 @@ internal class ProtoCreditsManager : MonoBehaviour
 
     public void ShowCredits()
     {
-        gameObject.SetActive(true);
+        creditsMask.gameObject.SetActive(true);
         creditsActive = true;
+        currentCreditsLength = 0;
     }
-    
-    public ProtoScreenFadeManager GetFadeManager() => fadeManager;
 }
