@@ -12,5 +12,6 @@ public class SceneCleaner_Patches
         if (!EndCinematicCameraController.queuedSceneOverride) return;
 
         __instance.loadScene = "ProtoCredits";
+        EndCinematicCameraController.queuedSceneOverride = false;
     }
 }

@@ -11,7 +11,6 @@ internal class ProtoCreditsManager : MonoBehaviour
     [SerializeField] private float creditsSpeed;
     
     private float creditsLength;
-    private bool creditsActive;
     private float currentCreditsLength;
     
     private void Start()
@@ -21,31 +20,22 @@ internal class ProtoCreditsManager : MonoBehaviour
         float yOffset = -maskYHeight / 2 - textYHeight / 2;
         creditsText.localPosition = new Vector3(0, yOffset, 0);
 
-        creditsLength = Mathf.Abs(yOffset + maskYHeight) / creditsSpeed;
+        creditsLength = Mathf.Abs(yOffset * 2) / creditsSpeed;
         
-        creditsMask.gameObject.SetActive(false);
+        
     }
 
     private void Update()
     {
-        if (!creditsActive) return;
-
         if (currentCreditsLength < creditsLength)
         {
             currentCreditsLength += Time.deltaTime;
         }
         else
         {
-            creditsActive = false;
+            // Credits complete
         }
         
         creditsText.localPosition += new Vector3(0, creditsSpeed * Time.deltaTime, 0);
-    }
-
-    public void ShowCredits()
-    {
-        creditsMask.gameObject.SetActive(true);
-        creditsActive = true;
-        currentCreditsLength = 0;
     }
 }
