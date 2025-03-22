@@ -1,16 +1,16 @@
 ﻿using PrototypeSubMod.Patches;
 using System.Collections;
 using PrototypeSubMod.Credits;
+using PrototypeSubMod.MiscMonobehaviors.SubSystems;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace PrototypeSubMod.PrototypeStory;
 
 internal class EndCinematicCameraController : MonoBehaviour
 {
     public static bool queuedSceneOverride;
-    
-    [SerializeField] private SubRoot root;
+
+    [SerializeField] private InterfloorTeleporter[] teleporters;
     [SerializeField] private ProtoStoryLocker storyLocker;
     [SerializeField] private CyclopsExternalCams externalCams;
     [SerializeField] private FreezeRigidbodyWhenFar freezeWhenFar;
@@ -33,13 +33,18 @@ internal class EndCinematicCameraController : MonoBehaviour
         yield return new WaitForSeconds(cameraDelay);
 
         ProtoScreenFadeManager.instance.FadeIn(2);
-        Player.main.cinematicModeActive = true;
-        Inventory.main.quickSlots.SetIgnoreHotkeyInput(true);
-        Player.main.GetPDA().Close();
-        Player.main.GetPDA().SetIgnorePDAInput(true);
         yield return new WaitForSeconds(2);
         
         LockCameraPosition();
+        Player.main.playerController.inputEnabled = false;
+        Inventory.main.quickSlots.SetIgnoreHotkeyInput(true);
+        Player.main.GetPDA().Close();
+        Player.main.GetPDA().SetIgnorePDAInput(true);
+
+        foreach (var teleporter in teleporters)
+        {
+            teleporter.enabled = false;
+        }
         
         ProtoScreenFadeManager.instance.FadeOut(2);
 
@@ -50,6 +55,9 @@ internal class EndCinematicCameraController : MonoBehaviour
     {
         yield return new WaitForSeconds(creditsDelay);
 
+        ProtoScreenFadeManager.instance.FadeIn(1);
+        yield return new WaitForSeconds(1);
+        
         CleanupScene();
     }
 
