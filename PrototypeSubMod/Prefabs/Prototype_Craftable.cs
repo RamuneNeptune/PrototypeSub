@@ -25,7 +25,6 @@ internal class Prototype_Craftable
 
         prefab.RemoveFromCache();
         prefab.SetGameObject(GetSubPrefab);
-        prefab.SetUnlock(TechType.Constructor);
 
         prefab.SetRecipe(ROTACompatManager.GetRelevantRecipe("PrototypeSub.json"))
             .WithFabricatorType(CraftTree.Type.None)
