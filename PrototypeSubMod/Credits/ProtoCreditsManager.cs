@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections;
-using PrototypeSubMod.Utility;
+﻿using System.Collections;
+using TMPro;
 using UnityEngine;
 
 namespace PrototypeSubMod.Credits;
@@ -8,7 +7,8 @@ namespace PrototypeSubMod.Credits;
 internal class ProtoCreditsManager : MonoBehaviour
 {
     [SerializeField] private RectTransform creditsMask;
-    [SerializeField] private RectTransform creditsText;
+    [SerializeField] private RectTransform creditsTextRect;
+    [SerializeField] private TextMeshProUGUI creditsText;
     [SerializeField] private float creditsSpeed;
     
     private float creditsLength;
@@ -18,16 +18,20 @@ internal class ProtoCreditsManager : MonoBehaviour
     
     private IEnumerator Start()
     {
+        creditsText.text = Language.main.Get("ProtoCreditsText");
+        creditsText.gameObject.SetActive(false);
         yield return new WaitForEndOfFrame();
         yield return new WaitForEndOfFrame();
+        creditsText.gameObject.SetActive(true);
         
         float maskYHeight = creditsMask.rect.height;
-        float textYHeight = creditsText.rect.height;
+        float textYHeight = creditsTextRect.sizeDelta.y;
         float yOffset = -maskYHeight / 2 - textYHeight / 2;
-        creditsText.localPosition = new Vector3(0, yOffset, 0);
-
-        creditsLength = Mathf.Abs(yOffset * 2) / creditsSpeed;
-
+        creditsTextRect.localPosition = new Vector3(0, yOffset, 0);
+        
+        creditsLength = (textYHeight + maskYHeight) / creditsSpeed;
+        creditsMask.gameObject.SetActive(true);
+        
         initialized = true;
     }
 
@@ -38,12 +42,18 @@ internal class ProtoCreditsManager : MonoBehaviour
         if (currentCreditsLength < creditsLength)
         {
             currentCreditsLength += Time.deltaTime;
-            creditsText.localPosition += new Vector3(0, creditsSpeed * Time.deltaTime, 0);
+            creditsTextRect.localPosition += new Vector3(0, creditsSpeed * Time.deltaTime, 0);
         }
         else if (!loadedMainMenu)
         {
-            //SceneCleaner.Open();
-            //loadedMainMenu = true;
+            StartCoroutine(LoadMainMenu());
+            loadedMainMenu = true;
         }
+    }
+
+    private IEnumerator LoadMainMenu()
+    {
+        yield return new WaitForSeconds(1);
+        SceneCleaner.Open();
     }
 }
