@@ -147,7 +147,6 @@ internal class ProtoStasisPulse : ProtoUpgrade
         freeze.SetUnfreezeVF(unfreezeFX);
 
         Utils.PlayOneShotPS(freezeFX, rigidbody.transform.position, Quaternion.identity);
-        Plugin.Logger.LogInfo($"Freezing {rigidbody}");
         return true;
     }
 
