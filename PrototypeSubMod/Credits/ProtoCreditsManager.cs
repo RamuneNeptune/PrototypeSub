@@ -9,9 +9,9 @@ internal class ProtoCreditsManager : MonoBehaviour
     [SerializeField] private RectTransform creditsMask;
     [SerializeField] private RectTransform creditsTextRect;
     [SerializeField] private TextMeshProUGUI creditsText;
-    [SerializeField] private float creditsSpeed;
+    [SerializeField] private float creditsLength;
     
-    private float creditsLength;
+    private float creditsSpeed;
     private float currentCreditsLength;
     private bool loadedMainMenu;
     private bool initialized;
@@ -29,7 +29,7 @@ internal class ProtoCreditsManager : MonoBehaviour
         float yOffset = -maskYHeight / 2 - textYHeight / 2;
         creditsTextRect.localPosition = new Vector3(0, yOffset, 0);
         
-        creditsLength = (textYHeight + maskYHeight) / creditsSpeed;
+        creditsSpeed = (textYHeight + maskYHeight) / creditsLength;
         creditsMask.gameObject.SetActive(true);
         
         initialized = true;
