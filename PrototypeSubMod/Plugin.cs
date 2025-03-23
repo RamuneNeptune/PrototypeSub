@@ -56,7 +56,9 @@ namespace PrototypeSubMod
             .WithPdaInfo(null);
 
         public static PingType DefenseFacilityPingType = EnumHandler.AddEntry<PingType>("DefenseFacility").WithIcon(AssetBundle.LoadAsset<Sprite>("DefenseFacilityLogo"));
+        public static PingType StoryEndPingType = EnumHandler.AddEntry<PingType>("StoryEnd");
 
+        
         internal static ProtoGlobalSaveData GlobalSaveData = SaveDataHandler.RegisterSaveDataCache<ProtoGlobalSaveData>();
         internal static GameObject welderPrefab;
 
@@ -68,6 +70,7 @@ namespace PrototypeSubMod
         internal static readonly Vector3 STORY_END_POS = new Vector3(-1333, -900, -3014);
         internal static readonly Vector3 DEFENSE_PING_POS = new Vector3(701, -366, -1359);
         internal static TechType DefenseFacilityPingTechType;
+        internal static TechType StoryEndPingTechType;
 
         private static bool Initialized;
         private static Harmony harmony = new Harmony(GUID);
