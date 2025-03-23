@@ -44,13 +44,13 @@ public class MaterialData_Editor : PropertyDrawer
                 floatValue.floatValue = EditorGUILayout.FloatField("Value", floatValue.floatValue);
                 break;
             case MaterialData.PropertyType.Vector:
-                floatValue.vector4Value = EditorGUILayout.Vector4Field("Value", floatValue.vector4Value);
+                vectorValue.vector4Value = EditorGUILayout.Vector4Field("Value", vectorValue.vector4Value);
                 break;
             case MaterialData.PropertyType.Texture:
-                floatValue.objectReferenceValue = EditorGUILayout.ObjectField("Value", floatValue.objectReferenceValue, typeof(Texture), false);
+                textureValue.objectReferenceValue = EditorGUILayout.ObjectField("Value", textureValue.objectReferenceValue, typeof(Texture), false);
                 break;
             case MaterialData.PropertyType.Color:
-                floatValue.colorValue = EditorGUILayout.ColorField("Value", floatValue.colorValue);
+                colorValue.colorValue = EditorGUILayout.ColorField("Value", colorValue.colorValue);
                 break;
         }
 
