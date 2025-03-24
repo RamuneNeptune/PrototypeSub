@@ -58,6 +58,8 @@ internal class BuildTerminalScreenManager : MonoBehaviour
         {
             firstInteractScreen.gameObject.SetActive(false);
         }
+        
+        BroadcastMessage("UpdateLightingController");
     }
 
     public void OnConstructionStarted()

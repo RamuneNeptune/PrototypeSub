@@ -48,20 +48,28 @@ internal class uGUI_FirstInteractScreen : TerminalScreen
         }
     }
 
+    private void Awake()
+    {
+        UpdateLightingController();
+    }
+    
     private void Start()
     {
         loadingBar.fillAmount = 0;
         logoImage.material.SetFloat("_LoadProgress", 0);
-
-        if (StoryGoalManager.main.completedGoals.Contains("PlayerFirstPPTInteraction"))
-        {
-            lightingController.LerpToState(1, 1);
-        }
-
+        
         normalObjects.SetActive(true);
         loadingObjects.SetActive(false);
     }
 
+    public void UpdateLightingController()
+    {
+        if (StoryGoalManager.main.completedGoals.Contains("PlayerFirstPPTInteraction"))
+        {
+            lightingController.SnapToState(1);
+        }
+    }
+    
     public override void OnStageStarted()
     {
         gameObject.SetActive(true);
