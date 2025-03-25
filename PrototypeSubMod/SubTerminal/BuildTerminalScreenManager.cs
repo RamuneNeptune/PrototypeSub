@@ -6,7 +6,7 @@ namespace PrototypeSubMod.SubTerminal;
 
 internal class BuildTerminalScreenManager : MonoBehaviour
 {
-    [SerializeField] private TerminalScreen firstInteractScreen;
+    [SerializeField] private uGUI_FirstInteractScreen firstInteractScreen;
     [SerializeField] private TerminalScreen buildScreen;
     [SerializeField] private TerminalScreen rebuildScreen;
     [SerializeField] private TerminalScreen animatorScreen;
@@ -58,8 +58,8 @@ internal class BuildTerminalScreenManager : MonoBehaviour
         {
             firstInteractScreen.gameObject.SetActive(false);
         }
-        
-        BroadcastMessage("UpdateLightingController");
+
+        firstInteractScreen.UpdateLightingController();
     }
 
     public void OnConstructionStarted()

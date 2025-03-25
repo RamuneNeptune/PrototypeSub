@@ -115,7 +115,7 @@ internal class ProtoBuildBot : MonoBehaviour
 
         if (animatorControlled) return;
 
-        Quaternion targetRotation = !buildingSub ? startRot : Quaternion.LookRotation(currentBeamPoint.position - transform.position);
+        Quaternion targetRotation = (!buildingSub || !currentBeamPoint) ? startRot : Quaternion.LookRotation(currentBeamPoint.position - transform.position);
 
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
         HandleMovement();

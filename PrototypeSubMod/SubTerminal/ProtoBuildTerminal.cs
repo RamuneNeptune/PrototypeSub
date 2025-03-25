@@ -1,7 +1,9 @@
 ﻿using PrototypeSubMod.Prefabs;
 using Story;
 using System.Collections;
+using Nautilus.Utility;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace PrototypeSubMod.SubTerminal;
 
@@ -75,15 +77,21 @@ internal class ProtoBuildTerminal : Crafter
     private IEnumerator OnCraftingBeginAsync(TechType techType, float duration)
     {
         screenManager.OnConstructionStarted();
+        var op = SceneManager.LoadSceneAsync("prototypesub", LoadSceneMode.Additive);
+        yield return op;
 
-        var prefab = CraftData.GetPrefabForTechTypeAsync(techType);
-        yield return prefab;
-
-        var instantiatedPrefab = Instantiate(prefab.result.Get(), buildPosition.position, buildPosition.rotation);
-        instantiatedPrefab.SetActive(true);
-        prefab = null;
-
-        StartConstruction(instantiatedPrefab, techType, duration);
+        var prefab = GameObject.Find("PrototypeSub-MainPrefab");
+        prefab.transform.position = buildPosition.position;
+        prefab.transform.rotation = buildPosition.rotation;
+        prefab.name = "PrototypeSub(Clone)";
+        
+        Prototype_Craftable.SetupProtoGameObject(prefab);
+        
+        yield return new WaitForEndOfFrame();
+        prefab.GetComponent<VFXConstructing>().ghostMaterial = MaterialUtils.GhostMaterial;
+        yield return new WaitForEndOfFrame();
+        
+        StartConstruction(prefab, techType, duration);
     }
 
     private void StartConstruction(GameObject instantiatedPrefab, TechType techType, float duration)
@@ -92,9 +100,10 @@ internal class ProtoBuildTerminal : Crafter
 
         CrafterLogic.NotifyCraftEnd(instantiatedPrefab, techType);
         ItemGoalTracker.OnConstruct(techType);
-        VFXConstructing vfxConstructing = instantiatedPrefab.GetComponentInChildren<VFXConstructing>();
+        var vfxConstructing = instantiatedPrefab.GetComponent<VFXConstructing>();
         if (vfxConstructing != null)
         {
+            vfxConstructing.enabled = true;
             vfxConstructing.timeToConstruct = duration;
             vfxConstructing.StartConstruction();
         }
@@ -112,8 +121,16 @@ internal class ProtoBuildTerminal : Crafter
         yield return new WaitForSeconds(buildDelay);
 
         manager.OnConstructionStarted(buildPosition.position, buildPosition.rotation);
-        StartConstruction(manager.GetSubObject(), manager.GetReconstructionTechType(), buildDuration);
-        manager.OnConstructionFinished();
+        var sub = manager.GetSubObject();
+        sub.gameObject.SetActive(true);
+        
+        yield return new WaitForEndOfFrame();
+        var constructing = sub.GetComponent<VFXConstructing>();
+        constructing.ghostMaterial = MaterialUtils.GhostMaterial;
+        constructing.delay = 2;
+        yield return new WaitForEndOfFrame();
+        
+        StartConstruction(sub, manager.GetReconstructionTechType(), buildDuration);
     }
 
     private void SendBuildBots(GameObject toBuild)

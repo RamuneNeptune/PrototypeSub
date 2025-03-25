@@ -36,10 +36,7 @@ internal class SubReconstructionManager : MonoBehaviour
         {
             CoroutineHost.StartCoroutine(source.SpawnDefaultBattery());
         }
-    }
-
-    public void OnConstructionFinished()
-    {
+        
         Plugin.GlobalSaveData.prototypeDestroyed = false;
     }
 

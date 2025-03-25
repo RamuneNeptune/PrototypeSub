@@ -35,29 +35,32 @@ internal class Prototype_Craftable
         prefab.Register();
     }
 
-    private static IEnumerator GetSubPrefab(IOut<GameObject> prefabOut)
+    private static GameObject GetSubPrefab()
     {
         GameObject model = Plugin.AssetBundle.LoadAsset<GameObject>("PrototypeSub");
 
         model.SetActive(false);
         GameObject prototype = GameObject.Instantiate(model);
 
-        yield return new WaitUntil(() => MaterialUtils.IsReady);
+        SetupProtoGameObject(prototype);
 
-        MaterialUtils.ApplySNShaders(prototype, modifiers: new ProtoMaterialModifier(10f, 0));
+        return prototype;
+    }
 
-        yield return CyclopsReferenceHandler.EnsureCyclopsReference();
-
-        yield return InterfaceCallerHandler.InvokeCyclopsReferencers(prototype);
-
-        foreach (var modifier in prototype.GetComponentsInChildren<PrefabModifier>(true))
+    public static void SetupProtoGameObject(GameObject go)
+    {
+        foreach (var modifier in go.GetComponentsInChildren<PrefabModifier>(true))
         {
             modifier.OnAsyncPrefabTasksCompleted();
             modifier.OnLateMaterialOperation();
         }
 
-        prototype.GetComponent<PingInstance>().pingType = Plugin.PrototypePingType;
+        go.GetComponent<PingInstance>().pingType = Plugin.PrototypePingType;
+        go.GetComponent<TechTag>().type = SubInfo.TechType;
 
-        prefabOut.Set(prototype);
+        if (go.TryGetComponent(out PrefabIdentifier identifier))
+        {
+            identifier.ClassId = SubInfo.ClassID;
+        }
     }
 }
