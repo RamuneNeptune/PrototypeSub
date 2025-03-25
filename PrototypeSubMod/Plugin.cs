@@ -55,9 +55,8 @@ namespace PrototypeSubMod
         public static TechCategory ProtoModuleCategory { get; } = EnumHandler.AddEntry<TechCategory>("ProtoModules").RegisterToTechGroup(PrototypeGroup)
             .WithPdaInfo(null);
 
-        public static PingType DefenseFacilityPingType = EnumHandler.AddEntry<PingType>("DefenseFacility").WithIcon(AssetBundle.LoadAsset<Sprite>("DefenseFacilityLogo"));
-        public static PingType StoryEndPingType = EnumHandler.AddEntry<PingType>("StoryEnd");
-
+        public static PingType DefenseFacilityPingType = EnumHandler.AddEntry<PingType>("DefenseFacility")
+            .WithIcon(AssetBundle.LoadAsset<Sprite>("DefenseFacilityLogo"));
         
         internal static ProtoGlobalSaveData GlobalSaveData = SaveDataHandler.RegisterSaveDataCache<ProtoGlobalSaveData>();
         internal static GameObject welderPrefab;
