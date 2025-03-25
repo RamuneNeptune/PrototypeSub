@@ -76,7 +76,6 @@ internal class ProtoBuildTerminal : Crafter
 
     private IEnumerator OnCraftingBeginAsync(TechType techType, float duration)
     {
-        screenManager.OnConstructionStarted();
         var op = SceneManager.LoadSceneAsync("prototypesub", LoadSceneMode.Additive);
         yield return op;
 
@@ -96,6 +95,7 @@ internal class ProtoBuildTerminal : Crafter
 
     private void StartConstruction(GameObject instantiatedPrefab, TechType techType, float duration)
     {
+        screenManager.OnConstructionStarted();
         FMODUWE.PlayOneShot(buildSoundEffect, buildPosition.position);
 
         CrafterLogic.NotifyCraftEnd(instantiatedPrefab, techType);
@@ -114,6 +114,7 @@ internal class ProtoBuildTerminal : Crafter
 
         LargeWorldEntity.Register(instantiatedPrefab);
         SendBuildBots(instantiatedPrefab);
+        Plugin.GlobalSaveData.prototypePresent = true;
     }
 
     private IEnumerator StartReconstruction(SubReconstructionManager manager)
