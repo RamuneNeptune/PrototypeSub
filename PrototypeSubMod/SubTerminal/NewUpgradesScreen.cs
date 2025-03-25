@@ -95,6 +95,8 @@ internal class NewUpgradesScreen : MonoBehaviour
         return GetUnlocksSinceLastCheck().Count > 0;
     }
 
+    public bool DownloadActive() => downloadActive;
+
     private void UpdateStoredUnlocks()
     {
         Plugin.GlobalSaveData.unlockedCategoriesLastCheck.AddRange(GetUnlocksSinceLastCheck());
