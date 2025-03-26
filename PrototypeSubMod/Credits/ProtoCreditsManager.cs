@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace PrototypeSubMod.Credits;
 
@@ -16,17 +17,17 @@ internal class ProtoCreditsManager : MonoBehaviour
     private bool loadedMainMenu;
     private bool initialized;
     
-    private IEnumerator Start()
+    private void Start()
     {
         creditsText.text = Language.main.Get("ProtoCreditsText");
-        creditsText.gameObject.SetActive(false);
-        yield return new WaitForEndOfFrame();
-        yield return new WaitForEndOfFrame();
-        creditsText.gameObject.SetActive(true);
+        Canvas.ForceUpdateCanvases();
+        var sizeFitter = creditsText.GetComponent<ContentSizeFitter>();
+        sizeFitter.enabled = false;
+        sizeFitter.enabled = true;
         
         float maskYHeight = creditsMask.rect.height;
         float textYHeight = creditsTextRect.sizeDelta.y;
-        float yOffset = -maskYHeight / 2 - textYHeight / 2;
+        float yOffset = -(maskYHeight / 2) - (textYHeight / 2);
         creditsTextRect.localPosition = new Vector3(0, yOffset, 0);
         
         creditsSpeed = (textYHeight + maskYHeight) / creditsLength;
