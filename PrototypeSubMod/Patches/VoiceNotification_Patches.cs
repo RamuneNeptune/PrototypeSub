@@ -3,6 +3,7 @@ using PrototypeSubMod.MiscMonobehaviors;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using Story;
 using UnityEngine;
 
 namespace PrototypeSubMod.Patches;
@@ -10,6 +11,20 @@ namespace PrototypeSubMod.Patches;
 [HarmonyPatch(typeof(VoiceNotification))]
 internal class VoiceNotification_Patches
 {
+    [HarmonyPatch(nameof(VoiceNotification.Play)), HarmonyPatch(new[] { typeof(object[]) } ), HarmonyPrefix]
+    private static void Play_Prefix(VoiceNotification __instance)
+    {
+        if (!__instance.text.StartsWith("Proto_")) return;
+
+        string prefix = "_OrionNoData";
+        if (StoryGoalManager.main.IsGoalComplete("Ency_OrionFacilityLogs"))
+        {
+            prefix = "_OrionFullData";
+        }
+        
+        __instance.text += prefix;
+    }
+    
     [HarmonyPatch(nameof(VoiceNotification.Play)), HarmonyPatch(new[] { typeof(object[]) }), HarmonyTranspiler]
     private static IEnumerable<CodeInstruction> Player_Transpiler(IEnumerable<CodeInstruction> instructions)
     {

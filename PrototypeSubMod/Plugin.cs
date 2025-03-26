@@ -91,9 +91,10 @@ namespace PrototypeSubMod
             BiomeRegisterer.Register();
             CommandRegisterer.Register();
             PDAMessageRegisterer.Register();
+            VoicelineRegisterer.UpdateVoicelines();
             RegisterDependantPatches();
             InitializeSlotMapping();
-
+            
             ConsoleCommandsHandler.RegisterConsoleCommands(typeof(PrototypeCommands));
             LoadEasyPrefabs.LoadPrefabs(AssetBundle);
             ROTACompatManager.AddCompatiblePowerSources();
