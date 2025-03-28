@@ -37,6 +37,9 @@ internal class StructureRegisterer
         
         StructureLoading.RegisterStructure(LoadStructureFromBundle("ProtoWarpCore"), ref entityCount);
         entityCount = 0;
+        
+        StructureLoading.RegisterStructure(LoadStructureFromBundle("DefenseFacilityDebris"), ref entityCount);
+        entityCount = 0;
 
         if (TRPCompatManager.TRPInstalled)
         {
