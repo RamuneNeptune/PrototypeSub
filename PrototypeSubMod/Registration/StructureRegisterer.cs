@@ -34,6 +34,9 @@ internal class StructureRegisterer
 
         StructureLoading.RegisterStructure(LoadStructureFromBundle("TempHullFacility"), ref entityCount);
         entityCount = 0;
+        
+        StructureLoading.RegisterStructure(LoadStructureFromBundle("ProtoWarpCore"), ref entityCount);
+        entityCount = 0;
 
         if (TRPCompatManager.TRPInstalled)
         {
