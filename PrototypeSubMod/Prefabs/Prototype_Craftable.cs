@@ -1,4 +1,5 @@
-﻿using Nautilus.Assets;
+﻿using System;
+using Nautilus.Assets;
 using Nautilus.Assets.Gadgets;
 using Nautilus.Utility;
 using PrototypeSubMod.Compatibility;
@@ -6,6 +7,7 @@ using PrototypeSubMod.Utility;
 using SubLibrary.Handlers;
 using SubLibrary.Monobehaviors;
 using System.Collections;
+using System.Reflection;
 using UnityEngine;
 
 namespace PrototypeSubMod.Prefabs;

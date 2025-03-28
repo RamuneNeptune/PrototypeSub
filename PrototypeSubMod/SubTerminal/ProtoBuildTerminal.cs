@@ -1,6 +1,8 @@
-﻿using PrototypeSubMod.Prefabs;
+﻿using System;
+using PrototypeSubMod.Prefabs;
 using Story;
 using System.Collections;
+using System.Reflection;
 using Nautilus.Utility;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -89,6 +91,14 @@ internal class ProtoBuildTerminal : Crafter
         yield return new WaitForEndOfFrame();
         prefab.GetComponent<VFXConstructing>().ghostMaterial = MaterialUtils.GhostMaterial;
         yield return new WaitForEndOfFrame();
+        
+        var type = Type.GetType("Nautilus.Utility.ThunderkitUtilities.ApplySNMaterial, Nautilus, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
+        var method = type.GetMethod("AssignMaterials", BindingFlags.Public | BindingFlags.Instance);
+        foreach (var component in prefab.GetComponentsInChildren(type, true))
+        {
+            Plugin.Logger.LogInfo($"Assigning materials on {component}");
+            method.Invoke(component, null);
+        }
         
         StartConstruction(prefab, techType, duration);
     }
