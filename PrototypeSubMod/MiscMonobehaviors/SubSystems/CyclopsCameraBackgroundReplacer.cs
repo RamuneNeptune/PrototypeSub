@@ -41,6 +41,7 @@ internal class CyclopsCameraBackgroundReplacer : MonoBehaviour
             imageHolder.localRotation = Quaternion.identity;
             var img = imageHolder.gameObject.AddComponent<Image>();
             img.color = imageColor;
+            imageHolder.gameObject.SetActive(false);
         }
 
         backgroundImage = imageHolder.GetComponent<Image>();
