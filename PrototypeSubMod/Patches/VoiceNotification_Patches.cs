@@ -16,6 +16,8 @@ internal class VoiceNotification_Patches
     {
         if (!__instance.text.StartsWith("Proto_")) return;
 
+        if (__instance.text.EndsWith("_NoOverride")) return;
+        
         string prefix = "_OrionNoData";
         if (StoryGoalManager.main.IsGoalComplete("Ency_OrionFacilityLogs"))
         {

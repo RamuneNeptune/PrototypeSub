@@ -100,7 +100,8 @@ namespace PrototypeSubMod
             ROTACompatManager.AddCompatiblePowerSources();
             WeatherCompatManager.Initialize();
             SetupSaveStateReferences.SetupReferences(Assembly);
-
+            UpgradeUninstallationPrefabManager.RegisterUninstallationPrefabs(AssetBundle);
+            
             UWE.CoroutineHost.StartCoroutine(Initialize());
 
             // This is only to force the asset bundle to load
@@ -125,8 +126,6 @@ namespace PrototypeSubMod
             yield return task;
 
             welderPrefab = task.GetResult();
-
-            UpgradeUninstallationPrefabManager.RegisterUninstallationPrefabs(AssetBundle);
         }
 
         private void InitializeSlotMapping()
