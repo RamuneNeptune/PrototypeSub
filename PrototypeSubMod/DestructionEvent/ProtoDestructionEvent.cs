@@ -37,7 +37,7 @@ internal class ProtoDestructionEvent : MonoBehaviour, IOnTakeDamage
     private void DestroySub()
     {
         Plugin.GlobalSaveData.prototypeDestroyed = true;
-        ErrorMessage.AddError($"The sub just got destroyed!");
+        
         subRoot.subWarning = false;
         subRoot.fireSuppressionState = false;
         subRoot.silentRunning = false;

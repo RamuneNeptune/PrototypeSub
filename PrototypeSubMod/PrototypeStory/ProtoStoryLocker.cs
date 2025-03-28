@@ -78,8 +78,7 @@ internal class ProtoStoryLocker : MonoBehaviour
     {
         StoryEndingActive = true;
         subRoot.live.invincible = true;
-
-        ErrorMessage.AddError("Entered story ending; locking upgrades");
+        
         foreach (var upgrade in upgradeManager.GetInstalledUpgrades())
         {
             upgrade.SetUpgradeEnabled(false);

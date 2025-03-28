@@ -32,8 +32,7 @@ internal class FreezeObjectsInBounds : MonoBehaviour
             var col = UWE.Utils.sharedColliderBuffer[i];
             var rigidBody = col.GetComponentInParent<Rigidbody>();
             if (!rigidBody) continue;
-
-            ErrorMessage.AddError($"Freezing {rigidBody}");
+            
             UWE.Utils.SetIsKinematic(rigidBody, true);
             Destroy(col);
 
