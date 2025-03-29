@@ -64,5 +64,7 @@ internal class Prototype_Craftable
         {
             identifier.ClassId = SubInfo.ClassID;
         }
+
+        MaterialUtils.ApplySNShaders(go, 10f, modifiers: new ProtoMaterialModifier(10, 0));
     }
 }
