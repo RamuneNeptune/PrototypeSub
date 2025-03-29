@@ -7,7 +7,7 @@ namespace PrototypeSubMod.SubTerminal;
 internal class BuildTerminalScreenManager : MonoBehaviour
 {
     [SerializeField] private uGUI_FirstInteractScreen firstInteractScreen;
-    [SerializeField] private TerminalScreen buildScreen;
+    [SerializeField] private uGUI_ProtoBuildScreen buildScreen;
     [SerializeField] private TerminalScreen rebuildScreen;
     [SerializeField] private TerminalScreen animatorScreen;
     [SerializeField] private NewUpgradesScreen newUpgradesScreen;

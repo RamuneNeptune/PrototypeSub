@@ -161,7 +161,7 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
 
     private void Update()
     {
-        if (!buildScreen.IsTooltipActive() || !allowedToCraft) return;
+        if (!allowedToCraft) return;
 
         bool pointerDown = GameInput.GetButtonHeld(GameInput.Button.LeftHand);
 
