@@ -59,7 +59,7 @@ internal class NewUpgradesScreen : MonoBehaviour
         {
             pingSpawnAttempted = true;
             downloadActive = false;
-            screenManager.EndBuildStage();
+            screenManager.EnableRelevantScreensAtStart();
             SpawnPingIfNeeded();
         }
     }

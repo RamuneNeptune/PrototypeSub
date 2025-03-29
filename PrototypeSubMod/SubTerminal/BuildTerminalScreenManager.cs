@@ -26,25 +26,7 @@ internal class BuildTerminalScreenManager : MonoBehaviour
         newUpgradesScreen.gameObject.SetActive(false);
         rebuildScreen.gameObject.SetActive(false);
 
-        if (Plugin.GlobalSaveData.prototypeDestroyed)
-        {
-            rebuildScreen.gameObject.SetActive(true);
-
-            buildScreen.gameObject.SetActive(false);
-            upgradeScreen.gameObject.SetActive(false);
-            emptyScreen.gameObject.SetActive(false);
-        }
-        else if (Plugin.GlobalSaveData.prototypePresent)
-        {
-            EnableMenusWhenSubInWorld();
-        }
-        else
-        {
-            buildScreen.gameObject.SetActive(true);
-            rebuildScreen.gameObject.SetActive(false);
-            upgradeScreen.gameObject.SetActive(false);
-            emptyScreen.gameObject.SetActive(false);
-        }
+        EnableRelevantScreensAtStart();
 
         bool hasInteracted = StoryGoalManager.main.completedGoals.Contains("PlayerFirstPPTInteraction");
         if (!hasInteracted)
@@ -107,7 +89,31 @@ internal class BuildTerminalScreenManager : MonoBehaviour
         upgradeScreen.gameObject.SetActive(true);
     }
 
-    private void EnableMenusWhenSubInWorld()
+    public void EnableRelevantScreensAtStart()
+    {
+        newUpgradesScreen.gameObject.SetActive(false);
+        if (Plugin.GlobalSaveData.prototypeDestroyed)
+        {
+            rebuildScreen.gameObject.SetActive(true);
+
+            buildScreen.gameObject.SetActive(false);
+            upgradeScreen.gameObject.SetActive(false);
+            emptyScreen.gameObject.SetActive(false);
+        }
+        else if (Plugin.GlobalSaveData.prototypePresent)
+        {
+            EnableMenusWhenSubInWorld();
+        }
+        else
+        {
+            buildScreen.gameObject.SetActive(true);
+            rebuildScreen.gameObject.SetActive(false);
+            upgradeScreen.gameObject.SetActive(false);
+            emptyScreen.gameObject.SetActive(false);
+        }
+    }
+
+    public void EnableMenusWhenSubInWorld()
     {
         buildScreen.gameObject.SetActive(false);
         rebuildScreen.gameObject.SetActive(false);
