@@ -10,6 +10,11 @@ internal class UnlockStoryGoal : MonoBehaviour
 
     private void Start()
     {
+        if (StoryGoalManager.main.IsGoalComplete(storyGoalKey))
+        {
+            terminal.ForceInteracted();
+        }
+        
         terminal.onTerminalInteracted += () =>
         {
             StoryGoalManager.main.OnGoalComplete(storyGoalKey);
