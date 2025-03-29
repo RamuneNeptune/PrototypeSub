@@ -142,8 +142,6 @@ internal class uGUI_FirstInteractScreen : TerminalScreen
 
     private IEnumerator OrionExposition()
     {
-        PDAEncyclopedia.Add("ProtoFacilitiesEncy", true);
-
         for (int i = 0; i < notifications.Length; i++)
         {
             manager.PlayVoiceNotification(notifications[i], false, true);

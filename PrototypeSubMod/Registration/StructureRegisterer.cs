@@ -1,4 +1,5 @@
-﻿using EpicStructureLoader;
+﻿using System;
+using EpicStructureLoader;
 using ModStructureFormat;
 using Newtonsoft.Json;
 using PrototypeSubMod.Compatibility;
@@ -55,7 +56,7 @@ internal class StructureRegisterer
         var structureFile = Plugin.AssetBundle.LoadAsset<TextAsset>(name);
         if (!structureFile)
         {
-            return new Structure(new Entity[0]);
+            return new Structure(Array.Empty<Entity>());
         }
 
         return JsonConvert.DeserializeObject<Structure>(structureFile.text);

@@ -75,6 +75,13 @@ internal class StoryGoalsRegisterer
         });
         #endregion
 
+        #region Facility Locations
+        StoryGoalHandler.RegisterCustomEvent("Ency_ProtoFacilitiesEncy", () =>
+        {
+            PDAEncyclopedia.Add("ProtoFacilitiesEncy", true);
+        });
+        #endregion
+
         #region Defense Audit Logs
         StoryGoalHandler.RegisterCompoundGoal("DefenseFacilityAuditEncy", Story.GoalType.Encyclopedia, 7f, "OnDisableDefenseCloak");
 
