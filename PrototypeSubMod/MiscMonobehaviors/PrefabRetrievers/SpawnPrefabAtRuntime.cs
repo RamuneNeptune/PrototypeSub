@@ -40,7 +40,7 @@ internal class SpawnPrefabAtRuntime : MonoBehaviour
         worldPrefab.transform.localPosition = localPos;
         worldPrefab.transform.localEulerAngles = localRot;
         worldPrefab.transform.localScale = localScale;
-        OnSpawn?.Invoke(spawnObj);
+        OnSpawn?.Invoke(worldPrefab);
 
         if (worldPrefab.TryGetComponent(out Renderer rend) && materials.Length > 0)
         {

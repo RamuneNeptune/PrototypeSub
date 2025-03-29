@@ -65,21 +65,19 @@ public class SetPrefabMaterialProperty : MonoBehaviour
                 if (!renderer) throw new System.Exception($"No renderer found at child path {data.childPath} under {obj}");
             }
             
-            
-            var materials = renderer.materials;
             switch (data.type)
             {
                 case MaterialData.PropertyType.Float:
-                    materials[data.materialIndex].SetFloat(data.propertyName, data.floatValue);
+                    renderer.materials[data.materialIndex].SetFloat(data.propertyName, data.floatValue);
                     break;
                 case MaterialData.PropertyType.Vector:
-                    materials[data.materialIndex].SetVector(data.propertyName, data.vectorValue);
+                    renderer.materials[data.materialIndex].SetVector(data.propertyName, data.vectorValue);
                     break;
                 case MaterialData.PropertyType.Texture:
-                    materials[data.materialIndex].SetTexture(data.propertyName, data.textureValue);
+                    renderer.materials[data.materialIndex].SetTexture(data.propertyName, data.textureValue);
                     break;
                 case MaterialData.PropertyType.Color:
-                    materials[data.materialIndex].SetColor(data.propertyName, data.colorValue);
+                    renderer.materials[data.materialIndex].SetColor(data.propertyName, data.colorValue);
                     break;
             }
         }
