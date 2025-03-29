@@ -57,8 +57,8 @@ public class VoicelineRegisterer
         {
             string orionOld = Language.main.GetFormat(key, orionText1);
             string orionNew = Language.main.GetFormat(key, orionText2);
-            LanguageHandler.SetLanguageLine(key + "_OrionNoData_NoOverride", orionOld, Language.main.currentLanguage);
-            LanguageHandler.SetLanguageLine(key + "_OrionFullData_NoOverride", orionNew, Language.main.currentLanguage);
+            LanguageHandler.SetLanguageLine(key + "_OrionNoData", orionOld, Language.main.currentLanguage);
+            LanguageHandler.SetLanguageLine(key + "_OrionFullData", orionNew, Language.main.currentLanguage);
         }
     }
 }

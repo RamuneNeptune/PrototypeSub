@@ -16,15 +16,24 @@ internal class VoiceNotification_Patches
     {
         if (!__instance.text.StartsWith("Proto_")) return;
 
-        if (__instance.text.EndsWith("_NoOverride")) return;
-        
-        string prefix = "_OrionNoData";
-        if (StoryGoalManager.main.IsGoalComplete("Ency_OrionFacilityLogs"))
+        string[] splits = __instance.text.Split('_');
+        string ending = splits[splits.Length - 1];
+
+        bool endingIsData = ending.Contains("Orion");
+        bool goalComplete = StoryGoalManager.main.IsGoalComplete("Ency_OrionFacilityLogs");
+        Plugin.Logger.LogInfo($"Ending is data = {endingIsData} | Goal complete = {goalComplete} | Ending = {ending}");
+        if (!endingIsData || (goalComplete && ending != "OrionFullData") || (!goalComplete && ending != "OrionNoData"))
         {
-            prefix = "_OrionFullData";
+            __instance.text = __instance.text.Replace("_OrionNoData", string.Empty);
+            __instance.text = __instance.text.Replace("_OrionFullData", string.Empty);
+            string prefix = "_OrionNoData";
+            if (StoryGoalManager.main.IsGoalComplete("Ency_OrionFacilityLogs"))
+            {
+                prefix = "_OrionFullData";
+            }
+
+            __instance.text += prefix;
         }
-        
-        __instance.text += prefix;
     }
     
     [HarmonyPatch(nameof(VoiceNotification.Play)), HarmonyPatch(new[] { typeof(object[]) }), HarmonyTranspiler]
