@@ -96,9 +96,15 @@ internal class Player_Patches
         return matcher.InstructionEnumeration();
     }
 
+    private static readonly List<string> BLACKLISTED_WALKABLE_BIOMES = new()
+    {
+        Plugin.DEFENSE_CHAMBER_BIOME_NAME,
+        Plugin.ENGINE_FACILITY_BIOME_NAME
+    };
+    
     public static bool BiomeIsWalkableBlacklisted(bool previousResult, string currentBiome)
     {
-        if (currentBiome != Plugin.DEFENSE_CHAMBER_BIOME_NAME) return previousResult;
+        if (!BLACKLISTED_WALKABLE_BIOMES.Contains(currentBiome)) return previousResult;
 
         return false;
     }

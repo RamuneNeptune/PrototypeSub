@@ -66,6 +66,7 @@ namespace PrototypeSubMod
             .WithIcon(AssetBundle.LoadAsset<Sprite>("Proto_HUD_Marker"));
 
         internal const string DEFENSE_CHAMBER_BIOME_NAME = "protodefensefacility";
+        internal const string ENGINE_FACILITY_BIOME_NAME = "protoenginefacility";
         internal static readonly Vector3 STORY_END_POS = new Vector3(-1333, -900, -3014);
         internal static readonly Vector3 DEFENSE_PING_POS = new Vector3(701, -366, -1359);
         internal static TechType DefenseFacilityPingTechType;
