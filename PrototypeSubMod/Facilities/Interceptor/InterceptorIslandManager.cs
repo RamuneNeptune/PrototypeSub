@@ -56,8 +56,6 @@ internal class InterceptorIslandManager : MonoBehaviour
     public void BeginTeleportPlayer()
     {
         if (!teleporter.isOpen) return;
-
-        if (!InterceptorReactorSequenceManager.SequenceInProgress) return;
         
         StartCoroutine(OnTeleportPlayer());
     }
@@ -78,11 +76,14 @@ internal class InterceptorIslandManager : MonoBehaviour
     {
         yield return new WaitForSeconds(2f);
 
-        InterceptorReactorSequenceManager.OnTeleportToVoid();
-        GUIController.SetHidePhase(GUIController.HidePhase.HUD);
-        GUIController_Patches.SetDenyHideCycling(true);
+        if (InterceptorReactorSequenceManager.SequenceInProgress)
+        {
+            InterceptorReactorSequenceManager.OnTeleportToVoid();
+            GUIController.SetHidePhase(GUIController.HidePhase.HUD);
+            GUIController_Patches.SetDenyHideCycling(true);
 
-        yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(1f);
+        }
 
         SetIslandEnabled(false);
     }
