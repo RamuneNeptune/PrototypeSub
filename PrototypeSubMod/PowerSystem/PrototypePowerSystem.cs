@@ -36,7 +36,10 @@ public class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTree
     [SerializeField] private PrototypePowerSource[] batterySources;
     [SerializeField] private FMODAsset equipBatterySound;
     [SerializeField] private FMODAsset unequipBatterySound;
+    [SerializeField] private VoiceNotification powerLockedNotif;
 
+    private bool storyLocked;
+    
     private void Awake()
     {
         Initialize();
@@ -105,6 +108,11 @@ public class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTree
 
     public void OnUse(HandTargetEventData eventData)
     {
+        if (storyLocked)
+        {
+            serializationManager.GetComponent<VoiceNotificationManager>().PlayVoiceNotification(powerLockedNotif);
+        }
+        
         PDA pda = Player.main.GetPDA();
         Inventory.main.SetUsedStorage(equipment);
         pda.Open(PDATab.Inventory);
@@ -144,5 +152,10 @@ public class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTree
         if (AllowedPowerSources.ContainsKey(techType)) return;
 
         AllowedPowerSources.Add(techType, configData);
+    }
+
+    public void SetStoryLocked(bool locked)
+    {
+        storyLocked = locked;
     }
 }

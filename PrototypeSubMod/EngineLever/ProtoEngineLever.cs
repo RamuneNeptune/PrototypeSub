@@ -16,6 +16,7 @@ internal class ProtoEngineLever : CinematicModeTriggerBase
     [SerializeField] private Transform rightIKTarget;
     [SerializeField] private FMOD_CustomEmitter startupSound;
     [SerializeField] private FMOD_CustomEmitter shutdownSound;
+    [SerializeField] private VoiceNotification engineLockedNotification;
 
     private bool ensureAnimFinished;
     private bool locked;
@@ -49,7 +50,7 @@ internal class ProtoEngineLever : CinematicModeTriggerBase
     {
         if (locked)
         {
-            ErrorMessage.AddError("Insert engine locked voiceline");
+            subRoot.voiceNotificationManager.PlayVoiceNotification(engineLockedNotification);
             return;
         }
 

@@ -6,6 +6,7 @@ using PrototypeSubMod.Upgrades;
 using SubLibrary.Monobehaviors;
 using System;
 using System.Collections;
+using PrototypeSubMod.PowerSystem;
 using UnityEngine;
 
 namespace PrototypeSubMod.PrototypeStory;
@@ -31,6 +32,7 @@ internal class ProtoStoryLocker : MonoBehaviour
     [SerializeField] private ProtoEngineLever engineLever;
     [SerializeField] private ProtoTeleporterTerminalLocker terminalTrigger;
     [SerializeField] private ProtoTeleporterManager teleporterManager;
+    [SerializeField] private PrototypePowerSystem powerSystem;
 
     private bool wasInLockZone;
     private bool enteredFullLock;
@@ -92,6 +94,7 @@ internal class ProtoStoryLocker : MonoBehaviour
         motorHandler.AddPowerEfficiencyMultiplier(new ProtoMotorHandler.ValueRegistrar(this, 9999));
         hydrolockCloseTrigger.SetActive(true);
         engineLever.SetStoryLocked(true);
+        powerSystem.SetStoryLocked(true);
 
         terminalTrigger.SetStoryLocked(true);
         teleporterManager.ToggleDoor(false);
