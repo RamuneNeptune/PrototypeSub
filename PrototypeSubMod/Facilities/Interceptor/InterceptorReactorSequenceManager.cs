@@ -55,7 +55,7 @@ internal class InterceptorReactorSequenceManager : MonoBehaviour
     }
 
     [SaveStateReference(false)]
-    private static bool sequenceInProgress;
+    public static bool SequenceInProgress;
 
     public static void EndReactorSequence()
     {
@@ -68,7 +68,7 @@ internal class InterceptorReactorSequenceManager : MonoBehaviour
 
         Player_Patches.SetOxygenReqOverride(false, 0);
         BiomeGoalTracker_Patches.SetTrackingBlocked(false);
-        sequenceInProgress = false;
+        SequenceInProgress = false;
     }
 
     public static void OnTeleportToVoid()
@@ -91,9 +91,9 @@ internal class InterceptorReactorSequenceManager : MonoBehaviour
 
     private static IEnumerator TeleportToIsland()
     {
-        if (sequenceInProgress) yield break;
+        if (SequenceInProgress) yield break;
 
-        sequenceInProgress = true;
+        SequenceInProgress = true;
 
         IngameMenu_Patches.SetDenySaving(true);
         BiomeGoalTracker_Patches.SetTrackingBlocked(true);

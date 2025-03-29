@@ -21,7 +21,7 @@ internal class VoiceNotification_Patches
 
         bool endingIsData = ending.Contains("Orion");
         bool goalComplete = StoryGoalManager.main.IsGoalComplete("Ency_OrionFacilityLogs");
-        Plugin.Logger.LogInfo($"Ending is data = {endingIsData} | Goal complete = {goalComplete} | Ending = {ending}");
+        
         if (!endingIsData || (goalComplete && ending != "OrionFullData") || (!goalComplete && ending != "OrionNoData"))
         {
             __instance.text = __instance.text.Replace("_OrionNoData", string.Empty);

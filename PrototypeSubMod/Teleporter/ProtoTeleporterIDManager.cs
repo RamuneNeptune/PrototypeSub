@@ -43,11 +43,14 @@ internal class ProtoTeleporterIDManager : MonoBehaviour
 
         foreach (var item in TeleporterManager.main.activeTeleporters)
         {
-            if (item.ToLower().Contains("proto")) continue;
+            if (item.ToLower().Contains("proto") && item != "protoislandtp") continue;
 
-            var locationItemM = Instantiate(teleporterLocationPrefab, prefabSpawnParent).GetComponent<TeleporterLocationItem>();
-            locationItemM.SetInfo(item, true, this);
-
+            if (item != "protoislandtp")
+            {
+                var locationItemM = Instantiate(teleporterLocationPrefab, prefabSpawnParent).GetComponent<TeleporterLocationItem>();
+                locationItemM.SetInfo(item, true, this);
+            }
+            
             var locationItemS = Instantiate(teleporterLocationPrefab, prefabSpawnParent).GetComponent<TeleporterLocationItem>();
             locationItemS.SetInfo(item, false, this);
         }

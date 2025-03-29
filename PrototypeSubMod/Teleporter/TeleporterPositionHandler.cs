@@ -27,6 +27,8 @@ internal static class TeleporterPositionHandler
 
         { "mushroomforesttpM", new(new Vector3(362.5f, -1430.29f, -309.28f), -118.949f) },
         { "mushroomforesttpS", new(new Vector3(-747.22f, -241.81f, 437.13f), -104.692f) },
+        
+        { "protoislandtpS", new (new Vector3(545.3f, 102.5f, 1740.6f), 57.7f) }
     };
 
     public static readonly List<string> OutOfWaterTeleporters = new()
@@ -35,7 +37,8 @@ internal static class TeleporterPositionHandler
         "cragfieldtp",
         "kooshzonetp",
         "lostrivertp",
-        "mushroomforesttp"
+        "mushroomforesttp",
+        "protoislandtp"
     };
 
     public struct TeleportData

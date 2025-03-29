@@ -1,6 +1,7 @@
 ﻿using PrototypeSubMod.MiscMonobehaviors.SubSystems;
 using PrototypeSubMod.Upgrades;
 using System.Collections;
+using PrototypeSubMod.Facilities.Interceptor;
 using UnityEngine;
 
 namespace PrototypeSubMod.Teleporter;
@@ -27,8 +28,7 @@ internal class ProtoTeleporterManager : ProtoUpgrade
     private float currentStayOpenTime;
     private float powerCostMultiplier = 1f;
     private PrecursorTeleporterActivationTerminal activationTerminal;
-
-    private bool overrideSelected;
+    
     private ColorOverrideData colorOverrideData;
 
     private void OnValidate()
@@ -82,16 +82,19 @@ internal class ProtoTeleporterManager : ProtoUpgrade
 
         currentStayOpenTime = 0;
 
-        if (overrideSelected)
-        {
-            TeleporterOverride.SetOverrideTeleporterID(alteredID);
-            TeleporterOverride.SetOverrideTime(120f);
-            TeleporterOverride.OnTeleportStarted(this);
-        }
+        TeleporterOverride.SetOverrideTeleporterID(alteredID);
+        TeleporterOverride.SetOverrideTime(120f);
+        TeleporterOverride.OnTeleportStarted(this);
 
         if (colorOverrideData.overrideActive)
         {
             Camera.main.GetComponent<ProtoScreenTeleporterFXManager>().SetColors(colorOverrideData.innerColor, colorOverrideData.middleColor, colorOverrideData.outerColor);
+        }
+        
+        if (alteredID == "protoislandtpS")
+        {
+            InterceptorIslandManager.Instance.OnTeleportToIsland(Vector3.zero);
+            InterceptorIslandManager.Instance.GetComponentsInChildren<TeleporterOverride>().Initialize();
         }
 
         float energyCost = Vector3.Distance(positionData.teleportPosition, transform.position) * costPerMeter * powerCostMultiplier;
@@ -175,15 +178,11 @@ internal class ProtoTeleporterManager : ProtoUpgrade
     public void SetColorOverrideData(ColorOverrideData overrideData) => colorOverrideData = overrideData;
     public void ResetOverrideData() => colorOverrideData = default;
 
-    public override bool GetUpgradeEnabled() => overrideSelected;
+    public override bool GetUpgradeEnabled() => upgradeInstalled;
 
     public void SetPowerMultiplier(float multiplier) => powerCostMultiplier = multiplier;
-
     public override void OnActivated() { }
-    public override void OnSelectedChanged(bool changed)
-    {
-        overrideSelected = changed;
-    }
+    public override void OnSelectedChanged(bool selected) { }
 }
 
 public struct ColorOverrideData

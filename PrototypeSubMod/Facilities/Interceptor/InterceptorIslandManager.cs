@@ -57,6 +57,8 @@ internal class InterceptorIslandManager : MonoBehaviour
     {
         if (!teleporter.isOpen) return;
 
+        if (!InterceptorReactorSequenceManager.SequenceInProgress) return;
+        
         StartCoroutine(OnTeleportPlayer());
     }
 

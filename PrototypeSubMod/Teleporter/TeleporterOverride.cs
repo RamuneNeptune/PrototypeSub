@@ -77,7 +77,7 @@ internal class TeleporterOverride : MonoBehaviour
     private void OnEnable() => OnTeleportStart += TargetTeleporterCheck;
     private void OnDisable() => OnTeleportStart -= TargetTeleporterCheck;
 
-    private void Initialize()
+    public void Initialize()
     {
         //This stuff may look weird but remember that the portal is only loaded in when it's being teleported to, so this is called when it's loaded in
 
