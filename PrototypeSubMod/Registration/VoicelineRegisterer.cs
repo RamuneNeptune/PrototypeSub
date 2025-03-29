@@ -43,9 +43,10 @@ public class VoicelineRegisterer
         "Proto_IonGeneratorOverheat",
         "Proto_IonGeneratorEMP",
         
-        "Proto_OrionReinitialized",
-        "Proto_BlackBox",
-        "Proto_DevResumed"
+        "Proto_DevResumed",
+        "Proto_StoryEndPingVoiceline",
+        "Proto_DefensePingSpawned",
+        "Proto_AdditionalData"
     };
     
     public static void UpdateVoicelines()

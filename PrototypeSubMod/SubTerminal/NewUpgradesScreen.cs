@@ -1,6 +1,7 @@
 ﻿using PrototypeSubMod.Utility;
 using System.Collections;
 using System.Collections.Generic;
+using HarmonyLib;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,6 +16,7 @@ internal class NewUpgradesScreen : MonoBehaviour
     [SerializeField] private VoiceNotificationManager manager;
     [SerializeField] private VoiceNotification defensePingNotification;
     [SerializeField] private VoiceNotification storyEndNotification;
+    [SerializeField] private VoiceNotification newDataNotification;
     [SerializeField] private string precursorCharacters;
     [SerializeField] private TextMeshProUGUI upgradeText;
     [SerializeField] private GameObject buttonObjects;
@@ -27,6 +29,8 @@ internal class NewUpgradesScreen : MonoBehaviour
     private bool downloadActive;
     private bool pingSpawnAttempted;
 
+    private Queue<VoiceNotification> queuedVoicelines = new();
+    
     private void Update()
     {
         if (!downloadActive || mostRecentCategories == null || mostRecentCategories.Count == 0) return;
@@ -60,7 +64,10 @@ internal class NewUpgradesScreen : MonoBehaviour
             pingSpawnAttempted = true;
             downloadActive = false;
             screenManager.EnableRelevantScreensAtStart();
+            queuedVoicelines.Clear();
+            queuedVoicelines.AddItem(newDataNotification);
             SpawnPingIfNeeded();
+            StartCoroutine(PlayQueuedVoicelines());
         }
     }
 
@@ -148,7 +155,7 @@ internal class NewUpgradesScreen : MonoBehaviour
 
         Plugin.GlobalSaveData.defensePingSpawned = true;
         UWE.CoroutineHost.StartCoroutine(SpawnDefensePing());
-        manager.PlayVoiceNotification(defensePingNotification, false, true);
+        queuedVoicelines.AddItem(defensePingNotification);
         screenManager.EndBuildStage();
     }
 
@@ -167,7 +174,7 @@ internal class NewUpgradesScreen : MonoBehaviour
 
         Plugin.GlobalSaveData.storyEndPingSpawned = true;
         UWE.CoroutineHost.StartCoroutine(SpawnStoryEndPing());
-        manager.PlayVoiceNotification(storyEndNotification, false, true);
+        queuedVoicelines.AddItem(storyEndNotification);
         screenManager.EndBuildStage();
     }
 
@@ -187,6 +194,17 @@ internal class NewUpgradesScreen : MonoBehaviour
 
         var prefab = task.GetResult();
         Instantiate(prefab, Plugin.STORY_END_POS, Quaternion.identity);
+    }
+
+    private IEnumerator PlayQueuedVoicelines()
+    {
+        while (queuedVoicelines.Count > 0)
+        {
+            var line = queuedVoicelines.Dequeue();
+            manager.PlayVoiceNotification(line, false, true);
+
+            yield return new WaitForSeconds(line.minInterval);
+        }
     }
 
     private void OnEnable() => ResetDownload();
