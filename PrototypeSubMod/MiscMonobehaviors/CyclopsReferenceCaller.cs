@@ -10,7 +10,8 @@ internal class CyclopsReferenceCaller : MonoBehaviour
     private IEnumerator Start()
     {
         yield return CyclopsReferenceHandler.EnsureCyclopsReference();
-
+        yield return new WaitForEndOfFrame();
+        
         foreach (var item in GetComponentsInChildren<ICyclopsReferencer>(true))
         {
             item.OnCyclopsReferenceFinished(CyclopsReferenceHandler.CyclopsReference);
