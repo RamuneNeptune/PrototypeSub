@@ -50,14 +50,14 @@ public class SetPrefabMaterialProperty : MonoBehaviour
         }
     }
 
-    private void Start()
+    private void Awake()
     {
         materialModifier = prefabSpawner as IMaterialModifier;
         ReconstructMaterialDatas();
-        materialModifier.onEditMaterial += OnSpawn;
+        materialModifier.onEditMaterial += EditMaterials;
     }
 
-    private void OnSpawn(GameObject obj)
+    private void EditMaterials(GameObject obj)
     {
         foreach (var data in serializedMaterialDatas)
         {
@@ -71,22 +71,25 @@ public class SetPrefabMaterialProperty : MonoBehaviour
                 renderer = obj.transform.Find(data.childPath)?.GetComponent<Renderer>();
                 if (!renderer) throw new System.Exception($"No renderer found at child path {data.childPath} under {obj}");
             }
-            
+
+            var materials = renderer.materials;
             switch (data.type)
             {
                 case MaterialData.PropertyType.Float:
-                    renderer.materials[data.materialIndex].SetFloat(data.propertyName, data.floatValue);
+                    materials[data.materialIndex].SetFloat(data.propertyName, data.floatValue);
                     break;
                 case MaterialData.PropertyType.Vector:
-                    renderer.materials[data.materialIndex].SetVector(data.propertyName, data.vectorValue);
+                    materials[data.materialIndex].SetVector(data.propertyName, data.vectorValue);
                     break;
                 case MaterialData.PropertyType.Texture:
-                    renderer.materials[data.materialIndex].SetTexture(data.propertyName, data.textureValue);
+                    materials[data.materialIndex].SetTexture(data.propertyName, data.textureValue);
                     break;
                 case MaterialData.PropertyType.Color:
-                    renderer.materials[data.materialIndex].SetColor(data.propertyName, data.colorValue);
+                    materials[data.materialIndex].SetColor(data.propertyName, data.colorValue);
                     break;
             }
+            
+            renderer.materials = materials;
         }
     }
 

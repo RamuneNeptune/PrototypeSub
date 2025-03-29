@@ -25,6 +25,6 @@ internal class ApplyCyclopsMaterial : MonoBehaviour, ICyclopsReferencer, IMateri
         mats[applyIndex] = new Material(copyRend.materials[copyIndex]);
         rend.materials = mats;
 
-        onEditMaterial?.Invoke(copyRend.gameObject);
+        onEditMaterial?.Invoke(rend.gameObject);
     }
 }
