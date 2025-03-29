@@ -79,7 +79,7 @@ internal class ProtoIonGenerator : ProtoUpgrade
     private IEnumerator FireEMP()
     {
         subRoot.voiceNotificationManager.PlayVoiceNotification(empNotification, false, true);
-        yield return new WaitForSeconds(10.25f);
+        yield return new WaitForSeconds(9.7f);
 
         //Do EMP thing
         upgradeEnabled = false;
