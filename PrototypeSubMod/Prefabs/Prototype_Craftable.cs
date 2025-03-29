@@ -67,17 +67,23 @@ internal class Prototype_Craftable
         }
 
         MaterialUtils.ApplySNShaders(go, 10f, modifiers: new ProtoMaterialModifier(10, 0));
-        
-        foreach (var referencer in go.GetComponentsInChildren<ICyclopsReferencer>(true))
-        {
-            referencer.OnCyclopsReferenceFinished(CyclopsReferenceHandler.CyclopsReference);
-        }
+        UWE.CoroutineHost.StartCoroutine(InvokeReferencersDelayed(go));
         
         var type = Type.GetType("Nautilus.Utility.ThunderkitUtilities.ApplySNMaterial, Nautilus, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
         var method = type.GetMethod("AssignMaterials", BindingFlags.Public | BindingFlags.Instance);
         foreach (var component in go.GetComponentsInChildren(type, true))
         {
             method.Invoke(component, null);
+        }
+    }
+
+    private static IEnumerator InvokeReferencersDelayed(GameObject go)
+    {
+        yield return CyclopsReferenceHandler.EnsureCyclopsReference();
+        
+        foreach (var referencer in go.GetComponentsInChildren<ICyclopsReferencer>(true))
+        {
+            referencer.OnCyclopsReferenceFinished(CyclopsReferenceHandler.CyclopsReference);
         }
     }
 }
