@@ -37,8 +37,7 @@ internal static class TeleporterPositionHandler
         "cragfieldtp",
         "kooshzonetp",
         "lostrivertp",
-        "mushroomforesttp",
-        "protoislandtp"
+        "mushroomforesttp"
     };
 
     public struct TeleportData
