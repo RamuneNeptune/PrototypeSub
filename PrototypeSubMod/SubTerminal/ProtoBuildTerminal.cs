@@ -15,6 +15,7 @@ internal class ProtoBuildTerminal : Crafter
     [SerializeField] private float buildDelay;
     [SerializeField] private FMODAsset buildSoundEffect;
     [SerializeField] private FMOD_CustomEmitter chargeUpSFX;
+    [SerializeField] private FMOD_CustomEmitter dischargeSFX;
     [SerializeField] private Transform buildPosition;
     [SerializeField] private GameObject upgradeIconPrefab;
     [SerializeField] private ProtoBatteryManager[] batteryManagers;
@@ -50,6 +51,7 @@ internal class ProtoBuildTerminal : Crafter
     private IEnumerator StartCraftChargeUp(TechType techType, float duration, bool craft = true)
     {
         chargeUpSFX.Play();
+        StartCoroutine(PlayDischargeDelayed());
         screenManager.BeginBuildStage();
         spikesAnimator.SetTrigger("BuildWarmup");
         animScreen.StartPreWarm(buildDelay);
@@ -134,6 +136,12 @@ internal class ProtoBuildTerminal : Crafter
         yield return new WaitForEndOfFrame();
         
         StartConstruction(sub, manager.GetReconstructionTechType(), buildDuration);
+    }
+
+    private IEnumerator PlayDischargeDelayed()
+    {
+        yield return new WaitForSeconds(10.6f);
+        dischargeSFX.Play();
     }
 
     private void SendBuildBots(GameObject toBuild)
