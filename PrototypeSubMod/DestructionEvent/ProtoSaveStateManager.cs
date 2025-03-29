@@ -17,10 +17,7 @@ internal class ProtoSaveStateManager : MonoBehaviour, IProtoEventListener
         if (DestroyedManagers == null) DestroyedManagers = new();
 
         root.gameObject.SetActive(!Plugin.GlobalSaveData.prototypeDestroyed);
-        if (Plugin.GlobalSaveData.prototypeDestroyed && !DestroyedManagers.Contains(this))
-        {
-            DestroyedManagers.Add(this);
-        }
+        UpdateManagerStatus();
     }
 
     private void OnEnable()
@@ -35,9 +32,18 @@ internal class ProtoSaveStateManager : MonoBehaviour, IProtoEventListener
     private void OnDisable()
     {
         Plugin.GlobalSaveData.prototypePresent = false;
+        UpdateManagerStatus();
+    }
+
+    public void UpdateManagerStatus()
+    {
         if (Plugin.GlobalSaveData.prototypeDestroyed && !DestroyedManagers.Contains(this))
         {
             DestroyedManagers.Add(this);
+        }
+        else if (!Plugin.GlobalSaveData.prototypeDestroyed && DestroyedManagers.Contains(this))
+        {
+            DestroyedManagers.Remove(this);
         }
     }
 

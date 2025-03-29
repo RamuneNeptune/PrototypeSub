@@ -72,6 +72,8 @@ internal class ProtoDestructionEvent : MonoBehaviour, IOnTakeDamage
         {
             externalSequence.StartSequence(subRoot);
         }
+
+        subRoot.GetComponent<ProtoSaveStateManager>().UpdateManagerStatus();
     }
 
     private void OnConsoleCommand_destroyproto(NotificationCenter.Notification n)
