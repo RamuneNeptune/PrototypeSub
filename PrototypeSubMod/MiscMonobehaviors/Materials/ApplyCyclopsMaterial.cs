@@ -1,10 +1,13 @@
-﻿using SubLibrary.CyclopsReferencers;
+﻿using System;
+using SubLibrary.CyclopsReferencers;
 using UnityEngine;
 
 namespace PrototypeSubMod.MiscMonobehaviors.Materials;
 
-internal class ApplyCyclopsMaterial : MonoBehaviour, ICyclopsReferencer
+internal class ApplyCyclopsMaterial : MonoBehaviour, ICyclopsReferencer, IMaterialModifier
 {
+    public event Action<GameObject> onEditMaterial;
+    
     [SerializeField] private Renderer rend;
     [SerializeField] private string pathToTarget;
     [SerializeField] private int copyIndex;
@@ -21,5 +24,7 @@ internal class ApplyCyclopsMaterial : MonoBehaviour, ICyclopsReferencer
         var mats = rend.materials;
         mats[applyIndex] = new Material(copyRend.materials[copyIndex]);
         rend.materials = mats;
+
+        onEditMaterial?.Invoke(copyRend.gameObject);
     }
 }

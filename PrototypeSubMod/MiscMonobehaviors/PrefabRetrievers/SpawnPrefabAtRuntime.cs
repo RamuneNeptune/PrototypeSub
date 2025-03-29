@@ -1,14 +1,15 @@
 ﻿using HarmonyLib;
 using System;
 using System.Collections;
+using PrototypeSubMod.MiscMonobehaviors.Materials;
 using UnityEngine;
 using UWE;
 
 namespace PrototypeSubMod.MiscMonobehaviors.PrefabRetrievers;
 
-internal class SpawnPrefabAtRuntime : MonoBehaviour
+internal class SpawnPrefabAtRuntime : MonoBehaviour, IMaterialModifier
 {
-    public event Action<GameObject> OnSpawn;
+    public event Action<GameObject> onEditMaterial;
 
     [SerializeField] private string classID;
     [SerializeField] private string childPath;
@@ -40,7 +41,7 @@ internal class SpawnPrefabAtRuntime : MonoBehaviour
         worldPrefab.transform.localPosition = localPos;
         worldPrefab.transform.localEulerAngles = localRot;
         worldPrefab.transform.localScale = localScale;
-        OnSpawn?.Invoke(worldPrefab);
+        onEditMaterial?.Invoke(worldPrefab);
 
         if (worldPrefab.TryGetComponent(out Renderer rend) && materials.Length > 0)
         {

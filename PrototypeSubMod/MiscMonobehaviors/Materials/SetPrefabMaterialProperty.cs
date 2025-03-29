@@ -5,7 +5,7 @@ namespace PrototypeSubMod.MiscMonobehaviors.Materials;
 
 public class SetPrefabMaterialProperty : MonoBehaviour
 {
-    [SerializeField] private SpawnPrefabAtRuntime prefabSpawner;
+    [SerializeField] private Component prefabSpawner;
     [SerializeField] private MaterialData[] materialDatas;
 
     [SerializeField, HideInInspector] private string[] propertyNames;
@@ -18,9 +18,15 @@ public class SetPrefabMaterialProperty : MonoBehaviour
     [SerializeField, HideInInspector] private Color[] colorValues;
 
     private MaterialData[] serializedMaterialDatas;
+    private IMaterialModifier materialModifier;
 
     private void OnValidate()
     {
+        if (prefabSpawner is not IMaterialModifier)
+        {
+            prefabSpawner = null;
+        }
+        
         propertyNames = new string[materialDatas.Length];
         childPaths = new string[materialDatas.Length];
         materialIndices = new int[materialDatas.Length];
@@ -46,8 +52,9 @@ public class SetPrefabMaterialProperty : MonoBehaviour
 
     private void Start()
     {
+        materialModifier = prefabSpawner as IMaterialModifier;
         ReconstructMaterialDatas();
-        prefabSpawner.OnSpawn += OnSpawn;
+        materialModifier.onEditMaterial += OnSpawn;
     }
 
     private void OnSpawn(GameObject obj)
