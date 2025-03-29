@@ -182,7 +182,7 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
 
     private void FixedUpdate()
     {
-        tooltip.gameObject.SetActive(buildScreen.IsTooltipActive() && allowedToCraft);
+        tooltip.gameObject.SetActive(allowedToCraft);
     }
 
     private void LateUpdate()
@@ -223,7 +223,7 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
 
     public void OnPointerEnter(BaseEventData data)
     {
-        if (!buildScreen.IsTooltipActive() || !allowedToCraft) return;
+        if (!allowedToCraft) return;
 
         hovered = true;
         itemIcon.SetBackgroundSprite(atlasSpriteBGHovered);
