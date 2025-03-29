@@ -42,6 +42,8 @@ public class VoicelineRegisterer
         "Proto_NoPowerForWarp",
         "Proto_IonGeneratorOverheat",
         "Proto_IonGeneratorEMP",
+        "Proto_InterceptorLocked",
+        "Proto_ReactorLocked",
         
         "Proto_DevResumed",
         "Proto_StoryEndPingVoiceline",
