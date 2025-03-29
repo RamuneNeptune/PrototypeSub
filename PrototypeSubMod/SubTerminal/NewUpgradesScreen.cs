@@ -65,9 +65,9 @@ internal class NewUpgradesScreen : MonoBehaviour
             downloadActive = false;
             screenManager.EnableRelevantScreensAtStart();
             queuedVoicelines.Clear();
-            queuedVoicelines.AddItem(newDataNotification);
+            queuedVoicelines.Enqueue(newDataNotification);
             SpawnPingIfNeeded();
-            StartCoroutine(PlayQueuedVoicelines());
+            UWE.CoroutineHost.StartCoroutine(PlayQueuedVoicelines());
         }
     }
 
@@ -155,7 +155,7 @@ internal class NewUpgradesScreen : MonoBehaviour
 
         Plugin.GlobalSaveData.defensePingSpawned = true;
         UWE.CoroutineHost.StartCoroutine(SpawnDefensePing());
-        queuedVoicelines.AddItem(defensePingNotification);
+        queuedVoicelines.Enqueue(defensePingNotification);
         screenManager.EndBuildStage();
     }
 
@@ -174,7 +174,7 @@ internal class NewUpgradesScreen : MonoBehaviour
 
         Plugin.GlobalSaveData.storyEndPingSpawned = true;
         UWE.CoroutineHost.StartCoroutine(SpawnStoryEndPing());
-        queuedVoicelines.AddItem(storyEndNotification);
+        queuedVoicelines.Enqueue(storyEndNotification);
         screenManager.EndBuildStage();
     }
 
