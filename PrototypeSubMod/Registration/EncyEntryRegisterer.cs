@@ -21,6 +21,16 @@ internal class EncyEntryRegisterer
         var ingotPopup = Plugin.AssetBundle.LoadAsset<Sprite>("AlienFramework_EncyPopup");
 
         PDAHandler.AddEncyclopediaEntry("ProtoPrecursorIngot", "DownloadedData/Precursor/Scan", ingotTitle, ingotDescription, unlockSound: PDAHandler.UnlockBasic, popupImage: ingotPopup);
+        var precursorIngotEntryData = new PDAScanner.EntryData()
+        {
+            key = PrecursorIngot_Craftable.prefabInfo.TechType,
+            destroyAfterScan = false,
+            encyclopedia = "ProtoPrecursorIngot",
+            scanTime = 5f,
+            isFragment = false,
+            blueprint = PrecursorIngot_Craftable.prefabInfo.TechType
+        };
+        PDAHandler.AddCustomScannerEntry(precursorIngotEntryData);
         #endregion
 
         #region Interceptor Terminal
