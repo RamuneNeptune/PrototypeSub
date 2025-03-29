@@ -26,7 +26,7 @@ internal class StructureRegisterer
         StructureLoading.RegisterStructure(LoadStructureFromBundle("DefenseMoonpool"), ref entityCount);
         entityCount = 0;
 
-        StructureLoading.RegisterStructure(LoadStructureFromBundle("ProtoItemDisplayCases"), ref entityCount);
+        //StructureLoading.RegisterStructure(LoadStructureFromBundle("ProtoItemDisplayCases"), ref entityCount);
         entityCount = 0;
 
         StructureLoading.RegisterStructure(LoadStructureFromBundle("ProtoIslands"), ref entityCount);
