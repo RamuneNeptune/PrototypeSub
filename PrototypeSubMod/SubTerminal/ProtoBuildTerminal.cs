@@ -92,13 +92,6 @@ internal class ProtoBuildTerminal : Crafter
         prefab.GetComponent<VFXConstructing>().ghostMaterial = MaterialUtils.GhostMaterial;
         yield return new WaitForEndOfFrame();
         
-        var type = Type.GetType("Nautilus.Utility.ThunderkitUtilities.ApplySNMaterial, Nautilus, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
-        var method = type.GetMethod("AssignMaterials", BindingFlags.Public | BindingFlags.Instance);
-        foreach (var component in prefab.GetComponentsInChildren(type, true))
-        {
-            method.Invoke(component, null);
-        }
-        
         StartConstruction(prefab, techType, duration);
     }
 
