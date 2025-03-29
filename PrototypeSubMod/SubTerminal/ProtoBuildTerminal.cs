@@ -96,7 +96,6 @@ internal class ProtoBuildTerminal : Crafter
         var method = type.GetMethod("AssignMaterials", BindingFlags.Public | BindingFlags.Instance);
         foreach (var component in prefab.GetComponentsInChildren(type, true))
         {
-            Plugin.Logger.LogInfo($"Assigning materials on {component}");
             method.Invoke(component, null);
         }
         
