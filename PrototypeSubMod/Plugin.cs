@@ -90,6 +90,7 @@ namespace PrototypeSubMod
             StructureRegisterer.Register();
             StoryGoalsRegisterer.Register();
             BiomeRegisterer.Register();
+            LootRegister.Register();
             CommandRegisterer.Register();
             PDAMessageRegisterer.Register();
             VoicelineRegisterer.UpdateVoicelines();

@@ -1,0 +1,75 @@
+﻿using System.Collections;
+using Nautilus.Assets;
+using UnityEngine;
+
+namespace PrototypeSubMod.Prefabs.AlienBuildingBlock;
+
+internal class InactiveAlienBuildingBlock : AlienBuildingBlock
+{
+    public static PrefabInfo prefabInfo { get; private set; }
+
+    private static CustomPrefab prefab;
+    
+    public static void Register()
+    {
+        prefab = new CustomPrefab(PrefabInfo.WithTechType("InactiveAlienBuildingBlock").WithIcon(Plugin.AssetBundle.LoadAsset<Sprite>("AlienBuildingBlockIcon.png")));
+        
+        prefab.SetGameObject(GetPrefab);
+        
+        prefab.Register();
+    }
+    
+    private static IEnumerator GetPrefab(IOut<GameObject> prefab)
+    {
+        var returnPrefab = Plugin.AssetBundle.LoadAsset<GameObject>("InactiveAlienBuildingBlock.prefab");
+        
+        if(returnPrefab == null)
+            Plugin.Logger.LogError("Failed to load the InactiveAlienBuildingBlock prefab.");
+
+        returnPrefab.GetComponent<TechTag>().type = prefabInfo.TechType;
+        returnPrefab.SetActive(false);
+
+        var instance = Object.Instantiate(returnPrefab);
+
+        var rootRelic = new TaskResult<GameObject>();
+        yield return GetAlienBuildingBlockModel(rootRelic);
+
+        var relicInstance = Object.Instantiate(rootRelic.Get(), instance.transform.GetChild(0));
+
+        var relicMat = relicInstance.GetComponent<MeshRenderer>().materials[0];
+        
+        relicMat.SetFloat(ShaderPropertyID._GlowStrength, 0f);
+        relicMat.SetFloat(ShaderPropertyID._GlowStrengthNight, 0f);
+        
+        prefab.Set(instance);
+    }
+
+    public static IEnumerator TrySpawnBiome(Vector3 position, string biome)
+    {
+        var existingBlocks = Object.FindObjectsOfType<BuildingBlockManager>();
+
+        int existingBlocksInBiome = 0;
+        foreach (var block in existingBlocks)
+        {
+            if(block.spawnBiome.Equals(biome) && block.warperBlock)
+                existingBlocksInBiome++;
+        }
+
+        if (existingBlocksInBiome >= 5)
+            yield break;
+        
+        UWE.Utils.TryParseEnum<TechType>("InactiveAlienBuildingBlock", out var techType);
+        
+        var task = CraftData.GetPrefabForTechTypeAsync(techType);
+
+        yield return task;
+        
+        var blockPrefab = task.GetResult();
+        
+        var spawnedBlock = Object.Instantiate(blockPrefab, position, Quaternion.identity);
+
+        spawnedBlock.GetComponent<BuildingBlockManager>().warperBlock = true;
+        
+        Plugin.Logger.LogDebug($"Warper spawned InactiveBuildingBlock at [{position}]");
+    }
+}
