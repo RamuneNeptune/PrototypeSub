@@ -27,7 +27,7 @@ public class WarperPatch
     {
         if (Random.Range(0, 5) == 4)
         {
-            CoroutineHost.StartCoroutine(InactiveAlienBuildingBlock.TrySpawnBiome(spawnPos,
+            CoroutineHost.StartCoroutine(WarperRemnant.TrySpawnBiome(spawnPos,
                 LargeWorld.main.GetBiome(spawnPos)));
         }
     }

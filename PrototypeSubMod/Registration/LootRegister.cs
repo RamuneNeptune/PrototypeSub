@@ -14,8 +14,8 @@ internal static class LootRegister
 
     private static void RegisterInactiveAlienBuildingBlock()
     {
-        var worldEntityInfo = WorldEntityInfoUtils.Create(InactiveAlienBuildingBlock.prefabInfo.TechType.ToString(),  InactiveAlienBuildingBlock.prefabInfo.TechType, LargeWorldEntity.CellLevel.Near, EntitySlot.Type.Small);
-        LootDistributionHandler.AddLootDistributionData(InactiveAlienBuildingBlock.prefabInfo.TechType.ToString(), worldEntityInfo, new LootDistributionData.BiomeData[] {
+        var worldEntityInfo = WorldEntityInfoUtils.Create(WarperRemnant.prefabInfo.TechType.ToString(),  WarperRemnant.prefabInfo.TechType, LargeWorldEntity.CellLevel.Near, EntitySlot.Type.Small);
+        LootDistributionHandler.AddLootDistributionData(WarperRemnant.prefabInfo.TechType.ToString(), worldEntityInfo, new LootDistributionData.BiomeData[] {
             new()
             {
                 biome = BiomeType.GrandReef_Ground,

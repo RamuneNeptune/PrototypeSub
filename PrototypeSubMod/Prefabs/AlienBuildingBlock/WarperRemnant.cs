@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace PrototypeSubMod.Prefabs.AlienBuildingBlock;
 
-internal class InactiveAlienBuildingBlock : AlienBuildingBlock
+internal class WarperRemnant : RelicBlock
 {
     public static PrefabInfo prefabInfo { get; private set; }
 
@@ -12,7 +12,7 @@ internal class InactiveAlienBuildingBlock : AlienBuildingBlock
     
     public static void Register()
     {
-        prefabInfo = PrefabInfo.WithTechType("InactiveAlienBuildingBlock").WithIcon(Plugin.AssetBundle.LoadAsset<Sprite>("AlienBuildingBlockIcon.png"));
+        prefabInfo = PrefabInfo.WithTechType("WarperRemnant").WithIcon(Plugin.AssetBundle.LoadAsset<Sprite>("AlienBuildingBlockIcon.png"));
         prefab = new CustomPrefab(prefabInfo);
         
         prefab.SetGameObject(GetPrefab);
@@ -21,10 +21,10 @@ internal class InactiveAlienBuildingBlock : AlienBuildingBlock
     
     private static IEnumerator GetPrefab(IOut<GameObject> prefab)
     {
-        var returnPrefab = Plugin.AssetBundle.LoadAsset<GameObject>("InactiveAlienBuildingBlock.prefab");
+        var returnPrefab = Plugin.AssetBundle.LoadAsset<GameObject>("WarperRemnant.prefab");
         
         if(returnPrefab == null)
-            Plugin.Logger.LogError("Failed to load the InactiveAlienBuildingBlock prefab.");
+            Plugin.Logger.LogError("Failed to load the WarperRemnant prefab.");
 
         returnPrefab.GetComponent<TechTag>().type = prefabInfo.TechType;
         returnPrefab.SetActive(false);
@@ -32,7 +32,7 @@ internal class InactiveAlienBuildingBlock : AlienBuildingBlock
         var instance = Object.Instantiate(returnPrefab);
 
         var rootRelic = new TaskResult<GameObject>();
-        yield return GetAlienBuildingBlockModel(rootRelic);
+        yield return GetRelicBlockModel(rootRelic);
 
         var relicInstance = Object.Instantiate(rootRelic.Get(), instance.transform.GetChild(0));
 
@@ -70,6 +70,7 @@ internal class InactiveAlienBuildingBlock : AlienBuildingBlock
         
         var spawnedBlock = Object.Instantiate(blockPrefab, position, Quaternion.identity);
 
+        spawnedBlock.GetComponent<Rigidbody>().isKinematic = false;
         spawnedBlock.GetComponent<BuildingBlockManager>().warperBlock = true;
         
         Plugin.Logger.LogDebug($"Warper spawned InactiveBuildingBlock at [{position}]");

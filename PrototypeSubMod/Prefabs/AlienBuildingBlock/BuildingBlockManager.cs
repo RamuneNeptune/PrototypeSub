@@ -28,7 +28,7 @@ public class BuildingBlockManager : MonoBehaviour
 
         blockMaterial = gameObject.GetComponentInChildren<MeshRenderer>().materials[0];
 
-        blockActive = gameObject.GetComponent<TechTag>().type == ActiveAlienBuildingBlock.prefabInfo.TechType;
+        blockActive = gameObject.GetComponent<TechTag>().type == AlienBuildingBlock.prefabInfo.TechType;
 
         if (!blockActive)
             glowStrengthNight = 0f;
