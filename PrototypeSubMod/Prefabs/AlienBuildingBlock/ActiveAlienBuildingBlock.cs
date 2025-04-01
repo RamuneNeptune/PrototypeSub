@@ -15,17 +15,19 @@ internal class ActiveAlienBuildingBlock : AlienBuildingBlock
     
     public static void Register()
     {
-        prefab = new CustomPrefab(PrefabInfo.WithTechType("ActiveAlienBuildingBlock", null, null, unlockAtStart: true).WithIcon(Plugin.AssetBundle.LoadAsset<Sprite>("AlienBuildingBlockIcon.png")));
+        prefabInfo = PrefabInfo.WithTechType("ActiveAlienBuildingBlock", null, null, unlockAtStart: true)
+            .WithIcon(Plugin.AssetBundle.LoadAsset<Sprite>("AlienBuildingBlockIcon.png"));
+        
+        prefab = new CustomPrefab(prefabInfo);
         
         prefab.SetGameObject(GetPrefab);
         
-        UWE.Utils.TryParseEnum<TechType>("InactiveAlienBuildingBlock", out var inactiveBlockTechType);
         prefab.SetRecipe(new RecipeData
         {
             craftAmount = 1,
             Ingredients = new List<CraftData.Ingredient>
             {
-                new(inactiveBlockTechType)
+                new(InactiveAlienBuildingBlock.prefabInfo.TechType)
             }
         }).WithFabricatorType(CraftTree.Type.Fabricator).WithStepsToFabricatorTab("Personal", "Equipment").WithCraftingTime(3f);
         

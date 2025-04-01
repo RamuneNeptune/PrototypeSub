@@ -8,15 +8,27 @@ namespace PrototypeSubMod.Patches;
 [HarmonyPatch(typeof(Warper))]
 public class WarperPatch
 {
+
+    [HarmonyPatch(nameof(Warper.WarpIn))]
+    [HarmonyPostfix]
+    public static void WarpIn_Postfix(Warper __instance)
+    {
+        RollBuildingBlockSpawnChance(__instance.transform.position);
+    }
     
     [HarmonyPatch(nameof(Warper.EndWarpOut))]
     [HarmonyPrefix]
     public static void EndWarpOut_Prefix(Warper __instance)
     {
+        RollBuildingBlockSpawnChance(__instance.transform.position);
+    }
+
+    private static void RollBuildingBlockSpawnChance(Vector3 spawnPos)
+    {
         if (Random.Range(0, 5) == 4)
         {
-            CoroutineHost.StartCoroutine(InactiveAlienBuildingBlock.TrySpawnBiome(__instance.transform.position,
-                LargeWorld.main.GetBiome(__instance.transform.position)));
+            CoroutineHost.StartCoroutine(InactiveAlienBuildingBlock.TrySpawnBiome(spawnPos,
+                LargeWorld.main.GetBiome(spawnPos)));
         }
     }
     

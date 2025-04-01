@@ -1,5 +1,6 @@
 ﻿using Nautilus.Handlers;
 using Nautilus.Utility;
+using PrototypeSubMod.Prefabs.AlienBuildingBlock;
 
 namespace PrototypeSubMod.Registration;
 
@@ -13,10 +14,8 @@ internal static class LootRegister
 
     private static void RegisterInactiveAlienBuildingBlock()
     {
-        UWE.Utils.TryParseEnum<TechType>("InactiveAlienBuildingBlock", out var inactiveBuildingBlockType);
-        
-        var worldEntityInfo = WorldEntityInfoUtils.Create(inactiveBuildingBlockType.ToString(),  inactiveBuildingBlockType, LargeWorldEntity.CellLevel.Far, EntitySlot.Type.Small);
-        LootDistributionHandler.AddLootDistributionData(inactiveBuildingBlockType.ToString(), worldEntityInfo, new LootDistributionData.BiomeData[] {
+        var worldEntityInfo = WorldEntityInfoUtils.Create(InactiveAlienBuildingBlock.prefabInfo.TechType.ToString(),  InactiveAlienBuildingBlock.prefabInfo.TechType, LargeWorldEntity.CellLevel.Near, EntitySlot.Type.Small);
+        LootDistributionHandler.AddLootDistributionData(InactiveAlienBuildingBlock.prefabInfo.TechType.ToString(), worldEntityInfo, new LootDistributionData.BiomeData[] {
             new()
             {
                 biome = BiomeType.GrandReef_Ground,

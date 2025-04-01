@@ -12,10 +12,10 @@ internal class InactiveAlienBuildingBlock : AlienBuildingBlock
     
     public static void Register()
     {
-        prefab = new CustomPrefab(PrefabInfo.WithTechType("InactiveAlienBuildingBlock").WithIcon(Plugin.AssetBundle.LoadAsset<Sprite>("AlienBuildingBlockIcon.png")));
+        prefabInfo = PrefabInfo.WithTechType("InactiveAlienBuildingBlock").WithIcon(Plugin.AssetBundle.LoadAsset<Sprite>("AlienBuildingBlockIcon.png"));
+        prefab = new CustomPrefab(prefabInfo);
         
         prefab.SetGameObject(GetPrefab);
-        
         prefab.Register();
     }
     
@@ -46,6 +46,11 @@ internal class InactiveAlienBuildingBlock : AlienBuildingBlock
 
     public static IEnumerator TrySpawnBiome(Vector3 position, string biome)
     {
+        bool inRenderDistance = (position - MainCamera.camera.transform.position).sqrMagnitude < 256f;
+
+        if (!inRenderDistance)
+            yield break;
+        
         var existingBlocks = Object.FindObjectsOfType<BuildingBlockManager>();
 
         int existingBlocksInBiome = 0;
@@ -58,10 +63,7 @@ internal class InactiveAlienBuildingBlock : AlienBuildingBlock
         if (existingBlocksInBiome >= 5)
             yield break;
         
-        UWE.Utils.TryParseEnum<TechType>("InactiveAlienBuildingBlock", out var techType);
-        
-        var task = CraftData.GetPrefabForTechTypeAsync(techType);
-
+        var task = CraftData.GetPrefabForTechTypeAsync(prefabInfo.TechType);
         yield return task;
         
         var blockPrefab = task.GetResult();
