@@ -44,6 +44,7 @@ internal class WarperRemnant : RelicBlock
         prefab.Set(instance);
     }
 
+    //April fools comment.
     public static IEnumerator TrySpawnBiome(Vector3 position, string biome)
     {
         bool inRenderDistance = (position - MainCamera.camera.transform.position).sqrMagnitude < 256f;
