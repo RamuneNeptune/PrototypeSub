@@ -12,7 +12,7 @@ internal class WarperRemnant : RelicBlock
     
     public static void Register()
     {
-        prefabInfo = PrefabInfo.WithTechType("WarperRemnant").WithIcon(Plugin.AssetBundle.LoadAsset<Sprite>("AlienBuildingBlockIcon.png"));
+        prefabInfo = PrefabInfo.WithTechType("WarperRemnant").WithIcon(Plugin.AssetBundle.LoadAsset<Sprite>("WarperRemnantIcon.png"));
         prefab = new CustomPrefab(prefabInfo);
         
         prefab.SetGameObject(GetPrefab);
