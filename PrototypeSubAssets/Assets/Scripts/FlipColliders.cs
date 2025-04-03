@@ -1,7 +1,7 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-public class Test : MonoBehaviour
+public class FlipColliders : MonoBehaviour
 {
     public Transform scalar;
     public Transform rotationHolder;
