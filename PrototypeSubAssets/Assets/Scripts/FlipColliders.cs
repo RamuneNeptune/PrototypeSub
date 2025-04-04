@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class FlipColliders : MonoBehaviour
 {
-    public Transform scalar;
-    public Transform rotationHolder;
     public Transform collidersParent;
     public Transform newParent;
     public bool flip;
@@ -21,10 +19,10 @@ public class FlipColliders : MonoBehaviour
         foreach (Transform t in collidersParent)
         {
             var copy = Instantiate(t.gameObject);
-            copy.transform.position = scalar.InverseTransformPoint(copy.transform.position);
+            copy.transform.position = Vector3.Reflect(copy.transform.position, transform.forward);
 
-            var forwardReflect = Vector3.Reflect(copy.transform.rotation * Vector3.forward, rotationHolder.forward);
-            var upwardReflect = Vector3.Reflect(copy.transform.rotation * Vector3.up, rotationHolder.forward);
+            var forwardReflect = Vector3.Reflect(copy.transform.rotation * Vector3.forward, transform.forward);
+            var upwardReflect = Vector3.Reflect(copy.transform.rotation * Vector3.up, transform.forward);
 
             copy.transform.rotation = Quaternion.LookRotation(forwardReflect, upwardReflect);
             copy.transform.SetParent(newParent);
