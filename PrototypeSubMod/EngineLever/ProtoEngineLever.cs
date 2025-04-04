@@ -5,12 +5,14 @@ namespace PrototypeSubMod.EngineLever;
 
 internal class ProtoEngineLever : CinematicModeTriggerBase
 {
+    private static readonly int EngineOn = Animator.StringToHash("FinsActive");
+    
     [SerializeField] private SubRoot subRoot;
     [SerializeField] private CyclopsMotorMode motorMode;
     [SerializeField] private EmissiveIntensityPingPong emissivePingPong;
     [SerializeField] private Animator leverAnimator;
     [SerializeField] private Animator playerAnimator;
-    [SerializeField] private Animator finsAnimator;
+    [SerializeField] private Transform finsParent;
     [SerializeField] private Collider interactableCollider;
     [SerializeField] private Transform leftIKTarget;
     [SerializeField] private Transform rightIKTarget;
@@ -18,13 +20,18 @@ internal class ProtoEngineLever : CinematicModeTriggerBase
     [SerializeField] private FMOD_CustomEmitter shutdownSound;
     [SerializeField] private VoiceNotification engineLockedNotification;
 
+    private Animator[] finAnimators;
     private bool ensureAnimFinished;
     private bool locked;
 
     private IEnumerator Start()
     {
         cinematicController.animator = Player.main.playerAnimator;
-        finsAnimator.SetBool("EngineOn", motorMode.engineOn);
+        finAnimators = finsParent.GetComponentsInChildren<Animator>();
+        foreach (var animator in finAnimators)
+        {
+            animator.SetBool(EngineOn, motorMode.engineOn);
+        }
 
         if (motorMode.engineOn)
         {
@@ -64,7 +71,10 @@ internal class ProtoEngineLever : CinematicModeTriggerBase
 
         bool nextState = !leverAnimator.GetBool("LeverEnabled");
         leverAnimator.SetBool("LeverEnabled", nextState);
-        finsAnimator.SetBool("EngineOn", nextState);
+        foreach (var animator in finAnimators)
+        {
+            animator.SetBool(EngineOn, nextState);
+        }
         playerAnimator.SetTrigger(nextState ? "LeverDown" : "LeverUp");
 
         if (nextState)
