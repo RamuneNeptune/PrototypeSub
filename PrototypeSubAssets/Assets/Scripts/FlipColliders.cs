@@ -1,5 +1,4 @@
-﻿using UnityEditor;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class FlipColliders : MonoBehaviour
 {
@@ -14,8 +13,7 @@ public class FlipColliders : MonoBehaviour
         if (!flip) return;
 
         flip = false;
-
-        EditorGUI.BeginChangeCheck();
+        
         foreach (Transform t in collidersParent)
         {
             var copy = Instantiate(t.gameObject);
@@ -27,6 +25,5 @@ public class FlipColliders : MonoBehaviour
             copy.transform.rotation = Quaternion.LookRotation(forwardReflect, upwardReflect);
             copy.transform.SetParent(newParent);
         }
-        EditorGUI.EndChangeCheck();
     }
 }

@@ -1,5 +1,4 @@
-﻿using UnityEditor;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Test : MonoBehaviour
 {
@@ -17,7 +16,6 @@ public class Test : MonoBehaviour
 
         flip = false;
 
-        EditorGUI.BeginChangeCheck();
         foreach (Transform t in collidersParent)
         {
             var copy = Instantiate(t.gameObject);
@@ -29,6 +27,5 @@ public class Test : MonoBehaviour
             copy.transform.rotation = Quaternion.LookRotation(forwardReflect, upwardReflect);
             copy.transform.SetParent(newParent);
         }
-        EditorGUI.EndChangeCheck();
     }
 }
