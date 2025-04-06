@@ -1,16 +1,29 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace PrototypeSubMod.PowerSystem;
 
 public class PowerDepositManager : MonoBehaviour, IItemSelectorManager
 {
+    private static readonly int HatchOpen = Animator.StringToHash("HatchOpen");
+    private static readonly int AcceptSource = Animator.StringToHash("AcceptSource");
     [SerializeField] private SubRoot subRoot;
     [SerializeField] private PrototypePowerSystem powerSystem;
     [SerializeField] private VoiceNotification powerLockedNotif;
+    [SerializeField] private PlayerCinematicController controller;
+    [SerializeField] private Animator reactorAnimator;
+    [SerializeField] private float cinematicLength = 5f;
     
     private bool storyLocked;
-    
+    private int restoreQuickSlot = -1;
+
+    private void Start()
+    {
+        controller.animator = Player.main.playerAnimator;
+    }
+
     public bool Filter(InventoryItem item)
     {
         return PrototypePowerSystem.AllowedPowerSources.ContainsKey(item.techType);
@@ -42,6 +55,15 @@ public class PowerDepositManager : MonoBehaviour, IItemSelectorManager
     public void Select(InventoryItem item)
     {
         ErrorMessage.AddError($"Selected {item}");
+
+        if (item == null) return;
+
+        controller.StartCinematicMode(Player.main);
+        restoreQuickSlot = Inventory.main.quickSlots.activeSlot;
+        Inventory.main.ReturnHeld();
+
+        reactorAnimator.SetTrigger(AcceptSource);
+        StartCoroutine(ExitCinematicModeDelayed());
     }
 
     public void OpenSelection()
@@ -74,5 +96,21 @@ public class PowerDepositManager : MonoBehaviour, IItemSelectorManager
     public void SetStoryLocked(bool locked)
     {
         storyLocked = locked;
+    }
+
+    public void OnPlayerCinematicModeEnd(PlayerCinematicController controller)
+    {
+        Inventory.main.quickSlots.Select(restoreQuickSlot);
+    }
+
+    public void OnPlayerProxyChanged(bool inBounds)
+    {
+        reactorAnimator.SetBool(HatchOpen, true);
+    }
+
+    private IEnumerator ExitCinematicModeDelayed()
+    {
+        yield return new WaitForSeconds(cinematicLength);
+        controller.EndCinematicMode();
     }
 }
