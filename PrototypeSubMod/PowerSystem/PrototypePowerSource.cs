@@ -204,7 +204,7 @@ internal class PrototypePowerSource : MonoBehaviour, IPowerInterface, ISaveDataL
     {
         this.battery = battery;
 
-        string slot = PrototypePowerSystem.SLOT_NAMES[transform.GetSiblingIndex() - 1];
+        string slot = PrototypePowerSystem.SLOT_NAMES[transform.GetSiblingIndex()];
 
         if (battery == null)
         {
