@@ -5,7 +5,11 @@ namespace PrototypeSubMod.PowerSystem;
 
 public class PowerDepositManager : MonoBehaviour, IItemSelectorManager
 {
+    [SerializeField] private SubRoot subRoot;
     [SerializeField] private PrototypePowerSystem powerSystem;
+    [SerializeField] private VoiceNotification powerLockedNotif;
+    
+    private bool storyLocked;
     
     public bool Filter(InventoryItem item)
     {
@@ -46,5 +50,29 @@ public class PowerDepositManager : MonoBehaviour, IItemSelectorManager
         {
             Inventory.main.container
         });
+    }
+    
+    public void OnHover(HandTargetEventData eventData)
+    {
+        HandReticle main = HandReticle.main;
+        main.SetText(HandReticle.TextType.Hand, "UseProtoPowerSystem", true, GameInput.Button.LeftHand);
+        main.SetText(HandReticle.TextType.HandSubscript, string.Empty, false);
+        main.SetIcon(HandReticle.IconType.Hand, 1f);
+    }
+
+    public void OnUse(HandTargetEventData eventData)
+    {
+        if (storyLocked)
+        {
+            subRoot.voiceNotificationManager.PlayVoiceNotification(powerLockedNotif);
+            return;
+        }
+
+        OpenSelection();
+    }
+    
+    public void SetStoryLocked(bool locked)
+    {
+        storyLocked = locked;
     }
 }

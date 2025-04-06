@@ -36,9 +36,6 @@ public class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTree
     [SerializeField] private PrototypePowerSource[] batterySources;
     [SerializeField] private FMODAsset equipBatterySound;
     [SerializeField] private FMODAsset unequipBatterySound;
-    [SerializeField] private VoiceNotification powerLockedNotif;
-
-    private bool storyLocked;
     
     private void Awake()
     {
@@ -98,26 +95,6 @@ public class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTree
         FMODUWE.PlayOneShot(unequipBatterySound, transform.position, 1f);
     }
 
-    public void OnHover(HandTargetEventData eventData)
-    {
-        HandReticle main = HandReticle.main;
-        main.SetText(HandReticle.TextType.Hand, "UseProtoPowerSystem", true, GameInput.Button.LeftHand);
-        main.SetText(HandReticle.TextType.HandSubscript, string.Empty, false, GameInput.Button.None);
-        main.SetIcon(HandReticle.IconType.Hand, 1f);
-    }
-
-    public void OnUse(HandTargetEventData eventData)
-    {
-        if (storyLocked)
-        {
-            serializationManager.GetComponent<VoiceNotificationManager>().PlayVoiceNotification(powerLockedNotif);
-        }
-        
-        PDA pda = Player.main.GetPDA();
-        Inventory.main.SetUsedStorage(equipment);
-        pda.Open(PDATab.Inventory);
-    }
-
     private bool IsAllowedToAdd(Pickupable pickupable, bool verbose)
     {
         return AllowedPowerSources.Keys.Contains(pickupable.GetTechType());
@@ -152,10 +129,5 @@ public class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTree
         if (AllowedPowerSources.ContainsKey(techType)) return;
 
         AllowedPowerSources.Add(techType, configData);
-    }
-
-    public void SetStoryLocked(bool locked)
-    {
-        storyLocked = locked;
     }
 }
