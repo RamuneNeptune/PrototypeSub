@@ -12,7 +12,8 @@ internal class ProtoEngineLever : CinematicModeTriggerBase
     [SerializeField] private EmissiveIntensityPingPong emissivePingPong;
     [SerializeField] private Animator leverAnimator;
     [SerializeField] private Animator playerAnimator;
-    [SerializeField] private Transform finsParent;
+    [SerializeField] private Transform leftFinsParent;
+    [SerializeField] private Transform rightFinsParent;
     [SerializeField] private Collider interactableCollider;
     [SerializeField] private Transform leftIKTarget;
     [SerializeField] private Transform rightIKTarget;
@@ -20,18 +21,17 @@ internal class ProtoEngineLever : CinematicModeTriggerBase
     [SerializeField] private FMOD_CustomEmitter shutdownSound;
     [SerializeField] private VoiceNotification engineLockedNotification;
 
-    private Animator[] finAnimators;
+    private Animator[] leftFinAnimators;
+    private Animator[] rightFinAnimators;
     private bool ensureAnimFinished;
     private bool locked;
 
     private IEnumerator Start()
     {
         cinematicController.animator = Player.main.playerAnimator;
-        finAnimators = finsParent.GetComponentsInChildren<Animator>();
-        foreach (var animator in finAnimators)
-        {
-            animator.SetBool(EngineOn, motorMode.engineOn);
-        }
+        leftFinAnimators = leftFinsParent.GetComponentsInChildren<Animator>();
+        rightFinAnimators = rightFinsParent.GetComponentsInChildren<Animator>();
+        StartCoroutine(UpdateFinState(motorMode.engineOn));
 
         if (motorMode.engineOn)
         {
@@ -71,10 +71,7 @@ internal class ProtoEngineLever : CinematicModeTriggerBase
 
         bool nextState = !leverAnimator.GetBool("LeverEnabled");
         leverAnimator.SetBool("LeverEnabled", nextState);
-        foreach (var animator in finAnimators)
-        {
-            animator.SetBool(EngineOn, nextState);
-        }
+        StartCoroutine(UpdateFinState(nextState));
         playerAnimator.SetTrigger(nextState ? "LeverDown" : "LeverUp");
 
         if (nextState)
@@ -96,6 +93,19 @@ internal class ProtoEngineLever : CinematicModeTriggerBase
         ensureAnimFinished = true;
 
         UWE.CoroutineHost.StartCoroutine(motorMode.ChangeEngineState(!motorMode.engineOn));
+    }
+
+    private IEnumerator UpdateFinState(bool targetState)
+    {
+        for (int i = 0; i < leftFinAnimators.Length; i++)
+        {
+            var animL = leftFinAnimators[i];
+            var animR = rightFinAnimators[i];
+            animL.SetBool(EngineOn, targetState);
+            animR.SetBool(EngineOn, targetState);
+
+            yield return new WaitForSeconds(0.5f);
+        }
     }
 
     private void Update()

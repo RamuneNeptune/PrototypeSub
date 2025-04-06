@@ -46496,8 +46496,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8336260830676538105}
   - component: {fileID: 7866658891211258813}
-  - component: {fileID: 8852365891878884312}
   - component: {fileID: 4991121976296161464}
+  - component: {fileID: 2576882421184609430}
   m_Layer: 0
   m_Name: EngineToggle
   m_TagString: DenyBuilding
@@ -46564,27 +46564,14 @@ MonoBehaviour:
   emissivePingPong: {fileID: 2914468712499822291}
   leverAnimator: {fileID: 7142302558859008435}
   playerAnimator: {fileID: 8758197494725931939}
-  finsParent: {fileID: 2739723329841281217}
+  leftFinsParent: {fileID: 5682393566083236254}
+  rightFinsParent: {fileID: 2558445694632367951}
   interactableCollider: {fileID: 4991121976296161464}
   leftIKTarget: {fileID: 6115348115333185552}
   rightIKTarget: {fileID: 3028914974059524853}
   startupSound: {fileID: 7810905793712102655}
   shutdownSound: {fileID: 8243117187385072684}
   engineLockedNotification: {fileID: 4978320331102485651}
---- !u!114 &8852365891878884312
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4148235639594358730}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1858626605, guid: 06dd3d5416bf43ea368cc39ff96e6d5a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  reason: 
-  deconstructionObstacle: 0
 --- !u!65 &4991121976296161464
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -46598,6 +46585,20 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.06, y: 0.86, z: 0.21}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2576882421184609430
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4148235639594358730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -2026537396, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tag: DenyBuilding
+  frameDelay: 2
 --- !u!1 &4151312844504319574
 GameObject:
   m_ObjectHideFlags: 0
