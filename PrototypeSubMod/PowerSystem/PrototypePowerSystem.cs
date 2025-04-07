@@ -130,4 +130,9 @@ public class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTree
 
         AllowedPowerSources.Add(techType, configData);
     }
+
+    public bool StorageSlotsFull()
+    {
+        return storageRoot.transform.childCount >= SLOT_NAMES.Length;
+    }
 }

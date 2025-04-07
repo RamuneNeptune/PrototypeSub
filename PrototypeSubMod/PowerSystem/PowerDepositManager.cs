@@ -98,9 +98,12 @@ public class PowerDepositManager : MonoBehaviour, IItemSelectorManager
     public void OnHover(HandTargetEventData eventData)
     {
         if (inAnimation) return;
+
+        string text = powerSystem.StorageSlotsFull() ? "ProtoPowerFull" : "UseProtoPowerSystem";
+        var icon = powerSystem.StorageSlotsFull() ? GameInput.Button.None : GameInput.Button.LeftHand;
         
         HandReticle main = HandReticle.main;
-        main.SetText(HandReticle.TextType.Hand, "UseProtoPowerSystem", true, GameInput.Button.LeftHand);
+        main.SetText(HandReticle.TextType.Hand, text, true, icon);
         main.SetText(HandReticle.TextType.HandSubscript, string.Empty, false);
         main.SetIcon(HandReticle.IconType.Hand, 1f);
     }
@@ -108,6 +111,8 @@ public class PowerDepositManager : MonoBehaviour, IItemSelectorManager
     public void OnUse(HandTargetEventData eventData)
     {
         if (inAnimation) return;
+        
+        if (powerSystem.StorageSlotsFull()) return;
         
         if (storyLocked)
         {
@@ -130,6 +135,8 @@ public class PowerDepositManager : MonoBehaviour, IItemSelectorManager
 
     public void OnPlayerProxyChanged(bool inBounds)
     {
+        if (powerSystem.StorageSlotsFull()) return;
+        
         reactorAnimator.SetBool(HatchOpen, inBounds);
     }
 
@@ -142,5 +149,22 @@ public class PowerDepositManager : MonoBehaviour, IItemSelectorManager
     public void SetInAnimation(bool inAnimation)
     {
         this.inAnimation = inAnimation;
+    }
+
+    public void InstallCurrentPowerSource()
+    {
+        powerSourceObject.SetActive(false);
+        string slot = "";
+        foreach (var key in powerSystem.equipment.equipment.Keys)
+        {
+            if (!powerSystem.equipment.equipment.ContainsKey(key))
+            {
+                slot = key;
+                break;
+            }
+        }
+        
+        var inventoryItem = powerSourceObject.GetComponent<Pickupable>().inventoryItem;
+        powerSystem.equipment.AddItem(slot, inventoryItem);
     }
 }
