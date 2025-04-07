@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,10 +13,14 @@ public class PowerDepositManager : MonoBehaviour, IItemSelectorManager
     [SerializeField] private VoiceNotification powerLockedNotif;
     [SerializeField] private PlayerCinematicController controller;
     [SerializeField] private Animator reactorAnimator;
+    [SerializeField] private Animator cinematicAnimator;
+    [SerializeField] private Transform itemHolder;
     [SerializeField] private float cinematicLength = 5f;
     
-    private bool storyLocked;
+    private GameObject powerSourceObject;
     private int restoreQuickSlot = -1;
+    private bool storyLocked;
+    private bool inAnimation;
 
     private void Start()
     {
@@ -54,16 +57,34 @@ public class PowerDepositManager : MonoBehaviour, IItemSelectorManager
 
     public void Select(InventoryItem item)
     {
-        ErrorMessage.AddError($"Selected {item}");
-
         if (item == null) return;
 
         controller.StartCinematicMode(Player.main);
+        inAnimation = true;
         restoreQuickSlot = Inventory.main.quickSlots.activeSlot;
         Inventory.main.ReturnHeld();
 
         reactorAnimator.SetTrigger(AcceptSource);
+        cinematicAnimator.SetTrigger(AcceptSource);
         StartCoroutine(ExitCinematicModeDelayed());
+
+        if (!Inventory.main.TryRemoveItem(item.item)) throw new System.Exception($"Could not remove {item.item} from iventory");
+        
+        powerSourceObject = item.item.gameObject;
+        powerSourceObject.transform.SetParent(itemHolder);
+        powerSourceObject.transform.localPosition = Vector3.zero;
+        powerSourceObject.transform.localRotation = Quaternion.identity;
+        powerSourceObject.SetActive(true);
+        var col = powerSourceObject.GetComponentInChildren<Collider>();
+        if (col)
+        {
+            col.enabled = false;
+        }
+
+        if (powerSourceObject.TryGetComponent(out Rigidbody rb))
+        {
+            UWE.Utils.SetIsKinematicAndUpdateInterpolation(rb, true);
+        }
     }
 
     public void OpenSelection()
@@ -76,6 +97,8 @@ public class PowerDepositManager : MonoBehaviour, IItemSelectorManager
     
     public void OnHover(HandTargetEventData eventData)
     {
+        if (inAnimation) return;
+        
         HandReticle main = HandReticle.main;
         main.SetText(HandReticle.TextType.Hand, "UseProtoPowerSystem", true, GameInput.Button.LeftHand);
         main.SetText(HandReticle.TextType.HandSubscript, string.Empty, false);
@@ -84,6 +107,8 @@ public class PowerDepositManager : MonoBehaviour, IItemSelectorManager
 
     public void OnUse(HandTargetEventData eventData)
     {
+        if (inAnimation) return;
+        
         if (storyLocked)
         {
             subRoot.voiceNotificationManager.PlayVoiceNotification(powerLockedNotif);
@@ -105,12 +130,17 @@ public class PowerDepositManager : MonoBehaviour, IItemSelectorManager
 
     public void OnPlayerProxyChanged(bool inBounds)
     {
-        reactorAnimator.SetBool(HatchOpen, true);
+        reactorAnimator.SetBool(HatchOpen, inBounds);
     }
 
     private IEnumerator ExitCinematicModeDelayed()
     {
         yield return new WaitForSeconds(cinematicLength);
         controller.EndCinematicMode();
+    }
+
+    public void SetInAnimation(bool inAnimation)
+    {
+        this.inAnimation = inAnimation;
     }
 }
