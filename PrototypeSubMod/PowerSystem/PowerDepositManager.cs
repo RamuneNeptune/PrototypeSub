@@ -140,7 +140,7 @@ public class PowerDepositManager : MonoBehaviour, IItemSelectorManager
 
     public void OnUse(HandTargetEventData eventData)
     {
-        if (inAnimation) return;
+        if (inAnimation || reactorOpening) return;
         
         if (powerSystem.StorageSlotsFull()) return;
         
