@@ -133,6 +133,7 @@ public class PowerDepositManager : MonoBehaviour, IItemSelectorManager
         if (powerSystem.StorageSlotsFull()) return;
         
         reactorAnimator.SetBool(HatchOpen, inBounds);
+        reactorAnimator.SetBool("PowerFull", false);
     }
 
     private IEnumerator ExitCinematicModeDelayed()
@@ -161,5 +162,7 @@ public class PowerDepositManager : MonoBehaviour, IItemSelectorManager
         
         var inventoryItem = powerSourceObject.GetComponent<Pickupable>().inventoryItem;
         powerSystem.equipment.AddItem(slot, inventoryItem);
+
+        reactorAnimator.SetBool("PowerFull", powerSystem.StorageSlotsFull());
     }
 }
