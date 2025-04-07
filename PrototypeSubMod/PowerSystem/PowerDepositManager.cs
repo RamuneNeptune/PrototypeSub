@@ -1,14 +1,23 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using PrototypeSubMod.Prefabs;
 using UnityEngine;
 
 namespace PrototypeSubMod.PowerSystem;
 
 public class PowerDepositManager : MonoBehaviour, IItemSelectorManager
 {
+    private static readonly Dictionary<TechType, Vector3> PowerSourceScales = new()
+    {
+        { TechType.PrecursorIonCrystal, Vector3.one },
+        { TechType.PrecursorIonCrystalMatrix, Vector3.one * 0.8f },
+        { IonPrism_Craftable.prefabInfo.TechType, Vector3.one * 5f },
+    };
+    
     private static readonly int HatchOpen = Animator.StringToHash("HatchOpen");
     private static readonly int AcceptSource = Animator.StringToHash("AcceptSource");
+    private static readonly int PowerFull = Animator.StringToHash("PowerFull");
     [SerializeField] private SubRoot subRoot;
     [SerializeField] private PrototypePowerSystem powerSystem;
     [SerializeField] private VoiceNotification powerLockedNotif;
@@ -21,7 +30,9 @@ public class PowerDepositManager : MonoBehaviour, IItemSelectorManager
     private GameObject powerSourceObject;
     private int restoreQuickSlot = -1;
     private bool storyLocked;
+    private bool voicelinePlayed;
     private bool inAnimation;
+    private bool reactorOpening;
 
     private void Start()
     {
@@ -76,6 +87,11 @@ public class PowerDepositManager : MonoBehaviour, IItemSelectorManager
         powerSourceObject = item.item.gameObject;
         powerSourceObject.transform.SetParent(itemHolder);
         powerSourceObject.transform.localPosition = Vector3.zero;
+        if (PowerSourceScales.TryGetValue(item.techType, out var scale))
+        {
+            powerSourceObject.transform.localScale = scale;
+        }
+        
         powerSourceObject.transform.localRotation = Quaternion.identity;
         powerSourceObject.SetActive(true);
         var col = powerSourceObject.GetComponentInChildren<Collider>();
@@ -102,15 +118,24 @@ public class PowerDepositManager : MonoBehaviour, IItemSelectorManager
     {
         if (inAnimation) return;
 
-        string text = powerSystem.StorageSlotsFull() ? "ProtoPowerFull" : "UseProtoPowerSystem";
-        var icon = powerSystem.StorageSlotsFull() ? GameInput.Button.None : GameInput.Button.LeftHand;
+        bool slotsFull = powerSystem.StorageSlotsFull();
+        string text = slotsFull ? "ProtoPowerFull" : "UseProtoPowerSystem";
+        var icon = slotsFull ? GameInput.Button.None : GameInput.Button.LeftHand;
+        
+        if (reactorOpening)
+        {
+            text = "ProtoReactorOpening";
+            icon = GameInput.Button.None;
+        }
         
         HandReticle main = HandReticle.main;
         main.SetText(HandReticle.TextType.Hand, text, true, icon);
         main.SetText(HandReticle.TextType.HandSubscript, string.Empty, false);
         
-        var handIcon = powerSystem.StorageSlotsFull() ? HandReticle.IconType.HandDeny : HandReticle.IconType.Hand;
+        var handIcon = slotsFull || voicelinePlayed || reactorOpening ? HandReticle.IconType.None : HandReticle.IconType.Hand;
         main.SetIcon(handIcon, 1f);
+        
+        reactorAnimator.SetBool(PowerFull, slotsFull);
     }
 
     public void OnUse(HandTargetEventData eventData)
@@ -122,6 +147,7 @@ public class PowerDepositManager : MonoBehaviour, IItemSelectorManager
         if (storyLocked)
         {
             subRoot.voiceNotificationManager.PlayVoiceNotification(powerLockedNotif);
+            voicelinePlayed = true;
             return;
         }
 
@@ -143,7 +169,12 @@ public class PowerDepositManager : MonoBehaviour, IItemSelectorManager
         if (powerSystem.StorageSlotsFull()) return;
         
         reactorAnimator.SetBool(HatchOpen, inBounds);
-        reactorAnimator.SetBool("PowerFull", false);
+        reactorAnimator.SetBool(PowerFull, false);
+        
+        if (inBounds)
+        {
+            reactorOpening = true;
+        }
     }
 
     private IEnumerator ExitCinematicModeDelayed()
@@ -155,6 +186,11 @@ public class PowerDepositManager : MonoBehaviour, IItemSelectorManager
     public void SetInAnimation(bool inAnimation)
     {
         this.inAnimation = inAnimation;
+    }
+
+    public void SetOpeningDoors(bool opening)
+    {
+        reactorOpening = opening;
     }
 
     public void InstallCurrentPowerSource()
@@ -173,6 +209,6 @@ public class PowerDepositManager : MonoBehaviour, IItemSelectorManager
         var inventoryItem = powerSourceObject.GetComponent<Pickupable>().inventoryItem;
         powerSystem.equipment.AddItem(slot, inventoryItem);
 
-        reactorAnimator.SetBool("PowerFull", powerSystem.StorageSlotsFull());
+        reactorAnimator.SetBool(PowerFull, powerSystem.StorageSlotsFull());
     }
 }
