@@ -9,6 +9,7 @@ internal class AnimatorEventRelay : MonoBehaviour
     public UnityEvent onEventTriggered;
     public UnityEvent onEvent2Triggered;
     public UnityEvent onEvent3Triggered;
+    public UnityEvent onEvent4Triggered;
 
     public void TriggerEvent()
     {
@@ -23,5 +24,10 @@ internal class AnimatorEventRelay : MonoBehaviour
     public void TriggerEvent3()
     {
         onEvent3Triggered?.Invoke();
+    }
+    
+    public void TriggerEvent4()
+    {
+        onEvent4Triggered?.Invoke();
     }
 }

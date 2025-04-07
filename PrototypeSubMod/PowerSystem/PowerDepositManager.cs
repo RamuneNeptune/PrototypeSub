@@ -170,11 +170,6 @@ public class PowerDepositManager : MonoBehaviour, IItemSelectorManager
         
         reactorAnimator.SetBool(HatchOpen, inBounds);
         reactorAnimator.SetBool(PowerFull, false);
-        
-        if (inBounds)
-        {
-            reactorOpening = true;
-        }
     }
 
     private IEnumerator ExitCinematicModeDelayed()
