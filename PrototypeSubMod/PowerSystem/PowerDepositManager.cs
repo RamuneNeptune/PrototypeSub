@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace PrototypeSubMod.PowerSystem;
@@ -36,6 +37,13 @@ public class PowerDepositManager : MonoBehaviour, IItemSelectorManager
     {
         // If there are no available items in the inventory
         if (items.Count == 0) return -1;
+        
+        items.Sort((a, b) =>
+        {
+            var capacityA = a.item.GetComponent<PrototypePowerBattery>().capacity;
+            var capacityB = b.item.GetComponent<PrototypePowerBattery>().capacity;
+            return capacityB.CompareTo(capacityA);
+        });
         
         return 0;
     }
@@ -100,7 +108,9 @@ public class PowerDepositManager : MonoBehaviour, IItemSelectorManager
         HandReticle main = HandReticle.main;
         main.SetText(HandReticle.TextType.Hand, text, true, icon);
         main.SetText(HandReticle.TextType.HandSubscript, string.Empty, false);
-        main.SetIcon(HandReticle.IconType.Hand, 1f);
+        
+        var handIcon = powerSystem.StorageSlotsFull() ? HandReticle.IconType.HandDeny : HandReticle.IconType.Hand;
+        main.SetIcon(handIcon, 1f);
     }
 
     public void OnUse(HandTargetEventData eventData)
