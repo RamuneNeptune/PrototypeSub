@@ -34,8 +34,6 @@ public class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTree
     [SerializeField] private SubSerializationManager serializationManager;
     [SerializeField] private ChildObjectIdentifier storageRoot;
     [SerializeField] private PrototypePowerSource[] batterySources;
-    [SerializeField] private FMODAsset equipBatterySound;
-    [SerializeField] private FMODAsset unequipBatterySound;
     
     private void Awake()
     {
@@ -81,8 +79,6 @@ public class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTree
         }
 
         batterySource.SetBattery(battery);
-
-        FMODUWE.PlayOneShot(equipBatterySound, transform.position, 1f);
     }
 
     private void OnUnequip(string slot, InventoryItem item)
@@ -91,8 +87,6 @@ public class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTree
 
         var batterySource = batterySources[index];
         batterySource.SetBattery(null);
-
-        FMODUWE.PlayOneShot(unequipBatterySound, transform.position, 1f);
     }
 
     private bool IsAllowedToAdd(Pickupable pickupable, bool verbose)
