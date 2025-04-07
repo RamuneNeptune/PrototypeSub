@@ -132,7 +132,7 @@ public class PowerDepositManager : MonoBehaviour, IItemSelectorManager
         main.SetText(HandReticle.TextType.Hand, text, true, icon);
         main.SetText(HandReticle.TextType.HandSubscript, string.Empty, false);
         
-        var handIcon = slotsFull || voicelinePlayed || reactorOpening ? HandReticle.IconType.None : HandReticle.IconType.Hand;
+        var handIcon = slotsFull || voicelinePlayed || reactorOpening ? HandReticle.IconType.HandDeny : HandReticle.IconType.Hand;
         main.SetIcon(handIcon, 1f);
         
         reactorAnimator.SetBool(PowerFull, slotsFull);
