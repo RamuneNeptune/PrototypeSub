@@ -34,11 +34,6 @@ public class PowerDepositManager : MonoBehaviour, IItemSelectorManager
 
     public int Sort(List<InventoryItem> items)
     {
-        foreach (InventoryItem item in items)
-        {
-            Plugin.Logger.LogInfo(item);
-        }
-        
         // If there are no available items in the inventory
         if (items.Count == 0) return -1;
         
@@ -157,7 +152,7 @@ public class PowerDepositManager : MonoBehaviour, IItemSelectorManager
         string slot = "";
         foreach (var key in powerSystem.equipment.equipment.Keys)
         {
-            if (!powerSystem.equipment.equipment.ContainsKey(key))
+            if (!powerSystem.equipment.equipment.TryGetValue(key, out var item) || item == null)
             {
                 slot = key;
                 break;
