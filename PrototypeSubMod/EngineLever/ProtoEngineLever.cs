@@ -6,12 +6,16 @@ namespace PrototypeSubMod.EngineLever;
 internal class ProtoEngineLever : CinematicModeTriggerBase
 {
     private static readonly int EngineOn = Animator.StringToHash("FinsActive");
-    
+    private static readonly int PistonsActive = Animator.StringToHash("PistonsActive");
+    private static readonly int LeverEnabled = Animator.StringToHash("LeverEnabled");
+    private static readonly int EnabledFromSave = Animator.StringToHash("EnabledFromSave");
+
     [SerializeField] private SubRoot subRoot;
     [SerializeField] private CyclopsMotorMode motorMode;
     [SerializeField] private EmissiveIntensityPingPong emissivePingPong;
     [SerializeField] private Animator leverAnimator;
     [SerializeField] private Animator playerAnimator;
+    [SerializeField] private Animator hullPistonsAnimator;
     [SerializeField] private Transform leftFinsParent;
     [SerializeField] private Transform rightFinsParent;
     [SerializeField] private Collider interactableCollider;
@@ -35,10 +39,10 @@ internal class ProtoEngineLever : CinematicModeTriggerBase
 
         if (motorMode.engineOn)
         {
-            leverAnimator.SetTrigger("EnabledFromSave");
+            leverAnimator.SetTrigger(EnabledFromSave);
         }
 
-        leverAnimator.SetBool("LeverEnabled", motorMode.engineOn);
+        leverAnimator.SetBool(LeverEnabled, motorMode.engineOn);
         yield return new WaitForEndOfFrame();
 
         emissivePingPong.SetActive(motorMode.engineOn);
@@ -69,10 +73,11 @@ internal class ProtoEngineLever : CinematicModeTriggerBase
         base.OnStartCinematicMode();
         Player.main.armsController.SetWorldIKTarget(leftIKTarget, rightIKTarget);
 
-        bool nextState = !leverAnimator.GetBool("LeverEnabled");
-        leverAnimator.SetBool("LeverEnabled", nextState);
+        bool nextState = !leverAnimator.GetBool(LeverEnabled);
+        leverAnimator.SetBool(LeverEnabled, nextState);
         StartCoroutine(UpdateFinState(nextState));
         playerAnimator.SetTrigger(nextState ? "LeverDown" : "LeverUp");
+        hullPistonsAnimator.SetBool(PistonsActive, nextState);
 
         if (nextState)
         {
