@@ -34,6 +34,7 @@ public class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTree
     [SerializeField] private SubSerializationManager serializationManager;
     [SerializeField] private ChildObjectIdentifier storageRoot;
     [SerializeField] private PrototypePowerSource[] batterySources;
+    [SerializeField] private ProtoPowerRelay[] powerRelays;
     
     private void Awake()
     {
@@ -80,6 +81,7 @@ public class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTree
         }
 
         batterySource.SetBattery(battery);
+        UpdateRelayStatus();
     }
 
     private void OnUnequip(string slot, InventoryItem item)
@@ -151,6 +153,19 @@ public class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTree
         for (int i = 0; i < newItems.Count; i++)
         {
             equipment.AddItem(SLOT_NAMES[i], newItems[i]);
+        }
+
+        UpdateRelayStatus();
+    }
+
+    private void UpdateRelayStatus()
+    {
+        for (int i = 0; i < powerRelays.Length; i++)
+        {
+            var relay = powerRelays[i];
+            bool active = (i + 1) < storageRoot.transform.childCount;
+            relay.SetRelayActive(active);
+            relay.SetSourceType(equipment.GetItemInSlot(SLOT_NAMES[i]).techType);
         }
     }
 }
