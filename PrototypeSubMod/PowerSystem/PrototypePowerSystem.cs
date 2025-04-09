@@ -56,6 +56,7 @@ public class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTree
         equipment.SetLabel(EquipmentLabel);
         equipment.onEquip += OnEquip;
         equipment.onUnequip += OnUnequip;
+        equipment.onRemoveItem += OnRemoveItem;
 
         equipment.AddSlots(SLOT_NAMES);
 
@@ -65,7 +66,7 @@ public class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTree
             return true;
         };
     }
-
+    
     private void OnEquip(string slot, InventoryItem item)
     {
         int index = Array.IndexOf(SLOT_NAMES, slot);
@@ -128,5 +129,28 @@ public class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTree
     public bool StorageSlotsFull()
     {
         return storageRoot.transform.childCount >= SLOT_NAMES.Length;
+    }
+    
+    private void OnRemoveItem(InventoryItem item)
+    {
+        // Items will only be removed via the consumption of an item, or the removal of one
+        int firstItemIndex = int.MaxValue;
+        List<InventoryItem> newItems = new();
+        for (int i = SLOT_NAMES.Length - 1; i >= 0; i--)
+        {
+            string slot = SLOT_NAMES[i];
+            var itemInSlot = equipment.GetItemInSlot(slot);
+            if (itemInSlot == null && firstItemIndex != int.MaxValue) continue;
+            
+            if (firstItemIndex == int.MaxValue) firstItemIndex = i;
+
+            newItems.Insert(0, itemInSlot);
+            equipment.RemoveItem(slot, false, false);
+        }
+
+        for (int i = 0; i < newItems.Count; i++)
+        {
+            equipment.AddItem(SLOT_NAMES[i], newItems[i]);
+        }
     }
 }
