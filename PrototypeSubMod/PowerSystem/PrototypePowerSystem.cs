@@ -88,6 +88,7 @@ public class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTree
 
         batterySource.SetBattery(battery);
         UpdateRelayStatus();
+        UpdateAmbientSFX();
     }
 
     private void OnUnequip(string slot, InventoryItem item)
