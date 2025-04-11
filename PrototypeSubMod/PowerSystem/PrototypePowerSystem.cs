@@ -6,7 +6,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using FMOD.Studio;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace PrototypeSubMod.PowerSystem;
 
@@ -36,6 +38,9 @@ public class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTree
     [SerializeField] private ChildObjectIdentifier storageRoot;
     [SerializeField] private PrototypePowerSource[] batterySources;
     [SerializeField] private ProtoPowerRelay[] powerRelays;
+    [SerializeField] private FMOD_CustomLoopingEmitter ambientSFX;
+
+    private Coroutine relayActivatorCoroutine;
     
     private void Awake()
     {
@@ -91,6 +96,7 @@ public class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTree
 
         var batterySource = batterySources[index];
         batterySource.SetBattery(null);
+        UpdateAmbientSFX();
     }
 
     private bool IsAllowedToAdd(Pickupable pickupable, bool verbose)
@@ -157,6 +163,7 @@ public class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTree
         }
 
         UpdateRelayStatus();
+        UpdateAmbientSFX();
     }
 
     private void UpdateRelayStatus()
@@ -168,7 +175,9 @@ public class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTree
             if (i >= SLOT_NAMES.Length) break;
             
             var relay = powerRelays[i];
-            bool active = (i + 1) < storageRoot.transform.childCount;
+            var itemInSlot = equipment.GetItemInSlot(SLOT_NAMES[SLOT_NAMES.Length - i - 1]);
+            relay.SetSourceType(itemInSlot != null ? itemInSlot.techType : TechType.None);
+            bool active = itemInSlot != null;
             if (active)
             {
                 activeRelays.Add(relay);
@@ -177,20 +186,44 @@ public class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTree
             {
                 relay.SetRelayActive(false);
             }
-            
-            var itemInSlot = equipment.GetItemInSlot(SLOT_NAMES[i]);
-            relay.SetSourceType(itemInSlot != null ? itemInSlot.techType : TechType.None);
         }
-        
-        StartCoroutine(UpdateActiveRelays(activeRelays));
+
+        if (relayActivatorCoroutine != null) UWE.CoroutineHost.StopCoroutine(relayActivatorCoroutine);
+        relayActivatorCoroutine = UWE.CoroutineHost.StartCoroutine(UpdateActiveRelays(activeRelays));
     }
 
     private IEnumerator UpdateActiveRelays(List<ProtoPowerRelay> relays)
     {
+        yield return new WaitForEndOfFrame();
+        yield return new WaitForEndOfFrame();
+        
         foreach (var relay in relays)
         {
             relay.SetRelayActive(true);
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(Random.Range(0f, 1f));
         }
+    }
+
+    private void UpdateAmbientSFX()
+    {
+        bool active = equipment.equipment.Values.Any(i => i != null);
+        if (active)
+        {
+            ambientSFX.Play();
+        }
+        else
+        {
+            ambientSFX.Stop();
+        }
+    }
+
+    private void OnDisable()
+    {
+        ambientSFX.Stop(STOP_MODE.IMMEDIATE);
+    }
+
+    private void OnEnable()
+    {
+        UpdateAmbientSFX();
     }
 }
