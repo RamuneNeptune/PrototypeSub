@@ -3,6 +3,7 @@ using PrototypeSubMod.Prefabs;
 using PrototypeSubMod.SaveData;
 using SubLibrary.SaveData;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -160,12 +161,36 @@ public class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTree
 
     private void UpdateRelayStatus()
     {
+        List<ProtoPowerRelay> activeRelays = new();
+        
         for (int i = 0; i < powerRelays.Length; i++)
         {
+            if (i >= SLOT_NAMES.Length) break;
+            
             var relay = powerRelays[i];
             bool active = (i + 1) < storageRoot.transform.childCount;
-            relay.SetRelayActive(active);
-            relay.SetSourceType(equipment.GetItemInSlot(SLOT_NAMES[i]).techType);
+            if (active)
+            {
+                activeRelays.Add(relay);
+            }
+            else
+            {
+                relay.SetRelayActive(false);
+            }
+            
+            var itemInSlot = equipment.GetItemInSlot(SLOT_NAMES[i]);
+            relay.SetSourceType(itemInSlot != null ? itemInSlot.techType : TechType.None);
+        }
+        
+        StartCoroutine(UpdateActiveRelays(activeRelays));
+    }
+
+    private IEnumerator UpdateActiveRelays(List<ProtoPowerRelay> relays)
+    {
+        foreach (var relay in relays)
+        {
+            relay.SetRelayActive(true);
+            yield return new WaitForSeconds(0.5f);
         }
     }
 }

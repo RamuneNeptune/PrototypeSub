@@ -25,6 +25,8 @@ public class PowerDepositManager : MonoBehaviour, IItemSelectorManager
     [SerializeField] private Animator reactorAnimator;
     [SerializeField] private Animator cinematicAnimator;
     [SerializeField] private Transform itemHolder;
+    [SerializeField] private FMOD_CustomEmitter approachSFX;
+    [SerializeField] private FMOD_CustomEmitter depositSFX;
     [SerializeField] private float cinematicLength = 5f;
     
     private GameObject powerSourceObject;
@@ -104,6 +106,8 @@ public class PowerDepositManager : MonoBehaviour, IItemSelectorManager
         {
             UWE.Utils.SetIsKinematicAndUpdateInterpolation(rb, true);
         }
+
+        depositSFX.Play();
     }
 
     public void OpenSelection()
@@ -170,6 +174,11 @@ public class PowerDepositManager : MonoBehaviour, IItemSelectorManager
         
         reactorAnimator.SetBool(HatchOpen, inBounds);
         reactorAnimator.SetBool(PowerFull, false);
+
+        if (inBounds)
+        {
+            approachSFX.Play();
+        }
     }
 
     private IEnumerator ExitCinematicModeDelayed()
