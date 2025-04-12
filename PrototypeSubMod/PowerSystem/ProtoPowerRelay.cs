@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace PrototypeSubMod.PowerSystem;
@@ -12,14 +13,33 @@ public class ProtoPowerRelay : MonoBehaviour
     [SerializeField] private GameObject iconCanvas;
     [SerializeField] private Image icon;
     
+    private InventoryItem inventoryItem;
+    private PrototypePowerSystem powerSystem;
+
+    private void Start()
+    {
+        powerSystem = GetComponentInParent<PrototypePowerSystem>();
+    }
+
     public void SetRelayActive(bool active)
     {
         animator.SetBool(PylonActive, active);
         iconCanvas.SetActive(active);
     }
 
-    public void SetSourceType(TechType techType)
+    public void SetPowerSource(InventoryItem item)
     {
-        icon.sprite = iconManager.GetSpriteForTechType(techType);
+        if (item != null)
+        {
+            icon.sprite = iconManager.GetSpriteForTechType(item.techType);
+        }
+        
+        inventoryItem = item;
+    }
+
+    public void UninstallSource()
+    {
+        var battery = inventoryItem.item.GetComponent<PrototypePowerBattery>();
+        battery.ModifyCharge(-999999);
     }
 }

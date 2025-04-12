@@ -53,6 +53,8 @@ public class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTree
         {
             Plugin.Logger.LogError($"Battery source and slot name length mismatch on {gameObject}!");
         }
+
+        UpdateAmbientSFX();
     }
 
     private void Initialize()
@@ -181,8 +183,8 @@ public class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTree
             if (i >= SLOT_NAMES.Length) break;
             
             var relay = powerRelays[i];
-            var itemInSlot = equipment.GetItemInSlot(SLOT_NAMES[SLOT_NAMES.Length - i - 1]);
-            relay.SetSourceType(itemInSlot != null ? itemInSlot.techType : TechType.None);
+            var itemInSlot = equipment.GetItemInSlot(SLOT_NAMES[i]);
+            relay.SetPowerSource(itemInSlot);
             bool active = itemInSlot != null;
             if (active)
             {
