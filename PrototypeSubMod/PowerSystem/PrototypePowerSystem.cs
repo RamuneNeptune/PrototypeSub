@@ -72,6 +72,11 @@ public class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTree
         {
             return true;
         };
+        
+        foreach (var relay in powerRelays)
+        {
+            relay.SetRelayActive(false);
+        }
     }
     
     private void OnEquip(string slot, InventoryItem item)
