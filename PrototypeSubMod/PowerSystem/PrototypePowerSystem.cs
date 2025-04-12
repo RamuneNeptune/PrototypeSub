@@ -24,11 +24,12 @@ public class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTree
 
     internal static readonly Dictionary<TechType, PowerConfigData> AllowedPowerSources = new()
     {
-        { TechType.PrecursorIonCrystal, new(1000, typeof(IonCubePowerFunctionality)) },
-        { TechType.PrecursorIonPowerCell, new(1500, typeof(IonPowerCellFunctionality)) },
-        { TechType.PrecursorIonCrystalMatrix, new(3500, null) },
-        { IonPrism_Craftable.prefabInfo.TechType, new(5000, null) }
+        { TechType.PrecursorIonCrystal, new(5, typeof(IonCubePowerFunctionality)) },
+        { TechType.PrecursorIonCrystalMatrix, new(8, null) },
+        { IonPrism_Craftable.prefabInfo.TechType, new(10, null) }
     };
+
+    public const float CHARGE_POWER_AMOUNT = 200f;
 
     internal static readonly string EquipmentLabel = "PrototypePowerLabel";
 

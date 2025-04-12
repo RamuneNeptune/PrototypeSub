@@ -18,11 +18,12 @@ public class PowerConfigData
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="powerValue"></param>
+    /// <param name="chargeCount"></param>
     /// <param name="sourceEffectFunctionality">This type must inherit from <see cref="PowerSourceFunctionality"/>></param>
-    public PowerConfigData(float powerValue, Type sourceEffectFunctionality)
+    public PowerConfigData(int chargeCount, Type sourceEffectFunctionality)
     {
-        this.powerValue = powerValue;
+        Plugin.Logger.LogInfo($"Creating power config data. Charge count: {chargeCount} | Power value = {chargeCount * PrototypePowerSystem.CHARGE_POWER_AMOUNT}");
+        powerValue = chargeCount * PrototypePowerSystem.CHARGE_POWER_AMOUNT;
         if (sourceEffectFunctionality == null)
         {
             _sourceEffectFunctionality = null;
