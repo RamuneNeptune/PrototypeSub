@@ -29,14 +29,16 @@ public class RelayUninstallationButton : MonoBehaviour
     
     private void Update()
     {
+        bool inRange = (Player.main.transform.position - image.transform.position).sqrMagnitude < 4f;
         bool clicking = GameInput.GetButtonHeld(GameInput.Button.LeftHand);
-
+        UpdateHandText(inRange);
+        
         if (clicking && !wasClicking)
         {
             consumed = false;
         }
         
-        if (!hovered || !clicking || consumed)
+        if (!hovered || !clicking || consumed || !inRange)
         {
             image.fillAmount = 1f;
             currentConfirmTime = 0;
@@ -57,6 +59,16 @@ public class RelayUninstallationButton : MonoBehaviour
         }
         
         wasClicking = clicking;
+    }
+
+    private void UpdateHandText(bool inRange)
+    {
+        if (!inRange || !hovered) return;
+        
+        HandReticle main = HandReticle.main;
+        main.SetText(HandReticle.TextType.Hand, "ProtoUninstallSource", true, GameInput.Button.LeftHand);
+        main.SetText(HandReticle.TextType.HandSubscript, string.Empty, false);
+        main.SetIcon(HandReticle.IconType.Hand, 1f);
     }
 
     public void OnPointerEnter(BaseEventData data)
