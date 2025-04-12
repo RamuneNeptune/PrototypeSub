@@ -6,7 +6,7 @@ public class ProtoPowerRelay : MonoBehaviour
 {
     private static readonly int PylonActive = Animator.StringToHash("PylonActive");
     [SerializeField] private Animator animator;
-
+    
     public void SetRelayActive(bool active)
     {
         animator.SetBool(PylonActive, active);
