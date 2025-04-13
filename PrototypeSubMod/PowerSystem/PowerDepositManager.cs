@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using PrototypeSubMod.Prefabs;
 using UnityEngine;
 
@@ -35,10 +34,12 @@ public class PowerDepositManager : MonoBehaviour, IItemSelectorManager
     private bool voicelinePlayed;
     private bool inAnimation;
     private bool reactorOpening;
+    private bool inBounds;
 
     private void Start()
     {
         controller.animator = Player.main.playerAnimator;
+        powerSystem.onReorderSources += UpdateReactorActive;
     }
 
     public bool Filter(InventoryItem item)
@@ -170,8 +171,15 @@ public class PowerDepositManager : MonoBehaviour, IItemSelectorManager
 
     public void OnPlayerProxyChanged(bool inBounds)
     {
-        if (powerSystem.StorageSlotsFull()) return;
+        this.inBounds = inBounds;
         
+        if (powerSystem.StorageSlotsFull()) return;
+
+        UpdateReactorActive();
+    }
+
+    private void UpdateReactorActive()
+    {
         reactorAnimator.SetBool(HatchOpen, inBounds);
         reactorAnimator.SetBool(PowerFull, false);
 

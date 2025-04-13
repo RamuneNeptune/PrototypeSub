@@ -7,6 +7,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using FMOD.Studio;
+using PrototypeSubMod.Prefabs.AlienBuildingBlock;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -24,6 +25,8 @@ public class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTree
 
     internal static readonly Dictionary<TechType, PowerConfigData> AllowedPowerSources = new()
     {
+        { WarperRemnant.prefabInfo.TechType, new(2, null) },
+        { AlienBuildingBlock.prefabInfo.TechType, new(4, null) },
         { TechType.PrecursorIonCrystal, new(5, typeof(IonCubePowerFunctionality)) },
         { TechType.PrecursorIonCrystalMatrix, new(8, null) },
         { IonPrism_Craftable.prefabInfo.TechType, new(10, null) }
