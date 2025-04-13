@@ -73646,6 +73646,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 155847985254323410}
+  - component: {fileID: 3922754896332465783}
+  - component: {fileID: 5903100482389356249}
+  - component: {fileID: 7737773421055604075}
+  - component: {fileID: 2527444485922851843}
   m_Layer: 0
   m_Name: MoveableBit
   m_TagString: Untagged
@@ -73670,6 +73674,69 @@ Transform:
   m_Father: {fileID: 4974766086362149936}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &3922754896332465783
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8414988765471141339}
+  serializedVersion: 2
+  m_Mass: 500
+  m_Drag: 1
+  m_AngularDrag: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &5903100482389356249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8414988765471141339}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 815910612, guid: 06dd3d5416bf43ea368cc39ff96e6d5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  handleGravity: 1
+  aboveWaterGravity: 9.81
+  underwaterGravity: 1
+  handleDrag: 1
+  aboveWaterDrag: 0.1
+  underwaterDrag: 1
+  aboveWaterOverride: 0
+  useRigidbody: {fileID: 3922754896332465783}
+  moveWithPlatform: 0
+--- !u!114 &7737773421055604075
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8414988765471141339}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1046032896, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2527444485922851843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8414988765471141339}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1801745502, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rb: {fileID: 3922754896332465783}
+  localOffset: {x: 0, y: 2.5, z: 0}
 --- !u!1 &8419690196430953859
 GameObject:
   m_ObjectHideFlags: 0
