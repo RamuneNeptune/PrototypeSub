@@ -46,6 +46,8 @@ public class ProtoChargeDisplay : MonoBehaviour, IUIElement
             var newIcon= Instantiate(chargeIconPrefab, iconsParent);
             newIcon.GetComponent<ProtoChargeIcon>().SetIconAlpha(1);
         }
+        
+        chargesLastCheck = currentSource.GetRemainingCharges();
     }
     
     private void UpdateCharges()
