@@ -133,7 +133,7 @@ internal class CloakEffectHandler : ProtoUpgrade
 
     public bool GetIsCloaking()
     {
-        return !ionGenerator.GetUpgradeInstalled() && upgradeEnabled && upgradeInstalled;
+        return !ionGenerator.GetUpgradeEnabled() && upgradeEnabled && upgradeInstalled;
     }
 
     public float GetTargetScale()
