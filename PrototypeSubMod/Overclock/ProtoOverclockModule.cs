@@ -31,15 +31,16 @@ internal class ProtoOverclockModule : ProtoUpgrade
 
         float speedBonus = upgradeEnabled ? speedPercentBonus / 100f : 0;
         motorHandler.AddSpeedMultiplierBonus(new ProtoMotorHandler.ValueRegistrar(this, speedBonus));
+        bool couldConsume = false;
         if (GetUpgradeEnabled())
         {
-            subRoot.powerRelay.ConsumeEnergy(powerDrainPerSecond * Time.deltaTime, out _);
+            couldConsume = subRoot.powerRelay.ConsumeEnergy(powerDrainPerSecond * Time.deltaTime, out _);
         }
 
-        HandleHullBreaches();
+        HandleHullBreaches(couldConsume);
     }
 
-    private void HandleHullBreaches()
+    private void HandleHullBreaches(bool couldConsume)
     {
         if (GetUpgradeEnabled() && currentHullBreachTime < hullBreachMinActiveTime)
         {
@@ -55,7 +56,7 @@ internal class ProtoOverclockModule : ProtoUpgrade
             return;
         }
 
-        if (currentTimeBetweenBreaches <= 0)
+        if (currentTimeBetweenBreaches <= 0 && couldConsume)
         {
             if (Random.Range(0f, 1f) < chanceForHullBreach)
             {
@@ -64,7 +65,7 @@ internal class ProtoOverclockModule : ProtoUpgrade
 
             currentTimeBetweenBreaches = minTimeBetweenBreaches;
         }
-        else
+        else if (couldConsume)
         {
             currentTimeBetweenBreaches -= Time.deltaTime;
         }
