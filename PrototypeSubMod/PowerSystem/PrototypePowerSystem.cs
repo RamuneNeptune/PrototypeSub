@@ -34,6 +34,7 @@ public class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTree
     internal static readonly string EquipmentLabel = "PrototypePowerLabel";
 
     public Equipment equipment { get; private set; }
+    public event Action onReorderSources;
 
     [SerializeField] private SubSerializationManager serializationManager;
     [SerializeField] private ChildObjectIdentifier storageRoot;
@@ -149,6 +150,8 @@ public class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTree
     {
         return storageRoot.transform.childCount >= SLOT_NAMES.Length;
     }
+
+    public PrototypePowerSource[] GetPowerSources() => batterySources;
     
     private void OnRemoveItem(InventoryItem item)
     {
@@ -182,6 +185,8 @@ public class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTree
         UpdateRelayStatus();
         UpdateAmbientSFX();
         reorderingItems = false;
+
+        onReorderSources?.Invoke();
     }
 
     private void UpdateRelayStatus()

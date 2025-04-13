@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace PrototypeSubMod.PowerSystem;
 
-internal class PrototypePowerBattery : MonoBehaviour, IBattery, IProtoTreeEventListener
+public class PrototypePowerBattery : MonoBehaviour, IBattery, IProtoTreeEventListener
 {
     public float charge
     {

@@ -1,13 +1,12 @@
 ﻿using PrototypeSubMod.SaveData;
 using SubLibrary.SaveData;
-using System;
 using System.Collections;
 using UnityEngine;
 using UWE;
 
 namespace PrototypeSubMod.PowerSystem;
 
-internal class PrototypePowerSource : MonoBehaviour, IPowerInterface, ISaveDataListener
+public class PrototypePowerSource : MonoBehaviour, IPowerInterface, ISaveDataListener
 {
     public float Charge
     {
@@ -245,5 +244,16 @@ internal class PrototypePowerSource : MonoBehaviour, IPowerInterface, ISaveDataL
             battery.Initialize();
             powerSystem.equipment.AddItem(slot, battery.InventoryItem);
         }
+    }
+
+    public int GetRemainingCharges()
+    {
+        return Mathf.CeilToInt(Charge / PrototypePowerSystem.CHARGE_POWER_AMOUNT);
+    }
+
+    public float GetCurrentChargePower01()
+    {
+        float mod = Charge % PrototypePowerSystem.CHARGE_POWER_AMOUNT;
+        return mod == 0 ? 1 : mod / PrototypePowerSystem.CHARGE_POWER_AMOUNT;
     }
 }
