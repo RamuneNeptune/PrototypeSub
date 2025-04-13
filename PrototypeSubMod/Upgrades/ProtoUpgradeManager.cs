@@ -40,7 +40,8 @@ internal class ProtoUpgradeManager : MonoBehaviour, ISaveDataListener
     {
         DevConsole.RegisterConsoleCommand(this, "ToggleUpgradeEnabled");
         DevConsole.RegisterConsoleCommand(this, "ToggleUpgradeInstalled");
-
+        DevConsole.RegisterConsoleCommand(this, "ProtoEndgame");
+        
         if (upgrades.Count == 0)
         {
             foreach (var protoUpgrade in GetComponentsInChildren<ProtoUpgrade>(true))
@@ -137,6 +138,18 @@ internal class ProtoUpgradeManager : MonoBehaviour, ISaveDataListener
 
         ErrorMessage.AddError($"{techTypeResult.Item2} installed set to {upgrade.GetUpgradeInstalled()}");
         upgradesDirty = true;
+    }
+
+    public void OnConsoleCommand_protoendgame(NotificationCenter.Notification notification)
+    {
+        foreach (var techType in upgrades.Keys)
+        {
+            if (upgrades[techType].installedAtStart) continue;
+            
+            SetUpgradeInstalled(techType, true);
+        }
+
+        ErrorMessage.AddError("All upgrades installed");
     }
 
     private (bool, TechType) TryParseTTFromNotification(NotificationCenter.Notification notification)
