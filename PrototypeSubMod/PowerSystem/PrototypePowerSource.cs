@@ -137,10 +137,11 @@ internal class PrototypePowerSource : MonoBehaviour, IPowerInterface, ISaveDataL
         {
             bool zeroCheck = mod != 0;
             
+            // I wrote this yesterday and barely remember how it works
+            // Don't touch it if possible
             float deltaToNextCharge = zeroCheck 
                 ? Mathf.Max(-(chargeRemainder + PrototypePowerSystem.CHARGE_POWER_AMOUNT), -mod)
                 : -Mathf.Min(-amount, PrototypePowerSystem.CHARGE_POWER_AMOUNT);
-            Plugin.Logger.LogInfo($"deltaToNextCharge = {deltaToNextCharge}");
             float additiveAmount = -amount > PrototypePowerSystem.CHARGE_POWER_AMOUNT ? amount : 0;
             float powerOffset = -amount > PrototypePowerSystem.CHARGE_POWER_AMOUNT
                 ? PrototypePowerSystem.CHARGE_POWER_AMOUNT
@@ -151,10 +152,7 @@ internal class PrototypePowerSource : MonoBehaviour, IPowerInterface, ISaveDataL
         {
             chargeChange = -Mathf.Min(-amount, Charge);
         }
-
-        Plugin.Logger.LogInfo($"Amount = {amount}");
-        Plugin.Logger.LogInfo($"Charge change = {chargeChange} | Increment count = {incrementCount} | Charge remainder = {chargeRemainder} | Charge mod = {mod}");
-
+        
         return chargeChange;
     }
 
@@ -247,10 +245,5 @@ internal class PrototypePowerSource : MonoBehaviour, IPowerInterface, ISaveDataL
             battery.Initialize();
             powerSystem.equipment.AddItem(slot, battery.InventoryItem);
         }
-    }
-
-    private void PlayBatterySound(bool hasBattery)
-    {
-        Plugin.Logger.LogError($"Battery sounds not yet implemented!");
     }
 }
