@@ -42,6 +42,7 @@ public class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTree
     [SerializeField] private FMOD_CustomLoopingEmitter ambientSFX;
 
     private Coroutine relayActivatorCoroutine;
+    private bool reorderingItems;
     
     private void Awake()
     {
@@ -151,18 +152,25 @@ public class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTree
     
     private void OnRemoveItem(InventoryItem item)
     {
+        if (reorderingItems) return;
+        
+        UWE.CoroutineHost.StartCoroutine(OnRemoveItemDelayed());
+    }
+
+    private IEnumerator OnRemoveItemDelayed()
+    {
+        reorderingItems = true;
+        yield return new WaitForEndOfFrame();
+        
         // Items will only be removed via the consumption of an item, or the removal of one
-        int firstItemIndex = int.MaxValue;
         List<InventoryItem> newItems = new();
-        for (int i = SLOT_NAMES.Length - 1; i >= 0; i--)
+        for (int i = 0; i < SLOT_NAMES.Length; i++)
         {
             string slot = SLOT_NAMES[i];
             var itemInSlot = equipment.GetItemInSlot(slot);
-            if (itemInSlot == null && firstItemIndex != int.MaxValue) continue;
-            
-            if (firstItemIndex == int.MaxValue) firstItemIndex = i;
+            if (itemInSlot == null) continue;
 
-            newItems.Insert(0, itemInSlot);
+            newItems.Add(itemInSlot);
             equipment.RemoveItem(slot, false, false);
         }
 
@@ -173,6 +181,7 @@ public class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTree
 
         UpdateRelayStatus();
         UpdateAmbientSFX();
+        reorderingItems = false;
     }
 
     private void UpdateRelayStatus()
@@ -205,11 +214,17 @@ public class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTree
     {
         yield return new WaitForEndOfFrame();
         yield return new WaitForEndOfFrame();
-        
-        foreach (var relay in relays)
+
+        for (int i = 0; i < relays.Count; i++)
         {
+            var relay = relays[i];
             relay.SetRelayActive(true);
-            yield return new WaitForSeconds(Random.Range(0f, 1f));
+            
+            var nextRelay = relays[Mathf.Min(i + 1, relays.Count - 1)];
+            if (!nextRelay.GetRelayActive())
+            {
+                yield return new WaitForSeconds(Random.Range(0f, 1f));
+            }
         }
     }
 

@@ -99,8 +99,8 @@ internal class PrototypePowerSource : MonoBehaviour, IPowerInterface, ISaveDataL
 
     public bool ModifyPower(float amount, out float modified)
     {
-        float chargeChange = 0;
-        modified = chargeChange;
+        float chargeChange;
+        modified = amount;
 
         if (!GameModeUtils.RequiresPower() || ElectronicsDisabled) return false;
 
@@ -116,10 +116,11 @@ internal class PrototypePowerSource : MonoBehaviour, IPowerInterface, ISaveDataL
         }
         
         battery.ModifyCharge(chargeChange);
-
+        
         modified = chargeChange;
         
         // Returns whether the amount drawn was less than the charge in the battery
+        // I.e. returns false if a power draw of 400 is requested when we have 200 charge
         return amount >= 0f ? amount <= Capacity - Charge : Charge > -amount;
     }
 
@@ -131,20 +132,28 @@ internal class PrototypePowerSource : MonoBehaviour, IPowerInterface, ISaveDataL
         float chargeRemainder = -(amount / PrototypePowerSystem.CHARGE_POWER_AMOUNT - incrementCount) * PrototypePowerSystem.CHARGE_POWER_AMOUNT;
         
         float mod = Charge % PrototypePowerSystem.CHARGE_POWER_AMOUNT;
-        bool exceedsCharge = (mod != 0 && mod + amount < 0) || (mod == 0 && -amount > PrototypePowerSystem.CHARGE_POWER_AMOUNT);
         
-        if (!exceedsCharge)
+        if (Charge + amount > 0)
         {
-            chargeChange = amount;
-        }
-        else if (Charge + amount > 0)
-        {
-            chargeChange = chargeRemainder != 0 ? Mathf.Max(amount - chargeRemainder, -mod) : -Mathf.Min(-amount, PrototypePowerSystem.CHARGE_POWER_AMOUNT);
+            bool zeroCheck = mod != 0;
+            
+            float deltaToNextCharge = zeroCheck 
+                ? Mathf.Max(-(chargeRemainder + PrototypePowerSystem.CHARGE_POWER_AMOUNT), -mod)
+                : -Mathf.Min(-amount, PrototypePowerSystem.CHARGE_POWER_AMOUNT);
+            Plugin.Logger.LogInfo($"deltaToNextCharge = {deltaToNextCharge}");
+            float additiveAmount = -amount > PrototypePowerSystem.CHARGE_POWER_AMOUNT ? amount : 0;
+            float powerOffset = -amount > PrototypePowerSystem.CHARGE_POWER_AMOUNT
+                ? PrototypePowerSystem.CHARGE_POWER_AMOUNT
+                : 0;
+            chargeChange = additiveAmount + deltaToNextCharge + powerOffset;
         }
         else
         {
-            chargeChange = amount + Charge;
+            chargeChange = -Mathf.Min(-amount, Charge);
         }
+
+        Plugin.Logger.LogInfo($"Amount = {amount}");
+        Plugin.Logger.LogInfo($"Charge change = {chargeChange} | Increment count = {incrementCount} | Charge remainder = {chargeRemainder} | Charge mod = {mod}");
 
         return chargeChange;
     }

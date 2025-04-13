@@ -26,6 +26,8 @@ public class ProtoPowerRelay : MonoBehaviour
         animator.SetBool(PylonActive, active);
         iconCanvas.SetActive(active);
     }
+    
+    public bool GetRelayActive() => iconCanvas.activeSelf;
 
     public void SetPowerSource(InventoryItem item)
     {
