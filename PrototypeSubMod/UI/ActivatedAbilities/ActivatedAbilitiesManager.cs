@@ -19,7 +19,7 @@ internal class ActivatedAbilitiesManager : MonoBehaviour
         tetherManager.onAbilityActivatedChanged += OnAbilitySelectedChanged;
     }
 
-    private void OnAbilitySelectedChanged(IAbilityIcon icon)
+    public void OnAbilitySelectedChanged(IAbilityIcon icon)
     {
         if (icon == null) return;
 

@@ -15,6 +15,7 @@ internal class GenericRadialAbility : MonoBehaviour, IAbilityIcon
 
     public bool GetShouldShow() => showAbility;
     public Sprite GetSprite() => sprite;
+    public bool GetCanActivate() => true;
 
     public void OnActivated()
     {

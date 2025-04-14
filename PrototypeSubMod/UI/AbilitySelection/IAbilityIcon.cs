@@ -7,6 +7,7 @@ public interface IAbilityIcon
     public void OnActivated();
     public void OnSelectedChanged(bool changed);
     public bool GetActive();
+    public bool GetCanActivate();
     public bool GetShouldShow();
     public Sprite GetSprite();
 }

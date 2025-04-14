@@ -137,6 +137,8 @@ public class TetherManager : MonoBehaviour, IUIElement
 
         if (!selectedIcon) return;
 
+        if (!selectedIcon.GetAbility().GetCanActivate()) return;
+
         selectedIcon.Activate();
         onAbilityActivatedChanged?.Invoke(selectedIcon.GetAbility());
     }

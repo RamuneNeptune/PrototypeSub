@@ -1,21 +1,26 @@
 ﻿using PrototypeSubMod.Upgrades;
 using System.Collections.Generic;
 using System.Linq;
+using PrototypeSubMod.PowerSystem;
+using PrototypeSubMod.UI.AbilitySelection;
+using PrototypeSubMod.UI.ActivatedAbilities;
 using UnityEngine;
 
 namespace PrototypeSubMod.RepairBots;
 
 internal class ProtoMaintenanceBots : ProtoUpgrade, IOnTakeDamage
 {
+    [SerializeField] private PowerRelay powerRelay;
+    [SerializeField] private SelectionMenuManager selectionMenuManager;
+    [SerializeField] private ActivatedAbilitiesManager abilitiesManager;
     [SerializeField] private ProtoBotBay[] botBays;
     [SerializeField] private RepairPointManager pointManager;
     [SerializeField] private float minTimeSinceDamage;
+    [SerializeField] private float secondsForOneChargeDrain;
 
     private int currentBayIndex;
-    private float timeSinceDamage = float.MaxValue;
+    private float timeLastDamage = float.MinValue;
     private Queue<CyclopsDamagePoint> queuedPoints = new();
-
-    private bool currentlySelected;
 
     private void Start()
     {
@@ -26,12 +31,12 @@ internal class ProtoMaintenanceBots : ProtoUpgrade, IOnTakeDamage
     private void Update()
     {
         if (!upgradeInstalled) return;
+        
+        if (!upgradeEnabled) return;
 
-        if (timeSinceDamage < minTimeSinceDamage)
-        {
-            timeSinceDamage += Time.deltaTime;
-        }
-        else if (queuedPoints.Count > 0)
+        powerRelay.ConsumeEnergy((PrototypePowerSystem.CHARGE_POWER_AMOUNT / secondsForOneChargeDrain) * Time.deltaTime, out _);
+        
+        if (timeLastDamage + minTimeSinceDamage < Time.time && queuedPoints.Count > 0)
         {
             for (int i = 0; i < queuedPoints.Count; i++)
             {
@@ -43,8 +48,6 @@ internal class ProtoMaintenanceBots : ProtoUpgrade, IOnTakeDamage
     private void OnDamagePointCreated(CyclopsDamagePoint point)
     {
         queuedPoints.Enqueue(point);
-
-        if (!currentlySelected) return;
     }
 
     private void OnDamagePointRepaired(CyclopsDamagePoint point)
@@ -54,12 +57,19 @@ internal class ProtoMaintenanceBots : ProtoUpgrade, IOnTakeDamage
 
     public void OnTakeDamage(DamageInfo damageInfo)
     {
+        if (upgradeEnabled)
+        {
+            SetUpgradeEnabled(false);
+            var icon = selectionMenuManager.GetAbilityIcons().FirstOrDefault(i => i == (IAbilityIcon)this);
+            abilitiesManager.OnAbilitySelectedChanged(icon);
+        }
+        
         if (damageInfo.type != DamageType.Normal && damageInfo.type != DamageType.Electrical)
         {
             return;
         }
 
-        timeSinceDamage = 0;
+        timeLastDamage = Time.time;
     }
 
     private void AssignBot(CyclopsDamagePoint point)
@@ -76,14 +86,19 @@ internal class ProtoMaintenanceBots : ProtoUpgrade, IOnTakeDamage
 
         if (upgradeInstalled)
         {
-            timeSinceDamage = float.MaxValue;
+            timeLastDamage = float.MinValue;
         }
     }
 
-    public override void OnActivated() { }
-
-    public override void OnSelectedChanged(bool changed)
+    public override void OnActivated()
     {
-        currentlySelected = changed;
+        SetUpgradeEnabled(!upgradeEnabled);
+    }
+
+    public override void OnSelectedChanged(bool changed) { }
+
+    public override bool GetCanActivate()
+    {
+        return timeLastDamage + minTimeSinceDamage < Time.time;
     }
 }

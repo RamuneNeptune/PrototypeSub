@@ -138,6 +138,8 @@ internal class ProtoUpgradeManager : MonoBehaviour, ISaveDataListener
 
         ErrorMessage.AddError($"{techTypeResult.Item2} installed set to {upgrade.GetUpgradeInstalled()}");
         upgradesDirty = true;
+
+        onInstalledUpgradesChanged?.Invoke();
     }
 
     public void OnConsoleCommand_protoendgame(NotificationCenter.Notification notification)
