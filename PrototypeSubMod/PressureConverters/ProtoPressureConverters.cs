@@ -11,12 +11,11 @@ internal class ProtoPressureConverters : ProtoUpgrade
     [SerializeField] private float activationDepth;
     [SerializeField] private float maxDepth;
     [SerializeField] private AnimationCurve powerMultiplierCurve;
-
-    private bool selected;
+    [SerializeField] private float secondsForOneChargeDrain;
 
     private void FixedUpdate()
     {
-        if (!selected) return;
+        if (!upgradeInstalled) return;
 
         float depth = crushDamage.GetDepth();
 
@@ -32,17 +31,13 @@ internal class ProtoPressureConverters : ProtoUpgrade
         motorHandler.AddPowerEfficiencyMultiplier(new ProtoMotorHandler.ValueRegistrar(this, multiplier));
     }
 
-    public override bool GetUpgradeEnabled() => selected;
-
     private void OnDestroy()
     {
         motorHandler.RemovePowerEfficiencyMultiplier(this);
     }
 
-    public override void OnActivated() { }
+    public override bool GetUpgradeEnabled() => upgradeEnabled;
 
-    public override void OnSelectedChanged(bool changed)
-    {
-        selected = changed;
-    }
+    public override void OnActivated() { }
+    public override void OnSelectedChanged(bool changed) { }
 }
