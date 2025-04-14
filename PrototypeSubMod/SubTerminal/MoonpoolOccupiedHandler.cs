@@ -1,11 +1,11 @@
-﻿using PrototypeSubMod.PowerSystem;
-using SubLibrary.SaveData;
+﻿using System.Collections;
+using PrototypeSubMod.LightDistortionField;
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace PrototypeSubMod.SubTerminal;
 
-internal class MoonpoolOccupiedHandler : MonoBehaviour
+internal class MoonpoolOccupiedHandler : MonoBehaviour, IProtoTreeEventListener
 {
     public bool MoonpoolHasSub
     {
@@ -17,37 +17,26 @@ internal class MoonpoolOccupiedHandler : MonoBehaviour
 
     public UnityEvent onHasSubChanged;
     [SerializeField] private ProtoBuildTerminal buildTerminal;
-    [SerializeField] private Collider moonpoolBounds;
+    [SerializeField] private BoxCollider moonpoolBounds;
     [SerializeField] private float maxDistanceFromMoonpool;
 
+    private Bounds checkBounds;
     private bool occupiedLastCheck;
-
-    private void Start()
-    {
-        CancelInvoke(nameof(CheckForSub));
-        InvokeRepeating(nameof(CheckForSub), 0, 5f);
-    }
-
+    
     private void CheckForSub()
     {
         bool foundSub = false;
         SubInMoonpool = null;
 
-        int count = UWE.Utils.OverlapBoxIntoSharedBuffer(moonpoolBounds.bounds.center, moonpoolBounds.bounds.extents, moonpoolBounds.transform.rotation);
-        for (int i = 0; i < count; i++)
+        foreach (var handler in CloakEffectHandler.EffectHandlers)
         {
-            var collider = UWE.Utils.sharedColliderBuffer[i];
-            var serializationManager = collider.GetComponentInParent<SubSerializationManager>();
-
-            if (serializationManager == null) continue;
-
-            var powerSystem = serializationManager.GetComponentInChildren<PrototypePowerSystem>();
-
-            if (powerSystem == null) continue;
-
-            SubInMoonpool = serializationManager.gameObject;
-            foundSub = true;
-            break;
+            var subRoot = handler.GetComponentInParent<SubRoot>();
+            if (checkBounds.Contains(subRoot.transform.position))
+            {
+                foundSub = true;
+                SubInMoonpool = subRoot.gameObject;
+                break;
+            }
         }
 
         MoonpoolHasSub = foundSub;
@@ -58,5 +47,23 @@ internal class MoonpoolOccupiedHandler : MonoBehaviour
         }
 
         occupiedLastCheck = MoonpoolHasSub;
+    }
+
+    public void OnProtoSerializeObjectTree(ProtobufSerializer serializer) { }
+
+    public void OnProtoDeserializeObjectTree(ProtobufSerializer serializer)
+    {
+        UWE.CoroutineHost.StartCoroutine(Initialize());
+    }
+
+    private IEnumerator Initialize()
+    {
+        moonpoolBounds.enabled = true;
+        yield return new WaitForEndOfFrame();
+        checkBounds = new Bounds(moonpoolBounds.transform.position, moonpoolBounds.bounds.size);
+        moonpoolBounds.enabled = false;
+        
+        CancelInvoke(nameof(CheckForSub));
+        InvokeRepeating(nameof(CheckForSub), 0, 5f);
     }
 }
