@@ -3,12 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using PrototypeSubMod.PowerSystem;
 using UnityEngine;
-using UWE;
 
 namespace PrototypeSubMod.StasisPulse;
 
 internal class ProtoStasisPulse : ProtoUpgrade
 {
+    private const int FREEZE_STEPS = 8;
+    
     [SerializeField] private AnimationCurve sphereRadius;
     [SerializeField] private Gradient colorOverLifetime;
     [SerializeField] private PowerRelay powerRelay;
@@ -33,14 +34,24 @@ internal class ProtoStasisPulse : ProtoUpgrade
     private GameObject freezeFX;
     private GameObject unfreezeFX;
     private SubRoot subRoot;
-
-    private float previousCooldownTime;
+    
     private float currentCooldownTime;
     private float currentSphereGrowTimeTime;
     private bool deployingLastFrame;
+    private bool activating;
+    private Collider[] latestColliders;
+    private LayerMask freezeMask;
 
     private IEnumerator Start()
     {
+        latestColliders = new Collider[1500];
+        freezeMask = int.MaxValue;
+        freezeMask &= ~(1 << LayerID.Vehicle); // Remove Vehicle layer from mask
+        freezeMask &= ~(1 << LayerID.TerrainCollider); // Remove Terrain layer from mask
+        freezeMask &= ~(1 << LayerID.Player);
+        freezeMask &= ~(1 << LayerID.UI);
+        freezeMask &= ~(1 << LayerID.OnlyVehicle);
+        
         var rifleTask = CraftData.GetPrefabForTechTypeAsync(TechType.StasisRifle);
         yield return rifleTask;
 
@@ -66,7 +77,7 @@ internal class ProtoStasisPulse : ProtoUpgrade
             sphereVisual.materials[1]
         });
 
-        MiscSettings.isFlashesEnabled.changedEvent.AddHandler(this, new Event<Utils.MonitoredValue<bool>>.HandleFunction(OnFlashesEnabledChanged));
+        MiscSettings.isFlashesEnabled.changedEvent.AddHandler(this, OnFlashesEnabledChanged);
         UpdateTextureSpeed();
 
         currentSphereGrowTimeTime = sphereGrowTime;
@@ -92,12 +103,6 @@ internal class ProtoStasisPulse : ProtoUpgrade
         }
 
         HandleSphereSize();
-        if (!Mathf.Approximately(previousCooldownTime % 1, currentCooldownTime % 1))
-        {
-            HandleFreezing();
-        }
-        
-        previousCooldownTime = currentCooldownTime;
     }
 
     private void UpdateMaterials()
@@ -124,37 +129,58 @@ internal class ProtoStasisPulse : ProtoUpgrade
         }
     }
 
-    private void HandleFreezing()
+    private IEnumerator StartFreezeChecks()
     {
-        if (currentSphereGrowTimeTime >= sphereGrowTime) return;
-
-        int colliderCount = UWE.Utils.OverlapSphereIntoSharedBuffer(sphereVisual.transform.position, CurrentDiameter / 2f);
-        for (int i = 0; i < colliderCount; i++)
+        const int freezeCount = 4;
+        for (int i = 0; i < freezeCount; i++)
         {
-            Collider collider = UWE.Utils.sharedColliderBuffer[i];
-            TryFreeze(collider);
+            yield return new WaitForSeconds(sphereGrowTime / freezeCount);
+            HandleFreezing();
         }
     }
+ 
+    private void HandleFreezing()
+    {
+        int colliderCount = Physics.OverlapSphereNonAlloc(sphereVisual.transform.position, CurrentDiameter / 2f, latestColliders, freezeMask);
+        UWE.CoroutineHost.StartCoroutine(FreezeObjectsAsync(colliderCount));
+    }
 
-    private bool TryFreeze(Collider collider)
+    private IEnumerator FreezeObjectsAsync(int colliderCount)
+    {
+        int increment = colliderCount / FREEZE_STEPS;
+        int lastIncrement = colliderCount - increment * (FREEZE_STEPS - 1);
+        Plugin.Logger.LogInfo($"Collider count = {colliderCount} | Increment = {increment} | Last increment = {lastIncrement}");
+        for (int i = 0; i < FREEZE_STEPS; i++)
+        {
+            int currentIncrement = i == FREEZE_STEPS - 1 ? lastIncrement : increment;
+            
+            for (int j = 0; j < currentIncrement; j++)
+            {
+                TryFreeze(latestColliders[j]);
+            }
+
+            yield return new WaitForEndOfFrame();
+        }
+    }
+    
+    private void TryFreeze(Collider collider)
     {
         Rigidbody rigidbody = collider.GetComponentInParent<Rigidbody>();
-        if (!rigidbody) return false;
+        if (!rigidbody) return;
 
-        if (rigidbody.GetComponentInChildren<ProtoStasisPulse>() != null) return false;
+        if (rigidbody.isKinematic) return;
+        
+        if (rigidbody.GetComponentInChildren<ProtoStasisPulse>() != null) return;
 
-        if (rigidbody.TryGetComponent<ProtoStasisFreeze>(out var stasisFreeze)) return false;
+        if (rigidbody.TryGetComponent<ProtoStasisFreeze>(out _)) return;
 
-        if (rigidbody.isKinematic) return false;
-
-        if (collider.GetComponentInParent<Player>() != null) return false;
-
+        if (collider == Player.mainCollider) return;
+        
         var freeze = rigidbody.gameObject.AddComponent<ProtoStasisFreeze>();
         freeze.SetFreezeTimes(minFreezeTime, maxFreezeTime);
         freeze.SetUnfreezeVF(unfreezeFX);
 
         Utils.PlayOneShotPS(freezeFX, rigidbody.transform.position, Quaternion.identity);
-        return true;
     }
 
     private void OnFlashesEnabledChanged(Utils.MonitoredValue<bool> isFlashesEnabled)
@@ -177,6 +203,8 @@ internal class ProtoStasisPulse : ProtoUpgrade
     {
         if (!upgradeInstalled) return;
 
+        if (activating) return;
+        
         if (currentSphereGrowTimeTime < sphereGrowTime || currentCooldownTime > 0)
         {
             return;
@@ -190,12 +218,15 @@ internal class ProtoStasisPulse : ProtoUpgrade
         subRoot.voiceNotificationManager.PlayVoiceNotification(activationVoiceline);
 
         Invoke(nameof(StartGrow), activationDelay);
+        activating = true;
     }
 
     private void StartGrow()
     {
         currentSphereGrowTimeTime = 0;
         deployingLastFrame = false;
+        activating = false;
+        UWE.CoroutineHost.StartCoroutine(StartFreezeChecks());
 
         powerRelay.ConsumeEnergy(PrototypePowerSystem.CHARGE_POWER_AMOUNT * chargeConsumptionAmount, out _);
     }
