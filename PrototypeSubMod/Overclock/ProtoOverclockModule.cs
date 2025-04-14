@@ -1,5 +1,6 @@
 ﻿using PrototypeSubMod.IonGenerator;
 using PrototypeSubMod.MotorHandler;
+using PrototypeSubMod.PowerSystem;
 using PrototypeSubMod.Upgrades;
 using UnityEngine;
 
@@ -13,7 +14,7 @@ internal class ProtoOverclockModule : ProtoUpgrade
     [SerializeField] private ProtoIonGenerator ionGenerator;
     [SerializeField] private VoiceNotification enabledVoiceline;
     [SerializeField] private float speedPercentBonus;
-    [SerializeField] private float powerDrainPerSecond;
+    [SerializeField] private float secondsToDrainCharge;
     [SerializeField, Range(0, 1)] private float chanceForHullBreach;
     [SerializeField] private float hullBreachMinActiveTime;
     [SerializeField] private float minTimeBetweenBreaches;
@@ -34,7 +35,7 @@ internal class ProtoOverclockModule : ProtoUpgrade
         bool couldConsume = false;
         if (GetUpgradeEnabled())
         {
-            couldConsume = subRoot.powerRelay.ConsumeEnergy(powerDrainPerSecond * Time.deltaTime, out _);
+            couldConsume = subRoot.powerRelay.ConsumeEnergy(PrototypePowerSystem.CHARGE_POWER_AMOUNT / secondsToDrainCharge * Time.deltaTime, out _);
         }
 
         HandleHullBreaches(couldConsume);
