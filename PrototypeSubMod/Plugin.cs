@@ -1,4 +1,5 @@
-﻿using BepInEx;
+﻿using System;
+using BepInEx;
 using BepInEx.Bootstrap;
 using BepInEx.Logging;
 using EpicStructureLoader;
@@ -16,6 +17,8 @@ using SubLibrary.Audio;
 using System.Collections;
 using System.IO;
 using System.Reflection;
+using System.Threading;
+using PrototypeSubMod.Pathfinding.SaveSystem;
 using UnityEngine;
 
 namespace PrototypeSubMod
@@ -71,6 +74,7 @@ namespace PrototypeSubMod
         internal static readonly Vector3 DEFENSE_PING_POS = new Vector3(701, -366, -1359);
         internal static TechType DefenseFacilityPingTechType;
         internal static TechType StoryEndPingTechType;
+        internal static GridSaveData pathfindingGridSaveData;
 
         private static bool Initialized;
         private static Harmony harmony = new Harmony(GUID);
@@ -96,6 +100,7 @@ namespace PrototypeSubMod
             VoicelineRegisterer.UpdateVoicelines();
             RegisterDependantPatches();
             InitializeSlotMapping();
+            LoadPathfindingGrid();
             
             ConsoleCommandsHandler.RegisterConsoleCommands(typeof(PrototypeCommands));
             LoadEasyPrefabs.LoadPrefabs(AssetBundle);
@@ -160,6 +165,21 @@ namespace PrototypeSubMod
                 var originalMethod = AccessTools.Method(typeof(StructureLoading), nameof(StructureLoading.RegisterStructure));
                 harmony.Patch(originalMethod, transpiler: new HarmonyMethod(structureTranspiler));
             }
+        }
+
+        private void LoadPathfindingGrid()
+        {
+            byte[] bytes = AssetBundle.LoadAsset<TextAsset>("SaveGrid.grid").bytes;
+            ThreadStart threadStart = () => DeserializeGridData(bytes, (d) => pathfindingGridSaveData = d);
+
+            var gridLoadThread = new Thread(threadStart);
+            gridLoadThread.Start();
+        }
+
+        private void DeserializeGridData(byte[] bytes, Action<GridSaveData> callback)
+        {
+            var data = SaveManager.DeserializeObject<GridSaveData>(bytes);
+            callback?.Invoke(data);
         }
     }
 }

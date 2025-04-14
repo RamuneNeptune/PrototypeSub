@@ -48,14 +48,13 @@ public class PathfindingGrid : MonoBehaviour
     private void Awake()
     {
         Initialize();
-
-        if (gridSaveFile != null && useSaveFileAsGrid)
+        
+        if (useSaveFileAsGrid)
         {
-            byte[] bytes = gridSaveFile.bytes;
-            ThreadStart threadStart = delegate
+            ThreadStart threadStart = () => WaitForDataLoaded(() =>
             {
-                DeserializeData(bytes, OnGridSaveDataLoaded);
-            };
+                OnGridSaveDataLoaded(Plugin.pathfindingGridSaveData);
+            });
 
             var gridLoadThread = new Thread(threadStart);
             gridLoadThread.Start();
@@ -66,12 +65,16 @@ public class PathfindingGrid : MonoBehaviour
         }
     }
 
-    private void DeserializeData(byte[] bytes, Action<GridSaveData> callback)
+    private void WaitForDataLoaded(Action callback)
     {
-        var data = SaveManager.DeserializeObject<GridSaveData>(bytes);
-        callback(data);
+        while (Plugin.pathfindingGridSaveData == null)
+        {
+            Thread.Sleep(200);
+        }
+        
+        callback?.Invoke();
     }
-
+    
     private void OnGridSaveDataLoaded(GridSaveData data)
     {
         grid = data.grid;
@@ -156,6 +159,9 @@ public class PathfindingGrid : MonoBehaviour
                         {
                             if (Vector3.Dot(hitInfo.normal, Vector3.up) < minSurfaceAngle / 90f) continue;
 
+                            var halfBounds = new Bounds(hitInfo.collider.bounds.center, hitInfo.collider.bounds.size / 2.5f);
+                            if (halfBounds.Contains(hitInfo.point)) continue;
+                            
                             int layerValue = (int)Mathf.Pow(2, hitInfo.collider.gameObject.layer);
                             TerrainType type = walkableRegions.FirstOrDefault(i => (i.terrainMask & layerValue) != 0);
 

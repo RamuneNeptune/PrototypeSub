@@ -34,11 +34,11 @@ public static class SaveManager
     public static T DeserializeObject<T>(byte[] bytes)
     {
         MemoryStream stream = new MemoryStream(bytes);
-
-        BinaryFormatter formatter = new BinaryFormatter();
-
+            
+        var formatter = new BinaryFormatter();
+        
         var obj = formatter.Deserialize(stream);
-
+        
         stream.Close();
 
         return (T)obj;

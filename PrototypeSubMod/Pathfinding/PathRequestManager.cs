@@ -37,6 +37,7 @@ public class PathRequestManager : MonoBehaviour
         if (!pathfinder.pathfindingGrid.initialized)
         {
             request.callback(new PathData[0], false);
+            return;
         }
 
         ThreadStart threadStart = delegate

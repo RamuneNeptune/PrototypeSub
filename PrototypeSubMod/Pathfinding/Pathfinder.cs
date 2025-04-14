@@ -27,7 +27,7 @@ public class Pathfinder : MonoBehaviour
         Stopwatch sw = new Stopwatch();
         sw.Start();
 
-        PathData[] waypoints = new PathData[0];
+        PathData[] waypoints = Array.Empty<PathData>();
         bool pathSuccess = false;
 
         GridNode startNode = pathfindingGrid.GetNodeAtWorldPosition(request.pathStart);

@@ -22,7 +22,6 @@ public class PowerConfigData
     /// <param name="sourceEffectFunctionality">This type must inherit from <see cref="PowerSourceFunctionality"/>></param>
     public PowerConfigData(int chargeCount, Type sourceEffectFunctionality)
     {
-        Plugin.Logger.LogInfo($"Creating power config data. Charge count: {chargeCount} | Power value = {chargeCount * PrototypePowerSystem.CHARGE_POWER_AMOUNT}");
         powerValue = chargeCount * PrototypePowerSystem.CHARGE_POWER_AMOUNT;
         if (sourceEffectFunctionality == null)
         {
