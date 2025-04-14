@@ -32,9 +32,13 @@ internal class SubReconstructionManager : MonoBehaviour
         subTransform.gameObject.SetActive(true);
         subTransform.GetComponent<LiveMixin>().ResetHealth();
 
+        int index = 0;
         foreach (var source in subTransform.GetComponentsInChildren<PrototypePowerSource>())
         {
             CoroutineHost.StartCoroutine(source.SpawnDefaultBattery());
+            index++;
+
+            if (index > 1) break;
         }
         
         Plugin.GlobalSaveData.prototypeDestroyed = false;

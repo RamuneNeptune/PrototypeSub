@@ -40,6 +40,7 @@ public class PowerDepositManager : MonoBehaviour, IItemSelectorManager
     {
         controller.animator = Player.main.playerAnimator;
         powerSystem.onReorderSources += UpdateReactorActive;
+        powerSystem.onAllowedSourcesChanged += UpdateReactorActive;
     }
 
     public bool Filter(InventoryItem item)

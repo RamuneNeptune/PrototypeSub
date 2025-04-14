@@ -20,7 +20,9 @@ public class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTree
         "PrototypePowerSlot1",
         "PrototypePowerSlot2",
         "PrototypePowerSlot3",
-        "PrototypePowerSlot4"
+        "PrototypePowerSlot4",
+        "PrototypePowerSlot5",
+        "PrototypePowerSlot6"
     };
 
     internal static readonly Dictionary<TechType, PowerConfigData> AllowedPowerSources = new()
@@ -38,6 +40,7 @@ public class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTree
 
     public Equipment equipment { get; private set; }
     public event Action onReorderSources;
+    public event Action onAllowedSourcesChanged;
 
     [SerializeField] private SubSerializationManager serializationManager;
     [SerializeField] private ChildObjectIdentifier storageRoot;
@@ -47,6 +50,7 @@ public class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTree
 
     private Coroutine relayActivatorCoroutine;
     private bool reorderingItems;
+    private int allowedPowerSourceCount = 2;
     
     private void Awake()
     {
@@ -60,6 +64,7 @@ public class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTree
             Plugin.Logger.LogError($"Battery source and slot name length mismatch on {gameObject}!");
         }
 
+        UpdateActiveRelays();
         UpdateAmbientSFX();
     }
 
@@ -121,13 +126,15 @@ public class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTree
     public void OnSaveDataLoaded(BaseSubDataClass saveData)
     {
         Initialize();
+        allowedPowerSourceCount = saveData.EnsureAsPrototypeData().allowedPowerSourceCount;
     }
 
     public void OnBeforeDataSaved(ref BaseSubDataClass saveData)
     {
         var protoData = saveData.EnsureAsPrototypeData();
         protoData.serializedPowerEquipment = equipment.SaveEquipment();
-
+        protoData.allowedPowerSourceCount = allowedPowerSourceCount;
+        
         saveData = protoData;
     }
 
@@ -151,7 +158,23 @@ public class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTree
 
     public bool StorageSlotsFull()
     {
-        return storageRoot.transform.childCount >= SLOT_NAMES.Length;
+        return storageRoot.transform.childCount >= allowedPowerSourceCount;
+    }
+
+    public void SetAllowedSourcesCount(int count)
+    {
+        allowedPowerSourceCount = count;
+        UpdateActiveRelays();
+        onAllowedSourcesChanged?.Invoke();
+    }
+
+    private void UpdateActiveRelays()
+    {
+        for (int i = 0; i < powerRelays.Length; i++)
+        {
+            bool active = i + 1 <= allowedPowerSourceCount;
+            powerRelays[i].gameObject.SetActive(active);
+        }
     }
 
     public PrototypePowerSource[] GetPowerSources() => batterySources;

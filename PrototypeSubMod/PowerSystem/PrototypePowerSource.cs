@@ -67,7 +67,7 @@ public class PrototypePowerSource : MonoBehaviour, IPowerInterface, ISaveDataLis
         UpdateConnection();
         InvokeRepeating(nameof(UpdateConnection), UnityEngine.Random.value, 1f);
 
-        if (protoSaveData == null && !powerSourceData.defaultBatteryCreated)
+        if (protoSaveData == null && !powerSourceData.defaultBatteryCreated && transform.GetSiblingIndex() <= 1)
         {
             CoroutineHost.StartCoroutine(SpawnDefaultBattery());
         }
@@ -194,7 +194,7 @@ public class PrototypePowerSource : MonoBehaviour, IPowerInterface, ISaveDataLis
         }
 
         powerSourceData = protoSaveData.powerSourceDatas[gameObject.name];
-        if (!powerSourceData.defaultBatteryCreated)
+        if (!powerSourceData.defaultBatteryCreated && transform.GetSiblingIndex() <= 1)
         {
             CoroutineHost.StartCoroutine(SpawnDefaultBattery());
         }

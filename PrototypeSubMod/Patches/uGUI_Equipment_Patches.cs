@@ -71,7 +71,7 @@ internal class uGUI_Equipment_Patches
 
         for (int i = 1; i < slots.Length; i++)
         {
-            var clonedSlot = CloneSlot(equipment, $"{copyTarget}{i + 1}", slots[i]);
+            var clonedSlot = CloneSlot(equipment, $"{copyTarget}{Mathf.Min(4, i + 1)}", slots[i]);
             if (slotPositions != null)
             {
                 clonedSlot.transform.localPosition = slotPositions[i];
