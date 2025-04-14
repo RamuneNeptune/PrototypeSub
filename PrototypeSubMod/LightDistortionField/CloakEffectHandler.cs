@@ -2,6 +2,7 @@
 using PrototypeSubMod.MiscMonobehaviors.Emission;
 using PrototypeSubMod.Upgrades;
 using System.Collections.Generic;
+using PrototypeSubMod.PowerSystem;
 using PrototypeSubMod.Utility;
 using UnityEngine;
 
@@ -50,6 +51,11 @@ internal class CloakEffectHandler : ProtoUpgrade
     [Header("Sound Values")]
     public float soundMultiplier;
 
+    [Header("Power Draw")]
+    [SerializeField] private PowerRelay powerRelay;
+
+    [SerializeField] private float secondsToConsumeCharge;
+    
     [Header("Miscellaneous")]
     [SerializeField] private FMOD_CustomLoopingEmitter emitter;
     public ProtoIonGenerator ionGenerator;
@@ -95,6 +101,12 @@ internal class CloakEffectHandler : ProtoUpgrade
         }
 
         ovoid.localScale = originalScale * scaleOverTime.Evaluate(currentScaleTime / scaleTime);
+
+        if (upgradeEnabled)
+        {
+            powerRelay.ConsumeEnergy(PrototypePowerSystem.CHARGE_POWER_AMOUNT / secondsToConsumeCharge * Time.deltaTime,
+                out _);
+        }
     }
 
     public bool IsInsideOvoid(Vector3 point)
@@ -177,4 +189,5 @@ internal class CloakEffectHandler : ProtoUpgrade
     }
 
     public override void OnSelectedChanged(bool changed) { }
+    public override bool GetCanActivate() => !ionGenerator.GetUpgradeEnabled();
 }
