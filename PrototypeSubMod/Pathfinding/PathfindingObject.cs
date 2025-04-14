@@ -24,9 +24,7 @@ public class PathfindingObject : MonoBehaviour
     protected Path path;
     protected Vector3 directionToNextPoint;
     protected Vector3 lastNormal;
-    protected Vector3 lastPointOnBounds;
-
-    private Vector3 targetPointPos;
+    
     private Vector3 originalTargetPos;
 
     private void Start()
@@ -111,13 +109,10 @@ public class PathfindingObject : MonoBehaviour
                 }
             }
 
-            lastPointOnBounds = currentWaypoint.position;
-
             Vector3 currentPos = transform.position;
             if (useLocalPos) currentPos = grid.transform.TransformPoint(transform.localPosition);
 
             directionToNextPoint = targetPointPosition - currentPos;
-            targetPointPos = targetPointPosition;
 
             var newPos = Vector3.MoveTowards(currentPos, targetPointPosition, moveSpeed * Time.deltaTime);
             Quaternion targetRot = Quaternion.LookRotation(directionToNextPoint, lastNormal);

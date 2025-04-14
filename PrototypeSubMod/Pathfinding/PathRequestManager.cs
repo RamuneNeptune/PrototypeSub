@@ -39,13 +39,15 @@ public class PathRequestManager : MonoBehaviour
             request.callback(new PathData[0], false);
             return;
         }
-
-        ThreadStart threadStart = delegate
+        
+        Matrix4x4 worldToLocalMatrix = pathfinder.pathfindingGrid.root.worldToLocalMatrix;
+        ThreadStart threadStart = () =>
         {
-            pathfinder.FindPath(request, FinishedProcessingPath);
+            pathfinder.FindPath(request, FinishedProcessingPath, worldToLocalMatrix);
         };
-
-        threadStart.Invoke();
+        
+        var thread = new Thread(threadStart);
+        thread.Start();
     }
 
     public void FinishedProcessingPath(PathResult result)

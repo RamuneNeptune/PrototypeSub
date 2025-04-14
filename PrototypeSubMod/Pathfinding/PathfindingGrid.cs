@@ -1,5 +1,6 @@
 ﻿using PrototypeSubMod.Pathfinding.SaveSystem;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -51,13 +52,7 @@ public class PathfindingGrid : MonoBehaviour
         
         if (useSaveFileAsGrid)
         {
-            ThreadStart threadStart = () => WaitForDataLoaded(() =>
-            {
-                OnGridSaveDataLoaded(Plugin.pathfindingGridSaveData);
-            });
-
-            var gridLoadThread = new Thread(threadStart);
-            gridLoadThread.Start();
+            UWE.CoroutineHost.StartCoroutine(WaitForDataLoaded());
         }
         else
         {
@@ -65,14 +60,14 @@ public class PathfindingGrid : MonoBehaviour
         }
     }
 
-    private void WaitForDataLoaded(Action callback)
+    private IEnumerator WaitForDataLoaded()
     {
         while (Plugin.pathfindingGridSaveData == null)
         {
-            Thread.Sleep(200);
+            yield return new WaitForSeconds(1);
         }
         
-        callback?.Invoke();
+        OnGridSaveDataLoaded(Plugin.pathfindingGridSaveData);
     }
     
     private void OnGridSaveDataLoaded(GridSaveData data)
@@ -249,17 +244,14 @@ public class PathfindingGrid : MonoBehaviour
         return adjacentNodes;
     }
 
-    public GridNode GetNodeAtWorldPosition(Vector3 worldPosition)
+    public GridNode GetNodeAtWorldPosition(Vector3 worldPosition, Matrix4x4 worldToLocalMatrix)
     {
-        Vector3 offset = transform.position - GetPositionAtGridGen();
-        offset = root.TransformVector(offset);
-
-        Vector3 offsetPosition = root.InverseTransformPoint(worldPosition) - posAtGridGen;
-
+        Vector3 offsetPosition = worldToLocalMatrix.MultiplyPoint3x4(worldPosition) - posAtGridGen;
+        
         float normalizedX = (offsetPosition.x + (gridWorldSize.x / 2)) / gridWorldSize.x;
         float normalizedY = (offsetPosition.y + (gridWorldSize.y / 2)) / gridWorldSize.y;
         float normalizedZ = (offsetPosition.z + (gridWorldSize.z / 2)) / gridWorldSize.z;
-
+        
         normalizedX = Mathf.Clamp01(normalizedX);
         normalizedY = Mathf.Clamp01(normalizedY);
         normalizedZ = Mathf.Clamp01(normalizedZ);
@@ -268,6 +260,7 @@ public class PathfindingGrid : MonoBehaviour
         int y = Mathf.RoundToInt((gridSizeY - 1) * normalizedY);
         int z = Mathf.RoundToInt((gridSizeZ - 1) * normalizedZ);
 
+        Debug.Log($"Grid index = {new Vector3(x, y, z)}");
         return grid[x, y, z];
     }
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 namespace PrototypeSubMod.Pathfinding;
 
@@ -12,7 +13,7 @@ public class Pathfinder : MonoBehaviour
     private Heap<GridNode> openSet;
     private Heap<GridNode> closedSet;
 
-    public void FindPath(PathRequest request, Action<PathResult> callback)
+    public void FindPath(PathRequest request, Action<PathResult> callback, Matrix4x4 gridWorldToLocalMatrix)
     {
         if (openSet == null)
         {
@@ -24,38 +25,32 @@ public class Pathfinder : MonoBehaviour
             closedSet = new Heap<GridNode>(pathfindingGrid.GetMaxSize());
         }
 
-        Stopwatch sw = new Stopwatch();
-        sw.Start();
-
         PathData[] waypoints = Array.Empty<PathData>();
         bool pathSuccess = false;
-
-        GridNode startNode = pathfindingGrid.GetNodeAtWorldPosition(request.pathStart);
-        GridNode endNode = pathfindingGrid.GetNodeAtWorldPosition(request.pathEnd);
+        
+        GridNode startNode = pathfindingGrid.GetNodeAtWorldPosition(request.pathStart, gridWorldToLocalMatrix);
+        GridNode endNode = pathfindingGrid.GetNodeAtWorldPosition(request.pathEnd, gridWorldToLocalMatrix);
         GridNode lowestHCostNode = new GridNode();
         lowestHCostNode.hCost = int.MaxValue;
 
         if (!startNode.walkable && !endNode.walkable)
         {
             callback(new PathResult(waypoints, pathSuccess, request.callback));
-            Plugin.Logger.LogInfo("Invalid nodes. Returning");
+            Plugin.Logger.LogWarning("Invalid nodes. Returning");
             return;
         }
 
         openSet.Clear();
         closedSet.Clear();
         openSet.Add(startNode);
-
+        
         while (openSet.Count > 0)
         {
             GridNode currentNode = openSet.RemoveFirstItem();
             closedSet.Add(currentNode);
-
+            
             if (currentNode == endNode)
             {
-                sw.Stop();
-                //Debug.Log($"Path found in {sw.ElapsedMilliseconds}ms");
-
                 pathSuccess = true;
                 break;
             }
@@ -100,8 +95,6 @@ public class Pathfinder : MonoBehaviour
         }
 
         //Debug.Log($"Path success = {pathSuccess}");
-
-        sw.Stop();
 
         callback(new PathResult(waypoints, pathSuccess, request.callback));
     }
