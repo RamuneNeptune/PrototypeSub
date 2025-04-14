@@ -2,12 +2,14 @@
 using PrototypeSubMod.MiscMonobehaviors.Emission;
 using PrototypeSubMod.Upgrades;
 using System.Collections.Generic;
+using PrototypeSubMod.Utility;
 using UnityEngine;
 
 namespace PrototypeSubMod.LightDistortionField;
 
 internal class CloakEffectHandler : ProtoUpgrade
 {
+    [SaveStateReference]
     public static List<CloakEffectHandler> EffectHandlers = new();
 
     [Header("Shader Parameters")]
