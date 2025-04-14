@@ -2,6 +2,7 @@
 using PrototypeSubMod.Upgrades;
 using System.Collections;
 using System.Collections.Generic;
+using PrototypeSubMod.PowerSystem;
 using UnityEngine;
 
 namespace PrototypeSubMod.DeployablesTerminal;
@@ -17,6 +18,7 @@ internal class ProtoDeployableManager : ProtoUpgrade
     [SerializeField] private Transform lightSpawnTransform;
     [SerializeField] private Transform decoySpawnTransform;
 
+    [SerializeField] private int decoyChargeConsumption;
     [SerializeField] private float launchLightDelay;
     [SerializeField] private float lightLaunchForce;
     [SerializeField] private float launchDecoyDelay;
@@ -56,6 +58,8 @@ internal class ProtoDeployableManager : ProtoUpgrade
 
         if (decoyCount > 0)
         {
+            subRoot.powerRelay.ConsumeEnergy(PrototypePowerSystem.CHARGE_POWER_AMOUNT * decoyChargeConsumption, out _);
+            
             string slot = availableDecoySlots[availableDecoySlots.Count - 1];
             storageTerminal.equipment.RemoveItem(slot, true, false);
 
