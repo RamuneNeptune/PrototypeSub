@@ -1,6 +1,7 @@
 ﻿using PrototypeSubMod.Upgrades;
 using System.Collections;
 using System.Collections.Generic;
+using PrototypeSubMod.PowerSystem;
 using UnityEngine;
 using UWE;
 
@@ -13,7 +14,7 @@ internal class ProtoStasisPulse : ProtoUpgrade
     [SerializeField] private PowerRelay powerRelay;
     [SerializeField] private VoiceNotification activationVoiceline;
     [SerializeField] private float activationDelay;
-    [SerializeField] private float powerCost;
+    [SerializeField] private int chargeConsumptionAmount;
     [SerializeField] private float cooldownTime;
     [SerializeField] private float sphereGrowTime;
     [SerializeField] private float minFreezeTime;
@@ -33,6 +34,7 @@ internal class ProtoStasisPulse : ProtoUpgrade
     private GameObject unfreezeFX;
     private SubRoot subRoot;
 
+    private float previousCooldownTime;
     private float currentCooldownTime;
     private float currentSphereGrowTimeTime;
     private bool deployingLastFrame;
@@ -90,7 +92,12 @@ internal class ProtoStasisPulse : ProtoUpgrade
         }
 
         HandleSphereSize();
-        HandleFreezing();
+        if (!Mathf.Approximately(previousCooldownTime % 1, currentCooldownTime % 1))
+        {
+            HandleFreezing();
+        }
+        
+        previousCooldownTime = currentCooldownTime;
     }
 
     private void UpdateMaterials()
@@ -175,7 +182,7 @@ internal class ProtoStasisPulse : ProtoUpgrade
             return;
         }
 
-        if (powerRelay.GetPower() < powerCost)
+        if (powerRelay.GetPower() < PrototypePowerSystem.CHARGE_POWER_AMOUNT * chargeConsumptionAmount)
         {
             return;
         }
@@ -190,7 +197,7 @@ internal class ProtoStasisPulse : ProtoUpgrade
         currentSphereGrowTimeTime = 0;
         deployingLastFrame = false;
 
-        powerRelay.ConsumeEnergy(powerCost, out _);
+        powerRelay.ConsumeEnergy(PrototypePowerSystem.CHARGE_POWER_AMOUNT * chargeConsumptionAmount, out _);
     }
 
     public override bool GetUpgradeEnabled() => upgradeInstalled;
