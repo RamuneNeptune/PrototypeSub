@@ -1,6 +1,8 @@
-﻿using PrototypeSubMod.IonGenerator;
+﻿using System.Collections;
+using PrototypeSubMod.IonGenerator;
 using PrototypeSubMod.Upgrades;
 using System.Linq;
+using PrototypeSubMod.PowerSystem;
 using UnityEngine;
 
 namespace PrototypeSubMod.IonBarrier;
@@ -11,8 +13,10 @@ internal class ProtoIonBarrier : ProtoUpgrade, IOnTakeDamage
     [SerializeField] private PowerRelay powerRelay;
     [SerializeField] private GameObject lavaLarvaeRoot;
     [SerializeField] private ProtoIonGenerator ionGenerator;
-    [SerializeField] private float constantPowerDraw;
+    [SerializeField] private float chargeUseCount;
     [SerializeField] private float powerPerDamage;
+    [SerializeField] private float useDuration;
+    [SerializeField] private float cooldownDuration;
     [SerializeField] private float maxShieldIntensity;
     [SerializeField] private float defaultReduction;
     [SerializeField] private DamageReductor[] damageReductors;
@@ -28,6 +32,8 @@ internal class ProtoIonBarrier : ProtoUpgrade, IOnTakeDamage
     private float currentShieldIntensity;
     private float currentImpactIntensity;
     private float damageReductionMultipier;
+    private bool shieldActive;
+    private bool onCooldown;
 
     private void OnValidate()
     {
@@ -57,7 +63,6 @@ internal class ProtoIonBarrier : ProtoUpgrade, IOnTakeDamage
         if (subRoot.LOD.IsMinimal()) return;
 
         HandleShieldProperties();
-        HandlePowerDraw();
     }
 
     private void HandleShieldProperties()
@@ -74,13 +79,6 @@ internal class ProtoIonBarrier : ProtoUpgrade, IOnTakeDamage
                 rend.gameObject.SetActive(false);
             }
         }
-    }
-
-    private void HandlePowerDraw()
-    {
-        if (!upgradeEnabled || !upgradeInstalled) return;
-
-        powerRelay.ConsumeEnergy(constantPowerDraw * Time.deltaTime, out _);
     }
 
     public float GetReductionForType(DamageType type)
@@ -118,38 +116,31 @@ internal class ProtoIonBarrier : ProtoUpgrade, IOnTakeDamage
         }
     }
 
-    public override void SetUpgradeEnabled(bool enabled)
-    {
-        SetShieldEnabled(enabled);
-        base.SetUpgradeEnabled(enabled);
-    }
-
     private void SetShieldEnabled(bool enabled)
     {
-        if (enabled && !upgradeEnabled)
-        {
-            ActivateShield();
-        }
-
-        if (!enabled && upgradeEnabled)
-        {
-            DeactivateShield();
-        }
+        if (shieldActive && enabled) return;
 
         hydrolockController.SetBool("HydrolockEnabled", enabled);
         if (enabled)
         {
+            powerRelay.ConsumeEnergy(chargeUseCount * PrototypePowerSystem.CHARGE_POWER_AMOUNT, out _);
+            
+            ActivateShield();
             subRoot.voiceNotificationManager.PlayVoiceNotification(shieldsUpNotification);
-            foreach (var larva in lavaLarvaeRoot.GetComponentsInChildren<LavaLarva>())
-            {
-                larva.GetComponent<LiveMixin>().TakeDamage(1, type: DamageType.Electrical);
-            }
+            StartCoroutine(DisableShieldDelayed());
         }
+        else
+        {
+            DeactivateShield();
+            StartCoroutine(ResetCooldownDelayed());
+        }
+        
+        shieldActive = enabled;
     }
 
     private void ActivateShield()
     {
-        foreach (var lavaLarva in subRoot.GetComponentsInChildren<LavaLarva>())
+        foreach (var lavaLarva in lavaLarvaeRoot.GetComponentsInChildren<LavaLarva>())
         {
             lavaLarva.GetComponent<LiveMixin>().TakeDamage(1, type: DamageType.Electrical);
         }
@@ -160,6 +151,18 @@ internal class ProtoIonBarrier : ProtoUpgrade, IOnTakeDamage
         }
 
         targetShieldIntensity = maxShieldIntensity;
+    }
+
+    private IEnumerator DisableShieldDelayed()
+    {
+        yield return new WaitForSeconds(useDuration);
+        SetShieldEnabled(false);
+    }
+    
+    private IEnumerator ResetCooldownDelayed()
+    {
+        yield return new WaitForSeconds(cooldownDuration);
+        onCooldown = false;
     }
 
     private void DeactivateShield()
@@ -174,6 +177,8 @@ internal class ProtoIonBarrier : ProtoUpgrade, IOnTakeDamage
 
     public override void OnActivated()
     {
+        if (shieldActive || onCooldown) return;
+        
         SetUpgradeEnabled(!upgradeEnabled);
     }
 
@@ -181,9 +186,11 @@ internal class ProtoIonBarrier : ProtoUpgrade, IOnTakeDamage
     {
         if (!changed)
         {
-            SetUpgradeEnabled(false);
+            SetShieldEnabled(false);
         }
     }
+
+    public override bool GetCanActivate() => !onCooldown;
 }
 
 [System.Serializable]
