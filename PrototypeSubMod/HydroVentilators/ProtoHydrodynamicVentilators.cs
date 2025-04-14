@@ -12,13 +12,12 @@ internal class ProtoHydrodynamicVentilators : ProtoUpgrade
     [SerializeField] private float maxDepth;
     [SerializeField] private AnimationCurve speedMultiplierCurve;
 
-    private bool speedReset;
-    private bool selected;
-
     private void FixedUpdate()
     {
         if (!upgradeInstalled) return;
 
+        if (!upgradeEnabled) return;
+        
         float depth = crushDamage.GetDepth();
 
         if (depth < activationDepth)
@@ -33,17 +32,24 @@ internal class ProtoHydrodynamicVentilators : ProtoUpgrade
         motorHandler.AddSpeedMultiplier(new ProtoMotorHandler.ValueRegistrar(this, multiplier));
     }
 
-    public override bool GetUpgradeEnabled() => selected;
+    public override void SetUpgradeEnabled(bool enabled)
+    {
+        base.SetUpgradeEnabled(enabled);
+        if (!enabled)
+        {
+            motorHandler.RemoveSpeedMultiplier(this);
+        }
+    }
 
     private void OnDestroy()
     {
         motorHandler.RemoveSpeedMultiplier(this);
     }
 
-    public override void OnActivated() { }
-
-    public override void OnSelectedChanged(bool nowSelected)
+    public override void OnActivated()
     {
-        selected = nowSelected;
+        SetUpgradeEnabled(!upgradeEnabled);
     }
+
+    public override void OnSelectedChanged(bool nowSelected) { }
 }
