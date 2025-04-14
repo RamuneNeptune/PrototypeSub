@@ -8,7 +8,7 @@ internal class ProtoEmergencyWarp : ProtoUpgrade
 {
     public static bool isCharging;
 
-    private Vector3 SUB_TELEPORT_POSITION { get; } = new Vector3(464.401f, -118.461f, 1213.340f);
+    private Vector3 SUB_TELEPORT_POSITION { get; } = new Vector3(464.993f, -118.860f, 1214.816f);
     private const float TELEPORT_ANGLE = 20f;
 
     [SerializeField] private Rigidbody subRigidbody;
