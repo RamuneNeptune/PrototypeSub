@@ -11,7 +11,6 @@ internal class ProtoPressureConverters : ProtoUpgrade
     [SerializeField] private float activationDepth;
     [SerializeField] private float maxDepth;
     [SerializeField] private AnimationCurve powerMultiplierCurve;
-    [SerializeField] private float secondsForOneChargeDrain;
 
     private void FixedUpdate()
     {
