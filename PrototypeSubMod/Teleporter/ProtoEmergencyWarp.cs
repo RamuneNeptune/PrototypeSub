@@ -1,5 +1,6 @@
 ﻿using PrototypeSubMod.Upgrades;
 using System.Collections;
+using PrototypeSubMod.PowerSystem;
 using UnityEngine;
 
 namespace PrototypeSubMod.Teleporter;
@@ -16,7 +17,7 @@ internal class ProtoEmergencyWarp : ProtoUpgrade
     [SerializeField] private VoiceNotification emergencyWarpNotification;
     [SerializeField] private VoiceNotification insufficientPowerNotification;
     [SerializeField] private PilotingChair pilotingChair;
-    [SerializeField] private int requiredPower;
+    [SerializeField] private int requiredCharges;
     [SerializeField] private float chargeTime;
 
     private float currentChargeTime = Mathf.Infinity;
@@ -41,7 +42,7 @@ internal class ProtoEmergencyWarp : ProtoUpgrade
     {
         if (!upgradeInstalled) return;
 
-        if (subRoot.powerRelay.GetPower() < requiredPower)
+        if (subRoot.powerRelay.GetPower() < PrototypePowerSystem.CHARGE_POWER_AMOUNT * requiredCharges)
         {
             subRoot.voiceNotificationManager.PlayVoiceNotification(insufficientPowerNotification);
             return;
