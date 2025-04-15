@@ -3,6 +3,8 @@ using PrototypeSubMod.IonGenerator;
 using PrototypeSubMod.Upgrades;
 using System.Linq;
 using PrototypeSubMod.PowerSystem;
+using PrototypeSubMod.UI.AbilitySelection;
+using PrototypeSubMod.UI.ActivatedAbilities;
 using UnityEngine;
 
 namespace PrototypeSubMod.IonBarrier;
@@ -12,7 +14,8 @@ internal class ProtoIonBarrier : ProtoUpgrade, IOnTakeDamage
     [SerializeField] private Renderer[] shieldRenderers;
     [SerializeField] private PowerRelay powerRelay;
     [SerializeField] private GameObject lavaLarvaeRoot;
-    [SerializeField] private ProtoIonGenerator ionGenerator;
+    [SerializeField] private SelectionMenuManager selectionMenuManager;
+    [SerializeField] private ActivatedAbilitiesManager abilitiesManager;
     [SerializeField] private float chargeUseCount;
     [SerializeField] private float powerPerDamage;
     [SerializeField] private float useDuration;
@@ -120,6 +123,8 @@ internal class ProtoIonBarrier : ProtoUpgrade, IOnTakeDamage
     {
         if (shieldActive && enabled) return;
 
+        SetUpgradeEnabled(enabled);
+        
         hydrolockController.SetBool("HydrolockEnabled", enabled);
         if (enabled)
         {
@@ -131,6 +136,8 @@ internal class ProtoIonBarrier : ProtoUpgrade, IOnTakeDamage
         }
         else
         {
+            var icon = selectionMenuManager.GetAbilityIcons().FirstOrDefault(i => i == (IAbilityIcon)this);
+            abilitiesManager.OnAbilitySelectedChanged(icon);
             DeactivateShield();
             StartCoroutine(ResetCooldownDelayed());
         }
@@ -161,6 +168,7 @@ internal class ProtoIonBarrier : ProtoUpgrade, IOnTakeDamage
     
     private IEnumerator ResetCooldownDelayed()
     {
+        onCooldown = true;
         yield return new WaitForSeconds(cooldownDuration);
         onCooldown = false;
     }
@@ -179,7 +187,7 @@ internal class ProtoIonBarrier : ProtoUpgrade, IOnTakeDamage
     {
         if (shieldActive || onCooldown) return;
         
-        SetUpgradeEnabled(!upgradeEnabled);
+        SetShieldEnabled(true);
     }
 
     public override void OnSelectedChanged(bool changed)
