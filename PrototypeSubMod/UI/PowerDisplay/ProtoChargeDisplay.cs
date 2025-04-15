@@ -12,7 +12,8 @@ public class ProtoChargeDisplay : MonoBehaviour, IUIElement
     [SerializeField] private OnModifyPowerEvent onModifyPower;
     [SerializeField] private GameObject chargeIconPrefab;
     [SerializeField] private Transform iconsParent;
-    [SerializeField] private float lowPowerAlpha;
+    [SerializeField] private Sprite normalSprite;
+    [SerializeField] private Sprite lowPowerSprite;
 
     private int chargesLastCheck;
     
@@ -44,7 +45,7 @@ public class ProtoChargeDisplay : MonoBehaviour, IUIElement
         for (int i = 0; i < currentSource.GetRemainingCharges(); i++)
         {
             var newIcon= Instantiate(chargeIconPrefab, iconsParent);
-            newIcon.GetComponent<ProtoChargeIcon>().SetIconAlpha(1);
+            newIcon.GetComponent<ProtoChargeIcon>().SetSprite(normalSprite);
         }
         
         chargesLastCheck = currentSource.GetRemainingCharges();
@@ -53,9 +54,14 @@ public class ProtoChargeDisplay : MonoBehaviour, IUIElement
     private void UpdateCharges()
     {
         var currentSource = powerSystem.GetPowerSources()[0];
+        var chargeIcon = iconsParent.GetChild(0).GetComponent<ProtoChargeIcon>();
         if (currentSource.GetCurrentChargePower01() <= 0.25f)
         {
-            iconsParent.GetChild(0).GetComponent<ProtoChargeIcon>().SetIconAlpha(lowPowerAlpha);
+            chargeIcon.SetSprite(lowPowerSprite);
+        }
+        else
+        {
+            chargeIcon.SetSprite(normalSprite);
         }
         
         int remainingCharges = currentSource.GetRemainingCharges();
