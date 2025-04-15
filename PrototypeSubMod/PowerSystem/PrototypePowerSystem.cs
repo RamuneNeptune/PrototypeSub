@@ -160,6 +160,8 @@ public class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTree
     {
         return storageRoot.transform.childCount >= allowedPowerSourceCount;
     }
+    
+    public int GetInstalledSourceCount() => storageRoot.transform.childCount;
 
     public void SetAllowedSourcesCount(int count)
     {

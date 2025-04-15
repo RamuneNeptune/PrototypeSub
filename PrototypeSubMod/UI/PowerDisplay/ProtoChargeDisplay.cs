@@ -19,7 +19,7 @@ public class ProtoChargeDisplay : MonoBehaviour, IUIElement
     
     private void Start()
     {
-        onModifyPower.onModifyPower += _ => UpdateCharges();
+        onModifyPower.onModifyPower += UpdateCharges;
         powerSystem.onReorderSources += RegenerateCharges;
 
         RegenerateCharges();
@@ -29,7 +29,7 @@ public class ProtoChargeDisplay : MonoBehaviour, IUIElement
 
     public void OnSubDestroyed()
     {
-        UpdateCharges();
+        UpdateCharges(0);
     }
 
     private void RegenerateCharges()
@@ -51,7 +51,7 @@ public class ProtoChargeDisplay : MonoBehaviour, IUIElement
         chargesLastCheck = currentSource.GetRemainingCharges();
     }
     
-    private void UpdateCharges()
+    private void UpdateCharges(float chargeChange)
     {
         var currentSource = powerSystem.GetPowerSources()[0];
         var chargeIcon = iconsParent.GetChild(0).GetComponent<ProtoChargeIcon>();
@@ -59,7 +59,7 @@ public class ProtoChargeDisplay : MonoBehaviour, IUIElement
         {
             chargeIcon.SetSprite(lowPowerSprite);
         }
-        else
+        else if (chargeChange > 0)
         {
             chargeIcon.SetSprite(normalSprite);
         }
