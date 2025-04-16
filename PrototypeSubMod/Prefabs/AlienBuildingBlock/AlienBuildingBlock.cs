@@ -29,7 +29,7 @@ internal class AlienBuildingBlock : RelicBlock
             {
                 new(WarperRemnant.prefabInfo.TechType)
             }
-        }).WithFabricatorType(CraftTree.Type.Fabricator).WithStepsToFabricatorTab("Personal", "Equipment").WithCraftingTime(3f);
+        }).WithCraftingTime(3f);
         
         prefab.Register();
     }
@@ -40,7 +40,8 @@ internal class AlienBuildingBlock : RelicBlock
         
         if(returnPrefab == null)
             Plugin.Logger.LogError("Failed to load the AlienBuildingBlock prefab.");
-
+        
+        returnPrefab.GetComponent<PrefabIdentifier>().ClassId = prefabInfo.TechType.ToString();
         returnPrefab.GetComponent<TechTag>().type = prefabInfo.TechType;
         returnPrefab.SetActive(false);
 
