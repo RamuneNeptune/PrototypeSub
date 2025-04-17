@@ -27,6 +27,7 @@ internal class PrefabRegisterer
         DefenseStoryGoalTrigger_World.Register();
         DecorativeForceFieldArchway.Register();
         NonfunctionalKeyTerminal.Register();
+        PrecursorIonCrystal_Craftable.Register();
         WarperRemnant.Register();
         AlienBuildingBlock.Register();
         PrecursorFabricator.Register();

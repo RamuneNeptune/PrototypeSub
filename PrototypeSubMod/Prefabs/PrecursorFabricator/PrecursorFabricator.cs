@@ -34,7 +34,7 @@ internal class PrecursorFabricator
             .AddCraftNode(TechType.PrecursorKey_Orange, "Keys")
             
             .AddTabNode("PowerSources", Language.main.Get("PrecursorFabricator_Tab_PowerSources"), SpriteManager.Get(TechType.PrecursorIonCrystal))
-            .AddCraftNode(TechType.PrecursorIonCrystal, "PowerSources") //TODO: Make this craftable!
+            .AddCraftNode(TechType.PrecursorIonCrystal, "PowerSources")
             .AddCraftNode(TechType.PrecursorIonCrystalMatrix, "PowerSources")
             .AddCraftNode(IonPrism_Craftable.prefabInfo.TechType, "PowerSources")
             
