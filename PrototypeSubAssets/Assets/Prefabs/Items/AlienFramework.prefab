@@ -1086,7 +1086,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 146348600247391181}
-  - component: {fileID: 2102551226500282260}
+  - component: {fileID: 8921282716623770663}
   - component: {fileID: 1523389983082446643}
   m_Layer: 0
   m_Name: Model
@@ -1110,7 +1110,7 @@ Transform:
   m_Father: {fileID: 6837693235566571828}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2102551226500282260
+--- !u!114 &8921282716623770663
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1122,11 +1122,11 @@ MonoBehaviour:
   m_Script: {fileID: 1344084569, guid: 06dd3d5416bf43ea368cc39ff96e6d5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localMinY: -0.624
-  localMaxY: 0.512
-  posOffset: {x: 0, y: 0.22, z: 0}
+  localMinY: -0.13
+  localMaxY: 0.1
+  posOffset: {x: 0, y: 0, z: 0.05}
   eulerOffset: {x: 0, y: 0, z: 0}
-  scaleFactor: 0.4
+  scaleFactor: 0.2
   allowOnAnyComponent: 0
 --- !u!114 &1523389983082446643
 MonoBehaviour:
@@ -1141,6 +1141,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   applyTo: {fileID: 6634388651982619596}
+  shininess: 4
+  specularIntensity: 3
+  glowStrength: 1
 --- !u!1 &6837693235566571835
 GameObject:
   m_ObjectHideFlags: 0

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using HarmonyLib;
 using PrototypeSubMod.Prefabs;
+using UnityEngine;
 
 namespace PrototypeSubMod.Patches;
 
@@ -28,10 +29,27 @@ public class CrafterGhostModelPatch
         
         yield return result;
 
-        if (__instance.boundsToVFX != null && __instance.GetComponentInChildren<AlienFabricator>() != null)
+        if (__instance.GetComponentInChildren<AlienFabricator>() != null)
         {
-            __instance.boundsToVFX.localMinY = -0.4f;
-            __instance.boundsToVFX.localMaxY = 0.4f;
+            switch (techType)
+            {
+                case TechType.PrecursorIonBattery:
+                    __instance.ghostModel.transform.localPosition = new Vector3(0f, 0f, 0.07f);
+                    __instance.ghostModel.transform.localEulerAngles = new Vector3(0f, 180f, 0f);
+                    __instance.ghostModel.transform.localScale *= 0.9f;
+                    break;
+                case TechType.PrecursorIonPowerCell:
+                    __instance.ghostModel.transform.localPosition = new Vector3(0f, 0f, 0.03f);
+                    __instance.ghostModel.transform.localEulerAngles = new Vector3(0f, 180f, 0f);
+                    __instance.ghostModel.transform.localScale *= 0.6f;
+                    break;
+            }
+            
+            if (__instance.boundsToVFX != null)
+            {
+                __instance.boundsToVFX.localMinY = -0.16f;
+                __instance.boundsToVFX.localMaxY = 0.3f;
+            }
         }
     }
     
