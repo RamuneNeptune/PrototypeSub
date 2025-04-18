@@ -1,4 +1,6 @@
-﻿using PrototypeSubMod.Prefabs;
+﻿using Nautilus.Crafting;
+using Nautilus.Handlers;
+using PrototypeSubMod.Prefabs;
 using PrototypeSubMod.Prefabs.AlienBuildingBlock;
 using PrototypeSubMod.Prefabs.FacilityProps;
 using UnityEngine;
@@ -25,8 +27,10 @@ internal class PrefabRegisterer
         DefenseStoryGoalTrigger_World.Register();
         DecorativeForceFieldArchway.Register();
         NonfunctionalKeyTerminal.Register();
+        PrecursorIonCrystal_Craftable.Register();
         WarperRemnant.Register();
         AlienBuildingBlock.Register();
+        PrecursorFabricator.Register();
 
         ProtoPlaque_World.Register();
         ProtoLogo_World.Register();

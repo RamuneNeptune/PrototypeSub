@@ -933,6 +933,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8039315297597855750}
   - component: {fileID: 7199444289393414135}
+  - component: {fileID: 2225871819773747039}
   m_Layer: 0
   m_Name: LightBeacon
   m_TagString: Untagged
@@ -977,6 +978,24 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &2225871819773747039
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7267316695543268028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1344084569, guid: 06dd3d5416bf43ea368cc39ff96e6d5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  localMinY: -0.12
+  localMaxY: 0.18
+  posOffset: {x: 0, y: -0.03, z: 0.03}
+  eulerOffset: {x: 30, y: 0, z: 0}
+  scaleFactor: 0.14
+  allowOnAnyComponent: 0
 --- !u!1 &7571116138128685989
 GameObject:
   m_ObjectHideFlags: 0

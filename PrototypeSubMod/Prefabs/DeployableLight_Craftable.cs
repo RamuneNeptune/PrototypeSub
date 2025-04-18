@@ -25,8 +25,6 @@ internal class DeployableLight_Craftable
         prefab.SetGameObject(GetPrefab);
 
         prefab.SetRecipe(ROTACompatManager.GetRelevantRecipe("DeployableLight.json"))
-            .WithFabricatorType(CraftTree.Type.Fabricator)
-            .WithStepsToFabricatorTab("Machines")
             .WithCraftingTime(10f);
 
         prefab.SetEquipment(Plugin.LightBeaconEquipmentType);
