@@ -23,7 +23,8 @@ public class ChargeDeltaDisplay : MonoBehaviour
 
     private void LateUpdate()
     {
-        frameDraw = Mathf.Clamp01(frameDraw);
+        float normalizedDraw = frameDraw == 0 ? 0 : 1 / (PrototypePowerSystem.CHARGE_POWER_AMOUNT * Time.deltaTime / frameDraw);
+        frameDraw = Mathf.Clamp01(normalizedDraw * 4.75f);
         currentFill = Mathf.Lerp(currentFill, frameDraw, smoothSpeed * Time.deltaTime);
         SetFillValues(currentFill);
 

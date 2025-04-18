@@ -92,11 +92,5 @@ internal class ProtoOverclockModule : ProtoUpgrade
         SetUpgradeEnabled(!upgradeEnabled);
     }
 
-    public override void OnSelectedChanged(bool changed)
-    {
-        if (!changed)
-        {
-            SetUpgradeEnabled(false);
-        }
-    }
+    public override void OnSelectedChanged(bool changed) { }
 }
