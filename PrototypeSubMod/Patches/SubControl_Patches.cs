@@ -45,9 +45,16 @@ internal class SubControl_Patches
         var throttleField = typeof(SubControl).GetField("throttle", BindingFlags.NonPublic | BindingFlags.Instance);
         var throttleMatch = new CodeMatch(i => i.opcode == OpCodes.Stfld && (FieldInfo)i.operand == throttleField);
 
+        var canAccellField = typeof(SubControl).GetField("canAccel",  BindingFlags.NonPublic | BindingFlags.Instance);
+        var canAccelMatch = new CodeMatch(i => i.opcode == OpCodes.Ldfld && (FieldInfo)i.operand == canAccellField);
+
         var matcher = new CodeMatcher(instructions)
             .MatchForward(false, throttleMatch)
             .InsertAndAdvance(Transpilers.EmitDelegate(OverrideMoveDirIfNeeded))
+            .MatchForward(false, canAccelMatch)
+            .Advance(1)
+            .InsertAndAdvance(new CodeInstruction(OpCodes.Ldarg_0))
+            .InsertAndAdvance(Transpilers.EmitDelegate(OverrrideCanAccel))
             .MatchForward(true, GetButtonMatch())
             .Advance(1)
             .InsertAndAdvance(new CodeInstruction(OpCodes.Ldarg_0))
@@ -70,6 +77,16 @@ internal class SubControl_Patches
         if (!blocker) return wasClicking;
 
         return false;
+    }
+
+    public static bool OverrrideCanAccel(bool oldValue, SubControl subControl)
+    {
+        var protoMotorHandler =  subControl.GetComponentInChildren<ProtoMotorHandler>();
+        if (protoMotorHandler == null) return oldValue;
+
+        if (!protoMotorHandler.GetAllowedToMove()) return false;
+        
+        return oldValue;
     }
 
     private static CodeMatch[] GetButtonMatch()

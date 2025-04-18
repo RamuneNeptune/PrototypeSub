@@ -23,14 +23,17 @@ internal class ProtoIonGenerator : ProtoUpgrade
     [SerializeField] private float soundEffectVolume = 20f;
     [SerializeField] private float disableElectronicsTime;
 
+    private SubControl subControl;
     private bool empFired;
     private float currentEMPChargeTime;
     private float energyMultiplier = 1;
     private float chargePerSec;
+    private bool couldAccel;
 
     private void Start()
     {
         chargePerSec = PrototypePowerSystem.CHARGE_POWER_AMOUNT / secondsToFillCharge;
+        subControl = subRoot.GetComponent<SubControl>();
     }
 
     private void Update()
