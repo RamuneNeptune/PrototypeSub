@@ -3,6 +3,7 @@ using PrototypeSubMod.MiscMonobehaviors.SubSystems;
 using PrototypeSubMod.PowerSystem;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 namespace PrototypeSubMod.UI.PowerDisplay;
 
@@ -23,7 +24,9 @@ public class ChargeDeltaDisplay : MonoBehaviour
 
     private void LateUpdate()
     {
-        float normalizedDraw = frameDraw == 0 ? 0 : 1 / (PrototypePowerSystem.CHARGE_POWER_AMOUNT * Time.deltaTime / frameDraw);
+        if ((Player.main.transform.position - transform.position).sqrMagnitude > 100) return;
+        
+        float normalizedDraw = frameDraw == 0 ? 0 : 1 / (PrototypePowerSystem.CHARGE_POWER_AMOUNT * Time.deltaTime / frameDraw) + Random.Range(-1f, 1f) / 100f;
         frameDraw = Mathf.Clamp01(normalizedDraw * 4.75f);
         currentFill = Mathf.Lerp(currentFill, frameDraw, smoothSpeed * Time.deltaTime);
         SetFillValues(currentFill);
@@ -33,6 +36,8 @@ public class ChargeDeltaDisplay : MonoBehaviour
 
     private void OnModifyPower(float power)
     {
+        if ((Player.main.transform.position - transform.position).sqrMagnitude > 100) return;
+        
         if (power >= 0)
         {
             return;
