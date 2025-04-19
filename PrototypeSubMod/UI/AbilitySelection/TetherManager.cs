@@ -129,12 +129,6 @@ public class TetherManager : MonoBehaviour, IUIElement
 
     private void HandleActivation()
     {
-        if (activatedAbilitiesManager.GetActiveAbilityCount() >= 3)
-        {
-            ErrorMessage.AddError("Too many activated abilities");
-            return;
-        }
-        
         if (menuOpen) return;
 
         if (!MainCameraControl.main.enabled) return;
@@ -147,6 +141,12 @@ public class TetherManager : MonoBehaviour, IUIElement
 
         if (!selectedIcon.GetAbility().GetCanActivate()) return;
 
+        if (activatedAbilitiesManager.GetActiveAbilityCount() >= 3 && !selectedIcon.GetAbility().GetActive())
+        {
+            ErrorMessage.AddError("Too many activated abilities");
+            return;
+        }
+        
         selectedIcon.Activate();
         onAbilityActivatedChanged?.Invoke(selectedIcon.GetAbility());
     }
