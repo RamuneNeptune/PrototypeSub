@@ -95,6 +95,9 @@ internal class MultipurposeAlienTerminal : MonoBehaviour
     public void ForceInteracted()
     {
         var terminal = GetComponentInChildren<PrecursorComputerTerminal>();
+        var tag = terminal.GetComponent<TechTag>();
+        Destroy(tag);
+        
         if (!terminal || !terminal.fxControl || !terminal.scaleControl)
         {
             queuedForceInteract = true;
