@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace PrototypeSubMod.UI.ProceduralArcGenerator;
 
@@ -7,11 +8,14 @@ public class CircularMeshGenerator : MonoBehaviour
     [SerializeField] private int resolution = 1;
     [SerializeField] private float distanceInner;
     [SerializeField] private float distanceOuter;
-    [SerializeField, Range(0, 360)] private float angle;
+    [SerializeField, Range(0, 360)] private float startAngle;
+    [FormerlySerializedAs("angle")] [SerializeField, Range(0, 360)] private float endAngle;
 
     private void OnValidate()
     {
         resolution = Mathf.Max(resolution, 2);
+        startAngle = Mathf.Min(startAngle, endAngle);
+        endAngle = Mathf.Max(endAngle, startAngle);
     }
 
     public Mesh GenerateMesh()
@@ -26,7 +30,7 @@ public class CircularMeshGenerator : MonoBehaviour
         {
             int normIndex = i % (resolution + 1); // The index along the side of the arc it is on
             bool inside = i > resolution;
-            float pointAngle = Mathf.Lerp(0, angle, (float)normIndex / resolution);
+            float pointAngle = Mathf.Lerp(startAngle, endAngle, (float)normIndex / resolution);
             float scalar = inside ? distanceInner : distanceOuter;
 
             float x = Mathf.Cos(pointAngle * Mathf.Deg2Rad) * scalar;
@@ -68,6 +72,6 @@ public class CircularMeshGenerator : MonoBehaviour
 
     public void SetTargetAngle(float angle)
     {
-        this.angle = angle;
+        this.endAngle = angle;
     }
 }
