@@ -75,6 +75,7 @@ namespace PrototypeSubMod
         internal static TechType DefenseFacilityPingTechType;
         internal static TechType StoryEndPingTechType;
         internal static GridSaveData pathfindingGridSaveData;
+        internal static event Action<GridSaveData> onLoadGridSaveData;
 
         private static bool Initialized;
         private static Harmony harmony = new Harmony(GUID);
@@ -170,7 +171,11 @@ namespace PrototypeSubMod
         private void LoadPathfindingGrid()
         {
             byte[] bytes = AssetBundle.LoadAsset<TextAsset>("SaveGrid.grid").bytes;
-            ThreadStart threadStart = () => DeserializeGridData(bytes, (d) => pathfindingGridSaveData = d);
+            ThreadStart threadStart = () => DeserializeGridData(bytes, saveData =>
+            {
+                pathfindingGridSaveData = saveData;
+                onLoadGridSaveData?.Invoke(saveData);
+            });
 
             var gridLoadThread = new Thread(threadStart);
             gridLoadThread.Start();

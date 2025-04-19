@@ -52,22 +52,19 @@ public class PathfindingGrid : MonoBehaviour
         
         if (useSaveFileAsGrid)
         {
-            UWE.CoroutineHost.StartCoroutine(WaitForDataLoaded());
+            if (Plugin.pathfindingGridSaveData != null)
+            {
+                OnGridSaveDataLoaded(Plugin.pathfindingGridSaveData);
+            }
+            else
+            {
+                Plugin.onLoadGridSaveData += OnGridSaveDataLoaded;
+            }
         }
         else
         {
             CreateGrid();
         }
-    }
-
-    private IEnumerator WaitForDataLoaded()
-    {
-        while (Plugin.pathfindingGridSaveData == null)
-        {
-            yield return new WaitForSeconds(1);
-        }
-        
-        OnGridSaveDataLoaded(Plugin.pathfindingGridSaveData);
     }
     
     private void OnGridSaveDataLoaded(GridSaveData data)
@@ -76,6 +73,7 @@ public class PathfindingGrid : MonoBehaviour
         posAtGridGen = data.positionAtGridGen.Vector;
         rotationAtGridGen = data.rotationAtGridGen.Quaternion;
         initialized = true;
+        Plugin.onLoadGridSaveData -= OnGridSaveDataLoaded;
     }
 
     private void OnValidate()
@@ -244,9 +242,9 @@ public class PathfindingGrid : MonoBehaviour
         return adjacentNodes;
     }
 
-    public GridNode GetNodeAtWorldPosition(Vector3 worldPosition, Matrix4x4 worldToLocalMatrix)
+    public GridNode GetNodeAtWorldPosition(Vector3 worldPosition)
     {
-        Vector3 offsetPosition = worldToLocalMatrix.MultiplyPoint3x4(worldPosition) - posAtGridGen;
+        Vector3 offsetPosition = root.InverseTransformPoint(worldPosition) - posAtGridGen;
         
         float normalizedX = (offsetPosition.x + (gridWorldSize.x / 2)) / gridWorldSize.x;
         float normalizedY = (offsetPosition.y + (gridWorldSize.y / 2)) / gridWorldSize.y;
@@ -259,10 +257,11 @@ public class PathfindingGrid : MonoBehaviour
         int x = Mathf.RoundToInt((gridSizeX - 1) * normalizedX);
         int y = Mathf.RoundToInt((gridSizeY - 1) * normalizedY);
         int z = Mathf.RoundToInt((gridSizeZ - 1) * normalizedZ);
-
-        Debug.Log($"Grid index = {new Vector3(x, y, z)}");
+        
         return grid[x, y, z];
     }
+
+    public GridNode[,,] GetGrid() => grid;
 
     public int GetMaxSize()
     {

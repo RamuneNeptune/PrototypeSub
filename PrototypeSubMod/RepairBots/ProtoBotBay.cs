@@ -57,6 +57,15 @@ internal class ProtoBotBay : MonoBehaviour
         repairBot.SetRepairPoint(damagePoint);
         repairBot.UpdatePath(damagePoint.transform.position + (damagePoint.transform.forward * 0.25f));
         repairBot.SetEnRouteToPoint();
+        /*
+        yield return new WaitForEndOfFrame();
+        yield return new WaitForEndOfFrame();
+
+        if (!repairBot.GetMovingAlongPath())
+        {
+            repairBot.UpdatePath(damagePoint.transform.position + (damagePoint.transform.forward * 0.25f));
+        }
+        */
     }
 
     public void OnPointRepaired()

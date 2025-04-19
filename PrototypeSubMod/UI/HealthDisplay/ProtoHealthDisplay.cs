@@ -41,8 +41,6 @@ public class ProtoHealthDisplay : MonoBehaviour, IOnTakeDamage, IUIElement
         {
             lowHealthArcGenerator.gameObject.SetActive(lowHealth);
         }
-
-        if (lowHealthLastCheck == lowHealth) return;
         
         int maskIndex = maskAngles.Length - currentSegmentCount - 1;
         

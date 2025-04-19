@@ -31,19 +31,21 @@ public class PathRequestManager : MonoBehaviour
     {
         RequestPath(new PathRequest(pathStart, pathEnd, callback));
     }
-
+    
     public void RequestPath(PathRequest request)
     {
-        if (!pathfinder.pathfindingGrid.initialized)
+        if (!pathfinder.pathfindingGrid.initialized || pathfinder.pathfindingGrid.GetGrid() == null)
         {
-            request.callback(new PathData[0], false);
+            request.callback(Array.Empty<PathData>(), false);
+            Plugin.Logger.LogWarning("Grid not initialized. Returning");
             return;
         }
         
-        Matrix4x4 worldToLocalMatrix = pathfinder.pathfindingGrid.root.worldToLocalMatrix;
+        var startNode = pathfinder.pathfindingGrid.GetNodeAtWorldPosition(request.pathStart);
+        var endNode = pathfinder.pathfindingGrid.GetNodeAtWorldPosition(request.pathEnd);
         ThreadStart threadStart = () =>
         {
-            pathfinder.FindPath(request, FinishedProcessingPath, worldToLocalMatrix);
+            pathfinder.QueuePathTrace(request, FinishedProcessingPath, startNode, endNode);
         };
         
         var thread = new Thread(threadStart);
@@ -54,6 +56,7 @@ public class PathRequestManager : MonoBehaviour
     {
         lock (results)
         {
+            //Plugin.Logger.LogInfo("Enqueuing results");
             results.Enqueue(result);
         }
     }

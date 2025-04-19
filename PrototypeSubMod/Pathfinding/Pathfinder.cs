@@ -10,38 +10,51 @@ public class Pathfinder : MonoBehaviour
 {
     public PathfindingGrid pathfindingGrid;
 
-    private Heap<GridNode> openSet;
-    private Heap<GridNode> closedSet;
-
-    public void FindPath(PathRequest request, Action<PathResult> callback, Matrix4x4 gridWorldToLocalMatrix)
+    private Queue<PathQueueData> queueDatas = new();
+    
+    public void QueuePathTrace(PathRequest request, Action<PathResult> callback, GridNode startNode, GridNode endNode)
     {
-        if (openSet == null)
+        PathQueueData queueData = new PathQueueData(request, callback, startNode, endNode);
+
+        lock (queueDatas)
         {
-            openSet = new Heap<GridNode>(pathfindingGrid.GetMaxSize());
+            queueDatas.Enqueue(queueData);
+
+            if (queueDatas.Count > 1) return;
         }
 
-        if (closedSet == null)
+        while (queueDatas.Count > 0)
         {
-            closedSet = new Heap<GridNode>(pathfindingGrid.GetMaxSize());
+            var data = queueDatas.Dequeue();
+            FindPath(data.request, data.callback, data.startNode, data.endNode);
         }
-
+    }
+    
+    public void FindPath(PathRequest request, Action<PathResult> callback, GridNode startNode, GridNode endNode)
+    {
         PathData[] waypoints = Array.Empty<PathData>();
         bool pathSuccess = false;
         
-        GridNode startNode = pathfindingGrid.GetNodeAtWorldPosition(request.pathStart, gridWorldToLocalMatrix);
-        GridNode endNode = pathfindingGrid.GetNodeAtWorldPosition(request.pathEnd, gridWorldToLocalMatrix);
-        GridNode lowestHCostNode = new GridNode();
-        lowestHCostNode.hCost = int.MaxValue;
-
+        Heap<GridNode> openSet;
+        Heap<GridNode> closedSet;
+        lock (pathfindingGrid)
+        {
+            openSet = new Heap<GridNode>(pathfindingGrid.GetMaxSize());
+            closedSet = new Heap<GridNode>(pathfindingGrid.GetMaxSize());
+        }
+        //Plugin.Logger.LogInfo("Heaps created");
+        GridNode lowestHCostNode = new GridNode
+        {
+            hCost = int.MaxValue
+        };
+        
         if (!startNode.walkable && !endNode.walkable)
         {
             callback(new PathResult(waypoints, pathSuccess, request.callback));
             Plugin.Logger.LogWarning("Invalid nodes. Returning");
             return;
         }
-
-        openSet.Clear();
-        closedSet.Clear();
+        
         openSet.Add(startNode);
         
         while (openSet.Count > 0)
@@ -49,16 +62,19 @@ public class Pathfinder : MonoBehaviour
             GridNode currentNode = openSet.RemoveFirstItem();
             closedSet.Add(currentNode);
             
-            if (currentNode == endNode)
+            if (SameNode(currentNode, endNode))
             {
                 pathSuccess = true;
                 break;
             }
-
-            foreach (GridNode neighbor in pathfindingGrid.GetAdjacentNodes(currentNode))
+            
+            List<GridNode> nodes;
+            nodes = pathfindingGrid.GetAdjacentNodes(currentNode);
+            
+            for (int i = 0; i < nodes.Count; i++)
             {
+                var neighbor = nodes[i];
                 if (!neighbor.walkable || closedSet.Contains(neighbor)) continue;
-
                 int newMoveCostToNeighbor = currentNode.gCost + GetDistance(currentNode, neighbor) + neighbor.movementPenalty;
 
                 if (newMoveCostToNeighbor < neighbor.gCost || !openSet.Contains(neighbor))
@@ -66,7 +82,7 @@ public class Pathfinder : MonoBehaviour
                     neighbor.gCost = newMoveCostToNeighbor;
                     neighbor.hCost = GetDistance(neighbor, endNode);
                     neighbor.parent = currentNode;
-
+                    
                     if (!openSet.Contains(neighbor))
                     {
                         openSet.Add(neighbor);
@@ -94,8 +110,6 @@ public class Pathfinder : MonoBehaviour
             waypoints = RetracePath(startNode, lowestHCostNode);
         }
 
-        //Debug.Log($"Path success = {pathSuccess}");
-
         callback(new PathResult(waypoints, pathSuccess, request.callback));
     }
 
@@ -104,7 +118,7 @@ public class Pathfinder : MonoBehaviour
         List<GridNode> path = new List<GridNode>();
         GridNode currentNode = endNode;
 
-        while (currentNode != startNode)
+        while (!SameNode(currentNode, startNode))
         {
             path.Add(currentNode);
 
@@ -116,6 +130,13 @@ public class Pathfinder : MonoBehaviour
         Array.Reverse(waypoints);
 
         return waypoints;
+    }
+
+    private bool SameNode(GridNode nodeA, GridNode nodeB)
+    {
+        Vector3Int nodeAPos = new Vector3Int(nodeA.gridPosX, nodeA.gridPosY, nodeA.gridPosZ);
+        Vector3Int nodeBPos = new  Vector3Int(nodeB.gridPosX, nodeB.gridPosY, nodeB.gridPosZ);
+        return nodeAPos == nodeBPos;
     }
 
     private PathData[] SimplifyPath(List<GridNode> path)
@@ -159,5 +180,21 @@ public class Pathfinder : MonoBehaviour
     private void Swap(ref int a, ref int b)
     {
         (a, b) = (b, a);
+    }
+
+    public struct PathQueueData
+    {
+        public PathRequest request;
+        public Action<PathResult> callback;
+        public GridNode startNode;
+        public GridNode endNode;
+
+        public PathQueueData(PathRequest request, Action<PathResult> callback, GridNode startNode, GridNode endNode)
+        {
+            this.request = request;
+            this.callback = callback;
+            this.startNode = startNode;
+            this.endNode = endNode;
+        }
     }
 }

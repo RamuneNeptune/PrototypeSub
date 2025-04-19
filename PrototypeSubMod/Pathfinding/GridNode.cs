@@ -17,7 +17,7 @@ public class GridNode : IHeapItem<GridNode>
     [SaveIgnore] public int gCost; // How far the node is from the starting node
     [SaveIgnore] public int hCost; // How far the node is from the end node
     [SaveIgnore] public GridNode parent;
-
+    
     public GridNode() { }
 
     public GridNode(bool walkable, SerializableV3Wrapper worldPosition, SerializableV3Wrapper pointOnBounds, SerializableV3Wrapper surfaceNormal, int gridPosX, int gridPosY, int gridPosZ, int penalty)

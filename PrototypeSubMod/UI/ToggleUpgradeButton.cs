@@ -25,7 +25,7 @@ internal class ToggleUpgradeButton : MonoBehaviour
         protoUpgrade = upgrade.GetComponentInChildren<IProtoUpgrade>();
         if (protoUpgrade == null)
         {
-            Debug.LogError($"Invalid component. Proto upgrade required");
+            Debug.LogError("Invalid component. Proto upgrade required");
             upgrade = null;
         }
 

@@ -24,6 +24,7 @@ public class PathfindingObject : MonoBehaviour
     protected Path path;
     protected Vector3 directionToNextPoint;
     protected Vector3 lastNormal;
+    protected bool movingAlongPath;
     
     private Vector3 originalTargetPos;
 
@@ -65,6 +66,8 @@ public class PathfindingObject : MonoBehaviour
     {
         if (path == null || path.pathData.Length <= 0) yield break;
 
+        movingAlongPath = true;
+        
         PathData currentWaypoint = path.pathData[0];
         directionToNextPoint = currentWaypoint.position - visual.position;
         int targetIndex = 0;
@@ -97,6 +100,7 @@ public class PathfindingObject : MonoBehaviour
                     path = null;
                     visual.rotation = Quaternion.LookRotation(directionToNextPoint, lastNormal);
                     OnPathFinished?.Invoke();
+                    movingAlongPath = false;
                     yield break;
                 }
 
@@ -162,6 +166,8 @@ public class PathfindingObject : MonoBehaviour
     {
         this.pathManager = pathManager;
     }
+
+    public bool GetMovingAlongPath() => movingAlongPath;
 }
 
 public struct PathData

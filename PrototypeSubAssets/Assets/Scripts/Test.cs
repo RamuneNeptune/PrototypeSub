@@ -1,31 +1,18 @@
-﻿using UnityEngine;
+﻿using PrototypeSubMod.Pathfinding;
+using UnityEngine;
 
 public class Test : MonoBehaviour
 {
-    public Transform scalar;
-    public Transform rotationHolder;
-    public Transform collidersParent;
-    public Transform newParent;
-    public bool flip;
+    public bool updatePaths;
 
     private void OnDrawGizmos()
     {
-        if (!transform || !collidersParent) return;
+        if (!updatePaths) return;
 
-        if (!flip) return;
-
-        flip = false;
-
-        foreach (Transform t in collidersParent)
+        updatePaths = false;
+        foreach (var t in GetComponentsInChildren<PathfindingObject>())
         {
-            var copy = Instantiate(t.gameObject);
-            copy.transform.position = scalar.InverseTransformPoint(copy.transform.position);
-
-            var forwardReflect = Vector3.Reflect(copy.transform.rotation * Vector3.forward, rotationHolder.forward);
-            var upwardReflect = Vector3.Reflect(copy.transform.rotation * Vector3.up, rotationHolder.forward);
-
-            copy.transform.rotation = Quaternion.LookRotation(forwardReflect, upwardReflect);
-            copy.transform.SetParent(newParent);
+            t.UpdatePath();
         }
     }
 }
