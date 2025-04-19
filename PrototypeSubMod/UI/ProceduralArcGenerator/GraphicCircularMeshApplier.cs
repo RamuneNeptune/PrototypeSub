@@ -8,33 +8,39 @@ public class GraphicCircularMeshApplier : Graphic
     [SerializeField] private CircularMeshGenerator meshGenerator;
     [SerializeField] private bool updateMesh;
 
-    private void OnValidate()
+    private Mesh lastArcMesh;
+    
+    protected override void Start()
     {
-        if (updateMesh)
+        base.Start();
+        meshGenerator.GenerateMesh();
+        meshGenerator.onGenerateMesh += mesh =>
         {
-            
-        }
+            lastArcMesh = mesh;
+            UpdateGeometry();
+        };
     }
 
     protected override void OnPopulateMesh(VertexHelper vh)
     {
-        var mesh = meshGenerator.GenerateMesh();
+        if (lastArcMesh == null) meshGenerator.GenerateMesh();
+        
         base.OnPopulateMesh(vh);
         vh.Clear();
 
-        for (int i = 0; i < mesh.vertices.Length; i++)
+        for (int i = 0; i < lastArcMesh.vertices.Length; i++)
         {
             var vert = UIVertex.simpleVert;
-            vert.position = mesh.vertices[i];
-            vert.normal = mesh.normals[i];
+            vert.position = lastArcMesh.vertices[i];
+            vert.normal = lastArcMesh.normals[i];
             vh.AddVert(vert);
         }
 
-        for (int i = 0; i < mesh.triangles.Length; i += 3)
+        for (int i = 0; i < lastArcMesh.triangles.Length; i += 3)
         {
-            var index0 = mesh.triangles[i];
-            var index1 = mesh.triangles[i + 1];
-            var index2 = mesh.triangles[i + 2];
+            var index0 = lastArcMesh.triangles[i];
+            var index1 = lastArcMesh.triangles[i + 1];
+            var index2 = lastArcMesh.triangles[i + 2];
             vh.AddTriangle(index0, index1, index2);
         }
     }
@@ -43,6 +49,7 @@ public class GraphicCircularMeshApplier : Graphic
     {
         if (!updateMesh) return;
 
+        lastArcMesh = meshGenerator.GenerateMesh();
         UpdateGeometry();
     }
 }

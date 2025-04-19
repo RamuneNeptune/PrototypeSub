@@ -40,7 +40,7 @@ public class CircularMeshApplier : MonoBehaviour
     {
         if (lastAssignedAngle == angle) return;
 
-        meshGenerator.SetTargetAngle(angle);
+        meshGenerator.SetTargetAngles(angle);
         UpdateMesh();
 
         lastAssignedAngle = angle;

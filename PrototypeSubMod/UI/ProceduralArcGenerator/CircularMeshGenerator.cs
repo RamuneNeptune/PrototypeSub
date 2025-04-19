@@ -1,10 +1,13 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Serialization;
 
 namespace PrototypeSubMod.UI.ProceduralArcGenerator;
 
 public class CircularMeshGenerator : MonoBehaviour
 {
+    public event Action<Mesh> onGenerateMesh;
+    
     [SerializeField] private int resolution = 1;
     [SerializeField] private float distanceInner;
     [SerializeField] private float distanceOuter;
@@ -67,11 +70,14 @@ public class CircularMeshGenerator : MonoBehaviour
         mesh.RecalculateNormals();
         mesh.RecalculateTangents();
 
+        onGenerateMesh?.Invoke(mesh);
+        
         return mesh;
     }
 
-    public void SetTargetAngle(float angle)
+    public void SetTargetAngles(float endAngle, float startAngle = 0)
     {
-        this.endAngle = angle;
+        this.endAngle = endAngle;
+        this.startAngle = startAngle;
     }
 }
