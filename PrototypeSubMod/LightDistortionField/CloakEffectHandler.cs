@@ -53,8 +53,11 @@ internal class CloakEffectHandler : ProtoUpgrade
 
     [Header("Power Draw")]
     [SerializeField] private PowerRelay powerRelay;
-
     [SerializeField] private float secondsToConsumeCharge;
+    
+    [Header("Sound")]
+    [SerializeField] private VoiceNotificationManager  voiceNotificationManager;
+    [SerializeField] private VoiceNotification activateCloakNotif; 
     
     [Header("Miscellaneous")]
     [SerializeField] private FMOD_CustomLoopingEmitter emitter;
@@ -162,6 +165,7 @@ internal class CloakEffectHandler : ProtoUpgrade
         {
             emissionController.RegisterTempColor(new EmissionColorController.EmissionRegistrarData(this, emissiveColor, 20));
             emitter.Play();
+            voiceNotificationManager.PlayVoiceNotification(activateCloakNotif);
         }
         else
         {
