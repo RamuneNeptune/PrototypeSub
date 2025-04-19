@@ -2,6 +2,7 @@
 using PrototypeSubMod.UI.ProceduralArcGenerator;
 using SubLibrary.UI;
 using System;
+using PrototypeSubMod.UI.ActivatedAbilities;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,6 +13,7 @@ public class TetherManager : MonoBehaviour, IUIElement
     public Action<IAbilityIcon> onAbilityActivatedChanged;
     public Action onAbilitySelected;
 
+    [SerializeField] private ActivatedAbilitiesManager activatedAbilitiesManager;
     [SerializeField] private PilotingChair chair;
     [SerializeField] private Transform tetherPoint;
     [SerializeField] private CircularMeshApplier selectionHighlight;
@@ -127,6 +129,12 @@ public class TetherManager : MonoBehaviour, IUIElement
 
     private void HandleActivation()
     {
+        if (activatedAbilitiesManager.GetActiveAbilityCount() >= 3)
+        {
+            ErrorMessage.AddError("Too many activated abilities");
+            return;
+        }
+        
         if (menuOpen) return;
 
         if (!MainCameraControl.main.enabled) return;

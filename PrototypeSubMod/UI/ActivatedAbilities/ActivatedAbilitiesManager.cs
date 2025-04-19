@@ -43,6 +43,8 @@ internal class ActivatedAbilitiesManager : MonoBehaviour
             activeIcon.gameObject.SetActive(false);
         }
     }
+    
+    public int GetActiveAbilityCount() => activeAbilityIcons.Count;
 
     private ActiveAbilityIcon CreateNewIcon(IAbilityIcon icon)
     {
