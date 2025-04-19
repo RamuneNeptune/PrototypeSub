@@ -13,7 +13,7 @@ public class ProtoHealthDisplay : MonoBehaviour, IOnTakeDamage, IUIElement
     [SerializeField] private CircularMeshGenerator lowHealthArcGenerator;
     [SerializeField] private int[] maskAngles;
 
-    private int segmentCountLastCheck;
+    private bool lowHealthLastCheck;
     private bool subDead;
     
     private void Start()
@@ -31,26 +31,28 @@ public class ProtoHealthDisplay : MonoBehaviour, IOnTakeDamage, IUIElement
     {
         if (subDead) return;
         
-        int incrementCount = 10;
+        const int incrementCount = 10;
         float normalizedHealth = liveMixin.health / liveMixin.maxHealth;
         int currentSegmentCount = Mathf.CeilToInt(normalizedHealth * incrementCount);
         float lastSegmentAmount = normalizedHealth % 0.1f * incrementCount;
 
-        if (lowHealthArcGenerator.gameObject.activeSelf != lastSegmentAmount < 0.25f)
+        bool lowHealth = lastSegmentAmount < 0.5f;
+        if (lowHealthArcGenerator.gameObject.activeSelf != lowHealth)
         {
-            lowHealthArcGenerator.gameObject.SetActive(lastSegmentAmount < 0.25f);
+            lowHealthArcGenerator.gameObject.SetActive(lowHealth);
         }
 
-        if (currentSegmentCount == segmentCountLastCheck) return;
+        if (lowHealthLastCheck == lowHealth) return;
         
         int maskIndex = maskAngles.Length - currentSegmentCount - 1;
-        normalArcGenerator.SetTargetAngles(360, maskAngles[maskIndex]);
-        lowHealthArcGenerator.SetTargetAngles(maskAngles[maskIndex], maskAngles[Mathf.Max(0, maskIndex - 1)]);
+        Plugin.Logger.LogInfo($"Start angle index = {Mathf.Min(maskAngles.Length - 1, maskIndex + (lowHealth ? 1 : 0))} | Low health = {lowHealth}");
+        normalArcGenerator.SetTargetAngles(360, maskAngles[Mathf.Min(maskAngles.Length - 1, maskIndex + (lowHealth ? 1 : 0))]);
+        lowHealthArcGenerator.SetTargetAngles(maskAngles[Mathf.Min(maskAngles.Length - 1, maskIndex + 1)], maskAngles[maskIndex]);
 
         normalArcGenerator.GenerateMesh();
         lowHealthArcGenerator.GenerateMesh();
         
-        segmentCountLastCheck =  currentSegmentCount;
+        lowHealthLastCheck = lowHealth;
     }
 
     public void UpdateUI() { }
