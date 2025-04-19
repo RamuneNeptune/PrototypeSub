@@ -45,7 +45,7 @@ public class ProtoHealthDisplay : MonoBehaviour, IOnTakeDamage, IUIElement
         if (lowHealthLastCheck == lowHealth) return;
         
         int maskIndex = maskAngles.Length - currentSegmentCount - 1;
-        Plugin.Logger.LogInfo($"Start angle index = {Mathf.Min(maskAngles.Length - 1, maskIndex + (lowHealth ? 1 : 0))} | Low health = {lowHealth}");
+        
         normalArcGenerator.SetTargetAngles(360, maskAngles[Mathf.Min(maskAngles.Length - 1, maskIndex + (lowHealth ? 1 : 0))]);
         lowHealthArcGenerator.SetTargetAngles(maskAngles[Mathf.Min(maskAngles.Length - 1, maskIndex + 1)], maskAngles[maskIndex]);
 
