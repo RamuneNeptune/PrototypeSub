@@ -90,13 +90,16 @@ internal class MultipurposeAlienTerminal : MonoBehaviour
     {
         onTerminalInteracted?.Invoke();
         handTarget.interactionAllowed = allowMultipleUses;
+        
+        var terminal = GetComponentInChildren<PrecursorComputerTerminal>();
+        terminal.OnStoryHandTarget();
+        var tag = terminal.GetComponent<TechTag>();
+        tag.type = TechType.None;
     }
 
     public void ForceInteracted()
     {
         var terminal = GetComponentInChildren<PrecursorComputerTerminal>();
-        var tag = terminal.GetComponent<TechTag>();
-        Destroy(tag);
         
         if (!terminal || !terminal.fxControl || !terminal.scaleControl)
         {
@@ -105,6 +108,8 @@ internal class MultipurposeAlienTerminal : MonoBehaviour
         }
 
         terminal.OnStoryHandTarget();
+        var tag = terminal.GetComponent<TechTag>();
+        tag.type = TechType.None;
     }
 
     private IEnumerator QueuedForceInteract(PrecursorComputerTerminal terminal)
