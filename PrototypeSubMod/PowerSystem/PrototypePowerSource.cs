@@ -55,17 +55,13 @@ public class PrototypePowerSource : MonoBehaviour, IPowerInterface, ISaveDataLis
     private PrototypeSaveData.PowerSourceData powerSourceData;
 
     private PrototypePowerBattery battery;
-    private PowerRelay connectedRelay;
 
     private float enableElectronicsTime;
     private bool _electronicsDisabled;
-    private bool defaultBatteryCreated;
-    private bool allowedToPlaySounds = true;
 
     private void Start()
     {
         UpdateConnection();
-        InvokeRepeating(nameof(UpdateConnection), UnityEngine.Random.value, 1f);
 
         if (protoSaveData == null && !powerSourceData.defaultBatteryCreated && transform.GetSiblingIndex() <= 1)
         {
@@ -120,7 +116,8 @@ public class PrototypePowerSource : MonoBehaviour, IPowerInterface, ISaveDataLis
         
         // Returns whether the amount drawn was less than the charge in the battery
         // I.e. returns false if a power draw of 400 is requested when we have 200 charge
-        return amount >= 0f ? amount <= Capacity - Charge : Charge > -amount;
+        bool returnCondition = amount >= 0f ? amount <= Capacity - Charge : Charge > -amount;
+        return returnCondition;
     }
 
     private float GetChargeChangeSubtract(float amount)
@@ -167,16 +164,7 @@ public class PrototypePowerSource : MonoBehaviour, IPowerInterface, ISaveDataLis
     private void UpdateConnection()
     {
         var relay = PowerSource.FindRelay(transform);
-        if (relay && relay != connectedRelay)
-        {
-            if (connectedRelay != null)
-            {
-                connectedRelay.RemoveInboundPower(this);
-            }
-
-            connectedRelay = relay;
-            connectedRelay.AddInboundPower(this);
-        }
+        relay.AddInboundPower(this);
     }
 
     public void OnSaveDataLoaded(BaseSubDataClass saveData)
