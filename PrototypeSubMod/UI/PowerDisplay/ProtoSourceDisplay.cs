@@ -19,10 +19,9 @@ public class ProtoSourceDisplay : MonoBehaviour
     private readonly List<ProtoChargeIcon> activeSourceIcons = new();
     private int sourcesLastCheck;
     
-    private IEnumerator Start()
+    private void Start()
     {
-        yield return new WaitForEndOfFrame();
-        
+        powerSystem.equipment.onAddItem += _ => RegenerateSources();
         powerSystem.onReorderSources += RegenerateSources;
         RegenerateSources();
     }

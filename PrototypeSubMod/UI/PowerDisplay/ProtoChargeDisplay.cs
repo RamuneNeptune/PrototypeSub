@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using PrototypeSubMod.MiscMonobehaviors.SubSystems;
 using PrototypeSubMod.PowerSystem;
 using SubLibrary.UI;
@@ -17,10 +18,13 @@ public class ProtoChargeDisplay : MonoBehaviour, IUIElement
 
     private int chargesLastCheck;
     
-    private void Start()
+    private IEnumerator Start()
     {
+        yield return new WaitForEndOfFrame();
+        
         onModifyPower.onModifyPower += UpdateCharges;
         powerSystem.onReorderSources += RegenerateCharges;
+        powerSystem.equipment.onAddItem += _ => RegenerateCharges();
 
         RegenerateCharges();
     }
@@ -53,6 +57,8 @@ public class ProtoChargeDisplay : MonoBehaviour, IUIElement
     
     private void UpdateCharges(float chargeChange)
     {
+        if (iconsParent.childCount == 0) return;
+        
         var currentSource = powerSystem.GetPowerSources()[0];
         var chargeIcon = iconsParent.GetChild(0).GetComponent<ProtoChargeIcon>();
         if (currentSource.GetCurrentChargePower01() <= 0.25f)
