@@ -107,6 +107,7 @@ internal class MultipurposeAlienTerminal : MonoBehaviour
             return;
         }
 
+        handTarget.interactionAllowed = allowMultipleUses;
         terminal.OnStoryHandTarget();
         var tag = terminal.GetComponent<TechTag>();
         tag.type = TechType.None;

@@ -63,7 +63,7 @@ public class RelayUninstallationButton : MonoBehaviour
 
     private void UpdateHandText(bool inRange)
     {
-        if (!inRange || !hovered) return;
+        if (!inRange || !hovered || consumed) return;
         
         HandReticle main = HandReticle.main;
         main.SetText(HandReticle.TextType.Hand, "ProtoUninstallSource", true, GameInput.Button.LeftHand);
