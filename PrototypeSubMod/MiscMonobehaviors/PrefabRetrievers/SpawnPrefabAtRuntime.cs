@@ -11,6 +11,7 @@ internal class SpawnPrefabAtRuntime : MonoBehaviour, IMaterialModifier
 {
     public event Action<GameObject> onEditMaterial;
 
+    [SerializeField] private SkyApplier skyApplier;
     [SerializeField] private string classID;
     [SerializeField] private string childPath;
     [SerializeField] private Material[] materials;
@@ -48,7 +49,7 @@ internal class SpawnPrefabAtRuntime : MonoBehaviour, IMaterialModifier
             rend.materials = materials;
         }
 
-        var applier = GetComponentInParent<SkyApplier>();
+        var applier = skyApplier ?? GetComponentInParent<SkyApplier>();
         if (applier)
         {
             applier.renderers.AddRangeToArray(GetComponentsInChildren<Renderer>(true));
