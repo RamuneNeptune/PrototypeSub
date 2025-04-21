@@ -14,12 +14,6 @@ public class ProtoPowerRelay : MonoBehaviour
     [SerializeField] private Image icon;
     
     private InventoryItem inventoryItem;
-    private PrototypePowerSystem powerSystem;
-
-    private void Start()
-    {
-        powerSystem = GetComponentInParent<PrototypePowerSystem>();
-    }
 
     public void SetRelayActive(bool active)
     {
