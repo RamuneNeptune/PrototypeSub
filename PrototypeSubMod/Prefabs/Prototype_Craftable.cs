@@ -66,7 +66,7 @@ internal class Prototype_Craftable
             identifier.ClassId = SubInfo.ClassID;
         }
 
-        MaterialUtils.ApplySNShaders(go);//, modifiers: new ProtoMaterialModifier(10, 0));
+        MaterialUtils.ApplySNShaders(go, modifiers: new ProtoMaterialModifier(10, 0, false));
         
         var type = Type.GetType("Nautilus.Utility.ThunderkitUtilities.ApplySNMaterial, Nautilus, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
         var method = type.GetMethod("AssignMaterials", BindingFlags.Public | BindingFlags.Instance);

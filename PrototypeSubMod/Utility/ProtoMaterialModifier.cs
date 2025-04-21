@@ -11,7 +11,8 @@ internal class ProtoMaterialModifier : MaterialModifier
 {
     private float _specInt;
     private float _fresnelStrength;
-
+    private bool applyPrecursorChanges;
+    
     private static readonly int _specIntID = Shader.PropertyToID("_SpecInt");
 
     private static readonly int _fresnelID = Shader.PropertyToID("_Fresnel");
@@ -20,10 +21,11 @@ internal class ProtoMaterialModifier : MaterialModifier
 
     private Dictionary<(Renderer, int), MaterialData> materialDatas = new();
 
-    public ProtoMaterialModifier(float specInt, float fresnelStrength = 0.4f)
+    public ProtoMaterialModifier(float specInt, float fresnelStrength = 0.4f, bool applyPrecursorChanges = true)
     {
         _specInt = specInt;
         _fresnelStrength = fresnelStrength;
+        this.applyPrecursorChanges = applyPrecursorChanges;
     }
 
     public override bool BlockShaderConversion(Material material, Renderer renderer, MaterialUtils.MaterialType materialType)
@@ -36,7 +38,7 @@ internal class ProtoMaterialModifier : MaterialModifier
         if (renderer.TryGetComponent<DontApplyProtoMaterial>(out _)) return;
 
         string matName = material.name.ToLower();
-        if (matName.Contains("transparent"))
+        if (matName.Contains("transparent") && applyPrecursorChanges)
         {
             var materials = renderer.materials;
             materials[materialIndex] = MaterialUtils.PrecursorGlassMaterial;
@@ -50,6 +52,8 @@ internal class ProtoMaterialModifier : MaterialModifier
             material.SetFloat("_GlowStrengthNight", materialData.emissionIntensity);
         }
 
+        if (!applyPrecursorChanges) return;
+        
         material.SetColor(ShaderPropertyID._SpecColor, precursorSpecularGreen);
         material.SetFloat(_specIntID, _specInt);
         material.SetFloat(_fresnelID, _fresnelStrength);
