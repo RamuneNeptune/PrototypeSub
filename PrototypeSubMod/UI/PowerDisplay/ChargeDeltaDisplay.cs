@@ -26,7 +26,8 @@ public class ChargeDeltaDisplay : MonoBehaviour
     {
         if ((Player.main.transform.position - transform.position).sqrMagnitude > 100) return;
         
-        float normalizedDraw = frameDraw == 0 ? 0 : 1 / (PrototypePowerSystem.CHARGE_POWER_AMOUNT * Time.deltaTime / frameDraw) + Random.Range(-1f, 1f) / 100f;
+        float randomVal = Random.Range(-1f, 1f) / 100f;
+        float normalizedDraw = frameDraw == 0 ? 0 : 1 / (PrototypePowerSystem.CHARGE_POWER_AMOUNT * Time.deltaTime / frameDraw) + randomVal;
         frameDraw = Mathf.Clamp01(normalizedDraw * 4.75f);
         currentFill = Mathf.Lerp(currentFill, frameDraw, smoothSpeed * Time.deltaTime);
         SetFillValues(currentFill);

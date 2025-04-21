@@ -7,7 +7,7 @@ public class OnModifyPowerEvent : MonoBehaviour
 {
     public event Action<float> onModifyPower;
 
-    public void ModiedPower(float power)
+    public void ModifiedPower(float power)
     {
         onModifyPower?.Invoke(power);
     }
