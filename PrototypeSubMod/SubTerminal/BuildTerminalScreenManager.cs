@@ -73,13 +73,15 @@ internal class BuildTerminalScreenManager : MonoBehaviour
     {
         firstInteractScreen.OnStageFinished();
         buildScreen.OnStageStarted();
+        emptyScreen.SetActive(false);
     }
 
     public void BeginBuildStage()
     {
-        rebuildScreen.gameObject.SetActive(false);
         buildScreen.OnStageFinished();
         animatorScreen.OnStageStarted();
+        rebuildScreen.gameObject.SetActive(false);
+        emptyScreen.SetActive(false);
     }
 
     public void EndBuildStage()

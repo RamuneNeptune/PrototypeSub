@@ -2,8 +2,8 @@
 using PrototypeSubMod.Prefabs;
 using Story;
 using System.Collections;
-using System.Reflection;
 using Nautilus.Utility;
+using PrototypeSubMod.LightDistortionField;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -21,6 +21,7 @@ internal class ProtoBuildTerminal : Crafter
     [SerializeField] private ProtoBatteryManager[] batteryManagers;
     [SerializeField] private ProtoBuildBot[] buildBots;
     [SerializeField] private Animator spikesAnimator;
+    [SerializeField] private WarpInFXPlayer warpFXSpawner;
 
     [Header("Screens")]
     [SerializeField] private BuildTerminalScreenManager screenManager;
@@ -46,6 +47,12 @@ internal class ProtoBuildTerminal : Crafter
 
         UWE.CoroutineHost.StartCoroutine(StartCraftChargeUp(TechType.None, buildDuration, false));
         UWE.CoroutineHost.StartCoroutine(StartReconstruction(manager));
+    }
+    
+    public void RecentralizeSub()
+    {
+        UWE.CoroutineHost.StartCoroutine(StartCraftChargeUp(TechType.None, buildDuration, false));
+        UWE.CoroutineHost.StartCoroutine(RecentralizeSubDelayed());
     }
 
     private IEnumerator StartCraftChargeUp(TechType techType, float duration, bool craft = true)
@@ -135,7 +142,21 @@ internal class ProtoBuildTerminal : Crafter
         constructing.delay = 2;
         yield return new WaitForEndOfFrame();
         
+        warpFXSpawner.SpawnWarpInFX(buildPosition.position, Vector3.one * 2f);
         StartConstruction(sub, manager.GetReconstructionTechType(), buildDuration);
+    }
+
+    private IEnumerator RecentralizeSubDelayed()
+    {
+        yield return new WaitForSeconds(buildDelay);
+
+        if (CloakEffectHandler.EffectHandlers.Count == 0) throw new Exception("No subs in scene to recentralize");
+
+        var root = CloakEffectHandler.EffectHandlers[0].GetComponentInParent<SubRoot>();
+        root.transform.position = buildPosition.position;
+        root.transform.rotation =  buildPosition.rotation;
+        
+        warpFXSpawner.SpawnWarpInFX(buildPosition.position, Vector3.one * 2f);
     }
 
     private IEnumerator PlayDischargeDelayed()
