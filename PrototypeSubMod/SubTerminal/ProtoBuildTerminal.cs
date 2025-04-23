@@ -43,8 +43,6 @@ internal class ProtoBuildTerminal : Crafter
 
     public void RebuildSub(SubReconstructionManager manager)
     {
-        if (!CrafterLogic.ConsumeResources(manager.GetReconstructionTechType())) return;
-
         UWE.CoroutineHost.StartCoroutine(StartCraftChargeUp(TechType.None, buildDuration, false));
         UWE.CoroutineHost.StartCoroutine(StartReconstruction(manager));
     }
@@ -135,6 +133,7 @@ internal class ProtoBuildTerminal : Crafter
         manager.OnConstructionStarted(buildPosition.position, buildPosition.rotation);
         var sub = manager.GetSubObject();
         sub.gameObject.SetActive(true);
+        warpFXSpawner.SpawnWarpInFX(buildPosition.position, Vector3.one * 2f);
         
         yield return new WaitForEndOfFrame();
         var constructing = sub.GetComponent<VFXConstructing>();
@@ -142,8 +141,7 @@ internal class ProtoBuildTerminal : Crafter
         constructing.delay = 2;
         yield return new WaitForEndOfFrame();
         
-        warpFXSpawner.SpawnWarpInFX(buildPosition.position, Vector3.one * 2f);
-        StartConstruction(sub, manager.GetReconstructionTechType(), buildDuration);
+        StartConstruction(sub, TechType.None, buildDuration);
     }
 
     private IEnumerator RecentralizeSubDelayed()

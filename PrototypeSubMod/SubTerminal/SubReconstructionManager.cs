@@ -9,18 +9,12 @@ namespace PrototypeSubMod.SubTerminal;
 internal class SubReconstructionManager : MonoBehaviour
 {
     [SerializeField] private ProtoBuildTerminal buildTerminal;
-    [SerializeField] private DummyTechType reconstructionType;
 
     public GameObject GetSubObject()
     {
         if (ProtoSaveStateManager.DestroyedManagers.Count == 0) return null;
 
         return ProtoSaveStateManager.DestroyedManagers[0].GetSubRoot();
-    }
-
-    public TechType GetReconstructionTechType()
-    {
-        return reconstructionType.TechType;
     }
 
     public void OnConstructionStarted(Vector3 spawnPos, Quaternion spawnRotation)
