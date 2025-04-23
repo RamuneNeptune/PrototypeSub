@@ -42,6 +42,8 @@ internal class ProtoEmergencyWarp : ProtoUpgrade
     {
         if (!upgradeInstalled) return;
 
+        if (isCharging) return;
+        
         if (subRoot.powerRelay.GetPower() < PrototypePowerSystem.CHARGE_POWER_AMOUNT * requiredCharges)
         {
             subRoot.voiceNotificationManager.PlayVoiceNotification(insufficientPowerNotification);
@@ -118,7 +120,7 @@ internal class ProtoEmergencyWarp : ProtoUpgrade
 
     public override void OnActivated()
     {
-        TeleportToMoonpool();
+        TryStartTeleportChargeUp();
     }
 
     public override void OnSelectedChanged(bool changed)
