@@ -40,10 +40,12 @@ public class ProtoSourceDisplay : MonoBehaviour
         {
             if (index >= powerSystem.GetInstalledSourceCount()) break;
             
+            var item = powerSystem.equipment.GetItemInSlot(PrototypePowerSystem.SLOT_NAMES[index]);
+            if (item == null) continue;
+            
             var newIcon = Instantiate(powerIconPrefab, iconPos);
             newIcon.transform.localPosition = Vector3.zero;
             var chargeIcon = newIcon.GetComponent<ProtoChargeIcon>();
-            var item = powerSystem.equipment.GetItemInSlot(PrototypePowerSystem.SLOT_NAMES[index]);
             
             chargeIcon.SetSprite(iconManager.GetSpriteForTechType(item.techType));
             activeSourceIcons.Add(chargeIcon);

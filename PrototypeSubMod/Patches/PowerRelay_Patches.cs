@@ -8,22 +8,24 @@ namespace PrototypeSubMod.Patches;
 public class PowerRelay_Patches
 {
     [HarmonyPatch(nameof(PowerRelay.ModifyPower)), HarmonyPrefix]
-    private static void ModifyPower_Prefix(PowerRelay __instance, float amount)
+    [HarmonyPatch(new[] { typeof(float), typeof(float) }, new[] { ArgumentType.Normal, ArgumentType.Out})]
+    private static void ModifyPower_Prefix(PowerRelay __instance, float modified)
     {
         if (!__instance.internalPowerSource) return;
         
         if (__instance.gameObject.TryGetComponent(out OnModifyPowerEvent powerEvent))
         {
-            powerEvent.ModifiedPower(amount);
+            powerEvent.ModifiedPower(modified);
         }
     }
     
     [HarmonyPatch(nameof(PowerRelay.ModifyPowerFromInbound)), HarmonyPrefix]
-    private static void ModifyPowerFromInbound_Prefix(PowerRelay __instance, float amount)
+    [HarmonyPatch(new[] { typeof(float), typeof(float) }, new[] { ArgumentType.Normal, ArgumentType.Out})]
+    private static void ModifyPowerFromInbound_Prefix(PowerRelay __instance, float modified)
     {
         if (__instance.gameObject.TryGetComponent(out OnModifyPowerEvent powerEvent))
         {
-            powerEvent.ModifiedPower(amount);
+            powerEvent.ModifiedPower(modified);
         }
     }
 }

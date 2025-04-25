@@ -35,6 +35,7 @@ public class PowerDepositManager : MonoBehaviour, IItemSelectorManager
     private bool inAnimation;
     private bool reactorOpening;
     private bool inBounds;
+    private bool reactorWasOpen;
 
     private void Start()
     {
@@ -184,10 +185,12 @@ public class PowerDepositManager : MonoBehaviour, IItemSelectorManager
         reactorAnimator.SetBool(HatchOpen, inBounds);
         reactorAnimator.SetBool(PowerFull, false);
 
-        if (inBounds)
+        if (inBounds && !reactorWasOpen)
         {
             approachSFX.Play();
         }
+
+        reactorWasOpen = inBounds;
     }
 
     private IEnumerator ExitCinematicModeDelayed()
@@ -210,11 +213,12 @@ public class PowerDepositManager : MonoBehaviour, IItemSelectorManager
     {
         powerSourceObject.SetActive(false);
         string slot = "";
-        foreach (var key in powerSystem.equipment.equipment.Keys)
+        for (int i = 0; i < PrototypePowerSystem.SLOT_NAMES.Length; i++)
         {
-            if (!powerSystem.equipment.equipment.TryGetValue(key, out var item) || item == null)
+            var testSlot =  PrototypePowerSystem.SLOT_NAMES[i];
+            if (powerSystem.equipment.GetItemInSlot(testSlot) == null)
             {
-                slot = key;
+                slot = testSlot;
                 break;
             }
         }
