@@ -8,6 +8,7 @@ namespace PrototypeSubMod.Teleporter;
 internal class TeleporterFXColorManager : MonoBehaviour
 {
     [SerializeField] private Transform fxParent;
+    [SerializeField] private float lightRange;
 
     private Renderer rend;
     private Light light;
@@ -23,6 +24,8 @@ internal class TeleporterFXColorManager : MonoBehaviour
         rend = fxParent.GetComponentInChildren<Renderer>(true);
         light = fxParent.GetComponentInChildren<Light>(true);
         originalCol = rend.material.GetColor("_ColorOuter");
+
+        light.range = lightRange;
     }
 
     private void Update()
