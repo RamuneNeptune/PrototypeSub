@@ -47,6 +47,7 @@ public class ProtoRigidbodyFreezer : MonoBehaviour
         {
             colliderActivationStages[i].gameObject.SetActive(inDistance);
             yield return new WaitForEndOfFrame();
+            yield return new WaitForEndOfFrame();
         }
         
         if (!inDistance)
