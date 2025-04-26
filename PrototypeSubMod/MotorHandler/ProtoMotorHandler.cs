@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace PrototypeSubMod.MotorHandler;
@@ -12,16 +13,19 @@ internal class ProtoMotorHandler : MonoBehaviour
     private float[] originalPowerValues;
     private float originalTurningTorque;
 
-    private Dictionary<Component, float> speedMultipliers = new();
-    private Dictionary<Component, float> speedBonuses = new();
-    private Dictionary<Component, float> powerEfficiencyMultipliers = new();
-    private Dictionary<Component, float> overrideNoiseValues = new();
+    private readonly Dictionary<Component, float> speedMultipliers = new();
+    private readonly Dictionary<Component, float> speedBonuses = new();
+    private readonly Dictionary<Component, float> powerEfficiencyMultipliers = new();
+    private readonly Dictionary<Component, float> overrideNoiseValues = new();
 
     private void Start()
     {
         originalTurningTorque = motorMode.subController.BaseTurningTorque;
-        originalMotorSpeeds = motorMode.motorModeSpeeds;
-        originalPowerValues = motorMode.motorModePowerConsumption;
+        
+        originalMotorSpeeds = new float[motorMode.motorModeSpeeds.Length];
+        Array.Copy(motorMode.motorModeSpeeds, originalMotorSpeeds, motorMode.motorModeSpeeds.Length);
+        originalPowerValues = new float[motorMode.motorModePowerConsumption.Length];
+        Array.Copy(motorMode.motorModePowerConsumption, originalPowerValues, motorMode.motorModePowerConsumption.Length);
     }
 
     public void SetAllowedToMove(bool allowedToMove)
@@ -52,7 +56,7 @@ internal class ProtoMotorHandler : MonoBehaviour
     /// Adds the given speed parameter to the existing speed multiplier
     /// </summary>
     /// <param name="extraSpeed"></param>
-    public void AddSpeedMultiplierBonus(ValueRegistrar multiplierBonus)
+    public void AddSpeedBonus(ValueRegistrar multiplierBonus)
     {
         if (speedBonuses.ContainsKey(multiplierBonus.component))
         {
@@ -63,7 +67,7 @@ internal class ProtoMotorHandler : MonoBehaviour
         speedBonuses.Add(multiplierBonus.component, multiplierBonus.value);
     }
 
-    public bool RemoveSpeedMultiplierBonus(Component component)
+    public bool RemoveSpeedBonus(Component component)
     {
         if (!speedBonuses.ContainsKey(component)) return false;
 
@@ -184,10 +188,18 @@ internal class ProtoMotorHandler : MonoBehaviour
             speedBonus += item.Value;
         }
 
-        float[] newSpeeds = originalMotorSpeeds;
-        newSpeeds.ForEach(s => s *= speedMultiplier + speedBonus);
+        float[] newSpeeds = new float[originalMotorSpeeds.Length];
+        bool dirty = false;
+        for (int i = 0; i < newSpeeds.Length; i++)
+        {
+            newSpeeds[i] = originalMotorSpeeds[i] * speedMultiplier + speedBonus;
+            if (!Mathf.Approximately(motorMode.motorModeSpeeds[i], newSpeeds[i]))
+            {
+                dirty = true;
+            }
+        }
 
-        if (motorMode.motorModeSpeeds != newSpeeds)
+        if (dirty)
         {
             motorMode.motorModeSpeeds = newSpeeds;
             motorMode.ChangeCyclopsMotorMode(motorMode.cyclopsMotorMode);
