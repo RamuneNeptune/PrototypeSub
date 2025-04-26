@@ -68,7 +68,7 @@ internal class TeleporterFXColorManager : MonoBehaviour
 
         public TempColor(Color color, int priority = 1)
         {
-            color = color;
+            this.color = color;
             this.priority = priority;
         }
     }
