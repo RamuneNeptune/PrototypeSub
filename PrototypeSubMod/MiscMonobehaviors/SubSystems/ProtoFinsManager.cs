@@ -1,4 +1,5 @@
-﻿using PrototypeSubMod.SaveData;
+﻿using PrototypeSubMod.MotorHandler;
+using PrototypeSubMod.SaveData;
 using SubLibrary.SaveData;
 using UnityEngine;
 
@@ -8,6 +9,9 @@ public class ProtoFinsManager : MonoBehaviour, ISaveDataListener
 {
     [SerializeField] private GameObject[] leftFins;
     [SerializeField] private GameObject[] rightFins;
+    [SerializeField] private ProtoMotorHandler motorHandler;
+    [SerializeField] private float multiplierIncreasePerFin;
+    [SerializeField] private float defaultSpeed;
 
     private int installedFinCount;
 
@@ -42,5 +46,7 @@ public class ProtoFinsManager : MonoBehaviour, ISaveDataListener
             leftFins[i].SetActive(i < installedFinCount);
             rightFins[i].SetActive(i < installedFinCount);
         }
+
+        motorHandler.AddSpeedBonus(new ProtoMotorHandler.ValueRegistrar(this, defaultSpeed + installedFinCount * multiplierIncreasePerFin));
     }
 }

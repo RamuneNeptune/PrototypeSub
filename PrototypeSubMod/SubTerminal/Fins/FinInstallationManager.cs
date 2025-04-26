@@ -1,5 +1,4 @@
 ﻿using PrototypeSubMod.MiscMonobehaviors.SubSystems;
-using PrototypeSubMod.PowerSystem;
 using PrototypeSubMod.SubTerminal.Relays;
 using UnityEngine;
 

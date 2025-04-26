@@ -26,12 +26,12 @@ internal class ProtoOverclockModule : ProtoUpgrade
     {
         if (!upgradeInstalled || ionGenerator.GetUpgradeEnabled())
         {
-            motorHandler.RemoveSpeedMultiplierBonus(this);
+            motorHandler.RemoveSpeedBonus(this);
             return;
         }
 
         float speedBonus = upgradeEnabled ? speedPercentBonus / 100f : 0;
-        motorHandler.AddSpeedMultiplierBonus(new ProtoMotorHandler.ValueRegistrar(this, speedBonus));
+        motorHandler.AddSpeedBonus(new ProtoMotorHandler.ValueRegistrar(this, speedBonus));
         bool couldConsume = false;
         if (GetUpgradeEnabled())
         {
