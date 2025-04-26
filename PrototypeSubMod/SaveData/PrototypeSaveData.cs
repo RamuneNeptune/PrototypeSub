@@ -22,6 +22,7 @@ internal class PrototypeSaveData : ModuleDataClass
     public Type installedPowerUpgradeType;
     public float currentPowerEffectDuration;
     public int allowedPowerSourceCount;
+    public int installedFinCount;
 
     public struct PowerSourceData
     {
