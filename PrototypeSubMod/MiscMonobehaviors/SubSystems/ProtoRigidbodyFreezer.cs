@@ -13,10 +13,11 @@ public class ProtoRigidbodyFreezer : MonoBehaviour
     private Coroutine updateCoroutine;
     private bool collidersTransitioning;
     private bool wasInDistance;
-
-    private void Start()
+    
+    private void Awake()
     {
         rigidbody = GetComponent<Rigidbody>();
+        UWE.CoroutineHost.StartCoroutine(UpdateCollidersAndKinematics(true));
     }
 
     private void FixedUpdate()

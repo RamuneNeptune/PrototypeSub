@@ -1,4 +1,5 @@
-﻿using PrototypeSubMod.PowerSystem;
+﻿using PrototypeSubMod.MiscMonobehaviors.SubSystems;
+using PrototypeSubMod.PowerSystem;
 using PrototypeSubMod.SubTerminal.Relays;
 using UnityEngine;
 
@@ -8,6 +9,8 @@ public class FinInstallationManager : MonoBehaviour
 {
     [SerializeField] private MoonpoolOccupiedHandler occupiedHandler;
     [SerializeField] private SubUpgradeInstallationButton[] installationButtons;
+
+    private ProtoFinsManager finsManager;
     
     private void Start()
     {
@@ -19,17 +22,30 @@ public class FinInstallationManager : MonoBehaviour
     {
         if (!occupiedHandler.MoonpoolHasSub) return;
         
+        finsManager = occupiedHandler.SubInMoonpool.GetComponentInChildren<ProtoFinsManager>();
         UpdateIcons();
     }
 
     private void UpdateIcons()
     {
-        /*
+        if (finsManager == null) return;
+        
         for (int i = 0; i < installationButtons.Length; i++)
         {
             var button = installationButtons[i];
-            button.SetEnabled(i == powerSystem.GetAllowedSourcesCount() - 2);
+            button.SetEnabled(i == finsManager.GetInstalledFinCount());
         }
-        */
+    }
+
+    public void InstallNewFin()
+    {
+        if (!finsManager)
+        {
+            Plugin.Logger.LogError("Trying to install new fin without reference to fins manager");
+            return;
+        }
+
+        finsManager.SetInstalledFinCount(finsManager.GetInstalledFinCount() + 1);
+        UpdateIcons();
     }
 }

@@ -26,6 +26,14 @@ public class ProtoFinsManager : MonoBehaviour, ISaveDataListener
     {
         saveData.EnsureAsPrototypeData().installedFinCount = installedFinCount;
     }
+    
+    public int GetInstalledFinCount() => installedFinCount;
+
+    public void SetInstalledFinCount(int count)
+    {
+        installedFinCount = count;
+        UpdateFinStatus();
+    }
 
     private void UpdateFinStatus()
     {
