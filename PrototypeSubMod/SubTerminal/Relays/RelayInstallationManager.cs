@@ -6,7 +6,7 @@ namespace PrototypeSubMod.SubTerminal.Relays;
 public class RelayInstallationManager : MonoBehaviour
 {
     [SerializeField] private MoonpoolOccupiedHandler occupiedHandler;
-    [SerializeField] private RelayInstallationButton[] installationButtons;
+    [SerializeField] private SubUpgradeInstallationButton[] installationButtons;
 
     private PrototypePowerSystem powerSystem;
     

@@ -1,15 +1,16 @@
 ﻿using PrototypeSubMod.Utility;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace PrototypeSubMod.SubTerminal.Relays;
 
-public class RelayInstallationButton : MonoBehaviour
+public class SubUpgradeInstallationButton : MonoBehaviour
 {
     [SerializeField] private Image[] images;
-    [SerializeField] private RelayInstallationManager installationManager;
     [SerializeField] private DummyTechType relayUpgradeTechType;
     [SerializeField] private RocketBuilderTooltip tooltip;
+    [SerializeField] private UnityEvent onClick;
 
     private bool tooltipActive;
     private bool buttonEnabled;
@@ -48,6 +49,6 @@ public class RelayInstallationButton : MonoBehaviour
     {
         if (!CrafterLogic.ConsumeResources(relayUpgradeTechType.TechType)) return;
 
-        installationManager.InstallRelay();
+        onClick?.Invoke();
     }
 }
