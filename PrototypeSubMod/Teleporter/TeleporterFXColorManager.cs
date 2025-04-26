@@ -1,4 +1,6 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
+using PrototypeSubMod.Patches;
 using UnityEngine;
 
 namespace PrototypeSubMod.Teleporter;
@@ -8,10 +10,10 @@ internal class TeleporterFXColorManager : MonoBehaviour
     [SerializeField] private Transform fxParent;
 
     private Renderer rend;
+    private Light light;
     private Color originalCol;
 
-    private Color tempColor;
-    private bool usingTempColor;
+    private Dictionary<Component, TempColor> tempColors = new();
 
     private IEnumerator Start()
     {
@@ -19,6 +21,7 @@ internal class TeleporterFXColorManager : MonoBehaviour
         yield return new WaitForEndOfFrame();
 
         rend = fxParent.GetComponentInChildren<Renderer>(true);
+        light = fxParent.GetComponentInChildren<Light>(true);
         originalCol = rend.material.GetColor("_ColorOuter");
     }
 
@@ -26,18 +29,47 @@ internal class TeleporterFXColorManager : MonoBehaviour
     {
         if (rend == null) return;
 
-        Color col = Color.Lerp(rend.material.GetColor("_ColorOuter"), usingTempColor ? tempColor : originalCol, Time.deltaTime);
+        Color color = originalCol;
+        int maxPriority = int.MinValue;
+        foreach (var tempColor in tempColors.Values)
+        {
+            if (tempColor.priority > maxPriority)
+            {
+                color = tempColor.color;
+                maxPriority = tempColor.priority;
+            }
+        }
+        
+        Color col = Color.Lerp(rend.material.GetColor("_ColorOuter"), color, Time.deltaTime);
         rend.material.SetColor("_ColorOuter", col);
+        light.color = col;
     }
 
-    public void SetTempColor(Color color)
+    public void AddTempColor(Component owner, TempColor color)
     {
-        usingTempColor = true;
-        tempColor = color;
+        if (tempColors.ContainsKey(owner))
+        {
+            tempColors[owner] = color;
+            return;
+        }
+        
+        tempColors.Add(owner, color);
     }
 
-    public void ResetColor()
+    public void RemoveTempColor(Component owner)
     {
-        usingTempColor = false;
+        tempColors.Remove(owner);
+    }
+
+    public class TempColor
+    {
+        public Color color;
+        public int priority;
+
+        public TempColor(Color color, int priority = 1)
+        {
+            color = color;
+            this.priority = priority;
+        }
     }
 }
