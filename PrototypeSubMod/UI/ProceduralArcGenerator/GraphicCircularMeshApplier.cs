@@ -23,11 +23,15 @@ public class GraphicCircularMeshApplier : Graphic
 
     protected override void OnPopulateMesh(VertexHelper vh)
     {
-        if (lastArcMesh == null) meshGenerator.GenerateMesh();
+        if (lastArcMesh == null)
+        {
+            meshGenerator.GenerateMesh();
+            return;
+        }
         
         base.OnPopulateMesh(vh);
         vh.Clear();
-
+        
         for (int i = 0; i < lastArcMesh.vertices.Length; i++)
         {
             var vert = UIVertex.simpleVert;
