@@ -10,6 +10,8 @@ public class ProtoFinsManager : MonoBehaviour, ISaveDataListener
     [SerializeField] private GameObject[] leftFins;
     [SerializeField] private GameObject[] rightFins;
     [SerializeField] private ProtoMotorHandler motorHandler;
+    [SerializeField] private CyclopsMotorMode motorMode;
+    [SerializeField] private float[] noiseValues;
     [SerializeField] private float multiplierIncreasePerFin;
     [SerializeField] private float defaultSpeed;
 
@@ -48,5 +50,6 @@ public class ProtoFinsManager : MonoBehaviour, ISaveDataListener
         }
 
         motorHandler.AddSpeedBonus(new ProtoMotorHandler.ValueRegistrar(this, defaultSpeed + installedFinCount * multiplierIncreasePerFin));
+        motorMode.motorModeNoiseValues[1] = noiseValues[installedFinCount];
     }
 }
