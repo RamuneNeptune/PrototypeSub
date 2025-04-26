@@ -33,8 +33,8 @@ internal class ProtoEngineLever : CinematicModeTriggerBase
     private IEnumerator Start()
     {
         cinematicController.animator = Player.main.playerAnimator;
-        leftFinAnimators = leftFinsParent.GetComponentsInChildren<Animator>();
-        rightFinAnimators = rightFinsParent.GetComponentsInChildren<Animator>();
+        leftFinAnimators = leftFinsParent.GetComponentsInChildren<Animator>(true);
+        rightFinAnimators = rightFinsParent.GetComponentsInChildren<Animator>(true);
         StartCoroutine(UpdateFinState(motorMode.engineOn));
 
         if (motorMode.engineOn)
