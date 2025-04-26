@@ -1,4 +1,7 @@
-﻿using HarmonyLib;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Reflection.Emit;
+using HarmonyLib;
 using PrototypeSubMod.MiscMonobehaviors.SubSystems;
 using PrototypeSubMod.Utility;
 
@@ -7,23 +10,49 @@ namespace PrototypeSubMod.Patches;
 [HarmonyPatch(typeof(PowerRelay))]
 public class PowerRelay_Patches
 {
-    [HarmonyPatch(nameof(PowerRelay.ModifyPower)), HarmonyPrefix]
-    [HarmonyPatch(new[] { typeof(float), typeof(float) }, new[] { ArgumentType.Normal, ArgumentType.Out})]
-    private static void ModifyPower_Prefix(PowerRelay __instance, float modified)
+    [HarmonyPatch(nameof(PowerRelay.ModifyPower)), HarmonyTranspiler]
+    private static IEnumerable<CodeInstruction> ModifyPower_Transpiler(IEnumerable<CodeInstruction> instructions)
     {
-        if (!__instance.internalPowerSource) return;
-        
-        if (__instance.gameObject.TryGetComponent(out OnModifyPowerEvent powerEvent))
+        var match = new[]
         {
-            powerEvent.ModifiedPower(modified);
-        }
+            new CodeMatch(i => i.opcode == OpCodes.Ldloc_0),
+            new CodeMatch(i => i.opcode == OpCodes.Ret)
+        };
+
+        var matcher = new CodeMatcher(instructions)
+            .MatchForward(false, match)
+            .Advance(1)
+            .InsertAndAdvance(new CodeInstruction(OpCodes.Ldarg_0))
+            .InsertAndAdvance(new CodeInstruction(OpCodes.Ldarg_2))
+            .InsertAndAdvance(new CodeInstruction(OpCodes.Ldind_R4))
+            .InsertAndAdvance(Transpilers.EmitDelegate(CallMethodIfNeeded));
+        
+        return matcher.InstructionEnumeration();
     }
     
-    [HarmonyPatch(nameof(PowerRelay.ModifyPowerFromInbound)), HarmonyPrefix]
-    [HarmonyPatch(new[] { typeof(float), typeof(float) }, new[] { ArgumentType.Normal, ArgumentType.Out})]
-    private static void ModifyPowerFromInbound_Prefix(PowerRelay __instance, float modified)
+    [HarmonyPatch(nameof(PowerRelay.ModifyPowerFromInbound)), HarmonyTranspiler]
+    private static IEnumerable<CodeInstruction> ModifyPowerFromInbound_Transpiler(IEnumerable<CodeInstruction> instructions)
     {
-        if (__instance.gameObject.TryGetComponent(out OnModifyPowerEvent powerEvent))
+        var match = new[]
+        {
+            new CodeMatch(i => i.opcode == OpCodes.Ldloc_0),
+            new CodeMatch(i => i.opcode == OpCodes.Ret)
+        };
+
+        var matcher = new CodeMatcher(instructions)
+            .MatchForward(false, match)
+            .Advance(1)
+            .InsertAndAdvance(new CodeInstruction(OpCodes.Ldarg_0))
+            .InsertAndAdvance(new CodeInstruction(OpCodes.Ldarg_2))
+            .InsertAndAdvance(new CodeInstruction(OpCodes.Ldind_R4))
+            .InsertAndAdvance(Transpilers.EmitDelegate(CallMethodIfNeeded));
+        
+        return matcher.InstructionEnumeration();
+    }
+
+    public static void CallMethodIfNeeded(PowerRelay relay, float modified)
+    {
+        if (relay.gameObject.TryGetComponent(out OnModifyPowerEvent powerEvent))
         {
             powerEvent.ModifiedPower(modified);
         }

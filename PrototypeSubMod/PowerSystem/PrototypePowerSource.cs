@@ -95,7 +95,7 @@ public class PrototypePowerSource : MonoBehaviour, IPowerInterface, ISaveDataLis
     public bool ModifyPower(float amount, out float modified)
     {
         float chargeChange;
-        modified = amount;
+        modified = 0;
 
         if (!GameModeUtils.RequiresPower() || ElectronicsDisabled) return false;
 
@@ -113,6 +113,10 @@ public class PrototypePowerSource : MonoBehaviour, IPowerInterface, ISaveDataLis
         battery.ModifyCharge(chargeChange);
         
         modified = chargeChange;
+        if (Charge + chargeChange > Capacity || Charge + chargeChange < 0)
+        {
+            modified = 0;
+        }
         
         // Returns whether the amount drawn was less than the charge in the battery
         // I.e. returns false if a power draw of 400 is requested when we have 200 charge
