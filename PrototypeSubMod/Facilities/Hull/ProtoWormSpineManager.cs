@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace PrototypeSubMod.Facilities.Hull;
 
@@ -18,9 +20,17 @@ public class ProtoWormSpineManager : MonoBehaviour
         {
             var spine = Instantiate(spineSegmentPrefab, segmentsParent);
             spine.transform.localPosition = initialLocalPos + incrementPerSpine * i;
+            StartCoroutine(StartAnimDelayed(spine, i * 0.5f));
         }
 
         spawned = true;
+    }
+
+    private IEnumerator StartAnimDelayed(GameObject spine, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        spine.GetComponentInChildren<Animator>().SetTrigger("StartMoving");
     }
 
     public bool GetSpawned() => spawned;
