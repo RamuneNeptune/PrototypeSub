@@ -2,6 +2,7 @@
 using System.Linq;
 using PrototypeSubMod.PathCreation.Utility;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace PrototypeSubMod.PathCreation
 {
@@ -16,7 +17,8 @@ namespace PrototypeSubMod.PathCreation
 	/// For example, adding, inserting, and deleting points.
 
 	[System.Serializable]
-	public class BezierPath
+	[CreateAssetMenu(menuName = "Prototype Sub/Bezier Path")]
+	public class BezierPath : ScriptableObject
 	{
 		public event System.Action OnModified;
 		public enum ControlMode { Aligned, Mirrored, Free, Automatic };
@@ -45,16 +47,15 @@ namespace PrototypeSubMod.PathCreation
 		float globalNormalsAngle;
 		[SerializeField, HideInInspector]
 		bool flipNormals;
-
+		
         #endregion
 
         #region Constructors
-        public BezierPath() : this(Vector3.zero, false, PathSpace.xyz) { }
 
         /// <summary> Creates a two-anchor path centred around the given centre point </summary>
         ///<param name="isClosed"> Should the end point connect back to the start point? </param>
         ///<param name="space"> Determines if the path is in 3d space, or clamped to the xy/xz plane </param>
-        public BezierPath(Vector3 centre, bool isClosed = false, PathSpace space = PathSpace.xyz)
+        public void Initialize(Vector3 centre, bool isClosed = false, PathSpace space = PathSpace.xyz)
 		{
 
 			Vector3 dir = (space == PathSpace.xz) ? Vector3.forward : Vector3.up;

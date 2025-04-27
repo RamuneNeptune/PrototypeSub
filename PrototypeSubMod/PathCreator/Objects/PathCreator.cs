@@ -9,12 +9,10 @@ namespace PrototypeSubMod.PathCreation {
 
         public event System.Action pathUpdated;
 
+        [SerializeField]
+        public PathCreatorData editorData;
         [SerializeField, HideInInspector]
-        PathCreatorData editorData;
-        [SerializeField, HideInInspector]
-        bool initialized;
-
-        GlobalDisplaySettings globalEditorDisplaySettings;
+        private bool initialized;
 
         // Vertex path created from the current bezier path
         public VertexPath path {
@@ -46,8 +44,10 @@ namespace PrototypeSubMod.PathCreation {
 
         /// Used by the path editor to initialise some data
         public void InitializeEditorData (bool in2DMode) {
-            if (editorData == null) {
-                editorData = new PathCreatorData ();
+            if (editorData == null)
+            {
+                Debug.LogError($"No editor data on {gameObject.name}");
+                return;
             }
             editorData.bezierOrVertexPathModified -= TriggerPathUpdate;
             editorData.bezierOrVertexPathModified += TriggerPathUpdate;

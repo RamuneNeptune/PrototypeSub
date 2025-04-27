@@ -3,14 +3,16 @@ using UnityEngine;
 
 namespace PrototypeSubMod.PathCreation {
     /// Stores state data for the path creator editor
-
+    
     [System.Serializable]
-    public class PathCreatorData {
+    [CreateAssetMenu(menuName = "Prototype Sub/Path Creator Data")]
+    public class PathCreatorData : ScriptableObject
+    {
         public event System.Action bezierOrVertexPathModified;
         public event System.Action bezierCreated;
 
         [SerializeField]
-        BezierPath _bezierPath;
+        public BezierPath _bezierPath;
         VertexPath _vertexPath;
 
         [SerializeField]
@@ -56,13 +58,16 @@ namespace PrototypeSubMod.PathCreation {
             CreateBezier (centre, defaultIs2D);
         }
 
-        void CreateBezier (Vector3 centre, bool defaultIs2D = false) {
+        void CreateBezier (Vector3 centre, bool defaultIs2D = false)
+        {
+            if (_bezierPath == null) return;
+            
             if (_bezierPath != null) {
                 _bezierPath.OnModified -= BezierPathEdited;
             }
 
             var space = (defaultIs2D) ? PathSpace.xy : PathSpace.xyz;
-            _bezierPath = new BezierPath (centre, false, space);
+            _bezierPath.Initialize(centre, false, space);
 
             _bezierPath.OnModified += BezierPathEdited;
             vertexPathUpToDate = false;

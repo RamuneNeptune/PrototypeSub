@@ -71,6 +71,12 @@ namespace PathCreationEditor
 
 		public override void OnInspectorGUI()
 		{
+			if (data == null)
+			{
+				base.OnInspectorGUI(); 
+				return;
+			}
+
 			// Initialize GUI styles
 			if (boldFoldoutStyle == null)
 			{
@@ -316,6 +322,8 @@ namespace PathCreationEditor
 
 		void OnSceneGUI()
 		{
+			if (data == null) return;
+
 			if (!globalDisplaySettings.visibleBehindObjects)
 			{
 				Handles.zTest = UnityEngine.Rendering.CompareFunction.LessEqual;
@@ -516,7 +524,7 @@ namespace PathCreationEditor
 		{
 
 			bool displayControlPoints = data.displayControlPoints && (bezierPath.ControlPointMode != BezierPath.ControlMode.Automatic || !globalDisplaySettings.hideAutoControls);
-			Bounds bounds = bezierPath.CalculateBoundsWithTransform(creator.transform);
+			Bounds bounds = data.bezierPath.CalculateBoundsWithTransform(creator.transform);
 
 			if (Event.current.type == EventType.Repaint)
 			{
