@@ -7,7 +7,7 @@ namespace PrototypeSubMod.SubTerminal.Fins;
 public class FinInstallationManager : MonoBehaviour
 {
     [SerializeField] private MoonpoolOccupiedHandler occupiedHandler;
-    [SerializeField] private SubUpgradeInstallationButton[] installationButtons;
+    [SerializeField] private FinInstallationButton[] installationButtons;
 
     private ProtoFinsManager finsManager;
     
@@ -32,7 +32,8 @@ public class FinInstallationManager : MonoBehaviour
         for (int i = 0; i < installationButtons.Length; i++)
         {
             var button = installationButtons[i];
-            button.SetEnabled(i == finsManager.GetInstalledFinCount());
+            button.SetCanBuild(i == finsManager.GetInstalledFinCount());
+            button.SetConstructed(i < finsManager.GetInstalledFinCount());
         }
     }
 
