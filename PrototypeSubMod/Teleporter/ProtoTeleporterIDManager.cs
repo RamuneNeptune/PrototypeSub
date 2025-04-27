@@ -13,6 +13,7 @@ internal class ProtoTeleporterIDManager : MonoBehaviour
     [SerializeField] private Animator animator;
 
     private AnimatorStateInfo targetState;
+    private bool screenActive;
 
     private void Start()
     {
@@ -66,24 +67,18 @@ internal class ProtoTeleporterIDManager : MonoBehaviour
         selectedLocationText.text = Language.main.Get(languageKey);
     }
 
-    private void OnTriggerEnter(Collider col)
+    public void SetScreenActive(bool active)
     {
-        if (!col.gameObject.Equals(Player.main.gameObject)) return;
-
-        animator.SetBool("ScreenActive", true);
+        screenActive = active;
+        animator.SetBool("ScreenActive", active);
         targetState = animator.GetNextAnimatorStateInfo(0);
 
         StartCoroutine(UpdateText());
     }
 
-    private void OnTriggerExit(Collider col)
+    public void ToggleScreenActive()
     {
-        if (!col.gameObject.Equals(Player.main.gameObject)) return;
-
-        animator.SetBool("ScreenActive", false);
-        targetState = animator.GetNextAnimatorStateInfo(0);
-
-        StartCoroutine(UpdateText());
+        SetScreenActive(!screenActive);
     }
 
     private IEnumerator UpdateText()
