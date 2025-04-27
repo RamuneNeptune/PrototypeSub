@@ -7,7 +7,6 @@ namespace PrototypeSubMod.Teleporter;
 internal class ProtoTeleporterIDManager : MonoBehaviour
 {
     [SerializeField] private ProtoTeleporterManager positionSetter;
-    [SerializeField] private TextMeshProUGUI selectedLocationText;
     [SerializeField] private GameObject teleporterLocationPrefab;
     [SerializeField] private Transform prefabSpawnParent;
     [SerializeField] private Animator animator;
@@ -64,7 +63,6 @@ internal class ProtoTeleporterIDManager : MonoBehaviour
 
         string endLetter = isHost ? "M" : "S";
         string languageKey = $"{id}{endLetter}_ProtoLabel";
-        selectedLocationText.text = Language.main.Get(languageKey);
     }
 
     public void SetScreenActive(bool active)
@@ -83,6 +81,8 @@ internal class ProtoTeleporterIDManager : MonoBehaviour
 
     private IEnumerator UpdateText()
     {
+        if (!prefabSpawnParent) yield break;
+        
         while (!animator.GetCurrentAnimatorStateInfo(0).Equals(targetState))
         {
             foreach (var item in prefabSpawnParent.GetComponentsInChildren<TeleporterLocationItem>())
