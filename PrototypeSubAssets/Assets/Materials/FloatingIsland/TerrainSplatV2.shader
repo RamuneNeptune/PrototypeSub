@@ -1,4 +1,4 @@
-﻿Shader "Custom/TerrainSplatV2"
+﻿Shader "Indigocoder/TerrainSplatV2"
 {
     Properties
     {
@@ -24,7 +24,7 @@
 
         CGPROGRAM
         // Physically based Standard lighting model, and enable shadows on all light types
-        #pragma surface surf StandardSpecular fullforwardshadows nofog
+        #pragma surface surf StandardSpecular fullforwardshadows nofog 
         
         #include "UnityPBSLighting.cginc"
 
