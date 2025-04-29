@@ -5566,6 +5566,7 @@ GameObject:
   - component: {fileID: 4875480482048869649}
   - component: {fileID: 8852871202057289803}
   - component: {fileID: 8184332985590076140}
+  - component: {fileID: 4538723515177787016}
   m_Layer: 0
   m_Name: ProtoBuildTerminal
   m_TagString: Untagged
@@ -5641,7 +5642,7 @@ MonoBehaviour:
   - {fileID: 7181095409537500485}
   - {fileID: 4967246294981464515}
   spikesAnimator: {fileID: 512480186398141327}
-  warpFXSpawner: {fileID: 7685409123113519839}
+  warpFXSpawner: {fileID: 4538723515177787016}
   screenManager: {fileID: 546038079559661941}
   animScreen: {fileID: 9057623526303307991}
 --- !u!114 &5241918119530098560
@@ -5742,6 +5743,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: -1138627318, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4538723515177787016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2055188084176233034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1443448540, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &2083208093625059972
@@ -19200,7 +19213,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2448909260411448536}
-  - component: {fileID: 7685409123113519839}
   m_Layer: 0
   m_Name: RecentralizeScreen
   m_TagString: Untagged
@@ -19229,18 +19241,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &7685409123113519839
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6828767911130665040}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1443448540, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &6880406299759319300
 GameObject:
   m_ObjectHideFlags: 0
