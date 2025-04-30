@@ -59,8 +59,8 @@ internal class CrystalMatrix_Craftable
         var recipeData = ROTACompatManager.GetRelevantRecipe("PrecursorIonCrystalMatrix.json");
         patch.AddGadget(new CraftingGadget(matrix, recipeData)
             .WithCraftingTime(5f)
-            .WithFabricatorType(CraftTree.Type.Fabricator)
-            .WithStepsToFabricatorTab("Resources", "AdvancedMaterials"));
+            .WithFabricatorType(PrecursorFabricator.precursorFabricatorType)
+            .WithStepsToFabricatorTab("PowerSources"));
 
         Sprite matrixSprite = Plugin.AssetBundle.LoadAsset<Sprite>("matrixSprite");
         SpriteHandler.RegisterSprite(TechType.PrecursorIonCrystalMatrix, new Atlas.Sprite(matrixSprite));

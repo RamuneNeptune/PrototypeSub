@@ -20,8 +20,8 @@ internal class PrecursorIngot_Craftable
         prefab.SetGameObject(GetPrefab);
 
         prefab.SetRecipeFromJson(Path.Combine(Plugin.RecipesFolderPath, "Normal\\Proto_PrecursorIngot.json"))
-                .WithFabricatorType(CraftTree.Type.Fabricator)
-                .WithStepsToFabricatorTab("Resources", "AdvancedMaterials")
+                .WithFabricatorType(PrecursorFabricator.precursorFabricatorType)
+                .WithStepsToFabricatorTab("Utilities")
                 .WithCraftingTime(10f);
 
         prefab.SetPdaGroupCategory(TechGroup.Resources, TechCategory.BasicMaterials);
