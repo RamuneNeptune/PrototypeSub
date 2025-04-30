@@ -97,5 +97,16 @@ internal static class StoryGoalsRegisterer
             PDAEncyclopedia.Add("EngineFacilityAuditEncy", true);
         });
         #endregion
+
+        #region Enter Sub First Time
+
+        StoryGoalHandler.RegisterCustomEvent("OnEnterSubFirstTime", null);
+        StoryGoalHandler.RegisterCompoundGoal("NotifyPlayerNoExtinguishers", Story.GoalType.PDA, 10, "OnEnterSubFirstTime");
+        StoryGoalHandler.RegisterCustomEvent("NotifyPlayerNoExtinguishers", () =>
+        {
+            PDAEncyclopedia.Add("NotifyPlayerNoExtinguishers", true);
+        });
+
+        #endregion
     }
 }
