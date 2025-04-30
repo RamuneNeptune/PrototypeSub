@@ -39,6 +39,11 @@ internal class SpawnSeaglideMap : MonoBehaviour
         yield return new WaitForEndOfFrame();
         yield return new WaitForEndOfFrame();
 
+        if (!miniWorld.materialInstance)
+        {
+            miniWorld.InitializeHologram();
+        }
+        
         miniWorld.materialInstance.SetColor(ShaderPropertyID._Color, mapColor);
         miniWorld.mapColor = mapColor;
         miniWorld.mapColorNoAlpha = new Color(mapColor.r, mapColor.g, mapColor.b, 0);
