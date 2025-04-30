@@ -2,7 +2,7 @@
 
 namespace PrototypeSubMod.Registration;
 
-internal class PDAMessageRegisterer
+internal static class PDAMessageRegisterer
 {
     public static void Register()
     {

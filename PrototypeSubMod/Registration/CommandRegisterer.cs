@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace PrototypeSubMod.Registration;
 
-internal class CommandRegisterer
+internal static class CommandRegisterer
 {
     public static void Register()
     {

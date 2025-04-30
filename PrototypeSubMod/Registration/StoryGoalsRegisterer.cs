@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace PrototypeSubMod.Registration;
 
-internal class StoryGoalsRegisterer
+internal static class StoryGoalsRegisterer
 {
     public static void Register()
     {

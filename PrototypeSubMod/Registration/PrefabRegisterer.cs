@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace PrototypeSubMod.Registration;
 
-internal class PrefabRegisterer
+internal static class PrefabRegisterer
 {
     public static void Register()
     {

@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace PrototypeSubMod.Registration;
 
-internal class StructureRegisterer
+internal static class StructureRegisterer
 {
     public static void Register()
     {

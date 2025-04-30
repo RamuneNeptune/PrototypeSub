@@ -3,7 +3,7 @@ using Nautilus.Handlers;
 
 namespace PrototypeSubMod.Registration;
 
-public class VoicelineRegisterer
+public static class VoicelineRegisterer
 {
     private static readonly string[] VoicelineKeys = new[]
     {

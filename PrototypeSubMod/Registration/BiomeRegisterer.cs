@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace PrototypeSubMod.Registration;
 
-internal class BiomeRegisterer
+internal static class BiomeRegisterer
 {
     public static void Register()
     {

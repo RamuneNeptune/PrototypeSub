@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace PrototypeSubMod.Registration;
 
-internal class EncyEntryRegisterer
+internal static class EncyEntryRegisterer
 {
     public static void Register()
     {
