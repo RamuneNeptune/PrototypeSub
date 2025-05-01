@@ -56,19 +56,12 @@ internal class ProtoSaveStateManager : MonoBehaviour, IProtoEventListener
 
     public void OnProtoSerialize(ProtobufSerializer serializer)
     {
-        UWE.CoroutineHost.StartCoroutine(SetActiveState());
+        UpdateManagerStatus();
     }
 
     public void OnProtoDeserialize(ProtobufSerializer serializer)
     {
-        UWE.CoroutineHost.StartCoroutine(SetActiveState());
-    }
-
-    private IEnumerator SetActiveState()
-    {
-        yield return new WaitForEndOfFrame();
-        gameObject.SetActive(true);
-        yield return new WaitForEndOfFrame();
+        UpdateManagerStatus();
         root.gameObject.SetActive(!Plugin.GlobalSaveData.prototypeDestroyed);
     }
 }
