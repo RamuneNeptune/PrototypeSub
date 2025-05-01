@@ -11,7 +11,6 @@ internal static class PrefabRegisterer
 {
     public static void Register()
     {
-        PrecursorFabricator.Register();
         
         PrecursorIngot_Craftable.Register();
         IonPrism_Craftable.Register();
@@ -32,6 +31,8 @@ internal static class PrefabRegisterer
         PrecursorIonCrystal_Craftable.Register();
         WarperRemnant.Register();
         AlienBuildingBlock.Register();
+        
+        PrecursorFabricator.Register();
 
         ProtoPlaque_World.Register();
         ProtoLogo_World.Register();

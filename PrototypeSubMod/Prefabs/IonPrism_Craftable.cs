@@ -21,8 +21,6 @@ internal class IonPrism_Craftable
         prefab.SetGameObject(GetPrefab);
 
         prefab.SetRecipe(ROTACompatManager.GetRelevantRecipe("IonPrism.json"))
-            .WithFabricatorType(PrecursorFabricator.precursorFabricatorType)
-            .WithStepsToFabricatorTab("PowerSources")
             .WithCraftingTime(10f);
 
         prefab.SetEquipment(Plugin.PrototypePowerType);
