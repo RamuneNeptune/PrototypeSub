@@ -44,6 +44,7 @@ public static class VoicelineRegisterer
         "Proto_IonGeneratorEMP",
         "Proto_InterceptorLocked",
         "Proto_ReactorLocked",
+        "Proto_InvalidOperation",
         
         "Proto_DevResumed",
         "Proto_StoryEndPingVoiceline",
