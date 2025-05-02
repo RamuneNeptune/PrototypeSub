@@ -45,6 +45,7 @@ public static class VoicelineRegisterer
         "Proto_InterceptorLocked",
         "Proto_ReactorLocked",
         "Proto_InvalidOperation",
+        "Proto_InsufficientPower",
         
         "Proto_DevResumed",
         "Proto_StoryEndPingVoiceline",
