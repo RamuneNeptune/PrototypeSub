@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,6 +16,12 @@ public class ProtoPowerRelay : MonoBehaviour
     [SerializeField] private Image icon;
     
     private InventoryItem inventoryItem;
+    private PrototypePowerSystem powerSystem;
+
+    private void Start()
+    {
+        powerSystem = iconManager.GetComponent<PrototypePowerSystem>();
+    }
 
     public void SetRelayActive(bool active)
     {
@@ -35,7 +43,26 @@ public class ProtoPowerRelay : MonoBehaviour
 
     public void UninstallSource()
     {
-        var battery = inventoryItem.item.GetComponent<PrototypePowerBattery>();
-        battery.ModifyCharge(-999999);
+        if (inventoryItem == null) return;
+        
+        if (!Inventory.main.HasRoomFor(inventoryItem.techType))
+        {
+            ErrorMessage.AddError(Language.main.Get("InventoryFull"));
+            return;
+        }
+        
+        powerSystem.equipment.RemoveItem(inventoryItem.item);
+        Inventory.main.container.AddItem(inventoryItem.item);
+        uGUI_IconNotifier.main.Play(inventoryItem.techType, uGUI_IconNotifier.AnimationType.From);
+        UWE.CoroutineHost.StartCoroutine(SetPickedUpDelayed());
+    }
+
+    private IEnumerator SetPickedUpDelayed()
+    {
+        yield return new WaitForEndOfFrame();
+        if (inventoryItem.item.TryGetComponent(out InventoryModel inventoryModel))
+        {
+            inventoryModel.UpdateModel(true);
+        }
     }
 }

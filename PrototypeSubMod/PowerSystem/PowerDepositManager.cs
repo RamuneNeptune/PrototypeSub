@@ -87,7 +87,7 @@ public class PowerDepositManager : MonoBehaviour, IItemSelectorManager
         cinematicAnimator.SetTrigger(AcceptSource);
         StartCoroutine(ExitCinematicModeDelayed());
 
-        if (!Inventory.main.TryRemoveItem(item.item)) throw new System.Exception($"Could not remove {item.item} from iventory");
+        if (!Inventory.main.TryRemoveItem(item.item)) throw new System.Exception($"Could not remove {item.item} from inventory");
         
         powerSourceObject = item.item.gameObject;
         powerSourceObject.transform.SetParent(itemHolder);
