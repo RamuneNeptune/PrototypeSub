@@ -7,6 +7,7 @@ public class ApplyTagDelayed : MonoBehaviour
 {
     [SerializeField] private string tag;
     [SerializeField] private int frameDelay = 2;
+    [SerializeField] private bool allChildren;
     
     private IEnumerator Start()
     {
@@ -16,5 +17,18 @@ public class ApplyTagDelayed : MonoBehaviour
         }
 
         transform.tag = tag;
+        
+        if (!allChildren) yield break;
+
+        ApplyTagsRecursive(transform);
+    }
+
+    private void ApplyTagsRecursive(Transform root)
+    {
+        foreach (Transform child in root)
+        {
+            child.tag = tag;
+            if (child.childCount > 0) ApplyTagsRecursive(child);
+        }
     }
 }
