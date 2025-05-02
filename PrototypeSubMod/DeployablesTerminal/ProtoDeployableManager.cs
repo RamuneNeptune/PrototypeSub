@@ -40,7 +40,11 @@ internal class ProtoDeployableManager : ProtoUpgrade
 
     public void TryLaunchLight()
     {
-        if (ionGenerator.GetUpgradeEnabled() && ionGenerator.GetUpgradeInstalled()) return;
+        if (ionGenerator.GetUpgradeEnabled() && ionGenerator.GetUpgradeInstalled())
+        {
+            subRoot.voiceNotificationManager.PlayVoiceNotification(invalidOperationNotification);
+            return;
+        }
 
         if (lightCount > 0)
         {
@@ -59,7 +63,11 @@ internal class ProtoDeployableManager : ProtoUpgrade
 
     public void TryLaunchDecoy()
     {
-        if (ionGenerator.GetUpgradeEnabled() && ionGenerator.GetUpgradeInstalled()) return;
+        if (ionGenerator.GetUpgradeEnabled() && ionGenerator.GetUpgradeInstalled())
+        {
+            subRoot.voiceNotificationManager.PlayVoiceNotification(invalidOperationNotification);
+            return;
+        }
 
         if (decoyCount > 0)
         {

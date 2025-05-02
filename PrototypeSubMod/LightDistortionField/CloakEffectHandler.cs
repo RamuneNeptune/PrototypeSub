@@ -57,7 +57,8 @@ internal class CloakEffectHandler : ProtoUpgrade
     
     [Header("Sound")]
     [SerializeField] private VoiceNotificationManager  voiceNotificationManager;
-    [SerializeField] private VoiceNotification activateCloakNotif; 
+    [SerializeField] private VoiceNotification activateCloakNotif;
+    [SerializeField] private VoiceNotification invalidOpNotification;
     
     [Header("Miscellaneous")]
     [SerializeField] private FMOD_CustomLoopingEmitter emitter;
@@ -65,13 +66,7 @@ internal class CloakEffectHandler : ProtoUpgrade
     [SerializeField] private EmissionColorController emissionController;
     [SerializeField] private Color emissiveColor = Color.black;
 
-    private float TargetScaleMultiplier
-    {
-        get
-        {
-            return GetIsCloaking() ? 1 : 0;
-        }
-    }
+    private float TargetScaleMultiplier => GetIsCloaking() ? 1 : 0;
 
     private Vector3 originalScale;
     private float currentScaleTime;
@@ -105,7 +100,7 @@ internal class CloakEffectHandler : ProtoUpgrade
 
         ovoid.localScale = originalScale * scaleOverTime.Evaluate(currentScaleTime / scaleTime);
 
-        if (upgradeEnabled)
+        if (GetIsCloaking())
         {
             powerRelay.ConsumeEnergy(PrototypePowerSystem.CHARGE_POWER_AMOUNT / secondsToConsumeCharge * Time.deltaTime,
                 out _);
@@ -189,6 +184,12 @@ internal class CloakEffectHandler : ProtoUpgrade
 
     public override void OnActivated()
     {
+        if (ionGenerator.GetUpgradeEnabled())
+        {
+            voiceNotificationManager.PlayVoiceNotification(invalidOpNotification);
+            return;
+        }
+        
         SetUpgradeEnabled(!upgradeEnabled);
     }
 
