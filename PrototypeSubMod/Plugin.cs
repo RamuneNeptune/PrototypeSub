@@ -57,6 +57,10 @@ namespace PrototypeSubMod
 
         public static TechCategory ProtoModuleCategory { get; } = EnumHandler.AddEntry<TechCategory>("ProtoModules").RegisterToTechGroup(PrototypeGroup)
             .WithPdaInfo(null);
+        
+        public static TechGroup ProtoFabricatorGroup { get; } = EnumHandler.AddEntry<TechGroup>("ProtoFabricator").WithPdaInfo(null);
+        public static TechCategory ProtoFabricatorCatgeory { get; } = EnumHandler.AddEntry<TechCategory>("ProtoFabricator").RegisterToTechGroup(ProtoFabricatorGroup)
+            .WithPdaInfo(null);
 
         public static PingType DefenseFacilityPingType = EnumHandler.AddEntry<PingType>("DefenseFacility")
             .WithIcon(AssetBundle.LoadAsset<Sprite>("DefenseFacilityLogo"));

@@ -22,7 +22,7 @@ internal class PrecursorIngot_Craftable
         prefab.SetRecipeFromJson(Path.Combine(Plugin.RecipesFolderPath, "Normal\\Proto_PrecursorIngot.json"))
                 .WithCraftingTime(10f);
 
-        prefab.SetPdaGroupCategory(TechGroup.Resources, TechCategory.BasicMaterials);
+        prefab.SetPdaGroupCategory(Plugin.ProtoFabricatorGroup, Plugin.ProtoFabricatorCatgeory);
 
         prefab.Register();
     }

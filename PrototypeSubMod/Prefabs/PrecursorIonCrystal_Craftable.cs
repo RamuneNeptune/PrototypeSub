@@ -47,7 +47,8 @@ internal class PrecursorIonCrystal_Craftable
             },
             craftAmount = 1
         };
-        patch.AddGadget(new ScanningGadget(crystal, TechType.None));
+        patch.AddGadget(new ScanningGadget(crystal, TechType.None)
+            .WithPdaGroupCategory(Plugin.ProtoFabricatorGroup, Plugin.ProtoFabricatorCatgeory));
         patch.AddGadget(new CraftingGadget(crystal, recipeData).WithCraftingTime(3f));
         
         CraftData.pickupSoundList.Add(TechType.PrecursorIonCrystal, "event:/loot/pickup_precursorioncrystal");
