@@ -14,6 +14,7 @@ internal class ProtoDeployableManager : ProtoUpgrade
     [SerializeField] private SubRoot subRoot;
     [SerializeField] private VoiceNotification launchLightNotification;
     [SerializeField] private VoiceNotification launchDecoyNotification;
+    [SerializeField] private VoiceNotification invalidOperationNotification;
     [SerializeField] private GameObject lightPrefab;
     [SerializeField] private Transform lightSpawnTransform;
     [SerializeField] private Transform decoySpawnTransform;
@@ -50,6 +51,10 @@ internal class ProtoDeployableManager : ProtoUpgrade
 
             subRoot.voiceNotificationManager.PlayVoiceNotification(launchLightNotification);
         }
+        else
+        {
+            subRoot.voiceNotificationManager.PlayVoiceNotification(invalidOperationNotification);
+        }
     }
 
     public void TryLaunchDecoy()
@@ -66,6 +71,10 @@ internal class ProtoDeployableManager : ProtoUpgrade
             Invoke(nameof(SpawnDecoyDelayed), launchDecoyDelay);
 
             subRoot.voiceNotificationManager.PlayVoiceNotification(launchDecoyNotification);
+        }
+        else
+        {
+            subRoot.voiceNotificationManager.PlayVoiceNotification(invalidOperationNotification);
         }
     }
 
