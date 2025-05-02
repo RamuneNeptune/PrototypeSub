@@ -21,6 +21,10 @@ public class ProtoPowerRelay : MonoBehaviour
     private void Start()
     {
         powerSystem = iconManager.GetComponent<PrototypePowerSystem>();
+        if (inventoryItem != null)
+        {
+            icon.sprite = iconManager.GetSpriteForTechType(inventoryItem.techType);
+        }
     }
 
     public void SetRelayActive(bool active)
@@ -54,15 +58,6 @@ public class ProtoPowerRelay : MonoBehaviour
         powerSystem.equipment.RemoveItem(inventoryItem.item);
         Inventory.main.container.AddItem(inventoryItem.item);
         uGUI_IconNotifier.main.Play(inventoryItem.techType, uGUI_IconNotifier.AnimationType.From);
-        UWE.CoroutineHost.StartCoroutine(SetPickedUpDelayed());
-    }
-
-    private IEnumerator SetPickedUpDelayed()
-    {
-        yield return new WaitForEndOfFrame();
-        if (inventoryItem.item.TryGetComponent(out InventoryModel inventoryModel))
-        {
-            inventoryModel.UpdateModel(true);
-        }
+        inventoryItem.item.Pickup();
     }
 }
