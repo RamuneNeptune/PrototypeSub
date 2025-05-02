@@ -13,6 +13,7 @@ internal class ProtoOverclockModule : ProtoUpgrade
     [SerializeField] private ProtoMotorHandler motorHandler;
     [SerializeField] private ProtoIonGenerator ionGenerator;
     [SerializeField] private VoiceNotification enabledVoiceline;
+    [SerializeField] private VoiceNotification invalidOperationNotification;
     [SerializeField] private float speedPercentBonus;
     [SerializeField] private float secondsToDrainCharge;
     [SerializeField, Range(0, 1)] private float chanceForHullBreach;
@@ -89,6 +90,12 @@ internal class ProtoOverclockModule : ProtoUpgrade
 
     public override void OnActivated()
     {
+        if (ionGenerator.GetUpgradeEnabled())
+        {
+            subRoot.voiceNotificationManager.PlayVoiceNotification(invalidOperationNotification);
+            return;
+        }
+        
         SetUpgradeEnabled(!upgradeEnabled);
     }
 
