@@ -9,5 +9,6 @@ public class BatchObjectsOnStart : MonoBehaviour
     private void Start()
     {
         StaticBatchingUtility.Combine(staticBatchRoot);
+        
     }
 }
