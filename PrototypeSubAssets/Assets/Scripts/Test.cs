@@ -3,16 +3,15 @@ using UnityEngine;
 
 public class Test : MonoBehaviour
 {
-    public bool updatePaths;
+    public bool increaseFPS;
+    public GameObject staticBatchRoot;
 
     private void OnDrawGizmos()
     {
-        if (!updatePaths) return;
+        if (!increaseFPS) return;
+        increaseFPS = false;
 
-        updatePaths = false;
-        foreach (var t in GetComponentsInChildren<PathfindingObject>())
-        {
-            t.UpdatePath();
-        }
+        StaticBatchingUtility.Combine(staticBatchRoot);
+        Debug.Log("Combined meshes");
     }
 }
