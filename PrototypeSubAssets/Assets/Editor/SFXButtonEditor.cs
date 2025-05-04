@@ -113,6 +113,7 @@ public class SFXButtonEditor : Editor
 
         button.soundEffect = (FMODAsset)EditorGUILayout.ObjectField("On Enter SFX", button.soundEffect, typeof(FMODAsset), false);
         button.volume = EditorGUILayout.FloatField("Volume", button.volume);
+        button.minDistForSound = EditorGUILayout.FloatField("Min Dist For Sound", button.minDistForSound);
 
         EditorGUI.EndChangeCheck();
     }
