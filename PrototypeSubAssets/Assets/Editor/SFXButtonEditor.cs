@@ -20,7 +20,7 @@ public class SFXButtonEditor : Editor
         }
 
         button.interactable = EditorGUILayout.Toggle("Interactable", button.interactable);
-        button.transition = (Selectable.Transition)EditorGUILayout.EnumFlagsField("Transition", button.transition);
+        button.transition = (Selectable.Transition)EditorGUILayout.EnumPopup("Transition", button.transition);
 
         EditorGUI.indentLevel++;
         button.targetGraphic = (Graphic)EditorGUILayout.ObjectField("Target Graphic", button.targetGraphic, typeof(Graphic), true);
@@ -80,7 +80,7 @@ public class SFXButtonEditor : Editor
         EditorGUILayout.Space(5);
         EditorGUI.indentLevel--;
 
-        var navMode = (Navigation.Mode)EditorGUILayout.EnumFlagsField("Navigation", button.navigation.mode);
+        var navMode = (Navigation.Mode)EditorGUILayout.EnumPopup("Navigation", button.navigation.mode);
         if (navMode == Navigation.Mode.Explicit)
         {
             var selectOnLeft = (Selectable)EditorGUILayout.ObjectField("Select On Left", button.navigation.selectOnLeft, typeof(Selectable), true);
