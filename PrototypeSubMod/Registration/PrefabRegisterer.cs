@@ -31,6 +31,7 @@ internal static class PrefabRegisterer
         PrecursorIonCrystal_Craftable.Register();
         WarperRemnant.Register();
         AlienBuildingBlock.Register();
+        HullFacilitySpawner_World.Register();
         
         PrecursorFabricator.Register();
 

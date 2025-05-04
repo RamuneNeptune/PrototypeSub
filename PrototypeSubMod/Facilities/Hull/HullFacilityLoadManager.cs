@@ -16,6 +16,8 @@ public class HullFacilityLoadManager : MonoBehaviour
     
     private void Start()
     {
+        SetObjectsActive(loadDistance1Objects, false);
+        SetObjectsActive(loadDistance2Objects, false);
         StartCoroutine(UpdateStatus());
     }
 
