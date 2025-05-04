@@ -55,10 +55,10 @@ internal static class BiomeRegisterer
 
         #region Engine Facility
 
-        var engineSettings = BiomeUtils.CreateBiomeSettings(new Vector3(0.1f, 2f, 2f), 1f, Color.white, 1,
-            new Color(0.451f, 0.455f, 0.271f),
-            0.09f, 80f, 0, 0, 60);
-        BiomeHandler.RegisterBiome(Plugin.ENGINE_FACILITY_BIOME_NAME, engineSettings, new BiomeHandler.SkyReference("SkyILZChamber"));
+        var engineSettings = BiomeUtils.CreateBiomeSettings(new Vector3(35, 7f, 5.5f), 0.4f, Color.white, 0.15f,
+            Color.clear,
+            1f, 25, 1, 1, 24);
+        BiomeHandler.RegisterBiome(Plugin.ENGINE_FACILITY_BIOME_NAME, engineSettings, new BiomeHandler.SkyReference("SkyBloodKelpTwo"));
         BiomeHandler.AddBiomeMusic(Plugin.ENGINE_FACILITY_BIOME_NAME, AudioUtils.GetFmodAsset("EngineFacilityMusic"));
 
         #endregion
