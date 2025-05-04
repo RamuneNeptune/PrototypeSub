@@ -9,12 +9,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7217223760241398413}
+  - component: {fileID: 1426710768}
   m_Layer: 0
   m_Name: Shell
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &7217223760241398413
 Transform:
@@ -31,6 +32,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1426710768
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7217223760241398412}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1959370530, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  applyTo: {fileID: 7217223760241398412}
+  shininess: 4
+  specularIntensity: 1
+  glowStrength: 1
 --- !u!1001 &7217223759247772025
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -102,6 +119,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: HF_Shell_Unwrapped
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 4535632f06149e343aa28db72d55546f,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4535632f06149e343aa28db72d55546f, type: 3}
