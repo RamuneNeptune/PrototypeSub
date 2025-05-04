@@ -111,7 +111,8 @@ public class SFXButtonEditor : Editor
         EditorGUILayout.Space(10);
         EditorGUILayout.PropertyField(onClick);
 
-        button.soundEffect = (FMODAsset)EditorGUILayout.ObjectField("On Enter SFX", button.soundEffect, typeof(FMODAsset), false);
+        button.onEnterFX = (FMODAsset)EditorGUILayout.ObjectField("On Enter SFX", button.onEnterFX, typeof(FMODAsset), false);
+        button.onExitFX = (FMODAsset)EditorGUILayout.ObjectField("On Exit SFX", button.onExitFX, typeof(FMODAsset), false);
         button.volume = EditorGUILayout.FloatField("Volume", button.volume);
         button.minDistForSound = EditorGUILayout.FloatField("Min Dist For Sound", button.minDistForSound);
 

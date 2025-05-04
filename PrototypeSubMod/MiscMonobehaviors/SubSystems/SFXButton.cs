@@ -8,7 +8,8 @@ namespace PrototypeSubMod.MiscMonobehaviors.SubSystems;
 public class SFXButton : Button
 {
     public UnityEvent onClickWrapper;
-    public FMODAsset soundEffect;
+    public FMODAsset onEnterFX;
+    public FMODAsset onExitFX;
     public float volume = 1;
     public float minDistForSound = 2;
 
@@ -24,9 +25,22 @@ public class SFXButton : Button
         if ((Player.main.transform.position - transform.position).sqrMagnitude >
             minDistForSound * minDistForSound) return;
         
-        if (soundEffect != null)
+        if (onEnterFX != null)
         {
-            FMODUWE.PlayOneShot(soundEffect, transform.position, volume);
+            FMODUWE.PlayOneShot(onEnterFX, transform.position, volume);
+        }
+    }
+    
+    public override void OnPointerExit(PointerEventData eventData)
+    {
+        base.OnPointerEnter(eventData);
+
+        if ((Player.main.transform.position - transform.position).sqrMagnitude >
+            minDistForSound * minDistForSound) return;
+        
+        if (onExitFX != null)
+        {
+            FMODUWE.PlayOneShot(onExitFX, transform.position, volume);
         }
     }
 }
