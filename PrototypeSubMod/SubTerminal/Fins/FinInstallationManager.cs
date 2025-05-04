@@ -1,6 +1,7 @@
 ﻿using PrototypeSubMod.MiscMonobehaviors.SubSystems;
 using PrototypeSubMod.SubTerminal.Relays;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace PrototypeSubMod.SubTerminal.Fins;
 
@@ -8,7 +9,9 @@ public class FinInstallationManager : MonoBehaviour
 {
     [SerializeField] private MoonpoolOccupiedHandler occupiedHandler;
     [SerializeField] private FinInstallationButton[] installationButtons;
-
+    [SerializeField] private Image homeScreen;
+    [SerializeField] private Sprite[] homeScreenSprites;
+    
     private ProtoFinsManager finsManager;
     
     private void Start()
@@ -35,6 +38,13 @@ public class FinInstallationManager : MonoBehaviour
             button.SetCanBuild(i == finsManager.GetInstalledFinCount());
             button.SetConstructed(i < finsManager.GetInstalledFinCount());
         }
+
+        UpdateHomeScreenIcon();
+    }
+
+    private void UpdateHomeScreenIcon()
+    {
+        homeScreen.sprite = homeScreenSprites[finsManager.GetInstalledFinCount()];
     }
 
     public void InstallNewFin()
