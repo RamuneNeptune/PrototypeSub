@@ -4116,12 +4116,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1071812717}
+  - component: {fileID: 1071812718}
   m_Layer: 0
   m_Name: HullObjects
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1071812717
 Transform:
@@ -4151,6 +4152,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 55, z: 0}
+--- !u!114 &1071812718
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1071812716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -587570496, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anchorSky: 0
+  customSkyPrefab: {fileID: 0}
+  dynamic: 0
+  emissiveFromPower: 0
+  renderers: []
 --- !u!1 &1077143007
 GameObject:
   m_ObjectHideFlags: 0
@@ -7250,7 +7268,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!114 &1872019663
 MonoBehaviour:
