@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -16,14 +17,15 @@ public class SFXButton : Button
     private void Awake()
     {
         onClick.AddListener(() => onClickWrapper?.Invoke());
+        UWE.CoroutineHost.StartCoroutine(UpdateHoverDistance());
     }
     
     public override void OnPointerEnter(PointerEventData eventData)
     {
-        base.OnPointerEnter(eventData);
-
         if ((Player.main.transform.position - transform.position).sqrMagnitude >
             minDistForSound * minDistForSound) return;
+        
+        base.OnPointerEnter(eventData);
         
         if (onEnterFX != null)
         {
@@ -33,15 +35,31 @@ public class SFXButton : Button
     
     public override void OnPointerExit(PointerEventData eventData)
     {
-        base.OnPointerEnter(eventData);
         ((Image)targetGraphic).overrideSprite = null;
-        
         if ((Player.main.transform.position - transform.position).sqrMagnitude >
-            minDistForSound * minDistForSound) return;
+            minDistForSound * minDistForSound)
+        {
+            return;
+        }
+        base.OnPointerEnter(eventData);
         
         if (onExitFX != null)
         {
             FMODUWE.PlayOneShot(onExitFX, transform.position, volume);
+        }
+    }
+
+    private IEnumerator UpdateHoverDistance()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(1);
+            bool outOfRange = (Player.main.transform.position - transform.position).sqrMagnitude >
+                              minDistForSound * minDistForSound;
+            if (outOfRange)
+            {
+                ((Image)targetGraphic).overrideSprite = null;
+            }
         }
     }
 }
