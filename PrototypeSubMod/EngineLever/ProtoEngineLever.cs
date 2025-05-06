@@ -96,7 +96,7 @@ internal class ProtoEngineLever : CinematicModeTriggerBase
         Player.main.armsController.SetWorldIKTarget(null, null);
         interactableCollider.enabled = false;
         ensureAnimFinished = true;
-
+        
         UWE.CoroutineHost.StartCoroutine(motorMode.ChangeEngineState(!motorMode.engineOn));
     }
 
@@ -111,6 +111,11 @@ internal class ProtoEngineLever : CinematicModeTriggerBase
 
             yield return new WaitForSeconds(0.5f);
         }
+    }
+
+    public void UpdateFins()
+    {
+        StartCoroutine(UpdateFinState(motorMode.engineOn));
     }
 
     private void Update()

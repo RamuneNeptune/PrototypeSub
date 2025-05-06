@@ -1,4 +1,7 @@
-﻿using PrototypeSubMod.MotorHandler;
+﻿using System.Collections;
+using System.Collections.Generic;
+using PrototypeSubMod.EngineLever;
+using PrototypeSubMod.MotorHandler;
 using PrototypeSubMod.SaveData;
 using SubLibrary.SaveData;
 using UnityEngine;
@@ -11,6 +14,7 @@ public class ProtoFinsManager : MonoBehaviour, ISaveDataListener
     [SerializeField] private GameObject[] rightFins;
     [SerializeField] private ProtoMotorHandler motorHandler;
     [SerializeField] private CyclopsMotorMode motorMode;
+    [SerializeField] private ProtoEngineLever engineLever;
     [SerializeField] private float[] noiseValues;
     [SerializeField] private float multiplierIncreasePerFin;
     [SerializeField] private float defaultSpeed;
@@ -39,6 +43,14 @@ public class ProtoFinsManager : MonoBehaviour, ISaveDataListener
     {
         installedFinCount = count;
         UpdateFinStatus();
+        StartCoroutine(UpdateFinsDelayed());
+    }
+
+    private IEnumerator UpdateFinsDelayed()
+    {
+        yield return new WaitForEndOfFrame();
+        
+        engineLever.UpdateFins();
     }
 
     private void UpdateFinStatus()
