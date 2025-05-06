@@ -3,6 +3,7 @@ using PrototypeSubMod.MotorHandler;
 using PrototypeSubMod.PowerSystem;
 using PrototypeSubMod.Upgrades;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace PrototypeSubMod.Overclock;
 
@@ -14,7 +15,8 @@ internal class ProtoOverclockModule : ProtoUpgrade
     [SerializeField] private ProtoIonGenerator ionGenerator;
     [SerializeField] private VoiceNotification enabledVoiceline;
     [SerializeField] private VoiceNotification invalidOperationNotification;
-    [SerializeField] private float speedPercentBonus;
+    [SerializeField] private float speedBaseBonus;
+    [SerializeField] private float turningTorqueMultiplier;
     [SerializeField] private float secondsToDrainCharge;
     [SerializeField, Range(0, 1)] private float chanceForHullBreach;
     [SerializeField] private float hullBreachMinActiveTime;
@@ -28,18 +30,28 @@ internal class ProtoOverclockModule : ProtoUpgrade
         if (!upgradeInstalled || ionGenerator.GetUpgradeEnabled())
         {
             motorHandler.RemoveSpeedBonus(this);
+            motorHandler.RemoveTurningTorqueMultiplier(this);
             return;
         }
 
-        float speedBonus = upgradeEnabled ? speedPercentBonus / 100f : 0;
-        motorHandler.AddSpeedBonus(new ProtoMotorHandler.ValueRegistrar(this, speedBonus));
         bool couldConsume = false;
-        if (GetUpgradeEnabled())
+        if (upgradeEnabled)
         {
-            couldConsume = subRoot.powerRelay.ConsumeEnergy(PrototypePowerSystem.CHARGE_POWER_AMOUNT / secondsToDrainCharge * Time.deltaTime, out _);
+            couldConsume = subRoot.powerRelay.ConsumeEnergy(
+                PrototypePowerSystem.CHARGE_POWER_AMOUNT / secondsToDrainCharge * Time.deltaTime, out _);
         }
-
+        
         HandleHullBreaches(couldConsume);
+
+        if (!upgradeEnabled)
+        {
+            motorHandler.RemoveSpeedBonus(this);
+            motorHandler.RemoveTurningTorqueMultiplier(this);
+            return;
+        }
+        
+        motorHandler.AddSpeedBonus(new ProtoMotorHandler.ValueRegistrar(this, speedBaseBonus));
+        motorHandler.AddTurningTorqueMultiplier(new  ProtoMotorHandler.ValueRegistrar(this, turningTorqueMultiplier));
     }
 
     private void HandleHullBreaches(bool couldConsume)

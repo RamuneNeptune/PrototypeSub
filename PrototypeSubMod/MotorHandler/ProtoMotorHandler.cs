@@ -17,6 +17,7 @@ internal class ProtoMotorHandler : MonoBehaviour
     private readonly Dictionary<Component, float> speedBonuses = new();
     private readonly Dictionary<Component, float> powerEfficiencyMultipliers = new();
     private readonly Dictionary<Component, float> overrideNoiseValues = new();
+    private readonly Dictionary<Component, float> turningTorqueMultipliers = new();
 
     private void Start()
     {
@@ -43,13 +44,29 @@ internal class ProtoMotorHandler : MonoBehaviour
 
         speedMultipliers.Add(speedMultiplier.component, speedMultiplier.value);
     }
-
+    
     public bool RemoveSpeedMultiplier(Component component)
     {
         if (!speedMultipliers.ContainsKey(component)) return false;
 
         speedMultipliers.Remove(component);
         return true;
+    }
+    
+    public void AddTurningTorqueMultiplier(ValueRegistrar torqueMultiplier)
+    {
+        if (turningTorqueMultipliers.ContainsKey(torqueMultiplier.component))
+        {
+            turningTorqueMultipliers[torqueMultiplier.component] = torqueMultiplier.value;
+            return;
+        }
+
+        turningTorqueMultipliers.Add(torqueMultiplier.component, torqueMultiplier.value);
+    }
+    
+    public bool RemoveTurningTorqueMultiplier(Component component)
+    {
+        return turningTorqueMultipliers.Remove(component);
     }
 
     /// <summary>
@@ -198,12 +215,20 @@ internal class ProtoMotorHandler : MonoBehaviour
                 dirty = true;
             }
         }
+        
+        float torqueMultiplier = 1f;
+        foreach (var multiplier in turningTorqueMultipliers)
+        {
+            torqueMultiplier *= multiplier.Value;
+        }
+        
+        dirty |= !Mathf.Approximately(motorMode.subController.BaseTurningTorque, originalTurningTorque * torqueMultiplier);
 
         if (dirty)
         {
             motorMode.motorModeSpeeds = newSpeeds;
             motorMode.ChangeCyclopsMotorMode(motorMode.cyclopsMotorMode);
-            motorMode.subController.BaseTurningTorque = originalTurningTorque;
+            motorMode.subController.BaseTurningTorque = originalTurningTorque * torqueMultiplier;
         }
     }
 
