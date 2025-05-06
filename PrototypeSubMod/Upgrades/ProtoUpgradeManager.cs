@@ -3,6 +3,8 @@ using PrototypeSubMod.SaveData;
 using SubLibrary.SaveData;
 using System;
 using System.Collections.Generic;
+using PrototypeSubMod.MiscMonobehaviors.SubSystems;
+using PrototypeSubMod.PowerSystem;
 using UnityEngine;
 
 namespace PrototypeSubMod.Upgrades;
@@ -151,7 +153,10 @@ internal class ProtoUpgradeManager : MonoBehaviour, ISaveDataListener
             SetUpgradeInstalled(techType, true);
         }
 
-        ErrorMessage.AddError("All upgrades installed");
+        GetComponentInChildren<ProtoFinsManager>().SetInstalledFinCount(4);
+        GetComponentInChildren<PrototypePowerSystem>().SetAllowedSourcesCount(6);
+        
+        ErrorMessage.AddError("All upgrades installed; relays and fins set to max");
     }
 
     private (bool, TechType) TryParseTTFromNotification(NotificationCenter.Notification notification)
