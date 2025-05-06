@@ -110,6 +110,7 @@ public class SFXButtonEditor : Editor
 
         EditorGUILayout.Space(10);
         EditorGUILayout.PropertyField(onClick);
+        serializedObject.ApplyModifiedProperties();
 
         button.onEnterFX = (FMODAsset)EditorGUILayout.ObjectField("On Enter SFX", button.onEnterFX, typeof(FMODAsset), false);
         button.onExitFX = (FMODAsset)EditorGUILayout.ObjectField("On Exit SFX", button.onExitFX, typeof(FMODAsset), false);
