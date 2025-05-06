@@ -16,7 +16,13 @@ public class SFXButton : Button
 
     private void Awake()
     {
-        onClick.AddListener(() => onClickWrapper?.Invoke());
+        onClick.AddListener(() =>
+        {
+            if ((Player.main.transform.position - transform.position).sqrMagnitude >
+                minDistForSound * minDistForSound) return;
+            
+            onClickWrapper?.Invoke();
+        });
         UWE.CoroutineHost.StartCoroutine(UpdateHoverDistance());
     }
     
