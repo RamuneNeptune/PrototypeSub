@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using PrototypeSubMod.EngineLever;
 using PrototypeSubMod.MotorHandler;
@@ -10,6 +11,8 @@ namespace PrototypeSubMod.MiscMonobehaviors.SubSystems;
 
 public class ProtoFinsManager : MonoBehaviour, ISaveDataListener
 {
+    public event Action onFinCountChanged; 
+    
     [SerializeField] private GameObject[] leftFins;
     [SerializeField] private GameObject[] rightFins;
     [SerializeField] private ProtoMotorHandler motorHandler;
@@ -44,6 +47,7 @@ public class ProtoFinsManager : MonoBehaviour, ISaveDataListener
         installedFinCount = count;
         UpdateFinStatus();
         StartCoroutine(UpdateFinsDelayed());
+        onFinCountChanged?.Invoke();
     }
 
     private IEnumerator UpdateFinsDelayed()
