@@ -23,7 +23,11 @@ public class SFXButton : Button
             
             onClickWrapper?.Invoke();
         });
-        UWE.CoroutineHost.StartCoroutine(UpdateHoverDistance());
+    }
+
+    private void Start()
+    {
+        StartCoroutine(UpdateHoverDistance());
     }
     
     public override void OnPointerEnter(PointerEventData eventData)
@@ -57,7 +61,7 @@ public class SFXButton : Button
 
     private IEnumerator UpdateHoverDistance()
     {
-        while (true)
+        while (gameObject.activeInHierarchy)
         {
             yield return new WaitForSeconds(1);
             bool outOfRange = (Player.main.transform.position - transform.position).sqrMagnitude >
@@ -67,5 +71,10 @@ public class SFXButton : Button
                 ((Image)targetGraphic).overrideSprite = null;
             }
         }
+    }
+
+    private void OnEnable()
+    {
+        StartCoroutine(UpdateHoverDistance());
     }
 }
