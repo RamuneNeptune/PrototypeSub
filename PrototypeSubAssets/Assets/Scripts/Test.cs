@@ -10,6 +10,7 @@ public class Test : MonoBehaviour
     public Transform itemsParent;
     public GameObject teleporterPrefab;
 
+#if UNITY_EDITOR
     private void OnDrawGizmos()
     {
         if (!spawnPrefabs) return;
@@ -28,4 +29,5 @@ public class Test : MonoBehaviour
             item.SetInfo(positionData.Key, host, teleporterIDManager);
         }
     }
+#endif
 }
