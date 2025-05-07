@@ -16,7 +16,6 @@ internal class ProtoTeleporterManager : ProtoUpgrade
     [SerializeField] private VoiceNotification overrideStatus1;
     [SerializeField] private VoiceNotification overrideStatus2;
     [SerializeField] private string teleporterID;
-    [SerializeField] private bool isHost;
     [SerializeField] private float stayOpenTime;
 
     [Header("Power Cost")]
@@ -69,12 +68,10 @@ internal class ProtoTeleporterManager : ProtoUpgrade
     // Called by PrecursorTeleporterCollider.OnTriggerEnter via SendMessageUpwards
     public void BeginTeleportPlayer(GameObject player)
     {
-        string alteredID = teleporterID + (isHost ? "M" : "S");
-
         TeleporterPositionHandler.TeleportData positionData = default;
-        if (!TeleporterPositionHandler.TeleporterPositions.TryGetValue(alteredID, out positionData))
+        if (!TeleporterPositionHandler.TeleporterPositions.TryGetValue(teleporterID, out positionData))
         {
-            throw new System.Exception($"Tried to teleport to unknown ID: \"{alteredID}\". Position unknown");
+            throw new System.Exception($"Tried to teleport to unknown ID: \"{teleporterID}\". Position unknown");
         }
 
         teleporter.warpToPos = positionData.teleportPosition;
@@ -82,7 +79,7 @@ internal class ProtoTeleporterManager : ProtoUpgrade
 
         currentStayOpenTime = 0;
 
-        TeleporterOverride.SetOverrideTeleporterID(alteredID);
+        TeleporterOverride.SetOverrideTeleporterID(teleporterID);
         TeleporterOverride.SetOverrideTime(120f);
         TeleporterOverride.OnTeleportStarted(this);
 
@@ -91,7 +88,7 @@ internal class ProtoTeleporterManager : ProtoUpgrade
             Camera.main.GetComponent<ProtoScreenTeleporterFXManager>().SetColors(colorOverrideData.innerColor, colorOverrideData.middleColor, colorOverrideData.outerColor);
         }
         
-        if (alteredID == "protoislandtpS")
+        if (teleporterID == "protoislandtpS")
         {
             InterceptorIslandManager.Instance.OnTeleportToIsland(Vector3.zero);
             InterceptorIslandManager.Instance.GetComponentsInChildren<TeleporterOverride>().Initialize();
@@ -105,11 +102,6 @@ internal class ProtoTeleporterManager : ProtoUpgrade
     public void SetTeleporterID(string id)
     {
         teleporterID = id;
-    }
-
-    public void SetTeleporterIsHost(bool isHost)
-    {
-        this.isHost = isHost;
     }
 
     private void OnTeleportEnd()

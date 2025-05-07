@@ -1,4 +1,5 @@
 ﻿using PrototypeSubMod.Teleporter;
+using UnityEditor;
 using UnityEngine;
 
 public class Test : MonoBehaviour
@@ -18,7 +19,7 @@ public class Test : MonoBehaviour
         {
             var pos = positionData.Value.teleportPosition;
             Vector2 flatPos = new Vector2(pos.x, pos.z);
-            var obj = Instantiate(teleporterPrefab, itemsParent);
+            var obj = PrefabUtility.InstantiatePrefab(teleporterPrefab, itemsParent) as GameObject;
             obj.transform.localScale = Vector3.one;
             obj.transform.localPosition = flatPos * realToMapScaleRatio;
             var item = obj.GetComponent<TeleporterLocationItem>();

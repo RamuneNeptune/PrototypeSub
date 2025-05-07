@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -7,16 +8,30 @@ namespace PrototypeSubMod.Teleporter;
 public class ProtoTeleporterIDManager : MonoBehaviour
 {
     [SerializeField] private ProtoTeleporterManager positionSetter;
-    [SerializeField] private GameObject teleporterLocationPrefab;
-    [SerializeField] private Transform prefabSpawnParent;
-    [SerializeField] private Animator animator;
+    [SerializeField] private Transform surfaceTeleportersParent;
+    [SerializeField] private Transform depthsTeleportersParent;
 
-    private AnimatorStateInfo targetState;
-    private bool screenActive;
-
+    private readonly Dictionary<string, TeleporterLocationItem> locationItems = new();
+    
     private void Start()
     {
+        PopulateLocationList();
         RefreshLocationList();
+    }
+
+    private void PopulateLocationList()
+    {
+        foreach (var locationItem in surfaceTeleportersParent.GetComponentsInChildren<TeleporterLocationItem>())
+        {
+            locationItems.Add(locationItem.GetTeleporterID(), locationItem);
+            locationItem.gameObject.SetActive(false);
+        }
+        
+        foreach (var locationItem in depthsTeleportersParent.GetComponentsInChildren<TeleporterLocationItem>())
+        {
+            locationItems.Add(locationItem.GetTeleporterID(), locationItem);
+            locationItem.gameObject.SetActive(false);
+        }
     }
 
     private void OnEnable()
@@ -36,44 +51,32 @@ public class ProtoTeleporterIDManager : MonoBehaviour
 
     private void RefreshLocationList()
     {
-        foreach (Transform child in prefabSpawnParent)
-        {
-            Destroy(child.gameObject);
-        }
-
         foreach (var item in TeleporterManager.main.activeTeleporters)
         {
             if (item.ToLower().Contains("proto") && item != "protoislandtp") continue;
 
-            if (item != "protoislandtp")
+            string keySource = item + "M";
+            string keyTarget = item + "S";
+            if (locationItems.TryGetValue(keySource, out TeleporterLocationItem locationItemM))
             {
-                var locationItemM = Instantiate(teleporterLocationPrefab, prefabSpawnParent).GetComponent<TeleporterLocationItem>();
-                locationItemM.SetInfo(item, true, this);
+                locationItemM.gameObject.SetActive(true);
             }
             
-            var locationItemS = Instantiate(teleporterLocationPrefab, prefabSpawnParent).GetComponent<TeleporterLocationItem>();
-            locationItemS.SetInfo(item, false, this);
+            if (locationItems.TryGetValue(keyTarget, out TeleporterLocationItem locationItemS))
+            {
+                locationItemS.gameObject.SetActive(true);
+            }
         }
     }
 
     public void OnItemSelected(string id, bool isHost)
     {
         positionSetter.SetTeleporterID(id);
-        positionSetter.SetTeleporterIsHost(isHost);
+        foreach (var locationItem in locationItems)
+        {
+            if (locationItem.Key == id) continue;
 
-        string endLetter = isHost ? "M" : "S";
-        string languageKey = $"{id}{endLetter}_ProtoLabel";
-    }
-
-    public void SetScreenActive(bool active)
-    {
-        screenActive = active;
-        animator.SetBool("ScreenActive", active);
-        targetState = animator.GetNextAnimatorStateInfo(0);
-    }
-
-    public void ToggleScreenActive()
-    {
-        SetScreenActive(!screenActive);
+            locationItem.Value.SetSelected(false);
+        }
     }
 }
