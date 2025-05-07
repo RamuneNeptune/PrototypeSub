@@ -3,28 +3,17 @@ using UnityEngine;
 
 namespace PrototypeSubMod.Teleporter;
 
-internal class TeleporterLocationItem : MonoBehaviour
+public class TeleporterLocationItem : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI itemNameText;
-
-    private string teleporterID;
-    private bool isHost;
-    private ProtoTeleporterIDManager idManager;
+    [SerializeField] private string teleporterID;
+    [SerializeField] private bool isHost;
+    [SerializeField] private ProtoTeleporterIDManager idManager;
 
     public void SetInfo(string id, bool isHost, ProtoTeleporterIDManager manager)
     {
         teleporterID = id;
         this.isHost = isHost;
         idManager = manager;
-
-        string endLetter = isHost ? "M" : "S";
-        string languageKey = $"{id}{endLetter}_ProtoLabel";
-        itemNameText.text = Language.main.Get(languageKey);
-    }
-
-    public void SetTextDirty()
-    {
-        itemNameText.SetAllDirty();
     }
 
     public void OnButtonClicked()

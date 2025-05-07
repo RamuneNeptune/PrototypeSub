@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace PrototypeSubMod.Teleporter;
 
-internal static class TeleporterPositionHandler
+public static class TeleporterPositionHandler
 {
     public static readonly Dictionary<string, TeleportData> TeleporterPositions = new()
     {

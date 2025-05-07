@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace PrototypeSubMod.Teleporter;
 
-internal class ProtoTeleporterIDManager : MonoBehaviour
+public class ProtoTeleporterIDManager : MonoBehaviour
 {
     [SerializeField] private ProtoTeleporterManager positionSetter;
     [SerializeField] private GameObject teleporterLocationPrefab;
@@ -70,27 +70,10 @@ internal class ProtoTeleporterIDManager : MonoBehaviour
         screenActive = active;
         animator.SetBool("ScreenActive", active);
         targetState = animator.GetNextAnimatorStateInfo(0);
-
-        StartCoroutine(UpdateText());
     }
 
     public void ToggleScreenActive()
     {
         SetScreenActive(!screenActive);
-    }
-
-    private IEnumerator UpdateText()
-    {
-        if (!prefabSpawnParent) yield break;
-        
-        while (!animator.GetCurrentAnimatorStateInfo(0).Equals(targetState))
-        {
-            foreach (var item in prefabSpawnParent.GetComponentsInChildren<TeleporterLocationItem>())
-            {
-                item.SetTextDirty();
-            }
-
-            yield return new WaitForSecondsRealtime(0.1f);
-        }
     }
 }

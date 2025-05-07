@@ -1,17 +1,30 @@
-﻿using PrototypeSubMod.Pathfinding;
+﻿using PrototypeSubMod.Teleporter;
 using UnityEngine;
 
 public class Test : MonoBehaviour
 {
-    public bool increaseFPS;
-    public GameObject staticBatchRoot;
+    public bool spawnPrefabs;
+    public float realToMapScaleRatio;
+    public ProtoTeleporterIDManager teleporterIDManager;
+    public Transform itemsParent;
+    public GameObject teleporterPrefab;
 
     private void OnDrawGizmos()
     {
-        if (!increaseFPS) return;
-        increaseFPS = false;
+        if (!spawnPrefabs) return;
+        spawnPrefabs = false;
 
-        StaticBatchingUtility.Combine(staticBatchRoot);
-        Debug.Log("Combined meshes");
+        foreach (var positionData in TeleporterPositionHandler.TeleporterPositions)
+        {
+            var pos = positionData.Value.teleportPosition;
+            Vector2 flatPos = new Vector2(pos.x, pos.z);
+            var obj = Instantiate(teleporterPrefab, itemsParent);
+            obj.transform.localScale = Vector3.one;
+            obj.transform.localPosition = flatPos * realToMapScaleRatio;
+            var item = obj.GetComponent<TeleporterLocationItem>();
+
+            bool host = positionData.Key.Contains("M");
+            item.SetInfo(positionData.Key, host, teleporterIDManager);
+        }
     }
 }
