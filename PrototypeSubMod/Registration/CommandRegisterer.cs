@@ -9,7 +9,7 @@ internal static class CommandRegisterer
     {
         ConsoleCommandsHandler.AddGotoTeleportPosition("interceptorfacility", new Vector3(547, -709, 955));
         ConsoleCommandsHandler.AddGotoTeleportPosition("defensefacility", new Vector3(689, -483, -1404f));
-        ConsoleCommandsHandler.AddGotoTeleportPosition("enginefacility", new Vector3(-558, -463, 1497f));
+        ConsoleCommandsHandler.AddGotoTeleportPosition("enginefacility", new Vector3(-1067, -427, -1226));
         ConsoleCommandsHandler.AddGotoTeleportPosition("hullfacility", new Vector3(-1260, -614, -352f));
         ConsoleCommandsHandler.AddGotoTeleportPosition("ppt", new Vector3(449, -92, 1169));
     }
