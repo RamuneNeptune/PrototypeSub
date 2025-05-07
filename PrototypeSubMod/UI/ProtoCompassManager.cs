@@ -13,11 +13,9 @@ public class ProtoCompassManager : MonoBehaviour, IUIElement
     public void UpdateUI()
     {
         int index = Mathf.RoundToInt((subRoot.transform.eulerAngles.y / 360) * 8);
+        index %= 8;
         compassImage.sprite = cardinalSprites[index];
     }
 
-    public void OnSubDestroyed()
-    {
-        
-    }
+    public void OnSubDestroyed() { }
 }
