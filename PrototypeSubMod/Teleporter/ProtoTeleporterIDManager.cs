@@ -7,11 +7,15 @@ namespace PrototypeSubMod.Teleporter;
 
 public class ProtoTeleporterIDManager : MonoBehaviour
 {
+    private static readonly int ScreenActive = Animator.StringToHash("ScreenActive");
+    
     [SerializeField] private ProtoTeleporterManager positionSetter;
+    [SerializeField] private Animator animator;
     [SerializeField] private Transform surfaceTeleportersParent;
     [SerializeField] private Transform depthsTeleportersParent;
 
     private readonly Dictionary<string, TeleporterLocationItem> locationItems = new();
+    private bool screenActive;
     
     private void Start()
     {
@@ -78,5 +82,11 @@ public class ProtoTeleporterIDManager : MonoBehaviour
 
             locationItem.Value.SetSelected(false);
         }
+    }
+
+    public void ToggleScreenActive()
+    {
+        screenActive = !screenActive;
+        animator.SetBool(ScreenActive, screenActive);
     }
 }
