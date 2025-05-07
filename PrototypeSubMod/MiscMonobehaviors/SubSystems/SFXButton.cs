@@ -45,13 +45,12 @@ public class SFXButton : Button
     
     public override void OnPointerExit(PointerEventData eventData)
     {
-        ((Image)targetGraphic).overrideSprite = null;
-        if ((Player.main.transform.position - transform.position).sqrMagnitude >
-            minDistForSound * minDistForSound)
+        base.OnPointerExit(eventData);
+        
+        if ((Player.main.transform.position - transform.position).sqrMagnitude > minDistForSound * minDistForSound)
         {
             return;
         }
-        base.OnPointerEnter(eventData);
         
         if (onExitFX != null)
         {

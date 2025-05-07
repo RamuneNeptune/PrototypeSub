@@ -48,10 +48,10 @@ internal class NewUpgradesScreen : MonoBehaviour
             foreach (var category in mostRecentCategories)
             {
                 var replacedString = ReplaceWithPrecursorChars(category.GetName(), normalizedProgress);
-                text += replacedString + "\n";
-                if (mostRecentCategories.Count > 1 && index < mostRecentCategories.Count - 1)
+                text += replacedString;
+                if (index < mostRecentCategories.Count - 1)
                 {
-                    text += "———————\n";
+                    text += "\n";
                 }
 
                 index++;
