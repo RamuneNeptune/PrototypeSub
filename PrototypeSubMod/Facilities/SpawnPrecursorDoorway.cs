@@ -28,6 +28,8 @@ public class SpawnPrecursorDoorway : MonoBehaviour
         
         Destroy(instance.GetComponent<LargeWorldEntity>());
         Destroy(instance.GetComponent<PrefabIdentifier>());
+        Destroy(instance.transform.Find("DoorSetMotorModeCollider_Walk").gameObject);
+        Destroy(instance.transform.Find("DoorSetMotorModeCollider_Swim").gameObject);
         
         precursorDoorway = instance.GetComponent<PrecursorDoorway>();
         if (queuedDoorToggle)

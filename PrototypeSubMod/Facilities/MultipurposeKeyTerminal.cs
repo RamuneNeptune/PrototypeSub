@@ -52,8 +52,9 @@ internal class MultipurposeKeyTerminal : MonoBehaviour
         }
 
         var keyType = CreateOrRetrieveKeyType(techType);
-        var instance = Instantiate(prefab, transform, false);
+        var instance = Instantiate(prefab, transform);
 
+        instance.transform.SetParent(transform, false);
         instance.transform.localPosition = Vector3.zero;
         instance.transform.localRotation = Quaternion.identity;
         instance.transform.localScale = Vector3.one;
@@ -67,7 +68,8 @@ internal class MultipurposeKeyTerminal : MonoBehaviour
         glyphRenderer.material.mainTexture = replacementSprite;
 
         Destroy(instance.GetComponent<PrefabIdentifier>());
-
+        Destroy(instance.GetComponent<LargeWorldEntity>());
+        
         var applier = GetComponentInParent<SkyApplier>();
         if (applier)
         {

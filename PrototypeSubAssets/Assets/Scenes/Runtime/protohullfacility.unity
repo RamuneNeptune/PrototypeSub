@@ -318,6 +318,49 @@ Light:
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!1 &126585355
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 126585356}
+  - component: {fileID: 126585357}
+  m_Layer: 0
+  m_Name: ForceField2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &126585356
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 126585355}
+  m_LocalRotation: {x: -0, y: 0.7058654, z: -0, w: -0.708346}
+  m_LocalPosition: {x: -64.37192, y: -9.333008, z: -10.063831}
+  m_LocalScale: {x: 1.236, y: 1.236, z: 1.236}
+  m_Children: []
+  m_Father: {fileID: 287740839}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 270.201, z: 0}
+--- !u!114 &126585357
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 126585355}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1353070587, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &136865741
 GameObject:
   m_ObjectHideFlags: 0
@@ -686,6 +729,49 @@ Light:
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!1 &178029386
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 178029387}
+  - component: {fileID: 178029388}
+  m_Layer: 0
+  m_Name: ForceField3
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &178029387
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 178029386}
+  m_LocalRotation: {x: -0, y: 0.7058654, z: -0, w: -0.7083461}
+  m_LocalPosition: {x: -74.72922, y: -9.333008, z: -10.027578}
+  m_LocalScale: {x: 1.2359998, y: 1.236, z: 1.2359998}
+  m_Children: []
+  m_Father: {fileID: 287740839}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 270.201, z: 0}
+--- !u!114 &178029388
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 178029386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1353070587, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &187427956
 GameObject:
   m_ObjectHideFlags: 0
@@ -1514,6 +1600,121 @@ Light:
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!1 &287740838
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 287740839}
+  m_Layer: 0
+  m_Name: KeyedDoorways
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &287740839
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 287740838}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 299689032}
+  - {fileID: 1895484058}
+  - {fileID: 126585356}
+  - {fileID: 178029387}
+  m_Father: {fileID: 1071812717}
+  m_RootOrder: 14
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &299689031
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 299689032}
+  - component: {fileID: 299689033}
+  m_Layer: 0
+  m_Name: WormObservationKey
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &299689032
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 299689031}
+  m_LocalRotation: {x: 0, y: 0.70626086, z: 0, w: 0.7079517}
+  m_LocalPosition: {x: -48.052, y: -9.5, z: -10.225}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 287740839}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 89.863, z: 0}
+--- !u!114 &299689033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 299689031}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 99891163, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  techType: PrecursorKey_Orange
+  replacementSprite: {fileID: 2800000, guid: 2552c5bdd86a7df4184faacd600151ef, type: 3}
+  onInteracted:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1895484059}
+        m_MethodName: SetDoorState
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 126585357}
+        m_MethodName: SetDoorState
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 178029388}
+        m_MethodName: SetDoorState
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!1 &302294439
 GameObject:
   m_ObjectHideFlags: 0
@@ -4149,6 +4350,7 @@ Transform:
   - {fileID: 1426710769}
   - {fileID: 534068653}
   - {fileID: 1872019664}
+  - {fileID: 287740839}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 55, z: 0}
@@ -7313,6 +7515,49 @@ Transform:
   m_Father: {fileID: 1071812717}
   m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 55, z: 0}
+--- !u!1 &1895484057
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1895484058}
+  - component: {fileID: 1895484059}
+  m_Layer: 0
+  m_Name: ForceField1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1895484058
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1895484057}
+  m_LocalRotation: {x: 0, y: 0.70586544, z: -0, w: -0.708346}
+  m_LocalPosition: {x: -54.113, y: -9.333, z: -10.099}
+  m_LocalScale: {x: 1.236, y: 1.236, z: 1.236}
+  m_Children: []
+  m_Father: {fileID: 287740839}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 270.201, z: 0}
+--- !u!114 &1895484059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1895484057}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1353070587, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1901721829
 GameObject:
   m_ObjectHideFlags: 0
