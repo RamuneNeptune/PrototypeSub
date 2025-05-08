@@ -23,6 +23,7 @@ public class HullFacilitySpawner_World
     private static GameObject GetGameObject()
     {
         var asset = Plugin.AssetBundle.LoadAsset<GameObject>("HullFacilitySpawner");
+        asset.gameObject.SetActive(false);
         return GameObject.Instantiate(asset);
     }
 }
