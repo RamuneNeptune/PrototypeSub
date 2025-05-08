@@ -3,6 +3,7 @@ using Nautilus.Handlers;
 using PrototypeSubMod.Prefabs;
 using PrototypeSubMod.Prefabs.AlienBuildingBlock;
 using PrototypeSubMod.Prefabs.FacilityProps;
+using PrototypeSubMod.Prefabs.FacilityProps.Hull;
 using UnityEngine;
 
 namespace PrototypeSubMod.Registration;
@@ -32,6 +33,7 @@ internal static class PrefabRegisterer
         WarperRemnant.Register();
         AlienBuildingBlock.Register();
         HullFacilitySpawner_World.Register();
+        OrionFragmentor_World.Register();
         
         PrecursorFabricator.Register();
 

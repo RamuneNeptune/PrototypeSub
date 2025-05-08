@@ -1,6 +1,7 @@
 ﻿using Nautilus.Handlers;
 using PrototypeSubMod.Prefabs;
 using System.Collections.Generic;
+using PrototypeSubMod.Prefabs.FacilityProps.Hull;
 using UnityEngine;
 
 namespace PrototypeSubMod.Registration;
@@ -103,6 +104,19 @@ internal static class EncyEntryRegisterer
         PDAHandler.AddEncyclopediaEntry("ProtoFacilitiesEncy", "DownloadedData/Precursor/Terminal", locationsTitle, locationsBody, unlockSound: PDAHandler.UnlockBasic);
         #endregion
 
+        #region Orion Fragmentor
+        var orionFragmentorEntryData = new PDAScanner.EntryData()
+        {
+            key = OrionFragmentor_World.prefabInfo.TechType,
+            destroyAfterScan = false,
+            encyclopedia = string.Empty,
+            scanTime = 10f,
+            isFragment = false,
+            blueprint = OrionFragmentor_World.prefabInfo.TechType
+        };
+        PDAHandler.AddCustomScannerEntry(orionFragmentorEntryData);
+        #endregion
+        
         RegisterEncyEntries("DownloadedData/Precursor/ProtoUpgrades", PDAHandler.UnlockBasic, new()
             {
                 "ProtoCloakEncy",

@@ -51,7 +51,7 @@ internal class DisplayCaseProp
             }
         }
 
-        TrimComponents(instance);
+        TrimComponents(instance, whitelistedComponents);
 
         instance.SetActive(true);
 
@@ -81,7 +81,7 @@ internal class DisplayCaseProp
         typeof(MeshFilter),
     };
 
-    private static void TrimComponents(GameObject instance)
+    public static void TrimComponents(GameObject instance, List<Type> whitelistedComponents)
     {
         var components = instance.GetComponentsInChildren<Component>(true);
         var ignoreFirstPass = new List<Type>();
