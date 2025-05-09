@@ -19,14 +19,19 @@ internal class MultipurposeKeyTerminal : MonoBehaviour
     [SerializeField] private Texture2D replacementSprite;
     [SerializeField] private UnityEvent onInteracted;
 
-    private IEnumerator Start()
+    private void Start()
     {
         if (KeyTerminalPrefab)
         {
             SpawnPrefab(KeyTerminalPrefab);
-            yield break;
+            return;
         }
 
+        CoroutineHost.StartCoroutine(RetrievePrefab());
+    }
+
+    private IEnumerator RetrievePrefab()
+    {
         var prefabRequest = PrefabDatabase.GetPrefabAsync("c718547d-fe06-4247-86d0-efd1e3747af0");
 
         yield return prefabRequest;
