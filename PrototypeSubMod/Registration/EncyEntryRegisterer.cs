@@ -105,11 +105,15 @@ internal static class EncyEntryRegisterer
         #endregion
 
         #region Orion Fragmentor
+        string fragmentorTitle = Language.main.Get("OrionFragmentorEncy_Title");
+        string fragmentorBody = Language.main.Get("OrionFragmentorEncy_Body");
+        PDAHandler.AddEncyclopediaEntry("OrionFragmentorEncy", "DownloadedData/Precursor/Scan", fragmentorTitle, fragmentorBody, unlockSound: PDAHandler.UnlockBasic);
+        
         var orionFragmentorEntryData = new PDAScanner.EntryData()
         {
             key = OrionFragmentor_World.prefabInfo.TechType,
             destroyAfterScan = false,
-            encyclopedia = string.Empty,
+            encyclopedia = "OrionFragmentorEncy",
             scanTime = 10f,
             isFragment = false,
             blueprint = OrionFragmentor_World.prefabInfo.TechType
