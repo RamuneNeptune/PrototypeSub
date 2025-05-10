@@ -1,0 +1,95 @@
+﻿using System;
+using System.Collections;
+using HarmonyLib;
+using UnityEngine;
+using UnityEngine.Events;
+
+namespace PrototypeSubMod.Facilities;
+
+public class MultipurposeIonCubeTerminal : MonoBehaviour
+{
+    [SerializeField] private UnityEvent onInteracted;
+    [SerializeField] private bool automaticallyInteract;
+
+    private PrecursorTeleporterActivationTerminal activationTerminal;
+    private bool interacted;
+    
+    private void Start()
+    {
+        if (automaticallyInteract)
+        {
+            ForceInteracted();
+        }
+        
+        UWE.CoroutineHost.StartCoroutine(RetrievePrefab());
+    }
+
+    private IEnumerator RetrievePrefab()
+    {
+        var prefabRequest = UWE.PrefabDatabase.GetPrefabAsync("2cd64262-7029-4dc2-8fa2-9cd0a025e8fe");
+        yield return prefabRequest;
+        
+        if (!prefabRequest.TryGetPrefab(out var prefab)) throw new Exception("Error retrieving precursor ion cube receptacle prefab!");
+
+        prefab.SetActive(false);
+        Destroy(prefab.transform.Find("Precursor_Prison_Teleporter_ToCragField(Placeholder)"));
+        SpawnPrefab(prefab);
+    }
+    
+    private void SpawnPrefab(GameObject prefab)
+    {
+        var instance = Instantiate(prefab, transform);
+
+        instance.transform.SetParent(transform, false);
+        instance.transform.localPosition = Vector3.zero;
+        instance.transform.localRotation = Quaternion.identity;
+        instance.transform.localScale = Vector3.one;
+        instance.SetActive(true);
+
+        activationTerminal = instance.GetComponent<PrecursorTeleporterActivationTerminal>();
+        instance.GetComponent<TechTag>().type = TechType.None;
+        activationTerminal.cinematicController.informGameObject = gameObject;
+
+        Destroy(instance.GetComponent<PrefabIdentifier>());
+        Destroy(instance.GetComponent<LargeWorldEntity>());
+        
+        var applier = GetComponentInParent<SkyApplier>();
+        if (applier)
+        {
+            applier.renderers.AddRangeToArray(GetComponentsInChildren<Renderer>(true));
+            applier.ApplySkybox();
+        }
+
+        if (interacted)
+        {
+            activationTerminal.unlocked = true;
+            onInteracted?.Invoke();
+        }
+    }
+
+    public void OnPlayerCinematicModeEnd(PlayerCinematicController controller)
+    {
+        if (activationTerminal.crystalObject)
+        {
+            Destroy(activationTerminal.crystalObject);
+        }
+
+        activationTerminal.CloseDeck();
+        if (activationTerminal.restoreQuickSlot != -1)
+        {
+            Inventory.main.quickSlots.Select(activationTerminal.restoreQuickSlot);
+        }
+        
+        onInteracted?.Invoke();
+    }
+
+    public void ForceInteracted()
+    {
+        interacted = true;
+        if (activationTerminal)
+        {
+            activationTerminal.unlocked = true;
+            onInteracted?.Invoke();
+        }
+    }
+}
