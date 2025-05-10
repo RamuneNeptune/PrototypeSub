@@ -32,26 +32,26 @@ public class MultipurposeIonCubeTerminal : MonoBehaviour
         if (!prefabRequest.TryGetPrefab(out var prefab)) throw new Exception("Error retrieving precursor ion cube receptacle prefab!");
 
         prefab.SetActive(false);
-        Destroy(prefab.transform.Find("Precursor_Prison_Teleporter_ToCragField(Placeholder)"));
         SpawnPrefab(prefab);
     }
     
     private void SpawnPrefab(GameObject prefab)
     {
         var instance = Instantiate(prefab, transform);
-
+        DestroyImmediate(instance.transform.Find("Precursor_Prison_Teleporter_ToCragField(Placeholder)").gameObject);
+        
         instance.transform.SetParent(transform, false);
-        instance.transform.localPosition = Vector3.zero;
+        instance.transform.localPosition = new Vector3(0, -0.5f, -5.75f);
         instance.transform.localRotation = Quaternion.identity;
         instance.transform.localScale = Vector3.one;
         instance.SetActive(true);
 
         activationTerminal = instance.GetComponent<PrecursorTeleporterActivationTerminal>();
-        instance.GetComponent<TechTag>().type = TechType.None;
         activationTerminal.cinematicController.informGameObject = gameObject;
 
         Destroy(instance.GetComponent<PrefabIdentifier>());
         Destroy(instance.GetComponent<LargeWorldEntity>());
+        Destroy(instance.GetComponent<TechTag>());
         
         var applier = GetComponentInParent<SkyApplier>();
         if (applier)
