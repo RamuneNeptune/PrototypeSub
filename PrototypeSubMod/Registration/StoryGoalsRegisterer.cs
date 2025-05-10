@@ -115,5 +115,12 @@ internal static class StoryGoalsRegisterer
             PDAEncyclopedia.Add("HullFacilityLogsEncy", true);
         });
         #endregion
+        
+        #region Hull Facility Orion Data
+        StoryGoalHandler.RegisterCustomEvent("OrionEndeavorsEncy", () =>
+        {
+            PDAEncyclopedia.Add("OrionEndeavorsEncy", true);
+        });
+        #endregion
     }
 }
