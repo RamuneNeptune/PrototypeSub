@@ -108,5 +108,12 @@ internal static class StoryGoalsRegisterer
         });
 
         #endregion
+
+        #region Hull Facility Logs
+        StoryGoalHandler.RegisterCustomEvent("HullFacilityLogsEncy", () =>
+        {
+            PDAEncyclopedia.Add("HullFacilityLogsEncy", true);
+        });
+        #endregion
     }
 }

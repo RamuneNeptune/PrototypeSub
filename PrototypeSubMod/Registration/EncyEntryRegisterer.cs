@@ -121,6 +121,13 @@ internal static class EncyEntryRegisterer
         PDAHandler.AddCustomScannerEntry(orionFragmentorEntryData);
         #endregion
         
+        #region Hull Facility Logs
+        string hullFacilityLogsTitle = Language.main.Get("HullFacilityLogsEncy_Title");
+        string hullFacilityLogsBody = Language.main.Get("HullFacilityLogsEncy_Body");
+        PDAHandler.AddEncyclopediaEntry("HullFacilityLogsEncy", "DownloadedData/Precursor/Terminal", hullFacilityLogsTitle, hullFacilityLogsBody, unlockSound: PDAHandler.UnlockBasic);
+
+        #endregion
+        
         RegisterEncyEntries("DownloadedData/Precursor/ProtoUpgrades", PDAHandler.UnlockBasic, new()
             {
                 "ProtoCloakEncy",
