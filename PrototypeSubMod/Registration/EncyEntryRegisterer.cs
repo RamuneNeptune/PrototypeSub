@@ -34,16 +34,6 @@ internal static class EncyEntryRegisterer
         PDAHandler.AddCustomScannerEntry(precursorIngotEntryData);
         #endregion
 
-        #region Interceptor Terminal
-        LanguageHandler.SetLanguageLine("DownloadedData/Precursor/Terminal", "ProtoTeleporterEncyEntry");
-
-        string protoTeleporterText = Language.main.Get("ProtoTeleporterEncyEntry");
-        string protoTeleporterTextBody = Language.main.Get("ProtoTeleporterEncyEntry_Body");
-        Texture2D image = Plugin.AssetBundle.LoadAsset<Texture2D>("ProtoTeleporter_Corrupted");
-
-        PDAHandler.AddEncyclopediaEntry("InterceptorTestEncy", "DownloadedData/Precursor/Scan", protoTeleporterText, protoTeleporterTextBody, image, unlockSound: PDAHandler.UnlockBasic);
-        #endregion
-
         #region Deployable Light
         string lightTitle = Language.main.Get("ProtoDeployableLightEncy_Title");
         string lightDescription = Language.main.Get("ProtoDeployableLightEncy_Body");
