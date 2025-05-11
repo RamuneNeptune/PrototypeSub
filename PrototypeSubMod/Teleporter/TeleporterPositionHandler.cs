@@ -28,7 +28,10 @@ public static class TeleporterPositionHandler
         { "mushroomforesttpM", new(new Vector3(362.5f, -1430.29f, -309.28f), -118.949f) },
         { "mushroomforesttpS", new(new Vector3(-747.22f, -241.81f, 437.13f), -104.692f) },
         
-        { "protoislandtpS", new (new Vector3(545.3f, 102.5f, 1740.6f), 57.7f) }
+        { "protoislandtpS", new (new Vector3(545.3f, 102.5f, 1740.6f), 57.7f) },
+        
+        { "protohullfacilitytpM", new(new Vector3(-1071.471f, -435.393f, -1241.181f), 55f) },
+        { "protohullfacilitytpS", new(new Vector3(-116.2f, -73.8f, -191.1f), 228f) },
     };
 
     public static readonly List<string> OutOfWaterTeleporters = new()
@@ -37,7 +40,8 @@ public static class TeleporterPositionHandler
         "cragfieldtp",
         "kooshzonetp",
         "lostrivertp",
-        "mushroomforesttp"
+        "mushroomforesttp",
+        "protohullfacilitytp"
     };
 
     public struct TeleportData
