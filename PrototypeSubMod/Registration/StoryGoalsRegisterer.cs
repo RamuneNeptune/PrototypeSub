@@ -129,5 +129,8 @@ internal static class StoryGoalsRegisterer
             PDAEncyclopedia.Add("AlienBuildingBlockEncy", true);
         });
         #endregion
+
+        StoryGoalHandler.RegisterCustomEvent("HullFacilityMainLights", null);
+        StoryGoalHandler.RegisterCustomEvent("HullFacilityWyrmLights", null);
     }
 }
