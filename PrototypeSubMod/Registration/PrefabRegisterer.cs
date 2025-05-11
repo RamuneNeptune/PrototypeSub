@@ -1,6 +1,4 @@
-﻿using Nautilus.Crafting;
-using Nautilus.Handlers;
-using PrototypeSubMod.Prefabs;
+﻿using PrototypeSubMod.Prefabs;
 using PrototypeSubMod.Prefabs.AlienBuildingBlock;
 using PrototypeSubMod.Prefabs.FacilityProps;
 using PrototypeSubMod.Prefabs.FacilityProps.Hull;
@@ -68,6 +66,8 @@ internal static class PrefabRegisterer
             DeployableLight_Craftable.prefabInfo.TechType, new Vector3(0, 1.3f, 0), Vector3.one * 0.25f, new[] { "VolumetricLight" });
         DisplayCaseProp.Register("f90d7d3c-d017-426f-af1a-62ca93fae22e", "IonCrystalMatrix_DisplayCase",
             TechType.PrecursorIonCrystalMatrix, new Vector3(0, 1.3f, 0), Vector3.one * 1.3f);
+        DisplayCaseProp.Register(AlienBuildingBlock.prefabInfo.ClassID, "AlienBuildingBlock_DisplayCase",
+            TechType.PrecursorIonCrystalMatrix, new Vector3(0, 1.3f, 0), Vector3.one);
         
         Plugin.DefenseFacilityPingTechType = CustomPing.CreatePing("ProtoDefenseFacilityPing", Plugin.DefenseFacilityPingType, new Color(1, 0, 0));
         Plugin.StoryEndPingTechType = CustomPing.CreatePing("StoryEndPingType", PingType.Signal);
