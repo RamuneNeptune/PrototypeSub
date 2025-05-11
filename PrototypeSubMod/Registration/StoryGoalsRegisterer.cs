@@ -122,5 +122,12 @@ internal static class StoryGoalsRegisterer
             PDAEncyclopedia.Add("OrionEndeavorsEncy", true);
         });
         #endregion
+
+        #region Alien Building Block Info
+        StoryGoalHandler.RegisterCustomEvent("AlienBuildingBlockEncy", () =>
+        {
+            PDAEncyclopedia.Add("AlienBuildingBlockEncy", true);
+        });
+        #endregion
     }
 }

@@ -122,6 +122,12 @@ internal static class EncyEntryRegisterer
         string orionEndeavorsBody = Language.main.Get("OrionEndeavorsEncy_Body");
         PDAHandler.AddEncyclopediaEntry("OrionEndeavorsEncy", "DownloadedData/Precursor/Terminal", orionEndeavorsTitle, orionEndeavorsBody, unlockSound: PDAHandler.UnlockBasic);
         #endregion
+
+        #region Alien Building Block
+        string alienBuildingBlockEncyTitle = Language.main.Get("AlienBuildingBlockEncy_Title");
+        string alienBuildingBlockEncyBody = Language.main.Get("AlienBuildingBlockEncy_Body");
+        PDAHandler.AddEncyclopediaEntry("AlienBuildingBlockEncy", "DownloadedData/Precursor/Terminal", alienBuildingBlockEncyTitle, alienBuildingBlockEncyBody, unlockSound: PDAHandler.UnlockBasic);
+        #endregion
         
         RegisterEncyEntries("DownloadedData/Precursor/ProtoUpgrades", PDAHandler.UnlockBasic, new()
             {
