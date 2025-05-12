@@ -20,7 +20,7 @@ public class ProtoWormSpineManager : MonoBehaviour
         {
             var spine = Instantiate(spineSegmentPrefab, segmentsParent);
             spine.transform.localPosition = initialLocalPos + incrementPerSpine * i;
-            StartCoroutine(StartAnimDelayed(spine, i * 0.5f));
+            StartCoroutine(StartAnimDelayed(spine, i * 0.05f));
         }
 
         spawned = true;
