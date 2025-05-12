@@ -12,6 +12,9 @@ namespace PrototypeSubMod.Patches;
 [HarmonyPatch(typeof(MaterialUtils))]
 internal class MaterialUtils_Patches
 {
+    [SaveStateReference(false)]
+    private static bool calledFromAssembly;
+    
     [HarmonyPatch(nameof(MaterialUtils.ApplyUBERShader)), HarmonyPrefix]
     private static void ApplyUBERShader_Prefix(Material material, ref (bool, float) __state)
     {
@@ -24,9 +27,16 @@ internal class MaterialUtils_Patches
     [HarmonyPatch(nameof(MaterialUtils.ApplyUBERShader)), HarmonyPostfix]
     private static void ApplyUBERShader_Postfix(Material material, (bool, float) __state)
     {
-        if (!__state.Item1) return;
+        if (!__state.Item1 || !calledFromAssembly) return;
 
         material.SetFloat("_Shininess", __state.Item2 * 8f);
+        calledFromAssembly = false;
+    }
+
+    [HarmonyPatch(nameof(MaterialUtils.ApplySNShaders)), HarmonyPrefix]
+    private static void ApplySNShaders_Prefix()
+    {
+        calledFromAssembly = Assembly.GetCallingAssembly() == Plugin.Assembly;
     }
 
     [HarmonyPatch(nameof(MaterialUtils.ApplySNShaders)), HarmonyTranspiler]
