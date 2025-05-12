@@ -13,11 +13,11 @@ internal static class BiomeRegisterer
     {
         var settings = BiomeUtils.CreateBiomeSettings(new Vector3(18, 15, 13), 1.1f, Color.white, 0.15f, Color.white, 0, temperature: 10);
 
-        BiomeHandler.RegisterBiome("protodefensefacility", settings, new BiomeHandler.SkyReference("SkyMountains"));
+        BiomeHandler.RegisterBiome(Plugin.DEFENSE_CHAMBER_BIOME_NAME, settings, new BiomeHandler.SkyReference("SkyMountains"));
         PrefabInfo volumePrefabInfo = PrefabInfo.WithTechType("ProtoDefenseFacilityBiomeVolume");
         CustomPrefab volumePrefab = new CustomPrefab(volumePrefabInfo);
-        AtmosphereVolumeTemplate template = new(volumePrefabInfo, AtmosphereVolumeTemplate.VolumeShape.Cube,
-            "protodefensefacility", 15, LargeWorldEntity.CellLevel.Global);
+        AtmosphereVolumeTemplate template = new AtmosphereVolumeTemplate(volumePrefabInfo, AtmosphereVolumeTemplate.VolumeShape.Cube,
+            Plugin.DEFENSE_CHAMBER_BIOME_NAME, 15, LargeWorldEntity.CellLevel.Global);
         template.ModifyPrefab = prefab =>
         {
             var volum = prefab.GetComponent<AtmosphereVolume>();
@@ -61,6 +61,18 @@ internal static class BiomeRegisterer
         BiomeHandler.RegisterBiome(Plugin.ENGINE_FACILITY_BIOME_NAME, engineSettings, new BiomeHandler.SkyReference("SkyBloodKelpTwo"));
         BiomeHandler.AddBiomeMusic(Plugin.ENGINE_FACILITY_BIOME_NAME, AudioUtils.GetFmodAsset("EngineFacilityMusic"));
 
+        #endregion
+
+        #region Hull Facility
+        var hullSettings =
+            BiomeUtils.CreateBiomeSettings(Vector3.zero, 0f, Color.white, 0.01f, new Color(0.824f, 0.922f, 0.828f), 0);
+        BiomeHandler.RegisterBiome("protohullfacilitycalm", hullSettings, new BiomeHandler.SkyReference("SkyPrecursorInterior_NoLightmaps"));
+        BiomeHandler.AddBiomeMusic("protohullfacilitycalm",
+            Plugin.AssetBundle.LoadAsset<FMODAsset>("HullFacility_Calm"));
+
+        BiomeHandler.RegisterBiome("protohullfacilitytense", hullSettings, new BiomeHandler.SkyReference("SkyPrecursorInterior_NoLightmaps"));
+        BiomeHandler.AddBiomeMusic("protohullfacilitytense",
+            Plugin.AssetBundle.LoadAsset<FMODAsset>("HullFacility_Tense"));
         #endregion
     }
 }
