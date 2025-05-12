@@ -1,4 +1,5 @@
-﻿using Nautilus.Assets;
+﻿using System.Collections;
+using Nautilus.Assets;
 using Nautilus.Assets.PrefabTemplates;
 using UnityEngine;
 
@@ -21,11 +22,19 @@ public class HullOutpostTeleporter
             teleporter.warpToPos = new Vector3(-1071.471f, -435.393f, -1241.181f);
             teleporter.warpToAngle = 55;
 
-            gameObject.GetComponent<TechTag>().type = TechType.PrecursorTeleporter;
+            UWE.CoroutineHost.StartCoroutine(ChangeTagDelayed(gameObject.GetComponent<TechTag>()));
         };
 
         prefab.SetGameObject(cloneTemplate);
 
         prefab.Register();
+    }
+
+    private static IEnumerator ChangeTagDelayed(TechTag tag)
+    {
+        yield return new WaitForEndOfFrame();
+        yield return new WaitForEndOfFrame();
+        
+        tag.type = TechType.PrecursorTeleporter;
     }
 }
