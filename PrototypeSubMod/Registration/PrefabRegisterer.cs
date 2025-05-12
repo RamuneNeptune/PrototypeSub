@@ -33,6 +33,7 @@ internal static class PrefabRegisterer
         HullFacilitySpawner_World.Register();
         OrionFragmentor_World.Register();
         HullFacilityKey.Register();
+        HullOutpostTeleporter.Register();
         
         PrecursorFabricator.Register();
 
