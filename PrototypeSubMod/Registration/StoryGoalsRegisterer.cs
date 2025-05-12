@@ -1,4 +1,5 @@
 ﻿using Nautilus.Handlers;
+using Nautilus.Utility;
 using PrototypeSubMod.Prefabs;
 using PrototypeSubMod.PrototypeStory;
 using UnityEngine;
@@ -132,5 +133,10 @@ internal static class StoryGoalsRegisterer
 
         StoryGoalHandler.RegisterCustomEvent("HullFacilityMainLights", null);
         StoryGoalHandler.RegisterCustomEvent("HullFacilityWyrmLights", null);
+        
+        StoryGoalHandler.RegisterCustomEvent("OrionSurgicalRoomTome", () =>
+        {
+            FMODUWE.PlayOneShot(AudioUtils.GetFmodAsset("HullFacilityOrionTone"), Player.main.transform.position);
+        });
     }
 }
