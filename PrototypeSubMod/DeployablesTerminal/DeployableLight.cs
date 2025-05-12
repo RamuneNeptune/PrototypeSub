@@ -161,7 +161,7 @@ internal class DeployableLight : MonoBehaviour, IProtoTreeEventListener
 
     public void OnProtoDeserializeObjectTree(ProtobufSerializer serializer)
     {
-        if (Plugin.GlobalSaveData.deployableLightLifetimes.TryGetValue(identifier.id, out currentLifetime))
+        if (Plugin.GlobalSaveData.deployableLightLifetimes.TryGetValue(identifier.id, out currentLifetime) && currentLifetime < lifetime)
         {
             ActivateLight();
         }
