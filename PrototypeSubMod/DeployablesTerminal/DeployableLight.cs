@@ -150,7 +150,7 @@ internal class DeployableLight : MonoBehaviour, IProtoTreeEventListener
 
         Destroy(topHalf, 10f);
         Destroy(bottomHalf, 10f);
-        Destroy(GetComponent<PrefabIdentifier>());
+        Destroy(gameObject, 10f);
 
         breakSFX.Play();
         loopingSFX.Stop(FMOD.Studio.STOP_MODE.IMMEDIATE);

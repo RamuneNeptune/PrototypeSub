@@ -99,7 +99,9 @@ internal class Player_Patches
     private static readonly List<string> BLACKLISTED_WALKABLE_BIOMES = new()
     {
         Plugin.DEFENSE_CHAMBER_BIOME_NAME,
-        Plugin.ENGINE_FACILITY_BIOME_NAME
+        Plugin.ENGINE_FACILITY_BIOME_NAME,
+        "protohullfacilitycalm",
+        "protohullfacilitytense"
     };
     
     public static bool BiomeIsWalkableBlacklisted(bool previousResult, string currentBiome)
