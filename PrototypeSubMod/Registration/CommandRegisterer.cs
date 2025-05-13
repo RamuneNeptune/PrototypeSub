@@ -11,6 +11,7 @@ internal static class CommandRegisterer
         ConsoleCommandsHandler.AddGotoTeleportPosition("defensefacility", new Vector3(689, -483, -1404f));
         ConsoleCommandsHandler.AddGotoTeleportPosition("enginefacility", new Vector3(-558, -463, 1497f));
         ConsoleCommandsHandler.AddGotoTeleportPosition("hullfacility", new Vector3(-1067, -427, -1226));
+        ConsoleCommandsHandler.AddGotoTeleportPosition("hulloutpost", new Vector3(-162, -69, -226));
         ConsoleCommandsHandler.AddGotoTeleportPosition("ppt", new Vector3(449, -92, 1169));
     }
 }
