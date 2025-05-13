@@ -14,6 +14,9 @@ public class SFXButton : Button
     public float volume = 1;
     public float minDistForSound = 2;
 
+    private bool wasOutOfRange;
+    private bool mouseOnObject;
+    
     private void Awake()
     {
         onClick.AddListener(() =>
@@ -32,6 +35,8 @@ public class SFXButton : Button
     
     public override void OnPointerEnter(PointerEventData eventData)
     {
+        mouseOnObject = true;
+        
         if ((Player.main.transform.position - transform.position).sqrMagnitude >
             minDistForSound * minDistForSound) return;
         
@@ -45,6 +50,8 @@ public class SFXButton : Button
     
     public override void OnPointerExit(PointerEventData eventData)
     {
+        mouseOnObject = false;
+        
         base.OnPointerExit(eventData);
         
         if ((Player.main.transform.position - transform.position).sqrMagnitude > minDistForSound * minDistForSound)
@@ -65,10 +72,19 @@ public class SFXButton : Button
             yield return new WaitForSeconds(1);
             bool outOfRange = (Player.main.transform.position - transform.position).sqrMagnitude >
                               minDistForSound * minDistForSound;
+            
+            if (wasOutOfRange == outOfRange) continue;
+            
             if (outOfRange)
             {
                 ((Image)targetGraphic).overrideSprite = null;
             }
+            else if (mouseOnObject)
+            {
+                OnPointerEnter(new PointerEventData(EventSystem.current));
+            }
+            
+            wasOutOfRange = outOfRange;
         }
     }
 
