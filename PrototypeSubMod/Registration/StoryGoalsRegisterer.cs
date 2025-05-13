@@ -138,5 +138,10 @@ internal static class StoryGoalsRegisterer
         {
             FMODUWE.PlayOneShot(AudioUtils.GetFmodAsset("HullFacilityOrionTone"), Player.main.transform.position);
         });
+        
+        StoryGoalHandler.RegisterCustomEvent("HullFacilityActivateWorm", () =>
+        {
+            ErrorMessage.AddError("Pretend the worm just activated");
+        });
     }
 }

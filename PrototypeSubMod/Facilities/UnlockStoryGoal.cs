@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using Story;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace PrototypeSubMod.Facilities;
 
@@ -8,12 +9,14 @@ internal class UnlockStoryGoal : MonoBehaviour
 {
     [SerializeField] private MultipurposeAlienTerminal terminal;
     [SerializeField] private string storyGoalKey;
+    [SerializeField] private UnityEvent onTrigger;
 
     private IEnumerator Start()
     {
         terminal.onTerminalInteracted += () =>
         {
             StoryGoalManager.main.OnGoalComplete(storyGoalKey);
+            onTrigger?.Invoke();
         };
 
         for (int i = 0; i < 5; i++)
