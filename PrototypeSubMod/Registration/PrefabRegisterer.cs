@@ -2,6 +2,7 @@
 using PrototypeSubMod.Prefabs.AlienBuildingBlock;
 using PrototypeSubMod.Prefabs.FacilityProps;
 using PrototypeSubMod.Prefabs.FacilityProps.Hull;
+using PrototypeSubMod.Prefabs.WormSpawns;
 using UnityEngine;
 
 namespace PrototypeSubMod.Registration;
@@ -69,6 +70,14 @@ internal static class PrefabRegisterer
             TechType.PrecursorIonCrystalMatrix, new Vector3(0, 1.3f, 0), Vector3.one * 1.3f);
         DisplayCaseProp.Register(AlienBuildingBlock.prefabInfo.ClassID, "AlienBuildingBlock_DisplayCase",
             TechType.PrecursorIonCrystalMatrix, new Vector3(0, 1.3f, 0), Vector3.one);
+
+        ProtoWormSpawnEvent.RegisterEvent("WormSpawnEventVertical",
+            Plugin.AssetBundle.LoadAsset<GameObject>("WormSpawnEventVertical"),
+            new LootDistributionData.BiomeData[]
+            {
+                new() { biome = BiomeType.Dunes_SandDune, probability = 0.02f, count = 1 },
+                new() { biome = BiomeType.Dunes_SandPlateau, probability = 0.02f, count = 1 },
+            });
         
         Plugin.DefenseFacilityPingTechType = CustomPing.CreatePing("ProtoDefenseFacilityPing", Plugin.DefenseFacilityPingType, new Color(1, 0, 0));
         Plugin.StoryEndPingTechType = CustomPing.CreatePing("StoryEndPingType", PingType.Signal);

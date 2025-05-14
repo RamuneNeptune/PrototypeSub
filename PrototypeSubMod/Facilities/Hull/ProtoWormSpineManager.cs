@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using HarmonyLib;
 using UnityEngine;
 
 namespace PrototypeSubMod.Facilities.Hull;
 
 public class ProtoWormSpineManager : MonoBehaviour
 {
+    [SerializeField] private SkyApplier skyApplier;
     [SerializeField] private Transform segmentsParent;
     [SerializeField] private GameObject spineSegmentPrefab;
     [SerializeField] private Vector3 initialLocalPos;
@@ -21,6 +23,16 @@ public class ProtoWormSpineManager : MonoBehaviour
             var spine = Instantiate(spineSegmentPrefab, segmentsParent);
             spine.transform.localPosition = initialLocalPos + incrementPerSpine * i;
             StartCoroutine(StartAnimDelayed(spine, i * 0.05f));
+
+            if (skyApplier)
+            {
+                skyApplier.renderers.AddRangeToArray(spine.GetComponentsInChildren<Renderer>());
+            }
+        }
+
+        if (skyApplier)
+        {
+            skyApplier.ApplySkybox();
         }
 
         spawned = true;

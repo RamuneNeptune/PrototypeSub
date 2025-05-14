@@ -110,7 +110,9 @@ namespace PathCreationEditor
 			{
 				data.PathModifiedByUndo();
 			}
-		}
+
+            EditorUtility.SetDirty(data);
+        }
 
 		void DrawBezierPathInspector()
 		{
