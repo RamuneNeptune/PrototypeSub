@@ -26,27 +26,27 @@ namespace PrototypeSubMod.PathCreation
 		#region Fields
 
 		[SerializeField, HideInInspector]
-		List<Vector3> points;
+		public List<Vector3> points;
 		[SerializeField, HideInInspector]
-		bool isClosed;
+		public bool isClosed;
 		[SerializeField, HideInInspector]
-		PathSpace space;
+		public PathSpace space;
 		[SerializeField, HideInInspector]
-		ControlMode controlMode;
+		public ControlMode controlMode;
 		[SerializeField, HideInInspector]
-		float autoControlLength = .3f;
+		public float autoControlLength = .3f;
 		[SerializeField, HideInInspector]
-		bool boundsUpToDate;
+		public bool boundsUpToDate;
 		[SerializeField, HideInInspector]
-		Bounds bounds;
+		public Bounds bounds;
 
 		// Normals settings
 		[SerializeField, HideInInspector]
-		List<float> perAnchorNormalsAngle;
+		public List<float> perAnchorNormalsAngle;
 		[SerializeField, HideInInspector]
-		float globalNormalsAngle;
+		public float globalNormalsAngle;
 		[SerializeField, HideInInspector]
-		bool flipNormals;
+		public bool flipNormals;
 		
         #endregion
 

@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Collections;
 using PrototypeSubMod.Utility;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -13,12 +13,14 @@ public class WormSpawnEvent : MonoBehaviour
     private static float _timeNextSpawn = float.MinValue;
 
     [SerializeField] private GameObject disableObjects;
-    [SerializeField] private Transform wormHead;
+    [SerializeField] private Transform raycastOrigin;
+    
     private bool wormActive;
 
     private void Awake()
     {
         gameObject.SetActive(true);
+        disableObjects.SetActive(false);
     }
 
     private void Update()
@@ -36,12 +38,11 @@ public class WormSpawnEvent : MonoBehaviour
         {
             return;
         }
-
-        /*
-        var coord = (Int3)LargeWorldStreamer.main.transform.InverseTransformPoint(transform.position);
-        var octree = LargeWorldStreamer.main.streamerV2.octreesStreamer.GetOctree(coord);
-        bool hitTerrain = octree != null && !octree.IsEmpty();
+        
+        bool hitTerrain = Physics.Raycast(raycastOrigin.position, raycastOrigin.forward,
+            2f, 1 << LayerID.TerrainCollider);
+        hitTerrain |= Physics.Raycast(raycastOrigin.position, -raycastOrigin.forward,
+            2f, 1 << LayerID.TerrainCollider);
         ErrorMessage.AddError($"Hit terrain = {hitTerrain}");
-        */
     }
 }

@@ -19,7 +19,12 @@ public class ProtoWormAnimator : MonoBehaviour
     private bool moving;
     private float distanceMoved;
 
-    private IEnumerator Start()
+    private void Start()
+    {
+        UWE.CoroutineHost.StartCoroutine(Initialize());
+    }
+
+    private IEnumerator Initialize()
     {
         yield return new WaitUntil(() => spineManager.GetSpawned());
 

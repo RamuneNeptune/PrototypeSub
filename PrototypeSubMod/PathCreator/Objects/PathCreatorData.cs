@@ -13,13 +13,16 @@ namespace PrototypeSubMod.PathCreation {
 
         [SerializeField]
         public BezierPath _bezierPath;
-        VertexPath _vertexPath;
+        [SerializeField, HideInInspector]
+        public VertexPath _vertexPath;
 
-        [SerializeField]
-        bool vertexPathUpToDate;
+        [SerializeField, HideInInspector]
+        public bool vertexPathUpToDate;
 
         // vertex path settings
+        [SerializeField, HideInInspector]
         public float vertexPathMaxAngleError = .3f;
+        [SerializeField, HideInInspector]
         public float vertexPathMinVertexSpacing = 0.01f;
 
         // bezier display settings
