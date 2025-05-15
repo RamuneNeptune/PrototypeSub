@@ -112,6 +112,7 @@ namespace PathCreationEditor
 			}
 
             EditorUtility.SetDirty(data);
+            EditorUtility.SetDirty(data.bezierPath);
         }
 
 		void DrawBezierPathInspector()
