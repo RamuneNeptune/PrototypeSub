@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using PrototypeSubMod.Utility;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -21,8 +22,11 @@ public class WormSpawnEvent : MonoBehaviour
     [SerializeField] private GameObject disableObjects;
     [SerializeField] private Transform raycastOrigin;
     
+    private bool spawnedDigOutParticles;
     private bool wormActive;
-    private bool hadHitTerrain;
+    private int particleCount;
+    private float timeNextParticles = float.MinValue;
+    private float timeSpawned;
 
     private void Awake()
     {
@@ -47,6 +51,7 @@ public class WormSpawnEvent : MonoBehaviour
             return;
         }
         
+        /*
         bool hitTerrain = Physics.Raycast(raycastOrigin.position, raycastOrigin.forward, out RaycastHit hit,
             2f, 1 << LayerID.TerrainCollider);
         if (!hitTerrain)
@@ -54,27 +59,56 @@ public class WormSpawnEvent : MonoBehaviour
             hitTerrain |= Physics.Raycast(raycastOrigin.position + raycastOrigin.forward, -raycastOrigin.forward, out hit,
                 5f, 1 << LayerID.TerrainCollider);
         }
-        
-        if (hitTerrain != hadHitTerrain && hitTerrain)
+        */
+
+        /*
+        if (!hitTerrain)
         {
-            ErrorMessage.AddError($"Hit terrain at {hit.point}");
-            if (wormAnimator.GetNormalizedProgress() < 0.25f)
+            Vector3 offset = -raycastOrigin.forward * LargeWorldStreamer.main.blocksPerTree;
+            float maxDist = LargeWorldStreamer.main.blocksPerTree * 4;
+            bool hitFront = AvoidTerrain.OctreeRaycastSkipCurrent(raycastOrigin.position + offset, raycastOrigin.forward, maxDist);
+            bool hitBack = AvoidTerrain.OctreeRaycastSkipCurrent(raycastOrigin.position - offset, -raycastOrigin.forward, maxDist);
+            hit.point = raycastOrigin.position + offset * (hitBack ? 1 : -1);
+            hitTerrain |= hitFront || hitBack;
+        }
+        */
+
+        var main = LargeWorldStreamer.main;
+        Vector3 jitter = Random.onUnitSphere * 3;
+        
+        bool hit1 = !main.streamerV2.octreesStreamer.GetOctree(main.GetBlock(raycastOrigin.position + jitter) / main.blocksPerTree).IsEmpty();
+        bool hit2 = !main.streamerV2.octreesStreamer.GetOctree(main.GetBlock(raycastOrigin.position - jitter) / main.blocksPerTree).IsEmpty();
+        bool hitTerrain = hit1 && hit2;
+        
+        if (hitTerrain && Time.time > timeNextParticles && wormAnimator.GetNormalizedProgress() > 0.25f)
+        {
+            if (particleCount <= 6)
             {
-                UWE.CoroutineHost.StartCoroutine(SpawnPrefabRepeating(_digOutFX, hit.point,
+                ErrorMessage.AddError($"Hit terrain at {raycastOrigin.position}");
+                UWE.CoroutineHost.StartCoroutine(SpawnPrefabRepeating(_digInFX, raycastOrigin.position, 
                     wormAnimator.GetTimeForWormLength(), 0.5f));
-            }
-            else
-            {
-                UWE.CoroutineHost.StartCoroutine(SpawnPrefabRepeating(_digInFX, hit.point,
-                    wormAnimator.GetTimeForWormLength(), 0.5f));
+            
+                timeNextParticles = Time.time + 1f;
             }
         }
-        
-        hadHitTerrain = hitTerrain;
+
+        if (!spawnedDigOutParticles && (raycastOrigin.position - transform.position).sqrMagnitude < 25 && Time.time > timeSpawned + 0.2f)
+        {
+            UWE.CoroutineHost.StartCoroutine(SpawnPrefabRepeating(_digOutFX, raycastOrigin.position,
+                wormAnimator.GetTimeForWormLength(), 0.5f));
+            
+            spawnedDigOutParticles = true;
+        }
+    }
+
+    private void OnEnable()
+    {
+        timeSpawned = Time.time;
     }
 
     private IEnumerator SpawnPrefabRepeating(GameObject prefab, Vector3 point, float totalDuration, float particleDuration)
     {
+        particleCount++;
         for (int i = 0; i < Mathf.CeilToInt(totalDuration / particleDuration); i++)
         {
             for (int j = 0; j < 4; j++)

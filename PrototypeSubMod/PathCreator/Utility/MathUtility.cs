@@ -5,7 +5,8 @@ namespace PrototypeSubMod.PathCreation.Utility {
     public static class MathUtility {
 
         // Transform point from local to world space
-        public static Vector3 TransformPoint (Vector3 p, Transform t, PathSpace space) {
+        public static Vector3 TransformPoint (Vector3 p, Transform t, PathSpace space)
+        {
             // path only works correctly for uniform scales, so average out xyz global scale
             float scale = Vector3.Dot (t.lossyScale, Vector3.one) / 3;
             Vector3 constrainedPos = t.position;

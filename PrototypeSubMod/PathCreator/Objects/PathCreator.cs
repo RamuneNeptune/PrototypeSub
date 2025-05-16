@@ -53,6 +53,7 @@ namespace PrototypeSubMod.PathCreation {
             editorData.bezierOrVertexPathModified += TriggerPathUpdate;
 
             editorData.Initialize (in2DMode);
+            path.UpdateTransform(transform);
             initialized = true;
         }
 
