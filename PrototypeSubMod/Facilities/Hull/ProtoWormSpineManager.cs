@@ -48,4 +48,5 @@ public class ProtoWormSpineManager : MonoBehaviour
     public bool GetSpawned() => spawned;
     public Vector3 GetInitialLocalPos() => initialLocalPos;
     public Vector3 GetIncrementPerSpine() => incrementPerSpine;
+    public int GetSpineSegmentCount() => spineSegmentCount;
 }

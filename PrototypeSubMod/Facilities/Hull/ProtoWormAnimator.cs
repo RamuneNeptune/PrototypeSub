@@ -65,4 +65,16 @@ public class ProtoWormAnimator : MonoBehaviour
         var side = Vector3.Cross((nextPoint - initialPoint).normalized, normal.normalized);
         return initialPoint + side * (Mathf.Sin(time * offsetSpeed) * offsetAmplitude);
     }
+
+    public float GetNormalizedProgress()
+    {
+        return distanceMoved / pathCreator.path.length;
+    }
+
+    public float GetTimeForWormLength()
+    {
+        float spineLength = Mathf.Abs(spineManager.GetIncrementPerSpine().z) * spineManager.GetSpineSegmentCount() +
+                            Mathf.Abs(spineManager.GetInitialLocalPos().z);
+        return spineLength / speed;
+    }
 }
