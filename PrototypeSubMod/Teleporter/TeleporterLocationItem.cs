@@ -28,8 +28,8 @@ public class TeleporterLocationItem : MonoBehaviour
 
     public void OnButtonClicked()
     {
-        idManager.OnItemSelected(teleporterID, isHost);
-        SetSelected(true);
+        SetSelected(!selected);
+        idManager.OnItemSelected(selected ? teleporterID : null, isHost);
     }
 
     public void SetSelected(bool selected)

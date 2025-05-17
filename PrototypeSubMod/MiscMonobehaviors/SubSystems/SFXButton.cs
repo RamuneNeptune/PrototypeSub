@@ -35,6 +35,7 @@ public class SFXButton : Button
     
     public override void OnPointerEnter(PointerEventData eventData)
     {
+        if (!gameObject.activeSelf) return;
         mouseOnObject = true;
         
         if ((Player.main.transform.position - transform.position).sqrMagnitude >
@@ -50,9 +51,10 @@ public class SFXButton : Button
     
     public override void OnPointerExit(PointerEventData eventData)
     {
-        mouseOnObject = false;
-        
         base.OnPointerExit(eventData);
+        
+        if (!gameObject.activeSelf) return;
+        mouseOnObject = false;
         
         if ((Player.main.transform.position - transform.position).sqrMagnitude > minDistForSound * minDistForSound)
         {

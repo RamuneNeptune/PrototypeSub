@@ -1,21 +1,27 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using PrototypeSubMod.SaveData;
+using SubLibrary.SaveData;
 using TMPro;
 using UnityEngine;
 
 namespace PrototypeSubMod.Teleporter;
 
-public class ProtoTeleporterIDManager : MonoBehaviour
+public class ProtoTeleporterIDManager : MonoBehaviour, ISaveDataListener
 {
     private static readonly int ScreenActive = Animator.StringToHash("ScreenActive");
     
     [SerializeField] private ProtoTeleporterManager positionSetter;
+    [SerializeField] private TeleporterModeManager modeManager;
     [SerializeField] private Animator animator;
     [SerializeField] private Transform surfaceTeleportersParent;
     [SerializeField] private Transform depthsTeleportersParent;
+    [SerializeField] private List<string> pcfTeleporterIds;
 
     private readonly Dictionary<string, TeleporterLocationItem> locationItems = new();
     private bool screenActive;
+
+    private string activatedPCFTeleporterID;
     
     private void Start()
     {
@@ -57,11 +63,19 @@ public class ProtoTeleporterIDManager : MonoBehaviour
     {
         foreach (var item in TeleporterManager.main.activeTeleporters)
         {
-            if (item.ToLower().Contains("proto") && item != "protoislandtp") continue;
+            string lowercaseID = item.ToLower();
+            if (lowercaseID.Contains("proto") && item != "protoislandtp") continue;
 
+            if (string.IsNullOrEmpty(activatedPCFTeleporterID) && pcfTeleporterIds.Contains(lowercaseID))
+            {
+                activatedPCFTeleporterID = lowercaseID;
+            }
+            
             string keySource = item + "M";
             string keyTarget = item + "S";
-            if (locationItems.TryGetValue(keySource, out TeleporterLocationItem locationItemM))
+            bool blacklistedPCF = !string.IsNullOrEmpty(activatedPCFTeleporterID) && activatedPCFTeleporterID != item && pcfTeleporterIds.Contains(lowercaseID);
+            
+            if (locationItems.TryGetValue(keySource, out TeleporterLocationItem locationItemM) && !blacklistedPCF)
             {
                 locationItemM.gameObject.SetActive(true);
             }
@@ -75,6 +89,14 @@ public class ProtoTeleporterIDManager : MonoBehaviour
 
     public void OnItemSelected(string id, bool isHost)
     {
+        if (id == null)
+        {
+            modeManager.SetInterfloorMode();
+            return;
+        }
+
+        modeManager.SetNormalMode();
+        
         positionSetter.SetTeleporterID(id);
         foreach (var locationItem in locationItems)
         {
@@ -88,5 +110,15 @@ public class ProtoTeleporterIDManager : MonoBehaviour
     {
         screenActive = !screenActive;
         animator.SetBool(ScreenActive, screenActive);
+    }
+
+    public void OnSaveDataLoaded(BaseSubDataClass saveData)
+    {
+        activatedPCFTeleporterID = saveData.EnsureAsPrototypeData().activatedPCFTeleporterID;
+    }
+
+    public void OnBeforeDataSaved(ref BaseSubDataClass saveData)
+    {
+        saveData.EnsureAsPrototypeData().activatedPCFTeleporterID = activatedPCFTeleporterID;
     }
 }

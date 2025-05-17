@@ -116,6 +116,15 @@ internal class ProtoTeleporterManager : ProtoUpgrade
     public Transform GetTeleportPosition() => teleportPosition;
     public string GetTeleporterID() => teleporterID;
 
+    /// <summary>
+    /// Returns the teleporter ID without the M/S indicator
+    /// </summary>
+    /// <returns></returns>
+    public string GetTeleporterIDNoIndicator()
+    {
+        return teleporterID.Replace("M", string.Empty).Replace("S", string.Empty);
+    }
+
     //Called by PrecursorTeleporterActivationTerminal via SendMessage
     public void ToggleDoor(bool open)
     {

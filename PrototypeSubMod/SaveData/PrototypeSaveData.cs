@@ -20,6 +20,7 @@ internal class PrototypeSaveData : ModuleDataClass
     public List<TechType> installedModules = new();
 
     public Type installedPowerUpgradeType;
+    public string activatedPCFTeleporterID;
     public float currentPowerEffectDuration;
     public int allowedPowerSourceCount;
     public int installedFinCount;

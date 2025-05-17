@@ -40,7 +40,7 @@ internal class PrecursorTeleporter_Patches
 
         if (lastTeleporterWasProtoSub)
         {
-            lastTeleporterID = positionSetter.GetTeleporterID();
+            lastTeleporterID = positionSetter.GetTeleporterIDNoIndicator();
         }
     }
 
