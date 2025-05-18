@@ -147,7 +147,11 @@ internal class ProtoPowerAbilitySystem : MonoBehaviour, ISaveDataListener, ILate
 
     private void OnEquip(string slot, InventoryItem item)
     {
-        FMODUWE.PlayOneShot(equipSound, transform.position, 1f);
+        if (equipSound != null)
+        {
+            FMODUWE.PlayOneShot(equipSound, transform.position);
+        }
+        
         onEquip?.Invoke();
 
         foreach (var obj in powerSourceGameObjects.Values)
@@ -171,8 +175,11 @@ internal class ProtoPowerAbilitySystem : MonoBehaviour, ISaveDataListener, ILate
             return;
         }
 
-        FMODUWE.PlayOneShot(unequipSound, transform.position, 1f);
-
+        if (unequipSound != null)
+        {
+            FMODUWE.PlayOneShot(unequipSound, transform.position);
+        }
+        
         foreach (var obj in powerSourceGameObjects.Values)
         {
             obj.SetActive(false);
