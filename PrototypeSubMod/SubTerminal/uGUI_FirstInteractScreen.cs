@@ -13,7 +13,6 @@ internal class uGUI_FirstInteractScreen : TerminalScreen
     [SerializeField] private GameObject normalObjects;
     [SerializeField] private GameObject loadingObjects;
     [SerializeField] private Image loadingBar;
-    [SerializeField] private Image logoImage;
     [SerializeField] private AnimationCurve progressOverTime;
     [SerializeField] private float loadingTime;
 
@@ -56,7 +55,6 @@ internal class uGUI_FirstInteractScreen : TerminalScreen
     private void Start()
     {
         loadingBar.fillAmount = 0;
-        logoImage.material.SetFloat("_LoadProgress", 0);
         
         normalObjects.SetActive(true);
         loadingObjects.SetActive(false);
@@ -99,7 +97,6 @@ internal class uGUI_FirstInteractScreen : TerminalScreen
             float normalizedProgress = currentLoadingTime / loadingTime;
             float fillAmount = progressOverTime.Evaluate(normalizedProgress);
             loadingBar.fillAmount = fillAmount;
-            logoImage.material.SetFloat("_LoadProgress", fillAmount);
 
             if (currentLoadingTime >= loadingTime * 0.75f && !voicelinesStarted)
             {
