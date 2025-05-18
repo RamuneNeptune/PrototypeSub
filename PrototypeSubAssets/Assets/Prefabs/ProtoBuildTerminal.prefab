@@ -4403,6 +4403,65 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &1602665832027953621
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2220739405130879950}
+  - component: {fileID: 7911720715657893967}
+  - component: {fileID: 3572698951320106139}
+  m_Layer: 0
+  m_Name: HullFacilityKey
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2220739405130879950
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1602665832027953621}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3009830910216502434}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7911720715657893967
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1602665832027953621}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 15018958, guid: 06dd3d5416bf43ea368cc39ff96e6d5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: Proto_HullKeyUnlock
+  sound: {fileID: 0}
+  minInterval: 6
+--- !u!114 &3572698951320106139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1602665832027953621}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1716677410, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1622922866213588722
 GameObject:
   m_ObjectHideFlags: 0
@@ -4887,7 +4946,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8087722506802947436}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2131168696886679469}
+        m_MethodName: SetCurrentScreen
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 2919966800608988208}
+          m_ObjectArgumentAssemblyTypeName: PrototypeSubMod.SubTerminal.UpgradeScreen,
+            PrototypeSubMod
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   onClickWrapper:
     m_PersistentCalls:
       m_Calls:
@@ -4895,7 +4966,7 @@ MonoBehaviour:
         m_MethodName: SetCurrentScreen
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgument: {fileID: 2919966800608988208}
           m_ObjectArgumentAssemblyTypeName: PrototypeSubMod.SubTerminal.UpgradeScreen,
             PrototypeSubMod
           m_IntArgument: 0
@@ -6221,9 +6292,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3742635515347477801}
-  - {fileID: 180972030703433528}
   - {fileID: 666732787763715312}
   - {fileID: 3614216128713181022}
+  - {fileID: 2220739405130879950}
   m_Father: {fileID: 2055188084176233035}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6632,7 +6703,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3009830910216502434}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &629451824539677343
 MonoBehaviour:
@@ -9272,65 +9343,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!1 &3453993636816493686
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 180972030703433528}
-  - component: {fileID: 3676123799204234916}
-  - component: {fileID: 4968217657459046963}
-  m_Layer: 0
-  m_Name: DefensePingSpawn
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &180972030703433528
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3453993636816493686}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 3009830910216502434}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3676123799204234916
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3453993636816493686}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 15018958, guid: 06dd3d5416bf43ea368cc39ff96e6d5a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  text: Proto_DefensePingSpawned
-  sound: {fileID: 11400000, guid: f003bf60127f4da48b356d96004d91fe, type: 2}
-  minInterval: 5.5
---- !u!114 &4968217657459046963
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3453993636816493686}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1716677410, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &3454959854674490504
 GameObject:
   m_ObjectHideFlags: 0
@@ -14260,7 +14272,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3009830910216502434}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6142095757618244105
 MonoBehaviour:
@@ -15488,7 +15500,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &6789745986852498536
 RectTransform:
   m_ObjectHideFlags: 0
@@ -15539,11 +15551,12 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 00603e26ddc8f7f4da1bded13ed4611a, type: 2}
   - {fileID: 11400000, guid: 2c05c1940cd3aa2459c00cd2afe2478d, type: 2}
   - {fileID: 11400000, guid: f5552b54320ce7b4c91aca85fa30d213, type: 2}
-  defenseCategory: {fileID: 11400000, guid: 46292c70188bb654787ac6942aa5f769, type: 2}
   screenManager: {fileID: 546038079559661941}
+  hullUpgradeCategory: {fileID: 11400000, guid: 00603e26ddc8f7f4da1bded13ed4611a,
+    type: 2}
   manager: {fileID: 5482179116141080399}
-  defensePingNotification: {fileID: 3676123799204234916}
   storyEndNotification: {fileID: 629451824539677343}
+  hullKeyNotification: {fileID: 7911720715657893967}
   newDataNotification: {fileID: 6142095757618244105}
   precursorCharacters: "\u2580\u2596\u2517\u259B\u2584\u2596\u259C\u259A\u2523 \u259C\u259A\u2517\u2523\u2517\u252B\u2513\u250F\u2513
     \u259B\u2584\u2596\u2505\u2517\u2596. \u2523\u2517\u250F\u259B\u2584\u2596\u259C\u250F\u2523
@@ -16046,7 +16059,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4784030902727786864}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2131168696886679469}
+        m_MethodName: SetCurrentScreen
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 2919966800608988208}
+          m_ObjectArgumentAssemblyTypeName: PrototypeSubMod.SubTerminal.UpgradeScreen,
+            PrototypeSubMod
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   onClickWrapper:
     m_PersistentCalls:
       m_Calls:
@@ -16054,7 +16079,7 @@ MonoBehaviour:
         m_MethodName: SetCurrentScreen
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgument: {fileID: 2919966800608988208}
           m_ObjectArgumentAssemblyTypeName: PrototypeSubMod.SubTerminal.UpgradeScreen,
             PrototypeSubMod
           m_IntArgument: 0
@@ -18084,7 +18109,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7780734778743768289}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2131168696886679469}
+        m_MethodName: SetCurrentScreen
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 2919966800608988208}
+          m_ObjectArgumentAssemblyTypeName: PrototypeSubMod.SubTerminal.UpgradeScreen,
+            PrototypeSubMod
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   onClickWrapper:
     m_PersistentCalls:
       m_Calls:
@@ -18092,7 +18129,7 @@ MonoBehaviour:
         m_MethodName: SetCurrentScreen
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgument: {fileID: 2919966800608988208}
           m_ObjectArgumentAssemblyTypeName: PrototypeSubMod.SubTerminal.UpgradeScreen,
             PrototypeSubMod
           m_IntArgument: 0
@@ -24186,7 +24223,7 @@ MonoBehaviour:
         m_MethodName: SetCurrentScreen
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgument: {fileID: 2919966800608988208}
           m_ObjectArgumentAssemblyTypeName: PrototypeSubMod.SubTerminal.UpgradeScreen,
             PrototypeSubMod
           m_IntArgument: 0
@@ -25869,9 +25906,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0e63f04a731ca394b948b6f8d33eea48, type: 3}
---- !u!4 &6833137737280755979 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 0e63f04a731ca394b948b6f8d33eea48,
+--- !u!23 &2622975591288659083 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -200346911032139157, guid: 0e63f04a731ca394b948b6f8d33eea48,
     type: 3}
   m_PrefabInstance: {fileID: 6439751561170321120}
   m_PrefabAsset: {fileID: 0}
@@ -25881,9 +25918,9 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 6439751561170321120}
   m_PrefabAsset: {fileID: 0}
---- !u!23 &2622975591288659083 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: -200346911032139157, guid: 0e63f04a731ca394b948b6f8d33eea48,
+--- !u!4 &6833137737280755979 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 0e63f04a731ca394b948b6f8d33eea48,
     type: 3}
   m_PrefabInstance: {fileID: 6439751561170321120}
   m_PrefabAsset: {fileID: 0}
@@ -26112,6 +26149,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0e63f04a731ca394b948b6f8d33eea48, type: 3}
+--- !u!23 &1074029094838414980 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -200346911032139157, guid: 0e63f04a731ca394b948b6f8d33eea48,
+    type: 3}
+  m_PrefabInstance: {fileID: 8349548702852058351}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &928409058957113202 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -54657477031576675, guid: 0e63f04a731ca394b948b6f8d33eea48,
@@ -26121,12 +26164,6 @@ GameObject:
 --- !u!4 &8382666977007594244 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 0e63f04a731ca394b948b6f8d33eea48,
-    type: 3}
-  m_PrefabInstance: {fileID: 8349548702852058351}
-  m_PrefabAsset: {fileID: 0}
---- !u!23 &1074029094838414980 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: -200346911032139157, guid: 0e63f04a731ca394b948b6f8d33eea48,
     type: 3}
   m_PrefabInstance: {fileID: 8349548702852058351}
   m_PrefabAsset: {fileID: 0}
