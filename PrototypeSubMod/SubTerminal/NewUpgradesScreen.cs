@@ -154,6 +154,7 @@ internal class NewUpgradesScreen : MonoBehaviour
 
         queuedVoicelines.Enqueue(hullKeyNotification);
         KnownTech.Add(HullFacilityKey.prefabInfo.TechType);
+        PDAEncyclopedia.Add("HullFacilityTabletEncy", true);
     }
     
     private void CheckForStoryPing()
