@@ -1,6 +1,7 @@
 ﻿using Nautilus.Assets;
 using Nautilus.Assets.Gadgets;
 using Nautilus.Assets.PrefabTemplates;
+using PrototypeSubMod.Compatibility;
 using UnityEngine;
 
 namespace PrototypeSubMod.Prefabs;
@@ -39,6 +40,9 @@ internal class HullFacilityKey
 
         prefab.SetGameObject(cloneTemplate);
         prefab.SetEquipment(EquipmentType.Hand);
+        prefab.SetPdaGroupCategory(Plugin.ProtoFabricatorGroup, Plugin.ProtoFabricatorCatgeory);
+
+        prefab.SetRecipe(ROTACompatManager.GetRelevantRecipe("HullFacilityKey.json"));
 
         prefab.Register();
     }

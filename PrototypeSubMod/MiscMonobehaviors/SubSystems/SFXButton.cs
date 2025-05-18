@@ -8,6 +8,7 @@ namespace PrototypeSubMod.MiscMonobehaviors.SubSystems;
 
 public class SFXButton : Button
 {
+    [SerializeField]
     public UnityEvent onClickWrapper;
     public FMODAsset onEnterFX;
     public FMODAsset onExitFX;

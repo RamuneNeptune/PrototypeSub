@@ -16,14 +16,14 @@ internal class UpgradeScreen : MonoBehaviour
     private List<uGUI_ProtoUpgradeIcon> installedUpgrades = new();
     private TechType[] availableUpgrades;
 
-    private void Start()
+    private void Awake()
     {
         canvasGroup = GetComponent<CanvasGroup>();
         targetAlpha = startingAlpha;
         canvasGroup.alpha = startingAlpha;
         canvasGroup.blocksRaycasts = startingAlpha > 0;
 
-        var icons = GetComponentsInChildren<uGUI_ProtoUpgradeIcon>();
+        var icons = GetComponentsInChildren<uGUI_ProtoUpgradeIcon>(true);
         availableUpgrades = new TechType[icons.Length];
         for (int i = 0; i < icons.Length; i++)
         {
