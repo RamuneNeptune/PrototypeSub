@@ -79,7 +79,6 @@ internal static class PrefabRegisterer
                 new() { biome = BiomeType.Dunes_SandPlateau, probability = 0.02f, count = 1 },
             });
         
-        Plugin.DefenseFacilityPingTechType = CustomPing.CreatePing("ProtoDefenseFacilityPing", Plugin.DefenseFacilityPingType, new Color(1, 0, 0));
         Plugin.StoryEndPingTechType = CustomPing.CreatePing("StoryEndPingType", PingType.Signal);
         
         var AssetBundle = Plugin.AssetBundle;

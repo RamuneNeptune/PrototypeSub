@@ -11,10 +11,8 @@ namespace PrototypeSubMod.SubTerminal;
 internal class NewUpgradesScreen : MonoBehaviour
 {
     [SerializeField] private List<ProtoUpgradeCategory> upgradeCategories;
-    [SerializeField] private ProtoUpgradeCategory defenseCategory;
     [SerializeField] private BuildTerminalScreenManager screenManager;
     [SerializeField] private VoiceNotificationManager manager;
-    [SerializeField] private VoiceNotification defensePingNotification;
     [SerializeField] private VoiceNotification storyEndNotification;
     [SerializeField] private VoiceNotification newDataNotification;
     [SerializeField] private string precursorCharacters;
@@ -134,28 +132,8 @@ internal class NewUpgradesScreen : MonoBehaviour
 
     private void SpawnPingIfNeeded()
     {
-        CheckForDefensePing();
         CheckForStoryPing();
-    }
-
-    private void CheckForDefensePing()
-    {
-        if (Plugin.GlobalSaveData.defensePingSpawned)
-        {
-            screenManager.EndBuildStage();
-            return;
-        }
-
-        foreach (var item in upgradeCategories)
-        {
-            if (item == defenseCategory) continue;
-
-            if (!Plugin.GlobalSaveData.unlockedCategoriesLastCheck.Contains(item)) return;
-        }
-
-        Plugin.GlobalSaveData.defensePingSpawned = true;
-        UWE.CoroutineHost.StartCoroutine(SpawnDefensePing());
-        queuedVoicelines.Enqueue(defensePingNotification);
+        
         screenManager.EndBuildStage();
     }
 
@@ -176,15 +154,6 @@ internal class NewUpgradesScreen : MonoBehaviour
         UWE.CoroutineHost.StartCoroutine(SpawnStoryEndPing());
         queuedVoicelines.Enqueue(storyEndNotification);
         screenManager.EndBuildStage();
-    }
-
-    private IEnumerator SpawnDefensePing()
-    {
-        var task = CraftData.GetPrefabForTechTypeAsync(Plugin.DefenseFacilityPingTechType);
-        yield return task;
-
-        var prefab = task.GetResult();
-        Instantiate(prefab, Plugin.DEFENSE_PING_POS, Quaternion.identity);
     }
     
     private IEnumerator SpawnStoryEndPing()
