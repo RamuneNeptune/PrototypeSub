@@ -14,6 +14,8 @@ internal static class PrefabRegisterer
         
         PrecursorIngot_Craftable.Register();
         IonPrism_Craftable.Register();
+        AlienBuildingBlock.Register();
+        WarperRemnant.Register();
 
         Prototype_Craftable.Register();
         ProtoBuildTerminal_World.Register();
@@ -29,8 +31,6 @@ internal static class PrefabRegisterer
         DecorativeForceFieldArchway.Register();
         NonfunctionalKeyTerminal.Register();
         PrecursorIonCrystal_Craftable.Register();
-        WarperRemnant.Register();
-        AlienBuildingBlock.Register();
         HullFacilitySpawner_World.Register();
         OrionFragmentor_World.Register();
         HullFacilityKey.Register();
