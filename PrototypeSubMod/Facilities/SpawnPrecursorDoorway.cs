@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections;
+using PrototypeSubMod.MiscMonobehaviors.Materials;
 using UnityEngine;
 using UWE;
 
 namespace PrototypeSubMod.Facilities;
 
-public class SpawnPrecursorDoorway : MonoBehaviour
+public class SpawnPrecursorDoorway : MonoBehaviour, IMaterialModifier
 {
+    public event Action<GameObject> onEditMaterial;
+    
     private PrecursorDoorway precursorDoorway;
     private bool queuedDoorToggle;
     
@@ -35,6 +38,11 @@ public class SpawnPrecursorDoorway : MonoBehaviour
         if (queuedDoorToggle)
         {
             precursorDoorway.ToggleDoor(queuedDoorToggle);
+        }
+        
+        foreach (var rend in instance.GetComponentsInChildren<Renderer>(true))
+        {
+            onEditMaterial?.Invoke(rend.gameObject);
         }
     }
 

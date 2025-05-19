@@ -6,6 +6,7 @@ namespace PrototypeSubMod.MiscMonobehaviors.Materials;
 public class SetPrefabMaterialProperty : MonoBehaviour
 {
     [SerializeField] private Component prefabSpawner;
+    [SerializeField] private bool editSharedMaterials;
     [SerializeField] private MaterialData[] materialDatas;
 
     [SerializeField, HideInInspector] private string[] propertyNames;
@@ -72,24 +73,46 @@ public class SetPrefabMaterialProperty : MonoBehaviour
                 if (!renderer) throw new System.Exception($"No renderer found at child path {data.childPath} under {obj}");
             }
 
-            var materials = renderer.materials;
-            switch (data.type)
+            var materials = editSharedMaterials ? renderer.sharedMaterials : renderer.materials;
+            if (data.materialIndex == -1)
             {
-                case MaterialData.PropertyType.Float:
-                    materials[data.materialIndex].SetFloat(data.propertyName, data.floatValue);
-                    break;
-                case MaterialData.PropertyType.Vector:
-                    materials[data.materialIndex].SetVector(data.propertyName, data.vectorValue);
-                    break;
-                case MaterialData.PropertyType.Texture:
-                    materials[data.materialIndex].SetTexture(data.propertyName, data.textureValue);
-                    break;
-                case MaterialData.PropertyType.Color:
-                    materials[data.materialIndex].SetColor(data.propertyName, data.colorValue);
-                    break;
+                for (int i = 0; i < materials.Length; i++)
+                {
+                    SetPropertyValue(ref materials, data, i);
+                }
             }
-            
-            renderer.materials = materials;
+            else
+            {
+                SetPropertyValue(ref materials, data, data.materialIndex);
+            }
+
+            if (editSharedMaterials)
+            {
+                renderer.sharedMaterials = materials;
+            }
+            else
+            {
+                renderer.materials = materials;
+            }
+        }
+    }
+
+    private void SetPropertyValue(ref Material[] materials, MaterialData data, int index)
+    {
+        switch (data.type)
+        {
+            case MaterialData.PropertyType.Float:
+                materials[index].SetFloat(data.propertyName, data.floatValue);
+                break;
+            case MaterialData.PropertyType.Vector:
+                materials[index].SetVector(data.propertyName, data.vectorValue);
+                break;
+            case MaterialData.PropertyType.Texture:
+                materials[index].SetTexture(data.propertyName, data.textureValue);
+                break;
+            case MaterialData.PropertyType.Color:
+                materials[index].SetColor(data.propertyName, data.colorValue);
+                break;
         }
     }
 
