@@ -9,6 +9,7 @@ namespace PrototypeSubMod.SubTerminal;
 internal class uGUI_FirstInteractScreen : TerminalScreen
 {
     [SerializeField] private BuildTerminalScreenManager screenManager;
+    [SerializeField] private FMOD_CustomEmitter activationSFX;
     [SerializeField] private LightingController lightingController;
     [SerializeField] private GameObject normalObjects;
     [SerializeField] private GameObject loadingObjects;
@@ -85,6 +86,7 @@ internal class uGUI_FirstInteractScreen : TerminalScreen
         normalObjects.SetActive(false);
         loadingObjects.SetActive(true);
         lightingController.LerpToState(1, loadingTime * 2);
+        activationSFX.Play();
     }
 
     private void Update()
