@@ -65,7 +65,7 @@ internal static class BiomeRegisterer
 
         #region Hull Facility
         var hullSettings =
-            BiomeUtils.CreateBiomeSettings(Vector3.zero, 0f, Color.white, 0.01f, new Color(0.824f, 0.922f, 0.828f), 0);
+            BiomeUtils.CreateBiomeSettings(Vector3.zero, 0f, Color.white, 0.01f, new Color(0.824f, 0.922f, 0.828f), 0, startDistance: 0);
         BiomeHandler.RegisterBiome("protohullfacilitycalm", hullSettings, new BiomeHandler.SkyReference("SkyPrecursorInterior_NoLightmaps"));
         BiomeHandler.AddBiomeMusic("protohullfacilitycalm",
             Plugin.AssetBundle.LoadAsset<FMODAsset>("HullFacility_Calm"));
