@@ -16,8 +16,8 @@ public class ReplaceTextures : PipelineJob
     private readonly string[] materialWhitelist = new[]
     {
         "precursor_interior_tiles_00",
-        "precursor_interior_tiles_04_thermal_reactor_dark",
-        "Precursor_exterior_pack_06"
+        "precursor_interior_tiles_00_dark",
+        "precursor_interior_tiles_04_thermal_reactor_dark"
     };
     
     private readonly List<GameObject> prefabs = new List<GameObject>();
