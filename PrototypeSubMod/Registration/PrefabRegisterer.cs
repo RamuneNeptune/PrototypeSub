@@ -34,6 +34,7 @@ internal static class PrefabRegisterer
         OrionFragmentor_World.Register();
         HullFacilityKey.Register();
         HullOutpostTeleporter.Register();
+        ObstructionRockLoadFar.Register();
         
         PrecursorFabricator.Register();
 

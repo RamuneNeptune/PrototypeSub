@@ -70,15 +70,12 @@ public class HullFacilityLoadManager : MonoBehaviour
 
     private void UpdateActiveScene(bool inRange)
     {
-        Plugin.Logger.LogInfo($"Updating active scene. In range = {inRange}");
         if (inRange && SceneManager.GetActiveScene().name != HULL_FACILITY_SCENE_NAME)
         {
-            Plugin.Logger.LogInfo($"Setting active scene to hull facility");
             SceneManager.SetActiveScene(SceneManager.GetSceneByName(HULL_FACILITY_SCENE_NAME));
         }
         else if (!inRange && SceneManager.GetActiveScene().name == HULL_FACILITY_SCENE_NAME)
         {
-            Plugin.Logger.LogInfo($"Setting active scene to main");
             SceneManager.SetActiveScene(SceneManager.GetSceneByName(originalScene));
         }
     }
