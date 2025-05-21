@@ -11,6 +11,5 @@ public class HullFacilitySpawner : MonoBehaviour
     private IEnumerator Start()
     {
         yield return SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
-        SceneManager.SetActiveScene(SceneManager.GetSceneByName(sceneName));
     }
 }
