@@ -41,6 +41,7 @@ public class ProtoMatDatabase : ProtoMatDatabaseBase
         }
 
         List<Material> replaceMaterials = new();
+        List<string> skipMaterialNames = new();
         foreach (var renderer in renderers)
         {
             var newMatList = renderer.materials;
@@ -49,18 +50,22 @@ public class ProtoMatDatabase : ProtoMatDatabaseBase
             {
                 var matName = RemoveInstanceFromMatName(newMatList[i].name);
 
-                bool matAlreadyCollected = false;
-                foreach (var mat in replaceMaterials)
+                bool skipMaterial = skipMaterialNames.Contains(matName);
+
+                if (!skipMaterial)
                 {
-                    if (mat.name.Equals(matName))
+                    foreach (var mat in replaceMaterials)
                     {
-                        newMatList[i] = mat;
-                        matAlreadyCollected = true;
-                        break;
+                        if (mat.name.Equals(matName))
+                        {
+                            newMatList[i] = mat;
+                            skipMaterial = true;
+                            break;
+                        }
                     }
                 }
 
-                if (matAlreadyCollected)
+                if (skipMaterial)
                     continue;
                 
                 var taskResult = new TaskResult<Material>();
