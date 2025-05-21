@@ -8,6 +8,7 @@ using SubLibrary.Handlers;
 using SubLibrary.Monobehaviors;
 using System.Collections;
 using System.Reflection;
+using Nautilus.Utility.MaterialModifiers;
 using SubLibrary.CyclopsReferencers;
 using UnityEngine;
 
@@ -38,19 +39,19 @@ internal class Prototype_Craftable
         prefab.Register();
     }
 
-    private static GameObject GetSubPrefab()
+    private static IEnumerator GetSubPrefab(IOut<GameObject> prefabOut)
     {
         GameObject model = Plugin.AssetBundle.LoadAsset<GameObject>("PrototypeSub");
 
         model.SetActive(false);
         GameObject prototype = GameObject.Instantiate(model);
 
-        SetupProtoGameObject(prototype);
+        yield return SetupProtoGameObject(prototype);
 
-        return prototype;
+        prefabOut.Set(prototype);
     }
 
-    public static void SetupProtoGameObject(GameObject go)
+    public static IEnumerator SetupProtoGameObject(GameObject go)
     {
         foreach (var modifier in go.GetComponentsInChildren<PrefabModifier>(true))
         {
@@ -67,6 +68,8 @@ internal class Prototype_Craftable
         }
 
         MaterialUtils.ApplySNShaders(go, modifiers: new ProtoMaterialModifier(10, 0, false));
+
+        yield return ProtoMatDatabase.ReplaceVanillaMats(go);
         
         var type = Type.GetType("Nautilus.Utility.ThunderkitUtilities.ApplySNMaterial, Nautilus, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
         var method = type.GetMethod("AssignMaterials", BindingFlags.Public | BindingFlags.Instance);

@@ -20,6 +20,7 @@ using System.Reflection;
 using System.Threading;
 using PrototypeSubMod.Pathfinding.SaveSystem;
 using UnityEngine;
+using UWE;
 
 namespace PrototypeSubMod
 {
@@ -93,7 +94,7 @@ namespace PrototypeSubMod
 
             LanguageHandler.RegisterLocalizationFolder();
             SubAudioLoader.LoadAllAudio(AssetBundle);
-
+            
             PrefabRegisterer.Register();
             EncyEntryRegisterer.Register();
             StructureRegisterer.Register();
@@ -114,7 +115,9 @@ namespace PrototypeSubMod
             SetupSaveStateReferences.SetupReferences(Assembly);
             UpgradeUninstallationPrefabManager.RegisterUninstallationPrefabs(AssetBundle);
             
-            UWE.CoroutineHost.StartCoroutine(Initialize());
+            ProtoMatDatabase.Initalize();
+            
+            CoroutineHost.StartCoroutine(Initialize());
 
             // This is only to force the asset bundle to load
             var empty = ScenesAssetBundle.name;

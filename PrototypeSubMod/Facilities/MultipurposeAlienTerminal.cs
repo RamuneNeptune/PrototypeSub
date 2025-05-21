@@ -43,15 +43,18 @@ internal class MultipurposeAlienTerminal : MonoBehaviour
 
         prefab.SetActive(false);
         MultipurposeAlienTerminal.prefab = prefab;
-        SetupTerminal(prefab);
+        yield return SetupTerminal(prefab);
     }
 
-    private void SetupTerminal(GameObject prefab)
+    private IEnumerator SetupTerminal(GameObject prefab)
     {
         var instance = Instantiate(prefab, transform, false);
         instance.transform.localPosition = Vector3.zero;
         instance.transform.localRotation = Quaternion.identity;
         instance.transform.localScale = Vector3.one;
+
+        yield return ProtoMatDatabase.ReplaceVanillaMats(instance);
+        
         instance.SetActive(true);
 
         handTarget = instance.EnsureComponent<ProtoTerminalHandTarget>();

@@ -49,6 +49,8 @@ internal class DeployableLight_Craftable
 
         MaterialUtils.ApplySNShaders(prefab, modifiers: new ProtoMaterialModifier(30f));
 
+        yield return ProtoMatDatabase.ReplaceVanillaMats(prefab);
+
         foreach (var referencer in prefab.GetComponentsInChildren<ICyclopsReferencer>(true))
         {
             referencer.OnCyclopsReferenceFinished(CyclopsReferenceHandler.CyclopsReference);

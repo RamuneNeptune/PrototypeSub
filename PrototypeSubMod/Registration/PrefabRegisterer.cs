@@ -11,13 +11,13 @@ internal static class PrefabRegisterer
 {
     public static void Register()
     {
-        
         PrecursorIngot_Craftable.Register();
         IonPrism_Craftable.Register();
 
         Prototype_Craftable.Register();
         ProtoBuildTerminal_World.Register();
         DeployableLight_Craftable.Register();
+        ListeningDevice_Craftable.Register();
         ProtoRepairBot_Spawned.Register();
         CrystalMatrix_Craftable.Register();
         DeactivatedTeleporter_World.Register();

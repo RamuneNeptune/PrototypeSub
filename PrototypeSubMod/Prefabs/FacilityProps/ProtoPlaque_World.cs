@@ -31,6 +31,8 @@ internal class ProtoPlaque_World
         yield return new WaitUntil(() => MaterialUtils.IsReady);
 
         MaterialUtils.ApplySNShaders(gameObject, 8f, modifiers: new ProtoMaterialModifier(8f, 0));
+        
+        yield return ProtoMatDatabase.ReplaceVanillaMats(gameObject);
 
         prefabOut.Set(gameObject);
     }

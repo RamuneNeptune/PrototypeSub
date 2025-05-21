@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using Nautilus.Assets;
 using Nautilus.Assets.Gadgets;
-using Nautilus.Handlers;
 using Nautilus.Utility;
 using PrototypeSubMod.Utility;
 using UnityEngine;
@@ -40,6 +39,7 @@ internal class PrecursorFabricator
             
             .AddTabNode("Utilities", Language.main.Get("PrecursorFabricator_Tab_Utilities"), SpriteManager.Get(AlienBuildingBlock.AlienBuildingBlock.prefabInfo.TechType))
             .AddCraftNode(AlienBuildingBlock.AlienBuildingBlock.prefabInfo.TechType, "Utilities")
+            .AddCraftNode(ListeningDevice_Craftable.prefabInfo.TechType, "Utilities")
             .AddCraftNode(PrecursorIngot_Craftable.prefabInfo.TechType, "Utilities")
             .AddCraftNode(DeployableLight_Craftable.prefabInfo.TechType, "Utilities")
             .AddCraftNode(TechType.PrecursorIonBattery, "Utilities")
@@ -93,9 +93,9 @@ internal class PrecursorFabricator
         yield return forceFieldTask;
 
         forceFieldTask.TryGetPrefab(out var forceFieldPrefab);
-        
-        ApplyGameMaterials.ApplyFromOriginal(forceFieldPrefab, instance);
 
+        yield return ProtoMatDatabase.ReplaceVanillaMats(instance);
+        
         var lerpColors = instance.GetComponentsInChildren<VFXLerpColor>();
         var vanillaLerpColor = forceFieldPrefab.GetComponentInChildren<VFXLerpColor>();
 

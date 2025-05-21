@@ -1,6 +1,8 @@
-﻿using Nautilus.Assets;
+﻿using System.Collections;
+using Nautilus.Assets;
 using Nautilus.Assets.Gadgets;
 using Nautilus.Utility;
+using PrototypeSubMod.Utility;
 using UnityEngine;
 
 namespace PrototypeSubMod.Prefabs.WormSpawns;
@@ -23,12 +25,13 @@ public class ProtoWormSpawnEvent
         return prefabInfo;
     }
 
-    private static GameObject GetPrefabInstance()
+    private static IEnumerator GetPrefabInstance(IOut<GameObject> prefabOut)
     {
         var instance = GameObject.Instantiate(lastPrefab);
         MaterialUtils.ApplySNShaders(instance);
+        yield return ProtoMatDatabase.ReplaceVanillaMats(instance);
         instance.SetActive(true);
         
-        return instance;
+        prefabOut.Set(instance);
     }
 }
