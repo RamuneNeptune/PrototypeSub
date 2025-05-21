@@ -288,7 +288,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 09b2cb16b3dbad649a7f72df6693aaf6,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -11.187988
+      value: -11.18
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 09b2cb16b3dbad649a7f72df6693aaf6,
         type: 3}
@@ -5074,13 +5074,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 59958608}
+  - component: {fileID: 59958609}
   m_Layer: 0
   m_Name: AtriumMiddle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &59958608
 Transform:
   m_ObjectHideFlags: 0
@@ -5097,6 +5098,18 @@ Transform:
   m_Father: {fileID: 2107914877}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &59958609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 59958607}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -2037944554, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &125121190
 GameObject:
   m_ObjectHideFlags: 0
@@ -6918,13 +6931,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 296845242}
+  - component: {fileID: 296845243}
   m_Layer: 0
   m_Name: AtriumFloor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &296845242
 Transform:
   m_ObjectHideFlags: 0
@@ -6942,6 +6956,18 @@ Transform:
   m_Father: {fileID: 2107914877}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &296845243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 296845241}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -2037944554, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &299689031
 GameObject:
   m_ObjectHideFlags: 0
@@ -11206,6 +11232,8 @@ MonoBehaviour:
   frameDelay: 1
   enableAfterApplication:
   - {fileID: 1872019663}
+  - {fileID: 296845243}
+  - {fileID: 59958609}
 --- !u!114 &1071812720
 MonoBehaviour:
   m_ObjectHideFlags: 0
