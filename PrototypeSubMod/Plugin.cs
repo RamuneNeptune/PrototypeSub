@@ -18,6 +18,7 @@ using System.Collections;
 using System.IO;
 using System.Reflection;
 using System.Threading;
+using PrototypeSubMod.MiscMonobehaviors;
 using PrototypeSubMod.Pathfinding.SaveSystem;
 using UnityEngine;
 using UWE;
@@ -114,6 +115,7 @@ namespace PrototypeSubMod
             ProtoMatDatabase.Initalize();
             
             CoroutineHost.StartCoroutine(Initialize());
+            CoroutineHost.StartCoroutine(MakeSeaTreaderBlockersPassthrough());
 
             // This is only to force the asset bundle to load
             var empty = ScenesAssetBundle.name;
@@ -159,6 +161,15 @@ namespace PrototypeSubMod
                 GameObject prefab = prefabTask.result.Get();
                 prefab.AddComponent<PrototypePowerBattery>();
             }
+        }
+
+        private IEnumerator MakeSeaTreaderBlockersPassthrough()
+        {
+            var task = PrefabDatabase.GetPrefabAsync("626f6739-acb0-4dfc-bbab-9b627767403c");
+            yield return task;
+
+            task.TryGetPrefab(out var prefab);
+            prefab.EnsureComponent<DontCollideWithPlayer>();
         }
 
         private void RegisterDependantPatches()
