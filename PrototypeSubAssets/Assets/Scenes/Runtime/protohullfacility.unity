@@ -13162,6 +13162,116 @@ Light:
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!1 &1390500067 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -8820915831225078972, guid: d502c642e034e7a4992b54e7f21c7931,
+    type: 3}
+  m_PrefabInstance: {fileID: 6882493214869571935}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1390500068
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1390500067}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -812091844, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  applyTo:
+  - {fileID: 1390500069}
+  prefabClassID: 8d13d081-431e-4ed5-bc99-2b8b9fabe9c2
+  childPath: Group1
+  copyIndex: 0
+  applyIndex: 0
+  applyToSharedMaterials: 1
+--- !u!23 &1390500069 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 6880972091903906146, guid: d502c642e034e7a4992b54e7f21c7931,
+    type: 3}
+  m_PrefabInstance: {fileID: 6882493214869571935}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1390500070
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1390500067}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -2125914568, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabSpawner: {fileID: 1390500068}
+  editSharedMaterials: 1
+  materialDatas:
+  - propertyName: _CapTexture
+    childPath: 
+    materialIndex: 0
+    type: 2
+    floatValue: 0
+    vectorValue: {x: 0, y: 0, z: 0, w: 0}
+    textureValue: {fileID: 2800000, guid: fc7d823e1d611de4f847986ad4b12869, type: 3}
+    colorValue: {r: 0, g: 0, b: 0, a: 0}
+  - propertyName: _CapBumpMap
+    childPath: 
+    materialIndex: 0
+    type: 2
+    floatValue: 0
+    vectorValue: {x: 0, y: 0, z: 0, w: 0}
+    textureValue: {fileID: 2800000, guid: 4b93cd8d1cab8684599ce79ad38cf2c6, type: 3}
+    colorValue: {r: 0, g: 0, b: 0, a: 0}
+  - propertyName: _SideTexture
+    childPath: 
+    materialIndex: 0
+    type: 2
+    floatValue: 0
+    vectorValue: {x: 0, y: 0, z: 0, w: 0}
+    textureValue: {fileID: 2800000, guid: fc7d823e1d611de4f847986ad4b12869, type: 3}
+    colorValue: {r: 0, g: 0, b: 0, a: 0}
+  - propertyName: _SideBumpMap
+    childPath: 
+    materialIndex: 0
+    type: 2
+    floatValue: 0
+    vectorValue: {x: 0, y: 0, z: 0, w: 0}
+    textureValue: {fileID: 2800000, guid: 4b93cd8d1cab8684599ce79ad38cf2c6, type: 3}
+    colorValue: {r: 0, g: 0, b: 0, a: 0}
+  propertyNames:
+  - _CapTexture
+  - _CapBumpMap
+  - _SideTexture
+  - _SideBumpMap
+  childPaths:
+  - 
+  - 
+  - 
+  - 
+  materialIndices: 00000000000000000000000000000000
+  propertyTypes: 02000000020000000200000002000000
+  floatValues:
+  - 0
+  - 0
+  - 0
+  - 0
+  vectorValues:
+  - {x: 0, y: 0, z: 0, w: 0}
+  - {x: 0, y: 0, z: 0, w: 0}
+  - {x: 0, y: 0, z: 0, w: 0}
+  - {x: 0, y: 0, z: 0, w: 0}
+  textureValues:
+  - {fileID: 2800000, guid: fc7d823e1d611de4f847986ad4b12869, type: 3}
+  - {fileID: 2800000, guid: 4b93cd8d1cab8684599ce79ad38cf2c6, type: 3}
+  - {fileID: 2800000, guid: fc7d823e1d611de4f847986ad4b12869, type: 3}
+  - {fileID: 2800000, guid: 4b93cd8d1cab8684599ce79ad38cf2c6, type: 3}
+  colorValues:
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &1410587578
 GameObject:
   m_ObjectHideFlags: 0
@@ -13461,7 +13571,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 457615bc530918f428d492883746f875,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 457615bc530918f428d492883746f875,
         type: 3}
@@ -15876,6 +15986,7 @@ MonoBehaviour:
   loadDistance2Objects:
   - {fileID: 2107914876}
   checkInterval: 1
+  manageScene: 1
 --- !u!4 &1872019664
 Transform:
   m_ObjectHideFlags: 0
@@ -75946,7 +76057,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: d502c642e034e7a4992b54e7f21c7931,
         type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d502c642e034e7a4992b54e7f21c7931,
         type: 3}
@@ -76203,6 +76314,7 @@ MonoBehaviour:
   - {fileID: 6882493214869571937}
   loadDistance2Objects: []
   checkInterval: 1
+  manageScene: 0
 --- !u!4 &8168256035447091582
 Transform:
   m_ObjectHideFlags: 0
@@ -76295,7 +76407,7 @@ PrefabInstance:
     - target: {fileID: 4530312760847332179, guid: a0c7010a9bc83b94dacd70b6f822853f,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4530312760847332179, guid: a0c7010a9bc83b94dacd70b6f822853f,
         type: 3}
