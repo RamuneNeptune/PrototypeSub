@@ -18,11 +18,6 @@ internal class ProtoTeleporterManager : ProtoUpgrade
     [SerializeField] private string teleporterID;
     [SerializeField] private float stayOpenTime;
 
-    [Header("Power Cost")]
-    [SerializeField] private float costPerMeter = 0.6f;
-    [SerializeField] private float minPowercost = 400;
-    [SerializeField] private float maxPowerCost = 1200;
-
     private bool teleporterClosed = true;
     private float currentStayOpenTime;
     private float powerCostMultiplier = 1f;
@@ -93,10 +88,6 @@ internal class ProtoTeleporterManager : ProtoUpgrade
             InterceptorIslandManager.Instance.OnTeleportToIsland(Vector3.zero);
             InterceptorIslandManager.Instance.GetComponentsInChildren<TeleporterOverride>().Initialize();
         }
-
-        float energyCost = Vector3.Distance(positionData.teleportPosition, transform.position) * costPerMeter * powerCostMultiplier;
-        energyCost = Mathf.Clamp(energyCost, minPowercost, maxPowerCost);
-        subRoot.powerRelay.ConsumeEnergy(energyCost, out _);
     }
 
     public void SetTeleporterID(string id)

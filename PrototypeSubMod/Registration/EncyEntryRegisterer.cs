@@ -142,6 +142,14 @@ internal static class EncyEntryRegisterer
         PDAHandler.AddEncyclopediaEntry("AlienBuildingBlockEncy", "DownloadedData/Precursor/Terminal",
             alienBuildingBlockEncyTitle, alienBuildingBlockEncyBody, unlockSound: PDAHandler.UnlockBasic);
         #endregion
+
+        #region Hull Facility Tablet
+        string hullTabletTitle = Language.main.Get("HullFacilityTabletEncy_Title");
+        string hullTabletDescription = Language.main.Get("HullFacilityTabletEncy_Body");
+        var hullTabletPopup = Plugin.AssetBundle.LoadAsset<Sprite>("HullFacilityTablet_EncyPopup");
+        
+        PDAHandler.AddEncyclopediaEntry("HullFacilityTabletEncy", "DownloadedData/Precursor/Scan", hullTabletTitle, hullTabletDescription, unlockSound: PDAHandler.UnlockBasic, popupImage: hullTabletPopup);
+        #endregion
         
         RegisterEncyEntries("DownloadedData/Precursor/ProtoUpgrades", PDAHandler.UnlockBasic, new()
             {

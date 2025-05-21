@@ -13,6 +13,10 @@ internal class AbilityConsumptionButton : MonoBehaviour, IPointerDownHandler, IP
     [SerializeField] private Animator animator;
     [SerializeField] private FMOD_CustomEmitter chargeEmitter;
     [SerializeField] private CanvasGroup buttonGroup;
+    [SerializeField] private FMODAsset hoverSound;
+    [SerializeField] private Sprite normalSprite;
+    [SerializeField] private Sprite hoverSprite;
+    [SerializeField] private float hoverSFXVolume = 0.25f;
     [SerializeField] private float confirmTime;
 
     private float currentConfirmTime;
@@ -27,6 +31,7 @@ internal class AbilityConsumptionButton : MonoBehaviour, IPointerDownHandler, IP
 
     private void Start()
     {
+        EnableButton();
         animator.speed = 1 / confirmTime;
         progressBar.fillAmount = 0;
 
@@ -136,12 +141,7 @@ internal class AbilityConsumptionButton : MonoBehaviour, IPointerDownHandler, IP
 
     private void UpdateButtonSprite()
     {
-        float opacity = 1;
-        if (hovering) opacity = 0.8f;
-        if (clicking) opacity = 0.6f;
-        if (!interactable) opacity = 0.4f;
-
-        buttonGroup.alpha = opacity;
+        mainGraphic.sprite = hovering ? hoverSprite : normalSprite;
     }
 
     public void SetActiveAbilitySystem(ProtoPowerAbilitySystem system)
@@ -151,12 +151,18 @@ internal class AbilityConsumptionButton : MonoBehaviour, IPointerDownHandler, IP
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        if (!interactable) return;
+        
         hovering = true;
+        FMODUWE.PlayOneShot(hoverSound, transform.position, hoverSFXVolume);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         hovering = false;
+        if (!interactable) return;
+        
+        FMODUWE.PlayOneShot(hoverSound, transform.position, hoverSFXVolume);
     }
 
     public void OnClosePDA(PDA pda)

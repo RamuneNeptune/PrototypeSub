@@ -16,7 +16,7 @@ public class SFXButtonEditor : Editor
 
         if (onClick == null)
         {
-            onClick = new SerializedObject(button).FindProperty("onClickWrapper");
+            onClick = serializedObject.FindProperty("onClickWrapper");
         }
 
         button.interactable = EditorGUILayout.Toggle("Interactable", button.interactable);

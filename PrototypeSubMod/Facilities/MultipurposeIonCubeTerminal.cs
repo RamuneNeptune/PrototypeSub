@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections;
 using HarmonyLib;
+using PrototypeSubMod.MiscMonobehaviors.Materials;
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace PrototypeSubMod.Facilities;
 
-public class MultipurposeIonCubeTerminal : MonoBehaviour
+public class MultipurposeIonCubeTerminal : MonoBehaviour, IMaterialModifier
 {
+    public event Action<GameObject> onEditMaterial;
+    
     [SerializeField] private UnityEvent onInteracted;
     [SerializeField] private bool automaticallyInteract;
 
@@ -64,6 +67,11 @@ public class MultipurposeIonCubeTerminal : MonoBehaviour
         {
             activationTerminal.unlocked = true;
             onInteracted?.Invoke();
+        }
+
+        foreach (var rend in instance.GetComponentsInChildren<Renderer>(true))
+        {
+            onEditMaterial?.Invoke(rend.gameObject);
         }
     }
 

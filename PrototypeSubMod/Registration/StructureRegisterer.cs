@@ -47,6 +47,9 @@ internal static class StructureRegisterer
         
         StructureLoading.RegisterStructure(LoadStructureFromBundle("PrecursorFabricators"), ref entityCount);
         entityCount = 0;
+        
+        StructureLoading.RegisterStructure(LoadStructureFromBundle("HullFacilityObjects"), ref entityCount);
+        entityCount = 0;
 
         if (TRPCompatManager.TRPInstalled)
         {

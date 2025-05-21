@@ -13,6 +13,8 @@ internal static class PrefabRegisterer
     {
         PrecursorIngot_Craftable.Register();
         IonPrism_Craftable.Register();
+        AlienBuildingBlock.Register();
+        WarperRemnant.Register();
 
         Prototype_Craftable.Register();
         ProtoBuildTerminal_World.Register();
@@ -29,12 +31,11 @@ internal static class PrefabRegisterer
         DecorativeForceFieldArchway.Register();
         NonfunctionalKeyTerminal.Register();
         PrecursorIonCrystal_Craftable.Register();
-        WarperRemnant.Register();
-        AlienBuildingBlock.Register();
         HullFacilitySpawner_World.Register();
         OrionFragmentor_World.Register();
         HullFacilityKey.Register();
         HullOutpostTeleporter.Register();
+        ObstructionRockLoadFar.Register();
         
         PrecursorFabricator.Register();
 
@@ -79,7 +80,6 @@ internal static class PrefabRegisterer
                 new() { biome = BiomeType.Dunes_SandPlateau, probability = 0.02f, count = 1 },
             });
         
-        Plugin.DefenseFacilityPingTechType = CustomPing.CreatePing("ProtoDefenseFacilityPing", Plugin.DefenseFacilityPingType, new Color(1, 0, 0));
         Plugin.StoryEndPingTechType = CustomPing.CreatePing("StoryEndPingType", PingType.Signal);
         
         var AssetBundle = Plugin.AssetBundle;

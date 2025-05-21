@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using HarmonyLib;
+using PrototypeSubMod.Prefabs;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,11 +12,11 @@ namespace PrototypeSubMod.SubTerminal;
 internal class NewUpgradesScreen : MonoBehaviour
 {
     [SerializeField] private List<ProtoUpgradeCategory> upgradeCategories;
-    [SerializeField] private ProtoUpgradeCategory defenseCategory;
     [SerializeField] private BuildTerminalScreenManager screenManager;
+    [SerializeField] private ProtoUpgradeCategory hullUpgradeCategory;
     [SerializeField] private VoiceNotificationManager manager;
-    [SerializeField] private VoiceNotification defensePingNotification;
     [SerializeField] private VoiceNotification storyEndNotification;
+    [SerializeField] private VoiceNotification hullKeyNotification;
     [SerializeField] private VoiceNotification newDataNotification;
     [SerializeField] private string precursorCharacters;
     [SerializeField] private TextMeshProUGUI upgradeText;
@@ -134,36 +135,32 @@ internal class NewUpgradesScreen : MonoBehaviour
 
     private void SpawnPingIfNeeded()
     {
-        CheckForDefensePing();
         CheckForStoryPing();
-    }
-
-    private void CheckForDefensePing()
-    {
-        if (Plugin.GlobalSaveData.defensePingSpawned)
-        {
-            screenManager.EndBuildStage();
-            return;
-        }
-
-        foreach (var item in upgradeCategories)
-        {
-            if (item == defenseCategory) continue;
-
-            if (!Plugin.GlobalSaveData.unlockedCategoriesLastCheck.Contains(item)) return;
-        }
-
-        Plugin.GlobalSaveData.defensePingSpawned = true;
-        UWE.CoroutineHost.StartCoroutine(SpawnDefensePing());
-        queuedVoicelines.Enqueue(defensePingNotification);
+        CheckForHullKey();
+        
         screenManager.EndBuildStage();
     }
 
+    private void CheckForHullKey()
+    {
+        if (KnownTech.Contains(HullFacilityKey.prefabInfo.TechType)) return;
+        
+        foreach (var item in upgradeCategories)
+        {
+            if (item == hullUpgradeCategory) continue;
+            
+            if (!Plugin.GlobalSaveData.unlockedCategoriesLastCheck.Contains(item)) return;
+        }
+
+        queuedVoicelines.Enqueue(hullKeyNotification);
+        KnownTech.Add(HullFacilityKey.prefabInfo.TechType);
+        PDAEncyclopedia.Add("HullFacilityTabletEncy", true);
+    }
+    
     private void CheckForStoryPing()
     {
         if (Plugin.GlobalSaveData.storyEndPingSpawned)
         {
-            screenManager.EndBuildStage();
             return;
         }
 
@@ -175,16 +172,6 @@ internal class NewUpgradesScreen : MonoBehaviour
         Plugin.GlobalSaveData.storyEndPingSpawned = true;
         UWE.CoroutineHost.StartCoroutine(SpawnStoryEndPing());
         queuedVoicelines.Enqueue(storyEndNotification);
-        screenManager.EndBuildStage();
-    }
-
-    private IEnumerator SpawnDefensePing()
-    {
-        var task = CraftData.GetPrefabForTechTypeAsync(Plugin.DefenseFacilityPingTechType);
-        yield return task;
-
-        var prefab = task.GetResult();
-        Instantiate(prefab, Plugin.DEFENSE_PING_POS, Quaternion.identity);
     }
     
     private IEnumerator SpawnStoryEndPing()

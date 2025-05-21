@@ -62,9 +62,6 @@ namespace PrototypeSubMod
         public static TechGroup ProtoFabricatorGroup { get; } = EnumHandler.AddEntry<TechGroup>("ProtoFabricator").WithPdaInfo(null);
         public static TechCategory ProtoFabricatorCatgeory { get; } = EnumHandler.AddEntry<TechCategory>("ProtoFabricator").RegisterToTechGroup(ProtoFabricatorGroup)
             .WithPdaInfo(null);
-
-        public static PingType DefenseFacilityPingType = EnumHandler.AddEntry<PingType>("DefenseFacility")
-            .WithIcon(AssetBundle.LoadAsset<Sprite>("DefenseFacilityLogo"));
         
         internal static ProtoGlobalSaveData GlobalSaveData = SaveDataHandler.RegisterSaveDataCache<ProtoGlobalSaveData>();
         internal static GameObject welderPrefab;
@@ -77,7 +74,6 @@ namespace PrototypeSubMod
         internal const string ENGINE_FACILITY_BIOME_NAME = "protoenginefacility";
         internal static readonly Vector3 STORY_END_POS = new Vector3(-1333, -900, -3014);
         internal static readonly Vector3 DEFENSE_PING_POS = new Vector3(700, -489, -1456);
-        internal static TechType DefenseFacilityPingTechType;
         internal static TechType StoryEndPingTechType;
         internal static GridSaveData pathfindingGridSaveData;
         internal static event Action<GridSaveData> onLoadGridSaveData;
