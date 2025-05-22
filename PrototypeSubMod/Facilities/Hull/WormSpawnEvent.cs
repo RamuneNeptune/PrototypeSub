@@ -132,4 +132,9 @@ public class WormSpawnEvent : MonoBehaviour
         _digInFX = sandShark.digInEffect;
         _digOutFX = sandShark.digOutEffect;
     }
+
+    public static void ResetSpawnTimer()
+    {
+        _timeNextSpawn = 0;
+    }
 }

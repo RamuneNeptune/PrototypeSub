@@ -26,7 +26,7 @@ public class WormRockSpawner : MonoBehaviour
     {
         yield return new WaitUntil(() => spineManager.GetSpawned());
 
-        lastSpine = spineParent.GetChild(spineParent.childCount - 1);
+        lastSpine = spineParent.GetChild(0);
     }
 
     private IEnumerator RetrieveRockPrefab()
