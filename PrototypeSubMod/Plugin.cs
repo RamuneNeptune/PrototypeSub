@@ -94,6 +94,7 @@ namespace PrototypeSubMod
 
             LanguageHandler.RegisterLocalizationFolder();
             SubAudioLoader.LoadAllAudio(AssetBundle);
+            LoadEasyPrefabs.LoadPrefabs(AssetBundle);
             
             PrefabRegisterer.Register();
             EncyEntryRegisterer.Register();
@@ -109,7 +110,6 @@ namespace PrototypeSubMod
             LoadPathfindingGrid();
             
             ConsoleCommandsHandler.RegisterConsoleCommands(typeof(PrototypeCommands));
-            LoadEasyPrefabs.LoadPrefabs(AssetBundle);
             ROTACompatManager.AddCompatiblePowerSources();
             WeatherCompatManager.Initialize();
             SetupSaveStateReferences.SetupReferences(Assembly);
