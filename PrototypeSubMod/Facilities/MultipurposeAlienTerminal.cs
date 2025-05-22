@@ -25,7 +25,7 @@ internal class MultipurposeAlienTerminal : MonoBehaviour
     {
         if (prefab != null)
         {
-            SetupTerminal(prefab);
+            CoroutineHost.StartCoroutine(SetupTerminal(prefab));
             return;
         }
 
