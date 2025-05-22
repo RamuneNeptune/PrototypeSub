@@ -27,7 +27,7 @@ internal class MaterialUtils_Patches
 
         __state.Item2 = material.GetFloat("_GlossMapScale");
 
-        return isSNShader;
+        return !isSNShader;
     }
 
     [HarmonyPatch(nameof(MaterialUtils.ApplyUBERShader)), HarmonyPostfix]
