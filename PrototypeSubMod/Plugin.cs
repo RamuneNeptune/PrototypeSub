@@ -94,9 +94,9 @@ namespace PrototypeSubMod
 
             LanguageHandler.RegisterLocalizationFolder();
             SubAudioLoader.LoadAllAudio(AssetBundle);
-            LoadEasyPrefabs.LoadPrefabs(AssetBundle);
             
             PrefabRegisterer.Register();
+            LoadEasyPrefabs.LoadPrefabs(AssetBundle);
             EncyEntryRegisterer.Register();
             StructureRegisterer.Register();
             StoryGoalsRegisterer.Register();
