@@ -13272,7 +13272,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 125
   m_IsActive: 1
 --- !u!4 &1324160445
 Transform:
@@ -14666,6 +14666,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1494567979}
   - component: {fileID: 1494567980}
+  - component: {fileID: 1494567982}
+  - component: {fileID: 1494567981}
   m_Layer: 0
   m_Name: DecorativeWorms
   m_TagString: Untagged
@@ -14717,6 +14719,33 @@ MonoBehaviour:
   loadDistance2Objects: []
   checkInterval: 0
   manageScene: 0
+--- !u!114 &1494567981
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1494567978}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1149081608, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  techTag: {fileID: 1494567982}
+  techType: {fileID: 11400000, guid: dd98037b5d58db04a80aae61d44910d0, type: 2}
+--- !u!114 &1494567982
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1494567978}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -958717739, guid: 06dd3d5416bf43ea368cc39ff96e6d5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 0
 --- !u!1 &1503127245
 GameObject:
   m_ObjectHideFlags: 0
@@ -20161,6 +20190,8 @@ GameObject:
   - component: {fileID: 1227050917}
   - component: {fileID: 1227050918}
   - component: {fileID: 1227050919}
+  - component: {fileID: 919132148144903347}
+  - component: {fileID: 919132148144903348}
   m_Layer: 0
   m_Name: HangingWorm
   m_TagString: Untagged
@@ -20168,6 +20199,33 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 125
   m_IsActive: 1
+--- !u!114 &919132148144903347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919132148144903346}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -958717739, guid: 06dd3d5416bf43ea368cc39ff96e6d5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 0
+--- !u!114 &919132148144903348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919132148144903346}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1149081608, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  techTag: {fileID: 919132148144903347}
+  techType: {fileID: 11400000, guid: 3d98007082d3f1b4c8d69328490e303b, type: 2}
 --- !u!1 &919132148485966631
 GameObject:
   m_ObjectHideFlags: 0
@@ -77568,7 +77626,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 125
   m_IsActive: 1
 --- !u!1 &2384867479483268624
 GameObject:
