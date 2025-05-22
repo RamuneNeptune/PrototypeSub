@@ -86,6 +86,9 @@ namespace PrototypeSubMod
         {
             if (Initialized) return;
 
+            var sw = new System.Diagnostics.Stopwatch();
+            sw.Start();
+
             // Set project-scoped logger instance
             Logger = base.Logger;
 
@@ -122,7 +125,9 @@ namespace PrototypeSubMod
             
             // Register harmony patches, if there are any
             harmony.PatchAll(Assembly);
-            Logger.LogInfo($"Plugin {GUID} is loaded!");
+
+            sw.Stop();
+            Logger.LogInfo($"Plugin {GUID} is loaded in {sw.ElapsedMilliseconds} ms!");
         }
 
         private IEnumerator Initialize()
