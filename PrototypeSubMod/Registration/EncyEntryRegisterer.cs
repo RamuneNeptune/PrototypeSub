@@ -156,7 +156,7 @@ internal static class EncyEntryRegisterer
         TechType decorativeWormType = (TechType)Enum.Parse(typeof(TechType), "ProtoWorm");
         string decorativeWormTitle = Language.main.Get("ProtoDecorativeWormEncy_Title");
         string decorativeWormDescription = Language.main.Get("ProtoDecorativeWormEncy_Body");
-        Texture2D decorativeWormBackground = Plugin.AssetBundle.LoadAsset<Texture2D>("PhotonBeaconEncy");
+        Texture2D decorativeWormBackground = Plugin.AssetBundle.LoadAsset<Texture2D>("ProtoWormEncy");
         
         PDAHandler.AddEncyclopediaEntry("ProtoDecorativeWormEncy", "DownloadedData/Precursor/Scan", decorativeWormTitle, 
             decorativeWormDescription, image: decorativeWormBackground, unlockSound: PDAHandler.UnlockBasic);
@@ -195,9 +195,10 @@ internal static class EncyEntryRegisterer
         TechType normalWormType = (TechType)Enum.Parse(typeof(TechType), "ProtoWorm");
         string normalWormTitle = Language.main.Get("ProtoWormEncy_Title");
         string normalWormDescription = Language.main.Get("ProtoWormEncy_Body");
+        Texture2D normalWormBackground = Plugin.AssetBundle.LoadAsset<Texture2D>("ProtoWormEncy");
         
         PDAHandler.AddEncyclopediaEntry("ProtoWormEncy", "DownloadedData/Precursor/Scan", normalWormTitle, 
-            normalWormDescription, unlockSound: PDAHandler.UnlockBasic);
+            normalWormDescription, image: normalWormBackground, unlockSound: PDAHandler.UnlockBasic);
         var normalWormEntryData = new PDAScanner.EntryData()
         {
             key = normalWormType,
