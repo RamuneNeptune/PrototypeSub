@@ -1,6 +1,8 @@
-﻿using Nautilus.Json;
+﻿using System;
+using Nautilus.Json;
 using System.Net;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace PrototypeSubMod.DeployablesTerminal;
 
@@ -51,6 +53,11 @@ internal class DeployableLight : MonoBehaviour, IProtoTreeEventListener
         ecoTarget.enabled = false;
 
         Plugin.GlobalSaveData.OnStartedSaving += SaveLifetimes;
+    }
+
+    private void Start()
+    {
+        TryRestartLight();
     }
 
     public void LaunchWithForce(float force, Vector3 previousVelocity)
@@ -161,9 +168,18 @@ internal class DeployableLight : MonoBehaviour, IProtoTreeEventListener
 
     public void OnProtoDeserializeObjectTree(ProtobufSerializer serializer)
     {
+        TryRestartLight();
+    }
+
+    private void TryRestartLight()
+    {
         if (Plugin.GlobalSaveData.deployableLightLifetimes.TryGetValue(identifier.id, out currentLifetime) && currentLifetime < lifetime)
         {
             ActivateLight();
+        }
+        else if (currentLifetime >= lifetime)
+        {
+            Destroy(gameObject);
         }
     }
 
@@ -172,6 +188,14 @@ internal class DeployableLight : MonoBehaviour, IProtoTreeEventListener
         Plugin.GlobalSaveData.OnStartedSaving -= SaveLifetimes;
         breakSFX.Stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
         loopingSFX.Stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+        if (currentLifetime > 0)
+        {
+            SaveLifetimes(null, null);
+        }
+        else
+        {
+            Plugin.GlobalSaveData.deployableLightLifetimes.Remove(identifier.id);
+        }
     }
 
     private void SaveLifetimes(object sender, JsonFileEventArgs args)
