@@ -35,7 +35,7 @@ internal static class LoadEasyPrefabs
 
             if (easyPrefab.prefab != null)
             {
-                if (easyPrefab.swapToSNMaterials && easyPrefab.prefab.GetComponentsInChildren<Renderer>(true).Length > 0)
+                if (easyPrefab.prefab.GetComponentsInChildren<Renderer>(true).Length > 0)
                 {
                     UWE.CoroutineHost.StartCoroutine(ProtoMatDatabase.ReplaceVanillaMats(easyPrefab.prefab));
                 }
