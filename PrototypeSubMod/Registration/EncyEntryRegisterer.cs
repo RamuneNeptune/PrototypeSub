@@ -153,7 +153,7 @@ internal static class EncyEntryRegisterer
         #endregion
 
         #region Decorative Worm
-        TechType decorativeWormType = (TechType)Enum.Parse(typeof(TechType), "ProtoWorm");
+        TechType decorativeWormType = (TechType)Enum.Parse(typeof(TechType), "ProtoDecorativeWorm");
         string decorativeWormTitle = Language.main.Get("ProtoDecorativeWormEncy_Title");
         string decorativeWormDescription = Language.main.Get("ProtoDecorativeWormEncy_Body");
         Texture2D decorativeWormBackground = Plugin.AssetBundle.LoadAsset<Texture2D>("ProtoWormEncy");
