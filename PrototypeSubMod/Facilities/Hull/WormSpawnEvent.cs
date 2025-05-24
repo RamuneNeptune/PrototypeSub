@@ -25,6 +25,7 @@ public class WormSpawnEvent : MonoBehaviour
     private bool inPrefabCache;
     private bool spawnedDigOutParticles;
     private bool wormActive;
+    private bool hasSpawned;
     private int particleCount;
     private float timeNextParticles = float.MinValue;
     private float timeSpawned;
@@ -47,10 +48,11 @@ public class WormSpawnEvent : MonoBehaviour
         
         float time = Time.time + Random.Range(-0.01f, 0.01f);
         disableObjects.SetActive(time >= _timeNextSpawn || wormActive);
-        if (time >= _timeNextSpawn && !wormActive)
+        if (time >= _timeNextSpawn && !wormActive && !hasSpawned)
         {
             _timeNextSpawn = time + MIN_TIME_BETWEEN_SPAWNS;
             wormActive = true;
+            hasSpawned = true;
         }
         else if (!wormActive)
         {
@@ -79,6 +81,11 @@ public class WormSpawnEvent : MonoBehaviour
             
                 timeNextParticles = Time.time + 1f;
             }
+        }
+
+        if (wormAnimator.GetNormalizedProgress() >= 1f)
+        {
+            wormActive = false;
         }
 
         if (!spawnedDigOutParticles && (raycastOrigin.position - transform.position).sqrMagnitude < 25 && Time.time > timeSpawned + 0.2f)
