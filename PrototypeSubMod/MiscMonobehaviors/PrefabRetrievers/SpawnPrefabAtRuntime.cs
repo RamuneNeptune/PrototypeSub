@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using PrototypeSubMod.MiscMonobehaviors.Materials;
+using SubLibrary.Handlers;
 using UnityEngine;
 using UWE;
 
@@ -12,6 +13,7 @@ internal class SpawnPrefabAtRuntime : MonoBehaviour, IMaterialModifier
     public event Action<GameObject> onEditMaterial;
 
     [SerializeField] private SkyApplier skyApplier;
+    [Tooltip("Use 'cyclops' to spawn objects from the Cyclops")]
     [SerializeField] private string classID;
     [SerializeField] private string childPath;
     [SerializeField] private Material[] materials;
@@ -26,13 +28,22 @@ internal class SpawnPrefabAtRuntime : MonoBehaviour, IMaterialModifier
 
     private IEnumerator SpawnPrefab()
     {
-        var task = PrefabDatabase.GetPrefabAsync(classID);
-        yield return task;
-
-        bool success = task.TryGetPrefab(out var prefab);
-        if (!success)
+        GameObject prefab;
+        if (classID != "cyclops")
         {
-            throw new Exception($"Error loading prefab with class ID \"{classID}\"");
+            var task = PrefabDatabase.GetPrefabAsync(classID);
+            yield return task;
+
+            bool success = task.TryGetPrefab(out prefab);
+            if (!success)
+            {
+                throw new Exception($"Error loading prefab with class ID \"{classID}\"");
+            }
+        }
+        else
+        {
+            yield return CyclopsReferenceHandler.EnsureCyclopsReference();
+            prefab = CyclopsReferenceHandler.CyclopsReference;
         }
 
         GameObject spawnObj = string.IsNullOrEmpty(childPath) ? prefab : prefab.transform.Find(childPath).gameObject;
