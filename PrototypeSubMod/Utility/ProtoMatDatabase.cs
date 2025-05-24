@@ -39,7 +39,12 @@ public class ProtoMatDatabase : ProtoMatDatabaseBase
             Plugin.Logger.LogError($"Object {customObject.name} does not have any renderers.");
             yield break;
         }
-
+        
+        //TODO: Make this a game-wide cache. Because modded prefabs are effectively always cached anyway--Along with
+            //Any materials on those prefabs-- it should not increase our V-RAM usage at all. (Theoretically).
+            //Keep track of what mats we've loaded already, so we can grab them from a list instead of doing
+            //repeated FileIO.
+            //NOTE: Double check that this new approach does not increase V-RAM usage...ECM not sure. <3
         List<Material> replaceMaterials = new();
         List<string> skipMaterialNames = new();
         foreach (var renderer in renderers)
