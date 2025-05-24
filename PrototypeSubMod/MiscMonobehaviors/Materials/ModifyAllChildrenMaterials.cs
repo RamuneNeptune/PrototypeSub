@@ -34,7 +34,6 @@ public class ModifyAllChildrenMaterials : MonoBehaviour, IMaterialModifier
             yield return new WaitForEndOfFrame();
         }
 
-        Plugin.Logger.LogInfo("Applying material edits!");
         foreach (var rend in GetComponentsInChildren<Renderer>(true))
         {
             onEditMaterial?.Invoke(rend.gameObject);

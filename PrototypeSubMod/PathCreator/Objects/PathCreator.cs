@@ -32,12 +32,7 @@ namespace PrototypeSubMod.PathCreation {
                 }
                 return editorData.bezierPath;
             }
-            set {
-                if (!initialized) {
-                    InitializeEditorData (false);
-                }
-                editorData.bezierPath = value;
-            }
+            set => editorData.bezierPath = value;
         }
 
         #region Internal methods
@@ -53,7 +48,6 @@ namespace PrototypeSubMod.PathCreation {
             editorData.bezierOrVertexPathModified += TriggerPathUpdate;
 
             editorData.Initialize (in2DMode);
-            path.UpdateTransform(transform);
             initialized = true;
         }
 

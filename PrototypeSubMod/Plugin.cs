@@ -18,6 +18,7 @@ using System.Collections;
 using System.IO;
 using System.Reflection;
 using System.Threading;
+using PrototypeSubMod.MiscMonobehaviors;
 using PrototypeSubMod.Pathfinding.SaveSystem;
 using UnityEngine;
 using UWE;
@@ -85,6 +86,9 @@ namespace PrototypeSubMod
         {
             if (Initialized) return;
 
+            var sw = new System.Diagnostics.Stopwatch();
+            sw.Start();
+
             // Set project-scoped logger instance
             Logger = base.Logger;
 
@@ -92,6 +96,7 @@ namespace PrototypeSubMod
             SubAudioLoader.LoadAllAudio(AssetBundle);
             
             PrefabRegisterer.Register();
+            LoadEasyPrefabs.LoadPrefabs(AssetBundle);
             EncyEntryRegisterer.Register();
             StructureRegisterer.Register();
             StoryGoalsRegisterer.Register();
@@ -105,7 +110,6 @@ namespace PrototypeSubMod
             LoadPathfindingGrid();
             
             ConsoleCommandsHandler.RegisterConsoleCommands(typeof(PrototypeCommands));
-            LoadEasyPrefabs.LoadPrefabs(AssetBundle);
             ROTACompatManager.AddCompatiblePowerSources();
             WeatherCompatManager.Initialize();
             SetupSaveStateReferences.SetupReferences(Assembly);
@@ -114,13 +118,16 @@ namespace PrototypeSubMod
             ProtoMatDatabase.Initalize();
             
             CoroutineHost.StartCoroutine(Initialize());
+            CoroutineHost.StartCoroutine(MakeSeaTreaderBlockersPassthrough());
 
             // This is only to force the asset bundle to load
             var empty = ScenesAssetBundle.name;
             
             // Register harmony patches, if there are any
             harmony.PatchAll(Assembly);
-            Logger.LogInfo($"Plugin {GUID} is loaded!");
+
+            sw.Stop();
+            Logger.LogInfo($"Plugin {GUID} is loaded in {sw.ElapsedMilliseconds} ms!");
         }
 
         private IEnumerator Initialize()
@@ -159,6 +166,15 @@ namespace PrototypeSubMod
                 GameObject prefab = prefabTask.result.Get();
                 prefab.AddComponent<PrototypePowerBattery>();
             }
+        }
+
+        private IEnumerator MakeSeaTreaderBlockersPassthrough()
+        {
+            var task = PrefabDatabase.GetPrefabAsync("626f6739-acb0-4dfc-bbab-9b627767403c");
+            yield return task;
+
+            task.TryGetPrefab(out var prefab);
+            prefab.EnsureComponent<DontCollideWithPlayer>();
         }
 
         private void RegisterDependantPatches()

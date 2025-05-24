@@ -16,12 +16,18 @@ internal class MaterialUtils_Patches
     private static bool calledFromAssembly;
     
     [HarmonyPatch(nameof(MaterialUtils.ApplyUBERShader)), HarmonyPrefix]
-    private static void ApplyUBERShader_Prefix(Material material, ref (bool, float) __state)
+    private static bool ApplyUBERShader_Prefix(Material material, ref (bool, float) __state)
     {
+        bool isSNShader = material.shader == MaterialUtils.Shaders.MarmosetUBER ||
+                          material.shader == MaterialUtils.Shaders.ParticlesUBER ||
+                          material.shader == MaterialUtils.Shaders.IonCube;
+        
         __state.Item1 = material.HasProperty("_GlossMapScale");
-        if (!__state.Item1) return;
+        if (!__state.Item1) return !isSNShader;
 
         __state.Item2 = material.GetFloat("_GlossMapScale");
+
+        return !isSNShader;
     }
 
     [HarmonyPatch(nameof(MaterialUtils.ApplyUBERShader)), HarmonyPostfix]

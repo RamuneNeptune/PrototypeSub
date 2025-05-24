@@ -1,4 +1,5 @@
-﻿using Nautilus.Handlers;
+﻿using System;
+using Nautilus.Handlers;
 using PrototypeSubMod.Prefabs;
 using System.Collections.Generic;
 using PrototypeSubMod.Prefabs.FacilityProps.Hull;
@@ -149,6 +150,65 @@ internal static class EncyEntryRegisterer
         var hullTabletPopup = Plugin.AssetBundle.LoadAsset<Sprite>("HullFacilityTablet_EncyPopup");
         
         PDAHandler.AddEncyclopediaEntry("HullFacilityTabletEncy", "DownloadedData/Precursor/Scan", hullTabletTitle, hullTabletDescription, unlockSound: PDAHandler.UnlockBasic, popupImage: hullTabletPopup);
+        #endregion
+
+        #region Decorative Worm
+        TechType decorativeWormType = (TechType)Enum.Parse(typeof(TechType), "ProtoDecorativeWorm");
+        string decorativeWormTitle = Language.main.Get("ProtoDecorativeWormEncy_Title");
+        string decorativeWormDescription = Language.main.Get("ProtoDecorativeWormEncy_Body");
+        Texture2D decorativeWormBackground = Plugin.AssetBundle.LoadAsset<Texture2D>("ProtoWormEncy");
+        
+        PDAHandler.AddEncyclopediaEntry("ProtoDecorativeWormEncy", "DownloadedData/Precursor/Scan", decorativeWormTitle, 
+            decorativeWormDescription, image: decorativeWormBackground, unlockSound: PDAHandler.UnlockBasic);
+        var decorativeWormEntryData = new PDAScanner.EntryData()
+        {
+            key = decorativeWormType,
+            destroyAfterScan = false,
+            encyclopedia = "ProtoDecorativeWormEncy",
+            scanTime = 5f,
+            isFragment = false,
+            blueprint = decorativeWormType
+        };
+        PDAHandler.AddCustomScannerEntry(decorativeWormEntryData);
+        #endregion
+        
+        #region Hanging Worm
+        TechType hangingWormType = (TechType)Enum.Parse(typeof(TechType), "ProtoHangingWorm");
+        string hangingWormTitle = Language.main.Get("ProtoHangingWormEncy_Title");
+        string hangingWormDescription = Language.main.Get("ProtoHangingWormEncy_Body");
+        
+        PDAHandler.AddEncyclopediaEntry("ProtoHangingWormEncy", "DownloadedData/Precursor/Scan", hangingWormTitle, 
+            hangingWormDescription, unlockSound: PDAHandler.UnlockBasic);
+        var hangingWormEntryData = new PDAScanner.EntryData()
+        {
+            key = hangingWormType,
+            destroyAfterScan = false,
+            encyclopedia = "ProtoHangingWormEncy",
+            scanTime = 5f,
+            isFragment = false,
+            blueprint = hangingWormType
+        };
+        PDAHandler.AddCustomScannerEntry(hangingWormEntryData);
+        #endregion
+        
+        #region Normal Worm
+        TechType normalWormType = (TechType)Enum.Parse(typeof(TechType), "ProtoWorm");
+        string normalWormTitle = Language.main.Get("ProtoWormEncy_Title");
+        string normalWormDescription = Language.main.Get("ProtoWormEncy_Body");
+        Texture2D normalWormBackground = Plugin.AssetBundle.LoadAsset<Texture2D>("ProtoWormEncy");
+        
+        PDAHandler.AddEncyclopediaEntry("ProtoWormEncy", "DownloadedData/Precursor/Scan", normalWormTitle, 
+            normalWormDescription, image: normalWormBackground, unlockSound: PDAHandler.UnlockBasic);
+        var normalWormEntryData = new PDAScanner.EntryData()
+        {
+            key = normalWormType,
+            destroyAfterScan = false,
+            encyclopedia = "ProtoWormEncy",
+            scanTime = 5f,
+            isFragment = false,
+            blueprint = normalWormType
+        };
+        PDAHandler.AddCustomScannerEntry(normalWormEntryData);
         #endregion
         
         RegisterEncyEntries("DownloadedData/Precursor/ProtoUpgrades", PDAHandler.UnlockBasic, new()

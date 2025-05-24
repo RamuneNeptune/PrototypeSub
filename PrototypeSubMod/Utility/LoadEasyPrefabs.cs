@@ -1,4 +1,5 @@
-﻿using Nautilus.Assets;
+﻿using System.Collections;
+using Nautilus.Assets;
 using Nautilus.Assets.Gadgets;
 using Nautilus.Utility;
 using PrototypeSubMod.Compatibility;
@@ -34,6 +35,10 @@ internal static class LoadEasyPrefabs
 
             if (easyPrefab.prefab != null)
             {
+                if (easyPrefab.prefab.GetComponentsInChildren<Renderer>(true).Length > 0)
+                {
+                    UWE.CoroutineHost.StartCoroutine(ProtoMatDatabase.ReplaceVanillaMats(easyPrefab.prefab));
+                }
                 prefab.SetGameObject(easyPrefab.prefab);
             }
 

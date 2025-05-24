@@ -327,6 +327,11 @@ namespace PathCreationEditor
 		{
 			if (data == null) return;
 
+			if (!globalDisplaySettings)
+			{
+                LoadDisplaySettings();
+            }
+
 			if (!globalDisplaySettings.visibleBehindObjects)
 			{
 				Handles.zTest = UnityEngine.Rendering.CompareFunction.LessEqual;

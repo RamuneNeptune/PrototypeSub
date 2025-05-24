@@ -1,4 +1,5 @@
 ﻿using Nautilus.Commands;
+using PrototypeSubMod.Facilities.Hull;
 using PrototypeSubMod.Upgrades;
 using UnityEngine;
 
@@ -20,6 +21,13 @@ internal static class PrototypeCommands
             sub.transform.rotation = Quaternion.identity;
         }
 
-        return "";
+        return string.Empty;
+    }
+
+    [ConsoleCommand("resetwormtimer")]
+    public static string ResetWormTimer()
+    {
+        WormSpawnEvent.ResetSpawnTimer();
+        return string.Empty;
     }
 }
