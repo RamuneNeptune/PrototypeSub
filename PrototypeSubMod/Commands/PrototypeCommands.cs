@@ -27,6 +27,7 @@ internal static class PrototypeCommands
     [ConsoleCommand("resetwormtimer")]
     public static string ResetWormTimer()
     {
+        ErrorMessage.AddError("Proto worm timer reset!");
         WormSpawnEvent.ResetSpawnTimer();
         return string.Empty;
     }

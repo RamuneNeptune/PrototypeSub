@@ -27,10 +27,9 @@ public class ProtoWormSpawnEvent
 
     private static IEnumerator GetPrefabInstance(IOut<GameObject> prefabOut)
     {
-        var instance = GameObject.Instantiate(lastPrefab);
+        var instance = UWE.Utils.InstantiateDeactivated(lastPrefab);
         MaterialUtils.ApplySNShaders(instance);
         yield return ProtoMatDatabase.ReplaceVanillaMats(instance);
-        instance.SetActive(true);
         
         prefabOut.Set(instance);
     }

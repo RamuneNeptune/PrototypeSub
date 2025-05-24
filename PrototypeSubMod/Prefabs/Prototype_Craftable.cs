@@ -61,6 +61,7 @@ internal class Prototype_Craftable
 
         go.GetComponent<PingInstance>().pingType = Plugin.PrototypePingType;
         go.GetComponent<TechTag>().type = SubInfo.TechType;
+        go.GetComponent<PrefabIdentifier>().classId = SubInfo.ClassID;
 
         if (go.TryGetComponent(out PrefabIdentifier identifier))
         {
