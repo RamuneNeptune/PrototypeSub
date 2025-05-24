@@ -2,7 +2,7 @@
 
 namespace PrototypeSubMod.Facilities.Hull;
 
-public class DecorativeWormManager : MonoBehaviour
+public class LightingControllerRegisterer : MonoBehaviour
 {
     [SerializeField] private LightingController lightingController;
     [SerializeField] private SkyApplier skyApplier;
