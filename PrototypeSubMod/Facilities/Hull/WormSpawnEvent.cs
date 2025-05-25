@@ -29,6 +29,7 @@ public class WormSpawnEvent : MonoBehaviour
     private int particleCount;
     private float timeNextParticles = float.MinValue;
     private float timeSpawned;
+    private float timeOffset;
 
     private void Awake()
     {
@@ -40,13 +41,14 @@ public class WormSpawnEvent : MonoBehaviour
     {
         inPrefabCache = transform.parent && transform.parent.parent && transform.parent.parent.name == "Nautilus.PrefabCache";
         gameObject.SetActive(!inPrefabCache);
+        timeOffset = (float)gameObject.GetHashCode() / int.MaxValue;
     }
 
     private void Update()
     {
         if (inPrefabCache) return;
-        
-        float time = Time.time + Random.Range(-0.01f, 0.01f);
+
+        float time = Time.time + timeOffset;
         disableObjects.SetActive(time >= _timeNextSpawn || wormActive);
         if (time >= _timeNextSpawn && !wormActive && !hasSpawned)
         {
