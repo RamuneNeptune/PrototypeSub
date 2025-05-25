@@ -12,44 +12,19 @@ internal static class StructureRegisterer
     public static void Register()
     {
         int entityCount = 0;
-        //StructureLoading.RegisterStructure(LoadStructureFromBundle("InterceptorFacility"), ref entityCount);
-        //entityCount = 0;
-
         StructureLoading.RegisterStructure(LoadStructureFromBundle("DefenseChamber"), ref entityCount);
-        entityCount = 0;
-
         StructureLoading.RegisterStructure(LoadStructureFromBundle("DefenseTunnel"), ref entityCount);
-        entityCount = 0;
-
         StructureLoading.RegisterStructure(LoadStructureFromBundle("EngineFacility"), ref entityCount);
-        entityCount = 0;
-
         StructureLoading.RegisterStructure(LoadStructureFromBundle("DefenseMoonpool"), ref entityCount);
-        entityCount = 0;
-
         StructureLoading.RegisterStructure(LoadStructureFromBundle("ProtoItemDisplayCases"), ref entityCount);
-        entityCount = 0;
-
         StructureLoading.RegisterStructure(LoadStructureFromBundle("ProtoIslands"), ref entityCount);
-        entityCount = 0;
-
         StructureLoading.RegisterStructure(LoadStructureFromBundle("TempHullFacility"), ref entityCount);
-        entityCount = 0;
-        
         StructureLoading.RegisterStructure(LoadStructureFromBundle("ProtoWarpCore"), ref entityCount);
-        entityCount = 0;
-        
         StructureLoading.RegisterStructure(LoadStructureFromBundle("DefenseFacilityDebris"), ref entityCount);
-        entityCount = 0;
-        
         StructureLoading.RegisterStructure(LoadStructureFromBundle("HullFacilityOutpost"), ref entityCount);
-        entityCount = 0;
-        
         StructureLoading.RegisterStructure(LoadStructureFromBundle("PrecursorFabricators"), ref entityCount);
-        entityCount = 0;
-        
         StructureLoading.RegisterStructure(LoadStructureFromBundle("HullFacilityObjects"), ref entityCount);
-        entityCount = 0;
+        StructureLoading.RegisterStructure(LoadStructureFromBundle("HullFacilityTunnelExtras"), ref entityCount);
 
         if (TRPCompatManager.TRPInstalled)
         {
