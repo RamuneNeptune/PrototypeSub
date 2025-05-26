@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using PrototypeSubMod.Facilities.Engine;
+using UnityEngine;
 
 namespace PrototypeSubMod.Facilities.Defense;
 
@@ -20,7 +21,7 @@ internal class ProtoDoorTransmitter : MonoBehaviour
 
     private void CheckPlayerPos()
     {
-        if (!Plugin.GlobalSaveData.defensePingSpawned) return;
+        if (!Plugin.GlobalSaveData.EngineFacilityPointsRepaired) return;
         
         if (Plugin.GlobalSaveData.moonpoolDoorOpened)
         {

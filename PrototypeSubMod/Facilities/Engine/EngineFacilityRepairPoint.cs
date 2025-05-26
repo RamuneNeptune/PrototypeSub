@@ -5,7 +5,7 @@ namespace PrototypeSubMod.Facilities.Engine;
 
 public class EngineFacilityRepairPoint : MonoBehaviour
 {
-    private const int REPAIR_POINTS_COUNT = 4;
+    public const int REPAIR_POINTS_COUNT = 4;
 
     [SerializeField] private FMODAsset[] remainingPointsVoicelines;
 
