@@ -140,5 +140,6 @@ internal static class StoryGoalsRegisterer
         });
         
         StoryGoalHandler.RegisterCustomEvent("HullFacilityActivateWorm", null);
+        StoryGoalHandler.RegisterCustomEvent("DefenseCloakDisabled", null);
     }
 }

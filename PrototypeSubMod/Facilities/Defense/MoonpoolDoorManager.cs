@@ -39,8 +39,6 @@ internal class MoonpoolDoorManager : MonoBehaviour
         
         if (playerDistanceTracker.distanceToPlayer > noEntryPlayerDistance) return;
 
-        Plugin.GlobalSaveData.visitedDefenseMoonpool = true;
-
         if (Player.main.currentSub != null)
         {
             var doorTransmitter = Player.main.currentSub.GetComponentInChildren<ProtoDoorTransmitter>();

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Story;
+using UnityEngine;
 
 namespace PrototypeSubMod.Facilities.Defense;
 
@@ -9,7 +10,7 @@ internal class CloakCutoutApplier : MonoBehaviour
 
     private void OnRenderImage(RenderTexture source, RenderTexture destination)
     {
-        if (!defenseCloakManager || Plugin.GlobalSaveData.defenseCloakDisabled)
+        if (!defenseCloakManager || StoryGoalManager.main.IsGoalComplete("DefenseCloakDisabled"))
         {
             Graphics.Blit(source, destination);
             return;

@@ -7,7 +7,7 @@ internal class DefenseStoryGoalPlayer : MonoBehaviour
 {
     public void OnPlayerEnter()
     {
-        if (Plugin.GlobalSaveData.visitedDefenseMoonpool) return;
+        if (StoryGoalManager.main.IsGoalComplete("OnMoonpoolNoPrototype")) return;
 
         StoryGoalManager.main.OnGoalComplete("OnApproachDefenseFacility");
     }

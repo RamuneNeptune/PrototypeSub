@@ -69,7 +69,7 @@ internal class DefenseCloakManager : MonoBehaviour
     {
         originalScale = sphere.localScale.x;
 
-        if (Plugin.GlobalSaveData.defenseCloakDisabled)
+        if (StoryGoalManager.main.IsGoalComplete("DefenseCloakDisabled"))
         {
             sphere.localScale = Vector3.zero;
             deactivationTerminal.ForceInteracted();
@@ -88,7 +88,7 @@ internal class DefenseCloakManager : MonoBehaviour
 
     public void DeactivateCloak()
     {
-        if (Plugin.GlobalSaveData.defenseCloakDisabled) return;
+        if (StoryGoalManager.main.IsGoalComplete("DefenseCloakDisabled")) return;
 
         deactivated = true;
         StoryGoalManager.main.OnGoalComplete("OnDefenseCloakDisabled");
@@ -114,7 +114,7 @@ internal class DefenseCloakManager : MonoBehaviour
             if (currentScaleTime + Time.deltaTime >= scaleTime)
             {
                 sphere.localScale = Vector3.zero;
-                Plugin.GlobalSaveData.defenseCloakDisabled = true;
+                StoryGoalManager.main.OnGoalComplete("DefenseCloakDisabled");
                 intensityMultiplier = 1;
             }
 
