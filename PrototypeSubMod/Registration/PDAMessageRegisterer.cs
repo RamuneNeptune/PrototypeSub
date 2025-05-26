@@ -12,5 +12,9 @@ internal static class PDAMessageRegisterer
         PDALog_Patches.entries.Add(("PDA_OnMoonpoolDisallow", "OnMoonpoolNoPrototype"));
         PDALog_Patches.entries.Add(("PDA_ApproachDefense", "OnApproachDefenseFacility"));
         PDALog_Patches.entries.Add(("PDA_NoFireExtinguisher", "NotifyPlayerNoExtinguishers"));
+        PDALog_Patches.entries.Add(("PDA_Breach3Left", "PDA_Breach3Left"));
+        PDALog_Patches.entries.Add(("PDA_Breach2Left", "PDA_Breach2Left"));
+        PDALog_Patches.entries.Add(("PDA_Breach1Left", "PDA_Breach1Left"));
+        PDALog_Patches.entries.Add(("PDA_Breach0Left", "PDA_Breach0Left"));
     }
 }
