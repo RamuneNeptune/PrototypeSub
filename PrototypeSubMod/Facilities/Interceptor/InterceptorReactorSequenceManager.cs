@@ -22,6 +22,10 @@ internal class InterceptorReactorSequenceManager : MonoBehaviour
     [SerializeField] private Vector3 islandTeleportPos;
     [SerializeField] private Vector3 voidTeleportPos;
 
+    [Header("Activation Objects")]
+    [SerializeField] private GameObject[] inactiveObjects;
+    [SerializeField] private GameObject[] activeObjects;
+    
     private void Start()
     {
         if (Plugin.GlobalSaveData.reactorSequenceComplete)
@@ -35,6 +39,15 @@ internal class InterceptorReactorSequenceManager : MonoBehaviour
                 MostRecentReturnPos = returnPos.position;
                 StartReactorSequence();
             };
+        }
+
+        foreach (var obj in inactiveObjects)
+        {
+            obj.SetActive(!Plugin.GlobalSaveData.EngineFacilityPointsRepaired);
+        }
+        foreach (var obj in activeObjects)
+        {
+            obj.SetActive(Plugin.GlobalSaveData.EngineFacilityPointsRepaired);
         }
 
         if (!Teleporter)

@@ -16,8 +16,8 @@ internal class ProtoGlobalSaveData : SaveDataCache
 
     public Dictionary<string, float> deployableLightLifetimes = new();
     public List<ProtoUpgradeCategory> unlockedCategoriesLastCheck = new();
-
-    public List<string> repairedEngineFacilityPoints;
+    public List<string> repairedEngineFacilityPoints = new();
+    
     public bool prototypePresent;
     public bool prototypeDestroyed;
     
