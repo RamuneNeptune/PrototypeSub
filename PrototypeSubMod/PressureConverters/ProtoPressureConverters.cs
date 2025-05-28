@@ -37,6 +37,6 @@ internal class ProtoPressureConverters : ProtoUpgrade
 
     public override bool GetUpgradeEnabled() => upgradeEnabled;
 
-    public override void OnActivated() { }
+    public override bool OnActivated() => false;
     public override void OnSelectedChanged(bool changed) { }
 }

@@ -100,15 +100,16 @@ internal class ProtoOverclockModule : ProtoUpgrade
         }
     }
 
-    public override void OnActivated()
+    public override bool OnActivated()
     {
         if (ionGenerator.GetUpgradeEnabled())
         {
             subRoot.voiceNotificationManager.PlayVoiceNotification(invalidOperationNotification);
-            return;
+            return false;
         }
         
         SetUpgradeEnabled(!upgradeEnabled);
+        return true;
     }
 
     public override void OnSelectedChanged(bool changed) { }

@@ -173,7 +173,7 @@ internal class ProtoTeleporterManager : ProtoUpgrade
     public override bool GetUpgradeEnabled() => upgradeInstalled;
 
     public void SetPowerMultiplier(float multiplier) => powerCostMultiplier = multiplier;
-    public override void OnActivated() { }
+    public override bool OnActivated() => false;
     public override void OnSelectedChanged(bool selected) { }
 }
 

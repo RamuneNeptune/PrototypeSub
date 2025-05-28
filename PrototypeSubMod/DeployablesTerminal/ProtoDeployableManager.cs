@@ -136,6 +136,6 @@ internal class ProtoDeployableManager : ProtoUpgrade
     public override bool GetUpgradeEnabled() => upgradeInstalled;
 
     // The deployable manager will be called via different icons
-    public override void OnActivated() { }
+    public override bool OnActivated() => false;
     public override void OnSelectedChanged(bool changed) { }
 }

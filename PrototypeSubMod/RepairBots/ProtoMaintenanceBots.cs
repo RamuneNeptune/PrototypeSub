@@ -90,9 +90,12 @@ internal class ProtoMaintenanceBots : ProtoUpgrade, IOnTakeDamage
         }
     }
 
-    public override void OnActivated()
+    public override bool OnActivated()
     {
+        if (upgradeLocked) return false;
+        
         SetUpgradeEnabled(!upgradeEnabled);
+        return true;
     }
 
     public override void OnSelectedChanged(bool changed) { }

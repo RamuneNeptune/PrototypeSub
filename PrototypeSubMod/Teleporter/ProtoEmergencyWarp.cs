@@ -38,17 +38,9 @@ internal class ProtoEmergencyWarp : ProtoUpgrade
         };
     }
 
-    public void TryStartTeleportChargeUp()
+    public void StartTeleportChargeUp()
     {
         if (!upgradeInstalled) return;
-
-        if (isCharging) return;
-        
-        if (subRoot.powerRelay.GetPower() < PrototypePowerSystem.CHARGE_POWER_AMOUNT * requiredCharges)
-        {
-            subRoot.voiceNotificationManager.PlayVoiceNotification(insufficientPowerNotification);
-            return;
-        }
 
         subRoot.voiceNotificationManager.PlayVoiceNotification(emergencyWarpNotification);
 
@@ -118,9 +110,18 @@ internal class ProtoEmergencyWarp : ProtoUpgrade
 
     public override bool GetUpgradeEnabled() => selected;
 
-    public override void OnActivated()
+    public override bool OnActivated()
     {
-        TryStartTeleportChargeUp();
+        if (subRoot.powerRelay.GetPower() < PrototypePowerSystem.CHARGE_POWER_AMOUNT * requiredCharges)
+        {
+            subRoot.voiceNotificationManager.PlayVoiceNotification(insufficientPowerNotification);
+            return false;
+        }
+        
+        if (isCharging) return false;
+        
+        StartTeleportChargeUp();
+        return true;
     }
 
     public override void OnSelectedChanged(bool changed)

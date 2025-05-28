@@ -128,7 +128,12 @@ internal class ProtoIonBarrier : ProtoUpgrade, IOnTakeDamage
         hydrolockController.SetBool("HydrolockEnabled", enabled);
         if (enabled)
         {
-            powerRelay.ConsumeEnergy(chargeUseCount * PrototypePowerSystem.CHARGE_POWER_AMOUNT, out _);
+            bool couldDraw = powerRelay.ConsumeEnergy(chargeUseCount * PrototypePowerSystem.CHARGE_POWER_AMOUNT, out _);
+            if (!couldDraw)
+            {
+                SetUpgradeEnabled(false);
+                return;
+            }
             
             ActivateShield();
             subRoot.voiceNotificationManager.PlayVoiceNotification(shieldsUpNotification);
@@ -183,11 +188,14 @@ internal class ProtoIonBarrier : ProtoUpgrade, IOnTakeDamage
         damageReductionMultipier = multiplier;
     }
 
-    public override void OnActivated()
+    public override bool OnActivated()
     {
-        if (shieldActive || onCooldown) return;
+        if (shieldActive || onCooldown) return false;
+
+        if (powerRelay.GetPower() <= 0) return false;
         
         SetShieldEnabled(true);
+        return true;
     }
 
     public override void OnSelectedChanged(bool changed)

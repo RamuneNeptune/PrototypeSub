@@ -38,7 +38,7 @@ internal class ProtoVariablePowerStreams : ProtoUpgrade, ILateSaveDataListener
         abilitySystem.CheckForCurrentFunctionality();
     }
 
-    public override void OnActivated() { }
+    public override bool OnActivated() => false;
 
     public override void OnSelectedChanged(bool changed)
     {

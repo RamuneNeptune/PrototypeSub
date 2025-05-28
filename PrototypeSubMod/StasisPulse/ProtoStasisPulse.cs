@@ -149,7 +149,6 @@ internal class ProtoStasisPulse : ProtoUpgrade
     {
         int increment = colliderCount / FREEZE_STEPS;
         int lastIncrement = colliderCount - increment * (FREEZE_STEPS - 1);
-        Plugin.Logger.LogInfo($"Collider count = {colliderCount} | Increment = {increment} | Last increment = {lastIncrement}");
         for (int i = 0; i < FREEZE_STEPS; i++)
         {
             int currentIncrement = i == FREEZE_STEPS - 1 ? lastIncrement : increment;
@@ -203,18 +202,6 @@ internal class ProtoStasisPulse : ProtoUpgrade
     {
         if (!upgradeInstalled) return;
 
-        if (activating) return;
-        
-        if (currentSphereGrowTimeTime < sphereGrowTime || currentCooldownTime > 0)
-        {
-            return;
-        }
-
-        if (powerRelay.GetPower() < PrototypePowerSystem.CHARGE_POWER_AMOUNT * chargeConsumptionAmount)
-        {
-            return;
-        }
-
         subRoot.voiceNotificationManager.PlayVoiceNotification(activationVoiceline);
 
         Invoke(nameof(StartGrow), activationDelay);
@@ -233,9 +220,22 @@ internal class ProtoStasisPulse : ProtoUpgrade
 
     public override bool GetUpgradeEnabled() => upgradeInstalled;
 
-    public override void OnActivated()
+    public override bool OnActivated()
     {
+        if (currentSphereGrowTimeTime < sphereGrowTime || currentCooldownTime > 0)
+        {
+            return false;
+        }
+
+        if (activating) return false;
+        
+        if (powerRelay.GetPower() < PrototypePowerSystem.CHARGE_POWER_AMOUNT * chargeConsumptionAmount)
+        {
+            return false;
+        }
+        
         ActivateSphere();
+        return true;
     }
 
     public override void OnSelectedChanged(bool changed) { }

@@ -17,11 +17,12 @@ internal class GenericRadialAbility : MonoBehaviour, IAbilityIcon
     public Sprite GetSprite() => sprite;
     public bool GetCanActivate() => true;
 
-    public void OnActivated()
+    public bool OnActivated()
     {
-        if (GetActive() && !allowActivationWhenActive) return;
+        if (GetActive() && !allowActivationWhenActive) return false;
 
         onActivated?.Invoke();
+        return true;
     }
 
     public void OnSelectedChanged(bool changed)

@@ -182,15 +182,16 @@ internal class CloakEffectHandler : ProtoUpgrade
     public bool GetIsDirty() => isDirty;
     public void ClearDirty() => isDirty = false;
 
-    public override void OnActivated()
+    public override bool OnActivated()
     {
         if (ionGenerator.GetUpgradeEnabled())
         {
             voiceNotificationManager.PlayVoiceNotification(invalidOpNotification);
-            return;
+            return false;
         }
         
         SetUpgradeEnabled(!upgradeEnabled);
+        return true;
     }
 
     public override void OnSelectedChanged(bool changed) { }

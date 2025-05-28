@@ -46,9 +46,10 @@ internal class ProtoHydrodynamicVentilators : ProtoUpgrade
         motorHandler.RemoveSpeedMultiplier(this);
     }
 
-    public override void OnActivated()
+    public override bool OnActivated()
     {
         SetUpgradeEnabled(!upgradeEnabled);
+        return true;
     }
 
     public override void OnSelectedChanged(bool nowSelected) { }

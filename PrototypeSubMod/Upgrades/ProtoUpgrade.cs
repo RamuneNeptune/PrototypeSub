@@ -59,7 +59,7 @@ internal abstract class ProtoUpgrade : MonoBehaviour, IProtoUpgrade, IAbilityIco
         }
     }
 
-    public abstract void OnActivated();
+    public abstract bool OnActivated();
     public abstract void OnSelectedChanged(bool changed);
 
     public virtual bool GetCanActivate()
