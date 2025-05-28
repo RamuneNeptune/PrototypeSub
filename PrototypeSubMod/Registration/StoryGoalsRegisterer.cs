@@ -10,6 +10,9 @@ internal static class StoryGoalsRegisterer
 {
     public static void Register()
     {
+        var sw = new System.Diagnostics.Stopwatch();
+        sw.Start();
+        
         #region Precursor Ingot
 
         StoryGoalHandler.RegisterItemGoal("Ency_ProtoPrecursorIngot", Story.GoalType.Encyclopedia, PrecursorIngot_Craftable.prefabInfo.TechType);
@@ -141,5 +144,8 @@ internal static class StoryGoalsRegisterer
         
         StoryGoalHandler.RegisterCustomEvent("HullFacilityActivateWorm", null);
         StoryGoalHandler.RegisterCustomEvent("DefenseCloakDisabled", null);
+
+        sw.Stop();
+        Plugin.Logger.LogInfo($"Story goals registered in {sw.ElapsedMilliseconds}ms");
     }
 }

@@ -11,6 +11,9 @@ internal static class EncyEntryRegisterer
 {
     public static void Register()
     {
+        var sw = new System.Diagnostics.Stopwatch();
+        sw.Start();
+        
         #region Prototype
         string protoTitle = Language.main.Get("ProtoDatabankEncy_Title");
         string protoBody = Language.main.Get("ProtoDatabankEncy_Body");
@@ -212,18 +215,21 @@ internal static class EncyEntryRegisterer
         #endregion
         
         RegisterEncyEntries("DownloadedData/Precursor/ProtoUpgrades", PDAHandler.UnlockBasic, new()
-            {
-                "ProtoCloakEncy",
-                "ProtoEmergencyWarpEncy",
-                "ProtoInterceptorEncy",
-                "ProtoRepairDroidsEncy",
-                "ProtoPressureConvertersEncy",
-                "ProtoIonBarrierEncy",
-                "ProtoStasisPulseEncy",
-                "ProtoVentilatorsEncy",
-                "ProtoIonGeneratorEncy",
-                "ProtoOverclockEncy"
-            });
+        {
+            "ProtoCloakEncy",
+            "ProtoEmergencyWarpEncy",
+            "ProtoInterceptorEncy",
+            "ProtoRepairDroidsEncy",
+            "ProtoPressureConvertersEncy",
+            "ProtoIonBarrierEncy",
+            "ProtoStasisPulseEncy",
+            "ProtoVentilatorsEncy",
+            "ProtoIonGeneratorEncy",
+            "ProtoOverclockEncy"
+        });
+
+        sw.Stop();
+        Plugin.Logger.LogInfo($"Ency entries registered in {sw.ElapsedMilliseconds}ms");
     }
 
     private static void RegisterEncyEntries(string path, FMODAsset unlockSound, List<string> entries)

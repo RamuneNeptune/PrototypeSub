@@ -93,7 +93,11 @@ namespace PrototypeSubMod
             Logger = base.Logger;
 
             LanguageHandler.RegisterLocalizationFolder();
+            var audioSW = new System.Diagnostics.Stopwatch();
+            audioSW.Start();
             SubAudioLoader.LoadAllAudio(AssetBundle);
+            audioSW.Stop();
+            Logger.LogInfo($"Audio loaded in {audioSW.ElapsedMilliseconds}ms");
             
             PrefabRegisterer.Register();
             LoadEasyPrefabs.LoadPrefabs(AssetBundle);
@@ -109,13 +113,21 @@ namespace PrototypeSubMod
             InitializeSlotMapping();
             LoadPathfindingGrid();
             
+            var miscSW = new System.Diagnostics.Stopwatch();
+            miscSW.Start();
             ConsoleCommandsHandler.RegisterConsoleCommands(typeof(PrototypeCommands));
             ROTACompatManager.AddCompatiblePowerSources();
             WeatherCompatManager.Initialize();
             SetupSaveStateReferences.SetupReferences(Assembly);
             UpgradeUninstallationPrefabManager.RegisterUninstallationPrefabs(AssetBundle);
+            miscSW.Stop();
+            Logger.LogInfo($"Miscellaneous items registered in {miscSW.ElapsedMilliseconds}ms");
             
+            var databaseSW = new System.Diagnostics.Stopwatch();
+            databaseSW.Start();
             ProtoMatDatabase.Initalize();
+            databaseSW.Stop();
+            Logger.LogInfo($"Material database registered in {databaseSW.ElapsedMilliseconds}ms");
             
             CoroutineHost.StartCoroutine(Initialize());
             CoroutineHost.StartCoroutine(MakeSeaTreaderBlockersPassthrough());
@@ -148,12 +160,17 @@ namespace PrototypeSubMod
 
         private void InitializeSlotMapping()
         {
+            var sw = new System.Diagnostics.Stopwatch();
+            sw.Start();
+            
             foreach (string name in PrototypePowerSystem.SLOT_NAMES)
             {
                 Equipment.slotMapping.Add(name, PrototypePowerType);
             }
 
             Equipment.slotMapping.Add(ProtoPowerAbilitySystem.SlotName, PrototypePowerType);
+            sw.Stop();
+            Logger.LogInfo($"Slot mapping registered in {sw.ElapsedMilliseconds}ms");
         }
 
         private IEnumerator AddBatteryComponents()
@@ -179,12 +196,17 @@ namespace PrototypeSubMod
 
         private void RegisterDependantPatches()
         {
+            var sw = new System.Diagnostics.Stopwatch();
+            sw.Start();
             if (Chainloader.PluginInfos.ContainsKey("com.danithedani.deepercreatures"))
             {
                 var structureTranspiler = AccessTools.Method(typeof(StructureLoading_Patches), nameof(StructureLoading_Patches.RegisterStructure_Transpiler));
                 var originalMethod = AccessTools.Method(typeof(StructureLoading), nameof(StructureLoading.RegisterStructure));
                 harmony.Patch(originalMethod, transpiler: new HarmonyMethod(structureTranspiler));
             }
+
+            sw.Stop();
+            Logger.LogInfo($"Dependant patches registered in {sw.ElapsedMilliseconds}ms");
         }
 
         private void LoadPathfindingGrid()

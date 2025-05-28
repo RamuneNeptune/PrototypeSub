@@ -6,6 +6,9 @@ internal static class PDAMessageRegisterer
 {
     public static void Register()
     {
+        var sw = new System.Diagnostics.Stopwatch();
+        sw.Start();
+        
         PDALog_Patches.entries.Add(("PDA_InterceptorUnlock", "OnInterceptorTestDataDownloaded"));
         PDALog_Patches.entries.Add(("PDA_OnDisableCloak", "OnDefenseCloakDisabled"));
         PDALog_Patches.entries.Add(("PDA_OnEnterMoonpool", "OnEnterDefenseMoonpool"));
@@ -16,5 +19,8 @@ internal static class PDAMessageRegisterer
         PDALog_Patches.entries.Add(("PDA_Breach2Left", "PDA_Breach2Left"));
         PDALog_Patches.entries.Add(("PDA_Breach1Left", "PDA_Breach1Left"));
         PDALog_Patches.entries.Add(("PDA_Breach0Left", "PDA_Breach0Left"));
+
+        sw.Stop();
+        Plugin.Logger.LogInfo($"PDA Messages registered in {sw.ElapsedMilliseconds}ms");
     }
 }

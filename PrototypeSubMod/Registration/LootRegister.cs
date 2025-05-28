@@ -9,7 +9,12 @@ internal static class LootRegister
 
     public static void Register()
     {
+        var sw = new System.Diagnostics.Stopwatch();
+        sw.Start();
         RegisterInactiveAlienBuildingBlock();
+
+        sw.Stop();
+        Plugin.Logger.LogInfo($"Loot spawns registered in {sw.ElapsedMilliseconds}ms");
     }
 
     private static void RegisterInactiveAlienBuildingBlock()

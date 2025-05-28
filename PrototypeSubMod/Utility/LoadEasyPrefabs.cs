@@ -12,6 +12,9 @@ internal static class LoadEasyPrefabs
 {
     public static void LoadPrefabs(AssetBundle assetBundle)
     {
+        var sw = new System.Diagnostics.Stopwatch();
+        sw.Start();
+        
         foreach (var easyPrefab in assetBundle.LoadAllAssets<EasyPrefab>())
         {
             PrefabInfo info = PrefabInfo.WithTechType(easyPrefab.techType.techTypeName, null, null, unlockAtStart: easyPrefab.unlockAtStart);
@@ -60,5 +63,8 @@ internal static class LoadEasyPrefabs
 
             prefab.Register();
         }
+
+        sw.Stop();
+        Plugin.Logger.LogInfo($"Easy prefabs loaded in {sw.ElapsedMilliseconds}ms");
     }
 }

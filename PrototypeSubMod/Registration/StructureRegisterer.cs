@@ -11,6 +11,9 @@ internal static class StructureRegisterer
 {
     public static void Register()
     {
+        var sw = new System.Diagnostics.Stopwatch();
+        sw.Start();
+        
         int entityCount = 0;
         StructureLoading.RegisterStructure(LoadStructureFromBundle("DefenseChamber"), ref entityCount);
         StructureLoading.RegisterStructure(LoadStructureFromBundle("DefenseTunnel"), ref entityCount);
@@ -33,6 +36,9 @@ internal static class StructureRegisterer
 
             StructureLoading.RegisterStructure(trpIsland, ref entityCount);
         }
+
+        sw.Stop();
+        Plugin.Logger.LogInfo($"Structures loaded in {sw.ElapsedMilliseconds}ms");
     }
 
     private static Structure LoadStructureFromBundle(string name)

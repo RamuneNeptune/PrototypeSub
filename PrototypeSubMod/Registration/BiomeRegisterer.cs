@@ -11,6 +11,9 @@ internal static class BiomeRegisterer
 {
     public static void Register()
     {
+        var sw = new System.Diagnostics.Stopwatch();
+        sw.Start();
+        
         var settings = BiomeUtils.CreateBiomeSettings(new Vector3(18, 15, 13), 1.1f, Color.white, 0.15f, Color.white, 0, temperature: 10);
 
         BiomeHandler.RegisterBiome(Plugin.DEFENSE_CHAMBER_BIOME_NAME, settings, new BiomeHandler.SkyReference("SkyMountains"));
@@ -76,5 +79,8 @@ internal static class BiomeRegisterer
         BiomeHandler.AddBiomeMusic("protohullfacilitytense",
             AudioUtils.GetFmodAsset("HullFacility_Tense"));
         #endregion
+
+        sw.Stop();
+        Plugin.Logger.LogInfo($"Biomes registered in {sw.ElapsedMilliseconds}ms");
     }
 }
