@@ -52,6 +52,16 @@ internal class ProtoRepairBot : PathfindingObject
 
     private void Update()
     {
+        if (!targetPoint && enRouteToPoint && !repairing)
+        {
+            repairing = false;
+            vfxEnabled = false;
+            ownerBay.OnPointRepaired();
+            welderController.Stop();
+            repairSFX.Stop();
+            return;
+        }
+        
         HandleRepairing();
         HandleMovementAnims();
     }

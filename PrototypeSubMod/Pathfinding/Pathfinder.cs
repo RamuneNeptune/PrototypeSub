@@ -16,13 +16,8 @@ public class Pathfinder : MonoBehaviour
     {
         PathQueueData queueData = new PathQueueData(request, callback, startNode, endNode);
 
-        lock (queueDatas)
-        {
-            queueDatas.Enqueue(queueData);
-
-            if (queueDatas.Count > 1) return;
-        }
-
+        queueDatas.Enqueue(queueData);
+        
         while (queueDatas.Count > 0)
         {
             var data = queueDatas.Dequeue();

@@ -10,4 +10,5 @@ public interface IAbilityIcon
     public bool GetCanActivate();
     public bool GetShouldShow();
     public Sprite GetSprite();
+    public TechType GetTechType();
 }

@@ -2,7 +2,9 @@
 using PrototypeSubMod.UI.ProceduralArcGenerator;
 using SubLibrary.UI;
 using System;
+using System.Collections.Generic;
 using PrototypeSubMod.UI.ActivatedAbilities;
+using PrototypeSubMod.Utility;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,11 +16,13 @@ public class TetherManager : MonoBehaviour, IUIElement
     public Action onAbilitySelected;
 
     [SerializeField] private ActivatedAbilitiesManager activatedAbilitiesManager;
+    [SerializeField] private ProtoUpgradeCategory[] upgradeCategories;
     [SerializeField] private PilotingChair chair;
     [SerializeField] private Transform tetherPoint;
     [SerializeField] private CircularMeshApplier selectionHighlight;
     [SerializeField] private IconDistributor distributor;
     [SerializeField] private Image selectionPreview;
+    [SerializeField] private FMODAsset genericAbilitySFX;
     [SerializeField] private FMODAsset openSFX;
     [SerializeField] private FMODAsset hoverSFX;
     [SerializeField] private FMODAsset selectSFX;
@@ -28,6 +32,7 @@ public class TetherManager : MonoBehaviour, IUIElement
 
     private RadialIcon lastIcon;
     private RadialIcon selectedIcon;
+    private Dictionary<TechType, ProtoUpgradeCategory> typeToCategory;
 
     private float lastTetherAngle;
     private float timeLastAngleCalculated;
@@ -36,6 +41,15 @@ public class TetherManager : MonoBehaviour, IUIElement
 
     private void Start()
     {
+        typeToCategory = new Dictionary<TechType, ProtoUpgradeCategory>();
+        foreach (var category in upgradeCategories)
+        {
+            foreach (var type in category.ownedTechTypes)
+            {
+                typeToCategory.Add(type.TechType, category);
+            }
+        }
+        
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         selectionHighlight.gameObject.SetActive(false);
@@ -147,8 +161,19 @@ public class TetherManager : MonoBehaviour, IUIElement
             return;
         }
         
-        selectedIcon.Activate();
+        bool didActivate = selectedIcon.Activate();
         onAbilityActivatedChanged?.Invoke(selectedIcon.GetAbility());
+
+        if (!didActivate) return;
+        
+        if (typeToCategory.TryGetValue(selectedIcon.GetAbility().GetTechType(), out var category))
+        {
+            FMODUWE.PlayOneShot(category.activationSFX, transform.position, category.activationSFXVolume);
+        }
+        else
+        {
+            FMODUWE.PlayOneShot(genericAbilitySFX, transform.position);
+        }
     }
 
     private RadialIcon GetIconClosestToPointer()

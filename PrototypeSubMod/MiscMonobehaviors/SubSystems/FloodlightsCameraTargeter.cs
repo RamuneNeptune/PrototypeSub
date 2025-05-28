@@ -11,7 +11,7 @@ public class FloodlightsCameraTargeter : MonoBehaviour
     
     private void Update()
     {
-        Vector3 point = transform.position + transform.forward;
+        Vector3 point = transform.position + chair.subRoot.transform.forward;
         var main = Camera.main;
         if (Player.main.currChair == chair)
         {

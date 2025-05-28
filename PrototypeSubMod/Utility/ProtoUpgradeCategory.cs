@@ -8,6 +8,8 @@ internal class ProtoUpgradeCategory : ScriptableObject
 {
     public string localizationKey;
     public DummyTechType[] ownedTechTypes;
+    public FMODAsset activationSFX;
+    public float activationSFXVolume;
 
     public TechType[] GetTechTypes()
     {

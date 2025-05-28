@@ -75,10 +75,6 @@ public class RadialIcon : MonoBehaviour
         ability.OnSelectedChanged(false);
     }
 
-    public void Activate()
-    {
-        ability.OnActivated();
-    }
-
+    public bool Activate() => ability.OnActivated();
     public bool GetHovering() => hovered;
 }
