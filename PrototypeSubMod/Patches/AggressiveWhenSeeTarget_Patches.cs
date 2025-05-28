@@ -32,7 +32,7 @@ internal class AggressiveWhenSeeTarget_Patches
 
         if (!overrideResult) return target;
 
-        Player_Patches.DummyLDFTarget.transform.position = currentHandler.GetClosestPointOnSurface(target.transform.position, 1.1f);
+        Player_Patches.DummyLDFTarget.transform.position = currentHandler.GetClosestPointOnSurface(target.transform.position, 3f);
         return Player_Patches.DummyLDFTarget;
     }
 }
