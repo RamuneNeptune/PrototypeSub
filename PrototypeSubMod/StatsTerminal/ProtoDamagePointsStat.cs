@@ -44,6 +44,8 @@ internal class ProtoDamagePointsStat : MonoBehaviour, IStatistic, ICyclopsRefere
 
     public void UpdateStatIntermittent()
     {
+        if (displayPointsParent) return;
+        
         if (damagePointsParent.childCount != childrenLastCheck)
         {
             damagePoints = damagePointsParent.GetComponentsInChildren<CyclopsDamagePoint>(true);
