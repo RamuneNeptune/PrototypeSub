@@ -82,6 +82,7 @@ public class ReplaceTextures : PipelineJob
                             foreach (var textureID in renderer.sharedMaterials[i].GetTexturePropertyNameIDs())
                                 renderer.sharedMaterials[i].SetTexture(textureID, material.GetTexture(textureID));
 
+                            EditorUtility.SetDirty(renderer.sharedMaterials[i]);
                             break;
                         }
                     }
@@ -95,7 +96,9 @@ public class ReplaceTextures : PipelineJob
         
         if(metaFile.Exists)
             metaFile.Delete();
-        
+
+        AssetDatabase.SaveAssets();
+
         return Task.CompletedTask;
     }
     
