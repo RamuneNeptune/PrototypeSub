@@ -18,11 +18,18 @@ internal class GenericRadialAbility : MonoBehaviour, IAbilityIcon
     public TechType GetTechType() => TechType.None;
     public bool GetCanActivate() => true;
 
+    private bool activationFailure;
+    
     public bool OnActivated()
     {
         if (GetActive() && !allowActivationWhenActive) return false;
 
         onActivated?.Invoke();
+        if (activationFailure)
+        {
+            activationFailure = false;
+            return false;
+        }
         return true;
     }
 
@@ -39,5 +46,10 @@ internal class GenericRadialAbility : MonoBehaviour, IAbilityIcon
         if (!upgradeActiveObject) return false;
 
         return upgradeActiveObject.activeSelf;
+    }
+
+    public void SetQueuedActivationFailure()
+    {
+        activationFailure = true;
     }
 }

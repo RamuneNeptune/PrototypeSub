@@ -3,6 +3,7 @@ using PrototypeSubMod.Upgrades;
 using System.Collections;
 using System.Collections.Generic;
 using PrototypeSubMod.PowerSystem;
+using PrototypeSubMod.UI.AbilitySelection;
 using UnityEngine;
 
 namespace PrototypeSubMod.DeployablesTerminal;
@@ -18,7 +19,9 @@ internal class ProtoDeployableManager : ProtoUpgrade
     [SerializeField] private GameObject lightPrefab;
     [SerializeField] private Transform lightSpawnTransform;
     [SerializeField] private Transform decoySpawnTransform;
-
+    [SerializeField] private GenericRadialAbility decoyAbility;
+    [SerializeField] private GenericRadialAbility lightAbility;
+    
     [SerializeField] private int decoyChargeConsumption;
     [SerializeField] private float launchLightDelay;
     [SerializeField] private float lightLaunchForce;
@@ -58,6 +61,7 @@ internal class ProtoDeployableManager : ProtoUpgrade
         else
         {
             subRoot.voiceNotificationManager.PlayVoiceNotification(invalidOperationNotification);
+            lightAbility.SetQueuedActivationFailure();
         }
     }
 
@@ -83,6 +87,7 @@ internal class ProtoDeployableManager : ProtoUpgrade
         else
         {
             subRoot.voiceNotificationManager.PlayVoiceNotification(invalidOperationNotification);
+            decoyAbility.SetQueuedActivationFailure();
         }
     }
 
