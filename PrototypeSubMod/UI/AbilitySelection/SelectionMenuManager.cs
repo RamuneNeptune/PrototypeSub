@@ -1,4 +1,5 @@
-﻿using PrototypeSubMod.Patches;
+﻿using System.Collections;
+using PrototypeSubMod.Patches;
 using PrototypeSubMod.Upgrades;
 using PrototypeSubMod.Utility;
 using SubLibrary.UI;
@@ -41,17 +42,19 @@ internal class SelectionMenuManager : MonoBehaviour, IUIElement
         }
     }
 
-    private void Start()
+    private IEnumerator Start()
     {
         AssignIcons();
         RefreshIcons();
         upgradeManager.onInstalledUpgradesChanged += RefreshIcons;
         tetherManager.onAbilitySelected += () => SetMenuEnabled(false);
-
+        
+        yield return new WaitForEndOfFrame();
+        
+        chair = tetherManager.GetPilotingChair();
         var defaultIcon = distributor.GetIconAtIndex(defaultAbilityIndex).GetComponent<RadialIcon>();
         tetherManager.SelectIcon(defaultIcon, true, false);
         tetherManager.onAbilityActivatedChanged?.Invoke(defaultIcon.GetAbility());
-        chair = tetherManager.GetPilotingChair();
     }
 
     private void Update()
