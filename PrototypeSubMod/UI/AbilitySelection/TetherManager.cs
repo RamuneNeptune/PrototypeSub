@@ -16,6 +16,7 @@ public class TetherManager : MonoBehaviour, IUIElement
     public Action onAbilitySelected;
 
     [SerializeField] private ActivatedAbilitiesManager activatedAbilitiesManager;
+    [SerializeField] private VoiceNotificationManager notificationManager;
     [SerializeField] private ProtoUpgradeCategory[] upgradeCategories;
     [SerializeField] private PilotingChair chair;
     [SerializeField] private Transform tetherPoint;
@@ -26,6 +27,7 @@ public class TetherManager : MonoBehaviour, IUIElement
     [SerializeField] private FMODAsset openSFX;
     [SerializeField] private FMODAsset hoverSFX;
     [SerializeField] private FMODAsset selectSFX;
+    [SerializeField] private float minTimeBetweenActivationSFX;
     [SerializeField] private float tetherSensitivity;
     [SerializeField] private float tetherLength;
     [SerializeField] private float cursorAngleMultiplier;
@@ -33,6 +35,8 @@ public class TetherManager : MonoBehaviour, IUIElement
     private RadialIcon lastIcon;
     private RadialIcon selectedIcon;
     private Dictionary<TechType, ProtoUpgradeCategory> typeToCategory;
+    private Dictionary<ProtoUpgradeCategory, VoiceNotification> categoryNotifications;
+    private VoiceNotification genericAbilityNofif;
 
     private float lastTetherAngle;
     private float timeLastAngleCalculated;
@@ -42,12 +46,21 @@ public class TetherManager : MonoBehaviour, IUIElement
     private void Start()
     {
         typeToCategory = new Dictionary<TechType, ProtoUpgradeCategory>();
+        categoryNotifications = new Dictionary<ProtoUpgradeCategory, VoiceNotification>();
+        genericAbilityNofif = gameObject.AddComponent<VoiceNotification>();
+        genericAbilityNofif.sound = genericAbilitySFX;
+        genericAbilityNofif.minInterval = minTimeBetweenActivationSFX;
         foreach (var category in upgradeCategories)
         {
             foreach (var type in category.ownedTechTypes)
             {
                 typeToCategory.Add(type.TechType, category);
             }
+
+            var notif = gameObject.AddComponent<VoiceNotification>();
+            notif.sound = category.activationSFX;
+            notif.minInterval = minTimeBetweenActivationSFX;
+            categoryNotifications.Add(category, notif);
         }
         
         Cursor.lockState = CursorLockMode.Locked;
@@ -168,11 +181,11 @@ public class TetherManager : MonoBehaviour, IUIElement
         
         if (typeToCategory.TryGetValue(selectedIcon.GetAbility().GetTechType(), out var category))
         {
-            FMODUWE.PlayOneShot(category.activationSFX, transform.position, category.activationSFXVolume);
+            notificationManager.PlayVoiceNotification(categoryNotifications[category]);
         }
         else
         {
-            FMODUWE.PlayOneShot(genericAbilitySFX, transform.position);
+            notificationManager.PlayVoiceNotification(genericAbilityNofif);
         }
     }
 
