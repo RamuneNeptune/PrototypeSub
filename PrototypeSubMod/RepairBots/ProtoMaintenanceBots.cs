@@ -22,7 +22,7 @@ internal class ProtoMaintenanceBots : ProtoUpgrade, IOnTakeDamage
     private float timeLastDamage = float.MinValue;
     private Queue<CyclopsDamagePoint> queuedPoints = new();
 
-    private void Start()
+    private void Awake()
     {
         pointManager.onRepairPointCreated += OnDamagePointCreated;
         pointManager.onRepairPointRepaired += OnDamagePointRepaired;

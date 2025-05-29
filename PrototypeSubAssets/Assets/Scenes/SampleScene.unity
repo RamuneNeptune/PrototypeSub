@@ -179,7 +179,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 603650774}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.056, y: 5.494, z: -3.183}
+  m_LocalPosition: {x: -0.056, y: 5.558, z: -3.183}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2563661546196429990}
@@ -1433,7 +1433,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 216223879825546151}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.621, y: -3.1, z: 2.304}
+  m_LocalPosition: {x: 3.018, y: 6.794, z: 2.605}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2563661546196429990}
@@ -1571,7 +1571,7 @@ GameObject:
   m_Layer: 0
   m_Name: TestTarget
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 4422084297763085224, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -23698,7 +23698,6 @@ GameObject:
   - component: {fileID: 8617944367873373052}
   - component: {fileID: 1201875482634933537}
   - component: {fileID: 8859422825172393084}
-  - component: {fileID: 4421438017215661035}
   m_Layer: 0
   m_Name: RepairBotPathfindingHolder
   m_TagString: Untagged
@@ -23706,23 +23705,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &4421438017215661035
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4421438017215661034}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 093307065827bab42a15915570d4bf38, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spawnPrefabs: 0
-  realToMapScaleRatio: 0
-  teleporterIDManager: {fileID: 0}
-  itemsParent: {fileID: 0}
-  teleporterPrefab: {fileID: 0}
 --- !u!1 &4421815708891359679
 GameObject:
   m_ObjectHideFlags: 0
@@ -45604,8 +45586,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initialized: 1
-  displayGridGizmos: 0
+  displayGridGizmos: 1
   displaySurfaceAngleGizmos: 0
+  focusObject: {fileID: 1425553443}
   root: {fileID: 7539765402607705946}
   gridWorldSize: {x: 15, y: 22, z: 70}
   nodeRadius: 0.2

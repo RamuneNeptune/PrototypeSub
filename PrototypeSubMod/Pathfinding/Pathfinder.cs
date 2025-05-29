@@ -10,14 +10,10 @@ public class Pathfinder : MonoBehaviour
 {
     public PathfindingGrid pathfindingGrid;
 
-    private Queue<PathQueueData> queueDatas = new();
+    public Queue<PathQueueData> queueDatas = new();
     
-    public void QueuePathTrace(PathRequest request, Action<PathResult> callback, GridNode startNode, GridNode endNode)
+    public void QueuePathTraces()
     {
-        PathQueueData queueData = new PathQueueData(request, callback, startNode, endNode);
-
-        queueDatas.Enqueue(queueData);
-        
         while (queueDatas.Count > 0)
         {
             var data = queueDatas.Dequeue();
@@ -37,7 +33,7 @@ public class Pathfinder : MonoBehaviour
             openSet = new Heap<GridNode>(pathfindingGrid.GetMaxSize());
             closedSet = new Heap<GridNode>(pathfindingGrid.GetMaxSize());
         }
-        //Plugin.Logger.LogInfo("Heaps created");
+        
         GridNode lowestHCostNode = new GridNode
         {
             hCost = int.MaxValue

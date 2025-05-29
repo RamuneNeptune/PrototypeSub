@@ -10,6 +10,7 @@ public class PathRequestManager : MonoBehaviour
     [SerializeField] private Pathfinder pathfinder;
 
     private Queue<PathResult> results = new Queue<PathResult>();
+    private Thread pathfinderThread;
 
     private void Update()
     {
@@ -43,20 +44,29 @@ public class PathRequestManager : MonoBehaviour
         
         var startNode = pathfinder.pathfindingGrid.GetNodeAtWorldPosition(request.pathStart);
         var endNode = pathfinder.pathfindingGrid.GetNodeAtWorldPosition(request.pathEnd);
-        ThreadStart threadStart = () =>
+        var queueData = new Pathfinder.PathQueueData(request, FinishedProcessingPath, startNode, endNode);
+
+        lock (pathfinder.queueDatas)
         {
-            pathfinder.QueuePathTrace(request, FinishedProcessingPath, startNode, endNode);
-        };
-        
-        var thread = new Thread(threadStart);
-        thread.Start();
+            pathfinder.queueDatas.Enqueue(queueData);
+        }
+
+        if (pathfinderThread == null || !pathfinderThread.IsAlive)
+        {
+            void ThreadStart()
+            {
+                pathfinder.QueuePathTraces();
+            }
+
+            pathfinderThread = new Thread(ThreadStart);
+            pathfinderThread.Start();
+        }
     }
 
     public void FinishedProcessingPath(PathResult result)
     {
         lock (results)
         {
-            //Plugin.Logger.LogInfo("Enqueuing results");
             results.Enqueue(result);
         }
     }

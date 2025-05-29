@@ -17,6 +17,7 @@ public class PathfindingGrid : MonoBehaviour
     [Header("Gizmos")]
     public bool displayGridGizmos;
     public bool displaySurfaceAngleGizmos;
+    public Transform focusObject;
 
     [Header("Grid Generation")]
     public Transform root;
@@ -52,6 +53,7 @@ public class PathfindingGrid : MonoBehaviour
         
         if (useSaveFileAsGrid)
         {
+            /*
             if (Plugin.pathfindingGridSaveData != null)
             {
                 OnGridSaveDataLoaded(Plugin.pathfindingGridSaveData);
@@ -60,6 +62,7 @@ public class PathfindingGrid : MonoBehaviour
             {
                 Plugin.onLoadGridSaveData += OnGridSaveDataLoaded;
             }
+            */
         }
         else
         {
@@ -304,10 +307,41 @@ public class PathfindingGrid : MonoBehaviour
 
         Gizmos.DrawWireCube(transform.position, size);
 
-        HandleNodeGizmos();
+        if (focusObject)
+        {
+            HandleFocusGizmos();
+        }
+        else
+        {
+            HandleNodeGizmos();
+        }
         HandleSurfanceAngleGizmos();
     }
 
+    private void HandleFocusGizmos()
+    {
+        if (grid == null || !displayGridGizmos) return;
+
+        var focusNode = GetNodeAtWorldPosition(focusObject.transform.position);
+        var nodeLocalPos = root.TransformPoint(focusNode.worldPosition.Vector);
+        var col = focusNode.walkable ? Color.green : Color.red;
+        col.a = 0.5f;
+        Gizmos.color = col;
+        Gizmos.DrawCube(nodeLocalPos, Vector3.one * nodeDiameter);
+        
+        foreach (var node in GetAdjacentNodes(focusNode))
+        {
+            if (node == focusNode) continue;
+            
+            var localPos = root.TransformPoint(node.worldPosition.Vector);
+            var color = Color.Lerp(Color.white, Color.black, Mathf.InverseLerp(penaltyMin, penaltyMax, node.movementPenalty));
+            color = node.walkable ? color : Color.red;
+            color.a = 0.5f;
+            Gizmos.color = color;
+            Gizmos.DrawWireCube(localPos, Vector3.one * nodeDiameter);
+        }
+    }
+    
     private void HandleNodeGizmos()
     {
         if (grid == null || !displayGridGizmos) return;
@@ -323,9 +357,8 @@ public class PathfindingGrid : MonoBehaviour
             Color col = node.walkable ? Gizmos.color : Color.red;
             col.a = 0.5f;
             Gizmos.color = col;
-
-            Vector3 gridOffset = transform.position - GetPositionAtGridGen();
-            var localPos = root.TransformPoint(node.worldPosition.Vector);// + gridOffset;
+            
+            var localPos = root.TransformPoint(node.worldPosition.Vector);
             Gizmos.DrawWireCube(localPos, Vector3.one * nodeDiameter);
             Gizmos.color = Color.yellow;
         }
