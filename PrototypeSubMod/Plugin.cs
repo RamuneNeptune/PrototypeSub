@@ -95,9 +95,16 @@ namespace PrototypeSubMod
 
             var audioSW = new System.Diagnostics.Stopwatch();
             audioSW.Start();
-            SubAudioLoader.LoadAllAudio(AudioBundle);
+            foreach (var asset in AudioBundle.LoadAllAssets())
+            {
+                if (asset is not CustomFMODAsset fmodAsset) continue;
+                
+                SubAudioLoader.RegisterAssetAudio(fmodAsset);
+            }
             audioSW.Stop();
             Logger.LogInfo($"Audio registered in {audioSW.ElapsedMilliseconds}ms");
+
+            LanguageHandler.RegisterLocalizationFolder();
             
             PrefabRegisterer.Register();
             LoadEasyPrefabs.LoadPrefabs(AssetBundle);
