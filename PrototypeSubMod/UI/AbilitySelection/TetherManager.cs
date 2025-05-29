@@ -181,14 +181,14 @@ public class TetherManager : MonoBehaviour, IUIElement
         
         if (typeToCategory.TryGetValue(selectedIcon.GetAbility().GetTechType(), out var category))
         {
-            notificationManager.PlayVoiceNotification(categoryNotifications[category]);
+            notificationManager.PlayVO(categoryNotifications[category]);
         }
         else
         {
-            notificationManager.PlayVoiceNotification(genericAbilityNofif);
+            notificationManager.PlayVO(genericAbilityNofif);
         }
     }
-
+    
     private RadialIcon GetIconClosestToPointer()
     {
         return distributor.GetIconClosestToAngle(CalculateTetherAngle()).GetComponent<RadialIcon>();

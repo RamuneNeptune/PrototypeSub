@@ -14,6 +14,8 @@ internal class VoiceNotification_Patches
     [HarmonyPatch(nameof(VoiceNotification.Play)), HarmonyPatch(new[] { typeof(object[]) } ), HarmonyPrefix]
     private static void Play_Prefix(VoiceNotification __instance)
     {
+        if (string.IsNullOrEmpty(__instance.text)) return;
+        
         if (!__instance.text.StartsWith("Proto_")) return;
 
         string[] splits = __instance.text.Split('_');
