@@ -48,6 +48,7 @@ namespace PrototypeSubMod
         public static string RecipesFolderPath { get; } = Path.Combine(Path.GetDirectoryName(Assembly.Location), "Recipes");
 
         public static AssetBundle AssetBundle { get; } = AssetBundle.LoadFromFile(Path.Combine(AssetsFolderPath, "prototypeassets"));
+        public static AssetBundle AudioBundle { get; } = AssetBundle.LoadFromFile(Path.Combine(AssetsFolderPath, "prototypeaudio"));
         public static AssetBundle ScenesAssetBundle { get; } = AssetBundle.LoadFromFile(Path.Combine(AssetsFolderPath, "prototypescenes"));
         
         public static EquipmentType PrototypePowerType { get; } = EnumHandler.AddEntry<EquipmentType>("PrototypePowerType");
@@ -92,12 +93,11 @@ namespace PrototypeSubMod
             // Set project-scoped logger instance
             Logger = base.Logger;
 
-            LanguageHandler.RegisterLocalizationFolder();
             var audioSW = new System.Diagnostics.Stopwatch();
             audioSW.Start();
-            SubAudioLoader.LoadAllAudio(AssetBundle);
+            SubAudioLoader.LoadAllAudio(AudioBundle);
             audioSW.Stop();
-            Logger.LogInfo($"Audio loaded in {audioSW.ElapsedMilliseconds}ms");
+            Logger.LogInfo($"Audio registered in {audioSW.ElapsedMilliseconds}ms");
             
             PrefabRegisterer.Register();
             LoadEasyPrefabs.LoadPrefabs(AssetBundle);

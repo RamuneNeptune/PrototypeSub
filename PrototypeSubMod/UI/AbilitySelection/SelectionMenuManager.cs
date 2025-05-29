@@ -48,7 +48,9 @@ internal class SelectionMenuManager : MonoBehaviour, IUIElement
         upgradeManager.onInstalledUpgradesChanged += RefreshIcons;
         tetherManager.onAbilitySelected += () => SetMenuEnabled(false);
 
-        tetherManager.SelectIcon(distributor.GetIconAtIndex(defaultAbilityIndex).GetComponent<RadialIcon>(), true, false);
+        var defaultIcon = distributor.GetIconAtIndex(defaultAbilityIndex).GetComponent<RadialIcon>();
+        tetherManager.SelectIcon(defaultIcon, true, false);
+        tetherManager.onAbilityActivatedChanged?.Invoke(defaultIcon.GetAbility());
         chair = tetherManager.GetPilotingChair();
     }
 
