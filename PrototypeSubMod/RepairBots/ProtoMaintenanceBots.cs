@@ -8,18 +8,16 @@ using UnityEngine;
 
 namespace PrototypeSubMod.RepairBots;
 
-internal class ProtoMaintenanceBots : ProtoUpgrade, IOnTakeDamage
+internal class ProtoMaintenanceBots : ProtoUpgrade
 {
     [SerializeField] private PowerRelay powerRelay;
     [SerializeField] private SelectionMenuManager selectionMenuManager;
     [SerializeField] private ActivatedAbilitiesManager abilitiesManager;
     [SerializeField] private ProtoBotBay[] botBays;
     [SerializeField] private RepairPointManager pointManager;
-    [SerializeField] private float minTimeSinceDamage;
     [SerializeField] private float secondsForOneChargeDrain;
 
     private int currentBayIndex;
-    private float timeLastDamage = float.MinValue;
     private Queue<CyclopsDamagePoint> queuedPoints = new();
 
     private void Awake()
@@ -36,7 +34,7 @@ internal class ProtoMaintenanceBots : ProtoUpgrade, IOnTakeDamage
 
         powerRelay.ConsumeEnergy((PrototypePowerSystem.CHARGE_POWER_AMOUNT / secondsForOneChargeDrain) * Time.deltaTime, out _);
         
-        if (timeLastDamage + minTimeSinceDamage < Time.time && queuedPoints.Count > 0)
+        if (queuedPoints.Count > 0)
         {
             for (int i = 0; i < queuedPoints.Count; i++)
             {
@@ -55,39 +53,12 @@ internal class ProtoMaintenanceBots : ProtoUpgrade, IOnTakeDamage
         queuedPoints = new Queue<CyclopsDamagePoint>(queuedPoints.Where(p => p != point));
     }
 
-    public void OnTakeDamage(DamageInfo damageInfo)
-    {
-        if (upgradeEnabled)
-        {
-            SetUpgradeEnabled(false);
-            var icon = selectionMenuManager.GetAbilityIcons().FirstOrDefault(i => i == (IAbilityIcon)this);
-            abilitiesManager.OnAbilitySelectedChanged(icon);
-        }
-        
-        if (damageInfo.type != DamageType.Normal && damageInfo.type != DamageType.Electrical)
-        {
-            return;
-        }
-
-        timeLastDamage = Time.time;
-    }
-
     private void AssignBot(CyclopsDamagePoint point)
     {
         botBays[currentBayIndex].QueueBotDeployment(point);
         currentBayIndex++;
 
         currentBayIndex %= botBays.Length;
-    }
-
-    public override void SetUpgradeInstalled(bool installed)
-    {
-        base.SetUpgradeInstalled(installed);
-
-        if (upgradeInstalled)
-        {
-            timeLastDamage = float.MinValue;
-        }
     }
 
     public override bool OnActivated()
@@ -99,9 +70,5 @@ internal class ProtoMaintenanceBots : ProtoUpgrade, IOnTakeDamage
     }
 
     public override void OnSelectedChanged(bool changed) { }
-
-    public override bool GetCanActivate()
-    {
-        return timeLastDamage + minTimeSinceDamage < Time.time;
-    }
+    public override bool GetCanActivate() => true;
 }
