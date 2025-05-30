@@ -9387,6 +9387,37 @@ MonoBehaviour:
   - {fileID: 317754048}
   - {fileID: 1007388198}
   - {fileID: 1307341608}
+--- !u!1 &542374857
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 542374858}
+  m_Layer: 0
+  m_Name: HangingWormObjects
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &542374858
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 542374857}
+  m_LocalRotation: {x: -0.70710707, y: -0, z: -0.000000029802322, w: 0.7071066}
+  m_LocalPosition: {x: -1145, y: -435, z: -1114}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 543450652603436552}
+  m_Father: {fileID: 0}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: -90.00001, y: 0, z: 0}
 --- !u!1 &542402140 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4163461687312113685, guid: c00bf20a20a507d43addfd99a3718db0,
@@ -17342,7 +17373,7 @@ MonoBehaviour:
   loadDistance2: 175
   loadDistance1Objects:
   - {fileID: 1379518632}
-  - {fileID: 919132148144903346}
+  - {fileID: 542374857}
   - {fileID: 1188534468}
   - {fileID: 272737791}
   loadDistance2Objects:
@@ -20735,16 +20766,16 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 919132148144903346}
-  m_LocalRotation: {x: -0.70710707, y: -0, z: -0.000000029802322, w: 0.7071066}
-  m_LocalPosition: {x: -1145, y: -435, z: -1114}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 10000, y: 10000.008, z: 10000.004}
   m_Children:
   - {fileID: 6543958562515866748}
   - {fileID: 5915107224027077271}
   - {fileID: 5026390089908339541}
   - {fileID: 1324160445}
-  m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_Father: {fileID: 542374858}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -90.00001, y: 0, z: 0}
 --- !u!1 &549732398611157187
 GameObject:
