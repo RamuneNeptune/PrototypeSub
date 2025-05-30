@@ -12,12 +12,10 @@ public class ProtoWormAnimator : MonoBehaviour
     [SerializeField] private ProtoWormSpineManager spineManager;
     [SerializeField] private Transform spineSegmentsParent;
     [SerializeField] private float speed;
-    [SerializeField] private float offsetSpeed;
-    [SerializeField] private float offsetAmplitude;
     
-    private Transform[] spineSegments;
     private bool moving;
     private float distanceMoved;
+    private float offsetPerSpine;
 
     private void Start()
     {
@@ -27,12 +25,8 @@ public class ProtoWormAnimator : MonoBehaviour
     private IEnumerator Initialize()
     {
         yield return new WaitUntil(() => spineManager.GetSpawned());
-
-        spineSegments = new Transform[spineSegmentsParent.childCount];
-        for (int i = 0; i < spineSegmentsParent.childCount; i++)
-        {
-            spineSegments[i] = spineSegmentsParent.GetChild(i);
-        }
+        offsetPerSpine = spineManager.GetIncrementPerSpine().z;
+        
         moving = true;
     }
 
@@ -43,27 +37,32 @@ public class ProtoWormAnimator : MonoBehaviour
         distanceMoved += speed * Time.deltaTime * Random.Range(0.5f, 1.5f);
         transform.position = GetPositionAtTime(distanceMoved, out var headRotation);
         transform.rotation = headRotation;
-
-        int index = 0;
-        foreach (var segment in spineSegments)
+        
+        int childCount = spineSegmentsParent.childCount;
+        for (int i = 0; i < childCount; i += 3)
         {
-            float spineDistance = distanceMoved + spineManager.GetInitialLocalPos().z + spineManager.GetIncrementPerSpine().z * index;
-            segment.position = GetPositionAtTime(spineDistance, out var rotation);
-            segment.rotation = rotation;
+            var segment1 = spineSegmentsParent.GetChild(i);
+            var segment2 = spineSegmentsParent.GetChild(Mathf.Min(i + 1, childCount - 1));
+            var segment3 = spineSegmentsParent.GetChild(Mathf.Min(i + 2, childCount - 1));
             
-            index++;
+            float spineDistance1 = distanceMoved + spineManager.GetInitialLocalPos().z + offsetPerSpine * i;
+            segment1.position = GetPositionAtTime(spineDistance1, out var rotation1);
+            segment1.rotation = rotation1;
+            
+            float spineDistance3 = distanceMoved + spineManager.GetInitialLocalPos().z + offsetPerSpine * (i + 2);
+            segment3.position = GetPositionAtTime(spineDistance3, out var rotation3);
+            segment3.rotation = rotation3;
+            
+            segment2.position = (segment1.position + segment3.position) / 2;
+            segment2.rotation = Quaternion.Slerp(segment1.rotation, segment3.rotation, 0.5f);
         }
     }
 
     private Vector3 GetPositionAtTime(float time, out Quaternion rotation)
     {
         var initialPoint = pathCreator.path.GetPointAtDistance(time);
-        var nextPoint = pathCreator.path.GetPointAtDistance(time + 0.01f);
         rotation = pathCreator.path.GetRotationAtDistance(time);
-        var normal = pathCreator.path.GetNormalAtDistance(time);
-        
-        var side = Vector3.Cross((nextPoint - initialPoint).normalized, normal.normalized);
-        return initialPoint + side * (Mathf.Sin(time * offsetSpeed) * offsetAmplitude);
+        return initialPoint;
     }
 
     public float GetNormalizedProgress()
