@@ -21,7 +21,14 @@ public class WormSpawnEvent : MonoBehaviour
     [SerializeField] private ProtoWormAnimator wormAnimator;
     [SerializeField] private GameObject disableObjects;
     [SerializeField] private Transform raycastOrigin;
+    
+    [Header("SFX")]
+    [SerializeField] private FMOD_CustomEmitter breachSurfaceSFX;
 
+    [SerializeField] private FMOD_CustomLoopingEmitter swimLoopSFX;
+    [SerializeField] private FMOD_CustomLoopingEmitter rumbleFarSFX;
+    [SerializeField] private FMOD_CustomLoopingEmitter rumbleCloseSFX;
+    
     private bool inPrefabCache;
     private bool spawnedDigOutParticles;
     private bool wormActive;
@@ -58,30 +65,37 @@ public class WormSpawnEvent : MonoBehaviour
         }
         else if (!wormActive)
         {
+            swimLoopSFX.Stop();
+            breachSurfaceSFX.Stop();
+            rumbleFarSFX.Stop();
+            rumbleCloseSFX.Stop();
             return;
         }
 
         var main = LargeWorldStreamer.main;
         Vector3 jitter = Random.onUnitSphere * 3;
 
-        var cell1 = main.streamerV2.octreesStreamer.GetOctree(main.GetBlock(raycastOrigin.position + jitter) /
-                                                               main.blocksPerTree);
-        var cell2 =
-            main.streamerV2.octreesStreamer.GetOctree(main.GetBlock(raycastOrigin.position - jitter) /
-                                                      main.blocksPerTree);
+        var cell1 = main.streamerV2.octreesStreamer.
+            GetOctree(main.GetBlock(raycastOrigin.position + jitter) / main.blocksPerTree);
+        var cell2 = main.streamerV2.octreesStreamer.
+                GetOctree(main.GetBlock(raycastOrigin.position - jitter) / main.blocksPerTree);
         bool hit1 = cell1 != null && !cell1.IsEmpty();
         bool hit2 = cell2 != null && !cell2.IsEmpty();
         bool hitTerrain = hit1 && hit2;
         
         if (hitTerrain && Time.time > timeNextParticles && wormAnimator.GetNormalizedProgress() > 0.25f)
         {
-            if (particleCount <= 6)
+            const int maxParticleCount = 6;
+            if (particleCount <= maxParticleCount)
             {
-                ErrorMessage.AddError($"Hit terrain at {raycastOrigin.position}");
-                UWE.CoroutineHost.StartCoroutine(SpawnPrefabRepeating(_digInFX, raycastOrigin.position, 
-                    wormAnimator.GetTimeForWormLength(), 0.5f));
+                float normalizedParticleCount = (float)particleCount / maxParticleCount;
+                float particleDuration = Mathf.Lerp(wormAnimator.GetTimeForWormLength() / 4f,
+                    wormAnimator.GetTimeForWormLength(),Mathf.InverseLerp(0.5f, 1f, normalizedParticleCount));
+                
+                UWE.CoroutineHost.StartCoroutine(SpawnPrefabRepeating(_digInFX, raycastOrigin.position, particleDuration,
+                    0.5f));
             
-                timeNextParticles = Time.time + 1f;
+                timeNextParticles = Time.time + Mathf.Lerp(1f, 3f, normalizedParticleCount);
             }
         }
 
@@ -90,12 +104,32 @@ public class WormSpawnEvent : MonoBehaviour
             wormActive = false;
         }
 
-        if (!spawnedDigOutParticles && (raycastOrigin.position - transform.position).sqrMagnitude < 25 && Time.time > timeSpawned + 0.2f)
+        float sqrDistToHead = (raycastOrigin.position - transform.position).sqrMagnitude;
+        if (!spawnedDigOutParticles && sqrDistToHead < 25 && Time.time > timeSpawned + 0.2f)
         {
             UWE.CoroutineHost.StartCoroutine(SpawnPrefabRepeating(_digOutFX, raycastOrigin.position,
                 wormAnimator.GetTimeForWormLength(), 0.5f));
+            breachSurfaceSFX.Play();
+            swimLoopSFX.Play();
             
             spawnedDigOutParticles = true;
+        }
+
+        HandleRumbleAudio(sqrDistToHead);
+    }
+
+    private void HandleRumbleAudio(float sqrDistToHead)
+    {
+        const float farDistThreshold = 30 * 30;
+        if (sqrDistToHead > farDistThreshold)
+        {
+            rumbleFarSFX.Play();
+            rumbleCloseSFX.Stop();
+        }
+        else
+        {
+            rumbleCloseSFX.Play();
+            rumbleFarSFX.Stop();
         }
     }
 
@@ -116,6 +150,8 @@ public class WormSpawnEvent : MonoBehaviour
             }
             yield return new WaitForSeconds(particleDuration);
         }
+
+        particleCount--;
     }
 
     private IEnumerator TryRetrieveFXPrefabs()

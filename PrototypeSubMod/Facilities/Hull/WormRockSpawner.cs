@@ -9,12 +9,14 @@ public class WormRockSpawner : MonoBehaviour
 {
     [SaveStateReference]
     private static GameObject _rock1Prefab;
-    
+
+    [SerializeField] private FMOD_CustomEmitter rockSpawnSFX;
     [SerializeField] private ProtoWormSpineManager spineManager;
     [SerializeField] private Transform spineParent;
 
     private Transform lastSpine;
     private bool hadHitTerrain;
+    private float timeLastSpawnedRock;
 
     private void Start()
     {
@@ -51,7 +53,7 @@ public class WormRockSpawner : MonoBehaviour
                 4f, 1 << LayerID.TerrainCollider);
         }
 
-        if (hadHitTerrain != hitTerrain && hitTerrain)
+        if (hadHitTerrain != hitTerrain && hitTerrain && timeLastSpawnedRock + 0.2f < Time.time)
         {
             SpawnRocks(hit.point, hit.normal);
         }
@@ -64,6 +66,8 @@ public class WormRockSpawner : MonoBehaviour
         var instance = Instantiate(_rock1Prefab, position + Random.insideUnitSphere, Quaternion.LookRotation(normal));
         DestroyImmediate(instance.GetComponent<PrefabIdentifier>());
         StartCoroutine(SizeUpRock(instance, new Vector3(1.5f, 1.5f, 0.75f), 0.5f));
+        timeLastSpawnedRock = Time.time;
+        rockSpawnSFX.Play();
     }
 
     private IEnumerator SizeUpRock(GameObject rock, Vector3 targetScale, float duration)
