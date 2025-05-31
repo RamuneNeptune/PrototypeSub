@@ -18,10 +18,12 @@ public class ProtoFinsManager : MonoBehaviour, ISaveDataListener
     [SerializeField] private ProtoMotorHandler motorHandler;
     [SerializeField] private CyclopsMotorMode motorMode;
     [SerializeField] private ProtoEngineLever engineLever;
+    [SerializeField] private CrushDamage crushDamage;
     [SerializeField] private float[] noiseValues;
     [SerializeField] private float multiplierIncreasePerFin;
     [SerializeField] private float defaultSpeed;
-
+    [SerializeField] private float depthIncreasePerFin;
+    
     private int installedFinCount;
 
     private void Start()
@@ -67,5 +69,9 @@ public class ProtoFinsManager : MonoBehaviour, ISaveDataListener
 
         motorHandler.AddSpeedBonus(new ProtoMotorHandler.ValueRegistrar(this, defaultSpeed + installedFinCount * multiplierIncreasePerFin));
         motorMode.motorModeNoiseValues[1] = noiseValues[installedFinCount];
+        if (installedFinCount > 0)
+        {
+            crushDamage.SetExtraCrushDepth(installedFinCount * depthIncreasePerFin);
+        }
     }
 }
