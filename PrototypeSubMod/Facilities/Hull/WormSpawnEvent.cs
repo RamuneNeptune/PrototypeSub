@@ -89,7 +89,7 @@ public class WormSpawnEvent : MonoBehaviour
             if (particleCount <= maxParticleCount)
             {
                 float normalizedParticleCount = (float)particleCount / maxParticleCount;
-                float particleDuration = Mathf.Lerp(wormAnimator.GetTimeForWormLength() / 4f,
+                float particleDuration = Mathf.Lerp(wormAnimator.GetTimeForWormLength() / 1.5f,
                     wormAnimator.GetTimeForWormLength(),Mathf.InverseLerp(0.5f, 1f, normalizedParticleCount));
                 
                 UWE.CoroutineHost.StartCoroutine(SpawnPrefabRepeating(_digInFX, raycastOrigin.position, particleDuration,
