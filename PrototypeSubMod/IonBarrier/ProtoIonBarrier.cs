@@ -121,7 +121,7 @@ internal class ProtoIonBarrier : ProtoUpgrade, IOnTakeDamage
 
     private void SetShieldEnabled(bool enabled)
     {
-        if (shieldActive && enabled) return;
+        if (shieldActive == enabled) return;
 
         SetUpgradeEnabled(enabled);
         
@@ -198,14 +198,7 @@ internal class ProtoIonBarrier : ProtoUpgrade, IOnTakeDamage
         return true;
     }
 
-    public override void OnSelectedChanged(bool changed)
-    {
-        if (!changed)
-        {
-            SetShieldEnabled(false);
-        }
-    }
-
+    public override void OnSelectedChanged(bool changed) { }
     public override bool GetCanActivate() => !onCooldown;
 }
 
