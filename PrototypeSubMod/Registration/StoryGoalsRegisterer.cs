@@ -144,7 +144,9 @@ internal static class StoryGoalsRegisterer
         
         StoryGoalHandler.RegisterCustomEvent("HullFacilityActivateWorm", null);
         StoryGoalHandler.RegisterCustomEvent("DefenseCloakDisabled", null);
-
+        StoryGoalHandler.RegisterCustomEvent("PrototypeSpawned", null);
+        StoryGoalHandler.RegisterCustomEvent("PrototypeCrafted", null);
+        
         sw.Stop();
         Plugin.Logger.LogInfo($"Story goals registered in {sw.ElapsedMilliseconds}ms");
     }

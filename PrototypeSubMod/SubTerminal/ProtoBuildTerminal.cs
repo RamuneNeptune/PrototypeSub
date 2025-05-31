@@ -22,13 +22,14 @@ internal class ProtoBuildTerminal : Crafter
     [SerializeField] private ProtoBuildBot[] buildBots;
     [SerializeField] private Animator spikesAnimator;
     [SerializeField] private WarpInFXPlayer warpFXSpawner;
+    [SerializeField] private SubReconstructionManager reconstructionManager;
 
     [Header("Screens")]
     [SerializeField] private BuildTerminalScreenManager screenManager;
     [SerializeField] private uGUI_BuildAnimScreen animScreen;
 
     private int returnedBotCount;
-
+    
     public void CraftSub()
     {
         Craft(Prototype_Craftable.SubInfo.TechType, buildDuration);
@@ -38,22 +39,24 @@ internal class ProtoBuildTerminal : Crafter
     {
         if (!CrafterLogic.ConsumeResources(techType)) return;
 
-        UWE.CoroutineHost.StartCoroutine(StartCraftChargeUp(techType, duration));
+        UWE.CoroutineHost.StartCoroutine(StartCraftChargeUp(duration));
+        UWE.CoroutineHost.StartCoroutine(StartReconstruction(reconstructionManager));
+        StoryGoalManager.main.OnGoalComplete("PrototypeCrafted");
     }
 
-    public void RebuildSub(SubReconstructionManager manager)
+    public void RebuildSub()
     {
-        UWE.CoroutineHost.StartCoroutine(StartCraftChargeUp(TechType.None, buildDuration, false));
-        UWE.CoroutineHost.StartCoroutine(StartReconstruction(manager));
+        UWE.CoroutineHost.StartCoroutine(StartCraftChargeUp(buildDuration));
+        UWE.CoroutineHost.StartCoroutine(StartReconstruction(reconstructionManager));
     }
     
     public void RecentralizeSub()
     {
-        UWE.CoroutineHost.StartCoroutine(StartCraftChargeUp(TechType.None, buildDuration, false));
+        UWE.CoroutineHost.StartCoroutine(StartCraftChargeUp(buildDuration));
         UWE.CoroutineHost.StartCoroutine(RecentralizeSubDelayed());
     }
 
-    private IEnumerator StartCraftChargeUp(TechType techType, float duration, bool craft = true)
+    private IEnumerator StartCraftChargeUp(float duration)
     {
         chargeUpSFX.Play();
         StartCoroutine(PlayDischargeDelayed());
@@ -67,41 +70,13 @@ internal class ProtoBuildTerminal : Crafter
         }
 
         yield return new WaitForSeconds(buildDelay);
-
-        if (craft)
-        {
-            base.Craft(techType, duration);
-        }
+        
         foreach (var item in batteryManagers)
         {
-            item.StartBatteryDrain(buildDuration);
+            item.StartBatteryDrain(duration);
         }
     }
-
-    public override void OnCraftingBegin(TechType techType, float duration)
-    {
-        StartCoroutine(OnCraftingBeginAsync(techType, duration));
-    }
-
-    private IEnumerator OnCraftingBeginAsync(TechType techType, float duration)
-    {
-        var op = SceneManager.LoadSceneAsync("prototypesub", LoadSceneMode.Additive);
-        yield return op;
-
-        var prefab = GameObject.Find("PrototypeSub-MainPrefab");
-        prefab.transform.position = buildPosition.position;
-        prefab.transform.rotation = buildPosition.rotation;
-        prefab.name = "PrototypeSub(Clone)";
-        
-        Prototype_Craftable.SetupProtoGameObject(prefab);
-        
-        yield return new WaitForEndOfFrame();
-        prefab.GetComponent<VFXConstructing>().ghostMaterial = MaterialUtils.GhostMaterial;
-        yield return new WaitForEndOfFrame();
-        
-        StartConstruction(prefab, techType, duration);
-    }
-
+    
     private void StartConstruction(GameObject instantiatedPrefab, TechType techType, float duration)
     {
         screenManager.OnConstructionStarted();

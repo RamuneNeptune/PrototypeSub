@@ -63,7 +63,7 @@ internal class ProtoMaterialModifier : MaterialModifier
     {
         if (renderer.TryGetComponent<DontApplyProtoMaterial>(out _)) return;
 
-        if (material.IsKeywordEnabled("_EMISSION"))
+        if (material.HasProperty("_EmissionColor"))
         {
             var emissionColor = material.GetColor("_EmissionColor");
             float emissionIntensity = Mathf.Max(emissionColor.r, emissionColor.g, emissionColor.b);

@@ -94,7 +94,7 @@ internal class BuildTerminalScreenManager : MonoBehaviour
     public void EnableRelevantScreensAtStart()
     {
         newUpgradesScreen.gameObject.SetActive(false);
-        if (Plugin.GlobalSaveData.prototypeDestroyed)
+        if (Plugin.GlobalSaveData.prototypeDestroyed && StoryGoalManager.main.IsGoalComplete("PrototypeCrafted"))
         {
             rebuildScreen.gameObject.SetActive(true);
 
@@ -102,7 +102,7 @@ internal class BuildTerminalScreenManager : MonoBehaviour
             upgradeScreen.gameObject.SetActive(false);
             emptyScreen.gameObject.SetActive(false);
         }
-        else if (Plugin.GlobalSaveData.prototypePresent)
+        else if (Plugin.GlobalSaveData.prototypePresent && StoryGoalManager.main.IsGoalComplete("PrototypeCrafted"))
         {
             EnableMenusWhenSubInWorld();
         }

@@ -39,6 +39,7 @@ internal static class PrefabRegisterer
         HullFacilityKey.Register();
         HullOutpostTeleporter.Register();
         ObstructionRockLoadFar.Register();
+        PrototypeSpawner.Register();
         
         PrecursorFabricator.Register();
 

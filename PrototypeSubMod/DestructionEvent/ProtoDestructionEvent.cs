@@ -37,7 +37,21 @@ internal class ProtoDestructionEvent : MonoBehaviour, IOnTakeDamage
     private void DestroySub()
     {
         Plugin.GlobalSaveData.prototypeDestroyed = true;
+
+        CleanupSub();
+        StartSequences();
         
+        subRoot.GetComponent<ProtoSaveStateManager>().UpdateManagerStatus();
+    }
+
+    public void DestroySubNoSequence()
+    {
+        Plugin.GlobalSaveData.prototypeDestroyed = true;
+        subRoot.GetComponent<ProtoSaveStateManager>().UpdateManagerStatus();
+    }
+
+    private void CleanupSub()
+    {
         subRoot.subWarning = false;
         subRoot.fireSuppressionState = false;
         subRoot.silentRunning = false;
@@ -63,7 +77,10 @@ internal class ProtoDestructionEvent : MonoBehaviour, IOnTakeDamage
                 }
             }
         }
-
+    }
+    
+    private void StartSequences()
+    {
         if (Player.main.currentSub == subRoot)
         {
             internalSequence.StartSequence(subRoot);
@@ -73,7 +90,6 @@ internal class ProtoDestructionEvent : MonoBehaviour, IOnTakeDamage
             externalSequence.StartSequence(subRoot);
         }
 
-        subRoot.GetComponent<ProtoSaveStateManager>().UpdateManagerStatus();
     }
 
     private void OnConsoleCommand_destroyproto(NotificationCenter.Notification n)

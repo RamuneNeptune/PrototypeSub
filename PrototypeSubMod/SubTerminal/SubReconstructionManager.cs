@@ -40,6 +40,6 @@ internal class SubReconstructionManager : MonoBehaviour
 
     public void ReconstructSub()
     {
-        buildTerminal.RebuildSub(this);
+        buildTerminal.RebuildSub();
     }
 }
