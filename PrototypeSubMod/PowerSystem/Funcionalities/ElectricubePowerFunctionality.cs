@@ -36,7 +36,6 @@ internal class ElectricubePowerFunctionality : PowerSourceFunctionality
         emissiveController.RegisterTempColor(new EmissionColorController.EmissionRegistrarData(this, new Color(1, 0, 1, 1)));
 
         TeleporterOverride.SetTempTeleporterColor(ElectricubeTeleporterColor);
-        teleporterManager.SetPowerMultiplier(0.85f);
         ColorOverrideData overrideData = new ColorOverrideData(true, TeleportScreenColInner, TeleportScreenColMiddle, TeleportScreenColOuter);
         teleporterManager.SetColorOverrideData(overrideData);
     }
@@ -47,8 +46,7 @@ internal class ElectricubePowerFunctionality : PowerSourceFunctionality
         colorManager.RemoveTempColor(this);
         motorHandler.RemovePowerEfficiencyMultiplier(this);
         emissiveController.RemoveTempColor(this);
-
-        teleporterManager.SetPowerMultiplier(1f);
+        
         teleporterManager.ResetOverrideData();
         TeleporterOverride.ResetTeleporterColor();
     }

@@ -10,6 +10,7 @@ internal class ProtoTeleporterManager : ProtoUpgrade
 {
     [Header("Teleporting")]
     [SerializeField] private PrecursorTeleporter teleporter;
+    [SerializeField] private TeleporterModeManager modeManager;
     [SerializeField] private SubRoot subRoot;
     [SerializeField] private Transform teleportPosition;
     [SerializeField] private FMOD_CustomLoopingEmitter activeLoopSound;
@@ -20,7 +21,6 @@ internal class ProtoTeleporterManager : ProtoUpgrade
 
     private bool teleporterClosed = true;
     private float currentStayOpenTime;
-    private float powerCostMultiplier = 1f;
     private PrecursorTeleporterActivationTerminal activationTerminal;
     
     private ColorOverrideData colorOverrideData;
@@ -100,8 +100,10 @@ internal class ProtoTeleporterManager : ProtoUpgrade
         if (!TeleporterOverride.QueuedTeleportedBackToSub) return;
 
         TeleporterOverride.OnTeleportToSubFinished();
+        modeManager.SetInterfloorMode();
 
         Player.main.SetCurrentSub(subRoot, true);
+        
     }
 
     public Transform GetTeleportPosition() => teleportPosition;
@@ -171,8 +173,7 @@ internal class ProtoTeleporterManager : ProtoUpgrade
     public void ResetOverrideData() => colorOverrideData = default;
 
     public override bool GetUpgradeEnabled() => upgradeInstalled;
-
-    public void SetPowerMultiplier(float multiplier) => powerCostMultiplier = multiplier;
+    
     public override bool OnActivated() => false;
     public override void OnSelectedChanged(bool selected) { }
 }
