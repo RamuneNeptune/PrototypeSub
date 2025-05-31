@@ -80,13 +80,14 @@ internal class PrecursorFabricator
         customGhostModel._NoiseTex = vanillaGhostModel._NoiseTex;
 
         var vanillaSparks = vFab.GetComponent<Fabricator>().sparksPS;
+        var customSparks = UWE.Utils.InstantiateDeactivated(vanillaSparks);
 
-        foreach (var renderer in vanillaSparks.GetComponentsInChildren<ParticleSystemRenderer>())
+        foreach (var renderer in customSparks.GetComponentsInChildren<ParticleSystemRenderer>())
         {
             renderer.materials[0].SetColor("_Color", new Color(0f, 0.904f, 0.47f, 1f));
         }
 
-        instance.GetComponentInChildren<AlienFabricator>().fxSparksPrefab = vanillaSparks;
+        instance.GetComponentInChildren<AlienFabricator>().fxSparksPrefab = customSparks;
 
         //Forcefield setup
         var forceFieldTask = PrefabDatabase.GetPrefabAsync("2d72ad6c-d30d-41be-baa7-0c1dba757b7c");

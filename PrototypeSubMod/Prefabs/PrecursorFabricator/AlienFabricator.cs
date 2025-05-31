@@ -208,6 +208,7 @@ public class AlienFabricator : GhostCrafter
         {
             var sparkInstance = Utils.SpawnZeroedAt(fxSparksPrefab, transform);
 
+            sparkInstance.SetActive(true);
             sparkInstance.transform.rotation = Quaternion.Euler(-90f, 0f, 0f);
             
             fxSparksInstances[i] = sparkInstance;
