@@ -13,7 +13,8 @@ public class FloodlightsCameraTargeter : MonoBehaviour
     {
         Vector3 point = transform.position + chair.subRoot.transform.forward;
         var main = Camera.main;
-        if (Player.main.currChair == chair)
+        bool inChair = Player.main.currChair == chair;
+        if (inChair)
         {
             const float maxDist = 50;
             
@@ -25,10 +26,8 @@ public class FloodlightsCameraTargeter : MonoBehaviour
                 point = main.transform.position + main.transform.forward * maxDist;
             }
         }
-
-        Vector3 previousRot = transform.localRotation.eulerAngles;
         
-        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(point - main.transform.position), lookSpeed * Time.deltaTime);
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(point - transform.position), lookSpeed * Time.deltaTime);
         Vector3 eulerAngles = transform.localRotation.eulerAngles;
         Vector3 checkAngles = Vector3.zero;
         checkAngles.x = eulerAngles.x > 180 ? eulerAngles.x - 360 : eulerAngles.x;
