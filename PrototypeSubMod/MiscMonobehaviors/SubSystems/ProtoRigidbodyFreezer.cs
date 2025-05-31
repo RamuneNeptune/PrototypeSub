@@ -24,7 +24,6 @@ public class ProtoRigidbodyFreezer : MonoBehaviour
         bool inDistance = (MainCamera.camera.transform.position - transform.position).sqrMagnitude < freezeDistance * freezeDistance;
         if (inDistance != wasInDistance)
         {
-            collidersTransitioning = true;
             if (collidersTransitioning && updateCoroutine != null)
             {
                 UWE.CoroutineHost.StopCoroutine(updateCoroutine);
@@ -38,6 +37,8 @@ public class ProtoRigidbodyFreezer : MonoBehaviour
 
     private IEnumerator UpdateCollidersAndKinematics(bool inDistance)
     {
+        collidersTransitioning = true;
+        
         if (inDistance)
         {
             UWE.Utils.SetIsKinematicAndUpdateInterpolation(rigidbody, false);
