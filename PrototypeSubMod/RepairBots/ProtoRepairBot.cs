@@ -1,4 +1,5 @@
-﻿using PrototypeSubMod.Pathfinding;
+﻿using System.Collections;
+using PrototypeSubMod.Pathfinding;
 using UnityEngine;
 
 namespace PrototypeSubMod.RepairBots;
@@ -24,12 +25,19 @@ internal class ProtoRepairBot : PathfindingObject
     private Transform leftAntenna;
     private Transform rightAntenna;
 
+    private bool initialized;
     private bool enRouteToPoint;
     private bool repairing;
     private bool vfxEnabled;
 
     private void Start()
     {
+        UWE.CoroutineHost.StartCoroutine(Initialize());
+    }
+
+    private IEnumerator Initialize()
+    {
+        yield return new WaitUntil(() => Plugin.welderPrefab);
         var fxController = Plugin.welderPrefab.transform.Find("SparkEmit");
         welderController = Instantiate(fxController, welderFXSpawnPos).GetComponent<VFXController>();
         welderController.Stop();
@@ -48,10 +56,14 @@ internal class ProtoRepairBot : PathfindingObject
 
         leftAntenna = transform.Find(LEFT_ANT_PATH);
         rightAntenna = transform.Find(RIGHT_ANT_PATH);
+        
+        initialized = true;
     }
 
     private void Update()
     {
+        if (!initialized) return;
+        
         if (!targetPoint && enRouteToPoint && !repairing)
         {
             repairing = false;
