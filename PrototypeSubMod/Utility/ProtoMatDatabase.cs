@@ -138,12 +138,8 @@ public abstract class ProtoMatDatabaseBase
 
     protected static string RemoveInstanceFromMatName(string originalMatName)
     {
-        string returnValue = originalMatName;
-        
-        if(originalMatName.EndsWith(" (Instance)"))
-            returnValue = originalMatName.Substring(0, originalMatName.Length - " (Instance)".Length);
-        
-        return returnValue;
+        string returnString = originalMatName.Replace("(Instance)", string.Empty);
+        return returnString.TrimEnd();
     }
 
     private static void RegisterProjectMats()

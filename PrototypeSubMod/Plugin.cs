@@ -107,9 +107,15 @@ namespace PrototypeSubMod
             audioSW.Stop();
             Logger.LogInfo($"Audio registered in {audioSW.ElapsedMilliseconds}ms");
 
+            var databaseSW = new System.Diagnostics.Stopwatch();
+            databaseSW.Start();
+            ProtoMatDatabase.Initalize();
+            databaseSW.Stop();
+            Logger.LogInfo($"Material database registered in {databaseSW.ElapsedMilliseconds}ms");
+            
             LanguageHandler.RegisterLocalizationFolder();
             PrefabRegisterer.Register();
-            LoadEasyPrefabs.LoadPrefabs(AssetBundle);
+            LoadEasyPrefabs.LoadPrefabs(AssetBundle, EncyEntryRegisterer.Register);
             StructureRegisterer.Register();
             StoryGoalsRegisterer.Register();
             BiomeRegisterer.Register();
@@ -117,7 +123,6 @@ namespace PrototypeSubMod
             CommandRegisterer.Register();
             PDAMessageRegisterer.Register();
             VoicelineRegisterer.UpdateVoicelines();
-            EncyEntryRegisterer.Register();
             RegisterDependantPatches();
             InitializeSlotMapping();
             LoadPathfindingGrid();
@@ -131,12 +136,6 @@ namespace PrototypeSubMod
             UpgradeUninstallationPrefabManager.RegisterUninstallationPrefabs(AssetBundle);
             miscSW.Stop();
             Logger.LogInfo($"Miscellaneous items registered in {miscSW.ElapsedMilliseconds}ms");
-            
-            var databaseSW = new System.Diagnostics.Stopwatch();
-            databaseSW.Start();
-            ProtoMatDatabase.Initalize();
-            databaseSW.Stop();
-            Logger.LogInfo($"Material database registered in {databaseSW.ElapsedMilliseconds}ms");
             
             CoroutineHost.StartCoroutine(Initialize());
             CoroutineHost.StartCoroutine(MakeSeaTreaderBlockersPassthrough());
