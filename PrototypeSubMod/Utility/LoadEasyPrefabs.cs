@@ -17,6 +17,7 @@ internal static class LoadEasyPrefabs
     
     public static void LoadPrefabs(AssetBundle assetBundle, params Action[] onCompleted)
     {
+        Plugin.easyPrefabsLoaded = false;
         var sw = new System.Diagnostics.Stopwatch();
         sw.Start();
 

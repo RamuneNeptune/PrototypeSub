@@ -83,6 +83,9 @@ namespace PrototypeSubMod
         private static bool Initialized;
         private static Harmony harmony = new Harmony(GUID);
 
+        public static WaitScreen.ManualWaitItem prefabLoadWaitItem;
+        public static bool easyPrefabsLoaded;
+
         private void Awake()
         {
             if (Initialized) return;
@@ -115,7 +118,7 @@ namespace PrototypeSubMod
             
             LanguageHandler.RegisterLocalizationFolder();
             PrefabRegisterer.Register();
-            LoadEasyPrefabs.LoadPrefabs(AssetBundle, EncyEntryRegisterer.Register);
+            LoadEasyPrefabs.LoadPrefabs(AssetBundle, EncyEntryRegisterer.Register, ClearWaitStage, () => easyPrefabsLoaded = true);
             StructureRegisterer.Register();
             StoryGoalsRegisterer.Register();
             BiomeRegisterer.Register();
@@ -161,6 +164,13 @@ namespace PrototypeSubMod
             yield return task;
 
             welderPrefab = task.GetResult();
+        }
+
+        private void ClearWaitStage()
+        {
+            if (prefabLoadWaitItem == null) return;
+
+            WaitScreen.Remove(prefabLoadWaitItem);
         }
 
         private void InitializeSlotMapping()
