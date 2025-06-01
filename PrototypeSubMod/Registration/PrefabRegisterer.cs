@@ -34,12 +34,13 @@ internal static class PrefabRegisterer
         DecorativeForceFieldArchway.Register();
         NonfunctionalKeyTerminal.Register();
         PrecursorIonCrystal_Craftable.Register();
-        HullFacilitySpawner_World.Register();
         OrionFragmentor_World.Register();
         HullFacilityKey.Register();
         HullOutpostTeleporter.Register();
         ObstructionRockLoadFar.Register();
         PrototypeSpawner.Register();
+        ProtoFacilitySpawner.Register("ProtoHullFacilitySpawner", "HullFacilitySpawner");
+        ProtoFacilitySpawner.Register("ProtoEngineFacilitySpawner", "EngineFacilitySpawner");
         
         PrecursorFabricator.Register();
 
