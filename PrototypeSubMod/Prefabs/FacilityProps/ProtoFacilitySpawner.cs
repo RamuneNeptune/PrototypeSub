@@ -8,11 +8,12 @@ public static class ProtoFacilitySpawner
 {
     public static void Register(string classID, string prefabName)
     {
-        var prefabInfo = PrefabInfo.WithTechType(classID,null, null, "English");
+        var prefabInfo = PrefabInfo.WithTechType(classID,null, null);
 
         var prefab = new CustomPrefab(prefabInfo);
 
-        prefab.SetGameObject(GetGameObject(prefabName));
+        var gameObject = GetGameObject(prefabName);
+        prefab.SetGameObject(gameObject);
         prefab.SetSpawns(new SpawnLocation(Vector3.zero));
         
         prefab.Register();
@@ -22,6 +23,6 @@ public static class ProtoFacilitySpawner
     {
         var asset = Plugin.AssetBundle.LoadAsset<GameObject>(prefabName);
         asset.gameObject.SetActive(false);
-        return GameObject.Instantiate(asset);
+        return asset;
     }
 }
