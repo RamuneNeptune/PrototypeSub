@@ -11,12 +11,4 @@ public class uGUI_MainMenu_Patches
     {
         VoicelineRegisterer.UpdateVoicelines();
     }
-
-    [HarmonyPatch(nameof(uGUI_MainMenu.LoadGameAsync)), HarmonyPostfix]
-    private static void LoadGameAsync_Postfix()
-    {
-        if (Plugin.easyPrefabsLoaded) return;
-        
-        Plugin.prefabLoadWaitItem = WaitScreen.Add("ProtoEasyPrefabs");
-    }
 }

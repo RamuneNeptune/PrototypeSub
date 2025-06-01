@@ -47,7 +47,10 @@ internal class ProtoMaterialModifier : MaterialModifier
 
         if (materialDatas.TryGetValue((renderer, materialIndex), out var materialData))
         {
-            material.SetColor("_GlowColor", materialData.emissionColor);
+            if (material.HasProperty("_GlowColor"))
+            {
+                material.SetColor("_GlowColor", materialData.emissionColor);
+            }
             material.SetFloat("_GlowStrength", materialData.emissionIntensity);
             material.SetFloat("_GlowStrengthNight", materialData.emissionIntensity);
         }

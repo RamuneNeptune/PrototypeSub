@@ -53,14 +53,7 @@ internal static class LoadEasyPrefabs
 
             prefab.Register();
 
-            registeredPrefabCount++;
-            if (registeredPrefabCount >= totalPrefabCount)
-            {
-                foreach (var action in onCompleted)
-                {
-                    action?.Invoke();
-                }
-            }
+            IncrementPrefabTotal(onCompleted);
         }
     }
 
@@ -108,6 +101,11 @@ internal static class LoadEasyPrefabs
         
         prefab.Register();
 
+        IncrementPrefabTotal(onCompleted);
+    }
+
+    private static void IncrementPrefabTotal(Action[] onCompleted)
+    {
         registeredPrefabCount++;
         if (registeredPrefabCount >= totalPrefabCount)
         {
@@ -115,6 +113,11 @@ internal static class LoadEasyPrefabs
             {
                 action?.Invoke();
             }
+        }
+
+        if (Plugin.prefabLoadWaitItem != null)
+        {
+            Plugin.prefabLoadWaitItem.SetProgress(registeredPrefabCount, totalPrefabCount);
         }
     }
 }
