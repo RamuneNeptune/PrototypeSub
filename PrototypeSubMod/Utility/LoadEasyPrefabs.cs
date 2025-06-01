@@ -31,7 +31,7 @@ internal static class LoadEasyPrefabs
         }
         
         sw.Stop();
-        Plugin.Logger.LogInfo($"Easy prefabs loaded in {sw.ElapsedMilliseconds}ms");
+        Plugin.Logger.LogInfo($"Easy prefabs fully started in {sw.ElapsedMilliseconds}ms");
     }
 
     public static void RegisterEasyPrefab(EasyPrefab easyPrefab, Action[] onCompleted)
@@ -107,8 +107,7 @@ internal static class LoadEasyPrefabs
         prefab.SetGameObject(easyPrefab.prefab);
         
         prefab.Register();
-        Plugin.Logger.LogInfo($"Prefab registered for {easyPrefab.prefab} | Current registered count = {registeredPrefabCount} / {totalPrefabCount}");
-        
+
         registeredPrefabCount++;
         if (registeredPrefabCount >= totalPrefabCount)
         {
