@@ -49,12 +49,14 @@ public class ProtoMatDatabase : ProtoMatDatabaseBase
         List<string> skipMaterialNames = new();
         foreach (var renderer in renderers)
         {
+            if (renderer == null) continue;
+            
             var newMatList = renderer.materials;
             
             for(int i = 0; i < newMatList.Length; i++)
             {
                 var matName = RemoveInstanceFromMatName(newMatList[i].name);
-
+                
                 bool skipMaterial = skipMaterialNames.Contains(matName);
 
                 if (!skipMaterial)
@@ -69,7 +71,7 @@ public class ProtoMatDatabase : ProtoMatDatabaseBase
                         }
                     }
                 }
-
+                
                 if (skipMaterial)
                     continue;
                 

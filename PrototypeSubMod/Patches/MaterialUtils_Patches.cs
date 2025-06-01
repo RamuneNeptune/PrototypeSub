@@ -36,13 +36,18 @@ internal class MaterialUtils_Patches
         if (!__state.Item1 || !calledFromAssembly) return;
 
         material.SetFloat("_Shininess", __state.Item2 * 8f);
-        calledFromAssembly = false;
     }
 
     [HarmonyPatch(nameof(MaterialUtils.ApplySNShaders)), HarmonyPrefix]
     private static void ApplySNShaders_Prefix()
     {
         calledFromAssembly = Assembly.GetCallingAssembly() == Plugin.Assembly;
+    }
+
+    [HarmonyPatch(nameof(MaterialUtils.ApplySNShaders)), HarmonyPostfix]
+    private static void ApplySNShaders_Postfix()
+    {
+        calledFromAssembly = false;
     }
 
     [HarmonyPatch(nameof(MaterialUtils.ApplySNShaders)), HarmonyTranspiler]

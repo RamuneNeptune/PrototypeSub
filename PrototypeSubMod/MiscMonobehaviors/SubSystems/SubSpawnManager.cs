@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using Nautilus.Utility;
 using PrototypeSubMod.DestructionEvent;
 using PrototypeSubMod.Facilities.Hull;

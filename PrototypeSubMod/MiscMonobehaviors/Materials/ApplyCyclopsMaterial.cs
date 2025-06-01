@@ -13,6 +13,8 @@ internal class ApplyCyclopsMaterial : MonoBehaviour, ICyclopsReferencer, IMateri
     [SerializeField] private int copyIndex;
     [SerializeField] private int applyIndex;
 
+    private Material[] mats;
+
     public void OnCyclopsReferenceFinished(GameObject cyclops)
     {
         var copyRend = cyclops.transform.Find(pathToTarget)?.GetComponent<Renderer>();
@@ -21,10 +23,18 @@ internal class ApplyCyclopsMaterial : MonoBehaviour, ICyclopsReferencer, IMateri
             throw new System.Exception($"Renderer/Object not found at {pathToTarget}");
         }
 
-        var mats = rend.materials;
+        mats = rend.materials;
         mats[applyIndex] = new Material(copyRend.materials[copyIndex]);
         rend.materials = mats;
 
         onEditMaterial?.Invoke(rend.gameObject);
+    }
+
+    private void OnDestroy()
+    {
+        foreach (var mat in mats)
+        {
+            Destroy(mat);
+        }
     }
 }

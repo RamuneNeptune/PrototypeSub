@@ -4,6 +4,7 @@ using Nautilus.Assets.Gadgets;
 using Nautilus.Utility;
 using PrototypeSubMod.Compatibility;
 using System.IO;
+using System.Threading;
 using UnityEngine;
 
 namespace PrototypeSubMod.Utility;
@@ -19,7 +20,7 @@ internal static class LoadEasyPrefabs
         {
             RegisterEasyPrefab(easyPrefab);
         }
-
+        
         sw.Stop();
         Plugin.Logger.LogInfo($"Easy prefabs loaded in {sw.ElapsedMilliseconds}ms");
     }
@@ -32,26 +33,10 @@ internal static class LoadEasyPrefabs
             info = info.WithIcon(easyPrefab.sprite);
         }
 
-        var prefab = new CustomPrefab(info);
-        if (easyPrefab.applySNShaders)
+        var prefab = new CustomPrefab(info); 
+        if (easyPrefab.prefab)
         {
-            if (easyPrefab.applyPrecursorMaterialChanges)
-            {
-                MaterialUtils.ApplySNShaders(easyPrefab.prefab, modifiers: new ProtoMaterialModifier(1));
-            }
-            else
-            {
-                MaterialUtils.ApplySNShaders(easyPrefab.prefab);
-            }
-        }
-
-        if (easyPrefab.prefab != null)
-        {
-            if (easyPrefab.prefab.GetComponentsInChildren<Renderer>(true).Length > 0)
-            {
-                UWE.CoroutineHost.StartCoroutine(ProtoMatDatabase.ReplaceVanillaMats(easyPrefab.prefab));
-            }
-            prefab.SetGameObject(easyPrefab.prefab);
+            prefab.SetGameObject(GetPrefab(easyPrefab));
         }
 
         if (easyPrefab.craftable)
@@ -71,5 +56,27 @@ internal static class LoadEasyPrefabs
         }
 
         prefab.Register();
+    }
+
+    private static GameObject GetPrefab(EasyPrefab easyPrefab)
+    {
+        if (easyPrefab.applySNShaders)
+        {
+            if (easyPrefab.applyPrecursorMaterialChanges)
+            {
+                MaterialUtils.ApplySNShaders(easyPrefab.prefab, modifiers: new ProtoMaterialModifier(1));
+            }
+            else
+            {
+                MaterialUtils.ApplySNShaders(easyPrefab.prefab);
+            }
+        }
+
+        if (easyPrefab.prefab.GetComponentsInChildren<Renderer>(true).Length > 0)
+        {
+            UWE.CoroutineHost.StartCoroutine(ProtoMatDatabase.ReplaceVanillaMats(easyPrefab.prefab));
+        }
+        
+        return easyPrefab.prefab;
     }
 }

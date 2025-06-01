@@ -12,7 +12,7 @@ internal class BuildTerminalScreenManager : MonoBehaviour
     [SerializeField] private TerminalScreen animatorScreen;
     [SerializeField] private NewUpgradesScreen newUpgradesScreen;
     [SerializeField] private GameObject upgradeScreen;
-    [SerializeField] private GameObject emptyScreen;
+    [SerializeField] private GameObject recentralizeScreen;
     [SerializeField] private MoonpoolOccupiedHandler occupiedHandler;
 
     private bool isBuilding;
@@ -34,7 +34,7 @@ internal class BuildTerminalScreenManager : MonoBehaviour
             firstInteractScreen.OnStageStarted();
             buildScreen.gameObject.SetActive(false);
             upgradeScreen.gameObject.SetActive(false);
-            emptyScreen.gameObject.SetActive(false);
+            recentralizeScreen.gameObject.SetActive(false);
         }
         else
         {
@@ -66,14 +66,14 @@ internal class BuildTerminalScreenManager : MonoBehaviour
         if (newUpgradesScreen.HasQueuedUnlocks() || newUpgradesScreen.DownloadActive()) return;
 
         upgradeScreen.gameObject.SetActive(occupied);
-        emptyScreen.gameObject.SetActive(!occupied);
+        recentralizeScreen.gameObject.SetActive(!occupied);
     }
 
     public void BeginWaitForBuildStage()
     {
         firstInteractScreen.OnStageFinished();
         buildScreen.OnStageStarted();
-        emptyScreen.SetActive(false);
+        recentralizeScreen.SetActive(false);
     }
 
     public void BeginBuildStage()
@@ -81,7 +81,7 @@ internal class BuildTerminalScreenManager : MonoBehaviour
         buildScreen.OnStageFinished();
         animatorScreen.OnStageStarted();
         rebuildScreen.gameObject.SetActive(false);
-        emptyScreen.SetActive(false);
+        recentralizeScreen.SetActive(false);
     }
 
     public void EndBuildStage()
@@ -100,7 +100,7 @@ internal class BuildTerminalScreenManager : MonoBehaviour
 
             buildScreen.gameObject.SetActive(false);
             upgradeScreen.gameObject.SetActive(false);
-            emptyScreen.gameObject.SetActive(false);
+            recentralizeScreen.gameObject.SetActive(false);
         }
         else if (Plugin.GlobalSaveData.prototypePresent && StoryGoalManager.main.IsGoalComplete("PrototypeCrafted"))
         {
@@ -111,7 +111,7 @@ internal class BuildTerminalScreenManager : MonoBehaviour
             buildScreen.gameObject.SetActive(true);
             rebuildScreen.gameObject.SetActive(false);
             upgradeScreen.gameObject.SetActive(false);
-            emptyScreen.gameObject.SetActive(false);
+            recentralizeScreen.gameObject.SetActive(false);
         }
     }
 
@@ -120,17 +120,17 @@ internal class BuildTerminalScreenManager : MonoBehaviour
         buildScreen.gameObject.SetActive(false);
         rebuildScreen.gameObject.SetActive(false);
 
-        if (newUpgradesScreen.HasQueuedUnlocks())
+        if (newUpgradesScreen.HasQueuedUnlocks() && occupiedHandler.MoonpoolHasSub)
         {
             newUpgradesScreen.gameObject.SetActive(true);
             upgradeScreen.gameObject.SetActive(false);
-            emptyScreen.gameObject.SetActive(false);
+            recentralizeScreen.gameObject.SetActive(false);
         }
         else
         {
             newUpgradesScreen.gameObject.SetActive(false);
             upgradeScreen.gameObject.SetActive(occupiedHandler.MoonpoolHasSub);
-            emptyScreen.gameObject.SetActive(!occupiedHandler.MoonpoolHasSub);
+            recentralizeScreen.gameObject.SetActive(!occupiedHandler.MoonpoolHasSub);
         }
     }
 }

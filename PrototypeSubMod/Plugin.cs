@@ -92,6 +92,9 @@ namespace PrototypeSubMod
 
             // Set project-scoped logger instance
             Logger = base.Logger;
+            
+            // Register harmony patches, if there are any
+            harmony.PatchAll(Assembly);
 
             var audioSW = new System.Diagnostics.Stopwatch();
             audioSW.Start();
@@ -105,10 +108,8 @@ namespace PrototypeSubMod
             Logger.LogInfo($"Audio registered in {audioSW.ElapsedMilliseconds}ms");
 
             LanguageHandler.RegisterLocalizationFolder();
-            
             PrefabRegisterer.Register();
             LoadEasyPrefabs.LoadPrefabs(AssetBundle);
-            EncyEntryRegisterer.Register();
             StructureRegisterer.Register();
             StoryGoalsRegisterer.Register();
             BiomeRegisterer.Register();
@@ -116,6 +117,7 @@ namespace PrototypeSubMod
             CommandRegisterer.Register();
             PDAMessageRegisterer.Register();
             VoicelineRegisterer.UpdateVoicelines();
+            EncyEntryRegisterer.Register();
             RegisterDependantPatches();
             InitializeSlotMapping();
             LoadPathfindingGrid();
@@ -141,9 +143,6 @@ namespace PrototypeSubMod
 
             // This is only to force the asset bundle to load
             var empty = ScenesAssetBundle.name;
-            
-            // Register harmony patches, if there are any
-            harmony.PatchAll(Assembly);
 
             sw.Stop();
             Logger.LogInfo($"Plugin {GUID} is loaded in {sw.ElapsedMilliseconds} ms!");
