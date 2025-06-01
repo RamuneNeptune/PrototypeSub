@@ -53,7 +53,6 @@ public class PathfindingGrid : MonoBehaviour
         
         if (useSaveFileAsGrid)
         {
-            /*
             if (Plugin.pathfindingGridSaveData != null)
             {
                 OnGridSaveDataLoaded(Plugin.pathfindingGridSaveData);
@@ -62,7 +61,6 @@ public class PathfindingGrid : MonoBehaviour
             {
                 Plugin.onLoadGridSaveData += OnGridSaveDataLoaded;
             }
-            */
         }
         else
         {
