@@ -16,6 +16,8 @@ public class AdditiveSceneSpawner : MonoBehaviour
     private IEnumerator Start()
     {
         yield return new WaitForEndOfFrame();
+
+        if (cancelLoad) yield break;
         
         var op = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
         yield return op;

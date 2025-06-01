@@ -8,6 +8,7 @@ using UnityEngine;
 
 namespace PrototypeSubMod.MiscMonobehaviors.SubSystems;
 
+
 public class SubSpawnManager : MonoBehaviour
 {
     [SerializeField] private AdditiveSceneSpawner sceneSpawner;
@@ -17,11 +18,9 @@ public class SubSpawnManager : MonoBehaviour
         if (StoryGoalManager.main.IsGoalComplete("PrototypeSpawned"))
         {
             sceneSpawner.CancelLoad();
+            return;
         }
-    }
-
-    private void Start()
-    {
+        
         sceneSpawner.onSceneLoaded += OnSceneLoaded;
     }
 
@@ -30,19 +29,20 @@ public class SubSpawnManager : MonoBehaviour
         var sub = GameObject.Find("PrototypeSub-MainPrefab");
         sub.name = "PrototypeSub(Clone)";
         sub.transform.position = new Vector3(0, 500, 0);
-        sub.GetComponentInChildren<ProtoDestructionEvent>().DestroySubNoSequence();
         UWE.CoroutineHost.StartCoroutine(SetupMaterials(sub));
         
         StoryGoalManager.main.OnGoalComplete("PrototypeSpawned");
-        sub.SetActive(false);
     }
 
     private IEnumerator SetupMaterials(GameObject prefab)
     {
+        yield return new WaitForEndOfFrame();
+        prefab.GetComponentInChildren<ProtoDestructionEvent>().DestroySubNoSequence();
+        prefab.SetActive(false);
+        
         yield return Prototype_Craftable.SetupProtoGameObject(prefab);
         
         yield return new WaitForEndOfFrame();
         prefab.GetComponent<VFXConstructing>().ghostMaterial = MaterialUtils.GhostMaterial;
-        yield return new WaitForEndOfFrame();
     }
 }
