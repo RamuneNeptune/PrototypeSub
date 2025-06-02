@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using PrototypeSubMod.Utility;
+using Story;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -54,6 +55,8 @@ public class WormSpawnEvent : MonoBehaviour
     private void Update()
     {
         if (inPrefabCache) return;
+
+        if (!StoryGoalManager.main.IsGoalComplete("HullFacilityActivateWorm")) return;
 
         float time = Time.time + timeOffset;
         disableObjects.SetActive(time >= _timeNextSpawn || wormActive);
