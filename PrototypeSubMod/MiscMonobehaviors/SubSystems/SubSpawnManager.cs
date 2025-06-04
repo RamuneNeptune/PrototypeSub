@@ -37,10 +37,11 @@ public class SubSpawnManager : MonoBehaviour
     private IEnumerator SetupMaterials(GameObject prefab)
     {
         yield return new WaitForEndOfFrame();
-        prefab.GetComponentInChildren<ProtoDestructionEvent>().DestroySubNoSequence();
-        prefab.SetActive(false);
         
         yield return Prototype_Craftable.SetupProtoGameObject(prefab);
+        
+        prefab.GetComponentInChildren<ProtoDestructionEvent>().DestroySubNoSequence();
+        prefab.SetActive(false);
         
         yield return new WaitForEndOfFrame();
         prefab.GetComponent<VFXConstructing>().ghostMaterial = MaterialUtils.GhostMaterial;
