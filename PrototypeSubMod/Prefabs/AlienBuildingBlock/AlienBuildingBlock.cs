@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Nautilus.Assets;
 using Nautilus.Assets.Gadgets;
 using Nautilus.Crafting;
+using PrototypeSubMod.Compatibility;
 using UnityEngine;
 
 namespace PrototypeSubMod.Prefabs.AlienBuildingBlock;
@@ -22,14 +23,7 @@ internal class AlienBuildingBlock : RelicBlock
         
         prefab.SetGameObject(GetPrefab);
         
-        prefab.SetRecipe(new RecipeData
-        {
-            craftAmount = 1,
-            Ingredients = new List<CraftData.Ingredient>
-            {
-                new(WarperRemnant.prefabInfo.TechType)
-            }
-        }).WithCraftingTime(3f);
+        prefab.SetRecipe(ROTACompatManager.GetRelevantRecipe("AlienBuildingBlock.json")).WithCraftingTime(3f);
         
         prefab.Register();
     }

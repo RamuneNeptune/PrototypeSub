@@ -14,11 +14,11 @@ internal static class PrefabRegisterer
         var sw = new System.Diagnostics.Stopwatch();
         sw.Start();
         
+        WarperRemnant.Register();
+        AlienBuildingBlock.Register();
         PrecursorIngot_Craftable.Register();
         IonPrism_Craftable.Register();
-        AlienBuildingBlock.Register();
-        WarperRemnant.Register();
-
+        
         Prototype_Craftable.Register();
         ProtoBuildTerminal_World.Register();
         DeployableLight_Craftable.Register();
