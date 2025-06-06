@@ -8,7 +8,8 @@ namespace PrototypeSubMod.MiscMonobehaviors.PrefabRetrievers;
 internal class SpawnTerminalFX : MonoBehaviour
 {
     [SerializeField] private PrecursorComputerTerminal terminal;
-
+    [SerializeField] private string[] removeFXPaths;
+    
     private void Start()
     {
         CoroutineHost.StartCoroutine(SpawnFX());
@@ -33,6 +34,11 @@ internal class SpawnTerminalFX : MonoBehaviour
             terminal.fx = newFX;
             terminal.fxControl = newFX.GetComponent<VFXController>();
             terminal.scaleControl = newFX.GetComponent<VFXLerpScale>();
+        }
+        
+        foreach (var path in removeFXPaths)
+        {
+            Destroy(newFX.transform.Find(path).gameObject);
         }
     }
 }
