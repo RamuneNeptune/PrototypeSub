@@ -118,7 +118,7 @@ namespace PrototypeSubMod
             
             LanguageHandler.RegisterLocalizationFolder();
             PrefabRegisterer.Register();
-            LoadEasyPrefabs.LoadPrefabs(AssetBundle, EncyEntryRegisterer.Register, ClearWaitStage, () => easyPrefabsLoaded = true);
+            LoadEasyPrefabs.LoadPrefabs(AssetBundle, EncyEntryRegisterer.Register, ClearWaitStage);
             StructureRegisterer.Register();
             StoryGoalsRegisterer.Register();
             BiomeRegisterer.Register();
@@ -168,6 +168,8 @@ namespace PrototypeSubMod
 
         private void ClearWaitStage()
         {
+            easyPrefabsLoaded = true;
+            
             if (prefabLoadWaitItem == null) return;
 
             WaitScreen.Remove(prefabLoadWaitItem);
