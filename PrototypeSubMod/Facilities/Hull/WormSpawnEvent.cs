@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using PrototypeSubMod.Utility;
 using Story;
 using UnityEngine;
@@ -15,6 +16,9 @@ public class WormSpawnEvent : MonoBehaviour
     private static float _timeNextSpawn = float.MinValue;
 
     [SaveStateReference]
+    private static List<Vector3> _activeSpawnLocations;
+    
+    [SaveStateReference]
     private static GameObject _digInFX;
     [SaveStateReference]
     private static GameObject _digOutFX;
@@ -25,15 +29,14 @@ public class WormSpawnEvent : MonoBehaviour
     
     [Header("SFX")]
     [SerializeField] private FMOD_CustomEmitter breachSurfaceSFX;
-
     [SerializeField] private FMOD_CustomLoopingEmitter swimLoopSFX;
     [SerializeField] private FMOD_CustomLoopingEmitter rumbleFarSFX;
     [SerializeField] private FMOD_CustomLoopingEmitter rumbleCloseSFX;
     
-    private bool inPrefabCache;
     private bool spawnedDigOutParticles;
     private bool wormActive;
     private bool hasSpawned;
+    private bool calledDestroy;
     private int particleCount;
     private float timeNextParticles = float.MinValue;
     private float timeSpawned;
@@ -45,19 +48,31 @@ public class WormSpawnEvent : MonoBehaviour
         UWE.CoroutineHost.StartCoroutine(TryRetrieveFXPrefabs());
     }
 
-    private void Start()
+    private IEnumerator Start()
     {
-        inPrefabCache = transform.parent && transform.parent.parent && transform.parent.parent.name == "Nautilus.PrefabCache";
-        gameObject.SetActive(!inPrefabCache);
         timeOffset = (float)gameObject.GetHashCode() / int.MaxValue;
+
+        yield return new WaitForEndOfFrame();
+        
+        if (_activeSpawnLocations == null) _activeSpawnLocations = new();
+
+        if (_activeSpawnLocations.Contains(transform.position))
+        {
+            Plugin.Logger.LogInfo($"Spawn locations contains {transform.position} | Destroying {gameObject}");
+            Destroy(gameObject);
+            calledDestroy = true;
+            yield break;
+        }
+        
+        _activeSpawnLocations.Add(transform.position);
     }
 
     private void Update()
     {
-        if (inPrefabCache) return;
-
         if (!StoryGoalManager.main.IsGoalComplete("HullFacilityActivateWorm")) return;
 
+        if (calledDestroy) return;
+        
         float time = Time.time + timeOffset;
         disableObjects.SetActive(time >= _timeNextSpawn || wormActive);
         if (time >= _timeNextSpawn && !wormActive && !hasSpawned)
@@ -66,12 +81,14 @@ public class WormSpawnEvent : MonoBehaviour
             wormActive = true;
             hasSpawned = true;
         }
-        else if (!wormActive)
+        else if (!wormActive && !calledDestroy)
         {
             swimLoopSFX.Stop();
             breachSurfaceSFX.Stop();
             rumbleFarSFX.Stop();
             rumbleCloseSFX.Stop();
+            Destroy(gameObject, 5f);
+            calledDestroy = true;
             return;
         }
 
@@ -168,6 +185,11 @@ public class WormSpawnEvent : MonoBehaviour
         SandShark sandShark = prefab.GetComponent<SandShark>();
         _digInFX = sandShark.digInEffect;
         _digOutFX = sandShark.digOutEffect;
+    }
+    
+    private void OnDestroy()
+    {
+        _activeSpawnLocations.Remove(transform.position);
     }
 
     public static void ResetSpawnTimer()

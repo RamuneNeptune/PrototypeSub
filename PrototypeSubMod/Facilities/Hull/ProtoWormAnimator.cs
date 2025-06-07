@@ -20,6 +20,7 @@ public class ProtoWormAnimator : MonoBehaviour
     private void Start()
     {
         UWE.CoroutineHost.StartCoroutine(Initialize());
+        pathCreator.path.UpdateTransform(pathCreator.transform);
     }
 
     private IEnumerator Initialize()

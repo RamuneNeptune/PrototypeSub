@@ -20,6 +20,7 @@ public class ProtoWormSpawnEvent
         lastPrefab = prefab;
         customPrefab.SetGameObject(GetPrefabInstance);
         customPrefab.SetSpawns(spawnLocations);
+        customPrefab.RemoveFromCache();
 
         customPrefab.Register();
         return prefabInfo;

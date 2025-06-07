@@ -125,7 +125,12 @@ namespace PrototypeSubMod
             LootRegister.Register();
             CommandRegisterer.Register();
             PDAMessageRegisterer.Register();
+            
+            var voicelineSW = new System.Diagnostics.Stopwatch();
+            voicelineSW.Start();
             VoicelineRegisterer.UpdateVoicelines();
+            voicelineSW.Stop();
+            Logger.LogInfo($"Voiceline variations registered in {sw.ElapsedMilliseconds}ms");
             RegisterDependantPatches();
             InitializeSlotMapping();
             LoadPathfindingGrid();
