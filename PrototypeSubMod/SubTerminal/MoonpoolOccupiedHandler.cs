@@ -23,7 +23,7 @@ internal class MoonpoolOccupiedHandler : MonoBehaviour, IProtoTreeEventListener
     private Bounds checkBounds;
     private bool occupiedLastCheck;
     
-    private void CheckForSub()
+    public void CheckForSub()
     {
         bool foundSub = false;
         SubInMoonpool = null;

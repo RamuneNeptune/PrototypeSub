@@ -128,8 +128,8 @@ internal class ProtoBuildTerminal : Crafter
         var root = CloakEffectHandler.EffectHandlers[0].GetComponentInParent<SubRoot>();
         root.transform.position = buildPosition.position;
         root.transform.rotation =  buildPosition.rotation;
-        
         warpFXSpawner.SpawnWarpInFX(buildPosition.position, Vector3.one * 2f);
+        screenManager.EndBuildStage();
     }
 
     private IEnumerator PlayDischargeDelayed()

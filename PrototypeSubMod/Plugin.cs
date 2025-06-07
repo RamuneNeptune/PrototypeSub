@@ -136,7 +136,6 @@ namespace PrototypeSubMod
             ROTACompatManager.AddCompatiblePowerSources();
             WeatherCompatManager.Initialize();
             SetupSaveStateReferences.SetupReferences(Assembly);
-            UpgradeUninstallationPrefabManager.RegisterUninstallationPrefabs(AssetBundle);
             miscSW.Stop();
             Logger.LogInfo($"Miscellaneous items registered in {miscSW.ElapsedMilliseconds}ms");
             
