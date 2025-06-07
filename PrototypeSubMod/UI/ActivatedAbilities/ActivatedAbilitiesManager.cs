@@ -12,9 +12,9 @@ internal class ActivatedAbilitiesManager : MonoBehaviour
     [SerializeField] private SelectionMenuManager menuManager;
     [SerializeField] private TetherManager tetherManager;
 
-    private List<ActiveAbilityIcon> activeAbilityIcons = new();
-    private List<GameObject> actuallyActiveIcons = new();
-
+    private Dictionary<IAbilityIcon, ActiveAbilityIcon> activeAbilities = new();
+    private int installedUpgradeCount;
+    
     private void Start()
     {
         tetherManager.onAbilityActivatedChanged += OnAbilitySelectedChanged;
@@ -22,35 +22,30 @@ internal class ActivatedAbilitiesManager : MonoBehaviour
 
     public void OnAbilitySelectedChanged(IAbilityIcon icon)
     {
-        if (icon == null) return;
-
-        var activeIcon = activeAbilityIcons.FirstOrDefault(i => i != null && i.GetIcon() == icon);
-        bool isActive = activeIcon != null && activeIcon.GetIcon().GetActive();
-
-        if (activeIcon == null)
+        if (icon.GetActive() && !activeAbilities.ContainsKey(icon))
         {
             var newIcon = CreateNewIcon(icon);
-            activeAbilityIcons.Add(newIcon);
-            activeIcon = newIcon;
-            isActive = icon.GetActive();
+            activeAbilities.Add(icon, newIcon);
+            installedUpgradeCount++;
         }
+        else if (!icon.GetActive() && activeAbilities.TryGetValue(icon, out var ability))
+        {
+            activeAbilities.Remove(icon);
+            Destroy(ability.gameObject);
+            installedUpgradeCount--;
 
-        if (!activeIcon.gameObject.activeSelf && isActive)
-        {
-            activeIcon.gameObject.SetActive(true);
-            activeIcon.transform.SetParent(abilityIconSlots[GetActiveAbilityCount()]);
-            activeIcon.transform.localPosition = Vector3.zero;
-            actuallyActiveIcons.Add(activeIcon.gameObject);
-        }
-        else if (activeIcon && !isActive)
-        {
-            activeIcon.gameObject.SetActive(false);
-            actuallyActiveIcons.Remove(activeIcon.gameObject);
+            int index = 0;
+            foreach (var activeAbility in activeAbilities.Values)
+            {
+                activeAbility.transform.SetParent(abilityIconSlots[index]);
+                activeAbility.transform.localPosition = Vector3.zero;
+                index++;
+            }
         }
     }
     
-    public int GetActiveAbilityCount() => actuallyActiveIcons.Count;
-
+    public int GetActiveAbilityCount() => installedUpgradeCount;
+    
     private ActiveAbilityIcon CreateNewIcon(IAbilityIcon icon)
     {
         var instance = Instantiate(iconPrefab, abilityIconSlots[GetActiveAbilityCount()]);
