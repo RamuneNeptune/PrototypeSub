@@ -107,6 +107,8 @@ internal class ProtoBuildTerminal : Crafter
 
         manager.OnConstructionStarted(buildPosition.position, buildPosition.rotation);
         var sub = manager.GetSubObject();
+        sub.transform.position = buildPosition.position;
+        sub.transform.rotation = buildPosition.rotation;
         sub.gameObject.SetActive(true);
         warpFXSpawner.SpawnWarpInFX(buildPosition.position, Vector3.one * 2f);
         
@@ -127,7 +129,7 @@ internal class ProtoBuildTerminal : Crafter
 
         var root = CloakEffectHandler.EffectHandlers[0].GetComponentInParent<SubRoot>();
         root.transform.position = buildPosition.position;
-        root.transform.rotation =  buildPosition.rotation;
+        root.transform.rotation = buildPosition.rotation;
         warpFXSpawner.SpawnWarpInFX(buildPosition.position, Vector3.one * 2f);
         screenManager.EndBuildStage();
     }
