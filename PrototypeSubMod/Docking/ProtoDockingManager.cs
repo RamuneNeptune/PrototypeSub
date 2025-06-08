@@ -4,12 +4,11 @@ using UnityEngine;
 
 namespace PrototypeSubMod.Docking;
 
-public class ProtoDockingManager : MonoBehaviour, IAnimParamReceiver, IProtoEventListener, IProtoTreeEventListener
+public class ProtoDockingManager : MonoBehaviour, IProtoEventListener, IProtoTreeEventListener
 {
     [SerializeField] private InterfloorTeleporter interfloorTeleporter;
     [SerializeField] private VehicleDockingBay dockingBay;
     [SerializeField] private IgnoreCinematicStart ignoreCinematicStart;
-    [SerializeField] private Transform playerPosition;
     [SerializeField] private Transform vehicleHolder;
 
     private bool cinematicStartManaged;
@@ -36,24 +35,22 @@ public class ProtoDockingManager : MonoBehaviour, IAnimParamReceiver, IProtoEven
         yield return new WaitForEndOfFrame();
         yield return new WaitUntil(() => dockingBay._dockedVehicle);
         
-        ForwardAnimationParameterBool(null, false);
+        StoreVehicle();
         ignoreCinematicStart.enabled = false;
         cinematicStartManaged = false;
     }
     
     public void TeleportIntoSub()
     {
-        playerPosition.position = Camera.main.transform.position;
         interfloorTeleporter.StartTeleportPlayer();
+
+        Invoke(nameof(StoreVehicle), 0.1f);
     }
 
-    public void ForwardAnimationParameterBool(string paramaterName, bool value)
+    public void StoreVehicle()
     {
-        if (value) return;
-        
         if (!dockingBay.dockedVehicle) return;
         
-        // Cinematic mode finished
         dockingBay.dockedVehicle.transform.SetParent(vehicleHolder);
         dockingBay.dockedVehicle.gameObject.SetActive(false);
     }
