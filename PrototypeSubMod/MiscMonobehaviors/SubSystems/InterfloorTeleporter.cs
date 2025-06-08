@@ -44,6 +44,11 @@ internal class InterfloorTeleporter : MonoBehaviour
         StartTeleportPlayer(teleportPosition.position, teleportPosition.forward);
     }
 
+    public void StartTeleportPlayer()
+    {
+        StartTeleportPlayer(teleportPosition.position, teleportPosition.forward);
+    }
+
     public void StartTeleportPlayer(Vector3 position, Vector3 lookDir)
     {
         collider.enabled = false;
@@ -127,4 +132,6 @@ internal class InterfloorTeleporter : MonoBehaviour
         warpController.fx.mat.SetColor("_ColorStrength", originalMiddleCol);
         warpController.fx.mat.SetColor("_ColorOuter", originalOuterCol);
     }
+    
+    public FMODAsset GetFMODAsset() => soundEffect;
 }
