@@ -118,14 +118,19 @@ namespace PrototypeSubMod
             
             LanguageHandler.RegisterLocalizationFolder();
             PrefabRegisterer.Register();
-            LoadEasyPrefabs.LoadPrefabs(AssetBundle, EncyEntryRegisterer.Register, ClearWaitStage, () => easyPrefabsLoaded = true);
+            LoadEasyPrefabs.LoadPrefabs(AssetBundle, EncyEntryRegisterer.Register, ClearWaitStage);
             StructureRegisterer.Register();
             StoryGoalsRegisterer.Register();
             BiomeRegisterer.Register();
             LootRegister.Register();
             CommandRegisterer.Register();
             PDAMessageRegisterer.Register();
+            
+            var voicelineSW = new System.Diagnostics.Stopwatch();
+            voicelineSW.Start();
             VoicelineRegisterer.UpdateVoicelines();
+            voicelineSW.Stop();
+            Logger.LogInfo($"Voiceline variations registered in {sw.ElapsedMilliseconds}ms");
             RegisterDependantPatches();
             InitializeSlotMapping();
             LoadPathfindingGrid();
@@ -136,7 +141,6 @@ namespace PrototypeSubMod
             ROTACompatManager.AddCompatiblePowerSources();
             WeatherCompatManager.Initialize();
             SetupSaveStateReferences.SetupReferences(Assembly);
-            UpgradeUninstallationPrefabManager.RegisterUninstallationPrefabs(AssetBundle);
             miscSW.Stop();
             Logger.LogInfo($"Miscellaneous items registered in {miscSW.ElapsedMilliseconds}ms");
             
@@ -168,6 +172,8 @@ namespace PrototypeSubMod
 
         private void ClearWaitStage()
         {
+            easyPrefabsLoaded = true;
+            
             if (prefabLoadWaitItem == null) return;
 
             WaitScreen.Remove(prefabLoadWaitItem);

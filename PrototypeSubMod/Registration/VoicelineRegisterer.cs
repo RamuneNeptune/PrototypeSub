@@ -55,9 +55,6 @@ public static class VoicelineRegisterer
     
     public static void UpdateVoicelines()
     {
-        var sw = new System.Diagnostics.Stopwatch();
-        sw.Start();
-        
         string orionText1 = Language.main.Get("ProtoOrionNoData");
         string orionText2 = Language.main.Get("ProtoOrionFullData");
         
@@ -68,8 +65,5 @@ public static class VoicelineRegisterer
             LanguageHandler.SetLanguageLine(key + "_OrionNoData", orionOld, Language.main.currentLanguage);
             LanguageHandler.SetLanguageLine(key + "_OrionFullData", orionNew, Language.main.currentLanguage);
         }
-
-        sw.Stop();
-        Plugin.Logger.LogInfo($"Voiceline variations registered in {sw.ElapsedMilliseconds}ms");
     }
 }

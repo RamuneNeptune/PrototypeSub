@@ -159,10 +159,9 @@ internal static class EncyEntryRegisterer
         TechType decorativeWormType = (TechType)Enum.Parse(typeof(TechType), "ProtoDecorativeWorm");
         string decorativeWormTitle = Language.main.Get("ProtoDecorativeWormEncy_Title");
         string decorativeWormDescription = Language.main.Get("ProtoDecorativeWormEncy_Body");
-        Texture2D decorativeWormBackground = Plugin.AssetBundle.LoadAsset<Texture2D>("ProtoWormEncy");
         
         PDAHandler.AddEncyclopediaEntry("ProtoDecorativeWormEncy", "DownloadedData/Precursor/Scan", decorativeWormTitle, 
-            decorativeWormDescription, image: decorativeWormBackground, unlockSound: PDAHandler.UnlockBasic);
+            decorativeWormDescription, unlockSound: PDAHandler.UnlockBasic);
         var decorativeWormEntryData = new PDAScanner.EntryData()
         {
             key = decorativeWormType,

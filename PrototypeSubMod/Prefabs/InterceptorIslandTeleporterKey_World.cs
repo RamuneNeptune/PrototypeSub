@@ -4,7 +4,7 @@ using Nautilus.Assets.PrefabTemplates;
 using UnityEngine;
 
 namespace PrototypeSubMod.Prefabs;
-
+ 
 internal class InterceptorIslandTeleporterKey_World
 {
     public static PrefabInfo prefabInfo { get; private set; }

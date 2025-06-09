@@ -59,6 +59,7 @@ internal class CloakEffectHandler : ProtoUpgrade
     [SerializeField] private VoiceNotificationManager  voiceNotificationManager;
     [SerializeField] private VoiceNotification activateCloakNotif;
     [SerializeField] private VoiceNotification invalidOpNotification;
+    [SerializeField] private FMOD_CustomLoopingEmitter distortionActiveSFX;
     
     [Header("Miscellaneous")]
     [SerializeField] private FMOD_CustomLoopingEmitter emitter;
@@ -161,11 +162,13 @@ internal class CloakEffectHandler : ProtoUpgrade
             emissionController.RegisterTempColor(new EmissionColorController.EmissionRegistrarData(this, emissiveColor, 20));
             emitter.Play();
             voiceNotificationManager.PlayVoiceNotification(activateCloakNotif);
+            distortionActiveSFX.Play();
         }
         else
         {
             emissionController.RemoveTempColor(this);
             emitter.Stop();
+            distortionActiveSFX.Stop();
         }
     }
 

@@ -13,25 +13,6 @@ namespace PrototypeSubMod.SubTerminal;
 internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
 {
     private static event EventHandler<UpgradeChangedEventArgs> onUpgradeChanged;
-    private static Dictionary<TechType, TechType> uninstallationTechTypes = new();
-
-    private string UpgradeIdentifier
-    {
-        get
-        {
-            return transform.parent.parent.name + "_" + gameObject.name;
-        }
-    }
-
-    private TechType CurrentTechType
-    {
-        get
-        {
-            if (upgradeManager == null) return techType.TechType;
-
-            return upgradeManager.GetUpgradeInstalled(techType.TechType) ? uninstallationTechType : techType.TechType;
-        }
-    }
 
     [SerializeField] private DummyTechType techType;
     [SerializeField] private float confirmTime;
@@ -46,8 +27,6 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
     [SerializeField] private RocketBuilderTooltip tooltip;
 
     private uGUI_ProtoBuildScreen buildScreen;
-    private CrafterLogic crafterLogic;
-    private TechType uninstallationTechType;
 
     private bool hovered;
     private bool pointerDownLastFrame;
@@ -68,19 +47,18 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
     {
         buildScreen = GetComponentInParent<BuildTerminalScreenManager>().GetComponentInChildren<uGUI_ProtoBuildScreen>(true);
         upgradeScreen = GetComponentInParent<UpgradeScreen>();
-        uninstallationTechType = uninstallationTechTypes[techType.TechType];
 
         atlasSpriteBGNormal = new Atlas.Sprite(backgroundNormalSprite);
         atlasSpriteBGHovered = new Atlas.Sprite(backgroundHoverSprite);
 
         rectTransform = GetComponent<RectTransform>();
-        crafterLogic = GetComponent<CrafterLogic>();
         originalSize = rectTransform.sizeDelta;
 
         var occupiedHandler = buildScreen.GetMoonpoolHandler();
         occupiedHandler.onHasSubChanged.AddListener(OnSubInMoonpoolChanged);
 
         OnSubInMoonpoolChanged();
+        SetUpgradeTechType(techType.TechType);
 
         UWE.CoroutineHost.StartCoroutine(RefreshUpgrades());
         initialized = true;
@@ -112,7 +90,7 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
 
         if (!upgradeManager) yield break;
 
-        SetUpgradeTechType(CurrentTechType);
+        SetUpgradeTechType(techType.TechType);
         if (upgradeManager.GetInstalledUpgradeTypes().Contains(techType.TechType))
         {
             upgradeScreen.InstallUpgrade(this);
@@ -138,8 +116,7 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
         }
 
         upgradeManager = occupiedHandler.SubInMoonpool.GetComponentInChildren<ProtoUpgradeManager>();
-
-        SetUpgradeTechType(CurrentTechType);
+        
         if (upgradeManager.GetInstalledUpgradeTypes().Contains(techType.TechType))
         {
             upgradeScreen.InstallUpgrade(this);
@@ -266,7 +243,7 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
 
     private void OnActionConfirmed()
     {
-        if (!CrafterLogic.ConsumeResources(CurrentTechType))
+        if (!CrafterLogic.ConsumeResources(techType.TechType))
         {
             currentConfirmTime = 0;
             craftTriggered = false;
@@ -292,24 +269,13 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
 
         UpgradeChangedEventArgs args = new(upgradeScreen, upgradeManager.GetInstalledUpgradeTypes());
         onUpgradeChanged?.Invoke(this, args);
-
-        if (currentlyInstalled)
-        {
-            // Has just been uninstalled
-            crafterLogic.timeCraftingBegin = 0;
-            crafterLogic.timeCraftingEnd = 1;
-            crafterLogic.craftingTechType = uninstallationTechType;
-            UWE.CoroutineHost.StartCoroutine(crafterLogic.TryPickupAsync());
-        }
-
-        InitialzeFGIcon(itemIcon);
     }
 
     private void OnUpgradesChanged(object sender, UpgradeChangedEventArgs args)
     {
         if (args.owner != upgradeScreen) return;
 
-        bool canUseButton = upgradeScreen.CanInstallNewUpgrade() || args.installedUpgrades.Contains(techType.TechType);
+        bool canUseButton = !args.installedUpgrades.Contains(techType.TechType);
 
         // Disable installation button
         tooltip.gameObject.SetActive(canUseButton);
@@ -318,14 +284,8 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
         itemIcon.SetBackgroundAlpha(alpha);
 
         allowedToCraft = canUseButton;
-        SetUpgradeTechType(CurrentTechType);
     }
-
-    public static void SetUninstallationTechType(TechType ownerType, TechType uninstalledType)
-    {
-        uninstallationTechTypes.Add(ownerType, uninstalledType);
-    }
-
+    
     public TechType GetUpgradeTechType() => techType.TechType;
 }
 

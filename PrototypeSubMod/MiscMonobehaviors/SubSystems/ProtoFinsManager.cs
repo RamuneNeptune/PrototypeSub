@@ -11,8 +11,9 @@ namespace PrototypeSubMod.MiscMonobehaviors.SubSystems;
 
 public class ProtoFinsManager : MonoBehaviour, ISaveDataListener
 {
-    public event Action onFinCountChanged; 
-    
+    public event Action onFinCountChanged;
+
+    [SerializeField] private GameObject dockingBay;
     [SerializeField] private GameObject[] leftFins;
     [SerializeField] private GameObject[] rightFins;
     [SerializeField] private ProtoMotorHandler motorHandler;
@@ -29,6 +30,7 @@ public class ProtoFinsManager : MonoBehaviour, ISaveDataListener
     private void Start()
     {
         UpdateFinStatus();
+        engineLever.onEngineStateChanged += _ => UpdateDockingBayStatus();
     }
     
     public void OnSaveDataLoaded(BaseSubDataClass saveData)
@@ -73,5 +75,12 @@ public class ProtoFinsManager : MonoBehaviour, ISaveDataListener
         {
             crushDamage.SetExtraCrushDepth(installedFinCount * depthIncreasePerFin);
         }
+
+        UpdateDockingBayStatus();
+    }
+
+    public void UpdateDockingBayStatus()
+    {
+        dockingBay.SetActive(installedFinCount >= 2 && motorMode.engineOn);
     }
 }

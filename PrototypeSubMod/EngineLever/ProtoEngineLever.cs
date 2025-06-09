@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 namespace PrototypeSubMod.EngineLever;
@@ -10,6 +11,8 @@ internal class ProtoEngineLever : CinematicModeTriggerBase
     private static readonly int LeverEnabled = Animator.StringToHash("LeverEnabled");
     private static readonly int EnabledFromSave = Animator.StringToHash("EnabledFromSave");
 
+    public event Action<bool> onEngineStateChanged; 
+    
     [SerializeField] private SubRoot subRoot;
     [SerializeField] private CyclopsMotorMode motorMode;
     [SerializeField] private EmissiveIntensityPingPong emissivePingPong;
@@ -98,6 +101,15 @@ internal class ProtoEngineLever : CinematicModeTriggerBase
         ensureAnimFinished = true;
         
         UWE.CoroutineHost.StartCoroutine(motorMode.ChangeEngineState(!motorMode.engineOn));
+        UWE.CoroutineHost.StartCoroutine(TriggerEventDelayed());
+    }
+
+    private IEnumerator TriggerEventDelayed()
+    {
+        yield return new WaitForEndOfFrame();
+        yield return new WaitForEndOfFrame();
+        
+        onEngineStateChanged?.Invoke(motorMode.engineOn);
     }
 
     private IEnumerator UpdateFinState(bool targetState)

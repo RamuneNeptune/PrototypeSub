@@ -21,7 +21,7 @@ internal class SpawnPrefabAtRuntime : MonoBehaviour, IMaterialModifier
     [SerializeField] private Vector3 localRot;
     [SerializeField] private Vector3 localScale = Vector3.one;
 
-    private void Start()
+    private void Awake()
     {
         CoroutineHost.StartCoroutine(SpawnPrefab());
     }
@@ -50,6 +50,7 @@ internal class SpawnPrefabAtRuntime : MonoBehaviour, IMaterialModifier
 
         var worldPrefab = Instantiate(spawnObj, transform, false);
         worldPrefab.SetActive(true);
+        worldPrefab.transform.SetParent(transform);
         worldPrefab.transform.localPosition = localPos;
         worldPrefab.transform.localEulerAngles = localRot;
         worldPrefab.transform.localScale = localScale;
@@ -59,6 +60,17 @@ internal class SpawnPrefabAtRuntime : MonoBehaviour, IMaterialModifier
         {
             rend.materials = materials;
         }
+
+        if (worldPrefab.TryGetComponent(out LargeWorldEntity lwe))
+        {
+            DestroyImmediate(lwe);
+        }
+        
+        if (worldPrefab.TryGetComponent(out PrefabIdentifier identifier))
+        {
+            DestroyImmediate(identifier);
+        }
+
 
         var applier = skyApplier ?? GetComponentInParent<SkyApplier>();
         if (applier)
