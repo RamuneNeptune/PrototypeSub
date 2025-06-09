@@ -22,7 +22,7 @@ internal class PrecursorFabricator
 
     public static void Register()
     {
-        prefabInfo = PrefabInfo.WithTechType("PrecursorFabricator");
+        prefabInfo = PrefabInfo.WithTechType("ProtoPrecursorFabricator");
 
         prefab = new CustomPrefab(prefabInfo);
 
