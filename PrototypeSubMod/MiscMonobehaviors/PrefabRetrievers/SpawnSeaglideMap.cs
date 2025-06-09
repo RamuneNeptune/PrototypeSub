@@ -1,4 +1,5 @@
-﻿using PrototypeSubMod.Utility;
+﻿using System;
+using PrototypeSubMod.Utility;
 using System.Collections;
 using UnityEngine;
 
@@ -14,7 +15,8 @@ internal class SpawnSeaglideMap : MonoBehaviour
     [SerializeField] private float mapScale = 1f;
     [SerializeField] private float fadeRadius = 0.6f;
     [SerializeField] private float fadeSharpness = 5f;
-
+    [SerializeField] private Vector3 globalOffset;
+    
     private MiniWorld miniWorld;
 
     private void Start()
@@ -47,6 +49,18 @@ internal class SpawnSeaglideMap : MonoBehaviour
         miniWorld.materialInstance.SetColor(ShaderPropertyID._Color, mapColor);
         miniWorld.mapColor = mapColor;
         miniWorld.mapColorNoAlpha = new Color(mapColor.r, mapColor.g, mapColor.b, 0);
+        
+        var miniWorldHolder = miniWorld.transform.Find("HologramHolder");
+        miniWorldHolder.SetParent(transform, false);
+    }
+
+    private void Update()
+    {
+        if (!miniWorld) return;
+
+        if (!miniWorld.hologramHolder) return;
+        
+        miniWorld.hologramHolder.position = transform.position + globalOffset;
     }
 
     private void SpawnMap()
