@@ -7,7 +7,12 @@ namespace PrototypeSubMod.MiscMonobehaviors;
 
 internal class CyclopsReferenceCaller : MonoBehaviour
 {
-    private IEnumerator Start()
+    private void Start()
+    {
+        UWE.CoroutineHost.StartCoroutine(CallReferences());
+    }
+
+    private IEnumerator CallReferences()
     {
         yield return CyclopsReferenceHandler.EnsureCyclopsReference();
         yield return new WaitForEndOfFrame();
