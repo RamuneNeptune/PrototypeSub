@@ -2,6 +2,7 @@
 using PrototypeSubMod.Prefabs.AlienBuildingBlock;
 using PrototypeSubMod.Prefabs.FacilityProps;
 using PrototypeSubMod.Prefabs.FacilityProps.Hull;
+using PrototypeSubMod.Prefabs.PhaseGates;
 using PrototypeSubMod.Prefabs.WormSpawns;
 using UnityEngine;
 
@@ -43,6 +44,7 @@ internal static class PrefabRegisterer
         ProtoFacilitySpawner.Register("ProtoEngineFacilitySpawner", "EngineFacilitySpawner");
         
         PrecursorFabricator.Register();
+        PrecursorPhaseGate.Register();
 
         WatergateBlock.Register();
         ProtoPlaque_World.Register();
