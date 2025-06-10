@@ -22,6 +22,12 @@ internal class MoonpoolOccupiedHandler : MonoBehaviour, IProtoTreeEventListener
 
     private Bounds checkBounds;
     private bool occupiedLastCheck;
+    private bool initialized;
+
+    private void Start()
+    {
+        UWE.CoroutineHost.StartCoroutine(Initialize());
+    }
     
     public void CheckForSub()
     {
@@ -58,6 +64,8 @@ internal class MoonpoolOccupiedHandler : MonoBehaviour, IProtoTreeEventListener
 
     private IEnumerator Initialize()
     {
+        if (initialized) yield break;
+        
         moonpoolBounds.enabled = true;
         yield return new WaitForEndOfFrame();
         checkBounds = new Bounds(moonpoolBounds.transform.position, moonpoolBounds.bounds.size);
@@ -65,5 +73,6 @@ internal class MoonpoolOccupiedHandler : MonoBehaviour, IProtoTreeEventListener
         
         CancelInvoke(nameof(CheckForSub));
         InvokeRepeating(nameof(CheckForSub), 0, 5f);
+        initialized = true;
     }
 }
