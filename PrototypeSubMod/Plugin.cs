@@ -11,7 +11,6 @@ using PrototypeSubMod.Patches;
 using PrototypeSubMod.PowerSystem;
 using PrototypeSubMod.Registration;
 using PrototypeSubMod.SaveData;
-using PrototypeSubMod.Upgrades;
 using PrototypeSubMod.Utility;
 using SubLibrary.Audio;
 using System.Collections;

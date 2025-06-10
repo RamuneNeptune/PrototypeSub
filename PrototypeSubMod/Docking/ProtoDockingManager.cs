@@ -6,6 +6,7 @@ namespace PrototypeSubMod.Docking;
 
 public class ProtoDockingManager : MonoBehaviour, IProtoEventListener, IProtoTreeEventListener
 {
+    [SerializeField] private CanvasGroup hudCanvasGroup;
     [SerializeField] private InterfloorTeleporter interfloorTeleporter;
     [SerializeField] private VehicleDockingBay dockingBay;
     [SerializeField] private IgnoreCinematicStart ignoreCinematicStart;
@@ -80,9 +81,16 @@ public class ProtoDockingManager : MonoBehaviour, IProtoEventListener, IProtoTre
     {
         FMODUWE.PlayOneShot(interfloorTeleporter.GetFMODAsset(), transform.position, 0.25f);
         InterfloorTeleporter.PlayTeleportEffect(0.2f);
-
+        
         yield return new WaitForSeconds(0.1f);
 
+        var chair = Player.main.currChair;
+        if (chair)
+        {
+            UndockSkipCinematic();
+        }
+
+        hudCanvasGroup.alpha = 0;
         var vehicle = vehicleHolder.GetChild(0).gameObject;
         dockingBay.OnUndockingComplete(Player.main);
         vehicle.SetActive(true);
@@ -93,9 +101,33 @@ public class ProtoDockingManager : MonoBehaviour, IProtoEventListener, IProtoTre
         if (vehicle.GetComponent<Vehicle>().controlSheme == Vehicle.ControlSheme.Mech) yield break;
         
         yield return new WaitForSeconds(0.2f);
+
+        if (chair)
+        {
+            chair.releaseCinematicController.animator.SetBool(chair.releaseCinematicController.animParam, false);
+        }
         
         rb.AddForce((rb.transform.forward - rb.transform.up) * 10f, ForceMode.VelocityChange);
-        rb.AddTorque(rb.transform.right * 2, ForceMode.VelocityChange);
+    }
+
+    private void UndockSkipCinematic()
+    {
+        GameInput.ClearInput();
+        var player = Player.main;
+        player.transform.parent = null;
+        MainCameraControl.main.lookAroundMode = false;
+        var chair = player.currChair;
+        chair.Subscribe(player, false);
+        chair.currentPlayer = null;
+        chair.releaseCinematicController.SkipCinematic(player);
+        chair.releaseCinematicController.animator.SetBool(chair.releaseCinematicController.animParam, true);
+        Player.main.armsController.SetWorldIKTarget(null, null);
+        UWE.Utils.GetEntityRoot(chair.gameObject).BroadcastMessage("StopPiloting");
+
+        player.currentSub.GetComponent<SubControl>().Set(SubControl.Mode.GameObjects);
+        player.mode = Player.Mode.Normal;
+        player.currChair = null;
+        player.playerModeChanged.Trigger(player.mode);
     }
 
     public void OnProtoSerializeObjectTree(ProtobufSerializer serializer) { }
