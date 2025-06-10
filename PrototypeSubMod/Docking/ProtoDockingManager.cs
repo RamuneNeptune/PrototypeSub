@@ -45,7 +45,7 @@ public class ProtoDockingManager : MonoBehaviour, IProtoEventListener, IProtoTre
     
     public void TeleportIntoSub()
     {
-        if (dockingBay.dockedVehicle == Player.main.currentMountedVehicle)
+        if (dockingBay.nearbyVehicle == Player.main.GetVehicle())
         {
             interfloorTeleporter.StartTeleportPlayer();
         }
