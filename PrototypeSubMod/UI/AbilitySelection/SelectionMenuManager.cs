@@ -79,7 +79,7 @@ internal class SelectionMenuManager : MonoBehaviour, IUIElement
         }
     }
 
-    private void RefreshIcons()
+    public void RefreshIcons()
     {
         var selectedIcon = tetherManager.GetSelectedIcon();
         if (selectedIcon && !selectedIcon.GetAbility().GetShouldShow())
