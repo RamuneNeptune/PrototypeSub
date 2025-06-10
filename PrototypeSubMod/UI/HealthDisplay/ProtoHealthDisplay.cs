@@ -1,4 +1,5 @@
-﻿using PrototypeSubMod.RepairBots;
+﻿using System;
+using PrototypeSubMod.RepairBots;
 using PrototypeSubMod.UI.ProceduralArcGenerator;
 using SubLibrary.UI;
 using UnityEngine;
@@ -18,7 +19,9 @@ public class ProtoHealthDisplay : MonoBehaviour, IOnTakeDamage, IUIElement
     
     private void Start()
     {
-        repairPointManager.onRepairPointRepaired += _ => UpdateHealth();
+        liveMixin.onHealDamage.AddHandler(gameObject, (_) => UpdateHealth());
+        liveMixin.onHealTempDamage.AddHandler(gameObject, (_) => UpdateHealth());
+        
         UpdateHealth();
     }
 
@@ -59,5 +62,11 @@ public class ProtoHealthDisplay : MonoBehaviour, IOnTakeDamage, IUIElement
     {
         lowHealthArcGenerator.gameObject.SetActive(false);
         subDead = true;
+    }
+
+    private void OnDestroy()
+    {
+        liveMixin.onHealDamage.RemoveHandler(gameObject);
+        liveMixin.onHealTempDamage.RemoveHandler(gameObject);
     }
 }
