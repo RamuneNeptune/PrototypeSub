@@ -17,7 +17,7 @@ internal static class StructureRegisterer
         int entityCount = 0;
         StructureLoading.RegisterStructure(LoadStructureFromBundle("DefenseChamber"), ref entityCount);
         StructureLoading.RegisterStructure(LoadStructureFromBundle("DefenseTunnel"), ref entityCount);
-        //StructureLoading.RegisterStructure(LoadStructureFromBundle("EngineFacility"), ref entityCount);
+        StructureLoading.RegisterStructure(LoadStructureFromBundle("EngineFacilityObjects"), ref entityCount);
         StructureLoading.RegisterStructure(LoadStructureFromBundle("DefenseMoonpool"), ref entityCount);
         StructureLoading.RegisterStructure(LoadStructureFromBundle("ProtoItemDisplayCases"), ref entityCount);
         StructureLoading.RegisterStructure(LoadStructureFromBundle("ProtoIslands"), ref entityCount);
