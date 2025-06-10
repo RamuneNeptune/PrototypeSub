@@ -31,4 +31,11 @@ internal static class PrototypeCommands
         WormSpawnEvent.ResetSpawnTimer();
         return string.Empty;
     }
+
+    [ConsoleCommand("protoscreenshot")]
+    public static string Screenshot(string path, int superSize)
+    {
+        ScreenCapture.CaptureScreenshot(path, superSize);
+        return string.Empty;
+    }
 }
