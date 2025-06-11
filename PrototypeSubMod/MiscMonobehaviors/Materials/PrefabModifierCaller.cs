@@ -5,7 +5,7 @@ namespace PrototypeSubMod.MiscMonobehaviors.Materials;
 
 public class PrefabModifierCaller : MonoBehaviour
 {
-    private void Start()
+    private void Awake()
     {
         foreach (var modifier in gameObject.GetComponentsInChildren<PrefabModifier>(true))
         {

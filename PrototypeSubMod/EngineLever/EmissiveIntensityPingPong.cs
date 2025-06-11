@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using Nautilus.Utility;
+using UnityEngine;
 
 namespace PrototypeSubMod.EngineLever;
 
@@ -19,6 +21,14 @@ internal class EmissiveIntensityPingPong : MonoBehaviour
 
     private void Start()
     {
+        UWE.CoroutineHost.StartCoroutine(Initialize());
+    }
+
+    private IEnumerator Initialize()
+    {
+        yield return new WaitUntil(() => renderers[0].material.shader == MaterialUtils.Shaders.MarmosetUBER);
+        yield return new WaitForEndOfFrame();
+        
         glowColors = new Color[renderers.Length];
         for (int i = 0; i < renderers.Length; i++)
         {

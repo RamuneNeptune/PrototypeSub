@@ -18,7 +18,12 @@ public class ProtoChargeDisplay : MonoBehaviour, IUIElement
 
     private int chargesLastCheck;
     
-    private IEnumerator Start()
+    private void Start()
+    {
+        UWE.CoroutineHost.StartCoroutine(Initialize());
+    }
+
+    private IEnumerator Initialize()
     {
         yield return new WaitForEndOfFrame();
         

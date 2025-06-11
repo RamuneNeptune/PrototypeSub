@@ -30,7 +30,12 @@ internal class ProtoTeleporterManager : ProtoUpgrade
         if (!teleporter) TryGetComponent(out teleporter);
     }
 
-    private IEnumerator Start()
+    private void Start()
+    {
+        UWE.CoroutineHost.StartCoroutine(Initialize());
+    }
+
+    private IEnumerator Initialize()
     {
         PrecursorTeleporter.TeleportEventEnd += OnTeleportEnd;
         TeleporterManager.main.activeTeleporters.Remove("prototypetp");

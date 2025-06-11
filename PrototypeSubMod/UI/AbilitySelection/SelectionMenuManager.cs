@@ -42,7 +42,12 @@ internal class SelectionMenuManager : MonoBehaviour, IUIElement
         }
     }
 
-    private IEnumerator Start()
+    private void Start()
+    {
+        UWE.CoroutineHost.StartCoroutine(Initialize());
+    }
+
+    private IEnumerator Initialize()
     {
         AssignIcons();
         RefreshIcons();

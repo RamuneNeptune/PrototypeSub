@@ -109,6 +109,9 @@ public class PrototypePowerBattery : MonoBehaviour, IBattery, IProtoTreeEventLis
 
         if (charge <= 0)
         {
+            Plugin.Logger.LogInfo($"Inventory item = {InventoryItem}");
+            Plugin.Logger.LogInfo($"Container = {InventoryItem?.container}");
+            
             InventoryItem.container.RemoveItem(InventoryItem, true, false);
             Destroy(gameObject);
         }

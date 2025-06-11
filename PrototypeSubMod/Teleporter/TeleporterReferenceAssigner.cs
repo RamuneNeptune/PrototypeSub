@@ -18,7 +18,12 @@ internal class TeleporterReferenceAssigner : MonoBehaviour
         if (TryGetComponent(out PrecursorTeleporter tp)) teleporter = tp;
     }
 
-    private IEnumerator Start()
+    private void Start()
+    {
+        UWE.CoroutineHost.StartCoroutine(Initialize());
+    }
+
+    private IEnumerator Initialize()
     {
         var operation = Addressables.LoadAssetAsync<GameObject>(TeleporterPrefabKey);
 

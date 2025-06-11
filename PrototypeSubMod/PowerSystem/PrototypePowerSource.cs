@@ -205,6 +205,8 @@ public class PrototypePowerSource : MonoBehaviour, IPowerInterface, ISaveDataLis
 
     public IEnumerator SpawnDefaultBattery()
     {
+        if (this.battery) yield break;
+        
         CoroutineTask<GameObject> prefabTask = CraftData.GetPrefabForTechTypeAsync(defaultBattery);
 
         yield return prefabTask;
@@ -221,7 +223,8 @@ public class PrototypePowerSource : MonoBehaviour, IPowerInterface, ISaveDataLis
         string slot = PrototypePowerSystem.SLOT_NAMES[transform.GetSiblingIndex()];
 
         powerSystem.equipment.AddItem(slot, battery.InventoryItem);
-
+        battery.InventoryItem.container = powerSystem.equipment;
+        
         powerSourceData.defaultBatteryCreated = true;
     }
 

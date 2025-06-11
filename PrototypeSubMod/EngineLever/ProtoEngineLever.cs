@@ -33,7 +33,12 @@ internal class ProtoEngineLever : CinematicModeTriggerBase
     private bool ensureAnimFinished;
     private bool locked;
 
-    private IEnumerator Start()
+    private void Start()
+    {
+        UWE.CoroutineHost.StartCoroutine(Initialize());
+    }
+
+    private IEnumerator Initialize()
     {
         cinematicController.animator = Player.main.playerAnimator;
         leftFinAnimators = leftFinsParent.GetComponentsInChildren<Animator>(true);

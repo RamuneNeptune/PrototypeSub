@@ -19,7 +19,12 @@ public class ProtoSourceDisplay : MonoBehaviour
     private readonly List<ProtoChargeIcon> activeSourceIcons = new();
     private int sourcesLastCheck;
     
-    private IEnumerator Start()
+    private void Start()
+    {
+        UWE.CoroutineHost.StartCoroutine(Initialize());
+    }
+
+    private IEnumerator Initialize()
     {
         powerSystem.equipment.onAddItem += _ => RegenerateSources();
         powerSystem.onReorderSources += RegenerateSources;

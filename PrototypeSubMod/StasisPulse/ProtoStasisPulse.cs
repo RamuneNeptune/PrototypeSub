@@ -42,7 +42,12 @@ internal class ProtoStasisPulse : ProtoUpgrade
     private Collider[] latestColliders;
     private LayerMask freezeMask;
 
-    private IEnumerator Start()
+    private void Start()
+    {
+        UWE.CoroutineHost.StartCoroutine(Initialize());
+    }
+
+    private IEnumerator Initialize()
     {
         latestColliders = new Collider[1500];
         freezeMask = int.MaxValue;
