@@ -109,9 +109,6 @@ public class PrototypePowerBattery : MonoBehaviour, IBattery, IProtoTreeEventLis
 
         if (charge <= 0)
         {
-            Plugin.Logger.LogInfo($"Inventory item = {InventoryItem}");
-            Plugin.Logger.LogInfo($"Container = {InventoryItem?.container}");
-            
             InventoryItem.container.RemoveItem(InventoryItem, true, false);
             Destroy(gameObject);
         }
@@ -161,6 +158,8 @@ public class PrototypePowerBattery : MonoBehaviour, IBattery, IProtoTreeEventLis
     {
         if (connectedBattery != null) return;
 
+        if (!prefabIdentifier) prefabIdentifier = GetComponent<PrefabIdentifier>();
+        
         var data = Plugin.GlobalSaveData;
         if (!data.normalizedBatteryCharges.ContainsKey(prefabIdentifier.Id))
         {
