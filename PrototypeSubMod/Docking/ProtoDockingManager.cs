@@ -62,7 +62,8 @@ public class ProtoDockingManager : MonoBehaviour, IProtoEventListener, IProtoTre
         
         dockingBay.dockedVehicle.transform.SetParent(vehicleHolder);
         dockingBay.dockedVehicle.gameObject.SetActive(false);
-
+        dockingBay.subRoot.voiceNotificationManager.TryPlayNext();
+        
         onDockedStatusChanged?.Invoke();
     }
 
