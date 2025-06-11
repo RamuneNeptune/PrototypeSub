@@ -22,13 +22,7 @@ internal class ProtoStasisPulse : ProtoUpgrade
     [SerializeField] private float maxFreezeTime;
     [SerializeField] private Renderer sphereVisual;
 
-    private float CurrentDiameter
-    {
-        get
-        {
-            return sphereRadius.Evaluate(currentSphereGrowTimeTime / sphereGrowTime);
-        }
-    }
+    private float CurrentDiameter => sphereRadius.Evaluate(currentSphereGrowTimeTime / sphereGrowTime);
 
     private List<FlashingLightHelpers.ShaderVector4ScalerToken> textureSpeedTokens;
     private GameObject freezeFX;
@@ -44,11 +38,6 @@ internal class ProtoStasisPulse : ProtoUpgrade
 
     private void Start()
     {
-        UWE.CoroutineHost.StartCoroutine(Initialize());
-    }
-
-    private IEnumerator Initialize()
-    {
         latestColliders = new Collider[1500];
         freezeMask = int.MaxValue;
         freezeMask &= ~(1 << LayerID.Vehicle); // Remove Vehicle layer from mask
@@ -56,6 +45,18 @@ internal class ProtoStasisPulse : ProtoUpgrade
         freezeMask &= ~(1 << LayerID.Player);
         freezeMask &= ~(1 << LayerID.UI);
         freezeMask &= ~(1 << LayerID.OnlyVehicle);
+    }
+    
+    private void OnEnable()
+    {
+        UWE.CoroutineHost.StartCoroutine(Initialize());
+    }
+
+    private IEnumerator Initialize()
+    {
+        subRoot = GetComponentInParent<SubRoot>();
+        
+        if (freezeFX) yield break;
         
         var rifleTask = CraftData.GetPrefabForTechTypeAsync(TechType.StasisRifle);
         yield return rifleTask;
@@ -87,8 +88,6 @@ internal class ProtoStasisPulse : ProtoUpgrade
 
         currentSphereGrowTimeTime = sphereGrowTime;
         sphereVisual.enabled = false;
-
-        subRoot = GetComponentInParent<SubRoot>();
     }
 
     private void LateUpdate()

@@ -14,7 +14,12 @@ internal class SpawnLightsOverTime : MonoBehaviour
 
     private float currentSpawnTimer;
 
-    private IEnumerator Start()
+    private void OnEnable()
+    {
+        UWE.CoroutineHost.StartCoroutine(Initialize());
+    }
+
+    private IEnumerator Initialize()
     {
         if (DeployableLightPrefab != null) yield break;
 

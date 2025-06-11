@@ -32,18 +32,8 @@ internal class ProtoTeleporterManager : ProtoUpgrade
 
     private void Start()
     {
-        UWE.CoroutineHost.StartCoroutine(Initialize());
-    }
-
-    private IEnumerator Initialize()
-    {
         PrecursorTeleporter.TeleportEventEnd += OnTeleportEnd;
         TeleporterManager.main.activeTeleporters.Remove("prototypetp");
-
-        for (int i = 0; i < 2; i++)
-        {
-            yield return new WaitForEndOfFrame();
-        }
 
         activeLoopSound.Stop();
     }
