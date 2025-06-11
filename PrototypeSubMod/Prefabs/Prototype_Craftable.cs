@@ -53,12 +53,6 @@ internal class Prototype_Craftable
 
     public static IEnumerator SetupProtoGameObject(GameObject go)
     {
-        foreach (var modifier in go.GetComponentsInChildren<PrefabModifier>(true))
-        {
-            modifier.OnAsyncPrefabTasksCompleted();
-            modifier.OnLateMaterialOperation();
-        }
-
         go.GetComponent<PingInstance>().pingType = Plugin.PrototypePingType;
         go.GetComponent<TechTag>().type = SubInfo.TechType;
         go.GetComponent<PrefabIdentifier>().classId = SubInfo.ClassID;
