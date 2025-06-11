@@ -65,10 +65,14 @@ internal class ProtoOverclockModule : ProtoUpgrade
             currentHullBreachTime -= Time.deltaTime;
         }
 
+        if (GameModeUtils.IsInvisible()) return;
+
         if (currentHullBreachTime < hullBreachMinActiveTime)
         {
             return;
         }
+
+        if (damageManager.unusedDamagePoints.Count == 0) return;
 
         if (currentTimeBetweenBreaches <= 0 && couldConsume)
         {
