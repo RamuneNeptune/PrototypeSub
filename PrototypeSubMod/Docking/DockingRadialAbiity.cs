@@ -20,6 +20,8 @@ internal class DockingRadialAbility : ProtoUpgrade
 
             selectionMenuManager.RefreshIcons();
         };
+
+        dockingManager.onDockedStatusChanged += selectionMenuManager.RefreshIcons;
     }
     
     public override bool OnActivated()
@@ -31,7 +33,7 @@ internal class DockingRadialAbility : ProtoUpgrade
     public override void OnSelectedChanged(bool changed) { }
     public override bool GetShouldShow()
     {
-        return finsManager.GetInstalledFinCount() >= 2;
+        return finsManager.GetInstalledFinCount() >= 2 && dockingManager.GetDockingBay().dockedVehicle;
     }
 
     public override TechType GetTechType() => TechType.None;

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using PrototypeSubMod.MiscMonobehaviors.SubSystems;
 using UnityEngine;
 
@@ -6,6 +7,8 @@ namespace PrototypeSubMod.Docking;
 
 public class ProtoDockingManager : MonoBehaviour, IProtoEventListener, IProtoTreeEventListener
 {
+    public event Action onDockedStatusChanged;
+    
     [SerializeField] private CanvasGroup hudCanvasGroup;
     [SerializeField] private InterfloorTeleporter interfloorTeleporter;
     [SerializeField] private VehicleDockingBay dockingBay;
@@ -59,6 +62,8 @@ public class ProtoDockingManager : MonoBehaviour, IProtoEventListener, IProtoTre
         
         dockingBay.dockedVehicle.transform.SetParent(vehicleHolder);
         dockingBay.dockedVehicle.gameObject.SetActive(false);
+
+        onDockedStatusChanged?.Invoke();
     }
 
     public void Undock()
@@ -79,6 +84,8 @@ public class ProtoDockingManager : MonoBehaviour, IProtoEventListener, IProtoTre
     
     private IEnumerator UndockDelayed()
     {
+        if (!dockingBay.dockedVehicle) yield break;
+        
         FMODUWE.PlayOneShot(interfloorTeleporter.GetFMODAsset(), transform.position, 0.25f);
         InterfloorTeleporter.PlayTeleportEffect(0.2f);
         
@@ -94,6 +101,8 @@ public class ProtoDockingManager : MonoBehaviour, IProtoEventListener, IProtoTre
         var vehicle = vehicleHolder.GetChild(0).gameObject;
         dockingBay.OnUndockingComplete(Player.main);
         vehicle.SetActive(true);
+        
+        onDockedStatusChanged?.Invoke();
         
         var rb = vehicle.GetComponent<Rigidbody>();
         if (!rb) yield break;
@@ -143,4 +152,6 @@ public class ProtoDockingManager : MonoBehaviour, IProtoEventListener, IProtoTre
     {
         ignoreCinematicStart.enabled = true;
     }
+    
+    public VehicleDockingBay GetDockingBay() => dockingBay;
 }
