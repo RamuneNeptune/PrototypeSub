@@ -74,6 +74,11 @@ public class TetherManager : MonoBehaviour, IUIElement
     {
         if (Time.time - 0.01f <= timeOpened) return;
 
+        if (selectedIcon == null)
+        {
+            GetComponentInParent<SelectionMenuManager>().SelectDefaultIcon();
+        }
+        
         HandleActivation();
 
         if (!menuOpen) return;

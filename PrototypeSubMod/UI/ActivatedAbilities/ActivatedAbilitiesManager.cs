@@ -22,6 +22,8 @@ internal class ActivatedAbilitiesManager : MonoBehaviour
 
     public void OnAbilitySelectedChanged(IAbilityIcon icon)
     {
+        if (icon == null) return;
+        
         if (icon.GetActive() && !activeAbilities.ContainsKey(icon))
         {
             var newIcon = CreateNewIcon(icon);

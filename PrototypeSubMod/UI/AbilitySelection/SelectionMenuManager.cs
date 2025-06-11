@@ -52,6 +52,11 @@ internal class SelectionMenuManager : MonoBehaviour, IUIElement
         yield return new WaitForEndOfFrame();
         
         chair = tetherManager.GetPilotingChair();
+        SelectDefaultIcon();
+    }
+
+    public void SelectDefaultIcon()
+    {
         var defaultIcon = distributor.GetIconAtIndex(defaultAbilityIndex).GetComponent<RadialIcon>();
         tetherManager.SelectIcon(defaultIcon, true, false);
         tetherManager.onAbilityActivatedChanged?.Invoke(defaultIcon.GetAbility());
