@@ -101,21 +101,24 @@ public class ProtoDockingManager : MonoBehaviour, IProtoEventListener, IProtoTre
         var vehicle = vehicleHolder.GetChild(0).gameObject;
         dockingBay.OnUndockingComplete(Player.main);
         vehicle.SetActive(true);
+        var vehicleComp = vehicle.GetComponent<Vehicle>();
+        vehicleComp.UpdateCollidersForDocking(true);
         
         onDockedStatusChanged?.Invoke();
         
-        var rb = vehicle.GetComponent<Rigidbody>();
-        if (!rb) yield break;
-        
-        if (vehicle.GetComponent<Vehicle>().controlSheme == Vehicle.ControlSheme.Mech) yield break;
-        
         yield return new WaitForSeconds(0.2f);
-
+        vehicleComp.UpdateCollidersForDocking(false);
+        
+        if (vehicleComp.controlSheme == Vehicle.ControlSheme.Mech) yield break;
+        
+        if (!vehicleComp.useRigidbody) yield break;
+        
         if (chair)
         {
             chair.releaseCinematicController.animator.SetBool(chair.releaseCinematicController.animParam, false);
         }
-        
+
+        var rb = vehicleComp.useRigidbody;
         rb.AddForce((rb.transform.forward - rb.transform.up) * 10f, ForceMode.VelocityChange);
     }
 
