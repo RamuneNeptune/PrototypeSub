@@ -8,13 +8,6 @@ namespace PrototypeSubMod.Patches;
 [HarmonyPatch(typeof(Warper))]
 public class WarperPatch
 {
-
-    [HarmonyPatch(nameof(Warper.WarpIn))]
-    [HarmonyPostfix]
-    public static void WarpIn_Postfix(Warper __instance)
-    {
-        RollBuildingBlockSpawnChance(__instance.transform.position);
-    }
     
     [HarmonyPatch(nameof(Warper.EndWarpOut))]
     [HarmonyPrefix]
@@ -25,7 +18,7 @@ public class WarperPatch
 
     private static void RollBuildingBlockSpawnChance(Vector3 spawnPos)
     {
-        if (Random.Range(0, 5) == 4)
+        if (Random.Range(0, 5f) > 2.5f)
         {
             CoroutineHost.StartCoroutine(WarperRemnant.TrySpawnBiome(spawnPos,
                 LargeWorld.main.GetBiome(spawnPos)));
