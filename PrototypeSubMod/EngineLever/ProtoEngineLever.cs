@@ -32,9 +32,17 @@ internal class ProtoEngineLever : CinematicModeTriggerBase
     private Animator[] rightFinAnimators;
     private bool ensureAnimFinished;
     private bool locked;
+    private bool initialized;
 
-    private IEnumerator Start()
+    private void OnEnable()
     {
+        UWE.CoroutineHost.StartCoroutine(Initialize());
+    }
+
+    private IEnumerator Initialize()
+    {
+        if (initialized) yield break;
+        
         cinematicController.animator = Player.main.playerAnimator;
         leftFinAnimators = leftFinsParent.GetComponentsInChildren<Animator>(true);
         rightFinAnimators = rightFinsParent.GetComponentsInChildren<Animator>(true);
@@ -49,6 +57,7 @@ internal class ProtoEngineLever : CinematicModeTriggerBase
         yield return new WaitForEndOfFrame();
 
         emissivePingPong.SetActive(motorMode.engineOn);
+        initialized = true;
     }
 
     public override void OnHandHover(GUIHand hand)

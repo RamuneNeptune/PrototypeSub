@@ -19,7 +19,12 @@ internal class SpawnRepairBot : MonoBehaviour
 
     [SerializeField] private PathRequestManager requestManager;
 
-    private IEnumerator Start()
+    private void Start()
+    {
+        UWE.CoroutineHost.StartCoroutine(RetrieveBotPrefab());
+    }
+
+    private IEnumerator RetrieveBotPrefab()
     {
         if (botPrefab != null)
         {

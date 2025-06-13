@@ -84,5 +84,7 @@ internal class SpawnSeaglideMap : MonoBehaviour
         miniWorld.hologramRadius = mapScale * 150f / 10f;
         miniWorld.fadeRadius = fadeRadius;
         miniWorld.fadeSharpness = fadeSharpness;
+        
+        miniWorld.DisableMap();
     }
 }

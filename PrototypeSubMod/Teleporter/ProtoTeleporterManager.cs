@@ -30,15 +30,10 @@ internal class ProtoTeleporterManager : ProtoUpgrade
         if (!teleporter) TryGetComponent(out teleporter);
     }
 
-    private IEnumerator Start()
+    private void Start()
     {
         PrecursorTeleporter.TeleportEventEnd += OnTeleportEnd;
         TeleporterManager.main.activeTeleporters.Remove("prototypetp");
-
-        for (int i = 0; i < 2; i++)
-        {
-            yield return new WaitForEndOfFrame();
-        }
 
         activeLoopSound.Stop();
     }

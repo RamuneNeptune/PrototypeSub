@@ -13,7 +13,12 @@ internal class LightColorHandler : MonoBehaviour
     private Color[] targetColors;
     private bool usingTempColors;
 
-    private IEnumerator Start()
+    private void Start()
+    {
+        UWE.CoroutineHost.StartCoroutine(Initialize());
+    }
+
+    private IEnumerator Initialize()
     {
         yield return new WaitForEndOfFrame();
         yield return new WaitForEndOfFrame();

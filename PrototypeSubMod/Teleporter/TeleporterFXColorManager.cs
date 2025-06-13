@@ -16,7 +16,12 @@ internal class TeleporterFXColorManager : MonoBehaviour
 
     private Dictionary<Component, TempColor> tempColors = new();
 
-    private IEnumerator Start()
+    private void Start()
+    {
+        UWE.CoroutineHost.StartCoroutine(Initialize());
+    }
+
+    private IEnumerator Initialize()
     {
         yield return new WaitUntil(() => fxParent.childCount > 0);
         yield return new WaitForEndOfFrame();

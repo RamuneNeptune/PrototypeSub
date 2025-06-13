@@ -81,10 +81,7 @@ public class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTree
         equipment.AddSlots(SLOT_NAMES);
 
         equipment.isAllowedToAdd = IsAllowedToAdd;
-        equipment.isAllowedToRemove = (p, v) =>
-        {
-            return true;
-        };
+        equipment.isAllowedToRemove = (p, v) => true;
         
         foreach (var relay in powerRelays)
         {
@@ -142,6 +139,8 @@ public class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTree
 
     public void OnProtoDeserializeObjectTree(ProtobufSerializer serializer)
     {
+        Initialize();
+        
         var data = serializationManager.saveData.EnsureAsPrototypeData();
         if (data.serializedPowerEquipment != null)
         {

@@ -30,7 +30,7 @@ internal class ProtoRepairBot : PathfindingObject
     private bool repairing;
     private bool vfxEnabled;
 
-    private void Start()
+    private void Awake()
     {
         UWE.CoroutineHost.StartCoroutine(Initialize());
     }

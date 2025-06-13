@@ -12,7 +12,12 @@ internal class ExternalDestructionSequence : DestructionSequence
 
     private GameObject warpOutFX;
 
-    private IEnumerator Start()
+    private void Start()
+    {
+        UWE.CoroutineHost.StartCoroutine(Initialize());
+    }
+
+    private IEnumerator Initialize()
     {
         var task = CraftData.GetPrefabForTechTypeAsync(TechType.Warper);
         yield return task;

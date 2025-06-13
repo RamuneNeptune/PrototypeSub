@@ -27,7 +27,7 @@ public class TeleporterMapManager : MonoBehaviour
         
         float normalizedProgress = currentTransitionDuration / transitionDuration;
         float surfaceAlpha = targetingSurface ? normalizedProgress : 1 - normalizedProgress;
-        float depthsAlpha =  targetingSurface ? 1 - normalizedProgress : normalizedProgress;
+        float depthsAlpha =  1 - surfaceAlpha;
         surfaceGroup.alpha = surfaceAlpha;
         surfaceGroup.blocksRaycasts = targetingSurface;
         depthsGroup.alpha = depthsAlpha;

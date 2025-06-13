@@ -42,7 +42,12 @@ internal class ProtoPowerAbilitySystem : MonoBehaviour, ISaveDataListener, ILate
         Initialize();
     }
 
-    private IEnumerator Start()
+    private void Start()
+    {
+        UWE.CoroutineHost.StartCoroutine(InititalizePrefabs());
+    }
+
+    private IEnumerator InititalizePrefabs()
     {
         animator.SetBool("Activated", false);
 
