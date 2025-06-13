@@ -55,5 +55,7 @@ internal class MoonpoolOccupiedHandler : MonoBehaviour
     {
         CancelInvoke(nameof(CheckForSub));
         InvokeRepeating(nameof(CheckForSub), 0, 5f);
+
+        onHasSubChanged?.Invoke();
     }
 }

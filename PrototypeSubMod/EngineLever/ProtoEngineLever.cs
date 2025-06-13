@@ -6,7 +6,6 @@ namespace PrototypeSubMod.EngineLever;
 
 internal class ProtoEngineLever : CinematicModeTriggerBase
 {
-    private static readonly int EngineOn = Animator.StringToHash("FinsActive");
     private static readonly int PistonsActive = Animator.StringToHash("PistonsActive");
     private static readonly int LeverEnabled = Animator.StringToHash("LeverEnabled");
     private static readonly int EnabledFromSave = Animator.StringToHash("EnabledFromSave");
@@ -19,17 +18,13 @@ internal class ProtoEngineLever : CinematicModeTriggerBase
     [SerializeField] private Animator leverAnimator;
     [SerializeField] private Animator playerAnimator;
     [SerializeField] private Animator hullPistonsAnimator;
-    [SerializeField] private Transform leftFinsParent;
-    [SerializeField] private Transform rightFinsParent;
     [SerializeField] private Collider interactableCollider;
     [SerializeField] private Transform leftIKTarget;
     [SerializeField] private Transform rightIKTarget;
     [SerializeField] private FMOD_CustomEmitter startupSound;
     [SerializeField] private FMOD_CustomEmitter shutdownSound;
     [SerializeField] private VoiceNotification engineLockedNotification;
-
-    private Animator[] leftFinAnimators;
-    private Animator[] rightFinAnimators;
+    
     private bool ensureAnimFinished;
     private bool locked;
     private bool initialized;
@@ -44,9 +39,7 @@ internal class ProtoEngineLever : CinematicModeTriggerBase
         if (initialized) yield break;
         
         cinematicController.animator = Player.main.playerAnimator;
-        leftFinAnimators = leftFinsParent.GetComponentsInChildren<Animator>(true);
-        rightFinAnimators = rightFinsParent.GetComponentsInChildren<Animator>(true);
-        StartCoroutine(UpdateFinState(motorMode.engineOn));
+        onEngineStateChanged?.Invoke(motorMode.engineOn);
 
         if (motorMode.engineOn)
         {
@@ -87,7 +80,6 @@ internal class ProtoEngineLever : CinematicModeTriggerBase
 
         bool nextState = !leverAnimator.GetBool(LeverEnabled);
         leverAnimator.SetBool(LeverEnabled, nextState);
-        StartCoroutine(UpdateFinState(nextState));
         playerAnimator.SetTrigger(nextState ? "LeverDown" : "LeverUp");
         hullPistonsAnimator.SetBool(PistonsActive, nextState);
 
@@ -120,25 +112,7 @@ internal class ProtoEngineLever : CinematicModeTriggerBase
         
         onEngineStateChanged?.Invoke(motorMode.engineOn);
     }
-
-    private IEnumerator UpdateFinState(bool targetState)
-    {
-        for (int i = 0; i < leftFinAnimators.Length; i++)
-        {
-            var animL = leftFinAnimators[i];
-            var animR = rightFinAnimators[i];
-            animL.SetBool(EngineOn, targetState);
-            animR.SetBool(EngineOn, targetState);
-
-            yield return new WaitForSeconds(0.5f);
-        }
-    }
-
-    public void UpdateFins()
-    {
-        StartCoroutine(UpdateFinState(motorMode.engineOn));
-    }
-
+    
     private void Update()
     {
         if (ensureAnimFinished)
