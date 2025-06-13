@@ -60,7 +60,7 @@ Transform:
   m_LocalScale: {x: 100, y: 99.99999, z: 99.99999}
   m_Children: []
   m_Father: {fileID: 7293435153706849868}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &3066801195047127098
 SkinnedMeshRenderer:
@@ -149,7 +149,6 @@ Transform:
   - {fileID: 7293435153706849868}
   - {fileID: 5934317459632730875}
   - {fileID: 5934317459602180574}
-  - {fileID: 5934317460233210728}
   - {fileID: 5934317459254623259}
   m_Father: {fileID: 5934317458597489689}
   m_RootOrder: 0
@@ -459,7 +458,7 @@ Transform:
   m_LocalScale: {x: 100, y: 99.99999, z: 99.99999}
   m_Children: []
   m_Father: {fileID: 7293435153706849868}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &1080604267738590738
 SkinnedMeshRenderer:
@@ -614,7 +613,7 @@ Transform:
   - {fileID: 5984148857574025555}
   - {fileID: 2547790097456229980}
   m_Father: {fileID: 7293435153706849868}
-  m_RootOrder: 12
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4121306776407774533
 GameObject:
@@ -689,7 +688,7 @@ Transform:
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children: []
   m_Father: {fileID: 7293435153706849868}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &7059442745587251369
 SkinnedMeshRenderer:
@@ -777,7 +776,7 @@ Transform:
   m_LocalScale: {x: 99.99999, y: 99.99999, z: 100}
   m_Children: []
   m_Father: {fileID: 7293435153706849868}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &6222151593622552996
 SkinnedMeshRenderer:
@@ -895,7 +894,7 @@ Transform:
   m_LocalScale: {x: 100, y: 99.99999, z: 99.99999}
   m_Children: []
   m_Father: {fileID: 7293435153706849868}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &8735985550774160047
 SkinnedMeshRenderer:
@@ -985,7 +984,7 @@ Transform:
   - {fileID: 4360452838120511432}
   - {fileID: 2330947690411360855}
   m_Father: {fileID: 7293435153706849868}
-  m_RootOrder: 13
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 45.000004, y: -180.00002, z: 0}
 --- !u!1 &5653677944632232886
 GameObject:
@@ -1046,7 +1045,7 @@ Transform:
   m_LocalScale: {x: 6.0353904, y: 6.03539, z: 6.03539}
   m_Children: []
   m_Father: {fileID: 7293435153706849868}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &555148056347100159
 SkinnedMeshRenderer:
@@ -1854,7 +1853,7 @@ Transform:
   - {fileID: 5934317459441200489}
   - {fileID: 5934317459219728817}
   m_Father: {fileID: 1511087500970972347}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5934317459386976886
 GameObject:
@@ -2665,7 +2664,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5934317460233210728}
-  - component: {fileID: 8060191349077482107}
+  - component: {fileID: 321472361983924140}
   m_Layer: 0
   m_Name: SoundOrigin
   m_TagString: Untagged
@@ -2680,14 +2679,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5934317460233210731}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 1.2, z: -0.133}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 1511087500970972347}
-  m_RootOrder: 3
+  m_Father: {fileID: 7293435153706849868}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8060191349077482107
+--- !u!114 &321472361983924140
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2696,20 +2695,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 5934317460233210731}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1744800889, guid: ad08d65794d72842eed24787c8010ed4, type: 3}
+  m_Script: {fileID: -133377629, guid: 06dd3d5416bf43ea368cc39ff96e6d5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CollisionTag: 
-  Event: 
-  PlayEvent: 0
-  StopEvent: 0
-  AllowFadeout: 1
-  TriggerOnce: 0
-  Preload: 0
-  Params: []
-  OverrideAttenuation: 0
-  OverrideMinDistance: -1
-  OverrideMaxDistance: -1
+  asset: {fileID: 11400000, guid: c5b2faa0b150ff84cb38507e23749199, type: 2}
+  playOnAwake: 0
+  stopImmediatelyOnDisable: 0
+  followParent: 0
+  restartOnPlay: 0
+  debug: 0
+  subtitlesKey: 
+  playSubtitlesWithUnscaledTime: 1
+  assetStart: {fileID: 0}
+  assetStop: {fileID: 0}
+  stopSoundInterval: 0
 --- !u!1 &5934317460257851656
 GameObject:
   m_ObjectHideFlags: 0
@@ -2855,7 +2854,7 @@ Transform:
   m_LocalScale: {x: 99.99999, y: 100, z: 99.99999}
   m_Children: []
   m_Father: {fileID: 7293435153706849868}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &8442260199594967988
 SkinnedMeshRenderer:
@@ -2973,7 +2972,7 @@ Transform:
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children: []
   m_Father: {fileID: 7293435153706849868}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &8739670935795063795
 SkinnedMeshRenderer:
@@ -3062,7 +3061,7 @@ Transform:
   m_LocalScale: {x: 100, y: 99.99999, z: 99.99999}
   m_Children: []
   m_Father: {fileID: 7293435153706849868}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &6822430734469333257
 SkinnedMeshRenderer:
@@ -3180,7 +3179,7 @@ Transform:
   m_LocalScale: {x: 100, y: 99.99999, z: 99.99999}
   m_Children: []
   m_Father: {fileID: 7293435153706849868}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &185031161311516300
 SkinnedMeshRenderer:
@@ -3301,6 +3300,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 5934317460233210728}
   - {fileID: 8791886684391136408}
   - {fileID: 3226298461778129018}
   - {fileID: 2732349947279526011}
@@ -3361,9 +3361,9 @@ MonoBehaviour:
   customForceField: {fileID: 2288051997143167892}
   squareForceField: {fileID: 8219592545107548943}
   soundOrigin: {fileID: 5934317460233210728}
-  openSound: {fileID: 0}
-  closeSound: {fileID: 0}
-  fabricateSound: {fileID: 8060191349077482107}
+  openSound: {fileID: 11400000, guid: f354dbce36082ad42b065f4efdbba6b9, type: 2}
+  closeSound: {fileID: 11400000, guid: f85a73f170ad1e24ea78bba7d31e5fff, type: 2}
+  loopEmitter: {fileID: 321472361983924140}
   fabLight: {fileID: 5934317459632730874}
   pRelay: {fileID: 9195682474883750250}
 --- !u!114 &9195682474883750250
@@ -3748,7 +3748,7 @@ Transform:
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children: []
   m_Father: {fileID: 7293435153706849868}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &608431831389467709
 SkinnedMeshRenderer:
@@ -3837,7 +3837,7 @@ Transform:
   m_LocalScale: {x: 99.99999, y: 99.99999, z: 100}
   m_Children: []
   m_Father: {fileID: 7293435153706849868}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &4696287618375876365
 SkinnedMeshRenderer:

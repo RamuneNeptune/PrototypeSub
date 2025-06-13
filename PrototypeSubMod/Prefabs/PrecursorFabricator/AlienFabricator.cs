@@ -17,8 +17,9 @@ public class AlienFabricator : GhostCrafter
     
     public FMODAsset openSound;
     public FMODAsset closeSound;
+
+    public FMOD_CustomLoopingEmitter loopEmitter;
     
-    public StudioEventEmitter fabricateSound;
 
     public GameObject fabLight;
 
@@ -82,12 +83,12 @@ public class AlienFabricator : GhostCrafter
     {
         animator.SetBool(AnimatorHashID.fabricating, crafting);
 
-        if (fabricateSound.IsPlaying() != crafting)
+        if (loopEmitter.playing != crafting)
         {
             if(crafting)
-                fabricateSound.Play();
+                loopEmitter.Play();
             else
-                fabricateSound.Stop();
+                loopEmitter.Stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
         }
         
         if(fxSparksInstances == null)
@@ -122,8 +123,11 @@ public class AlienFabricator : GhostCrafter
     private IEnumerator CraftItem(TechType techType, float duration)
     {
         animator.SetBool(AnimatorHashID.fabricating, true);
+        FMODUWE.PlayOneShot(closeSound, soundOrigin.position);
         yield return new WaitForSeconds(1.50f);
         base.Craft(techType, duration);
+        yield return new WaitForSeconds(duration);
+        FMODUWE.PlayOneShot(openSound, soundOrigin.position);
     }
 
     public override void OnOpenedChanged(bool opened)
