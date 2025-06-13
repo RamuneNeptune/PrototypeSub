@@ -33,12 +33,7 @@ internal class ProtoDeployableManager : ProtoUpgrade
     private List<string> availableLightSlots = new();
     private List<string> availableDecoySlots = new();
 
-    private void Start()
-    {
-        UWE.CoroutineHost.StartCoroutine(Initialize());
-    }
-
-    private IEnumerator Initialize()
+    private IEnumerator Start()
     {
         CoroutineTask<GameObject> task = CraftData.GetPrefabForTechTypeAsync(TechType.CyclopsDecoy);
         yield return task;

@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 namespace PrototypeSubMod.SubTerminal;
 
-internal class MoonpoolOccupiedHandler : MonoBehaviour
+internal class MoonpoolOccupiedHandler : MonoBehaviour, IProtoTreeEventListener
 {
     public bool MoonpoolHasSub
     {
@@ -16,13 +16,17 @@ internal class MoonpoolOccupiedHandler : MonoBehaviour
     public GameObject SubInMoonpool { get; private set; }
 
     public UnityEvent onHasSubChanged;
+    [SerializeField] private ProtoBuildTerminal buildTerminal;
     [SerializeField] private BoxCollider moonpoolBounds;
-    
+    [SerializeField] private float maxDistanceFromMoonpool;
+
+    private Bounds checkBounds;
     private bool occupiedLastCheck;
+    private bool initialized;
 
     private void Start()
     {
-        Initialize();
+        UWE.CoroutineHost.StartCoroutine(Initialize());
     }
     
     public void CheckForSub()
@@ -33,7 +37,7 @@ internal class MoonpoolOccupiedHandler : MonoBehaviour
         foreach (var handler in CloakEffectHandler.EffectHandlers)
         {
             var subRoot = handler.GetComponentInParent<SubRoot>();
-            if (moonpoolBounds.bounds.Contains(subRoot.transform.position))
+            if (checkBounds.Contains(subRoot.transform.position))
             {
                 foundSub = true;
                 SubInMoonpool = subRoot.gameObject;
@@ -51,9 +55,24 @@ internal class MoonpoolOccupiedHandler : MonoBehaviour
         occupiedLastCheck = MoonpoolHasSub;
     }
 
-    private void Initialize()
+    public void OnProtoSerializeObjectTree(ProtobufSerializer serializer) { }
+
+    public void OnProtoDeserializeObjectTree(ProtobufSerializer serializer)
     {
+        UWE.CoroutineHost.StartCoroutine(Initialize());
+    }
+
+    private IEnumerator Initialize()
+    {
+        if (initialized) yield break;
+        
+        moonpoolBounds.enabled = true;
+        yield return new WaitForEndOfFrame();
+        checkBounds = new Bounds(moonpoolBounds.transform.position, moonpoolBounds.bounds.size);
+        moonpoolBounds.enabled = false;
+        
         CancelInvoke(nameof(CheckForSub));
         InvokeRepeating(nameof(CheckForSub), 0, 5f);
+        initialized = true;
     }
 }

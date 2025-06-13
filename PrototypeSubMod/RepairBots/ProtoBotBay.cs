@@ -16,12 +16,7 @@ internal class ProtoBotBay : MonoBehaviour
     private Vector3 stowedPos;
     private bool botActive;
 
-    private void Start()
-    {
-        UWE.CoroutineHost.StartCoroutine(Initialize());
-    }
-
-    private IEnumerator Initialize()
+    private IEnumerator Start()
     {
         // The extra frame waits ensure that the bots are spawned even if it's already initialized
         yield return new WaitUntil(() => SpawnRepairBot.Initialized);

@@ -11,12 +11,7 @@ internal class ToggleMinimap : MonoBehaviour
     private int frameCount;
     private MiniWorld miniWorld;
 
-    private void Start()
-    {
-        UWE.CoroutineHost.StartCoroutine(Initialize());
-    }
-
-    private IEnumerator Initialize()
+    private IEnumerator Start()
     {
         positionDisplay.SetActive(false);
 
