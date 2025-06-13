@@ -56,6 +56,7 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
 
         var occupiedHandler = buildScreen.GetMoonpoolHandler();
         occupiedHandler.onHasSubChanged.AddListener(OnSubInMoonpoolChanged);
+        occupiedHandler.CheckBlankSlate();
 
         OnSubInMoonpoolChanged();
         SetUpgradeTechType(techType.TechType);

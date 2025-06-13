@@ -13,6 +13,7 @@ public class RelayInstallationManager : MonoBehaviour
     private void Start()
     {
         occupiedHandler.onHasSubChanged.AddListener(OnHasSubChanged);
+        occupiedHandler.CheckBlankSlate();
         UpdateIcons();
     }
 

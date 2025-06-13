@@ -24,6 +24,12 @@ internal class MoonpoolOccupiedHandler : MonoBehaviour
     {
         Initialize();
     }
+
+    public void CheckBlankSlate()
+    {
+        occupiedLastCheck = false;
+        CheckForSub();
+    }
     
     public void CheckForSub()
     {

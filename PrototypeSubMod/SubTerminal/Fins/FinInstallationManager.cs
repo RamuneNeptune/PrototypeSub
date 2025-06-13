@@ -17,13 +17,12 @@ public class FinInstallationManager : MonoBehaviour
     private void Start()
     {
         occupiedHandler.onHasSubChanged.AddListener(OnHasSubChanged);
+        occupiedHandler.CheckBlankSlate();
         UpdateIcons();
     }
 
     private void OnHasSubChanged()
     {
-        if (!occupiedHandler.MoonpoolHasSub) return;
-        
         finsManager = occupiedHandler.SubInMoonpool.GetComponentInChildren<ProtoFinsManager>();
         UpdateIcons();
     }
