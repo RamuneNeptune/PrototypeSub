@@ -5,6 +5,7 @@ namespace PrototypeSubMod.MiscMonobehaviors.SubSystems;
 
 internal class ToggleMinimap : MonoBehaviour
 {
+    [SerializeField] private FMOD_CustomEmitter nearfieldSFX;
     [SerializeField] private GameObject positionDisplay;
     [SerializeField] private int maxSpawnWaitFrames = 10;
 
@@ -44,6 +45,15 @@ internal class ToggleMinimap : MonoBehaviour
 
         miniWorld.ToggleMap();
         positionDisplay.SetActive(!positionDisplay.activeSelf);
+
+        if (miniWorld.active)
+        {
+            nearfieldSFX.Play();
+        }
+        else
+        {
+            nearfieldSFX.Stop();
+        }
     }
 
     public void ToggleMap(bool active)
