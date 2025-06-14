@@ -31,9 +31,11 @@ internal class SetPickupsToFall : MonoBehaviour
             Collider col = UWE.Utils.sharedColliderBuffer[i];
             var rb = col.GetComponentInParent<Rigidbody>();
 
-            if (rb == null) continue;
+            if (col.gameObject == Player.mainObject) continue;
+            
+            if (!rb) continue;
 
-            if (rb.GetComponentInParent<SubRoot>() != null) continue;
+            if (rb.GetComponentInParent<SubRoot>()) continue;
 
             UWE.Utils.SetIsKinematicAndUpdateInterpolation(rb, false);
 
