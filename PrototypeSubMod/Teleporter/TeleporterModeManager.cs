@@ -19,6 +19,7 @@ public class TeleporterModeManager : MonoBehaviour
 
     public void SetInterfloorMode()
     {
+        colorManager.RemoveTempColor(this);
         colorManager.AddTempColor(this, new TeleporterFXColorManager.TempColor(interfloorColor, 10));
         normalCollider.SetActive(false);
         interfloorCollider.SetActive(true);
@@ -27,6 +28,7 @@ public class TeleporterModeManager : MonoBehaviour
     public void SetNormalMode()
     {
         colorManager.RemoveTempColor(this);
+        colorManager.AddTempColor(this, new TeleporterFXColorManager.TempColor(TeleporterOverride.OverrideColor, 11));
         normalCollider.SetActive(true);
         interfloorCollider.SetActive(false);
     }

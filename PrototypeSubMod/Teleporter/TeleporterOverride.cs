@@ -8,8 +8,7 @@ namespace PrototypeSubMod.Teleporter;
 
 internal class TeleporterOverride : MonoBehaviour
 {
-    private static readonly Color OverrideColor = new(0f, 0.285f, 0.555f, 0.588f);
-    private static Color CurrentOverrideColor = OverrideColor;
+    internal static readonly Color OverrideColor = new(0.5517f, 0.0646f, 1f, 0.4853f);
 
     public static string FullOverrideTeleporterID { get; private set; }
     public static float OverrideTime { get; private set; }
@@ -57,16 +56,6 @@ internal class TeleporterOverride : MonoBehaviour
         QueuedTeleportedBackToSub = false;
         OverrideRequested = false;
         LastOverrideOwner = null;
-    }
-
-    public static void SetTempTeleporterColor(Color color)
-    {
-        CurrentOverrideColor = color;
-    }
-
-    public static void ResetTeleporterColor()
-    {
-        CurrentOverrideColor = OverrideColor;
     }
 
     private void Start()
@@ -165,7 +154,7 @@ internal class TeleporterOverride : MonoBehaviour
             return;
         }
 
-        targetColor = overrideActive ? CurrentOverrideColor : originalColor;
+        targetColor = overrideActive ? OverrideColor : originalColor;
 
         Color color = Color.Lerp(fxMaterial.GetColor("_ColorOuter"), targetColor, Time.deltaTime);
 
@@ -189,11 +178,8 @@ internal class TeleporterOverride : MonoBehaviour
             QueuedTeleportedBackToSub = true;
             Player.main.SetPrecursorOutOfWater(false);
 
-            if (CurrentOverrideColor != OverrideColor)
-            {
-                var teleportManager = Camera.main.GetComponent<ProtoScreenTeleporterFXManager>();
-                teleportManager.SetColors(ElectricubePowerFunctionality.TeleportScreenColInner, ElectricubePowerFunctionality.TeleportScreenColMiddle, ElectricubePowerFunctionality.TeleportScreenColOuter);
-            }
+            var teleportManager = Camera.main.GetComponent<ProtoScreenTeleporterFXManager>();
+            teleportManager.SetColors(ProtoTeleporterManager.TeleportScreenColInner, ProtoTeleporterManager.TeleportScreenColMiddle, ProtoTeleporterManager.TeleportScreenColOuter);
         }
     }
 

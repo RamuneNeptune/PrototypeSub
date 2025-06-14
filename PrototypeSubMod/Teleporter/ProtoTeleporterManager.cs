@@ -8,6 +8,10 @@ namespace PrototypeSubMod.Teleporter;
 
 internal class ProtoTeleporterManager : ProtoUpgrade
 {
+    internal static readonly Color TeleportScreenColInner = new Color(0.5638f, 0.4349f, 0.6674f, 0.4970f);
+    internal static readonly Color TeleportScreenColMiddle = new Color(0.15f, 0.1905f, 1.0000f, 0.3000f);
+    internal static readonly Color TeleportScreenColOuter = new Color(0.4412f, 0.4285f, 0.7118f, 0.4790f);
+    
     [Header("Teleporting")]
     [SerializeField] private PrecursorTeleporter teleporter;
     [SerializeField] private TeleporterModeManager modeManager;
@@ -22,8 +26,6 @@ internal class ProtoTeleporterManager : ProtoUpgrade
     private bool teleporterClosed = true;
     private float currentStayOpenTime;
     private PrecursorTeleporterActivationTerminal activationTerminal;
-    
-    private ColorOverrideData colorOverrideData;
 
     private void OnValidate()
     {
@@ -73,10 +75,7 @@ internal class ProtoTeleporterManager : ProtoUpgrade
         TeleporterOverride.SetOverrideTime(120f);
         TeleporterOverride.OnTeleportStarted(this);
 
-        if (colorOverrideData.overrideActive)
-        {
-            Camera.main.GetComponent<ProtoScreenTeleporterFXManager>().SetColors(colorOverrideData.innerColor, colorOverrideData.middleColor, colorOverrideData.outerColor);
-        }
+        Camera.main.GetComponent<ProtoScreenTeleporterFXManager>().SetColors(TeleportScreenColInner, TeleportScreenColMiddle, TeleportScreenColOuter);
         
         if (teleporterID == "protoislandtpS")
         {
@@ -163,9 +162,6 @@ internal class ProtoTeleporterManager : ProtoUpgrade
     {
         overrideStatus2.Play();
     }
-
-    public void SetColorOverrideData(ColorOverrideData overrideData) => colorOverrideData = overrideData;
-    public void ResetOverrideData() => colorOverrideData = default;
 
     public override bool GetUpgradeEnabled() => upgradeInstalled;
     
