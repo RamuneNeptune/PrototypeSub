@@ -16,6 +16,7 @@ internal class ProtoDeployableManager : ProtoUpgrade
     [SerializeField] private VoiceNotification launchLightNotification;
     [SerializeField] private VoiceNotification launchDecoyNotification;
     [SerializeField] private VoiceNotification invalidOperationNotification;
+    [SerializeField] private FMOD_CustomEmitter deployLightSFX;
     [SerializeField] private GameObject lightPrefab;
     [SerializeField] private Transform lightSpawnTransform;
     [SerializeField] private Transform decoySpawnTransform;
@@ -62,6 +63,7 @@ internal class ProtoDeployableManager : ProtoUpgrade
             Invoke(nameof(SpawnLightDelayed), launchLightDelay);
 
             subRoot.voiceNotificationManager.PlayVoiceNotification(launchLightNotification);
+            deployLightSFX.Play();
         }
         else
         {
