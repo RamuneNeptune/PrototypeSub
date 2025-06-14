@@ -47,7 +47,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Scalar
+    path: AnimScalar
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -65,6 +65,82 @@ AnimationClip:
       m_RotationOrder: 4
     path: CenterIcon
   m_FloatCurves:
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_BlocksRaycasts
+    path: AnimScalar
+    classID: 225
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_Interactable
+    path: AnimScalar
+    classID: 225
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_AnchoredPosition.x
+    path: CenterIcon
+    classID: 224
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: -169.3
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_AnchoredPosition.y
+    path: CenterIcon
+    classID: 224
+    script: {fileID: 0}
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -127,83 +203,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 136
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    attribute: m_AnchoredPosition.x
-    path: CenterIcon
-    classID: 224
-    script: {fileID: 0}
-  - curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 136
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    attribute: m_AnchoredPosition.y
-    path: CenterIcon
-    classID: 224
-    script: {fileID: 0}
-  - curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 1
-        inSlope: Infinity
-        outSlope: Infinity
-        tangentMode: 103
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    attribute: m_BlocksRaycasts
-    path: Scalar
-    classID: 225
-    script: {fileID: 0}
-  - curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 1
-        inSlope: Infinity
-        outSlope: Infinity
-        tangentMode: 103
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    attribute: m_Interactable
-    path: Scalar
-    classID: 225
-    script: {fileID: 0}
-  - curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 95.40831
+        value: 132.14417
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -222,7 +222,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 95.40831
+        value: 132.14417
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -245,14 +245,14 @@ AnimationClip:
   m_ClipBindingConstant:
     genericBindings:
     - serializedVersion: 2
-      path: 3857727155
+      path: 2007259003
       attribute: 3739863151
       script: {fileID: 0}
       typeID: 225
       customType: 0
       isPPtrCurve: 0
     - serializedVersion: 2
-      path: 3857727155
+      path: 2007259003
       attribute: 4287062452
       script: {fileID: 0}
       typeID: 225
@@ -266,7 +266,7 @@ AnimationClip:
       customType: 4
       isPPtrCurve: 0
     - serializedVersion: 2
-      path: 3857727155
+      path: 2007259003
       attribute: 3
       script: {fileID: 0}
       typeID: 4
@@ -278,6 +278,20 @@ AnimationClip:
       script: {fileID: 0}
       typeID: 4
       customType: 0
+      isPPtrCurve: 0
+    - serializedVersion: 2
+      path: 1652302384
+      attribute: 1460864421
+      script: {fileID: 0}
+      typeID: 224
+      customType: 28
+      isPPtrCurve: 0
+    - serializedVersion: 2
+      path: 1652302384
+      attribute: 538195251
+      script: {fileID: 0}
+      typeID: 224
+      customType: 28
       isPPtrCurve: 0
     - serializedVersion: 2
       path: 1652302384
@@ -296,20 +310,6 @@ AnimationClip:
     - serializedVersion: 2
       path: 1652302384
       attribute: 2033536083
-      script: {fileID: 0}
-      typeID: 224
-      customType: 28
-      isPPtrCurve: 0
-    - serializedVersion: 2
-      path: 1652302384
-      attribute: 1460864421
-      script: {fileID: 0}
-      typeID: 224
-      customType: 28
-      isPPtrCurve: 0
-    - serializedVersion: 2
-      path: 1652302384
-      attribute: 538195251
       script: {fileID: 0}
       typeID: 224
       customType: 28
@@ -355,95 +355,38 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 136
+        value: 1
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
         weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
+        inWeight: 0
+        outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    attribute: m_LocalPosition.x
-    path: CenterIcon
-    classID: 224
+    attribute: m_BlocksRaycasts
+    path: AnimScalar
+    classID: 225
     script: {fileID: 0}
   - curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 136
+        value: 1
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
         weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
+        inWeight: 0
+        outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    attribute: m_LocalPosition.y
-    path: CenterIcon
-    classID: 224
-    script: {fileID: 0}
-  - curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 136
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    attribute: m_LocalPosition.z
-    path: CenterIcon
-    classID: 224
-    script: {fileID: 0}
-  - curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 136
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    attribute: m_AnchoredPosition.x
-    path: CenterIcon
-    classID: 224
-    script: {fileID: 0}
-  - curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 136
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    attribute: m_AnchoredPosition.y
-    path: CenterIcon
-    classID: 224
+    attribute: m_Interactable
+    path: AnimScalar
+    classID: 225
     script: {fileID: 0}
   - curve:
       serializedVersion: 2
@@ -461,7 +404,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalScale.x
-    path: Scalar
+    path: AnimScalar
     classID: 224
     script: {fileID: 0}
   - curve:
@@ -480,7 +423,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalScale.y
-    path: Scalar
+    path: AnimScalar
     classID: 224
     script: {fileID: 0}
   - curve:
@@ -499,7 +442,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalScale.z
-    path: Scalar
+    path: AnimScalar
     classID: 224
     script: {fileID: 0}
   - curve:
@@ -564,6 +507,101 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_AnchoredPosition.x
+    path: CenterIcon
+    classID: 224
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: -169.3
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_AnchoredPosition.y
+    path: CenterIcon
+    classID: 224
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_LocalPosition.x
+    path: CenterIcon
+    classID: 224
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_LocalPosition.y
+    path: CenterIcon
+    classID: 224
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_LocalPosition.z
+    path: CenterIcon
+    classID: 224
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
         value: 1
         inSlope: 0
         outSlope: 0
@@ -621,45 +659,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 1
-        inSlope: Infinity
-        outSlope: Infinity
-        tangentMode: 103
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    attribute: m_BlocksRaycasts
-    path: Scalar
-    classID: 225
-    script: {fileID: 0}
-  - curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 1
-        inSlope: Infinity
-        outSlope: Infinity
-        tangentMode: 103
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    attribute: m_Interactable
-    path: Scalar
-    classID: 225
-    script: {fileID: 0}
-  - curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 95.40831
+        value: 132.14417
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -678,7 +678,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 95.40831
+        value: 132.14417
         inSlope: 0
         outSlope: 0
         tangentMode: 136
