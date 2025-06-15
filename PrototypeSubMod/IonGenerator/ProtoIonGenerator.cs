@@ -102,7 +102,7 @@ internal class ProtoIonGenerator : ProtoUpgrade
 
     public override bool OnActivated()
     {
-        if (upgradeInstalled) return false;
+        if (!upgradeInstalled) return false;
         
         SetUpgradeEnabled(!upgradeEnabled);
         return true;

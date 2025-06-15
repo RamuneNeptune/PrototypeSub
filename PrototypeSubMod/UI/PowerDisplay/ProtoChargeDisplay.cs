@@ -9,6 +9,7 @@ namespace PrototypeSubMod.UI.PowerDisplay;
 
 public class ProtoChargeDisplay : MonoBehaviour, IUIElement
 {
+    [SerializeField] private FMODAsset destroyChargeSFX;
     [SerializeField] private PrototypePowerSystem powerSystem;
     [SerializeField] private OnModifyPowerEvent onModifyPower;
     [SerializeField] private GameObject chargeIconPrefab;
@@ -78,6 +79,11 @@ public class ProtoChargeDisplay : MonoBehaviour, IUIElement
         int remainingCharges = currentSource.GetRemainingCharges();
         if (chargesLastCheck != remainingCharges)
         {
+            if (remainingCharges < chargesLastCheck || remainingCharges > chargesLastCheck + 1)
+            {
+                FMODUWE.PlayOneShot(destroyChargeSFX, Player.main.transform.position, 0.5f);
+            }
+            
             RegenerateCharges();
         }
         
