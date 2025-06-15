@@ -1,4 +1,5 @@
-﻿using Story;
+﻿using System;
+using Story;
 using System.Collections;
 using UnityEngine;
 
@@ -15,8 +16,8 @@ internal class BuildTerminalScreenManager : MonoBehaviour
     [SerializeField] private GameObject recentralizeScreen;
     [SerializeField] private MoonpoolOccupiedHandler occupiedHandler;
 
+    private bool hadSubLastFrame;
     private bool isBuilding;
-    private int currentStageIndex;
 
     private IEnumerator Start()
     {
@@ -56,17 +57,21 @@ internal class BuildTerminalScreenManager : MonoBehaviour
         isBuilding = false;
     }
 
-    // Called via UnityEvent
-    public void OnOccupiedChanged()
+    private void Update()
+    {
+        if (occupiedHandler.MoonpoolHasSub != hadSubLastFrame)
+        {
+            OnOccupiedChanged();
+        }
+
+        hadSubLastFrame = occupiedHandler.MoonpoolHasSub;
+    }
+
+    private void OnOccupiedChanged()
     {
         if (isBuilding) return;
 
-        var occupied = occupiedHandler.MoonpoolHasSub;
-
-        if (newUpgradesScreen.HasQueuedUnlocks() || newUpgradesScreen.DownloadActive()) return;
-
-        upgradeScreen.gameObject.SetActive(occupied);
-        recentralizeScreen.gameObject.SetActive(!occupied);
+        EnableMenusWhenSubInWorld();
     }
 
     public void BeginWaitForBuildStage()
@@ -90,6 +95,7 @@ internal class BuildTerminalScreenManager : MonoBehaviour
         recentralizeScreen.SetActive(false);
         newUpgradesScreen.gameObject.SetActive(false);
         upgradeScreen.gameObject.SetActive(true);
+        occupiedHandler.CheckForSub();
     }
 
     public void EnableRelevantScreensAtStart()
@@ -105,6 +111,7 @@ internal class BuildTerminalScreenManager : MonoBehaviour
         }
         else if (Plugin.GlobalSaveData.prototypePresent && StoryGoalManager.main.IsGoalComplete("PrototypeCrafted"))
         {
+            occupiedHandler.CheckForSub();
             EnableMenusWhenSubInWorld();
         }
         else
@@ -121,7 +128,8 @@ internal class BuildTerminalScreenManager : MonoBehaviour
         buildScreen.gameObject.SetActive(false);
         rebuildScreen.gameObject.SetActive(false);
 
-        occupiedHandler.CheckForSub();
+        Plugin.Logger.LogInfo($"Enabling menus when sub in world. Has queued unlocks = {newUpgradesScreen.HasQueuedUnlocks()} | Has sub = {occupiedHandler.MoonpoolHasSub}");
+        
         if (newUpgradesScreen.HasQueuedUnlocks() && occupiedHandler.MoonpoolHasSub)
         {
             newUpgradesScreen.gameObject.SetActive(true);

@@ -14,21 +14,12 @@ internal class MoonpoolOccupiedHandler : MonoBehaviour
     }
 
     public GameObject SubInMoonpool { get; private set; }
-
-    public UnityEvent onHasSubChanged;
-    [SerializeField] private BoxCollider moonpoolBounds;
     
-    private bool occupiedLastCheck;
+    [SerializeField] private BoxCollider moonpoolBounds;
 
     private void Start()
     {
         Initialize();
-    }
-
-    public void CheckBlankSlate()
-    {
-        occupiedLastCheck = false;
-        CheckForSub();
     }
     
     public void CheckForSub()
@@ -48,20 +39,11 @@ internal class MoonpoolOccupiedHandler : MonoBehaviour
         }
 
         MoonpoolHasSub = foundSub;
-
-        if (occupiedLastCheck != MoonpoolHasSub)
-        {
-            onHasSubChanged?.Invoke();
-        }
-
-        occupiedLastCheck = MoonpoolHasSub;
     }
 
     private void Initialize()
     {
         CancelInvoke(nameof(CheckForSub));
         InvokeRepeating(nameof(CheckForSub), 0, 5f);
-
-        onHasSubChanged?.Invoke();
     }
 }
