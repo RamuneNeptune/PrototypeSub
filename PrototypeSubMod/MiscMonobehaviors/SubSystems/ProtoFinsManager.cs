@@ -99,6 +99,11 @@ public class ProtoFinsManager : MonoBehaviour, ISaveDataListener
         UpdateDockingBayStatus();
         UWE.CoroutineHost.StartCoroutine(UpdateFinAnimations(motorMode.engineOn || motorMode.engineOnOldState));
     }
+
+    public void ResetFinAnimations()
+    {
+        UWE.CoroutineHost.StartCoroutine(UpdateFinAnimations(motorMode.engineOn || motorMode.engineOnOldState));
+    }
     
     private IEnumerator UpdateFinAnimations(bool targetState)
     {

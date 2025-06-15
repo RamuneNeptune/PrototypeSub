@@ -13,6 +13,7 @@ public class ProtoDockingManager : MonoBehaviour, IProtoEventListener, IProtoTre
     [SerializeField] private InterfloorTeleporter interfloorTeleporter;
     [SerializeField] private VehicleDockingBay dockingBay;
     [SerializeField] private IgnoreCinematicStart ignoreCinematicStart;
+    [SerializeField] private FinsDockingManager finsDockingManager;
     [SerializeField] private Transform playerPosition;
     [SerializeField] private Transform vehicleHolder;
 
@@ -65,6 +66,8 @@ public class ProtoDockingManager : MonoBehaviour, IProtoEventListener, IProtoTre
         dockingBay.subRoot.voiceNotificationManager.TryPlayNext();
         
         onDockedStatusChanged?.Invoke();
+        finsDockingManager.SetDockingPrep(false);
+        finsDockingManager.GetComponent<ProtoFinsManager>().ResetFinAnimations();
     }
 
     public void Undock()
