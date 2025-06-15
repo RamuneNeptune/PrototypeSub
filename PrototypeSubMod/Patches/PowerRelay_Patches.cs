@@ -2,12 +2,22 @@
 using System.Reflection.Emit;
 using HarmonyLib;
 using PrototypeSubMod.MiscMonobehaviors.SubSystems;
+using PrototypeSubMod.PressureConverters;
 
 namespace PrototypeSubMod.Patches;
 
 [HarmonyPatch(typeof(PowerRelay))]
 public class PowerRelay_Patches
 {
+    [HarmonyPatch(nameof(PowerRelay.ModifyPower)), HarmonyPrefix]
+    private static void ModifyPower_Prefix(PowerRelay __instance, ref float amount)
+    {
+        if (__instance.TryGetComponent(out ProtoPowerRelayManager relayManager))
+        {
+            relayManager.ModifyPowerDrawn(ref amount);
+        }
+    }
+    
     [HarmonyPatch(nameof(PowerRelay.ModifyPower)), HarmonyTranspiler]
     private static IEnumerable<CodeInstruction> ModifyPower_Transpiler(IEnumerable<CodeInstruction> instructions)
     {

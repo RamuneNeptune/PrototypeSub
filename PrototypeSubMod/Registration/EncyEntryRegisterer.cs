@@ -219,7 +219,7 @@ internal static class EncyEntryRegisterer
             "ProtoEmergencyWarpEncy",
             "ProtoInterceptorEncy",
             "ProtoRepairDroidsEncy",
-            "ProtoPressureConvertersEncy",
+            "ProtoDepthOptimizersEncy",
             "ProtoIonBarrierEncy",
             "ProtoStasisPulseEncy",
             "ProtoIonGeneratorEncy",
