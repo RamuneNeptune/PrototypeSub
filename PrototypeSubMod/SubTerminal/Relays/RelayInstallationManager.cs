@@ -1,4 +1,5 @@
-﻿using PrototypeSubMod.PowerSystem;
+﻿using System;
+using PrototypeSubMod.PowerSystem;
 using UnityEngine;
 
 namespace PrototypeSubMod.SubTerminal.Relays;
@@ -9,12 +10,22 @@ public class RelayInstallationManager : MonoBehaviour
     [SerializeField] private SubUpgradeInstallationButton[] installationButtons;
 
     private PrototypePowerSystem powerSystem;
+    private bool hadSubLastFrame;
+    
     
     private void Start()
     {
-        occupiedHandler.onHasSubChanged.AddListener(OnHasSubChanged);
-        occupiedHandler.CheckBlankSlate();
         UpdateIcons();
+    }
+
+    private void Update()
+    {
+        if (occupiedHandler.MoonpoolHasSub != hadSubLastFrame)
+        {
+            OnHasSubChanged();
+        }
+
+        hadSubLastFrame = occupiedHandler.MoonpoolHasSub;
     }
 
     private void OnHasSubChanged()

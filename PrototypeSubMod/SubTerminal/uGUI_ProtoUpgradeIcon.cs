@@ -27,17 +27,19 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
     [SerializeField] private RocketBuilderTooltip tooltip;
 
     private uGUI_ProtoBuildScreen buildScreen;
-
+    private MoonpoolOccupiedHandler occupiedHandler;
+    
+    private RectTransform rectTransform;
+    private UpgradeScreen upgradeScreen;
+    private ProtoUpgradeManager upgradeManager;
+    private Vector2 originalSize;
     private bool hovered;
     private bool pointerDownLastFrame;
     private bool craftTriggered;
     private bool allowedToCraft = true;
+    private bool hadSubLastFrame;
     private float currentConfirmTime;
     private float oldTooltipScale;
-    private Vector2 originalSize;
-    private RectTransform rectTransform;
-    private UpgradeScreen upgradeScreen;
-    private ProtoUpgradeManager upgradeManager;
 
     private Atlas.Sprite atlasSpriteBGNormal;
     private Atlas.Sprite atlasSpriteBGHovered;
@@ -54,9 +56,7 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
         rectTransform = GetComponent<RectTransform>();
         originalSize = rectTransform.sizeDelta;
 
-        var occupiedHandler = buildScreen.GetMoonpoolHandler();
-        occupiedHandler.onHasSubChanged.AddListener(OnSubInMoonpoolChanged);
-        occupiedHandler.CheckBlankSlate();
+        occupiedHandler = buildScreen.GetMoonpoolHandler();
 
         OnSubInMoonpoolChanged();
         SetUpgradeTechType(techType.TechType);
@@ -108,8 +108,6 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
 
     private void OnSubInMoonpoolChanged()
     {
-        var occupiedHandler = buildScreen.GetMoonpoolHandler();
-
         if (occupiedHandler.SubInMoonpool == null)
         {
             upgradeManager = null;
@@ -139,7 +137,16 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
 
     private void Update()
     {
-        if (!allowedToCraft) return;
+        if (occupiedHandler.MoonpoolHasSub != hadSubLastFrame)
+        {
+            OnSubInMoonpoolChanged();
+        }
+
+        if (!allowedToCraft)
+        {
+            hadSubLastFrame = occupiedHandler.MoonpoolHasSub;
+            return;
+        }
 
         bool pointerDown = GameInput.GetButtonHeld(GameInput.Button.LeftHand);
 
@@ -156,6 +163,8 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
 
         progressMask.fillAmount = currentConfirmTime / (currentConfirmTime == -1 ? currentConfirmTime : confirmTime);
         pointerDownLastFrame = pointerDown;
+        
+        hadSubLastFrame = occupiedHandler.MoonpoolHasSub;
     }
 
     private void FixedUpdate()

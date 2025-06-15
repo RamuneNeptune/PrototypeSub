@@ -1,4 +1,5 @@
-﻿using PrototypeSubMod.MiscMonobehaviors.SubSystems;
+﻿using System;
+using PrototypeSubMod.MiscMonobehaviors.SubSystems;
 using PrototypeSubMod.SubTerminal.Relays;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,12 +14,22 @@ public class FinInstallationManager : MonoBehaviour
     [SerializeField] private Sprite[] homeScreenSprites;
     
     private ProtoFinsManager finsManager;
+
+    private bool hadSubLastFrame;
     
     private void Start()
     {
-        occupiedHandler.onHasSubChanged.AddListener(OnHasSubChanged);
-        occupiedHandler.CheckBlankSlate();
         UpdateIcons();
+    }
+
+    private void Update()
+    {
+        if (occupiedHandler.MoonpoolHasSub != hadSubLastFrame)
+        {
+            OnHasSubChanged();
+        }
+
+        hadSubLastFrame = occupiedHandler.MoonpoolHasSub;
     }
 
     private void OnHasSubChanged()
