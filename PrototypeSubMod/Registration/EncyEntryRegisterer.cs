@@ -222,7 +222,6 @@ internal static class EncyEntryRegisterer
             "ProtoPressureConvertersEncy",
             "ProtoIonBarrierEncy",
             "ProtoStasisPulseEncy",
-            "ProtoVentilatorsEncy",
             "ProtoIonGeneratorEncy",
             "ProtoOverclockEncy"
         });
