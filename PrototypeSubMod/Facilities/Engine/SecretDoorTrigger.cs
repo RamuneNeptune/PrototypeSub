@@ -11,7 +11,7 @@ public class SecretDoorTrigger : MonoBehaviour
     
     private void OnTriggerEnter(Collider other)
     {
-        if (!other.Equals(Player.mainCollider)) return;
+        if (other.gameObject != Player.main.gameObject) return;
 
         var chip1 = Inventory.main.equipment.GetItemInSlot("Chip1");
         var chip2 = Inventory.main.equipment.GetItemInSlot("Chip2");

@@ -38,4 +38,13 @@ internal static class PrototypeCommands
         ScreenCapture.CaptureScreenshot(path, superSize);
         return string.Empty;
     }
+    
+    [ConsoleCommand("clearwaitscreen")]
+    public static string ClearWaitScreen()
+    {
+        if (Plugin.prefabLoadWaitItem == null) return string.Empty;
+
+        WaitScreen.Remove(Plugin.prefabLoadWaitItem);
+        return string.Empty;
+    }
 }
