@@ -127,8 +127,6 @@ internal class BuildTerminalScreenManager : MonoBehaviour
     {
         buildScreen.gameObject.SetActive(false);
         rebuildScreen.gameObject.SetActive(false);
-
-        Plugin.Logger.LogInfo($"Enabling menus when sub in world. Has queued unlocks = {newUpgradesScreen.HasQueuedUnlocks()} | Has sub = {occupiedHandler.MoonpoolHasSub}");
         
         if (newUpgradesScreen.HasQueuedUnlocks() && occupiedHandler.MoonpoolHasSub)
         {
