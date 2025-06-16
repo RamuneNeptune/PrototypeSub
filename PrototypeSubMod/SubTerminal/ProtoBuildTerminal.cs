@@ -85,13 +85,11 @@ internal class ProtoBuildTerminal : Crafter
         CrafterLogic.NotifyCraftEnd(instantiatedPrefab, techType);
         ItemGoalTracker.OnConstruct(techType);
         var vfxConstructing = instantiatedPrefab.GetComponent<VFXConstructing>();
-        if (vfxConstructing != null)
-        {
-            vfxConstructing.enabled = true;
-            vfxConstructing.timeToConstruct = duration;
-            vfxConstructing.StartConstruction();
-        }
-
+        if (!vfxConstructing) throw new Exception($"No VFXConstructing component on {instantiatedPrefab}");
+            
+        vfxConstructing.enabled = true;
+        vfxConstructing.timeToConstruct = duration;
+        vfxConstructing.StartConstruction();
         vfxConstructing.informGameObject = gameObject;
 
         animScreen.StartAnimation(duration + vfxConstructing.delay);
@@ -119,6 +117,16 @@ internal class ProtoBuildTerminal : Crafter
         yield return new WaitForEndOfFrame();
         
         StartConstruction(sub, TechType.None, buildDuration);
+
+        // Failsafe end construct to fix Octo's weird bug
+        yield return new WaitForSeconds(buildDuration + 0.2f);
+        if (!constructing.isDone && !constructing.enabled)
+        {
+            constructing.enabled = true;
+        }
+        
+        Plugin.Logger.LogInfo("Sub should be finished building");
+        ErrorMessage.AddDebug("Sub should be finished building");
     }
 
     private IEnumerator RecentralizeSubDelayed()
