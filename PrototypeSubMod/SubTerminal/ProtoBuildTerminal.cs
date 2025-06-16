@@ -122,8 +122,18 @@ internal class ProtoBuildTerminal : Crafter
         yield return new WaitForSeconds(buildDuration + 0.2f);
         if (!constructing.isDone && !constructing.enabled)
         {
-            ErrorMessage.AddError($"Sub isn't finished building. Fix needed");
-            Plugin.Logger.LogInfo("Sub isn't finished building. Fix needed");
+            ErrorMessage.AddError($"Sub isn't finished building. Fixing");
+            Plugin.Logger.LogInfo("Sub isn't finished building. Fixing");
+
+            constructing.RevertMaterials();
+            constructing.WakeUpSubmarine();
+            constructing.isDone = true;
+            constructing.informGameObject.BroadcastMessage("OnConstructionDone", constructing.gameObject);
+
+            constructing.PlaySplashFX();
+            constructing.PlaySplashSoundEffect();
+            constructing.ApplySplashImpulse();
+            constructing.EndConstruct();
         }
         
         Plugin.Logger.LogInfo("Sub should be finished building");
