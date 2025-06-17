@@ -130,14 +130,13 @@ internal class ProtoBuildTerminal : Crafter
         Plugin.Logger.LogInfo($"Inform GO = {constructing.informGameObject}");
         Plugin.Logger.LogInfo($"behavior[0].enabled = {constructing.disableBehaviours?[0]?.enabled}");
         
-        if (!constructing.isDone && !constructing.enabled)
+        if (constructing.isDone && constructing.enabled)
         {
             ErrorMessage.AddError($"Sub isn't finished building. Fixing");
             Plugin.Logger.LogInfo("Sub isn't finished building. Fixing");
 
             constructing.RevertMaterials();
             constructing.WakeUpSubmarine();
-            constructing.isDone = true;
             constructing.informGameObject.BroadcastMessage("OnConstructionDone", constructing.gameObject);
             constructing.EndConstruct();
         }
