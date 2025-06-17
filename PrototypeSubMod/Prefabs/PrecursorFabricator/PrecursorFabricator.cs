@@ -32,6 +32,9 @@ internal class PrecursorFabricator
             .AddCraftNode(TechType.PrecursorKey_Blue, "Keys")
             .AddCraftNode(TechType.PrecursorKey_Orange, "Keys")
             .AddCraftNode(HullFacilityKey.prefabInfo.TechType, "Keys")
+            .AddCraftNode(DefenseFacilityKey.prefabInfo.TechType, "Keys")
+            .AddCraftNode(EngineFacilityKey.prefabInfo.TechType, "Keys")
+            .AddCraftNode(InterceptorFacilityKey.prefabInfo.TechType, "Keys")
             
             .AddTabNode("PowerSources", Language.main.Get("PrecursorFabricator_Tab_PowerSources"), SpriteManager.Get(TechType.PrecursorIonCrystal))
             .AddCraftNode(TechType.PrecursorIonCrystal, "PowerSources")
