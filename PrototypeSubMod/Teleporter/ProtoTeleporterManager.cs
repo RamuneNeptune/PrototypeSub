@@ -8,6 +8,8 @@ namespace PrototypeSubMod.Teleporter;
 
 internal class ProtoTeleporterManager : ProtoUpgrade
 {
+    private const float OverrideDuration = 120f;
+    
     internal static readonly Color TeleportScreenColInner = new Color(0.5638f, 0.4349f, 0.6674f, 0.4970f);
     internal static readonly Color TeleportScreenColMiddle = new Color(0.15f, 0.1905f, 1.0000f, 0.3000f);
     internal static readonly Color TeleportScreenColOuter = new Color(0.4412f, 0.4285f, 0.7118f, 0.4790f);
@@ -15,17 +17,17 @@ internal class ProtoTeleporterManager : ProtoUpgrade
     [Header("Teleporting")]
     [SerializeField] private PrecursorTeleporter teleporter;
     [SerializeField] private TeleporterModeManager modeManager;
+    [SerializeField] private ProtoTeleporterIDManager idManager;
     [SerializeField] private SubRoot subRoot;
     [SerializeField] private Transform teleportPosition;
     [SerializeField] private FMOD_CustomLoopingEmitter activeLoopSound;
     [SerializeField] private VoiceNotification overrideStatus1;
     [SerializeField] private VoiceNotification overrideStatus2;
     [SerializeField] private string teleporterID;
-    [SerializeField] private float stayOpenTime;
-
-    private bool teleporterClosed = true;
-    private float currentStayOpenTime;
-    private PrecursorTeleporterActivationTerminal activationTerminal;
+    
+    private float timeOverrideTeleporterUnloaded;
+    private bool overrideTeleporterUnloaded;
+    private string unloadedTeleporterID;
 
     private void OnValidate()
     {
@@ -36,24 +38,36 @@ internal class ProtoTeleporterManager : ProtoUpgrade
     {
         PrecursorTeleporter.TeleportEventEnd += OnTeleportEnd;
         TeleporterManager.main.activeTeleporters.Remove("prototypetp");
+        TeleporterOverride.OnActiveTeleporterUnloaded += (id, time) =>
+        {
+            timeOverrideTeleporterUnloaded = time;
+            overrideTeleporterUnloaded = id == GetTeleporterIDNoIndicator();
+            unloadedTeleporterID = id;
+        };
 
+        TeleporterOverride.OnUnloadedTeleporterReload += (id) =>
+        {
+            if (id != unloadedTeleporterID) return;
+            
+            overrideTeleporterUnloaded = false;
+        };
+
+        TeleporterOverride.OnOverrideRunOut += (id) =>
+        {
+            Plugin.Logger.LogInfo($"Override ran out on {id}");
+            idManager.UnselectAll();
+            modeManager.SetInterfloorMode();
+        };
+        
         activeLoopSound.Stop();
     }
 
     private void Update()
     {
-        if (currentStayOpenTime > 0)
+        if (overrideTeleporterUnloaded && (timeOverrideTeleporterUnloaded + OverrideDuration) < Time.time)
         {
-            currentStayOpenTime -= Time.deltaTime;
-        }
-        else if (!teleporterClosed)
-        {
-            teleporter.ToggleDoor(false);
-            ToggleDoor(false);
-            teleporterClosed = true;
-            activationTerminal.unlocked = false;
-
-            DeactivateTeleporter();
+            modeManager.SetInterfloorMode();
+            overrideTeleporterUnloaded = false;
         }
     }
 
@@ -69,10 +83,8 @@ internal class ProtoTeleporterManager : ProtoUpgrade
         teleporter.warpToPos = positionData.teleportPosition;
         teleporter.warpToAngle = positionData.teleportAngle;
 
-        currentStayOpenTime = 0;
-
         TeleporterOverride.SetOverrideTeleporterID(teleporterID);
-        TeleporterOverride.SetOverrideTime(120f);
+        TeleporterOverride.SetOverrideTime(OverrideDuration);
         TeleporterOverride.OnTeleportStarted(this);
 
         Camera.main.GetComponent<ProtoScreenTeleporterFXManager>().SetColors(TeleportScreenColInner, TeleportScreenColMiddle, TeleportScreenColOuter);
@@ -110,47 +122,6 @@ internal class ProtoTeleporterManager : ProtoUpgrade
     public string GetTeleporterIDNoIndicator()
     {
         return teleporterID.Replace("M", string.Empty).Replace("S", string.Empty);
-    }
-
-    //Called by PrecursorTeleporterActivationTerminal via SendMessage
-    public void ToggleDoor(bool open)
-    {
-        if (open)
-        {
-            teleporterClosed = false;
-            currentStayOpenTime = stayOpenTime;
-        }
-        else
-        {
-            activeLoopSound.Stop();
-            teleporter.isOpen = false;
-        }
-
-        activationTerminal = GetComponentInChildren<PrecursorTeleporterActivationTerminal>();
-    }
-
-    private void DeactivateTeleporter()
-    {
-        TeleporterManager.main.activeTeleporters.Remove("prototypetp");
-    }
-
-    public void OnActivationTerminalCinematicStarted()
-    {
-        activationTerminal = GetComponentInChildren<PrecursorTeleporterActivationTerminal>();
-        activationTerminal.GetComponentInChildren<Collider>(true).isTrigger = true;
-        StartCoroutine(FallbackEnableCollider());
-    }
-
-    public void OnActivationTerminalCinematicEnded()
-    {
-        activationTerminal.GetComponentInChildren<Collider>(true).isTrigger = false;
-    }
-
-    private IEnumerator FallbackEnableCollider()
-    {
-        yield return new WaitForSeconds(7.5f);
-
-        activationTerminal.GetComponentInChildren<Collider>(true).isTrigger = false;
     }
 
     public void PlayOverrideMarker1()

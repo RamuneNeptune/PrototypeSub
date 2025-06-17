@@ -97,7 +97,6 @@ internal class ProtoStoryLocker : MonoBehaviour
         powerDepositManager.SetStoryLocked(true);
 
         terminalTrigger.SetStoryLocked(true);
-        teleporterManager.ToggleDoor(false);
 
         enteredFullLock = true;
         IngameMenu_Patches.SetDenySaving(true);

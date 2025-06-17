@@ -106,6 +106,14 @@ public class ProtoTeleporterIDManager : MonoBehaviour, ISaveDataListener
         }
     }
 
+    public void UnselectAll()
+    {
+        foreach (var locationItem in locationItems)
+        {
+            locationItem.Value.SetSelected(false);
+        }
+    }
+
     public void ToggleScreenActive()
     {
         screenActive = !screenActive;

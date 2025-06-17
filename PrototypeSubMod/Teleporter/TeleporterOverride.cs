@@ -19,6 +19,9 @@ internal class TeleporterOverride : MonoBehaviour
     private static bool OverrideRequested;
     private static ProtoTeleporterManager LastOverrideOwner;
 
+    public static event Action<string> OnOverrideRunOut;
+    public static event Action<string, float> OnActiveTeleporterUnloaded;
+    public static event Action<string> OnUnloadedTeleporterReload;
     private static event Action OnTeleportStart;
 
     private Vector3 originalTeleportPosition;
@@ -79,7 +82,7 @@ internal class TeleporterOverride : MonoBehaviour
         if (teleporterID != FullOverrideTeleporterID) return;
 
         UWE.CoroutineHost.StartCoroutine(WaitToPlayFirstStatus());
-
+        
         float timeLeft = TimeWhenPortalUnloaded - Time.time + TimeLeftWhenUnloaded;
         if (QueuedResetOverrideTime)
         {
@@ -97,6 +100,8 @@ internal class TeleporterOverride : MonoBehaviour
         {
             TryRetrieveFxMaterial();
         }
+
+        OnUnloadedTeleporterReload?.Invoke(teleporterID);
     }
 
     private void TargetTeleporterCheck()
@@ -136,6 +141,7 @@ internal class TeleporterOverride : MonoBehaviour
             teleporter.warpToPos = originalTeleportPosition;
             teleporter.warpToAngle = originalTeleportAngle;
             overrideActive = false;
+            OnOverrideRunOut?.Invoke(teleporterID);
         }
 
         if (overrideTimeLastFrame > 30f && currentOverrideTime <= 30f)
@@ -195,6 +201,7 @@ internal class TeleporterOverride : MonoBehaviour
         {
             TimeWhenPortalUnloaded = Time.time;
             TimeLeftWhenUnloaded = currentOverrideTime;
+            OnActiveTeleporterUnloaded?.Invoke(teleporterID, currentOverrideTime);
         }
     }
 

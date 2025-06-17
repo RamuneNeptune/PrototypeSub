@@ -119,7 +119,7 @@ internal class ProtoBuildTerminal : Crafter
         StartConstruction(sub, TechType.None, buildDuration);
 
         // Failsafe end construct to fix Octo's weird bug
-        yield return new WaitForSeconds(buildDuration + 0.2f);
+        yield return new WaitForSeconds(buildDuration + 1f);
         Plugin.Logger.LogInfo("Sub should be finished building");
         ErrorMessage.AddDebug("Sub should be finished building | Logging debug info");
 
