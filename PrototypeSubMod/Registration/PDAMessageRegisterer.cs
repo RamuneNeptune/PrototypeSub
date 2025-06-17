@@ -19,7 +19,8 @@ internal static class PDAMessageRegisterer
         PDALog_Patches.entries.Add(("PDA_Breach2Left", "PDA_Breach2Left"));
         PDALog_Patches.entries.Add(("PDA_Breach1Left", "PDA_Breach1Left"));
         PDALog_Patches.entries.Add(("PDA_Breach0Left", "PDA_Breach0Left"));
-
+        PDALog_Patches.entries.Add(("PDA_OnEnterEngineFacility", "OnEnterEngineFacility"));
+        
         sw.Stop();
         Plugin.Logger.LogInfo($"PDA Messages registered in {sw.ElapsedMilliseconds}ms");
     }
