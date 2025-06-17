@@ -1,17 +1,18 @@
 ﻿using Nautilus.Assets;
 using Nautilus.Assets.Gadgets;
 using Nautilus.Assets.PrefabTemplates;
+using PrototypeSubMod.Compatibility;
 using UnityEngine;
 
 namespace PrototypeSubMod.Prefabs;
  
-internal class InterceptorIslandTeleporterKey_World
+internal class InterceptorFacilityKey
 {
     public static PrefabInfo prefabInfo { get; private set; }
 
     public static void Register()
     {
-        prefabInfo = PrefabInfo.WithTechType("ProtoIslandTeleporterKey", null, null)
+        prefabInfo = PrefabInfo.WithTechType("InterceptorFacilityKey", null, null)
             .WithIcon(Plugin.AssetBundle.LoadAsset<Sprite>("InterceptorTabletIcon"));
 
         var prefab = new CustomPrefab(prefabInfo);
@@ -40,6 +41,8 @@ internal class InterceptorIslandTeleporterKey_World
         prefab.SetGameObject(cloneTemplate);
         prefab.SetEquipment(EquipmentType.Hand);
 
+        prefab.SetRecipe(ROTACompatManager.GetRelevantRecipe("InterceptorFacilityKey.json"));
+        
         prefab.Register();
     }
 }

@@ -30,7 +30,7 @@ internal static class PrefabRegisterer
         ProtoEngineFacilityRoom.Register();
         PrecursorCross.Register();
         PrecursorRadio.Register();
-        InterceptorIslandTeleporterKey_World.Register();
+        InterceptorFacilityKey.Register();
         DefenseStoryGoalTrigger_World.Register();
         DecorativeForceFieldArchway.Register();
         NonfunctionalKeyTerminal.Register();
