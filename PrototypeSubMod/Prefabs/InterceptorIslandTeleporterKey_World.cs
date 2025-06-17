@@ -11,8 +11,8 @@ internal class InterceptorIslandTeleporterKey_World
 
     public static void Register()
     {
-        prefabInfo = PrefabInfo.WithTechType("ProtoIslandTeleporterKey", null, null, "English")
-            .WithIcon(Plugin.AssetBundle.LoadAsset<Sprite>("IslandTeleporterKey_Icon"));
+        prefabInfo = PrefabInfo.WithTechType("ProtoIslandTeleporterKey", null, null)
+            .WithIcon(Plugin.AssetBundle.LoadAsset<Sprite>("InterceptorTabletIcon"));
 
         var prefab = new CustomPrefab(prefabInfo);
         var cloneTemplate = new CloneTemplate(prefabInfo, TechType.PrecursorKey_Purple);
