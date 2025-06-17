@@ -120,6 +120,16 @@ internal class ProtoBuildTerminal : Crafter
 
         // Failsafe end construct to fix Octo's weird bug
         yield return new WaitForSeconds(buildDuration + 0.2f);
+        Plugin.Logger.LogInfo("Sub should be finished building");
+        ErrorMessage.AddDebug("Sub should be finished building | Logging debug info");
+
+        Plugin.Logger.LogInfo($"VFXConstructing = {constructing}");
+        Plugin.Logger.LogInfo($"Done = {constructing.isDone}");
+        Plugin.Logger.LogInfo($"Enabled = {constructing.enabled}");
+        Plugin.Logger.LogInfo($"Overlay = {constructing.ghostMaterial}");
+        Plugin.Logger.LogInfo($"Inform GO = {constructing.informGameObject}");
+        Plugin.Logger.LogInfo($"behavior[0].enabled = {constructing.disableBehaviours?[0]?.enabled}");
+        
         if (!constructing.isDone && !constructing.enabled)
         {
             ErrorMessage.AddError($"Sub isn't finished building. Fixing");
@@ -129,15 +139,10 @@ internal class ProtoBuildTerminal : Crafter
             constructing.WakeUpSubmarine();
             constructing.isDone = true;
             constructing.informGameObject.BroadcastMessage("OnConstructionDone", constructing.gameObject);
-
-            constructing.PlaySplashFX();
-            constructing.PlaySplashSoundEffect();
-            constructing.ApplySplashImpulse();
             constructing.EndConstruct();
         }
         
-        Plugin.Logger.LogInfo("Sub should be finished building");
-        ErrorMessage.AddDebug("Sub should be finished building");
+        Plugin.Logger.LogInfo("Went past construction fix");
     }
 
     private IEnumerator RecentralizeSubDelayed()
