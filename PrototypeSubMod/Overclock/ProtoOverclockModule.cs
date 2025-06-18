@@ -3,7 +3,7 @@ using PrototypeSubMod.MotorHandler;
 using PrototypeSubMod.PowerSystem;
 using PrototypeSubMod.Upgrades;
 using UnityEngine;
-using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 namespace PrototypeSubMod.Overclock;
 
@@ -23,15 +23,28 @@ internal class ProtoOverclockModule : ProtoUpgrade
     [SerializeField] private float hullBreachMinActiveTime;
     [SerializeField] private float minTimeBetweenBreaches;
 
+    private PilotingChair chair;
     private float currentHullBreachTime;
     private float currentTimeBetweenBreaches;
 
+    private void Start()
+    {
+        chair = subRoot.GetComponentInChildren<PilotingChair>();
+    }
+    
     private void Update()
     {
         if (!upgradeInstalled || ionGenerator.GetUpgradeEnabled())
         {
             motorHandler.RemoveSpeedBonus(this);
             motorHandler.RemoveTurningTorqueMultiplier(this);
+            return;
+        }
+
+        if (Player.main.currChair != chair)
+        {
+            if (upgradeEnabled) SetUpgradeEnabled(false);
+
             return;
         }
 
