@@ -70,8 +70,8 @@ internal class ProtoOverclockModule : ProtoUpgrade
         
         motorHandler.AddSpeedBonus(new ProtoMotorHandler.ValueRegistrar(this, speedBaseBonus));
         motorHandler.AddTurningTorqueMultiplier(new  ProtoMotorHandler.ValueRegistrar(this, turningTorqueMultiplier));
-        
-        float normalizedSpeed = subRoot.rigidbody.velocity.magnitude / motorHandler.GetMaxSpeed();
+
+        float normalizedSpeed = motorHandler.GetNormalizedSpeed();
         
         MainCameraControl.main.ShakeCamera(0.2f * normalizedSpeed);
         SNCameraRoot.main.SetFov(Mathf.Lerp(SNCameraRoot.main.CurrentFieldOfView,

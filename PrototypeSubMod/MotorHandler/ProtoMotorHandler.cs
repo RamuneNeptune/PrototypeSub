@@ -102,6 +102,11 @@ internal class ProtoMotorHandler : MonoBehaviour
         speedBonuses.Clear();
     }
 
+    public float GetNormalizedSpeed()
+    {
+        return motorMode.subRoot.rigidbody.velocity.magnitude / GetMaxSpeed();
+    }
+
     /// <summary>
     /// Set this to -1 if you don't want to change it
     /// </summary>
