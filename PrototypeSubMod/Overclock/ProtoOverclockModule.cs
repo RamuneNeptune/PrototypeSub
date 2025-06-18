@@ -1,4 +1,5 @@
-﻿using PrototypeSubMod.IonGenerator;
+﻿using Nautilus.Handlers;
+using PrototypeSubMod.IonGenerator;
 using PrototypeSubMod.MotorHandler;
 using PrototypeSubMod.PowerSystem;
 using PrototypeSubMod.UI.AbilitySelection;
@@ -24,11 +25,13 @@ internal class ProtoOverclockModule : ProtoUpgrade
     [SerializeField, Range(0, 1)] private float chanceForHullBreach;
     [SerializeField] private float hullBreachMinActiveTime;
     [SerializeField] private float minTimeBetweenBreaches;
+    [SerializeField] private float sfxRampUpTime = 2f;
 
     private PilotingChair chair;
     private PDACameraFOVControl pdaCameraControl;
     private float currentHullBreachTime;
     private float currentTimeBetweenBreaches;
+    private float currentRampUpTime;
 
     private void Start()
     {
@@ -76,6 +79,22 @@ internal class ProtoOverclockModule : ProtoUpgrade
         MainCameraControl.main.ShakeCamera(0.2f * normalizedSpeed);
         SNCameraRoot.main.SetFov(Mathf.Lerp(SNCameraRoot.main.CurrentFieldOfView,
             MiscSettings.fieldOfView + fovIncrease * normalizedSpeed, Time.deltaTime * 2f));
+
+        HandleSFXVolume();
+    }
+
+    private void HandleSFXVolume()
+    {
+        if (currentRampUpTime < sfxRampUpTime)
+        {
+            currentRampUpTime += Time.deltaTime;
+        }
+        
+        if (!CustomSoundHandler.TryGetCustomSoundChannel(loopingEmitter.GetInstanceID(), out var loopingChannel))
+            return;
+
+        float rampUpMultiplier = currentRampUpTime / sfxRampUpTime;
+        loopingChannel.setVolume(motorHandler.GetNormalizedSpeed() * rampUpMultiplier);
     }
 
     private void HandleHullBreaches(bool couldConsume)
@@ -127,6 +146,7 @@ internal class ProtoOverclockModule : ProtoUpgrade
         {
             subRoot.voiceNotificationManager.PlayVoiceNotification(enabledVoiceline);
             loopingEmitter.Play();
+            currentRampUpTime = 0;
         }
         else
         {
