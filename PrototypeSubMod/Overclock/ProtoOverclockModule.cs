@@ -11,6 +11,7 @@ internal class ProtoOverclockModule : ProtoUpgrade
 {
     [SerializeField] private SubRoot subRoot;
     [SerializeField] private CyclopsExternalDamageManager damageManager;
+    [SerializeField] private FMOD_CustomLoopingEmitter loopingEmitter;
     [SerializeField] private ProtoMotorHandler motorHandler;
     [SerializeField] private ProtoIonGenerator ionGenerator;
     [SerializeField] private VoiceNotification enabledVoiceline;
@@ -101,6 +102,11 @@ internal class ProtoOverclockModule : ProtoUpgrade
         if (upgradeEnabled)
         {
             subRoot.voiceNotificationManager.PlayVoiceNotification(enabledVoiceline);
+            loopingEmitter.Play();
+        }
+        else
+        {
+            loopingEmitter.Stop();
         }
     }
 
