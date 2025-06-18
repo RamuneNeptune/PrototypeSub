@@ -92,6 +92,10 @@ internal static class StoryGoalsRegisterer
         StoryGoalHandler.RegisterCustomEvent("DefenseFacilityAuditEncy", () =>
         {
             PDAEncyclopedia.Add("DefenseFacilityAuditEncy", true);
+            
+            KnownTech.Add(DefenseFacilityKey.prefabInfo.TechType);
+
+            PDAEncyclopedia.Add("DefenseFacilityKey", true);
         });
         #endregion
 
@@ -153,6 +157,14 @@ internal static class StoryGoalsRegisterer
         StoryGoalHandler.RegisterCustomEvent("DefenseCloakDisabled", null);
         StoryGoalHandler.RegisterCustomEvent("PrototypeSpawned", null);
         StoryGoalHandler.RegisterCustomEvent("PrototypeCrafted", null);
+
+        StoryGoalHandler.RegisterCompoundGoal("UnlockEngineFacilityKey", Story.GoalType.Story, 22, "PrototypeCrafted");
+        StoryGoalHandler.RegisterCustomEvent("UnlockEngineFacilityKey", () =>
+        {
+            KnownTech.Add(EngineFacilityKey.prefabInfo.TechType);
+
+            PDAEncyclopedia.Add("EngineFacilityKey", true);
+        });
         
         sw.Stop();
         Plugin.Logger.LogInfo($"Story goals registered in {sw.ElapsedMilliseconds}ms");
