@@ -137,6 +137,7 @@ internal class ProtoTeleporterManager : ProtoUpgrade
     
     public override bool OnActivated() => false;
     public override void OnSelectedChanged(bool selected) { }
+    public override bool GetShouldShow() => false;
 }
 
 public struct ColorOverrideData

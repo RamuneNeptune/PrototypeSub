@@ -27,13 +27,9 @@ internal class DeployablesStorageTerminal : MonoBehaviour, ISaveDataListener, IL
     public static string[] LightBeaconSlots { get; } = new[]
     {
         "DeployableStorageSlot1",
-        "DeployableStorageSlot3",
-    };
-
-    public static string[] CreatureDecoySlots { get; } = new[]
-    {
         "DeployableStorageSlot2",
-        "DeployableStorageSlot4",
+        "DeployableStorageSlot3",
+        "DeployableStorageSlot4"
     };
 
     private static bool SlotmappingInitialized;
@@ -86,7 +82,6 @@ internal class DeployablesStorageTerminal : MonoBehaviour, ISaveDataListener, IL
 
         equipment.typeToSlots = new Dictionary<EquipmentType, List<string>>()
         {
-            { EquipmentType.DecoySlot, CreatureDecoySlots.ToList()},
             { Plugin.LightBeaconEquipmentType, LightBeaconSlots.ToList() }
         };
     }
@@ -98,11 +93,6 @@ internal class DeployablesStorageTerminal : MonoBehaviour, ISaveDataListener, IL
         foreach (string slot in LightBeaconSlots)
         {
             Equipment.slotMapping.Add(slot, Plugin.LightBeaconEquipmentType);
-        }
-
-        foreach (string slot in CreatureDecoySlots)
-        {
-            Equipment.slotMapping.Add(slot, EquipmentType.DecoySlot);
         }
 
         SlotmappingInitialized = true;

@@ -14,38 +14,17 @@ internal class ProtoDeployableManager : ProtoUpgrade
     [SerializeField] private ProtoIonGenerator ionGenerator;
     [SerializeField] private SubRoot subRoot;
     [SerializeField] private VoiceNotification launchLightNotification;
-    [SerializeField] private VoiceNotification launchDecoyNotification;
     [SerializeField] private VoiceNotification invalidOperationNotification;
     [SerializeField] private FMOD_CustomEmitter deployLightSFX;
     [SerializeField] private GameObject lightPrefab;
     [SerializeField] private Transform lightSpawnTransform;
-    [SerializeField] private Transform decoySpawnTransform;
-    [SerializeField] private GenericRadialAbility decoyAbility;
     [SerializeField] private GenericRadialAbility lightAbility;
     
-    [SerializeField] private int decoyChargeConsumption;
     [SerializeField] private float launchLightDelay;
     [SerializeField] private float lightLaunchForce;
-    [SerializeField] private float launchDecoyDelay;
 
     private int lightCount;
-    private int decoyCount;
-    private GameObject decoyPrefab;
     private List<string> availableLightSlots = new();
-    private List<string> availableDecoySlots = new();
-
-    private void Start()
-    {
-        UWE.CoroutineHost.StartCoroutine(Initialize());
-    }
-
-    private IEnumerator Initialize()
-    {
-        CoroutineTask<GameObject> task = CraftData.GetPrefabForTechTypeAsync(TechType.CyclopsDecoy);
-        yield return task;
-
-        decoyPrefab = task.result.Get();
-    }
 
     public void TryLaunchLight()
     {
@@ -72,32 +51,6 @@ internal class ProtoDeployableManager : ProtoUpgrade
         }
     }
 
-    public void TryLaunchDecoy()
-    {
-        if (ionGenerator.GetUpgradeEnabled() && ionGenerator.GetUpgradeInstalled())
-        {
-            subRoot.voiceNotificationManager.PlayVoiceNotification(invalidOperationNotification);
-            return;
-        }
-
-        if (decoyCount > 0)
-        {
-            subRoot.powerRelay.ConsumeEnergy(PrototypePowerSystem.CHARGE_POWER_AMOUNT * decoyChargeConsumption, out _);
-            
-            string slot = availableDecoySlots[availableDecoySlots.Count - 1];
-            storageTerminal.equipment.RemoveItem(slot, true, false);
-
-            Invoke(nameof(SpawnDecoyDelayed), launchDecoyDelay);
-
-            subRoot.voiceNotificationManager.PlayVoiceNotification(launchDecoyNotification);
-        }
-        else
-        {
-            subRoot.voiceNotificationManager.PlayVoiceNotification(invalidOperationNotification);
-            decoyAbility.SetQueuedActivationFailure();
-        }
-    }
-
     private void SpawnLightDelayed()
     {
         var lightComponent = Instantiate(lightPrefab, lightSpawnTransform.position, lightSpawnTransform.rotation).GetComponent<DeployableLight>();
@@ -106,21 +59,9 @@ internal class ProtoDeployableManager : ProtoUpgrade
         lightComponent.LaunchWithForce(lightLaunchForce, subRoot.rb.velocity);
     }
 
-    private void SpawnDecoyDelayed()
-    {
-        var decoyComponent = Instantiate(decoyPrefab, decoySpawnTransform.position, Quaternion.identity).GetComponent<CyclopsDecoy>();
-        decoyComponent.gameObject.SetActive(true);
-
-        if (decoyComponent)
-        {
-            decoyComponent.launch = true;
-        }
-    }
-
     public void RecalculateDeployableTotals()
     {
         lightCount = 0;
-        decoyCount = 0;
 
         foreach (var slot in DeployablesStorageTerminal.LightBeaconSlots)
         {
@@ -130,17 +71,6 @@ internal class ProtoDeployableManager : ProtoUpgrade
             {
                 availableLightSlots.Add(slot);
                 lightCount++;
-            }
-        }
-
-        foreach (var slot in DeployablesStorageTerminal.CreatureDecoySlots)
-        {
-            var item = storageTerminal.equipment.GetItemInSlot(slot);
-
-            if (item != null)
-            {
-                availableDecoySlots.Add(slot);
-                decoyCount++;
             }
         }
     }
