@@ -237,6 +237,11 @@ internal class ProtoMotorHandler : MonoBehaviour
         return allowedToMove;
     }
 
+    public float GetMaxSpeed()
+    {
+        return motorMode.motorModeSpeeds[1];
+    }
+
     public struct ValueRegistrar
     {
         public Component component;

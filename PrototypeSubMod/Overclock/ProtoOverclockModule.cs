@@ -1,6 +1,7 @@
 ﻿using PrototypeSubMod.IonGenerator;
 using PrototypeSubMod.MotorHandler;
 using PrototypeSubMod.PowerSystem;
+using PrototypeSubMod.UI.AbilitySelection;
 using PrototypeSubMod.Upgrades;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -16,6 +17,7 @@ internal class ProtoOverclockModule : ProtoUpgrade
     [SerializeField] private ProtoIonGenerator ionGenerator;
     [SerializeField] private VoiceNotification enabledVoiceline;
     [SerializeField] private VoiceNotification invalidOperationNotification;
+    [SerializeField] private float fovIncrease;
     [SerializeField] private float speedBaseBonus;
     [SerializeField] private float turningTorqueMultiplier;
     [SerializeField] private float secondsToDrainCharge;
@@ -24,12 +26,14 @@ internal class ProtoOverclockModule : ProtoUpgrade
     [SerializeField] private float minTimeBetweenBreaches;
 
     private PilotingChair chair;
+    private PDACameraFOVControl pdaCameraControl;
     private float currentHullBreachTime;
     private float currentTimeBetweenBreaches;
 
     private void Start()
     {
         chair = subRoot.GetComponentInChildren<PilotingChair>();
+        pdaCameraControl = Player.main.GetComponent<PDACameraFOVControl>();
     }
     
     private void Update()
@@ -41,10 +45,10 @@ internal class ProtoOverclockModule : ProtoUpgrade
             return;
         }
 
-        if (Player.main.currChair != chair)
+        if (Player.main.currChair != chair && upgradeEnabled)
         {
-            if (upgradeEnabled) SetUpgradeEnabled(false);
-
+            SetUpgradeEnabled(false);
+            subRoot.GetComponentInChildren<TetherManager>().ForceSelectedIconUpdate();
             return;
         }
 
@@ -66,6 +70,12 @@ internal class ProtoOverclockModule : ProtoUpgrade
         
         motorHandler.AddSpeedBonus(new ProtoMotorHandler.ValueRegistrar(this, speedBaseBonus));
         motorHandler.AddTurningTorqueMultiplier(new  ProtoMotorHandler.ValueRegistrar(this, turningTorqueMultiplier));
+        
+        float normalizedSpeed = subRoot.rigidbody.velocity.magnitude / motorHandler.GetMaxSpeed();
+        
+        MainCameraControl.main.ShakeCamera(0.2f * normalizedSpeed);
+        SNCameraRoot.main.SetFov(Mathf.Lerp(SNCameraRoot.main.CurrentFieldOfView,
+            MiscSettings.fieldOfView + fovIncrease * normalizedSpeed, Time.deltaTime * 2f));
     }
 
     private void HandleHullBreaches(bool couldConsume)
@@ -112,6 +122,7 @@ internal class ProtoOverclockModule : ProtoUpgrade
     {
         base.SetUpgradeEnabled(enabled);
 
+        pdaCameraControl.enabled = !enabled;
         if (upgradeEnabled)
         {
             subRoot.voiceNotificationManager.PlayVoiceNotification(enabledVoiceline);
