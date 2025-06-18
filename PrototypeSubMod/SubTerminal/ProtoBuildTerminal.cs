@@ -108,6 +108,7 @@ internal class ProtoBuildTerminal : Crafter
         sub.transform.position = buildPosition.position;
         sub.transform.rotation = buildPosition.rotation;
         sub.gameObject.SetActive(true);
+        sub.GetComponent<Stabilizer>().enabled = true;
         warpFXSpawner.SpawnWarpInFX(buildPosition.position, Vector3.one * 2f);
         
         yield return new WaitForEndOfFrame();
