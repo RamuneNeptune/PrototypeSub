@@ -266,8 +266,6 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
         bool currentlyInstalled = upgradeManager.GetUpgradeInstalled(techType.TechType);
         upgradeManager.SetUpgradeInstalled(techType.TechType, !currentlyInstalled);
 
-        ErrorMessage.AddError($"Changing {techType.TechType} to installed = {!currentlyInstalled}");
-
         if (!currentlyInstalled)
         {
             upgradeScreen.InstallUpgrade(this);
