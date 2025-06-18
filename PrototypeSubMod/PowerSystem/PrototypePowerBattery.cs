@@ -72,6 +72,8 @@ public class PrototypePowerBattery : MonoBehaviour, IBattery, IProtoTreeEventLis
     {
         if (initialized) return;
 
+        Plugin.GlobalSaveData.OnStartedSaving += OnBeforeDataSaved;
+
         pickupable = GetComponent<Pickupable>();
         prefabIdentifier = GetComponent<PrefabIdentifier>();
         connectedBattery = GetComponents<IBattery>().FirstOrDefault(i => i != (IBattery)this);
@@ -158,9 +160,14 @@ public class PrototypePowerBattery : MonoBehaviour, IBattery, IProtoTreeEventLis
     {
         if (connectedBattery != null) return;
 
-        Initialize();
+        Plugin.Logger.LogInfo($"Prefab identifier before = {prefabIdentifier}");
+        prefabIdentifier = GetComponent<PrefabIdentifier>();
+        Plugin.Logger.LogInfo($"Prefab identifier after = {prefabIdentifier}");
         
         var data = Plugin.GlobalSaveData;
+        Plugin.Logger.LogInfo($"Data = {data}");
+        Plugin.Logger.LogInfo($"Normalized battery charges = {data?.normalizedBatteryCharges}");
+        
         if (!data.normalizedBatteryCharges.ContainsKey(prefabIdentifier.Id))
         {
             data.normalizedBatteryCharges.Add(prefabIdentifier.Id, charge / capacity);
@@ -171,11 +178,10 @@ public class PrototypePowerBattery : MonoBehaviour, IBattery, IProtoTreeEventLis
         }
     }
 
-    private void OnEnable() => Plugin.GlobalSaveData.OnStartedSaving += OnBeforeDataSaved;
-    private void OnDisable() => Plugin.GlobalSaveData.OnStartedSaving -= OnBeforeDataSaved;
-
     private void OnDestroy()
     {
+        Plugin.GlobalSaveData.OnStartedSaving -= OnBeforeDataSaved;
+        
         if (!prefabIdentifier) return;
 
         Plugin.GlobalSaveData.normalizedBatteryCharges.Remove(prefabIdentifier.Id);
