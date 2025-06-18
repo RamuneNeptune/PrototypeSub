@@ -28,7 +28,7 @@ internal class PDALog_Patches
             var fmodAsset = AudioUtils.GetFmodAsset(item.assetName);
             fmodAsset.id = fmodAsset.path;
 
-            PDALog.EntryData interceptorTestEncy = new()
+            PDALog.EntryData ency = new()
             {
                 key = item.key,
                 type = PDALog.EntryType.Default,
@@ -37,7 +37,7 @@ internal class PDALog_Patches
                 doNotAutoPlay = false
             };
 
-            PDALog.mapping.Add(item.key, interceptorTestEncy);
+            PDALog.mapping.Add(item.key, ency);
         }
     }
 }
