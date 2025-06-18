@@ -14,6 +14,7 @@ internal class ProtoStasisPulse : ProtoUpgrade
     [SerializeField] private Gradient colorOverLifetime;
     [SerializeField] private PowerRelay powerRelay;
     [SerializeField] private FMOD_CustomEmitter activationSfx;
+    [SerializeField] private VoiceNotification invalidOperationVoiceline;
     [SerializeField] private VoiceNotification activationVoiceline;
     [SerializeField] private float activationDelay;
     [SerializeField] private int chargeConsumptionAmount;
@@ -210,6 +211,7 @@ internal class ProtoStasisPulse : ProtoUpgrade
         subRoot.voiceNotificationManager.PlayVoiceNotification(activationVoiceline);
 
         activationSfx.Play();
+        MainCameraControl.main.ShakeCamera(1, activationDelay + 0.1f, MainCameraControl.ShakeMode.BuildUp, 2);
         Invoke(nameof(StartGrow), activationDelay);
         activating = true;
     }
@@ -230,6 +232,7 @@ internal class ProtoStasisPulse : ProtoUpgrade
     {
         if (currentSphereGrowTimeTime < sphereGrowTime || currentCooldownTime > 0)
         {
+            subRoot.voiceNotificationManager.PlayVoiceNotification(invalidOperationVoiceline);
             return false;
         }
 
