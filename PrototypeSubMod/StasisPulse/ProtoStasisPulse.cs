@@ -13,6 +13,7 @@ internal class ProtoStasisPulse : ProtoUpgrade
     [SerializeField] private AnimationCurve sphereRadius;
     [SerializeField] private Gradient colorOverLifetime;
     [SerializeField] private PowerRelay powerRelay;
+    [SerializeField] private FMOD_CustomEmitter activationSfx;
     [SerializeField] private VoiceNotification activationVoiceline;
     [SerializeField] private float activationDelay;
     [SerializeField] private int chargeConsumptionAmount;
@@ -208,6 +209,7 @@ internal class ProtoStasisPulse : ProtoUpgrade
 
         subRoot.voiceNotificationManager.PlayVoiceNotification(activationVoiceline);
 
+        activationSfx.Play();
         Invoke(nameof(StartGrow), activationDelay);
         activating = true;
     }
