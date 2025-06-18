@@ -8,6 +8,7 @@ internal class ProtoDestructionEvent : MonoBehaviour, IOnTakeDamage
 {
     [SerializeField] private SubRoot subRoot;
     [SerializeField] private LiveMixin mixin;
+    [SerializeField] private CanvasGroup hudCanvasGroup;
 
     [Header("Sequences")]
     [SerializeField] private DestructionSequence internalSequence;
@@ -77,6 +78,17 @@ internal class ProtoDestructionEvent : MonoBehaviour, IOnTakeDamage
                 }
             }
         }
+
+        UWE.CoroutineHost.StartCoroutine(CleanupDelayed());
+        subRoot.subDestroyed = true;
+    }
+
+    private IEnumerator CleanupDelayed()
+    {
+        yield return new WaitForEndOfFrame();
+        yield return new WaitForEndOfFrame();
+        
+        hudCanvasGroup.alpha = 0;
     }
     
     private void StartSequences()

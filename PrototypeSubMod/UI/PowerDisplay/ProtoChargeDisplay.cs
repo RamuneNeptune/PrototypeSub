@@ -34,6 +34,11 @@ public class ProtoChargeDisplay : MonoBehaviour, IUIElement
 
         RegenerateCharges();
     }
+    
+    private void OnEnable()
+    {
+        RegenerateCharges();
+    }
 
     public void UpdateUI() { }
 

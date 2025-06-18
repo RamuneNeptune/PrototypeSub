@@ -4,6 +4,7 @@ using Story;
 using System.Collections;
 using Nautilus.Utility;
 using PrototypeSubMod.LightDistortionField;
+using PrototypeSubMod.UI.HealthDisplay;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -103,12 +104,12 @@ internal class ProtoBuildTerminal : Crafter
     {
         yield return new WaitForSeconds(buildDelay);
 
+        screenManager.OnConstructionStarted();
         manager.OnConstructionStarted(buildPosition.position, buildPosition.rotation);
         var sub = manager.GetSubObject();
         sub.transform.position = buildPosition.position;
         sub.transform.rotation = buildPosition.rotation;
         sub.gameObject.SetActive(true);
-        sub.GetComponent<Stabilizer>().enabled = true;
         warpFXSpawner.SpawnWarpInFX(buildPosition.position, Vector3.one * 2f);
         
         yield return new WaitForEndOfFrame();
@@ -119,6 +120,10 @@ internal class ProtoBuildTerminal : Crafter
         
         StartConstruction(sub, TechType.None, buildDuration);
 
+        sub.GetComponent<SubRoot>().subDestroyed = false;
+        sub.GetComponent<Stabilizer>().enabled = true;
+        sub.GetComponentInChildren<ProtoHealthDisplay>().UpdateHealth();
+        
         // Failsafe end construct to fix Octo's weird bug
         yield return new WaitForSeconds(buildDuration + 1f);
         

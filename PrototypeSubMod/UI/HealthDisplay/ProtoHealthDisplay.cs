@@ -13,9 +13,6 @@ public class ProtoHealthDisplay : MonoBehaviour, IOnTakeDamage, IUIElement
     [SerializeField] private CircularMeshGenerator normalArcGenerator;
     [SerializeField] private CircularMeshGenerator lowHealthArcGenerator;
     [SerializeField] private int[] maskAngles;
-
-    private bool lowHealthLastCheck;
-    private bool subDead;
     
     private void Start()
     {
@@ -25,15 +22,18 @@ public class ProtoHealthDisplay : MonoBehaviour, IOnTakeDamage, IUIElement
         UpdateHealth();
     }
 
+    private void OnEnable()
+    {
+        UpdateHealth();
+    }
+
     public void OnTakeDamage(DamageInfo damageInfo)
     {
         UpdateHealth();
     }
 
-    private void UpdateHealth()
+    public void UpdateHealth()
     {
-        if (subDead) return;
-        
         const int incrementCount = 10;
         float normalizedHealth = liveMixin.health / liveMixin.maxHealth;
         int currentSegmentCount = Mathf.CeilToInt(normalizedHealth * incrementCount);
@@ -52,8 +52,6 @@ public class ProtoHealthDisplay : MonoBehaviour, IOnTakeDamage, IUIElement
 
         normalArcGenerator.GenerateMesh();
         lowHealthArcGenerator.GenerateMesh();
-        
-        lowHealthLastCheck = lowHealth;
     }
 
     public void UpdateUI() { }
@@ -61,7 +59,6 @@ public class ProtoHealthDisplay : MonoBehaviour, IOnTakeDamage, IUIElement
     public void OnSubDestroyed()
     {
         lowHealthArcGenerator.gameObject.SetActive(false);
-        subDead = true;
     }
 
     private void OnDestroy()
