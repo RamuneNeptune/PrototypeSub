@@ -1,10 +1,13 @@
-﻿using PrototypeSubMod.Utility;
+﻿using System;
+using PrototypeSubMod.Utility;
 using UnityEngine;
 
 namespace PrototypeSubMod.Facilities;
 
 internal class UnlockProtoUpgrade : MonoBehaviour
 {
+    public static event Action<ProtoUpgradeCategory> OnCategoryUnlocked;
+    
     [SerializeField] private MultipurposeAlienTerminal terminal;
     [SerializeField] private ProtoUpgradeCategory upgradeCategory;
     [SerializeField] private DummyTechType techType;
@@ -35,6 +38,7 @@ internal class UnlockProtoUpgrade : MonoBehaviour
         if (lockedCount == 0)
         {
             message = Language.main.GetFormat("ProtoUpgradeSetComplete", Language.main.Get(techType.TechType));
+            OnCategoryUnlocked?.Invoke(upgradeCategory);
         }
 
         ErrorMessage.AddError(message);

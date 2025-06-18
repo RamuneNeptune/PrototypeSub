@@ -1,6 +1,8 @@
-﻿using PrototypeSubMod.Patches;
+﻿using System;
+using PrototypeSubMod.Patches;
 using PrototypeSubMod.Utility;
 using System.Collections;
+using PrototypeSubMod.Prefabs;
 using UnityEngine;
 
 namespace PrototypeSubMod.Facilities.Interceptor;
@@ -10,12 +12,11 @@ internal class InterceptorIslandManager : MonoBehaviour
     [SaveStateReference]
     public static InterceptorIslandManager Instance;
 
+    [SerializeField] private ProtoUpgradeCategory interceptorCategory;
     [SerializeField] private PrecursorTeleporter teleporter;
-    [SerializeField] private MultipurposeAlienTerminal terminal;
     [SerializeField] private GameObject islandObjects;
     [SerializeField] private DummyTechType emergencyWarpTechType;
     [SerializeField] private Transform respawnPoint;
-    [SerializeField] private string emergencyWarpEncyKey;
 
     private Vector3 voidTeleportPos;
     private Vector3 originalTeleportPos;
@@ -30,14 +31,15 @@ internal class InterceptorIslandManager : MonoBehaviour
     private void Start()
     {
         originalTeleportPos = teleporter.warpToPos;
-        terminal.onTerminalInteracted += OnTerminalInteracted;
+        UnlockProtoUpgrade.OnCategoryUnlocked += OnCategoryComplete;
         SetIslandEnabled(false);
     }
 
-    private void OnTerminalInteracted()
+    private void OnCategoryComplete(ProtoUpgradeCategory category)
     {
-        KnownTech.Add(emergencyWarpTechType.TechType);
-        PDAEncyclopedia.Add(emergencyWarpEncyKey, true);
+        if (interceptorCategory != category) return;
+        
+        KnownTech.Add(InterceptorFacilityKey.prefabInfo.TechType);
     }
 
     public void SetIslandEnabled(bool enabled)
@@ -104,5 +106,10 @@ internal class InterceptorIslandManager : MonoBehaviour
                 light.renderMode = forceRendererd ? LightRenderMode.ForcePixel : LightRenderMode.Auto;
             }
         }
+    }
+
+    private void OnDestroy()
+    {
+        UnlockProtoUpgrade.OnCategoryUnlocked -= OnCategoryComplete;
     }
 }
