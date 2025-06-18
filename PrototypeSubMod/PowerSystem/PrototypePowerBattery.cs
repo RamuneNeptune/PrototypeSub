@@ -160,6 +160,7 @@ public class PrototypePowerBattery : MonoBehaviour, IBattery, IProtoTreeEventLis
     {
         if (connectedBattery != null) return;
 
+        Plugin.Logger.LogInfo($"Saving battery info on {gameObject}");
         Plugin.Logger.LogInfo($"Prefab identifier before = {prefabIdentifier}");
         prefabIdentifier = GetComponent<PrefabIdentifier>();
         Plugin.Logger.LogInfo($"Prefab identifier after = {prefabIdentifier}");
