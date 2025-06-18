@@ -168,6 +168,8 @@ public class PrototypePowerBattery : MonoBehaviour, IBattery, IProtoTreeEventLis
         var data = Plugin.GlobalSaveData;
         Plugin.Logger.LogInfo($"Data = {data}");
         Plugin.Logger.LogInfo($"Normalized battery charges = {data?.normalizedBatteryCharges}");
+        Plugin.Logger.LogInfo($"Capacity = {capacity}");
+        Plugin.Logger.LogInfo($"Charge = {charge}");
         
         if (!data.normalizedBatteryCharges.ContainsKey(prefabIdentifier.Id))
         {
