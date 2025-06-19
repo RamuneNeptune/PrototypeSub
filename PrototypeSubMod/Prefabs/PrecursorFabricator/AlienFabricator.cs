@@ -18,6 +18,7 @@ public class AlienFabricator : GhostCrafter
     public FMODAsset openSound;
     public FMODAsset closeSound;
 
+    [SerializeField]
     public FMOD_CustomLoopingEmitter loopEmitter;
     
 
