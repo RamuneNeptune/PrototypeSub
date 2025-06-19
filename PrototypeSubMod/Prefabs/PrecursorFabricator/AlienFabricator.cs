@@ -56,6 +56,8 @@ public class AlienFabricator : GhostCrafter
 
         customForceField.SetActive(true);
         squareForceField.SetActive(false);
+
+        if (!loopEmitter) loopEmitter = GetComponentInChildren<FMOD_CustomLoopingEmitter>();
         
         if(fxSparksPrefab != null)
             InitSparkFX();
