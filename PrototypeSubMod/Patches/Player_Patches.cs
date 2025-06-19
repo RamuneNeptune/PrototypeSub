@@ -43,7 +43,7 @@ internal class Player_Patches
     [HarmonyPatch(nameof(Player.GetRespawnPosition)), HarmonyPostfix]
     private static void GetRespawnPosition_Postfix(ref Vector3 __result)
     {
-        if (!InterceptorIslandManager.Instance.GetIslandEnabled() || Plugin.GlobalSaveData.reactorSequenceComplete) return;
+        if (!InterceptorIslandManager.Instance.GetIslandEnabled() || !InterceptorReactorSequenceManager.SequenceInProgress) return;
 
         __result = InterceptorIslandManager.Instance.GetRespawnPoint();
     }
@@ -51,18 +51,11 @@ internal class Player_Patches
     [HarmonyPatch(nameof(Player.MovePlayerToRespawnPoint)), HarmonyPrefix]
     private static bool MovePlayerToRespawnPoint_Prefix(Player __instance)
     {
-        if (!InterceptorIslandManager.Instance.GetIslandEnabled() || Plugin.GlobalSaveData.reactorSequenceComplete) return true;
+        if (!InterceptorIslandManager.Instance.GetIslandEnabled() || !InterceptorReactorSequenceManager.SequenceInProgress) return true;
 
         __instance.SetPosition(InterceptorIslandManager.Instance.GetRespawnPoint());
         __instance.SetCurrentSub(null);
         return false;
-    }
-
-    public static Vector3 SwapRespawnPosIfInIsland(Vector3 oldSpawnPos)
-    {
-        if (!InterceptorIslandManager.Instance.GetIslandEnabled() || Plugin.GlobalSaveData.reactorSequenceComplete) return oldSpawnPos;
-
-        return InterceptorIslandManager.Instance.GetRespawnPoint();
     }
 
     [HarmonyPatch(nameof(Player.CheckTeleportationComplete)), HarmonyPostfix]
