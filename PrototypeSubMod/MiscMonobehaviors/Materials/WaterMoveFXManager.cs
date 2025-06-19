@@ -13,8 +13,7 @@ public class WaterMoveFXManager : MonoBehaviour
     private Dictionary<Component, ColorData> colorDatas = new();
 
     private ColorData activeColorData;
-    private Material matInner;
-    private Material matOuter;
+    private Renderer rend;
     
     private void Start()
     {
@@ -23,22 +22,28 @@ public class WaterMoveFXManager : MonoBehaviour
 
     private void Update()
     {
-        if (!matInner) return;
+        if (!rend) return;
 
         if (activeColorData == null) return;
         
-        matInner.color = Color.Lerp(matInner.color, activeColorData.innerColor, Time.deltaTime * transitionSpeed);
-        matOuter.color = Color.Lerp(matOuter.color, activeColorData.outerColor, Time.deltaTime * transitionSpeed);;
+        var materials = rend.materials;
+        
+        materials[0].color = Color.Lerp(materials[0].color, activeColorData.innerColor, Time.deltaTime * transitionSpeed);
+        materials[1].color = Color.Lerp(materials[1].color, activeColorData.outerColor, Time.deltaTime * transitionSpeed);
+
+        rend.materials = materials;
     }
 
     private void OnObjectSpawned(GameObject fx)
     {
-        var rend = fx.GetComponent<Renderer>();
-        matInner = rend.materials[0];
-        matOuter = rend.materials[1];
+        rend = fx.GetComponent<Renderer>();
+        
+        var materials = rend.materials;
 
-        matInner.color = Color.black;
-        matOuter.color = Color.black;
+        materials[0].color = Color.black;
+        materials[1].color = Color.black;
+        
+        rend.materials = materials;
     }
 
     public void RegisterColor(Component owner, int priority, Color innerColor, Color outerColor)
