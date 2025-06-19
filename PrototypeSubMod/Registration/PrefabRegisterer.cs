@@ -25,7 +25,6 @@ internal static class PrefabRegisterer
         DeployableLight_Craftable.Register();
         ListeningDevice_Craftable.Register();
         ProtoRepairBot_Spawned.Register();
-        CrystalMatrix_Craftable.Register();
         DeactivatedTeleporter_World.Register();
         ProtoEngineFacilityRoom.Register();
         PrecursorCross.Register();
@@ -42,12 +41,14 @@ internal static class PrefabRegisterer
         HullOutpostTeleporter.Register();
         ObstructionRockLoadFar.Register();
         PrototypeSpawner.Register();
+        CrystalMatrix_Craftable.Register();
+        IonCrystal_Craftable.Register();
         ProtoFacilitySpawner.Register("ProtoHullFacilitySpawner", "HullFacilitySpawner");
         ProtoFacilitySpawner.Register("ProtoEngineFacilitySpawner", "EngineFacilitySpawner");
         
         PrecursorFabricator.Register();
         PrecursorPhaseGate.Register();
-
+        
         WatergateBlock.Register();
         ProtoPlaque_World.Register();
         ProtoLogo_World.Register();
