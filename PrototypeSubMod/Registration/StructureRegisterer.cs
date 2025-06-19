@@ -18,6 +18,7 @@ internal static class StructureRegisterer
         StructureLoading.RegisterStructure(LoadStructureFromBundle("DefenseChamber"), ref entityCount);
         StructureLoading.RegisterStructure(LoadStructureFromBundle("DefenseTunnel"), ref entityCount);
         StructureLoading.RegisterStructure(LoadStructureFromBundle("EngineFacilityObjects"), ref entityCount);
+        StructureLoading.RegisterStructure(LoadStructureFromBundle("EngineFacilityAdditions_Octo"), ref entityCount);
         StructureLoading.RegisterStructure(LoadStructureFromBundle("EngineFacilityExteriorObjects"), ref entityCount);
         StructureLoading.RegisterStructure(LoadStructureFromBundle("DefenseMoonpool"), ref entityCount);
         StructureLoading.RegisterStructure(LoadStructureFromBundle("ProtoItemDisplayCases"), ref entityCount);
