@@ -21,7 +21,7 @@ internal class SpawnPrefabAtRuntime : MonoBehaviour, IMaterialModifier
     [SerializeField] private Vector3 localRot;
     [SerializeField] private Vector3 localScale = Vector3.one;
 
-    private void Awake()
+    private void Start()
     {
         CoroutineHost.StartCoroutine(SpawnPrefab());
     }
