@@ -188,6 +188,9 @@ internal class DeployableLight : MonoBehaviour, IProtoTreeEventListener
         Plugin.GlobalSaveData.OnStartedSaving -= SaveLifetimes;
         breakSFX.Stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
         loopingSFX.Stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+
+        if (!identifier) return;
+        
         if (currentLifetime > 0)
         {
             SaveLifetimes(null, null);
