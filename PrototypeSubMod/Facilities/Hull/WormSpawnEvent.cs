@@ -39,13 +39,20 @@ public class WormSpawnEvent : MonoBehaviour
     private bool calledDestroy;
     private int particleCount;
     private float timeNextParticles = float.MinValue;
-    private float timeSpawned;
     private float timeOffset;
 
     private void Awake()
     {
         disableObjects.SetActive(false);
         UWE.CoroutineHost.StartCoroutine(TryRetrieveFXPrefabs());
+
+        float speed = wormAnimator.GetRotationSpeed();
+        bool rotationNeedsFlip = Vector3.Dot(Quaternion.AngleAxis(speed, transform.right) * transform.forward, Vector3.up) <
+                    Vector3.Dot(Quaternion.AngleAxis(-speed, transform.right) * transform.forward, Vector3.up);
+        if (rotationNeedsFlip)
+        {
+            wormAnimator.SetRotationSpeed(-speed);
+        }
     }
 
     private IEnumerator Start()
@@ -58,7 +65,6 @@ public class WormSpawnEvent : MonoBehaviour
 
         if (_activeSpawnLocations.Contains(transform.position))
         {
-            Plugin.Logger.LogInfo($"Spawn locations contains {transform.position} | Destroying {gameObject}");
             Destroy(gameObject);
             calledDestroy = true;
             yield break;
@@ -102,15 +108,16 @@ public class WormSpawnEvent : MonoBehaviour
         bool hit1 = cell1 != null && !cell1.IsEmpty();
         bool hit2 = cell2 != null && !cell2.IsEmpty();
         bool hitTerrain = hit1 && hit2;
-        
-        if (hitTerrain && Time.time > timeNextParticles && wormAnimator.GetNormalizedProgress() > 0.25f)
+
+        float relativeWormLength = wormAnimator.GetDistanceMoved() / wormAnimator.GetWormLength();
+        if (hitTerrain && Time.time > timeNextParticles && relativeWormLength > 0.2f)
         {
             const int maxParticleCount = 6;
             if (particleCount <= maxParticleCount)
             {
                 float normalizedParticleCount = (float)particleCount / maxParticleCount;
-                float particleDuration = Mathf.Lerp(wormAnimator.GetTimeForWormLength() / 1.5f,
-                    wormAnimator.GetTimeForWormLength(),Mathf.InverseLerp(0.5f, 1f, normalizedParticleCount));
+                float particleDuration = Mathf.Lerp(wormAnimator.GetWormLength() / 1.5f,
+                    wormAnimator.GetWormLength(),Mathf.InverseLerp(0.5f, 1f, normalizedParticleCount));
                 
                 UWE.CoroutineHost.StartCoroutine(SpawnPrefabRepeating(_digInFX, raycastOrigin.position, particleDuration,
                     0.5f));
@@ -119,29 +126,30 @@ public class WormSpawnEvent : MonoBehaviour
             }
         }
 
-        if (wormAnimator.GetNormalizedProgress() >= 1f)
+        if (Mathf.Abs(wormAnimator.GetTravelledAngle()) > 270)
         {
             wormActive = false;
         }
 
         float sqrDistToHead = (raycastOrigin.position - transform.position).sqrMagnitude;
-        if (!spawnedDigOutParticles && sqrDistToHead < 25 && Time.time > timeSpawned + 0.2f)
+        Plugin.Logger.LogInfo($"Spawned dig out particles = {spawnedDigOutParticles} | Sqr dist to head = {sqrDistToHead}");
+        if (!spawnedDigOutParticles && sqrDistToHead < 100)
         {
             UWE.CoroutineHost.StartCoroutine(SpawnPrefabRepeating(_digOutFX, raycastOrigin.position,
-                wormAnimator.GetTimeForWormLength(), 0.5f));
+                wormAnimator.GetWormLength(), 0.5f));
             breachSurfaceSFX.Play();
             swimLoopSFX.Play();
             
             spawnedDigOutParticles = true;
         }
 
-        HandleRumbleAudio(sqrDistToHead);
+        HandleRumbleAudio();
     }
 
-    private void HandleRumbleAudio(float sqrDistToHead)
+    private void HandleRumbleAudio()
     {
         const float farDistThreshold = 30 * 30;
-        if (sqrDistToHead > farDistThreshold)
+        if ((Player.main.transform.position - raycastOrigin.position).sqrMagnitude > farDistThreshold)
         {
             rumbleFarSFX.Play();
             rumbleCloseSFX.Stop();
@@ -151,11 +159,6 @@ public class WormSpawnEvent : MonoBehaviour
             rumbleCloseSFX.Play();
             rumbleFarSFX.Stop();
         }
-    }
-
-    private void OnEnable()
-    {
-        timeSpawned = Time.time;
     }
 
     private IEnumerator SpawnPrefabRepeating(GameObject prefab, Vector3 point, float totalDuration, float particleDuration)
