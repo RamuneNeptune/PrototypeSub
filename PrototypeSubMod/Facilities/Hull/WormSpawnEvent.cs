@@ -132,7 +132,6 @@ public class WormSpawnEvent : MonoBehaviour
         }
 
         float sqrDistToHead = (raycastOrigin.position - transform.position).sqrMagnitude;
-        Plugin.Logger.LogInfo($"Spawned dig out particles = {spawnedDigOutParticles} | Sqr dist to head = {sqrDistToHead}");
         if (!spawnedDigOutParticles && sqrDistToHead < 100)
         {
             UWE.CoroutineHost.StartCoroutine(SpawnPrefabRepeating(_digOutFX, raycastOrigin.position,
