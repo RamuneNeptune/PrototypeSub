@@ -50,7 +50,8 @@ public static class VoicelineRegisterer
         "Proto_DevResumed",
         "Proto_StoryEndPingVoiceline",
         "Proto_DefensePingSpawned",
-        "Proto_AdditionalData"
+        "Proto_AdditionalData",
+        "Proto_HullKeyUnlock"
     };
     
     public static void UpdateVoicelines()
