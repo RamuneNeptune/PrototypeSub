@@ -89,6 +89,13 @@ internal static class PrefabRegisterer
             {
                 new() { biome = BiomeType.Dunes_SandDune, probability = 0.02f, count = 1 },
                 new() { biome = BiomeType.Dunes_SandPlateau, probability = 0.02f, count = 1 },
+                new() { biome = BiomeType.BloodKelp_TrenchWall, probability = 0.02f, count = 1},
+                new() { biome = BiomeType.BloodKelp_Floor, probability = 0.02f, count = 1},
+                new() { biome = BiomeType.GrandReef_Ground, probability = 0.02f, count = 1},
+                new() { biome = BiomeType.Mountains_Rock, probability = 0.02f, count = 1},
+                new() { biome = BiomeType.SeaTreaderPath_Rock, probability = 0.02f, count = 1},
+                new() { biome = BiomeType.SparseReef_Sand, probability = 0.02f, count = 1},
+                new() { biome = BiomeType.InactiveLavaZone_Chamber_Floor, probability = 0.02f, count = 1},
             });
         
         Plugin.StoryEndPingTechType = CustomPing.CreatePing("StoryEndPingType", PingType.Signal);
