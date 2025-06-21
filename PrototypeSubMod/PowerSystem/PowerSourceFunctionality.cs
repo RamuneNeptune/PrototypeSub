@@ -13,8 +13,7 @@ public abstract class PowerSourceFunctionality : MonoBehaviour, ISaveDataListene
     private void OnEnable()
     {
         serializationManager = GetComponentInParent<SubSerializationManager>();
-        var powerStreams = GetComponentInParent<SubRoot>().GetComponentInChildren<ProtoVariablePowerStreams>();
-        currentTime = powerStreams.GetApplicableDuration();
+        currentTime = 120;
 
         OnAbilityActivated();
     }

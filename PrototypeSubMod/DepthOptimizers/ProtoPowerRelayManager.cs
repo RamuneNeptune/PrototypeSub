@@ -1,10 +1,27 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace PrototypeSubMod.PressureConverters;
 
 public class ProtoPowerRelayManager : MonoBehaviour
 {
-    [SerializeField] private ProtoDepthOptimizers depthOptimizers;
+    private IPowerModifier[] powerModifiers;
+    
+    private void Start()
+    {
+        powerModifiers = GetComponentsInChildren<IPowerModifier>(true);
+    }
 
-    public void ModifyPowerDrawn(ref float amount) => depthOptimizers.ModifyPowerDrawn(ref amount);
+    public void ModifyPowerDrawn(ref float amount)
+    {
+        foreach (var modifier in powerModifiers)
+        {
+            modifier.ModifyPowerDrawn(ref amount);
+        }
+    }
+}
+
+public interface IPowerModifier
+{
+    public void ModifyPowerDrawn(ref float amount);
 }

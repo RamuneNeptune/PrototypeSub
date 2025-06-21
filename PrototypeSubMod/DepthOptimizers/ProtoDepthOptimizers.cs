@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace PrototypeSubMod.PressureConverters;
 
-internal class ProtoDepthOptimizers : ProtoUpgrade
+internal class ProtoDepthOptimizers : ProtoUpgrade, IPowerModifier
 {
     [SerializeField] private CrushDamage crushDamage;
     [SerializeField] private float activationDepth;
