@@ -160,10 +160,11 @@ public class PrototypePowerBattery : MonoBehaviour, IBattery, IProtoTreeEventLis
     {
         if (connectedBattery != null) return;
 
+        prefabIdentifier = GetComponent<PrefabIdentifier>();
         Initialize();
-        if (!prefabIdentifier) prefabIdentifier = GetComponent<PrefabIdentifier>();
         
         var data = Plugin.GlobalSaveData;
+        if (!prefabIdentifier) return;
         
         if (!data.normalizedBatteryCharges.ContainsKey(prefabIdentifier.Id))
         {
