@@ -53,7 +53,6 @@ internal class ProtoTeleporterManager : ProtoUpgrade
 
         TeleporterOverride.OnOverrideRunOut += (id) =>
         {
-            Plugin.Logger.LogInfo($"Override ran out on {id}");
             idManager.UnselectAll();
             modeManager.SetInterfloorMode();
         };

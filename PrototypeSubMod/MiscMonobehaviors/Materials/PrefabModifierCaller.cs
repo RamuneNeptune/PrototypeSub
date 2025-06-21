@@ -15,8 +15,6 @@ public class PrefabModifierCaller : MonoBehaviour, IProtoEventListener
     private void CallEvents()
     {
         if (eventsCalled) return;
-
-        Plugin.Logger.LogInfo($"Calling prefab modifiers");
         
         foreach (var modifier in gameObject.GetComponentsInChildren<PrefabModifier>(true))
         {

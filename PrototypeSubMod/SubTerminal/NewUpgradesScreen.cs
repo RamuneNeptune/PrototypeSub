@@ -91,7 +91,7 @@ internal class NewUpgradesScreen : MonoBehaviour
 
         foreach (var category in upgradeCategories)
         {
-            if (category.GetUnlockedUpgrades().Count > 0 && !Plugin.GlobalSaveData.unlockedCategoriesLastCheck.Contains(category))
+            if (category.GetUnlockedUpgrades().Count > 0 && !Plugin.GlobalSaveData.unlockedCategoriesLastCheck.Contains(category.localizationKey))
             {
                 newUnlocks.Add(category);
             }
@@ -109,7 +109,13 @@ internal class NewUpgradesScreen : MonoBehaviour
 
     private void UpdateStoredUnlocks()
     {
-        Plugin.GlobalSaveData.unlockedCategoriesLastCheck.AddRange(GetUnlocksSinceLastCheck());
+        List<string> unlockedCategoryKeys = new();
+        foreach (var category in GetUnlocksSinceLastCheck())
+        {
+            unlockedCategoryKeys.Add(category.localizationKey);
+        }
+        
+        Plugin.GlobalSaveData.unlockedCategoriesLastCheck.AddRange(unlockedCategoryKeys);
     }
 
     private string ReplaceWithPrecursorChars(string original, float amount)
@@ -149,7 +155,7 @@ internal class NewUpgradesScreen : MonoBehaviour
         {
             if (item == hullUpgradeCategory) continue;
             
-            if (!Plugin.GlobalSaveData.unlockedCategoriesLastCheck.Contains(item)) return;
+            if (!Plugin.GlobalSaveData.unlockedCategoriesLastCheck.Contains(item.localizationKey)) return;
         }
 
         queuedVoicelines.Enqueue(hullKeyNotification);
@@ -166,7 +172,7 @@ internal class NewUpgradesScreen : MonoBehaviour
 
         foreach (var item in upgradeCategories)
         {
-            if (!Plugin.GlobalSaveData.unlockedCategoriesLastCheck.Contains(item)) return;
+            if (!Plugin.GlobalSaveData.unlockedCategoriesLastCheck.Contains(item.localizationKey)) return;
         }
 
         Plugin.GlobalSaveData.storyEndPingSpawned = true;

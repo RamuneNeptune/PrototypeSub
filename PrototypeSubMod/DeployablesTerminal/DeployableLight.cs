@@ -197,7 +197,7 @@ internal class DeployableLight : MonoBehaviour, IProtoTreeEventListener
         }
         else
         {
-            Plugin.GlobalSaveData.deployableLightLifetimes.Remove(identifier.id);
+            Plugin.GlobalSaveData.deployableLightLifetimes.Remove(identifier.Id);
         }
     }
 
