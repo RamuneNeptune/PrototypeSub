@@ -161,6 +161,7 @@ public class PrototypePowerBattery : MonoBehaviour, IBattery, IProtoTreeEventLis
         if (connectedBattery != null) return;
 
         Initialize();
+        if (!prefabIdentifier) prefabIdentifier = GetComponent<PrefabIdentifier>();
         
         var data = Plugin.GlobalSaveData;
         
