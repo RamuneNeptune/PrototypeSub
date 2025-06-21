@@ -163,7 +163,7 @@ internal static class StoryGoalsRegisterer
         {
             KnownTech.Add(EngineFacilityKey.prefabInfo.TechType);
 
-            PDAEncyclopedia.Add("EngineFacilityKey", true);
+            PDAEncyclopedia.Add("EngineFacilityTabletEncy", true);
         });
         
         sw.Stop();

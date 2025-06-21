@@ -154,6 +154,30 @@ internal static class EncyEntryRegisterer
         
         PDAHandler.AddEncyclopediaEntry("HullFacilityTabletEncy", "DownloadedData/Precursor/Scan", hullTabletTitle, hullTabletDescription, unlockSound: PDAHandler.UnlockBasic, popupImage: hullTabletPopup);
         #endregion
+        
+        #region Engine Facility Tablet
+        string engineTabletTitle = Language.main.Get("EngineFacilityTabletEncy_Title");
+        string engineTabletDescription = Language.main.Get("EngineFacilityTabletEncy_Body");
+        var engineTabletPopup = Plugin.AssetBundle.LoadAsset<Sprite>("EngineFacilityTablet_EncyPopup");
+        
+        PDAHandler.AddEncyclopediaEntry("EngineFacilityTabletEncy", "DownloadedData/Precursor/Scan", engineTabletTitle, engineTabletDescription, unlockSound: PDAHandler.UnlockBasic, popupImage: engineTabletPopup);
+        #endregion
+        
+        #region Interceptor Facility Tablet
+        string interceptorTabletTitle = Language.main.Get("InterceptorFacilityTabletEncy_Title");
+        string interceptorTabletDescription = Language.main.Get("InterceptorFacilityTabletEncy_Body");
+        var interceptorTabletPopup = Plugin.AssetBundle.LoadAsset<Sprite>("InterceptorFacilityTablet_EncyPopup");
+        
+        PDAHandler.AddEncyclopediaEntry("InterceptorFacilityTabletEncy", "DownloadedData/Precursor/Scan", interceptorTabletTitle, interceptorTabletDescription, unlockSound: PDAHandler.UnlockBasic, popupImage: interceptorTabletPopup);
+        #endregion
+        
+        #region Defense Facility Tablet
+        string defenseTabletTitle = Language.main.Get("DefenseFacilityTabletEncy_Title");
+        string defenseTabletDescription = Language.main.Get("DefenseFacilityTabletEncy_Body");
+        var defenseTabletPopup = Plugin.AssetBundle.LoadAsset<Sprite>("DefenseFacilityTablet_EncyPopup");
+        
+        PDAHandler.AddEncyclopediaEntry("DefenseFacilityTabletEncy", "DownloadedData/Precursor/Scan", defenseTabletTitle, defenseTabletDescription, unlockSound: PDAHandler.UnlockBasic, popupImage: defenseTabletPopup);
+        #endregion
 
         #region Decorative Worm
         TechType decorativeWormType = (TechType)Enum.Parse(typeof(TechType), "ProtoDecorativeWorm");

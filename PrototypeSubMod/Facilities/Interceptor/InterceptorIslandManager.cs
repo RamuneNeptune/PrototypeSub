@@ -40,6 +40,7 @@ internal class InterceptorIslandManager : MonoBehaviour
         if (interceptorCategory != category) return;
         
         KnownTech.Add(InterceptorFacilityKey.prefabInfo.TechType);
+        PDAEncyclopedia.Add("InterceptorFacilityTabletEncy", true);
     }
 
     public void SetIslandEnabled(bool enabled)
