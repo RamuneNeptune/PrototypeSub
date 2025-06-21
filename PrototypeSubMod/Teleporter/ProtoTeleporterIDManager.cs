@@ -17,6 +17,7 @@ public class ProtoTeleporterIDManager : MonoBehaviour, ISaveDataListener
     [SerializeField] private Transform surfaceTeleportersParent;
     [SerializeField] private Transform depthsTeleportersParent;
     [SerializeField] private List<string> pcfTeleporterIds;
+    [SerializeField] private List<string> blacklistedIds;
 
     private readonly Dictionary<string, TeleporterLocationItem> locationItems = new();
     private bool screenActive;
@@ -74,13 +75,15 @@ public class ProtoTeleporterIDManager : MonoBehaviour, ISaveDataListener
             string keySource = item + "M";
             string keyTarget = item + "S";
             bool blacklistedPCF = !string.IsNullOrEmpty(activatedPCFTeleporterID) && activatedPCFTeleporterID != item && pcfTeleporterIds.Contains(lowercaseID);
+            bool blacklistedSource = blacklistedIds.Contains(keySource);
+            bool blacklistedTarget = blacklistedIds.Contains(keyTarget);
             
-            if (locationItems.TryGetValue(keySource, out TeleporterLocationItem locationItemM) && !blacklistedPCF)
+            if (locationItems.TryGetValue(keySource, out TeleporterLocationItem locationItemM) && !blacklistedPCF && !blacklistedSource)
             {
                 locationItemM.gameObject.SetActive(true);
             }
             
-            if (locationItems.TryGetValue(keyTarget, out TeleporterLocationItem locationItemS))
+            if (locationItems.TryGetValue(keyTarget, out TeleporterLocationItem locationItemS) && !blacklistedTarget)
             {
                 locationItemS.gameObject.SetActive(true);
             }
