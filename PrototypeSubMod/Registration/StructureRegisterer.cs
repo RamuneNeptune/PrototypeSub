@@ -30,6 +30,7 @@ internal static class StructureRegisterer
         StructureLoading.RegisterStructure(LoadStructureFromBundle("PrecursorFabricators"), ref entityCount);
         StructureLoading.RegisterStructure(LoadStructureFromBundle("HullFacilityObjects"), ref entityCount);
         StructureLoading.RegisterStructure(LoadStructureFromBundle("HullFacilityTunnelExtras"), ref entityCount);
+        StructureLoading.RegisterStructure(LoadStructureFromBundle("HullFacilityKeyResources"), ref entityCount);
 
         if (TRPCompatManager.TRPInstalled)
         {
