@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using PrototypeSubMod.Utility;
 using UnityEngine;
 
 namespace PrototypeSubMod.MiscMonobehaviors.SubSystems;
@@ -13,6 +14,9 @@ internal class InterfloorTeleporter : MonoBehaviour
     private const float VFX_DURATION = 0.2f;
     private const float FADE_OUT_DURATION = 0.3f;
 
+    [SaveStateReference(false)]
+    private static bool teleporting;
+    
     [Header("Teleporting")]
     [SerializeField] private FMODAsset soundEffect;
     [SerializeField] private Transform teleportPosition;
@@ -51,6 +55,7 @@ internal class InterfloorTeleporter : MonoBehaviour
 
     public void StartTeleportPlayer(Vector3 position, Vector3 lookDir)
     {
+        teleporting = true;
         collider.enabled = false;
         Player.main.liveMixin.invincible = true;
 
@@ -91,12 +96,15 @@ internal class InterfloorTeleporter : MonoBehaviour
 
     private void ResetDuration()
     {
+        if (teleporting) return;
+        
         warpController.duration = prevDuration;
 
         warpController.fx.mat.SetColor("_ColorCenter", originalInnerCol);
         warpController.fx.mat.SetColor("_ColorStrength", originalMiddleCol);
         warpController.fx.mat.SetColor("_ColorOuter", originalOuterCol);
         Player.main.liveMixin.invincible = false;
+        teleporting = false;
     }
 
     private void ResetAllowedToTeleport()
