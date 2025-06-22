@@ -7,9 +7,15 @@ using UnityEngine.Events;
 
 namespace PrototypeSubMod.Facilities;
 
-public class MultipurposeIonCubeTerminal : MonoBehaviour, IMaterialModifier
+public class MultipurposeIonCubeTerminal : InteractableTerminal, IMaterialModifier
 {
     public event Action<GameObject> onEditMaterial;
+    
+    public override event Action onTerminalInteracted
+    {
+        add => onInteracted.AddListener(new UnityAction(value));
+        remove => onInteracted.RemoveListener(new UnityAction(value));
+    }
     
     [SerializeField] private UnityEvent onInteracted;
     [SerializeField] private bool automaticallyInteract;
@@ -91,7 +97,7 @@ public class MultipurposeIonCubeTerminal : MonoBehaviour, IMaterialModifier
         onInteracted?.Invoke();
     }
 
-    public void ForceInteracted()
+    public override void ForceInteracted()
     {
         interacted = true;
         if (activationTerminal)

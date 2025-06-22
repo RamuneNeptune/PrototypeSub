@@ -8,7 +8,7 @@ internal class UnlockProtoUpgrade : MonoBehaviour
 {
     public static event Action<ProtoUpgradeCategory> OnCategoryUnlocked;
     
-    [SerializeField] private MultipurposeAlienTerminal terminal;
+    [SerializeField] private InteractableTerminal terminal;
     [SerializeField] private ProtoUpgradeCategory upgradeCategory;
     [SerializeField] private DummyTechType techType;
     [SerializeField] private string encyclopediaKey;

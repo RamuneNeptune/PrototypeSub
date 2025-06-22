@@ -7,7 +7,7 @@ namespace PrototypeSubMod.Facilities;
 
 internal class UnlockStoryGoal : MonoBehaviour
 {
-    [SerializeField] private MultipurposeAlienTerminal terminal;
+    [SerializeField] private InteractableTerminal terminal;
     [SerializeField] private string storyGoalKey;
     [SerializeField] private UnityEvent onTrigger;
 

@@ -7,9 +7,10 @@ using UWE;
 
 namespace PrototypeSubMod.Facilities;
 
-internal class MultipurposeAlienTerminal : MonoBehaviour
+internal class MultipurposeAlienTerminal : InteractableTerminal
 {
-    public event Action onTerminalInteracted;
+    public override event Action onTerminalInteracted;
+    
     [SaveStateReference]
     private static GameObject prefab;
 
@@ -100,7 +101,7 @@ internal class MultipurposeAlienTerminal : MonoBehaviour
         tag.type = TechType.None;
     }
 
-    public void ForceInteracted()
+    public override void ForceInteracted()
     {
         var terminal = GetComponentInChildren<PrecursorComputerTerminal>();
         

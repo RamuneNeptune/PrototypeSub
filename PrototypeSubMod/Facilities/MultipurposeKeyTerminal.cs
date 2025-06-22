@@ -10,11 +10,17 @@ using static PrecursorKeyTerminal;
 
 namespace PrototypeSubMod.Facilities;
 
-internal class MultipurposeKeyTerminal : MonoBehaviour
+internal class MultipurposeKeyTerminal : InteractableTerminal
 {
     [SaveStateReference]
     private static GameObject KeyTerminalPrefab;
 
+    public override event Action onTerminalInteracted
+    {
+        add => onInteracted.AddListener(new UnityAction(value));
+        remove => onInteracted.RemoveListener(new UnityAction(value));
+    }
+    
     [SerializeField] private string techType;
     [SerializeField] private Texture2D replacementSprite;
     [SerializeField] private UnityEvent onInteracted;
@@ -112,8 +118,8 @@ internal class MultipurposeKeyTerminal : MonoBehaviour
     {
         onInteracted?.Invoke();
     }
-
-    public void ForceInteracted()
+    
+    public override void ForceInteracted()
     {
         if (terminal)
         {
