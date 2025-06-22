@@ -19,6 +19,9 @@ internal class MultipurposeKeyTerminal : MonoBehaviour
     [SerializeField] private Texture2D replacementSprite;
     [SerializeField] private UnityEvent onInteracted;
 
+    private PrecursorKeyTerminal terminal;
+    private bool queuedForceInteract;
+    
     private void Start()
     {
         if (KeyTerminalPrefab)
@@ -65,21 +68,27 @@ internal class MultipurposeKeyTerminal : MonoBehaviour
         instance.transform.localScale = Vector3.one;
         instance.SetActive(true);
 
-        var keyTerminal = instance.GetComponent<PrecursorKeyTerminal>();
+        terminal = instance.GetComponent<PrecursorKeyTerminal>();
         instance.GetComponent<TechTag>().type = TechType.None;
-        keyTerminal.acceptKeyType = keyType;
-        var glyphRenderer = keyTerminal.transform.Find("Precursor_key_terminal_01/glyph/Face_F").GetComponent<Renderer>();
+        terminal.acceptKeyType = keyType;
+        var glyphRenderer = terminal.transform.Find("Precursor_key_terminal_01/glyph/Face_F").GetComponent<Renderer>();
 
         glyphRenderer.material.mainTexture = replacementSprite;
 
         Destroy(instance.GetComponent<PrefabIdentifier>());
         Destroy(instance.GetComponent<LargeWorldEntity>());
-        
+
         var applier = GetComponentInParent<SkyApplier>();
         if (applier)
         {
             applier.renderers.AddRangeToArray(GetComponentsInChildren<Renderer>(true));
             applier.ApplySkybox();
+        }
+
+        if (queuedForceInteract)
+        {
+            terminal.slotted = true;
+            terminal.CloseDeck();
         }
     }
 
@@ -102,5 +111,17 @@ internal class MultipurposeKeyTerminal : MonoBehaviour
     public void ToggleDoor()
     {
         onInteracted?.Invoke();
+    }
+
+    public void ForceInteracted()
+    {
+        if (terminal)
+        {
+            terminal.slotted = true;
+            terminal.CloseDeck();
+            return;
+        }
+
+        queuedForceInteract = true;
     }
 }
