@@ -11,7 +11,7 @@ internal class UnlockStoryGoal : MonoBehaviour
     [SerializeField] private string storyGoalKey;
     [SerializeField] private UnityEvent onTrigger;
 
-    private IEnumerator Start()
+    private void Start()
     {
         terminal.onTerminalInteracted += () =>
         {
@@ -19,6 +19,11 @@ internal class UnlockStoryGoal : MonoBehaviour
             onTrigger?.Invoke();
         };
 
+        UWE.CoroutineHost.StartCoroutine(LateInitialize());
+    }
+
+    private IEnumerator LateInitialize()
+    {
         for (int i = 0; i < 5; i++)
         {
             yield return new WaitForEndOfFrame();

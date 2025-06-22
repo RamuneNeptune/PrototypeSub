@@ -95,6 +95,7 @@ internal class MultipurposeKeyTerminal : InteractableTerminal
         {
             terminal.slotted = true;
             terminal.CloseDeck();
+            ToggleDoor();
         }
     }
 
@@ -125,6 +126,7 @@ internal class MultipurposeKeyTerminal : InteractableTerminal
         {
             terminal.slotted = true;
             terminal.CloseDeck();
+            ToggleDoor();
             return;
         }
 

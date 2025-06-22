@@ -10229,6 +10229,7 @@ GameObject:
   m_Component:
   - component: {fileID: 292682029}
   - component: {fileID: 292682030}
+  - component: {fileID: 292682031}
   m_Layer: 0
   m_Name: Terminal
   m_TagString: Untagged
@@ -10289,6 +10290,23 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+--- !u!114 &292682031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 292682028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1104637911, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  terminal: {fileID: 292682030}
+  storyGoalKey: EngineGatesUnlocked
+  onTrigger:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &336419933
 GameObject:
   m_ObjectHideFlags: 0
@@ -35413,7 +35431,7 @@ Transform:
   m_GameObject: {fileID: 1762507579}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -8, y: -19, z: -118.849976}
-  m_LocalScale: {x: 1.3, y: 1.3, z: 0.66736805}
+  m_LocalScale: {x: 1, y: 1, z: 0.66736805}
   m_Children:
   - {fileID: 1429656565}
   - {fileID: 1690826319}
