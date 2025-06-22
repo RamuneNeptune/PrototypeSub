@@ -8465,6 +8465,7 @@ GameObject:
   - component: {fileID: 445142598}
   - component: {fileID: 445142599}
   - component: {fileID: 445142600}
+  - component: {fileID: 445142601}
   m_Layer: 0
   m_Name: FacilityLightsAndTeleporter
   m_TagString: Untagged
@@ -8642,6 +8643,23 @@ MonoBehaviour:
   - {r: 0, g: 0, b: 0, a: 0}
   - {r: 0, g: 0, b: 0, a: 0}
   - {r: 0, g: 0, b: 0, a: 0}
+--- !u!114 &445142601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 445142596}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1104637911, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  terminal: {fileID: 445142598}
+  storyGoalKey: HullFacilityTeleporterUnlocked
+  onTrigger:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &473729268
 GameObject:
   m_ObjectHideFlags: 0
@@ -13731,6 +13749,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1277639268}
   - component: {fileID: 1277639269}
+  - component: {fileID: 1277639270}
   m_Layer: 0
   m_Name: Terminal
   m_TagString: Untagged
@@ -13780,6 +13799,23 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+--- !u!114 &1277639270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1277639267}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1104637911, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  terminal: {fileID: 1277639269}
+  storyGoalKey: WyrmControlsUnlocked
+  onTrigger:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1307341606
 GameObject:
   m_ObjectHideFlags: 0
