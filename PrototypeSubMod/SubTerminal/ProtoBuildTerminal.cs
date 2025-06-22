@@ -122,6 +122,7 @@ internal class ProtoBuildTerminal : Crafter
 
         sub.GetComponent<SubRoot>().subDestroyed = false;
         sub.GetComponent<Stabilizer>().enabled = true;
+        sub.GetComponent<PingInstance>().enabled = true;
         sub.GetComponentInChildren<ProtoHealthDisplay>().UpdateHealth();
         
         // Failsafe end construct to fix Octo's weird bug
