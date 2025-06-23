@@ -55,14 +55,15 @@ internal class ProtoOverclockModule : ProtoUpgrade
             return;
         }
 
+        float normalizedSpeed = motorHandler.GetNormalizedSpeed();
         bool couldConsume = false;
         if (upgradeEnabled)
         {
             couldConsume = subRoot.powerRelay.ConsumeEnergy(
-                PrototypePowerSystem.CHARGE_POWER_AMOUNT / secondsToDrainCharge * Time.deltaTime, out _);
+                PrototypePowerSystem.CHARGE_POWER_AMOUNT / secondsToDrainCharge * Time.deltaTime * Mathf.Clamp(normalizedSpeed, 0.2f, 1), out _);
         }
         
-        HandleHullBreaches(couldConsume);
+        HandleHullBreaches(couldConsume, normalizedSpeed);
 
         if (!upgradeEnabled)
         {
@@ -73,8 +74,6 @@ internal class ProtoOverclockModule : ProtoUpgrade
         
         motorHandler.AddSpeedBonus(new ProtoMotorHandler.ValueRegistrar(this, speedBaseBonus));
         motorHandler.AddTurningTorqueMultiplier(new  ProtoMotorHandler.ValueRegistrar(this, turningTorqueMultiplier));
-
-        float normalizedSpeed = motorHandler.GetNormalizedSpeed();
         
         MainCameraControl.main.ShakeCamera(0.2f * normalizedSpeed);
         SNCameraRoot.main.SetFov(Mathf.Lerp(SNCameraRoot.main.CurrentFieldOfView,
@@ -97,11 +96,11 @@ internal class ProtoOverclockModule : ProtoUpgrade
         loopingChannel.setVolume(motorHandler.GetNormalizedSpeed() * rampUpMultiplier);
     }
 
-    private void HandleHullBreaches(bool couldConsume)
+    private void HandleHullBreaches(bool couldConsume, float normalizedSpeed)
     {
         if (GetUpgradeEnabled() && currentHullBreachTime < hullBreachMinActiveTime)
         {
-            currentHullBreachTime += Time.deltaTime;
+            currentHullBreachTime += Time.deltaTime * normalizedSpeed;
         }
         else if (!GetUpgradeEnabled() && currentHullBreachTime > 0)
         {
