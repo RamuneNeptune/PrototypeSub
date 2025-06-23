@@ -11,6 +11,9 @@ namespace PrototypeSubMod.Facilities.Hull;
 public class WormSpawnEvent : MonoBehaviour
 {
     private const float MIN_TIME_BETWEEN_SPAWNS = 120;
+
+    [SaveStateReference(float.MinValue)] 
+    public static float TimeWormsEnabled;
     
     [SaveStateReference(float.MinValue)]
     private static float _timeNextSpawn = float.MinValue;
@@ -80,8 +83,9 @@ public class WormSpawnEvent : MonoBehaviour
         if (calledDestroy) return;
         
         float time = Time.time + timeOffset;
-        disableObjects.SetActive(time >= _timeNextSpawn || wormActive);
-        if (time >= _timeNextSpawn && !wormActive && !hasSpawned)
+        bool timeAllows = time >= _timeNextSpawn && Time.time > TimeWormsEnabled + MIN_TIME_BETWEEN_SPAWNS;
+        disableObjects.SetActive(timeAllows || wormActive);
+        if (timeAllows && !wormActive && !hasSpawned)
         {
             _timeNextSpawn = time + MIN_TIME_BETWEEN_SPAWNS;
             wormActive = true;

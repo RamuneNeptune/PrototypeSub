@@ -1,5 +1,6 @@
 ﻿using Nautilus.Handlers;
 using Nautilus.Utility;
+using PrototypeSubMod.Facilities.Hull;
 using PrototypeSubMod.Prefabs;
 using PrototypeSubMod.PrototypeStory;
 using UnityEngine;
@@ -153,7 +154,7 @@ internal static class StoryGoalsRegisterer
             FMODUWE.PlayOneShot(AudioUtils.GetFmodAsset("HullFacilityOrionTone"), Player.main.transform.position);
         });
         
-        StoryGoalHandler.RegisterCustomEvent("HullFacilityActivateWorm", null);
+        StoryGoalHandler.RegisterCustomEvent("HullFacilityActivateWorm", () => WormSpawnEvent.TimeWormsEnabled = Time.time);
         StoryGoalHandler.RegisterCustomEvent("DefenseCloakDisabled", null);
         StoryGoalHandler.RegisterCustomEvent("PrototypeSpawned", null);
         StoryGoalHandler.RegisterCustomEvent("PrototypeCrafted", null);
