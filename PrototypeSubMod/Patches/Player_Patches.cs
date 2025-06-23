@@ -89,7 +89,7 @@ internal class Player_Patches
         return matcher.InstructionEnumeration();
     }
 
-    private static readonly List<string> BLACKLISTED_WALKABLE_BIOMES = new()
+    public static readonly List<string> BLACKLISTED_WALKABLE_BIOMES = new()
     {
         Plugin.DEFENSE_CHAMBER_BIOME_NAME,
         Plugin.ENGINE_FACILITY_BIOME_NAME,
