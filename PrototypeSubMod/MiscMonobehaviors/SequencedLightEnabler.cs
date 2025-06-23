@@ -8,6 +8,7 @@ namespace PrototypeSubMod.MiscMonobehaviors;
 public class SequencedLightEnabler : MonoBehaviour
 {
     [SerializeField] private List<LightGroup> lightGroups;
+    [SerializeField] private float initialDelay;
     [SerializeField] private float delayBetweenGroups;
     [SerializeField] private float activationDuration;
     [SerializeField] private AnimationCurve intensityOverDuration = AnimationCurve.Linear(0, 0, 1, 1);
@@ -62,6 +63,8 @@ public class SequencedLightEnabler : MonoBehaviour
 
     private IEnumerator ActivateLights()
     {
+        yield return new WaitForSeconds(initialDelay);
+        
         foreach (var lightGroup in serializedLightGroups)
         {
             StartCoroutine(ActivateLightGroup(lightGroup));
