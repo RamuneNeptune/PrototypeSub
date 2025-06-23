@@ -18258,6 +18258,7 @@ GameObject:
   - component: {fileID: 1422833604}
   - component: {fileID: 1422833603}
   - component: {fileID: 1422833602}
+  - component: {fileID: 1422833605}
   m_Layer: 0
   m_Name: Teleporter
   m_TagString: Untagged
@@ -18334,7 +18335,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   teleporterIdentifier: protoenginefacilitytp
-  warpToPos: {x: -536, y: 0, z: 0}
+  warpToPos: {x: -536, y: -491.01, z: 1663.77}
   warpToAngle: -180
   cinematicTriggerIn: {fileID: 458329438}
   cinematicEndControllerPrefabReference:
@@ -18349,6 +18350,19 @@ MonoBehaviour:
   hasFirstUse: 0
   powerUpSound: {fileID: 11400000, guid: 47f651d419a15d440ab273cae9bed15c, type: 2}
   activeLoopSound: {fileID: 1422833602}
+--- !u!114 &1422833605
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1422833600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1784689393, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  teleporter: {fileID: 1422833604}
 --- !u!1 &1517675737
 GameObject:
   m_ObjectHideFlags: 0
