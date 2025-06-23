@@ -16,6 +16,7 @@ internal class ProtoIonBarrier : ProtoUpgrade, IOnTakeDamage
     [SerializeField] private GameObject lavaLarvaeRoot;
     [SerializeField] private SelectionMenuManager selectionMenuManager;
     [SerializeField] private ActivatedAbilitiesManager abilitiesManager;
+    [SerializeField] private FMOD_CustomLoopingEmitter sfxEmitter;
     [SerializeField] private float chargeUseCount;
     [SerializeField] private float powerPerDamage;
     [SerializeField] private float useDuration;
@@ -138,6 +139,7 @@ internal class ProtoIonBarrier : ProtoUpgrade, IOnTakeDamage
             ActivateShield();
             subRoot.voiceNotificationManager.PlayVoiceNotification(shieldsUpNotification);
             StartCoroutine(DisableShieldDelayed());
+            sfxEmitter.Play();
         }
         else
         {
@@ -145,6 +147,7 @@ internal class ProtoIonBarrier : ProtoUpgrade, IOnTakeDamage
             abilitiesManager.OnAbilitySelectedChanged(icon);
             DeactivateShield();
             StartCoroutine(ResetCooldownDelayed());
+            sfxEmitter.Stop();
         }
         
         shieldActive = enabled;
