@@ -48,6 +48,9 @@ internal class SubControl_Patches
         var canAccellField = typeof(SubControl).GetField("canAccel",  BindingFlags.NonPublic | BindingFlags.Instance);
         var canAccelMatch = new CodeMatch(i => i.opcode == OpCodes.Ldfld && (FieldInfo)i.operand == canAccellField);
 
+        var parentCall = typeof(Transform).GetProperty("parent", BindingFlags.Public | BindingFlags.Instance)?.GetMethod;
+        var parentMatch = new CodeMatch(i => i.opcode == OpCodes.Callvirt && (MethodInfo)i.operand == parentCall);
+
         var matcher = new CodeMatcher(instructions)
             .MatchForward(false, throttleMatch)
             .InsertAndAdvance(Transpilers.EmitDelegate(OverrideMoveDirIfNeeded))
@@ -58,8 +61,12 @@ internal class SubControl_Patches
             .MatchForward(true, GetButtonMatch())
             .Advance(1)
             .InsertAndAdvance(new CodeInstruction(OpCodes.Ldarg_0))
-            .InsertAndAdvance(Transpilers.EmitDelegate(GetAllowedToToggleLights));
-
+            .InsertAndAdvance(Transpilers.EmitDelegate(GetAllowedToToggleLights))
+            .MatchForward(false, parentMatch)
+            .Advance(1)
+            .InsertAndAdvance(new CodeInstruction(OpCodes.Ldarg_0))
+            .InsertAndAdvance(Transpilers.EmitDelegate(OverwriteMessageRoot));
+        
         return matcher.InstructionEnumeration();
     }
 
@@ -75,8 +82,15 @@ internal class SubControl_Patches
         var blocker = subControl.GetComponentInChildren<BlockTogglingLights>();
 
         if (!blocker) return wasClicking;
-
+        
         return false;
+    }
+
+    public static Transform OverwriteMessageRoot(Transform originalRoot, SubControl subControl)
+    {
+        if (subControl.sub.gameObject == subControl.gameObject) return subControl.transform;
+
+        return UWE.Utils.GetEntityRoot(subControl.gameObject).transform;
     }
 
     public static bool OverrrideCanAccel(bool oldValue, SubControl subControl)
