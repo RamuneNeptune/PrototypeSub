@@ -20,7 +20,8 @@ internal class ProtoGlobalSaveData : SaveDataCache
     
     public bool prototypePresent;
     public bool prototypeDestroyed;
-    
+
+    public bool insideEngineFacility;
     public bool moonpoolDoorOpened;
     public bool reactorSequenceComplete;
     public bool storyEndPingSpawned;

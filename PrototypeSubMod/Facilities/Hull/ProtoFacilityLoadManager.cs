@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using Nautilus.Json;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -22,6 +24,9 @@ public class ProtoFacilityLoadManager : MonoBehaviour
     private void Start()
     {
         originalScene = SceneManager.GetActiveScene().name;
+
+        Plugin.GlobalSaveData.OnStartedSaving += OnStartedSaving;
+        Plugin.GlobalSaveData.OnFinishedSaving += OnFinishedSaving;
         
         SetObjectsActive(loadDistance1Objects, false);
         SetObjectsActive(loadDistance2Objects, false);
@@ -47,13 +52,15 @@ public class ProtoFacilityLoadManager : MonoBehaviour
         {
             SetObjectsActive(loadDistance1Objects, inRange1);
         }
-            
+        
         bool inRange2 = sqrDistance < loadDistance2 * loadDistance2;
         if (inRange2 != distance2Loaded)
         {
             SetObjectsActive(loadDistance2Objects, inRange2);
         }
 
+        if (WaitScreen.IsWaiting) return;
+        
         if (manageScene)
         {
             bool rangeCheck = loadDistance1 > loadDistance2 ? inRange1 : inRange2;
@@ -94,5 +101,24 @@ public class ProtoFacilityLoadManager : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, loadDistance1);
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, loadDistance2);
+    }
+
+    private void OnDestroy()
+    {
+        Plugin.GlobalSaveData.OnStartedSaving -= OnStartedSaving;
+        Plugin.GlobalSaveData.OnFinishedSaving -= OnFinishedSaving;
+    }
+
+    private Scene previousScene;
+
+    private void OnStartedSaving(object sender, JsonFileEventArgs args)
+    {
+        previousScene = SceneManager.GetActiveScene();
+        SceneManager.SetActiveScene(SceneManager.GetSceneByName(originalScene));
+    }
+    
+    private void OnFinishedSaving(object sender, JsonFileEventArgs args)
+    {
+        SceneManager.SetActiveScene(previousScene);
     }
 }
