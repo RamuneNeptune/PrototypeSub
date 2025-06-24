@@ -81,7 +81,6 @@ public class ApplyPrecursorLightning : MonoBehaviour
             line.line.endWidth = lineWidth;
 
             Vector3 endPoint = electricArc.target.position - electricArc.transform.parent.position;
-            Plugin.Logger.LogInfo($"End point = {endPoint} | Local pos 1 {electricArc.transform.parent.position} | Local pos 2 = {electricArc.target.position}");
             for (int j = 0; j < line.segments; j++)
             {
                 line.line.SetPosition(j, Vector3.Lerp(Vector3.zero, endPoint, (float)j / (line.segments - 1)));
