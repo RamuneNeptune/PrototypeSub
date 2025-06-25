@@ -237,6 +237,25 @@ internal static class EncyEntryRegisterer
         PDAHandler.AddCustomScannerEntry(normalWormEntryData);
         #endregion
         
+        #region Warp Core
+        TechType warpCoreType = (TechType)Enum.Parse(typeof(TechType), "WarpReactor");
+        string warpReactorTitle = Language.main.Get("ProtoWarpReactorEncy_Title");
+        string warpReactorBody = Language.main.Get("ProtoWarpReactorEncy_Body");
+        
+        PDAHandler.AddEncyclopediaEntry("ProtoWarpReactorEncy", "DownloadedData/Precursor/Scan", warpReactorTitle, 
+            warpReactorBody, unlockSound: PDAHandler.UnlockBasic);
+        var warpCoreEntryData = new PDAScanner.EntryData()
+        {
+            key = warpCoreType,
+            destroyAfterScan = false,
+            encyclopedia = "ProtoWarpReactorEncy",
+            scanTime = 8f,
+            isFragment = false,
+            blueprint = warpCoreType
+        };
+        PDAHandler.AddCustomScannerEntry(warpCoreEntryData);
+        #endregion
+        
         RegisterEncyEntries("DownloadedData/Precursor/ProtoUpgrades", PDAHandler.UnlockBasic, new()
         {
             "ProtoCloakEncy",
