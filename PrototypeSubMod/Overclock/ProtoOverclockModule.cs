@@ -28,7 +28,9 @@ internal class ProtoOverclockModule : ProtoUpgrade
     [SerializeField] private float sfxRampUpTime = 2f;
 
     private PilotingChair chair;
+    private TetherManager tetherManager;
     private PDACameraFOVControl pdaCameraControl;
+    private bool underRadialControl;
     private float currentHullBreachTime;
     private float currentTimeBetweenBreaches;
     private float currentRampUpTime;
@@ -37,6 +39,7 @@ internal class ProtoOverclockModule : ProtoUpgrade
     {
         chair = subRoot.GetComponentInChildren<PilotingChair>();
         pdaCameraControl = Player.main.GetComponent<PDACameraFOVControl>();
+        tetherManager = subRoot.GetComponentInChildren<TetherManager>();
     }
     
     private void Update()
@@ -45,13 +48,29 @@ internal class ProtoOverclockModule : ProtoUpgrade
         {
             motorHandler.RemoveSpeedBonus(this);
             motorHandler.RemoveTurningTorqueMultiplier(this);
+            SetUpgradeEnabled(false);
             return;
         }
 
+        if (!underRadialControl)
+        {
+            bool sprinting = GameInput.GetButtonHeld(GameInput.Button.Sprint);
+            if (sprinting && !upgradeEnabled)
+            {
+                SetUpgradeEnabled(true);
+                tetherManager.UpdateIcon(this);
+            }
+            else if (!sprinting && upgradeEnabled)
+            {
+                SetUpgradeEnabled(false);
+                tetherManager.UpdateIcon(this);
+            }
+        }
+        
         if (Player.main.currChair != chair && upgradeEnabled)
         {
             SetUpgradeEnabled(false);
-            subRoot.GetComponentInChildren<TetherManager>().ForceSelectedIconUpdate();
+            tetherManager.ForceSelectedIconUpdate();
             return;
         }
 
@@ -150,6 +169,7 @@ internal class ProtoOverclockModule : ProtoUpgrade
         else
         {
             loopingEmitter.Stop();
+            underRadialControl = false;
         }
     }
 
@@ -160,7 +180,8 @@ internal class ProtoOverclockModule : ProtoUpgrade
             subRoot.voiceNotificationManager.PlayVoiceNotification(invalidOperationNotification);
             return false;
         }
-        
+
+        underRadialControl = true;
         SetUpgradeEnabled(!upgradeEnabled);
         return true;
     }
