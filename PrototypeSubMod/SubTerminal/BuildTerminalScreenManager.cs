@@ -96,6 +96,8 @@ internal class BuildTerminalScreenManager : MonoBehaviour
         newUpgradesScreen.gameObject.SetActive(false);
         upgradeScreen.gameObject.SetActive(true);
         occupiedHandler.CheckForSub();
+
+        EnableMenusWhenSubInWorld();
     }
 
     public void EnableRelevantScreensAtStart()
