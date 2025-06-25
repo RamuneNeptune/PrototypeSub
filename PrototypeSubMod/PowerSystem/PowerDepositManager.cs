@@ -11,6 +11,7 @@ public class PowerDepositManager : MonoBehaviour, IItemSelectorManager
     {
         { TechType.PrecursorIonCrystal, Vector3.one },
         { TechType.PrecursorIonCrystalMatrix, Vector3.one * 0.8f },
+        { EngineFacilityKey.prefabInfo.TechType, Vector3.one * 0.9f },
         { IonPrism_Craftable.prefabInfo.TechType, Vector3.one * 5f },
     };
     

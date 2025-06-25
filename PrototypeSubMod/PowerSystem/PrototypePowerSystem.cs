@@ -30,6 +30,7 @@ public class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTree
         { WarperRemnant.prefabInfo.TechType, new(2, null) },
         { AlienBuildingBlock.prefabInfo.TechType, new(4, null) },
         { TechType.PrecursorIonCrystal, new(5, typeof(IonCubePowerFunctionality)) },
+        { EngineFacilityKey.prefabInfo.TechType, new(6, null) },
         { TechType.PrecursorIonCrystalMatrix, new(8, null) },
         { IonPrism_Craftable.prefabInfo.TechType, new(10, null) }
     };
