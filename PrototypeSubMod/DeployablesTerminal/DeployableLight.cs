@@ -164,6 +164,20 @@ internal class DeployableLight : MonoBehaviour, IProtoTreeEventListener
         ecoTarget.enabled = false;
     }
 
+    public void OnHandHover(HandTargetEventData data)
+    {
+        HandReticle main = HandReticle.main;
+        main.SetText(HandReticle.TextType.Hand,"DestroyDeployableLight", true);
+        main.SetText(HandReticle.TextType.HandSubscript, string.Empty, false);
+        main.SetIcon(HandReticle.IconType.Interact);
+    }
+
+    public void OnHandUse(HandTargetEventData data)
+    {
+        BreakLight();
+        currentLifetime = 0;
+    }
+
     public void OnProtoSerializeObjectTree(ProtobufSerializer serializer) { }
 
     public void OnProtoDeserializeObjectTree(ProtobufSerializer serializer)

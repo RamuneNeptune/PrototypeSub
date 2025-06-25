@@ -934,6 +934,7 @@ GameObject:
   - component: {fileID: 8039315297597855750}
   - component: {fileID: 7199444289393414135}
   - component: {fileID: 2225871819773747039}
+  - component: {fileID: 6157338048729396995}
   m_Layer: 0
   m_Name: LightBeacon
   m_TagString: Untagged
@@ -996,6 +997,46 @@ MonoBehaviour:
   eulerOffset: {x: 30, y: 0, z: 0}
   scaleFactor: 0.14
   allowOnAnyComponent: 0
+--- !u!114 &6157338048729396995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7267316695543268028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1426628352, guid: 06dd3d5416bf43ea368cc39ff96e6d5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onHandHover:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6150110053294790594}
+        m_MethodName: OnHandHover
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onHandClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6150110053294790594}
+        m_MethodName: OnHandUse
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &7571116138128685989
 GameObject:
   m_ObjectHideFlags: 0
