@@ -34,7 +34,7 @@ public static class TeleporterPositionHandler
         { "protohullfacilitytpS", new(new Vector3(-112f, -73f, -188f), 245) },
         
         { "protoenginefacilitytpM", new(new Vector3(-536, -491.01f, 1663.77f), -180) },
-        { "protoenginefacilitytpS", new(new Vector3(755, -468, -1315), 90) },
+        { "protoenginefacilitytpS", new(new Vector3(743, -468, -1315), 270) },
     };
 
     public static readonly List<string> OutOfWaterTeleporters = new()
