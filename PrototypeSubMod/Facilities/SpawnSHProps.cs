@@ -54,8 +54,7 @@ internal class SpawnSHProps : MonoBehaviour
 
             GameObject prefab = null;
             if (!prefabTask.TryGetPrefab(out prefab)) throw new System.Exception($"Error loading prefab with class ID of {classID}");
-
-            prefab.SetActive(false);
+            
             var lwe = prefab.GetComponent<LargeWorldEntity>();
             if (lwe) lwe.enabled = false;
 
@@ -64,14 +63,16 @@ internal class SpawnSHProps : MonoBehaviour
                 var pos = new Vector3(entityData.position.x, entityData.position.y, entityData.position.z);
                 var rot = new Quaternion(entityData.rotation.x, entityData.rotation.y, entityData.rotation.z, entityData.rotation.w);
                 var scale = new Vector3(entityData.scale.x, entityData.scale.y, entityData.scale.z);
-                var instance = GameObject.Instantiate(prefab, parent);
+                var instance = Instantiate(prefab, parent);
                 instance.transform.position = pos;
                 instance.transform.rotation = rot;
                 instance.transform.localScale = scale;
 
-                if (removeLWEs)
+                var instanceLWE = instance.GetComponent<LargeWorldEntity>();
+                var cellLevel = instanceLWE?.cellLevel;
+                if (removeLWEs && instanceLWE)
                 {
-                    RemovePrefabComponents(instance);
+                    DestroyImmediate(instanceLWE);
                 }
 
                 var tt = CraftData.GetTechType(instance.gameObject);
@@ -79,20 +80,14 @@ internal class SpawnSHProps : MonoBehaviour
                 var identifier = instance.GetComponent<PrefabIdentifier>();
                 if (instance.TryGetComponent(out Pickupable _))
                 {
-                    instance.EnsureComponent<AddIdentifierOnPickup>().SetOriginalValues(identifier.ClassId, identifier.Id);
+                    instance.EnsureComponent<AddIdentifierOnPickup>().SetOriginalValues(identifier.ClassId, identifier.Id, cellLevel);
                 }
 
                 DestroyImmediate(identifier);
                 instance.SetActive(true);
             }
-
-            prefab.SetActive(true);
+            
             if (lwe) lwe.enabled = true;
         }
-    }
-
-    private void RemovePrefabComponents(GameObject instance)
-    {
-        DestroyImmediate(instance.GetComponent<LargeWorldEntity>());
     }
 }

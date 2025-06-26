@@ -19,6 +19,8 @@ internal class ToggleMinimap : MonoBehaviour
 
     private IEnumerator Initialize()
     {
+        yield return new WaitForEndOfFrame();
+        
         positionDisplay.SetActive(false);
 
         while (frameCount < maxSpawnWaitFrames)
