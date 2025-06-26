@@ -31,7 +31,8 @@ internal static class StructureRegisterer
         StructureLoading.RegisterStructure(LoadStructureFromBundle("HullFacilityObjects"), ref entityCount);
         StructureLoading.RegisterStructure(LoadStructureFromBundle("HullFacilityTunnelExtras"), ref entityCount);
         StructureLoading.RegisterStructure(LoadStructureFromBundle("HullFacilityKeyResources"), ref entityCount);
-
+        StructureLoading.RegisterStructure(LoadStructureFromBundle("ProtoHullCave"), ref entityCount);
+        
         if (TRPCompatManager.TRPInstalled)
         {
             var trpIslandFile = Plugin.AssetBundle.LoadAsset<TextAsset>("RedPlagueProtoIslands");
