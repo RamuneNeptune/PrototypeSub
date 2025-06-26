@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace PrototypeSubMod.MiscMonobehaviors.SubSystems;
 
@@ -11,12 +12,17 @@ public class ProtoStairsManager : MonoBehaviour
     [SerializeField] private FMOD_CustomEmitter stairsUpEmitter;
     [SerializeField] private FMOD_CustomEmitter stairsDownEmitter;
 
-    private bool queuedNoPlaySFX;
+    private bool queuedNoPlaySfx;
     private bool stairsActive;
     
     private void Start()
     {
         Player.main.playerRespawnEvent.AddHandler(gameObject, OnRespawn);
+    }
+
+    private void OnEnable()
+    {
+        queuedNoPlaySfx = true;
         SetStairsActive(Player.main.currentSub != subRoot);
     }
 
@@ -45,19 +51,19 @@ public class ProtoStairsManager : MonoBehaviour
     // Called by SubRoot.OnPlayerExited
     public void SaveEngineStateAndPowerDown()
     {
-        queuedNoPlaySFX = true;
+        queuedNoPlaySfx = true;
         SetStairsActive(true);
     }
 
     public void PlayStairsUpSfx()
     {
-        if (!queuedNoPlaySFX) stairsUpEmitter.Play();
-        queuedNoPlaySFX = false;
+        if (!queuedNoPlaySfx) stairsUpEmitter.Play();
+        queuedNoPlaySfx = false;
     }
     
     public void PlayStairsDownSfx()
     {
-        if (!queuedNoPlaySFX) stairsDownEmitter.Play();
-        queuedNoPlaySFX = false;
+        if (!queuedNoPlaySfx) stairsDownEmitter.Play();
+        queuedNoPlaySfx = false;
     }
 }

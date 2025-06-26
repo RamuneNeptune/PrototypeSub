@@ -13,6 +13,7 @@ internal class ProtoOverclockModule : ProtoUpgrade
 {
     [SerializeField] private SubRoot subRoot;
     [SerializeField] private CyclopsExternalDamageManager damageManager;
+    [SerializeField] private FMOD_CustomEmitter startImpulse;
     [SerializeField] private FMOD_CustomLoopingEmitter loopingEmitter;
     [SerializeField] private ProtoMotorHandler motorHandler;
     [SerializeField] private ProtoIonGenerator ionGenerator;
@@ -52,7 +53,7 @@ internal class ProtoOverclockModule : ProtoUpgrade
             return;
         }
 
-        if (!underRadialControl)
+        if (!underRadialControl && Player.main.currChair == chair)
         {
             bool sprinting = GameInput.GetButtonHeld(GameInput.Button.Sprint);
             if (sprinting && !upgradeEnabled)
@@ -70,7 +71,7 @@ internal class ProtoOverclockModule : ProtoUpgrade
         if (Player.main.currChair != chair && upgradeEnabled)
         {
             SetUpgradeEnabled(false);
-            tetherManager.ForceSelectedIconUpdate();
+            tetherManager.UpdateIcon(this);
             return;
         }
 
@@ -84,7 +85,7 @@ internal class ProtoOverclockModule : ProtoUpgrade
         
         HandleHullBreaches(couldConsume, normalizedSpeed);
 
-        if (!upgradeEnabled)
+        if (!upgradeEnabled || Player.main.currChair != chair)
         {
             motorHandler.RemoveSpeedBonus(this);
             motorHandler.RemoveTurningTorqueMultiplier(this);
@@ -165,12 +166,22 @@ internal class ProtoOverclockModule : ProtoUpgrade
             subRoot.voiceNotificationManager.PlayVoiceNotification(enabledVoiceline);
             loopingEmitter.Play();
             currentRampUpTime = 0;
+            if (!startImpulse.playing)
+            {
+                startImpulse.Play();
+                Invoke(nameof(ResetImpulse), 5f);
+            }
         }
         else
         {
             loopingEmitter.Stop();
             underRadialControl = false;
         }
+    }
+
+    private void ResetImpulse()
+    {
+        startImpulse.Stop();
     }
 
     public override bool OnActivated()
