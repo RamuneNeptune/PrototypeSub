@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace PrototypeSubMod.MiscMonobehaviors.SubSystems;
 
-public class ProtoRigidbodyFreezer : MonoBehaviour
+public class ProtoRigidbodyFreezer : MonoBehaviour, IProtoEventListener
 {
     [SerializeField] private float freezeDistance = 48f;
     [SerializeField] private Transform[] colliderActivationStages;
@@ -35,7 +35,7 @@ public class ProtoRigidbodyFreezer : MonoBehaviour
         wasInDistance = inDistance;
     }
 
-    private IEnumerator UpdateCollidersAndKinematics(bool inDistance)
+    private IEnumerator UpdateCollidersAndKinematics(bool inDistance, bool skipWait = false)
     {
         collidersTransitioning = true;
         
@@ -47,8 +47,11 @@ public class ProtoRigidbodyFreezer : MonoBehaviour
         for (int i = 0; i < colliderActivationStages.Length; i++)
         {
             colliderActivationStages[i].gameObject.SetActive(inDistance);
-            yield return new WaitForEndOfFrame();
-            yield return new WaitForEndOfFrame();
+            if (!skipWait)
+            {
+                yield return new WaitForEndOfFrame();
+                yield return new WaitForEndOfFrame();
+            }
         }
         
         if (!inDistance)
@@ -57,5 +60,13 @@ public class ProtoRigidbodyFreezer : MonoBehaviour
         }
         
         collidersTransitioning = false;
+    }
+
+    public void OnProtoSerialize(ProtobufSerializer serializer) { }
+
+    public void OnProtoDeserialize(ProtobufSerializer serializer)
+    {
+        bool inDistance = (MainCamera.camera.transform.position - transform.position).sqrMagnitude < freezeDistance * freezeDistance;
+        UWE.CoroutineHost.StartCoroutine(UpdateCollidersAndKinematics(inDistance, true));
     }
 }
