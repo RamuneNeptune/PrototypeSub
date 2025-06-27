@@ -20,6 +20,7 @@ using System.Threading;
 using PrototypeSubMod.MiscMonobehaviors;
 using PrototypeSubMod.Pathfinding.SaveSystem;
 using UnityEngine;
+using UnityEngine.Scripting;
 using UWE;
 
 namespace PrototypeSubMod
@@ -117,7 +118,7 @@ namespace PrototypeSubMod
             
             LanguageHandler.RegisterLocalizationFolder();
             PrefabRegisterer.Register();
-            LoadEasyPrefabs.LoadPrefabs(AssetBundle, EncyEntryRegisterer.Register, ClearWaitStage);
+            LoadEasyPrefabs.LoadPrefabs(AssetBundle, EncyEntryRegisterer.Register, ClearWaitStage, GC.Collect, GC.WaitForPendingFinalizers);
             StructureRegisterer.Register();
             StoryGoalsRegisterer.Register();
             BiomeRegisterer.Register();

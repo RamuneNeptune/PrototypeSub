@@ -65,8 +65,8 @@ internal class DisplayCaseProp
         var col = instance.AddComponent<CapsuleCollider>();
         instance.transform.localPosition = localOffset;
         instance.transform.localScale = localScale;
-        col.radius = 1.5f / instance.transform.localScale.x;
-        col.height = 6.3f / instance.transform.localScale.x;
+        col.radius = 1f / instance.transform.lossyScale.x;
+        col.height = 6.3f / instance.transform.lossyScale.x;
 
         var tag = instance.AddComponent<TechTag>();
         tag.type = scanTechType;

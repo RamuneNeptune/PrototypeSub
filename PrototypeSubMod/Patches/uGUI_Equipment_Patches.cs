@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
+using PrototypeSubMod.Utility;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,6 +14,7 @@ namespace PrototypeSubMod.Patches;
 [HarmonyPatch(typeof(uGUI_Equipment))]
 internal class uGUI_Equipment_Patches
 {
+    [SaveStateReference]
     private static DraggedItem LastDraggedItem;
 
     [HarmonyPatch(nameof(uGUI_Equipment.Awake)), HarmonyPrefix]
