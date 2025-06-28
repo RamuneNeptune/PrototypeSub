@@ -68,7 +68,7 @@ internal static class ROTACompatManager
         string normalPath = Path.Combine(Plugin.RecipesFolderPath, "Normal", recipePath);
 
         string ALPath = File.Exists(checkPath) ? checkPath : normalPath;
-        string path = ArchitectsLibInstalled ? ALPath : normalPath;
+        string path = normalPath;
 
         string json = File.ReadAllText(path);
         return JsonConvert.DeserializeObject<RecipeData>(json, new CustomEnumConverter());
