@@ -32,6 +32,9 @@ internal static class StructureRegisterer
         StructureLoading.RegisterStructure(LoadStructureFromBundle("HullFacilityTunnelExtras"), ref entityCount);
         StructureLoading.RegisterStructure(LoadStructureFromBundle("HullFacilityKeyResources"), ref entityCount);
         StructureLoading.RegisterStructure(LoadStructureFromBundle("ProtoHullCave"), ref entityCount);
+        StructureLoading.RegisterStructure(LoadStructureFromBundle("DefenseFacilityTeleporterRoomExteriorObjects"), ref entityCount);
+        StructureLoading.RegisterStructure(LoadStructureFromBundle("DefenseFacilityTeleporterRoomInteriorObjects"), ref entityCount);
+        StructureLoading.RegisterStructure(LoadStructureFromBundle("DefenseFacilityTeleporterRoom"), ref entityCount);
         
         if (TRPCompatManager.TRPInstalled)
         {
