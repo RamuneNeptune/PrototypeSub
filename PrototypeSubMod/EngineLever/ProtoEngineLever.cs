@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using PrototypeSubMod.Upgrades;
 using UnityEngine;
 
 namespace PrototypeSubMod.EngineLever;
@@ -24,7 +25,8 @@ internal class ProtoEngineLever : CinematicModeTriggerBase
     [SerializeField] private FMOD_CustomEmitter startupSound;
     [SerializeField] private FMOD_CustomEmitter shutdownSound;
     [SerializeField] private VoiceNotification engineLockedNotification;
-    
+
+    private ProtoUpgradeManager upgradeManager;
     private bool ensureAnimFinished;
     private bool locked;
     private bool initialized;
@@ -37,6 +39,8 @@ internal class ProtoEngineLever : CinematicModeTriggerBase
     private IEnumerator Initialize()
     {
         if (initialized) yield break;
+
+        upgradeManager = subRoot.GetComponentInChildren<ProtoUpgradeManager>();
         
         cinematicController.animator = Player.main.playerAnimator;
         onEngineStateChanged?.Invoke(motorMode.engineOn);
@@ -92,6 +96,10 @@ internal class ProtoEngineLever : CinematicModeTriggerBase
         {
             shutdownSound.Play();
             subRoot.voiceNotificationManager.PlayVoiceNotification(subRoot.enginePowerDownNotification);
+            foreach (var upgrade in upgradeManager.GetInstalledUpgrades())
+            {
+                upgrade.SetUpgradeEnabled(false);
+            }
         }
     }
 
