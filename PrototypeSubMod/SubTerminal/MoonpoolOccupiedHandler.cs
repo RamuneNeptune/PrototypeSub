@@ -46,4 +46,6 @@ internal class MoonpoolOccupiedHandler : MonoBehaviour
         CancelInvoke(nameof(CheckForSub));
         InvokeRepeating(nameof(CheckForSub), 0, 5f);
     }
+
+    public Bounds GetBounds() => moonpoolBounds.bounds;
 }

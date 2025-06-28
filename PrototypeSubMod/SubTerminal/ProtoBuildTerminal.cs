@@ -29,10 +29,40 @@ internal class ProtoBuildTerminal : Crafter
     [SerializeField] private BuildTerminalScreenManager screenManager;
     [SerializeField] private uGUI_BuildAnimScreen animScreen;
 
+    private MoonpoolOccupiedHandler occupiedHandler;
     private int returnedBotCount;
+
+    private void Start()
+    {
+        occupiedHandler = GetComponentInChildren<MoonpoolOccupiedHandler>();
+    }
     
     public void CraftSub()
     {
+        var bounds = occupiedHandler.GetBounds();
+        var objects = Physics.OverlapBox(bounds.center, bounds.extents);
+        bool moonpoolOccupied = false;
+        foreach (var obj in objects)
+        {
+            if (obj.GetComponentInParent<Vehicle>())
+            {
+                moonpoolOccupied = true;
+                break;
+            }
+            
+            if (obj.GetComponentInParent<SubRoot>())
+            {
+                moonpoolOccupied = true;
+                break;
+            }
+        }
+
+        if (moonpoolOccupied)
+        {
+            ErrorMessage.AddError(Language.main.Get("BuildTerminal_Occupied"));
+            return;
+        }
+        
         Craft(Prototype_Craftable.SubInfo.TechType, buildDuration);
     }
 
@@ -75,6 +105,11 @@ internal class ProtoBuildTerminal : Crafter
         foreach (var item in batteryManagers)
         {
             item.StartBatteryDrain(duration);
+        }
+
+        if (occupiedHandler.GetBounds().Contains(Player.main.transform.position))
+        {
+            UWE.CoroutineHost.StartCoroutine(TeleportPlayerOut());
         }
     }
     
@@ -148,6 +183,11 @@ internal class ProtoBuildTerminal : Crafter
         root.transform.rotation = buildPosition.rotation;
         warpFXSpawner.SpawnWarpInFX(buildPosition.position, Vector3.one * 2f);
         screenManager.EndBuildStage();
+    }
+
+    private IEnumerator TeleportPlayerOut()
+    {
+        
     }
 
     private IEnumerator PlayDischargeDelayed()
