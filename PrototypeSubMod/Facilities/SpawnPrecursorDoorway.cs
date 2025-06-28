@@ -8,6 +8,8 @@ namespace PrototypeSubMod.Facilities;
 
 public class SpawnPrecursorDoorway : MonoBehaviour, IMaterialModifier
 {
+    [SerializeField] private bool applyMatEditsToAll = true;
+    
     public event Action<GameObject> onEditMaterial;
     
     private PrecursorDoorway precursorDoorway;
@@ -39,10 +41,17 @@ public class SpawnPrecursorDoorway : MonoBehaviour, IMaterialModifier
         {
             precursorDoorway.ToggleDoor(queuedDoorToggle);
         }
-        
-        foreach (var rend in instance.GetComponentsInChildren<Renderer>(true))
+
+        if (applyMatEditsToAll)
         {
-            onEditMaterial?.Invoke(rend.gameObject);
+            foreach (var rend in instance.GetComponentsInChildren<Renderer>(true))
+            {
+                onEditMaterial?.Invoke(rend.gameObject);
+            }
+        }
+        else
+        {
+            onEditMaterial?.Invoke(instance.gameObject);
         }
     }
 

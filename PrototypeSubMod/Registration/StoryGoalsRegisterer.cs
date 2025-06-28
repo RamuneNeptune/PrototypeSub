@@ -162,6 +162,7 @@ internal static class StoryGoalsRegisterer
         StoryGoalHandler.RegisterCustomEvent("HullFacilityTeleporterUnlocked", null);
         StoryGoalHandler.RegisterCustomEvent("EngineFacilityTeleporterUnlocked", null);
         StoryGoalHandler.RegisterCustomEvent("EngineGatesUnlocked", null);
+        StoryGoalHandler.RegisterCustomEvent("DefenseTeleporterGatesUnlocked", null);
         
         StoryGoalHandler.RegisterCompoundGoal("UnlockEngineFacilityKey", Story.GoalType.Story, 22, "PrototypeCrafted");
         StoryGoalHandler.RegisterCustomEvent("UnlockEngineFacilityKey", () =>

@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using Nautilus.Handlers;
+using Story;
+using UnityEngine;
 
 namespace PrototypeSubMod.Facilities.Defense;
 
@@ -14,6 +16,8 @@ internal class DefenseDoorHandler : MonoBehaviour
     public void OpenDoor()
     {
         if (hasOpened) return;
+
+        if (!StoryGoalManager.main.IsGoalComplete("OnDefenseCloakDisabled")) return;
 
         FMODUWE.PlayOneShot(doorOpenSFX, openSFXPos.position);
         animator.SetTrigger("OpenDoor");

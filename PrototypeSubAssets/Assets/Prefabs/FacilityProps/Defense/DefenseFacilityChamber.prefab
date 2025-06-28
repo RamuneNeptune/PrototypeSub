@@ -67865,7 +67865,6 @@ Transform:
   - {fileID: 2083366989492421563}
   - {fileID: 2446611807475704159}
   - {fileID: 8183970323338294196}
-  - {fileID: 6045610865191652776}
   - {fileID: 3244695487451545927}
   - {fileID: 2436193093905728618}
   m_Father: {fileID: 0}
@@ -68022,7 +68021,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  deactivationTerminal: {fileID: 2367657542260680702}
+  deactivationTerminal: {fileID: 0}
   activatedLights:
   - {fileID: 8795817067382025509}
   - {fileID: 8827478838125441301}
@@ -78068,7 +78067,7 @@ Transform:
   - {fileID: 2744223153327412603}
   - {fileID: 6489526388793719099}
   m_Father: {fileID: 6384526364089946843}
-  m_RootOrder: 21
+  m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7381761298440171652
 GameObject:
@@ -88140,71 +88139,6 @@ Transform:
   m_Father: {fileID: 7050009095281994854}
   m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: -45.000004, y: 0, z: 0}
---- !u!1 &8279907384977961774
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6045610865191652776}
-  - component: {fileID: 2367657542260680702}
-  - component: {fileID: 2195710599917910574}
-  m_Layer: 0
-  m_Name: CloakDisableTerminal
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6045610865191652776
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8279907384977961774}
-  m_LocalRotation: {x: -0, y: 0.2553917, z: -0, w: -0.9668377}
-  m_LocalPosition: {x: -12.83, y: 4.92, z: -13.68}
-  m_LocalScale: {x: 0.65, y: 0.65, z: 0.65}
-  m_Children: []
-  m_Father: {fileID: 6384526364089946843}
-  m_RootOrder: 19
-  m_LocalEulerAnglesHint: {x: 0, y: 330.406, z: 0}
---- !u!114 &2367657542260680702
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8279907384977961774}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 710167097, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  primaryTooltip: CloakDisableTerminal
-  secondaryTooltip: CloakDisableTerminal_Tooltip
-  allowMultipleUses: 0
-  spawnWithLight: 1
---- !u!114 &2195710599917910574
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8279907384977961774}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1104637911, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  terminal: {fileID: 2367657542260680702}
-  storyGoalKey: OnDisableDefenseCloak
-  onTrigger:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &8280766426284665127
 GameObject:
   m_ObjectHideFlags: 0
@@ -90981,7 +90915,7 @@ Transform:
   m_LocalScale: {x: 11.234, y: 5.653495, z: 1}
   m_Children: []
   m_Father: {fileID: 6384526364089946843}
-  m_RootOrder: 20
+  m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &660139998838638196
 BoxCollider:
