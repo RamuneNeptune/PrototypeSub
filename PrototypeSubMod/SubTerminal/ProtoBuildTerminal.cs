@@ -183,9 +183,9 @@ internal class ProtoBuildTerminal : Crafter
 
     private IEnumerator TeleportPlayerOut()
     {
-        InterfloorTeleporter.PlayTeleportEffect(0.5f);
+        InterfloorTeleporter.PlayTeleportEffect(0.4f);
 
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.2f);
 
         Player.main.transform.position = safeReturnPos.position;
         Player.main.transform.rotation = safeReturnPos.rotation;
