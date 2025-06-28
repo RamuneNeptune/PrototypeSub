@@ -4,6 +4,7 @@ using Story;
 using System.Collections;
 using Nautilus.Utility;
 using PrototypeSubMod.LightDistortionField;
+using PrototypeSubMod.MiscMonobehaviors.SubSystems;
 using PrototypeSubMod.UI.HealthDisplay;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -14,6 +15,7 @@ internal class ProtoBuildTerminal : Crafter
 {
     [SerializeField] private float buildDuration = 20f;
     [SerializeField] private float buildDelay;
+    [SerializeField] private Transform safeReturnPos;
     [SerializeField] private FMODAsset buildSoundEffect;
     [SerializeField] private FMOD_CustomEmitter chargeUpSFX;
     [SerializeField] private FMOD_CustomEmitter dischargeSFX;
@@ -39,25 +41,7 @@ internal class ProtoBuildTerminal : Crafter
     
     public void CraftSub()
     {
-        var bounds = occupiedHandler.GetBounds();
-        var objects = Physics.OverlapBox(bounds.center, bounds.extents);
-        bool moonpoolOccupied = false;
-        foreach (var obj in objects)
-        {
-            if (obj.GetComponentInParent<Vehicle>())
-            {
-                moonpoolOccupied = true;
-                break;
-            }
-            
-            if (obj.GetComponentInParent<SubRoot>())
-            {
-                moonpoolOccupied = true;
-                break;
-            }
-        }
-
-        if (moonpoolOccupied)
+        if (!MoonpoolCanHavePrototype())
         {
             ErrorMessage.AddError(Language.main.Get("BuildTerminal_Occupied"));
             return;
@@ -77,12 +61,24 @@ internal class ProtoBuildTerminal : Crafter
 
     public void RebuildSub()
     {
+        if (!MoonpoolCanHavePrototype())
+        {
+            ErrorMessage.AddError(Language.main.Get("BuildTerminal_Occupied"));
+            return;
+        }
+        
         UWE.CoroutineHost.StartCoroutine(StartCraftChargeUp(buildDuration));
         UWE.CoroutineHost.StartCoroutine(StartReconstruction(reconstructionManager));
     }
     
     public void RecentralizeSub()
     {
+        if (!MoonpoolCanHavePrototype())
+        {
+            ErrorMessage.AddError(Language.main.Get("BuildTerminal_Occupied"));
+            return;
+        }
+        
         UWE.CoroutineHost.StartCoroutine(StartCraftChargeUp(buildDuration));
         UWE.CoroutineHost.StartCoroutine(RecentralizeSubDelayed());
     }
@@ -187,7 +183,35 @@ internal class ProtoBuildTerminal : Crafter
 
     private IEnumerator TeleportPlayerOut()
     {
-        
+        InterfloorTeleporter.PlayTeleportEffect(0.5f);
+
+        yield return new WaitForSeconds(0.3f);
+
+        Player.main.transform.position = safeReturnPos.position;
+        Player.main.transform.rotation = safeReturnPos.rotation;
+    }
+
+    private bool MoonpoolCanHavePrototype()
+    {
+        var bounds = occupiedHandler.GetBounds();
+        var objects = Physics.OverlapBox(bounds.center, bounds.extents);
+        bool moonpoolOccupied = false;
+        foreach (var obj in objects)
+        {
+            if (obj.GetComponentInParent<Vehicle>())
+            {
+                moonpoolOccupied = true;
+                break;
+            }
+            
+            if (obj.GetComponentInParent<SubRoot>())
+            {
+                moonpoolOccupied = true;
+                break;
+            }
+        }
+
+        return !moonpoolOccupied;
     }
 
     private IEnumerator PlayDischargeDelayed()
