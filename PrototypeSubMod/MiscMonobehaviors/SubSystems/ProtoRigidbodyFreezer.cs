@@ -14,7 +14,7 @@ public class ProtoRigidbodyFreezer : MonoBehaviour, IProtoEventListener
     private bool collidersTransitioning;
     private bool wasInDistance;
     
-    private void Start()
+    private void Awake()
     {
         rigidbody = GetComponent<Rigidbody>();
     }
@@ -66,6 +66,7 @@ public class ProtoRigidbodyFreezer : MonoBehaviour, IProtoEventListener
 
     public void OnProtoDeserialize(ProtobufSerializer serializer)
     {
+        rigidbody = GetComponent<Rigidbody>();
         bool inDistance = (MainCamera.camera.transform.position - transform.position).sqrMagnitude < freezeDistance * freezeDistance;
         UWE.CoroutineHost.StartCoroutine(UpdateCollidersAndKinematics(inDistance, true));
     }

@@ -124,6 +124,6 @@ public class ProtoFinsManager : MonoBehaviour, ISaveDataListener
 
     public void UpdateDockingBayStatus()
     {
-        dockingBay.SetActive(installedFinCount >= 2 && (motorMode.engineOn || motorMode.engineOnOldState));
+        dockingBay.SetActive(installedFinCount >= 2);
     }
 }
