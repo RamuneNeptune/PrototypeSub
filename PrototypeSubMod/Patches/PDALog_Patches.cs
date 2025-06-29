@@ -10,20 +10,20 @@ namespace PrototypeSubMod.Patches;
 internal class PDALog_Patches
 {
     public static List<(string assetName, string key)> entries = new();
-
-    private static Sprite pdaSprite;
+    public static List<(string assetName, string key)> orionEntries = new();
 
     [HarmonyPatch(nameof(PDALog.Initialize)), HarmonyPostfix]
     private static void Initialize_Postfix()
     {
-        pdaSprite = PDALog.mapping.First(i => i.Value.key == "Goal_BiomeKooshZone").Value.icon;
+        var pdaSprite = PDALog.mapping.First(i => i.Value.key == "Goal_BiomeKooshZone").Value.icon;
 
-        AddEntries();
+        AddEntries(entries, pdaSprite);
+        AddEntries(orionEntries, Plugin.AssetBundle.LoadAsset<Sprite>("ProtoIcon"));
     }
 
-    private static void AddEntries()
+    private static void AddEntries(List<(string assetName, string key)> entriesToRegister, Sprite sprite)
     {
-        foreach (var item in entries)
+        foreach (var item in entriesToRegister)
         {
             var fmodAsset = AudioUtils.GetFmodAsset(item.assetName);
             fmodAsset.id = fmodAsset.path;
@@ -32,7 +32,7 @@ internal class PDALog_Patches
             {
                 key = item.key,
                 type = PDALog.EntryType.Default,
-                icon = pdaSprite,
+                icon = sprite,
                 sound = fmodAsset,
                 doNotAutoPlay = false
             };

@@ -15,8 +15,8 @@ internal class NewUpgradesScreen : MonoBehaviour
     [SerializeField] private BuildTerminalScreenManager screenManager;
     [SerializeField] private ProtoUpgradeCategory hullUpgradeCategory;
     [SerializeField] private VoiceNotificationManager manager;
-    [SerializeField] private VoiceNotification storyEndNotification;
-    [SerializeField] private VoiceNotification hullKeyNotification;
+    [SerializeField] private string storyEndPDAKey;
+    [SerializeField] private string hullKeyPDAKey;
     [SerializeField] private VoiceNotification newDataNotification;
     [SerializeField] private string precursorCharacters;
     [SerializeField] private TextMeshProUGUI upgradeText;
@@ -158,7 +158,7 @@ internal class NewUpgradesScreen : MonoBehaviour
             if (!Plugin.GlobalSaveData.unlockedCategoriesLastCheck.Contains(item.localizationKey)) return;
         }
 
-        queuedVoicelines.Enqueue(hullKeyNotification);
+        PDALog.Add(hullKeyPDAKey);
         KnownTech.Add(HullFacilityKey.prefabInfo.TechType);
         PDAEncyclopedia.Add("HullFacilityTabletEncy", true);
     }
@@ -177,7 +177,7 @@ internal class NewUpgradesScreen : MonoBehaviour
 
         Plugin.GlobalSaveData.storyEndPingSpawned = true;
         UWE.CoroutineHost.StartCoroutine(SpawnStoryEndPing());
-        queuedVoicelines.Enqueue(storyEndNotification);
+        PDALog.Add(storyEndPDAKey);
     }
     
     private IEnumerator SpawnStoryEndPing()

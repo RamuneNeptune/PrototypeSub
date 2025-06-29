@@ -16,6 +16,8 @@ internal class uGUI_FirstInteractScreen : TerminalScreen
     [SerializeField] private Image loadingBar;
     [SerializeField] private AnimationCurve progressOverTime;
     [SerializeField] private float loadingTime;
+    [SerializeField] private string devResumedPDAKey;
+    [SerializeField] private float voicelineWaitTime;
 
     [Header("Background Glitch")]
     [SerializeField] private Image backgroundImage;
@@ -23,30 +25,11 @@ internal class uGUI_FirstInteractScreen : TerminalScreen
     [SerializeField] private Sprite glitchSprite;
     [SerializeField] private float[] glitchTimePoints;
     [SerializeField] private float glitchDuration;
-
-    [Header("Exposition")]
-    [SerializeField] private VoiceNotificationManager manager;
-    [SerializeField] private ExpositionData[] datas;
-
-    [SerializeField, HideInInspector] public VoiceNotification[] notifications;
-    [SerializeField, HideInInspector] public float[] durations;
-
+    
     private float currentLoadingTime;
     private float previousLoadingTime;
     private bool loadingStarted;
     private bool voicelinesStarted;
-
-    private void OnValidate()
-    {
-        notifications = new VoiceNotification[datas.Length];
-        durations = new float[datas.Length];
-
-        for (int i = 0; i < datas.Length; i++)
-        {
-            notifications[i] = datas[i].voiceline;
-            durations[i] = datas[i].duration;
-        }
-    }
 
     private void Awake()
     {
@@ -141,12 +124,9 @@ internal class uGUI_FirstInteractScreen : TerminalScreen
 
     private IEnumerator OrionExposition()
     {
-        for (int i = 0; i < notifications.Length; i++)
-        {
-            manager.PlayVoiceNotification(notifications[i], false, true);
+        PDALog.Add(devResumedPDAKey);
 
-            yield return new WaitForSeconds(durations[i]);
-        }
+        yield return new WaitForSeconds(voicelineWaitTime);
 
         screenManager.BeginWaitForBuildStage();
     }
