@@ -49,7 +49,8 @@ internal static class PrefabRegisterer
         
         PrecursorFabricator.Register();
         PrecursorPhaseGate.Register();
-        
+
+        NonScanWaterPipe.Register();
         WatergateBlock.Register();
         ProtoPlaque_World.Register();
         ProtoLogo_World.Register();
