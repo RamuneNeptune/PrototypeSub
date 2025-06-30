@@ -7,12 +7,14 @@ namespace PrototypeSubMod.PowerSystem;
 public class ProtoPowerIconManager : MonoBehaviour
 {
     [SerializeField] private Sprite defaultSprite;
+    [SerializeField] private Sprite defaultMiniSprite;
     [SerializeField] private List<IconData> iconDatas;
 
     [HideInInspector, SerializeField] public string[] techTypeNames;
     [HideInInspector, SerializeField] public Sprite[] sprites;
-
-    private Dictionary<TechType, Sprite> techTypeIcons = new();
+    [HideInInspector, SerializeField] public Sprite[] miniSprites;
+    
+    private Dictionary<TechType, (Sprite sprite, Sprite miniSprite)> techTypeIcons = new();
     
     private void OnValidate()
     {
@@ -23,6 +25,7 @@ public class ProtoPowerIconManager : MonoBehaviour
             var icon = iconDatas[i];
             techTypeNames[i] = icon.techTypeName;
             sprites[i] = icon.sprite;
+            miniSprites[i] = icon.miniSprite;
         }
     }
 
@@ -32,7 +35,7 @@ public class ProtoPowerIconManager : MonoBehaviour
         {
             var techTypeName = techTypeNames[i];
             var techType = (TechType)Enum.Parse(typeof(TechType), techTypeName);
-            techTypeIcons.Add(techType, sprites[i]);
+            techTypeIcons.Add(techType, (sprites[i], miniSprites[i]));
         }
     }
 
@@ -40,10 +43,20 @@ public class ProtoPowerIconManager : MonoBehaviour
     {
         if (techTypeIcons.TryGetValue(techType, out var sprite))
         {
-            return sprite;
+            return sprite.sprite;
         }
         
         return defaultSprite;
+    }
+    
+    public Sprite GetMiniSpriteForTechType(TechType techType)
+    {
+        if (techTypeIcons.TryGetValue(techType, out var sprite))
+        {
+            return sprite.miniSprite;
+        }
+        
+        return defaultMiniSprite;
     }
 }
 
@@ -53,10 +66,12 @@ public struct IconData
     [HideInInspector] public TechType techType;
     public string techTypeName;
     public Sprite sprite;
+    public Sprite miniSprite;
 
-    public IconData(string techTypeName, Sprite sprite)
+    public IconData(string techTypeName, Sprite sprite, Sprite miniSprite)
     {
         this.techTypeName = techTypeName;
         this.sprite = sprite;
+        this.miniSprite = miniSprite;
     }
 }

@@ -53,7 +53,7 @@ public class ProtoSourceDisplay : MonoBehaviour
             newIcon.transform.localPosition = Vector3.zero;
             var chargeIcon = newIcon.GetComponent<ProtoChargeIcon>();
             
-            chargeIcon.SetSprite(iconManager.GetSpriteForTechType(item.techType));
+            chargeIcon.SetSprite(iconManager.GetMiniSpriteForTechType(item.techType));
             activeSourceIcons.Add(chargeIcon);
             index++;
         }
@@ -67,6 +67,6 @@ public class ProtoSourceDisplay : MonoBehaviour
         
         mainIcon.gameObject.SetActive(true);
         var itemAt0 = powerSystem.equipment.GetItemInSlot(PrototypePowerSystem.SLOT_NAMES[0]);
-        mainIcon.sprite = iconManager.GetSpriteForTechType(itemAt0.techType);
+        mainIcon.sprite = itemAt0 == null ? null : iconManager.GetSpriteForTechType(itemAt0.techType);
     }
 }

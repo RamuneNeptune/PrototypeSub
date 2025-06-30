@@ -12,11 +12,10 @@ public class ProtoChargeDisplay : MonoBehaviour, IUIElement
     [SerializeField] private FMODAsset destroyChargeSFX;
     [SerializeField] private PrototypePowerSystem powerSystem;
     [SerializeField] private OnModifyPowerEvent onModifyPower;
-    [SerializeField] private GameObject chargeIconPrefab;
-    [SerializeField] private Transform iconsParent;
-    [SerializeField] private Sprite normalSprite;
-    [SerializeField] private Sprite lowPowerSprite;
-
+    [SerializeField] private ProtoChargeIcon[] icons;
+    [SerializeField] private Color normalCol;
+    [SerializeField] private Color lowPowerCol;
+    
     private int chargesLastCheck;
     
     private void Start()
@@ -49,18 +48,17 @@ public class ProtoChargeDisplay : MonoBehaviour, IUIElement
 
     private void RegenerateCharges()
     {
-        foreach (Transform child in iconsParent)
+        foreach (var icon in icons)
         {
-            Destroy(child.gameObject);
+            icon.gameObject.SetActive(false);
         }
-
+        
         if (powerSystem.equipment.GetItemInSlot(PrototypePowerSystem.SLOT_NAMES[0]) == null) return;
 
         var currentSource = powerSystem.GetPowerSources()[0];
         for (int i = 0; i < currentSource.GetRemainingCharges(); i++)
         {
-            var newIcon= Instantiate(chargeIconPrefab, iconsParent);
-            newIcon.GetComponent<ProtoChargeIcon>().SetSprite(normalSprite);
+            icons[i].gameObject.SetActive(true);
         }
         
         chargesLastCheck = currentSource.GetRemainingCharges();
@@ -68,17 +66,17 @@ public class ProtoChargeDisplay : MonoBehaviour, IUIElement
     
     private void UpdateCharges(float chargeChange)
     {
-        if (iconsParent.childCount == 0) return;
-        
         var currentSource = powerSystem.GetPowerSources()[0];
-        var chargeIcon = iconsParent.GetChild(0).GetComponent<ProtoChargeIcon>();
+        if (currentSource == null || currentSource.GetRemainingCharges() == 0) return;
+
+        var chargeIcon = icons[0];
         if (currentSource.GetCurrentChargePower01() <= 0.25f)
         {
-            chargeIcon.SetSprite(lowPowerSprite);
+            chargeIcon.SetColor(lowPowerCol);
         }
         else if (chargeChange > 0)
         {
-            chargeIcon.SetSprite(normalSprite);
+            chargeIcon.SetColor(normalCol);
         }
         
         int remainingCharges = currentSource.GetRemainingCharges();
