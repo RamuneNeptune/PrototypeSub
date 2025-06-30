@@ -1,23 +1,29 @@
 ﻿using SubLibrary.UI;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace PrototypeSubMod.UI.DepthDisplay;
 
 public class ProtoDepthDisplay : MonoBehaviour, IUIElement
 {
     [SerializeField] private CrushDamage crushDamage;
-    [SerializeField] private Transform[] leftBars;
-    [SerializeField] private Transform[] rightBars;
+    [SerializeField] private Image leftMask;
+    [SerializeField] private Image rightMask;
+    [SerializeField] private float[] fillIncrements;
+
+    private int segmentCountLastFrame;
     
     public void UpdateUI()
     {
         int segmentCount = Mathf.FloorToInt(crushDamage.GetDepth() / crushDamage.crushDepth * 10);
-        for (int i = 0; i < leftBars.Length; i++)
+
+        if (segmentCount != segmentCountLastFrame)
         {
-            bool active = (leftBars.Length - i) <= segmentCount;
-            leftBars[i].gameObject.SetActive(active);
-            rightBars[i].gameObject.SetActive(active);
+            leftMask.fillAmount = fillIncrements[segmentCount];
+            rightMask.fillAmount = fillIncrements[segmentCount];
         }
+
+        segmentCountLastFrame = segmentCount;
     }
 
     public void OnSubDestroyed() { }
