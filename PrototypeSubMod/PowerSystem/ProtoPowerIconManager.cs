@@ -20,6 +20,7 @@ public class ProtoPowerIconManager : MonoBehaviour
     {
         techTypeNames = new string[iconDatas.Count];
         sprites = new Sprite[iconDatas.Count];
+        miniSprites = new Sprite[iconDatas.Count];
         for (int i = 0; i < iconDatas.Count; i++)
         {
             var icon = iconDatas[i];
