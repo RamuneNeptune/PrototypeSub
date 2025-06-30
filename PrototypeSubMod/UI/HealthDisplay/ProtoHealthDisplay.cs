@@ -44,7 +44,7 @@ public class ProtoHealthDisplay : MonoBehaviour, IOnTakeDamage, IUIElement
         bool lowHealth = lastSegmentAmount < 0.5f;
         for (int i = 0; i < healthNotches.Length; i++)
         {
-            healthNotches[i].gameObject.SetActive(i + 1 < currentSegmentCount);
+            healthNotches[i].gameObject.SetActive(i < currentSegmentCount);
             var color = (i + 1) == currentSegmentCount && lowHealth ? lowHealthColor : normalColor;
             healthNotches[i].color = color;
         }
