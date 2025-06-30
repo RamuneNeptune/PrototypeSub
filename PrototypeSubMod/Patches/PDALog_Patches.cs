@@ -18,7 +18,7 @@ internal class PDALog_Patches
         var pdaSprite = PDALog.mapping.First(i => i.Value.key == "Goal_BiomeKooshZone").Value.icon;
 
         AddEntries(entries, pdaSprite);
-        AddEntries(orionEntries, Plugin.AssetBundle.LoadAsset<Sprite>("ProtoIcon"));
+        AddEntries(orionEntries, Plugin.AssetBundle.LoadAsset<Sprite>("ProtoPDALogo"));
     }
 
     private static void AddEntries(List<(string assetName, string key)> entriesToRegister, Sprite sprite)
