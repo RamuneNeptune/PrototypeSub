@@ -11,7 +11,7 @@ public class ProtoDepthDisplay : MonoBehaviour, IUIElement
     [SerializeField] private Image rightMask;
     [SerializeField] private float[] fillIncrements;
 
-    private int segmentCountLastFrame;
+    private int segmentCountLastFrame = -1;
     
     public void UpdateUI()
     {

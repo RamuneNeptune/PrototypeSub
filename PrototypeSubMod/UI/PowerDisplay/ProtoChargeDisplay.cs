@@ -59,6 +59,7 @@ public class ProtoChargeDisplay : MonoBehaviour, IUIElement
         for (int i = 0; i < currentSource.GetRemainingCharges(); i++)
         {
             icons[i].gameObject.SetActive(true);
+            icons[i].SetColor(normalCol);
         }
         
         chargesLastCheck = currentSource.GetRemainingCharges();
