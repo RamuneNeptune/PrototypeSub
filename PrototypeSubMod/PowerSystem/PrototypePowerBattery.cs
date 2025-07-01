@@ -160,6 +160,12 @@ public class PrototypePowerBattery : MonoBehaviour, IBattery, IProtoTreeEventLis
     {
         if (connectedBattery != null) return;
 
+        if (gameObject == null)
+        {
+            Plugin.GlobalSaveData.OnStartedSaving -= OnBeforeDataSaved;
+            return;
+        }
+
         prefabIdentifier = GetComponent<PrefabIdentifier>();
         Initialize();
         
