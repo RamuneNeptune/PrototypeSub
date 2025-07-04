@@ -22,6 +22,9 @@ internal class ProtoDeployableManager : ProtoUpgrade
     
     [SerializeField] private float launchLightDelay;
     [SerializeField] private float lightLaunchForce;
+    [SerializeField] private float lightDeployInterval = 5f;
+
+    private bool canDeployLight = true;
 
     private int lightCount;
     private List<string> availableLightSlots = new();
@@ -34,21 +37,36 @@ internal class ProtoDeployableManager : ProtoUpgrade
             return;
         }
 
-        if (lightCount > 0)
+        if (canDeployLight)
         {
-            string slot = availableLightSlots[availableLightSlots.Count - 1];
-            storageTerminal.equipment.RemoveItem(slot, true, false);
+            if (lightCount > 0)
+            {
+                StartCoroutine(LaunchLight());
+            }
+            else
+            {
+                subRoot.voiceNotificationManager.PlayVoiceNotification(invalidOperationNotification);
+                lightAbility.SetQueuedActivationFailure();
+            }
+        }        
+    }
 
-            Invoke(nameof(SpawnLightDelayed), launchLightDelay);
+    private IEnumerator LaunchLight()
+    {
+        canDeployLight = false;
 
-            subRoot.voiceNotificationManager.PlayVoiceNotification(launchLightNotification);
-            deployLightSFX.Play();
-        }
-        else
-        {
-            subRoot.voiceNotificationManager.PlayVoiceNotification(invalidOperationNotification);
-            lightAbility.SetQueuedActivationFailure();
-        }
+        string slot = availableLightSlots[availableLightSlots.Count - 1];
+        storageTerminal.equipment.RemoveItem(slot, true, false);
+
+        Invoke(nameof(SpawnLightDelayed), launchLightDelay);
+
+        subRoot.voiceNotificationManager.PlayVoiceNotification(launchLightNotification);
+        deployLightSFX.Play();
+
+        yield return new WaitForSeconds(lightDeployInterval);
+
+        canDeployLight = true;
+
     }
 
     private void SpawnLightDelayed()
