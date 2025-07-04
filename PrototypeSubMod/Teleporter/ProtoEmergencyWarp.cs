@@ -19,6 +19,7 @@ internal class ProtoEmergencyWarp : ProtoUpgrade
     [SerializeField] private PilotingChair pilotingChair;
     [SerializeField] private int requiredCharges;
     [SerializeField] private float chargeTime;
+    [SerializeField] private FMOD_CustomEmitter emergencyWarpSFX;
 
     private float currentChargeTime = Mathf.Infinity;
     private bool startedTeleport = true;
@@ -43,6 +44,7 @@ internal class ProtoEmergencyWarp : ProtoUpgrade
         if (!upgradeInstalled) return;
 
         subRoot.voiceNotificationManager.PlayVoiceNotification(emergencyWarpNotification);
+        emergencyWarpSFX.Play();
 
         subRoot.powerRelay.ConsumeEnergy(999999, out _);
         currentChargeTime = 0;
