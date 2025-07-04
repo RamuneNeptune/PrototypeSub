@@ -20,6 +20,9 @@ internal class ProtoIonGenerator : ProtoUpgrade
     [Header("EMP")] [SerializeField] private EmpSpawner empSpawner;
     [SerializeField] private VoiceNotification empNotification;
     [SerializeField] private FMOD_CustomEmitter empSoundEffect;
+    [SerializeField] private FMOD_CustomEmitter generatorStart;
+    [SerializeField] private FMOD_CustomEmitter generatorStop;
+    [SerializeField] private FMOD_CustomEmitter generatorLoop;
     [SerializeField] private float soundEffectVolume = 20f;
     [SerializeField] private float disableElectronicsTime;
     
@@ -105,6 +108,17 @@ internal class ProtoIonGenerator : ProtoUpgrade
         if (!upgradeInstalled) return false;
         
         SetUpgradeEnabled(!upgradeEnabled);
+
+        if (upgradeEnabled)
+        {
+            generatorLoop.Play();
+            generatorStart.Play();
+        }
+        else
+        {
+            generatorLoop.Stop();
+        }
+
         return true;
     }
 
