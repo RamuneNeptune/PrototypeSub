@@ -31,12 +31,7 @@ internal class ProtoDeployableManager : ProtoUpgrade
 
     public void TryLaunchLight()
     {
-        if (ionGenerator.GetUpgradeEnabled() && ionGenerator.GetUpgradeInstalled())
-        {
-            subRoot.voiceNotificationManager.PlayVoiceNotification(invalidOperationNotification);
-            return;
-        }
-
+        
         if (canDeployLight)
         {
             if (lightCount > 0)
