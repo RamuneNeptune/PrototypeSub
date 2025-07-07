@@ -12,6 +12,7 @@ public class SFXButton : Button
     public UnityEvent onClickWrapper;
     public FMODAsset onEnterFX;
     public FMODAsset onExitFX;
+    public FMODAsset onClickFX;
     public float volume = 1;
     public float minDistForSound = 2;
 
@@ -49,7 +50,22 @@ public class SFXButton : Button
             FMODUWE.PlayOneShot(onEnterFX, transform.position, volume);
         }
     }
-    
+
+    public override void OnPointerClick(PointerEventData eventData)
+    {
+        if (!gameObject.activeSelf) return;
+
+        if ((Player.main.transform.position - transform.position).sqrMagnitude >
+                    minDistForSound * minDistForSound) return;
+
+        base.OnPointerClick(eventData);
+
+        if (onClickFX != null)
+        {
+            FMODUWE.PlayOneShot(onClickFX, transform.position, volume);
+        }
+    }
+
     public override void OnPointerExit(PointerEventData eventData)
     {
         base.OnPointerExit(eventData);
