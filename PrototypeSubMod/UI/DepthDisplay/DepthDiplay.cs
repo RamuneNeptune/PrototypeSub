@@ -16,7 +16,8 @@ public class ProtoDepthDisplay : MonoBehaviour, IUIElement
     public void UpdateUI()
     {
         int segmentCount = Mathf.FloorToInt(crushDamage.GetDepth() / crushDamage.crushDepth * 10);
-
+        segmentCount = Mathf.Clamp(segmentCount, 0, fillIncrements.Length - 1);
+        
         if (segmentCount != segmentCountLastFrame)
         {
             leftMask.fillAmount = fillIncrements[segmentCount];
