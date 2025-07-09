@@ -37,7 +37,7 @@ internal static class LootRegister
             {
                 biome = BiomeType.Mountains_IslandCaveFloor,
                 count = 1,
-                probability = 0.2f
+                probability = 0.05f
             },
             new()
             {

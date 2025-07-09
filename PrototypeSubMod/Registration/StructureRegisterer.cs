@@ -32,6 +32,7 @@ internal static class StructureRegisterer
         Structure.LoadFromBundle("DefenseFacilityTeleporterRoomExteriorObjects").RegisterStructure();
         Structure.LoadFromBundle("DefenseFacilityTeleporterRoomInteriorObjects").RegisterStructure();
         Structure.LoadFromBundle("DefenseFacilityTeleporterRoom").RegisterStructure();
+        Structure.LoadFromBundle("QEPRemnantSpawns").RegisterStructure();
         
         if (TRPCompatManager.TRPInstalled)
         {
