@@ -22,6 +22,8 @@ internal class CloakEffectHandler : ProtoUpgrade
     public Color distortionColor;
     public Color interiorColor;
     public Color vignetteColor;
+    public float falloffMin;
+    public float falloffMax;
 
     [Header("Distortion")]
     public float falloffMultiplier;

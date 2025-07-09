@@ -55,6 +55,8 @@ internal class LightDistortionApplier : MonoBehaviour
         material.SetInt("_WaveCount", activeCloakHandler.waveCount);
         material.SetFloat("_FrequencyIncrease", activeCloakHandler.frequencyIncrease);
         material.SetFloat("_AmplitudeFalloff", activeCloakHandler.amplitudeFalloff);
+        material.SetFloat("_FalloffMin", activeCloakHandler.falloffMin);
+        material.SetFloat("_FalloffMax", activeCloakHandler.falloffMax);
     }
 
     public void RegisterCloakHandler(CloakEffectHandler handler)

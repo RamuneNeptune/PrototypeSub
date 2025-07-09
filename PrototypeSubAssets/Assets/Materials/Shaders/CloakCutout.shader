@@ -28,6 +28,8 @@
             uniform float3 _HexCenter;
             uniform float _HexHeight;
             uniform float _HexRadius;
+            uniform float _FalloffMin;
+            uniform float _FalloffMax;
 
             uniform fixed4 _InteriorColor;
             uniform fixed4 _DistortionColor;
@@ -57,7 +59,6 @@
             uniform float4x4 _HexRotationMatrix;
             uniform fixed _EnabledAmount = 1;
             uniform float _ExteriorCutoutRatio;
-            uniform fixed _FadeInAmount;
 
             struct appdata
             {
@@ -150,6 +151,11 @@
                 if(tN.x > tF || tF < 0.0) return -1;
 
                 return float2(tN.x, tF);  // return tF too for exit point
+            }
+
+            float invLerp(float value, float from, float to)
+            {
+                return (value - from) / (to - from);
             }
             
             fixed4 frag (v2f i) : SV_Target
@@ -256,7 +262,7 @@
                 }
                 else if (effectStrength > _EffectBoundaryMax)
                 {
-                    return originalCol;
+                    targetCol = originalCol;
                 }
                 else
                 {
@@ -297,7 +303,8 @@
                     targetCol = originalCol;
                 }
 
-                return lerp(originalCol, targetCol, _FadeInAmount);
+                float falloff = invLerp(length(rayOrigin - _SphereCenter), _FalloffMin, _FalloffMax);
+                return lerp(targetCol, originalCol, saturate(falloff));
             }
             ENDCG
         }

@@ -15,9 +15,9 @@ internal class DefenseCloakManager : MonoBehaviour
     public Transform sphere;
     public Transform hexPrism;
 
-    [Header("Fade In")]
-    [SerializeField] private float fadeInTime;
-    [SerializeField] private AnimationCurve opacityOverFadeIn;
+    [Header("Fade")] 
+    public float falloffMin;
+    public float falloffMax;
 
     [Header("Colors")]
     public Color interiorColor;
@@ -55,8 +55,6 @@ internal class DefenseCloakManager : MonoBehaviour
     private CloakCutoutApplier cloakApplier;
     private bool deactivated;
     private float currentScaleTime;
-    private float originalScale;
-    private float currentFadeInTime;
 
     private float[] lightIntensities;
 
@@ -67,8 +65,6 @@ internal class DefenseCloakManager : MonoBehaviour
 
     private void Start()
     {
-        originalScale = sphere.localScale.x;
-
         if (StoryGoalManager.main.IsGoalComplete("DefenseCloakDisabled"))
         {
             sphere.localScale = Vector3.zero;
@@ -96,11 +92,6 @@ internal class DefenseCloakManager : MonoBehaviour
 
     private void Update()
     {
-        if (currentFadeInTime < fadeInTime && !deactivated)
-        {
-            currentFadeInTime += Time.deltaTime;
-        }
-
         if (!deactivated || currentScaleTime > scaleTime) return;
 
         if (currentScaleTime < scaleTime)
@@ -144,10 +135,5 @@ internal class DefenseCloakManager : MonoBehaviour
         {
             deactivationTerminal.onTerminalInteracted -= DeactivateCloak;
         }
-    }
-
-    public float GetFadeInOpacity()
-    {
-        return opacityOverFadeIn.Evaluate(currentFadeInTime / fadeInTime);
     }
 }

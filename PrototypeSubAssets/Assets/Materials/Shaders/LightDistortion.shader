@@ -26,6 +26,9 @@
             float3 _OvoidCenter;
             float3 _OvoidRadii;
 
+            float _FalloffMin;
+            float _FalloffMax;
+
             // Colors
             fixed4 _Color;
             fixed4 _DistortionColor;
@@ -117,6 +120,11 @@
 
                 return float3(9999999, 9999999, 0);
             }
+
+            float invLerp(float value, float from, float to)
+            {
+                return (value - from) / (to - from);
+            }
             
             fixed4 frag (v2f i) : SV_Target
             {
@@ -161,6 +169,7 @@
 
                 float maxDist = max(_OvoidRadii.x, max(_OvoidRadii.y, _OvoidRadii.z));
                 float normalizedDist = (distInsideSphere / (maxDist * _Multiplier));
+                fixed4 returnCol;
 
                 if(normalizedDist < _EffectBoundaryMax && normalizedDist > _EffectBoundaryMin)
                 {
@@ -187,11 +196,11 @@
                     fixed4 cutoffCol = lerp(col, warpedCol, length(warpedCol.rgb) + _BoundaryOffset);
                     cutoffCol = clamp(cutoffCol, 0, 1);
 
-                    return fixed4(cutoffCol.rgb, 1);
+                    returnCol = fixed4(cutoffCol.rgb, 1);
                 }
                 else if(normalizedDist < _EffectBoundaryMax)
                 {
-                    return col;
+                    returnCol = col;
                 }
                 else
                 {
@@ -218,8 +227,11 @@
                     //Vignette color lerp
                     fixed4 finalColor = lerp(vignetteCol * nonVignetteCol, nonVignetteCol, vignetteVal);
 
-                    return finalColor;
+                    returnCol = finalColor;
                 }
+
+                float falloff = invLerp(length(rayOrigin - _OvoidCenter), _FalloffMin, _FalloffMax);
+                return lerp(returnCol, col, saturate(falloff));
             }
             ENDCG
         }

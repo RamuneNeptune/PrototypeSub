@@ -33,7 +33,6 @@ internal class CloakCutoutApplier : MonoBehaviour
         material.SetVector("_HexCenter", defenseCloakManager.hexPrism.position);
         material.SetFloat("_HexRadius", defenseCloakManager.hexPrism.lossyScale.x);
         material.SetFloat("_HexHeight", defenseCloakManager.hexPrism.lossyScale.y);
-        material.SetFloat("_FadeInAmount", defenseCloakManager.GetFadeInOpacity());
 
         Graphics.Blit(source, destination, material);
     }
@@ -64,6 +63,9 @@ internal class CloakCutoutApplier : MonoBehaviour
 
         material.SetFloat("_EnabledAmount", defenseCloakManager.enabledAmount);
         material.SetFloat("_ExteriorCutoutRatio", defenseCloakManager.exteriorCutoutRatio);
+        
+        material.SetFloat("_FalloffMin", defenseCloakManager.falloffMin);
+        material.SetFloat("_FalloffMax", defenseCloakManager.falloffMax);
     }
 
     public void SetCloakManager(DefenseCloakManager cloakManager)
