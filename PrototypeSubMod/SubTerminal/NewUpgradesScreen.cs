@@ -25,6 +25,7 @@ internal class NewUpgradesScreen : MonoBehaviour
     [SerializeField] private Image progressBar;
     [SerializeField] private float downloadLength;
 
+    private List<string> queuedPdaMessages = new();
     private List<ProtoUpgradeCategory> mostRecentCategories;
     private float currentDownloadProgress;
     private bool downloadActive;
@@ -105,8 +106,6 @@ internal class NewUpgradesScreen : MonoBehaviour
         return GetUnlocksSinceLastCheck().Count > 0;
     }
 
-    public bool DownloadActive() => downloadActive;
-
     private void UpdateStoredUnlocks()
     {
         List<string> unlockedCategoryKeys = new();
@@ -161,6 +160,7 @@ internal class NewUpgradesScreen : MonoBehaviour
         PDALog.Add(hullKeyPDAKey);
         KnownTech.Add(HullFacilityKey.prefabInfo.TechType);
         PDAEncyclopedia.Add("HullFacilityTabletEncy", true);
+        queuedPdaMessages.Add(hullKeyPDAKey);
     }
     
     private void CheckForStoryPing()
@@ -178,6 +178,7 @@ internal class NewUpgradesScreen : MonoBehaviour
         Plugin.GlobalSaveData.storyEndPingSpawned = true;
         UWE.CoroutineHost.StartCoroutine(SpawnStoryEndPing());
         PDALog.Add(storyEndPDAKey);
+        queuedPdaMessages.Add(storyEndPDAKey);
     }
     
     private IEnumerator SpawnStoryEndPing()
@@ -191,6 +192,18 @@ internal class NewUpgradesScreen : MonoBehaviour
 
     private IEnumerator PlayQueuedVoicelines()
     {
+        float delay = 0;
+        foreach (var message in queuedPdaMessages)
+        {
+            var data = Language.main.GetMetaData(message);
+            for (int i = 0; i < data.lineCount; i++)
+            {
+                delay += data.GetLine(i).delay;
+            }
+        }
+
+        yield return new WaitForSeconds(delay);
+        
         while (queuedVoicelines.Count > 0)
         {
             var line = queuedVoicelines.Dequeue();
