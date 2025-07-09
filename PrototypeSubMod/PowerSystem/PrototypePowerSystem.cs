@@ -84,6 +84,12 @@ public class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTree
         equipment.isAllowedToAdd = IsAllowedToAdd;
         equipment.isAllowedToRemove = (p, v) => true;
         
+        equipment.typeToSlots = new()
+        {
+            { Plugin.DummyPowerType, SLOT_NAMES.ToList() }
+        };
+
+        
         foreach (var relay in powerRelays)
         {
             relay.SetRelayActive(false);

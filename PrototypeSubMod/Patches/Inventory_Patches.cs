@@ -52,9 +52,8 @@ internal class Inventory_Patches
 
         if (!equipmentB.owner) return originalType;
 
-        bool isPowerSystem = equipmentB.owner.TryGetComponent(out PrototypePowerSystem _);
-        bool isPowerConsumption = equipmentB.owner.TryGetComponent(out ProtoPowerAbilitySystem _);
-        if (!isPowerSystem && !isPowerConsumption) return originalType;
+        bool isPowerEquipment = equipmentB.typeToSlots.ElementAt(0).Key == Plugin.DummyPowerType;
+        if (!isPowerEquipment) return originalType;
 
         if (PrototypePowerSystem.AllowedPowerSources.Keys.Contains(itemA.techType))
         {

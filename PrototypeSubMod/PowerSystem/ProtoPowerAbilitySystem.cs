@@ -110,6 +110,11 @@ internal class ProtoPowerAbilitySystem : MonoBehaviour, ISaveDataListener, ILate
             return true;
         };
 
+        equipment.typeToSlots = new()
+        {
+            { Plugin.DummyPowerType, new List<string> { SlotName } }
+        };
+
         abilityConsumptionButton = uGUI_PDA.main.transform.Find("Content/InventoryTab/Equipment/PowerAbilityConsumeButton(Clone)").GetComponent<AbilityConsumptionButton>();
     }
 
