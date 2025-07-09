@@ -1,7 +1,7 @@
-﻿using ModStructureFormat;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System.Collections;
 using System.Collections.Generic;
+using PrototypeSubMod.StructureLoading;
 using UnityEngine;
 using UWE;
 

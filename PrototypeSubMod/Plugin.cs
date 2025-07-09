@@ -2,7 +2,6 @@
 using BepInEx;
 using BepInEx.Bootstrap;
 using BepInEx.Logging;
-using EpicStructureLoader;
 using HarmonyLib;
 using Nautilus.Handlers;
 using PrototypeSubMod.Commands;
@@ -28,7 +27,6 @@ namespace PrototypeSubMod
     [BepInPlugin(GUID, pluginName, versionString)]
     [BepInDependency("com.snmodding.nautilus")]
     [BepInDependency("com.indigocoder.sublibrary")]
-    [BepInDependency("com.lee23.epicstructureloader", "1.0.1")]
     [BepInDependency("com.alembic.package")]
     [BepInDependency("ArchitectsLibrary", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.lee23.theredplague", BepInDependency.DependencyFlags.SoftDependency)]
@@ -219,10 +217,14 @@ namespace PrototypeSubMod
         {
             var sw = new System.Diagnostics.Stopwatch();
             sw.Start();
+            
             if (Chainloader.PluginInfos.ContainsKey("com.danithedani.deepercreatures"))
             {
+                var structureLoadingType =
+                    Type.GetType(
+                        "EpicStructureLoader.StructureLoading, EpicStructureLoader, Version=1.0.1.0, Culture=neutral, PublicKeyToken=null");
                 var structureTranspiler = AccessTools.Method(typeof(StructureLoading_Patches), nameof(StructureLoading_Patches.RegisterStructure_Transpiler));
-                var originalMethod = AccessTools.Method(typeof(StructureLoading), nameof(StructureLoading.RegisterStructure));
+                var originalMethod = AccessTools.Method(structureLoadingType, "RegisterStructure");
                 harmony.Patch(originalMethod, transpiler: new HarmonyMethod(structureTranspiler));
             }
 
