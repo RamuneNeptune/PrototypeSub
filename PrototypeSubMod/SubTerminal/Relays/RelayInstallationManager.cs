@@ -7,11 +7,10 @@ namespace PrototypeSubMod.SubTerminal.Relays;
 public class RelayInstallationManager : MonoBehaviour
 {
     [SerializeField] private MoonpoolOccupiedHandler occupiedHandler;
-    [SerializeField] private SubUpgradeInstallationButton[] installationButtons;
+    [SerializeField] private RelayInstallationButton[] installationButtons;
 
     private PrototypePowerSystem powerSystem;
     private bool hadSubLastFrame;
-    
     
     private void Start()
     {
@@ -43,7 +42,8 @@ public class RelayInstallationManager : MonoBehaviour
         for (int i = 0; i < installationButtons.Length; i++)
         {
             var button = installationButtons[i];
-            button.SetEnabled(i == powerSystem.GetAllowedSourcesCount() - 2);
+            button.SetCanBuild(i == powerSystem.GetAllowedSourcesCount());
+            button.SetConstructed(i < powerSystem.GetAllowedSourcesCount());
         }
     }
 

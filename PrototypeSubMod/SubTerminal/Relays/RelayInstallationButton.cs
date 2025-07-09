@@ -4,9 +4,9 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace PrototypeSubMod.SubTerminal.Fins;
+namespace PrototypeSubMod.SubTerminal.Relays;
 
-public class FinInstallationButton : MonoBehaviour
+public class RelayInstallationButton : MonoBehaviour
 {
     [SerializeField] private Image image;
     [SerializeField] private DummyTechType relayUpgradeTechType;
