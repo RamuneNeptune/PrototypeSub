@@ -9,6 +9,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using PrototypeSubMod.Utility;
 using UnityEngine;
 
 namespace PrototypeSubMod.Patches;
@@ -103,10 +104,13 @@ internal class Player_Patches
 
         return false;
     }
-
-    private const int TUNNEL_REQ_OX = 68;
+    
     private const int MIN_OX_REQ = 135;
 
+    [SaveStateReference(float.MinValue)]
+    private static float TimeWouldHaveDrowned;
+    [SaveStateReference(false)]
+    private static bool SavedFromDrowning;
     private static bool OverrideOxygen;
     private static float OverrideOxygenAmount;
 
@@ -137,6 +141,23 @@ internal class Player_Patches
         }
 
         __result *= 1 / dividend;
+
+        if (__instance.oxygenMgr.GetOxygenAvailable() > 30)
+        {
+            SavedFromDrowning = false;
+        }
+        
+        bool wouldHaveDrowned = __instance.oxygenMgr.GetOxygenAvailable() - __result <= 1;
+        if (wouldHaveDrowned && Time.time > TimeWouldHaveDrowned + 30f && !SavedFromDrowning)
+        {
+            TimeWouldHaveDrowned = Time.time;
+            SavedFromDrowning = true;
+        }
+        
+        if (wouldHaveDrowned && Time.time < TimeWouldHaveDrowned + 30f)
+        {
+            __result = 0;
+        }
     }
 
     public static void SetOxygenReqOverride(bool overrideOx, float overrideAmount)
