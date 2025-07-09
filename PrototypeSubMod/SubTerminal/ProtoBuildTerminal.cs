@@ -194,7 +194,8 @@ internal class ProtoBuildTerminal : Crafter
     private bool MoonpoolCanHavePrototype()
     {
         var bounds = occupiedHandler.GetBounds();
-        var objects = Physics.OverlapBox(bounds.center, bounds.extents);
+        var transform = occupiedHandler.GetTransform();
+        var objects = Physics.OverlapBox(bounds.center, bounds.extents, transform.rotation);
         bool moonpoolOccupied = false;
         foreach (var obj in objects)
         {

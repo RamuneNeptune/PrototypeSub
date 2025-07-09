@@ -48,4 +48,5 @@ internal class MoonpoolOccupiedHandler : MonoBehaviour
     }
 
     public Bounds GetBounds() => moonpoolBounds.bounds;
+    public Transform GetTransform() => moonpoolBounds.transform;
 }
