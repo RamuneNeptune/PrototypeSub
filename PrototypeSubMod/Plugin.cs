@@ -98,16 +98,7 @@ namespace PrototypeSubMod
             // Register harmony patches, if there are any
             harmony.PatchAll(Assembly);
 
-            var audioSW = new System.Diagnostics.Stopwatch();
-            audioSW.Start();
-            foreach (var asset in AudioBundle.LoadAllAssets())
-            {
-                if (asset is not CustomFMODAsset fmodAsset) continue;
-                
-                SubAudioLoader.RegisterAssetAudio(fmodAsset);
-            }
-            audioSW.Stop();
-            Logger.LogInfo($"Audio registered in {audioSW.ElapsedMilliseconds}ms");
+            UWE.CoroutineHost.StartCoroutine(LoadAudioAsync());
 
             var databaseSW = new System.Diagnostics.Stopwatch();
             databaseSW.Start();
@@ -203,6 +194,21 @@ namespace PrototypeSubMod
                 GameObject prefab = prefabTask.result.Get();
                 prefab.AddComponent<PrototypePowerBattery>();
             }
+        }
+
+        private IEnumerator LoadAudioAsync()
+        {
+            var audioSW = new System.Diagnostics.Stopwatch();
+            audioSW.Start();
+            var request = AudioBundle.LoadAllAssetsAsync(typeof(CustomFMODAsset));
+            yield return request;
+            
+            foreach (var asset in request.allAssets)
+            {
+                SubAudioLoader.RegisterAssetAudio(asset as CustomFMODAsset);
+            }
+            audioSW.Stop();
+            Logger.LogInfo($"Audio registered in {audioSW.ElapsedMilliseconds}ms");
         }
 
         private IEnumerator MakeSeaTreaderBlockersPassthrough()
