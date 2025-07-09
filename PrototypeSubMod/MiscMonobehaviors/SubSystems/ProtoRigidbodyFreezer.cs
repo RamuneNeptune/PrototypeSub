@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace PrototypeSubMod.MiscMonobehaviors.SubSystems;
 
-public class ProtoRigidbodyFreezer : MonoBehaviour, IProtoEventListener
+public class ProtoRigidbodyFreezer : MonoBehaviour, IProtoTreeEventListener
 {
     [SerializeField] private float freezeDistance = 48f;
     [SerializeField] private Transform[] colliderActivationStages;
@@ -62,9 +62,9 @@ public class ProtoRigidbodyFreezer : MonoBehaviour, IProtoEventListener
         collidersTransitioning = false;
     }
 
-    public void OnProtoSerialize(ProtobufSerializer serializer) { }
+    public void OnProtoSerializeObjectTree(ProtobufSerializer serializer) { }
 
-    public void OnProtoDeserialize(ProtobufSerializer serializer)
+    public void OnProtoDeserializeObjectTree(ProtobufSerializer serializer)
     {
         rigidbody = GetComponent<Rigidbody>();
         bool inDistance = (MainCamera.camera.transform.position - transform.position).sqrMagnitude < freezeDistance * freezeDistance;

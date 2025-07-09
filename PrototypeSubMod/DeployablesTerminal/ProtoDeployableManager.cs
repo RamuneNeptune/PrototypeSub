@@ -22,33 +22,46 @@ internal class ProtoDeployableManager : ProtoUpgrade
     
     [SerializeField] private float launchLightDelay;
     [SerializeField] private float lightLaunchForce;
+    [SerializeField] private float lightDeployInterval = 5f;
+
+    private bool canDeployLight = true;
 
     private int lightCount;
     private List<string> availableLightSlots = new();
 
     public void TryLaunchLight()
     {
-        if (ionGenerator.GetUpgradeEnabled() && ionGenerator.GetUpgradeInstalled())
+        
+        if (canDeployLight)
         {
-            subRoot.voiceNotificationManager.PlayVoiceNotification(invalidOperationNotification);
-            return;
-        }
+            if (lightCount > 0)
+            {
+                StartCoroutine(LaunchLight());
+            }
+            else
+            {
+                subRoot.voiceNotificationManager.PlayVoiceNotification(invalidOperationNotification);
+                lightAbility.SetQueuedActivationFailure();
+            }
+        }        
+    }
 
-        if (lightCount > 0)
-        {
-            string slot = availableLightSlots[availableLightSlots.Count - 1];
-            storageTerminal.equipment.RemoveItem(slot, true, false);
+    private IEnumerator LaunchLight()
+    {
+        canDeployLight = false;
 
-            Invoke(nameof(SpawnLightDelayed), launchLightDelay);
+        string slot = availableLightSlots[availableLightSlots.Count - 1];
+        storageTerminal.equipment.RemoveItem(slot, true, false);
 
-            subRoot.voiceNotificationManager.PlayVoiceNotification(launchLightNotification);
-            deployLightSFX.Play();
-        }
-        else
-        {
-            subRoot.voiceNotificationManager.PlayVoiceNotification(invalidOperationNotification);
-            lightAbility.SetQueuedActivationFailure();
-        }
+        Invoke(nameof(SpawnLightDelayed), launchLightDelay);
+
+        subRoot.voiceNotificationManager.PlayVoiceNotification(launchLightNotification);
+        deployLightSFX.Play();
+
+        yield return new WaitForSeconds(lightDeployInterval);
+
+        canDeployLight = true;
+
     }
 
     private void SpawnLightDelayed()

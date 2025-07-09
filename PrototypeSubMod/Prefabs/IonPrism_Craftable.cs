@@ -3,6 +3,7 @@ using Nautilus.Assets.Gadgets;
 using Nautilus.Utility;
 using PrototypeSubMod.Compatibility;
 using PrototypeSubMod.Utility;
+using System.Collections;
 using UnityEngine;
 
 namespace PrototypeSubMod.Prefabs;
@@ -31,13 +32,15 @@ internal class IonPrism_Craftable
         prefab.Register();
     }
 
-    private static GameObject GetPrefab()
+    private static IEnumerator GetPrefab(IOut<GameObject> prefabOut)
     {
+
         var assetPrefab = Plugin.AssetBundle.LoadAsset<GameObject>("IonPrism_Prefab");
 
         var prefab = GameObject.Instantiate(assetPrefab);
         MaterialUtils.ApplySNShaders(prefab, modifiers: new ProtoMaterialModifier(3));
 
-        return prefab;
+        yield return ProtoMatDatabase.ReplaceVanillaMats(prefab);
+        prefabOut.Set(prefab);
     }
 }
