@@ -115,8 +115,20 @@ internal class ProtoIonBarrier : ProtoUpgrade, IOnTakeDamage
 
             if (damageInfo.dealer != null && damageInfo.dealer.GetComponent<LiveMixin>())
             {
-                damageInfo.dealer.GetComponent<LiveMixin>().TakeDamage(20f, type: DamageType.Electrical);
+                UWE.CoroutineHost.StartCoroutine(DealDamageOverTime(damageInfo.dealer.GetComponent<LiveMixin>(), 20, 5,
+                    DamageType.Electrical));
             }
+        }
+    }
+
+    private IEnumerator DealDamageOverTime(LiveMixin target, float damage, float duration, DamageType type)
+    {
+        float startTime = Time.time;
+        float dmgPerUpdate = damage / duration;
+        while (Time.time < startTime + duration)
+        {
+            target.TakeDamage(dmgPerUpdate, type: type);
+            yield return null;
         }
     }
 
@@ -126,7 +138,6 @@ internal class ProtoIonBarrier : ProtoUpgrade, IOnTakeDamage
 
         SetUpgradeEnabled(enabled);
         
-        hydrolockController.SetBool("HydrolockEnabled", enabled);
         if (enabled)
         {
             bool couldDraw = powerRelay.ConsumeEnergy(chargeUseCount * PrototypePowerSystem.CHARGE_POWER_AMOUNT, out _);
@@ -149,7 +160,8 @@ internal class ProtoIonBarrier : ProtoUpgrade, IOnTakeDamage
             StartCoroutine(ResetCooldownDelayed());
             sfxEmitter.Stop();
         }
-        
+
+        hydrolockController.SetBool("HydrolockEnabled", enabled);
         shieldActive = enabled;
     }
 
