@@ -171,6 +171,14 @@ internal static class StoryGoalsRegisterer
 
             PDAEncyclopedia.Add("EngineFacilityTabletEncy", true);
         });
+
+        StoryGoalHandler.RegisterItemGoal("OnPickupDefenseTablet", Story.GoalType.Story,
+            DefenseFacilityKey.prefabInfo.TechType);
+        StoryGoalHandler.RegisterCustomEvent("OnPickupDefenseTablet", () =>
+        {
+            KnownTech.Add(DefenseFacilityKey.prefabInfo.TechType);
+            PDAEncyclopedia.Add("DefenseFacilityTabletEncy", true);
+        });
         
         sw.Stop();
         Plugin.Logger.LogInfo($"Story goals registered in {sw.ElapsedMilliseconds}ms");
