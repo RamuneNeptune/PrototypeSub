@@ -42,8 +42,8 @@ public class RelayInstallationManager : MonoBehaviour
         for (int i = 0; i < installationButtons.Length; i++)
         {
             var button = installationButtons[i];
-            button.SetCanBuild(i == powerSystem.GetAllowedSourcesCount());
-            button.SetConstructed(i < powerSystem.GetAllowedSourcesCount());
+            button.SetCanBuild(i == powerSystem.GetAllowedSourcesCount() - 2);
+            button.SetConstructed(i < powerSystem.GetAllowedSourcesCount() - 2);
         }
     }
 
