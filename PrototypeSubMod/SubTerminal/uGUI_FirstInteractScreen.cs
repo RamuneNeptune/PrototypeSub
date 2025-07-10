@@ -18,16 +18,8 @@ internal class uGUI_FirstInteractScreen : TerminalScreen
     [SerializeField] private float loadingTime;
     [SerializeField] private string devResumedPDAKey;
     [SerializeField] private float voicelineWaitTime;
-
-    [Header("Background Glitch")]
-    [SerializeField] private Image backgroundImage;
-    [SerializeField] private Sprite normalSprite;
-    [SerializeField] private Sprite glitchSprite;
-    [SerializeField] private float[] glitchTimePoints;
-    [SerializeField] private float glitchDuration;
     
     private float currentLoadingTime;
-    private float previousLoadingTime;
     private bool loadingStarted;
     private bool voicelinesStarted;
 
@@ -93,34 +85,8 @@ internal class uGUI_FirstInteractScreen : TerminalScreen
         {
             loadingStarted = false;
         }
-
-        HandleGlitchPoints();
-
-        previousLoadingTime = currentLoadingTime;
     }
-
-    private void HandleGlitchPoints()
-    {
-        float normalizedProgress = currentLoadingTime / loadingTime;
-        float prevNormalizedProgress = previousLoadingTime / loadingTime;
-
-        for (int i = 0; i < glitchTimePoints.Length; i++)
-        {
-            float timePoint = glitchTimePoints[i];
-            if (prevNormalizedProgress < timePoint && normalizedProgress > timePoint)
-            {
-                backgroundImage.sprite = glitchSprite;
-                UWE.CoroutineHost.StartCoroutine(ResetBGSprite());
-            }
-        }
-    }
-
-    private IEnumerator ResetBGSprite()
-    {
-        yield return new WaitForSeconds(glitchDuration);
-
-        backgroundImage.sprite = normalSprite;
-    }
+    
 
     private IEnumerator OrionExposition()
     {
