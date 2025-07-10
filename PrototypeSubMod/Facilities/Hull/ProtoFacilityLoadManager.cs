@@ -17,6 +17,7 @@ public class ProtoFacilityLoadManager : MonoBehaviour
     [SerializeField] private string sceneName;
     [SerializeField] private bool manageScene;
 
+    private Material skybox;
     private string originalScene;
     private bool distance1Loaded;
     private bool distance2Loaded;
@@ -24,6 +25,7 @@ public class ProtoFacilityLoadManager : MonoBehaviour
     private void Start()
     {
         originalScene = SceneManager.GetActiveScene().name;
+        skybox = RenderSettings.skybox;
 
         Plugin.GlobalSaveData.OnStartedSaving += OnStartedSaving;
         Plugin.GlobalSaveData.OnFinishedSaving += OnFinishedSaving;
@@ -80,10 +82,12 @@ public class ProtoFacilityLoadManager : MonoBehaviour
         if (inRange && SceneManager.GetActiveScene().name != sceneName)
         {
             SceneManager.SetActiveScene(SceneManager.GetSceneByName(sceneName));
+            RenderSettings.skybox = skybox;
         }
         else if (!inRange && SceneManager.GetActiveScene().name == sceneName)
         {
             SceneManager.SetActiveScene(SceneManager.GetSceneByName(originalScene));
+            RenderSettings.skybox = skybox;
         }
     }
 
