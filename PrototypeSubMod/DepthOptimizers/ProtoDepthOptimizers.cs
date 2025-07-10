@@ -11,6 +11,8 @@ internal class ProtoDepthOptimizers : ProtoUpgrade, IPowerModifier
     [SerializeField] private float activationDepth;
     [SerializeField] private int chargeReduction;
     [SerializeField] private float passiveChargeMultiplier;
+    [SerializeField] private FMOD_CustomEmitter depthOptimizersActivate;
+    [SerializeField] private FMOD_CustomEmitter depthOptimizersDeactivate;
 
     private float originalCrushDepth;
     
@@ -26,10 +28,12 @@ internal class ProtoDepthOptimizers : ProtoUpgrade, IPowerModifier
         if (enabled)
         {
             crushDamage.crushDepth = 9000;
+            depthOptimizersActivate.Play();
         }
         else
         {
             crushDamage.crushDepth = originalCrushDepth;
+            depthOptimizersDeactivate.Play();
         }
     }
 
