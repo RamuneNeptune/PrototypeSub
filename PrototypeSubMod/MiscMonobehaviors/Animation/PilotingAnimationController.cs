@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using PrototypeSubMod.IonGenerator;
+using UnityEngine;
 
 namespace PrototypeSubMod.MiscMonobehaviors.Animation;
 
@@ -11,14 +13,20 @@ public class PilotingAnimationController : MonoBehaviour
     [SerializeField] private SubControl subControl;
     [SerializeField] private Animator animator;
 
+    private ProtoIonGenerator ionGenerator;
     private float currentForwardVal;
-    
+
+    private void Start()
+    {
+        ionGenerator = subControl.GetComponentInChildren<ProtoIonGenerator>();
+    }
+
     private void LateUpdate()
     {
         float xVal = (subControl.steeringWheelYaw + 90) / 180f;
         float yVal = (subControl.steeringWheelPitch + 90) / 180f;
 
-        float zDir = subControl.cyclopsMotorMode.engineOn ? GameInput.GetMoveDirection().z : 0;
+        float zDir = (subControl.cyclopsMotorMode.engineOn && !ionGenerator.GetUpgradeEnabled()) ? GameInput.GetMoveDirection().z : 0;
         currentForwardVal = Mathf.Lerp(currentForwardVal, zDir,
             Time.deltaTime * subControl.steeringReponsiveness);
         

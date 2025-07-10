@@ -104,6 +104,8 @@ internal class ProtoMotorHandler : MonoBehaviour
 
     public float GetNormalizedSpeed()
     {
+        if (GetMaxSpeed() == 0) return 0;
+        
         return motorMode.subRoot.rigidbody.velocity.magnitude / GetMaxSpeed();
     }
 
