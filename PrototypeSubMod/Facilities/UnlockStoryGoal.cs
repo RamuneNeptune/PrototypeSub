@@ -10,6 +10,7 @@ internal class UnlockStoryGoal : MonoBehaviour
     [SerializeField] private InteractableTerminal terminal;
     [SerializeField] private string storyGoalKey;
     [SerializeField] private UnityEvent onTrigger;
+    [SerializeField] private int storyGoalCheckFrameDelay = 5;
 
     private void Start()
     {
@@ -24,7 +25,7 @@ internal class UnlockStoryGoal : MonoBehaviour
 
     private IEnumerator LateInitialize()
     {
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < storyGoalCheckFrameDelay; i++)
         {
             yield return new WaitForEndOfFrame();
         }
