@@ -31,19 +31,15 @@ internal class ProtoDeployableManager : ProtoUpgrade
 
     public void TryLaunchLight()
     {
-        
-        if (canDeployLight)
+        if (lightCount > 0 && canDeployLight)
         {
-            if (lightCount > 0)
-            {
-                StartCoroutine(LaunchLight());
-            }
-            else
-            {
-                subRoot.voiceNotificationManager.PlayVoiceNotification(invalidOperationNotification);
-                lightAbility.SetQueuedActivationFailure();
-            }
-        }        
+            StartCoroutine(LaunchLight());
+        }
+        else
+        {
+            subRoot.voiceNotificationManager.PlayVoiceNotification(invalidOperationNotification);
+            lightAbility.SetQueuedActivationFailure();
+        }       
     }
 
     private IEnumerator LaunchLight()
