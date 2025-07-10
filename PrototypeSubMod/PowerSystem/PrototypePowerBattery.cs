@@ -71,9 +71,7 @@ public class PrototypePowerBattery : MonoBehaviour, IBattery, IProtoTreeEventLis
     public void Initialize()
     {
         if (initialized) return;
-
-        Plugin.GlobalSaveData.OnStartedSaving += OnBeforeDataSaved;
-
+        
         pickupable = GetComponent<Pickupable>();
         prefabIdentifier = GetComponent<PrefabIdentifier>();
         connectedBattery = GetComponents<IBattery>().FirstOrDefault(i => i != (IBattery)this);
@@ -85,6 +83,8 @@ public class PrototypePowerBattery : MonoBehaviour, IBattery, IProtoTreeEventLis
             Destroy(this);
             return;
         }
+        
+        Plugin.GlobalSaveData.OnStartedSaving += OnBeforeDataSaved;
 
         float power = PrototypePowerSystem.AllowedPowerSources[techTag.type].powerValue;
         SetCapacity(power);
@@ -160,6 +160,12 @@ public class PrototypePowerBattery : MonoBehaviour, IBattery, IProtoTreeEventLis
     {
         if (connectedBattery != null) return;
 
+        if (this == null)
+        {
+            Plugin.GlobalSaveData.OnStartedSaving -= OnBeforeDataSaved;
+            return;
+        }
+        
         if (gameObject == null)
         {
             Plugin.GlobalSaveData.OnStartedSaving -= OnBeforeDataSaved;
