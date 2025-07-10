@@ -53,7 +53,7 @@ public class ProtoChargeDisplay : MonoBehaviour, IUIElement
             icon.gameObject.SetActive(false);
         }
         
-        if (powerSystem.equipment.GetItemInSlot(PrototypePowerSystem.SLOT_NAMES[0]) == null) return;
+        if (powerSystem.equipment?.GetItemInSlot(PrototypePowerSystem.SLOT_NAMES[0]) == null) return;
 
         var currentSource = powerSystem.GetPowerSources()[0];
         for (int i = 0; i < currentSource.GetRemainingCharges(); i++)
