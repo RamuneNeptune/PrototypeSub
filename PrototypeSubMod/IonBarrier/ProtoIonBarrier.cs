@@ -117,6 +117,7 @@ internal class ProtoIonBarrier : ProtoUpgrade, IOnTakeDamage
             {
                 UWE.CoroutineHost.StartCoroutine(DealDamageOverTime(damageInfo.dealer.GetComponent<LiveMixin>(), 20, 5,
                     DamageType.Electrical));
+
             }
         }
     }
@@ -127,7 +128,7 @@ internal class ProtoIonBarrier : ProtoUpgrade, IOnTakeDamage
         float dmgPerUpdate = damage / duration;
         while (Time.time < startTime + duration)
         {
-            target.TakeDamage(dmgPerUpdate, type: type);
+            target.TakeDamage(dmgPerUpdate * Time.deltaTime, type: type);
             yield return null;
         }
     }
