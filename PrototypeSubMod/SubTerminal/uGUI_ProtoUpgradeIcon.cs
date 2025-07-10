@@ -21,8 +21,8 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
     [SerializeField] private float hoveredScaleMultiplier;
     [SerializeField] private float hoveredScaleSnappiness;
     [SerializeField] private Image progressMask;
-    [SerializeField] private Sprite backgroundNormalSprite;
-    [SerializeField] private Sprite backgroundHoverSprite;
+    [SerializeField] private Color normalColor;
+    [SerializeField] private Color hoveredColor;
     [SerializeField] private uGUI_ItemIcon itemIcon;
     [SerializeField] private RocketBuilderTooltip tooltip;
 
@@ -40,19 +40,14 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
     private bool hadSubLastFrame;
     private float currentConfirmTime;
     private float oldTooltipScale;
-
-    private Atlas.Sprite atlasSpriteBGNormal;
-    private Atlas.Sprite atlasSpriteBGHovered;
+    
     private bool initialized;
 
     private void Start()
     {
         buildScreen = GetComponentInParent<BuildTerminalScreenManager>().GetComponentInChildren<uGUI_ProtoBuildScreen>(true);
         upgradeScreen = GetComponentInParent<UpgradeScreen>();
-
-        atlasSpriteBGNormal = new Atlas.Sprite(backgroundNormalSprite);
-        atlasSpriteBGHovered = new Atlas.Sprite(backgroundHoverSprite);
-
+        
         rectTransform = GetComponent<RectTransform>();
         originalSize = rectTransform.sizeDelta;
 
@@ -130,9 +125,6 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
 
         itemIcon.SetForegroundSprite(SpriteManager.Get(techType));
         InitialzeFGIcon(itemIcon);
-
-        itemIcon.SetBackgroundSprite(atlasSpriteBGNormal);
-        InitializeBGIcon(itemIcon);
     }
 
     private void Update()
@@ -213,8 +205,7 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
         if (!allowedToCraft) return;
 
         hovered = true;
-        itemIcon.SetBackgroundSprite(atlasSpriteBGHovered);
-        InitializeBGIcon(itemIcon);
+        progressMask.color = hoveredColor;
 
         oldTooltipScale = uGUI_Tooltip.main.scaleFactor;
         uGUI_Tooltip.main.scaleFactor = tooltipScreenScale;
@@ -223,21 +214,10 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
     public void OnPointerExit(BaseEventData data)
     {
         hovered = false;
-        itemIcon.SetBackgroundSprite(atlasSpriteBGNormal);
-        InitializeBGIcon(itemIcon);
+        progressMask.color = normalColor;
 
         uGUI_Tooltip.main.scaleFactor = oldTooltipScale;
         uGUI_Tooltip.Clear();
-    }
-
-    private void InitializeBGIcon(uGUI_ItemIcon icon)
-    {
-        if (icon.background == null) return;
-
-        var rt = icon.background.GetComponent<RectTransform>();
-        rt.anchorMax = Vector2.one;
-        rt.anchorMin = Vector2.zero;
-        rt.sizeDelta = new Vector2(0.003f, 0.003f);
     }
 
     private void InitialzeFGIcon(uGUI_ItemIcon icon)
