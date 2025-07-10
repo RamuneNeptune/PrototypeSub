@@ -96,7 +96,7 @@ internal class TeleporterOverride : MonoBehaviour
 
         overrideActive = true;
 
-        if (TeleporterManager.GetTeleporterActive(teleporterID))
+        if (TeleporterManager.GetTeleporterActive(teleporterID) && !fxMaterial)
         {
             TryRetrieveFxMaterial();
         }
@@ -192,7 +192,7 @@ internal class TeleporterOverride : MonoBehaviour
     // Called in PrecursorTeleporterActivationTerminal via BroadcastMessage
     public void ToggleDoor(bool _)
     {
-        TryRetrieveFxMaterial();
+        if (!fxMaterial) TryRetrieveFxMaterial();
     }
 
     private void OnDestroy()
