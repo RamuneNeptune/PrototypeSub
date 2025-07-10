@@ -108,16 +108,10 @@ internal class ProtoEngineLever : CinematicModeTriggerBase
         Player.main.armsController.SetWorldIKTarget(null, null);
         interactableCollider.enabled = false;
         ensureAnimFinished = true;
-        
-        UWE.CoroutineHost.StartCoroutine(motorMode.ChangeEngineState(!motorMode.engineOn));
-        UWE.CoroutineHost.StartCoroutine(TriggerEventDelayed());
-    }
 
-    private IEnumerator TriggerEventDelayed()
-    {
-        yield return new WaitForEndOfFrame();
-        yield return new WaitForEndOfFrame();
-        
+        motorMode.engineOn = !motorMode.engineOn;
+        motorMode.subController.NewEngineMode(motorMode.engineOn);
+        motorMode.BroadcastMessage("RecalculateNoiseValues");
         onEngineStateChanged?.Invoke(motorMode.engineOn);
     }
     
