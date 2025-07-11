@@ -11,6 +11,7 @@ internal class InternalDestructionSequence : DestructionSequence
 
     [SerializeField] private Transform playerPos;
     [SerializeField] private InterfloorTeleporter[] teleporters;
+    [SerializeField] private GameObject[] teleporterObjects;
 
     private void Start()
     {
@@ -23,12 +24,16 @@ internal class InternalDestructionSequence : DestructionSequence
 
         foreach (var teleporter in teleporters)
         {
-            teleporter.enabled = false;
+            teleporter.GetComponent<Collider>().enabled = false;
         }
     }
 
     private IEnumerator TeleportToVoid(SubRoot subRoot)
     {
+        foreach (var obj in teleporterObjects)
+        {
+            obj.SetActive(false);
+        }
         IngameMenu_Patches.SetDenySaving(true);
         InterfloorTeleporter.PlayTeleportEffect(3f);
         subRoot.GetComponent<PingInstance>().enabled = false;

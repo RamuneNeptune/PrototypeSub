@@ -5,6 +5,7 @@ using System.Collections;
 using Nautilus.Utility;
 using PrototypeSubMod.LightDistortionField;
 using PrototypeSubMod.MiscMonobehaviors.SubSystems;
+using PrototypeSubMod.Teleporter;
 using PrototypeSubMod.UI.HealthDisplay;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -155,6 +156,16 @@ internal class ProtoBuildTerminal : Crafter
         sub.GetComponent<Stabilizer>().enabled = true;
         sub.GetComponent<PingInstance>().enabled = true;
         sub.GetComponentInChildren<ProtoHealthDisplay>().UpdateHealth();
+        foreach (var interfloorTeleporter in sub.GetComponentsInChildren<InterfloorTeleporter>(true))
+        {
+            var col = interfloorTeleporter.GetComponent<Collider>();
+            if (!col) continue;
+            col.enabled = true;
+        }
+        var teleporter = sub.GetComponentInChildren<ProtoTeleporterManager>();
+        teleporter.transform.Find("FXSpawn").gameObject.SetActive(true);
+        teleporter.transform.Find("ActivationCanvas").gameObject.SetActive(teleporter.GetUpgradeInstalled());
+        teleporter.transform.Find("ActivationCanvas (1)").gameObject.SetActive(teleporter.GetUpgradeInstalled());
         
         // Failsafe end construct to fix Octo's weird bug
         yield return new WaitForSeconds(buildDuration + 1f);
