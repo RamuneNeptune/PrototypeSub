@@ -1,5 +1,4 @@
-﻿using PrototypeSubMod.PowerSystem.Funcionalities;
-using PrototypeSubMod.Prefabs;
+﻿using PrototypeSubMod.Prefabs;
 using PrototypeSubMod.SaveData;
 using SubLibrary.SaveData;
 using System;
@@ -15,8 +14,7 @@ namespace PrototypeSubMod.PowerSystem;
 
 public class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTreeEventListener
 {
-    internal static readonly string[] SLOT_NAMES = new string[]
-    {
+    internal static readonly string[] SLOT_NAMES = {
         "PrototypePowerSlot1",
         "PrototypePowerSlot2",
         "PrototypePowerSlot3",
@@ -27,12 +25,12 @@ public class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTree
 
     internal static readonly Dictionary<TechType, PowerConfigData> AllowedPowerSources = new()
     {
-        { WarperRemnant.prefabInfo.TechType, new(2, null) },
-        { AlienBuildingBlock.prefabInfo.TechType, new(4, null) },
-        { TechType.PrecursorIonCrystal, new(5, typeof(IonCubePowerFunctionality)) },
-        { EngineFacilityKey.prefabInfo.TechType, new(6, null) },
-        { TechType.PrecursorIonCrystalMatrix, new(8, null) },
-        { IonPrism_Craftable.prefabInfo.TechType, new(10, null) }
+        { WarperRemnant.prefabInfo.TechType, new PowerConfigData(2) },
+        { AlienBuildingBlock.prefabInfo.TechType, new PowerConfigData(4) },
+        { TechType.PrecursorIonCrystal, new PowerConfigData(5) },
+        { EngineFacilityKey.prefabInfo.TechType, new PowerConfigData(6) },
+        { TechType.PrecursorIonCrystalMatrix, new PowerConfigData(8) },
+        { IonPrism_Craftable.prefabInfo.TechType, new PowerConfigData(10) }
     };
 
     public const float CHARGE_POWER_AMOUNT = 200f;

@@ -15,7 +15,7 @@ internal class Equipment_Patches
     {
         if (!__instance.owner) return;
 
-        if (!__instance.owner.TryGetComponent(out PrototypePowerSystem _) && !__instance.owner.TryGetComponent(out ProtoPowerAbilitySystem _)) return;
+        if (__instance.typeToSlots.ElementAt(0).Key != Plugin.DummyPowerType) return;
 
         __result = PrototypePowerSystem.AllowedPowerSources.Keys.Contains(pickupable.GetTechType());
     }

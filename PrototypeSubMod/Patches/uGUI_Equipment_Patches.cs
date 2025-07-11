@@ -36,14 +36,17 @@ internal class uGUI_Equipment_Patches
         var img = go.AddComponent<Image>();
         img.sprite = Plugin.AssetBundle.LoadAsset<Sprite>("Proto_DeployablesBG");
         img.raycastTarget = false;
-
+        
+        /*
         var powerAbilitySlot = CloneSlots(__instance, new[] { ProtoPowerAbilitySystem.SlotName }, "DecoySlot", null);
         GameObject consumeButton = GameObject.Instantiate(Plugin.AssetBundle.LoadAsset<GameObject>("PowerAbilityConsumeButton"), __instance.transform);
         consumeButton.transform.localPosition = new Vector3(0, -245, 0);
         consumeButton.SetActive(false);
 
-        var background = new GameObject();
-        background.name = "AbilityButtonBackground";
+        var background = new GameObject
+        {
+            name = "PowerDepotBackground"
+        };
         background.transform.SetParent(powerAbilitySlot.transform);
         var rect = background.AddComponent<RectTransform>();
         rect.sizeDelta = new Vector2(800, 1030);
@@ -53,6 +56,7 @@ internal class uGUI_Equipment_Patches
         background.transform.localPosition = new Vector3(0, -200, 0);
         background.transform.localScale = Vector3.one;
         background.transform.localRotation = Quaternion.identity;
+        */
     }
 
 #nullable enable
@@ -144,12 +148,14 @@ internal class uGUI_Equipment_Patches
         CraftData.equipmentTypes[LastDraggedItem.pickupable.GetTechType()] = LastDraggedItem.originalType;
     }
 
+    /*
     [HarmonyPatch(nameof(uGUI_Equipment.Init)), HarmonyPostfix]
     private static void Init_Postfix(uGUI_Equipment __instance, Equipment equipment)
     {
         bool isAbilitySystem = equipment._label == ProtoPowerAbilitySystem.EquipmentLabel;
         __instance.GetComponentInChildren<AbilityConsumptionButton>(true).gameObject.SetActive(isAbilitySystem);
     }
+    */
 
     private static uGUI_EquipmentSlot CloneSlot(uGUI_Equipment equipmentMenu, string childName, string newSlotName)
     {
@@ -160,6 +166,8 @@ internal class uGUI_Equipment_Patches
         return equipmentSlot;
     }
 
+
+/*
     [HarmonyPatch(nameof(uGUI_Equipment.SelectItemInDirection)), HarmonyTranspiler]
     private static IEnumerable<CodeInstruction> SelectItemInDirection_Transpiler(IEnumerable<CodeInstruction> instructions)
     {
@@ -235,6 +243,7 @@ internal class uGUI_Equipment_Patches
 
         return previousWasNull;
     }
+    */
 
     private class DraggedItem
     {

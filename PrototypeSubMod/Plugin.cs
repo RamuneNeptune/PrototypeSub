@@ -178,8 +178,7 @@ namespace PrototypeSubMod
             {
                 Equipment.slotMapping.Add(name, PrototypePowerType);
             }
-
-            Equipment.slotMapping.Add(ProtoPowerAbilitySystem.SlotName, PrototypePowerType);
+            
             sw.Stop();
             Logger.LogInfo($"Slot mapping registered in {sw.ElapsedMilliseconds}ms");
         }

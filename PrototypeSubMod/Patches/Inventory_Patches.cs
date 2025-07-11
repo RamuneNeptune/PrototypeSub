@@ -66,8 +66,8 @@ internal class Inventory_Patches
     public static EquipmentType GetModifiedEquipmentTypeItemsContainer(EquipmentType originalType, IItemsContainer container, InventoryItem itemA)
     {
         if (itemA == null) return originalType;
-
-        bool transferContainer = container.label != PrototypePowerSystem.EquipmentLabel && container.label != ProtoPowerAbilitySystem.EquipmentLabel;
+        
+        bool transferContainer = container.label != PrototypePowerSystem.EquipmentLabel;
 
         if (transferContainer)
         {
