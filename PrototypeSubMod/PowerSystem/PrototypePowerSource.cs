@@ -103,7 +103,7 @@ public class PrototypePowerSource : MonoBehaviour, IPowerInterface, ISaveDataLis
         
         if (battery == null) return false;
         
-        if (amount > 0)
+        if (amount >= 0)
         {
             chargeChange = Mathf.Min(amount, Capacity - Charge);
         }
