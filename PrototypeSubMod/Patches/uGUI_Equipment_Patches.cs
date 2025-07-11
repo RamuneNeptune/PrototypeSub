@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using PrototypeSubMod.Utility;
+using PrototypeSubMod.VehicleAccess;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -37,26 +38,8 @@ internal class uGUI_Equipment_Patches
         img.sprite = Plugin.AssetBundle.LoadAsset<Sprite>("Proto_DeployablesBG");
         img.raycastTarget = false;
         
-        /*
-        var powerAbilitySlot = CloneSlots(__instance, new[] { ProtoPowerAbilitySystem.SlotName }, "DecoySlot", null);
-        GameObject consumeButton = GameObject.Instantiate(Plugin.AssetBundle.LoadAsset<GameObject>("PowerAbilityConsumeButton"), __instance.transform);
-        consumeButton.transform.localPosition = new Vector3(0, -245, 0);
-        consumeButton.SetActive(false);
-
-        var background = new GameObject
-        {
-            name = "PowerDepotBackground"
-        };
-        background.transform.SetParent(powerAbilitySlot.transform);
-        var rect = background.AddComponent<RectTransform>();
-        rect.sizeDelta = new Vector2(800, 1030);
-        var image = background.AddComponent<Image>();
-        image.sprite = Plugin.AssetBundle.LoadAsset<Sprite>("PowerDepotBackground");
-        image.raycastTarget = false;
-        background.transform.localPosition = new Vector3(0, -200, 0);
-        background.transform.localScale = Vector3.one;
-        background.transform.localRotation = Quaternion.identity;
-        */
+        GameObject storageAccess = GameObject.Instantiate(Plugin.AssetBundle.LoadAsset<GameObject>("VehicleStorageAccess"), __instance.transform);
+        storageAccess.SetActive(false);
     }
 
 #nullable enable
@@ -147,15 +130,13 @@ internal class uGUI_Equipment_Patches
 
         CraftData.equipmentTypes[LastDraggedItem.pickupable.GetTechType()] = LastDraggedItem.originalType;
     }
-
-    /*
+    
     [HarmonyPatch(nameof(uGUI_Equipment.Init)), HarmonyPostfix]
     private static void Init_Postfix(uGUI_Equipment __instance, Equipment equipment)
     {
-        bool isAbilitySystem = equipment._label == ProtoPowerAbilitySystem.EquipmentLabel;
-        __instance.GetComponentInChildren<AbilityConsumptionButton>(true).gameObject.SetActive(isAbilitySystem);
+        bool isAccessButton = equipment._label == ProtoVehicleAccessTerminal.EQUIPMENT_LABEL;
+        __instance.GetComponentInChildren<ProtoVehicleAccessManager>(true).gameObject.SetActive(isAccessButton);
     }
-    */
 
     private static uGUI_EquipmentSlot CloneSlot(uGUI_Equipment equipmentMenu, string childName, string newSlotName)
     {
@@ -165,9 +146,7 @@ internal class uGUI_Equipment_Patches
         equipmentSlot.slot = newSlotName;
         return equipmentSlot;
     }
-
-
-/*
+    
     [HarmonyPatch(nameof(uGUI_Equipment.SelectItemInDirection)), HarmonyTranspiler]
     private static IEnumerable<CodeInstruction> SelectItemInDirection_Transpiler(IEnumerable<CodeInstruction> instructions)
     {
@@ -183,6 +162,7 @@ internal class uGUI_Equipment_Patches
         return matcher.InstructionEnumeration();
     }
 
+    /*
     [HarmonyPatch(nameof(uGUI_Equipment.selectedSlot)), HarmonyPatch(MethodType.Getter), HarmonyPostfix]
     private static void SelectedSlot_Postfix(uGUI_Equipment __instance, ref uGUI_EquipmentSlot __result)
     {
@@ -195,10 +175,10 @@ internal class uGUI_Equipment_Patches
     [HarmonyPatch(nameof(uGUI_Equipment.SelectItem)), HarmonyPrefix]
     private static bool SelectItem_Prefix(uGUI_Equipment __instance, object item)
     {
-        if (item is AbilityConsumptionButton button)
+        if (item is ProtoVehicleAccessManager manager)
         {
             __instance.DeselectItem();
-            UISelection.selected = button;
+            UISelection.selected = manager;
             return false;
         }
 
@@ -220,30 +200,23 @@ internal class uGUI_Equipment_Patches
     [HarmonyPatch(nameof(uGUI_Equipment.GetSelectedIcon)), HarmonyPrefix]
     private static bool GetSelectedIcon_Prefix(uGUI_Equipment __instance, ref Graphic __result)
     {
-        if (UISelection.selected is AbilityConsumptionButton button)
+        if (UISelection.selected is ProtoVehicleAccessManager manager)
         {
-            __result = button.GetGraphic();
+            __result = manager.GetGraphic();
             return false;
         }
 
         return true;
     }
+    */
 
     public static void EnsureAbilityButtonAdded(uGUI_Equipment instance)
     {
-        var abilityButton = instance.GetComponentInChildren<AbilityConsumptionButton>();
+        var abilityButton = instance.GetComponentInChildren<ProtoVehicleAccessManager>();
         if (!abilityButton) return;
 
         UISelection.sSelectables.Add(abilityButton);
     }
-
-    public static bool OverwriteNullSelection(bool previousWasNull)
-    {
-        if (UISelection.selected is AbilityConsumptionButton) return true;
-
-        return previousWasNull;
-    }
-    */
 
     private class DraggedItem
     {

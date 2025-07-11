@@ -18,6 +18,7 @@ using System.Reflection;
 using System.Threading;
 using PrototypeSubMod.MiscMonobehaviors;
 using PrototypeSubMod.Pathfinding.SaveSystem;
+using PrototypeSubMod.VehicleAccess;
 using UnityEngine;
 using UnityEngine.Scripting;
 using UWE;
@@ -178,6 +179,8 @@ namespace PrototypeSubMod
             {
                 Equipment.slotMapping.Add(name, PrototypePowerType);
             }
+
+            Equipment.slotMapping.Add(ProtoVehicleAccessTerminal.SLOT_NAME, EquipmentType.NuclearReactor);
             
             sw.Stop();
             Logger.LogInfo($"Slot mapping registered in {sw.ElapsedMilliseconds}ms");
