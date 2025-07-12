@@ -50,6 +50,7 @@ public class ProtoVehicleAccessTerminal : MonoBehaviour
     {
         if (!dockingBay.dockedVehicle) return;
 
+        inventoryTab.usedStorageGrids.Clear();
         Inventory.main.SetUsedStorage(equipment);
         Player.main.pda.Open(PDATab.Inventory);
         inventoryTab.usedStorageGrids.Insert(0, accessManager);
@@ -57,7 +58,7 @@ public class ProtoVehicleAccessTerminal : MonoBehaviour
         accessManager.SetTerminal(this);
     }
 
-    public void OpenStorage()
+    public void OpenStorage(PDA.OnClose onClosePda = null)
     {
         var pda = Player.main.pda;
         pda.ui.OnClosePDA();
@@ -76,20 +77,52 @@ public class ProtoVehicleAccessTerminal : MonoBehaviour
             pda.onCloseCallback += storageContainer.OnClosePDA;
         }
         
+        if (onClosePda != null)
+        {
+            pda.onCloseCallback += onClosePda;
+        }
         pda.ui.OnOpenPDA(PDATab.Inventory);
         pda.ui.Select();
         pda.ui.OnPDAOpened();
     }
 
-    public void OpenUpgrades()
+    public void OpenUpgrades(PDA.OnClose onClosePda = null)
     {
         var upgradeConsoleInput = dockingBay.dockedVehicle.GetComponentInChildren<VehicleUpgradeConsoleInput>();
         var pda = Player.main.pda;
         pda.ui.OnClosePDA();
+        pda.onCloseCallback = null;
         
         Inventory.main.SetUsedStorage(upgradeConsoleInput.equipment);
         pda.ui.OnOpenPDA(PDATab.Inventory);
         pda.ui.Select();
         pda.ui.OnPDAOpened();
+        
+        if (onClosePda != null)
+        {
+            pda.onCloseCallback += onClosePda;
+        }
+    }
+
+    public void QuickOpenManager(PDA.OnClose onClosePda = null)
+    {
+        var pda = Player.main.pda;
+        pda.ui.OnClosePDA();
+        pda.onCloseCallback = null;
+        
+        inventoryTab.usedStorageGrids.Clear();
+        Inventory.main.SetUsedStorage(equipment);
+
+        accessManager.SetTerminal(this);
+
+        if (onClosePda != null)
+        {
+            pda.onCloseCallback += onClosePda;
+        }
+        pda.ui.OnOpenPDA(PDATab.Inventory);
+        pda.ui.Select();
+        pda.ui.OnPDAOpened();
+        
+        inventoryTab.usedStorageGrids.Insert(0, accessManager);
     }
 }

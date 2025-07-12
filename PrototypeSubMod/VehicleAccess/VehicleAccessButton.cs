@@ -8,10 +8,11 @@ public class VehicleAccessButton : MonoBehaviour, ISelectable
 {
     [SerializeField] private Button button;
     [SerializeField] private RectTransform rect;
+    [SerializeField] private Graphic overrideGraphic;
     
     public bool IsValid() => gameObject.activeSelf;
     public RectTransform GetRect() => rect;
-    public Graphic GetGraphic() => button.targetGraphic;
+    public Graphic GetGraphic() => overrideGraphic ?? button.targetGraphic;
 
     public void OnGamepadSelect()
     {

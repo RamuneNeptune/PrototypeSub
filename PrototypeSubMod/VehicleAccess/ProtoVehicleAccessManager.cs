@@ -10,22 +10,33 @@ public class ProtoVehicleAccessManager : MonoBehaviour, uGUI_INavigableIconGrid
     private RectTransform rectTransform;
     private ProtoVehicleAccessTerminal terminal;
     private VehicleAccessButton selectedButton;
+    private VehicleAccessReturnManager returnManager;
     private uGUI_InventoryTab inventoryTab;
     private int buttonIndex;
 
     private void Start()
     {
         rectTransform = GetComponent<RectTransform>();
+        returnManager = uGUI_PDA.main.GetComponentInChildren<VehicleAccessReturnManager>(true);
     }
 
     public void OpenUpgrades()
     {
-        terminal.OpenUpgrades();
+        terminal.OpenUpgrades(_ => returnManager.gameObject.SetActive(false));
+        returnManager.gameObject.SetActive(true);
+        inventoryTab.usedStorageGrids.Add(returnManager);
     }
 
     public void OpenStorage()
     {
-        terminal.OpenStorage();
+        terminal.OpenStorage(_ => returnManager.gameObject.SetActive(false));
+        returnManager.gameObject.SetActive(true);
+        inventoryTab.usedStorageGrids.Add(returnManager);
+    }
+
+    public void ReturnToManager()
+    {
+        terminal.QuickOpenManager();
     }
 
     public void SetInventoryTab(uGUI_InventoryTab inventoryTab)

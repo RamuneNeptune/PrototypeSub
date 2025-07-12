@@ -33,6 +33,7 @@ public class SFXButton : Button
     private void Start()
     {
         StartCoroutine(UpdateHoverDistance());
+        OnPointerExit(new PointerEventData(EventSystem.current));
     }
 
     public override void OnPointerEnter(PointerEventData eventData)
