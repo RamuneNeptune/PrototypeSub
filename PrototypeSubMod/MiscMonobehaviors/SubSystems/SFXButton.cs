@@ -34,7 +34,7 @@ public class SFXButton : Button
     {
         StartCoroutine(UpdateHoverDistance());
     }
-    
+
     public override void OnPointerEnter(PointerEventData eventData)
     {
         if (!gameObject.activeSelf) return;
@@ -51,24 +51,9 @@ public class SFXButton : Button
         }
     }
 
-    public override void OnPointerClick(PointerEventData eventData)
-    {
-        if (!gameObject.activeSelf) return;
-
-        if ((Player.main.transform.position - transform.position).sqrMagnitude >
-                    minDistForSound * minDistForSound) return;
-
-        base.OnPointerClick(eventData);
-
-        if (onClickFX != null)
-        {
-            FMODUWE.PlayOneShot(onClickFX, transform.position, volume);
-        }
-    }
-
     public override void OnPointerExit(PointerEventData eventData)
     {
-        base.OnPointerExit(eventData);
+        base.OnPointerExit(new PointerEventData(EventSystem.current));
         
         if (!gameObject.activeSelf) return;
         mouseOnObject = false;
@@ -83,7 +68,32 @@ public class SFXButton : Button
             FMODUWE.PlayOneShot(onExitFX, transform.position, volume);
         }
     }
+    
+    public override void OnPointerClick(PointerEventData eventData) { }
 
+    private void OnClick()
+    {
+        if (!gameObject.activeSelf) return;
+
+        if ((Player.main.transform.position - transform.position).sqrMagnitude >
+            minDistForSound * minDistForSound) return;
+
+        base.OnPointerClick(new PointerEventData(EventSystem.current));
+
+        if (onClickFX != null)
+        {
+            FMODUWE.PlayOneShot(onClickFX, transform.position, volume);
+        }
+    }
+    
+    private void OnUpdate()
+    {
+        if (mouseOnObject && GameInput.GetButtonDown(GameInput.Button.LeftHand))
+        {
+            OnClick();
+        }
+    }
+    
     private IEnumerator UpdateHoverDistance()
     {
         while (gameObject.activeInHierarchy)
@@ -110,10 +120,12 @@ public class SFXButton : Button
     private void OnEnable()
     {
         StartCoroutine(UpdateHoverDistance());
+        ManagedUpdate.Subscribe(ManagedUpdate.Queue.UpdateAfterInput, OnUpdate);
     }
 
     private void OnDisable()
     {
         OnPointerExit(new PointerEventData(EventSystem.current));
+        ManagedUpdate.Unsubscribe(ManagedUpdate.Queue.UpdateAfterInput, OnUpdate);
     }
 }
