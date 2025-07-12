@@ -13,6 +13,9 @@ public class ProtoVehicleAccessTerminal : MonoBehaviour
     public Equipment equipment { get; private set; }
 
     [SerializeField] private VehicleDockingBay dockingBay;
+
+    private ProtoVehicleAccessManager accessManager;
+    private uGUI_InventoryTab inventoryTab;
     
     private void Start()
     {
@@ -28,6 +31,10 @@ public class ProtoVehicleAccessTerminal : MonoBehaviour
         equipment.AddSlots(new[] { SLOT_NAME });
 
         equipment.typeToSlots = new Dictionary<EquipmentType, List<string>> { { EquipmentType.None, Array.Empty<string>().ToList() } };
+
+        accessManager = uGUI_PDA.main.GetComponentInChildren<ProtoVehicleAccessManager>(true);
+        inventoryTab = uGUI_PDA.main.GetComponentInChildren<uGUI_InventoryTab>(true);
+        accessManager.SetInventoryTab(inventoryTab);
     }
     
     public void OnHover(HandTargetEventData eventData)
@@ -45,5 +52,44 @@ public class ProtoVehicleAccessTerminal : MonoBehaviour
 
         Inventory.main.SetUsedStorage(equipment);
         Player.main.pda.Open(PDATab.Inventory);
+        inventoryTab.usedStorageGrids.Insert(0, accessManager);
+
+        accessManager.SetTerminal(this);
+    }
+
+    public void OpenStorage()
+    {
+        var pda = Player.main.pda;
+        pda.ui.OnClosePDA();
+        Inventory.main.ClearUsedStorage();
+        pda.onCloseCallback = null;
+        
+        foreach (var storageInput in dockingBay.dockedVehicle.GetComponentsInChildren<SeamothStorageInput>())
+        {
+            var storageInSlot = storageInput.seamoth.GetStorageInSlot(storageInput.slotID, TechType.VehicleStorageModule);
+            Inventory.main.SetUsedStorage(storageInSlot, true);
+        }
+        
+        foreach (var storageContainer in dockingBay.dockedVehicle.GetComponentsInChildren<StorageContainer>())
+        {
+            Inventory.main.SetUsedStorage(storageContainer.container, true);
+            pda.onCloseCallback += storageContainer.OnClosePDA;
+        }
+        
+        pda.ui.OnOpenPDA(PDATab.Inventory);
+        pda.ui.Select();
+        pda.ui.OnPDAOpened();
+    }
+
+    public void OpenUpgrades()
+    {
+        var upgradeConsoleInput = dockingBay.dockedVehicle.GetComponentInChildren<VehicleUpgradeConsoleInput>();
+        var pda = Player.main.pda;
+        pda.ui.OnClosePDA();
+        
+        Inventory.main.SetUsedStorage(upgradeConsoleInput.equipment);
+        pda.ui.OnOpenPDA(PDATab.Inventory);
+        pda.ui.Select();
+        pda.ui.OnPDAOpened();
     }
 }

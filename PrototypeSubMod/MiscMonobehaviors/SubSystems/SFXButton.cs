@@ -111,4 +111,9 @@ public class SFXButton : Button
     {
         StartCoroutine(UpdateHoverDistance());
     }
+
+    private void OnDisable()
+    {
+        OnPointerExit(new PointerEventData(EventSystem.current));
+    }
 }
