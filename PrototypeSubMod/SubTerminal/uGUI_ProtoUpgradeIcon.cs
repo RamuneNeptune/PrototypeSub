@@ -263,7 +263,7 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
     {
         if (args.owner != upgradeScreen) return;
 
-        bool canUseButton = !args.installedUpgrades.Contains(techType.TechType);
+        bool canUseButton = !args.installedUpgrades.Contains(techType.TechType) && KnownTech.Contains(techType.TechType);
 
         // Disable installation button
         tooltip.gameObject.SetActive(canUseButton);
