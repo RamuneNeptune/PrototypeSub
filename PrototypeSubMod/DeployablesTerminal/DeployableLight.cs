@@ -68,6 +68,7 @@ internal class DeployableLight : MonoBehaviour, IProtoTreeEventListener
         rb.AddForce((transform.forward * force) + previousVelocity, ForceMode.Impulse);
 
         Invoke(nameof(ActivateLight), deployDelay);
+        Invoke(nameof(ActivateColliders), deployDelay / 4f);
         Destroy(pickupable);
 
         foreach (var item in halfColliders)
@@ -89,7 +90,10 @@ internal class DeployableLight : MonoBehaviour, IProtoTreeEventListener
         stabilizer.enabled = true;
         animator.SetTrigger("Activate");
         deploySFX.Play();
+    }
 
+    private void ActivateColliders()
+    {
         foreach (var item in halfColliders)
         {
             item.enabled = true;
