@@ -1,4 +1,5 @@
 ﻿using PrototypeSubMod.MiscMonobehaviors.SubSystems;
+using PrototypeSubMod.PrototypeStory;
 using PrototypeSubMod.UI.AbilitySelection;
 using PrototypeSubMod.Upgrades;
 using UnityEngine;
@@ -26,6 +27,8 @@ internal class DockingRadialAbility : ProtoUpgrade
     
     public override bool OnActivated()
     {
+        if (ProtoStoryLocker.StoryEndingActive) return false;
+        
         dockingManager.Undock();
         return true;
     }

@@ -6,14 +6,18 @@ using PrototypeSubMod.Upgrades;
 using SubLibrary.Monobehaviors;
 using System;
 using System.Collections;
+using PrototypeSubMod.MiscMonobehaviors.SubSystems;
 using PrototypeSubMod.PowerSystem;
+using PrototypeSubMod.Utility;
 using UnityEngine;
 
 namespace PrototypeSubMod.PrototypeStory;
 
 internal class ProtoStoryLocker : MonoBehaviour
 {
+    [SaveStateReference(false)]
     public static bool StoryEndingActive;
+    [SaveStateReference(false)]
     public static bool WithinSaveLockZone;
 
     public event Action onEndingStart;
@@ -30,9 +34,9 @@ internal class ProtoStoryLocker : MonoBehaviour
     [SerializeField] private GameObject hydrolockCloseTrigger;
     [SerializeField] private Animator watergateAnimator;
     [SerializeField] private ProtoEngineLever engineLever;
-    [SerializeField] private ProtoTeleporterTerminalLocker terminalTrigger;
+    [SerializeField] private GameObject[] interceptorButtons;
+    [SerializeField] private InterfloorTeleporter[] teleporters;
     [SerializeField] private ProtoTeleporterManager teleporterManager;
-    [SerializeField] private PowerDepositManager powerDepositManager;
 
     private bool wasInLockZone;
     private bool enteredFullLock;
@@ -94,24 +98,33 @@ internal class ProtoStoryLocker : MonoBehaviour
         motorHandler.AddPowerEfficiencyMultiplier(new ProtoMotorHandler.ValueRegistrar(this, 9999));
         hydrolockCloseTrigger.SetActive(true);
         engineLever.SetStoryLocked(true);
-        powerDepositManager.SetStoryLocked(true);
 
-        terminalTrigger.SetStoryLocked(true);
+        foreach (var button in interceptorButtons)
+        {
+            button.SetActive(false);
+        }
 
         enteredFullLock = true;
-        IngameMenu_Patches.SetDenySaving(true);
 
+        foreach (var teleporter in teleporters)
+        {
+            var col = teleporter.GetComponent<Collider>();
+            if (col) col.enabled = false;
+        }
+        
         onEndingStart?.Invoke();
     }
 
     private void OnEnterSaveLock()
     {
         Destroy(subRoot.GetComponent<AttackableLikeCyclops>());
+        IngameMenu_Patches.SetDenySaving(true);
     }
 
     private void OnExitSaveLock()
     {
         subRoot.gameObject.EnsureComponent<AttackableLikeCyclops>();
+        IngameMenu_Patches.SetDenySaving(false);
     }
 
     private void OnDestroy()

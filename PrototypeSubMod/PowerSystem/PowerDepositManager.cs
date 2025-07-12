@@ -20,7 +20,6 @@ public class PowerDepositManager : MonoBehaviour, IItemSelectorManager
     private static readonly int PowerFull = Animator.StringToHash("PowerFull");
     [SerializeField] private SubRoot subRoot;
     [SerializeField] private PrototypePowerSystem powerSystem;
-    [SerializeField] private VoiceNotification powerLockedNotif;
     [SerializeField] private PlayerCinematicController controller;
     [SerializeField] private Animator reactorAnimator;
     [SerializeField] private Animator cinematicAnimator;
@@ -31,8 +30,6 @@ public class PowerDepositManager : MonoBehaviour, IItemSelectorManager
     
     private GameObject powerSourceObject;
     private int restoreQuickSlot = -1;
-    private bool storyLocked;
-    private bool voicelinePlayed;
     private bool inAnimation;
     private bool reactorOpening;
     private bool inBounds;
@@ -140,7 +137,7 @@ public class PowerDepositManager : MonoBehaviour, IItemSelectorManager
         main.SetText(HandReticle.TextType.Hand, text, true, icon);
         main.SetText(HandReticle.TextType.HandSubscript, string.Empty, false);
         
-        var handIcon = slotsFull || voicelinePlayed || reactorOpening ? HandReticle.IconType.HandDeny : HandReticle.IconType.Hand;
+        var handIcon = slotsFull || reactorOpening ? HandReticle.IconType.HandDeny : HandReticle.IconType.Hand;
         main.SetIcon(handIcon, 1f);
         
         reactorAnimator.SetBool(PowerFull, slotsFull);
@@ -151,22 +148,10 @@ public class PowerDepositManager : MonoBehaviour, IItemSelectorManager
         if (inAnimation || reactorOpening) return;
         
         if (powerSystem.StorageSlotsFull()) return;
-        
-        if (storyLocked)
-        {
-            subRoot.voiceNotificationManager.PlayVoiceNotification(powerLockedNotif);
-            voicelinePlayed = true;
-            return;
-        }
 
         OpenSelection();
     }
     
-    public void SetStoryLocked(bool locked)
-    {
-        storyLocked = locked;
-    }
-
     public void OnPlayerCinematicModeEnd(PlayerCinematicController controller)
     {
         Inventory.main.quickSlots.Select(restoreQuickSlot);

@@ -3,6 +3,7 @@ using PrototypeSubMod.UI.ProceduralArcGenerator;
 using SubLibrary.UI;
 using System;
 using System.Collections.Generic;
+using PrototypeSubMod.PrototypeStory;
 using PrototypeSubMod.UI.ActivatedAbilities;
 using PrototypeSubMod.Utility;
 using UnityEngine;
@@ -17,6 +18,7 @@ public class TetherManager : MonoBehaviour, IUIElement
 
     [SerializeField] private ActivatedAbilitiesManager activatedAbilitiesManager;
     [SerializeField] private VoiceNotificationManager notificationManager;
+    [SerializeField] private VoiceNotification invalidOperationVoiceline;
     [SerializeField] private ProtoUpgradeCategory[] upgradeCategories;
     [SerializeField] private PilotingChair chair;
     [SerializeField] private Transform tetherPoint;
@@ -163,6 +165,12 @@ public class TetherManager : MonoBehaviour, IUIElement
     {
         if (menuOpen) return;
 
+        if (ProtoStoryLocker.StoryEndingActive)
+        {
+            notificationManager.PlayVoiceNotification(invalidOperationVoiceline);
+            return;
+        }
+        
         if (!MainCameraControl.main.enabled) return;
 
         if (Player.main.currChair != chair) return;

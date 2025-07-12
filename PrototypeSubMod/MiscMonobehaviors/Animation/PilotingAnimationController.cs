@@ -26,7 +26,7 @@ public class PilotingAnimationController : MonoBehaviour
         float xVal = (subControl.steeringWheelYaw + 90) / 180f;
         float yVal = (subControl.steeringWheelPitch + 90) / 180f;
 
-        float zDir = (subControl.cyclopsMotorMode.engineOn && !ionGenerator.GetUpgradeEnabled()) ? GameInput.GetMoveDirection().z : 0;
+        float zDir = (subControl.cyclopsMotorMode.engineOn && !ionGenerator.GetUpgradeEnabled()) ? subControl.throttle.z : 0;
         currentForwardVal = Mathf.Lerp(currentForwardVal, zDir,
             Time.deltaTime * subControl.steeringReponsiveness);
         

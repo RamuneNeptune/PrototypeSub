@@ -213,14 +213,9 @@ internal class ProtoMotorHandler : MonoBehaviour
         }
 
         float[] newSpeeds = new float[originalMotorSpeeds.Length];
-        bool dirty = false;
         for (int i = 0; i < newSpeeds.Length; i++)
         {
             newSpeeds[i] = originalMotorSpeeds[i] * speedMultiplier + speedBonus;
-            if (!Mathf.Approximately(motorMode.motorModeSpeeds[i], newSpeeds[i]))
-            {
-                dirty = true;
-            }
         }
         
         float torqueMultiplier = 1f;
@@ -229,14 +224,9 @@ internal class ProtoMotorHandler : MonoBehaviour
             torqueMultiplier *= multiplier.Value;
         }
         
-        dirty |= !Mathf.Approximately(motorMode.subController.BaseTurningTorque, originalTurningTorque * torqueMultiplier);
-
-        if (dirty)
-        {
-            motorMode.motorModeSpeeds = newSpeeds;
-            motorMode.ChangeCyclopsMotorMode(motorMode.cyclopsMotorMode);
-            motorMode.subController.BaseTurningTorque = originalTurningTorque * torqueMultiplier;
-        }
+        motorMode.motorModeSpeeds = newSpeeds;
+        motorMode.ChangeCyclopsMotorMode(motorMode.cyclopsMotorMode);
+        motorMode.subController.BaseTurningTorque = originalTurningTorque * torqueMultiplier;
     }
 
     public bool GetAllowedToMove()

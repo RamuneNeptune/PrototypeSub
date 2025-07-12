@@ -9,11 +9,10 @@ namespace PrototypeSubMod.PrototypeStory;
 internal class EndCinematicCameraController : MonoBehaviour
 {
     public static bool queuedSceneOverride;
-
-    [SerializeField] private InterfloorTeleporter[] teleporters;
+    
     [SerializeField] private ProtoStoryLocker storyLocker;
     [SerializeField] private CyclopsExternalCams externalCams;
-    [SerializeField] private FreezeRigidbodyWhenFar freezeWhenFar;
+    [SerializeField] private ProtoRigidbodyFreezer freezeWhenFar;
     [SerializeField] private Transform cameraPos;
     [SerializeField] private float cameraDelay;
     [SerializeField] private float creditsDelay;
@@ -40,11 +39,6 @@ internal class EndCinematicCameraController : MonoBehaviour
         Inventory.main.quickSlots.SetIgnoreHotkeyInput(true);
         Player.main.GetPDA().Close();
         Player.main.GetPDA().SetIgnorePDAInput(true);
-
-        foreach (var teleporter in teleporters)
-        {
-            teleporter.enabled = false;
-        }
         
         ProtoScreenFadeManager.instance.FadeOut(2);
 
