@@ -62,7 +62,7 @@ internal class CloakEffectHandler : ProtoUpgrade
     [SerializeField] private VoiceNotification activateCloakNotif;
     [SerializeField] private VoiceNotification invalidOpNotification;
     [SerializeField] private FMOD_CustomLoopingEmitter distortionActiveSFX;
-    [SerializeField] private FMOD_CustomLoopingEmitter distortionActivateSFX;
+    [SerializeField] private FMOD_CustomEmitter distortionActivateSFX;
 
     [Header("Miscellaneous")]
     [SerializeField] private FMOD_CustomLoopingEmitter emitter;
