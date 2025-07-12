@@ -7,11 +7,13 @@ namespace PrototypeSubMod.VehicleAccess;
 
 public class ProtoVehicleAccessTerminal : MonoBehaviour
 {
+    private static readonly int ProxyActivated = Animator.StringToHash("ProxyActivated");
     public const string SLOT_NAME = "VehicleAccessPlaceholderSlot";
     public const string EQUIPMENT_LABEL = "VehicleAccessEquipment";
     
     public Equipment equipment { get; private set; }
 
+    [SerializeField] private Animator animator;
     [SerializeField] private VehicleDockingBay dockingBay;
 
     private ProtoVehicleAccessManager accessManager;
@@ -124,5 +126,17 @@ public class ProtoVehicleAccessTerminal : MonoBehaviour
         pda.ui.OnPDAOpened();
         
         inventoryTab.usedStorageGrids.Insert(0, accessManager);
+    }
+
+    public void OnPlayerEnterRange()
+    {
+        if (!dockingBay.dockedVehicle) return;
+        
+        animator.SetBool(ProxyActivated, true);
+    }
+
+    public void OnPlayerExitRange()
+    {
+        animator.SetBool(ProxyActivated, false);
     }
 }
