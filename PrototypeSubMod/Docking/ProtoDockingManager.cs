@@ -144,6 +144,14 @@ public class ProtoDockingManager : MonoBehaviour, IProtoEventListener, IProtoTre
         player.mode = Player.Mode.Normal;
         player.currChair = null;
         player.playerModeChanged.Trigger(player.mode);
+        UWE.CoroutineHost.StartCoroutine(ResetAnimParam(chair));
+    }
+
+    private IEnumerator ResetAnimParam(PilotingChair chair)
+    {
+        yield return new WaitForEndOfFrame();
+        
+        chair.releaseCinematicController.animator.SetBool(chair.releaseCinematicController.animParam, false);
     }
 
     public void OnProtoSerializeObjectTree(ProtobufSerializer serializer) { }
