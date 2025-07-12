@@ -35,6 +35,9 @@ internal static class BiomeRegisterer
 
         BiomeHandler.AddBiomeMusic(Plugin.DEFENSE_CHAMBER_BIOME_NAME, AudioUtils.GetFmodAsset("DefenseFacilityExterior"));
 
+        BiomeHandler.RegisterBiome("defensefacilityteleporterroom", settings, new BiomeHandler.SkyReference("SkyMountains"));
+        BiomeHandler.AddBiomeMusic("defensefacilityteleporterroom", AudioUtils.GetFmodAsset("DefenseFacilityExterior"));
+        
         #region Tunnel Biomes
         var tunnelSettings = BiomeUtils.CreateBiomeSettings(new Vector3(20, 20, 20), 1f, Color.white, 0.12f, Color.white, 0, startDistance: 20);
 
