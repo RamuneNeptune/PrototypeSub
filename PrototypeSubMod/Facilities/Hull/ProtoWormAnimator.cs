@@ -6,6 +6,7 @@ namespace PrototypeSubMod.Facilities.Hull;
 public class ProtoWormAnimator : MonoBehaviour
 {
     [SerializeField] private ProtoWormSpineManager spineManager;
+    [SerializeField] private GameObject headObject;
     [SerializeField] private Transform spineSegmentsParent;
     [SerializeField] private float speed;
     [SerializeField] private float rotationSpeed;
@@ -17,17 +18,21 @@ public class ProtoWormAnimator : MonoBehaviour
     private float spineIncrement;
     private float travelledAngle;
     private int neededSegmentsLastFrame;
+    private float endDistance;
+    private float fullyDisabledDist;
     
     private void Start()
     {
         spineIncrement = spineManager.GetIncrementPerSpine().z;
+        endDistance = speed * 36;
+        fullyDisabledDist = endDistance + Mathf.Abs(spineIncrement) * spineManager.GetSpineSegmentCount();
     }
 
     private void Update()
     {
-        transform.position += transform.forward * speed * Time.deltaTime;
+        transform.position += transform.forward * (speed * Time.deltaTime);
         distMoved += speed * Time.deltaTime;
-        transform.Rotate(transform.right, rotationSpeed * Time.deltaTime);
+        transform.Rotate(new Vector3(rotationSpeed * Time.deltaTime, 0, 0), Space.Self);
         travelledAngle += rotationSpeed * Time.deltaTime;
 
         float absIncrement = Mathf.Abs(spineIncrement);
@@ -47,7 +52,7 @@ public class ProtoWormAnimator : MonoBehaviour
             if (i >= followPoints.Count - 1)
             {
                 child.gameObject.SetActive(false);
-                child.position = transform.position;
+                child.position = followPoints[0].position;
                 continue;
             }
             
@@ -57,7 +62,18 @@ public class ProtoWormAnimator : MonoBehaviour
                 child.GetComponentInChildren<Animator>(true).SetTrigger("StartMoving");
             }
 
+            if (distMoved + spineIncrement * i >= endDistance)
+            {
+                child.gameObject.SetActive(false);
+                continue;
+            }
+
             UpdateSpineSegment(child, i, progress);
+        }
+
+        if (distMoved >= endDistance)
+        {
+            headObject.SetActive(false);
         }
         
         neededSegmentsLastFrame = Mathf.FloorToInt(distMoved / spineIncrement);
@@ -78,6 +94,10 @@ public class ProtoWormAnimator : MonoBehaviour
     public float GetTravelledAngle() => travelledAngle;
     public float GetRotationSpeed() => rotationSpeed;
     public void SetRotationSpeed(float speed) => rotationSpeed = speed;
+
+    // Add a little extra distance to make sure it's fully done
+    public bool DoneRotating() => distMoved >= fullyDisabledDist + speed;
+    public bool HeadIsDisabled() => distMoved >= endDistance;
     
     private class FollowPoint
     {

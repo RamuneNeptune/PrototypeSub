@@ -48,6 +48,8 @@ public class ProtoFacilityLoadManager : MonoBehaviour
 
     private void UpdateObjectsActive()
     {
+        if (!Camera.main) return;
+        
         float sqrDistance = (Camera.main.transform.position - gameObject.transform.position).sqrMagnitude;
         bool inRange1 = sqrDistance < loadDistance1 * loadDistance1;
         if (inRange1 != distance1Loaded)
