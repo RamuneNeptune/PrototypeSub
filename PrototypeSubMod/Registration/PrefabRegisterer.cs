@@ -50,6 +50,10 @@ internal static class PrefabRegisterer
         PrecursorFabricator.Register();
         PrecursorPhaseGate.Register();
 
+        StoryGoalTerminal.CreateTerminal("AlienBuildingBlockTerminal", "AlienBuildingBlockEncy");
+        StoryGoalTerminal.CreateTerminal("HullFacilityLogsTerminal", "HullFacilityLogsEncy");
+        StoryGoalTerminal.CreateTerminal("OrionDataTerminal", "OrionEndeavorsEncy");
+        
         NonScanWaterPipe.Register();
         WatergateBlock.Register();
         ProtoPlaque_World.Register();
