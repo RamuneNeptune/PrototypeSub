@@ -13,24 +13,25 @@ public static class StoryGoalTerminal
         var prefabInfo = PrefabInfo.WithTechType(techType);
 
         var prefab = new CustomPrefab(prefabInfo);
-        prefab.SetGameObject(GetGameObject(prefabInfo, storyGoalKey));
+
+        GameObject GetPrefab()
+        {
+            var prefab = Plugin.AssetBundle.LoadAsset<GameObject>("Empty");
+        
+            var obj = GameObject.Instantiate(prefab);
+            PrefabUtils.AddBasicComponents(obj, prefabInfo.ClassID, prefabInfo.TechType, LargeWorldEntity.CellLevel.Medium);
+
+            var spawner = new GameObject("Spawner");
+            spawner.transform.SetParent(obj.transform, false);
+            var terminal = spawner.AddComponent<MultipurposeAlienTerminal>();
+            spawner.AddComponent<UnlockStoryGoal>().ManualSetup(terminal, storyGoalKey);
+            obj.EnsureComponent<ApplyMaterialDatabase>();
+
+            return obj;
+        }
+        
+        prefab.SetGameObject(GetPrefab);
 
         prefab.Register();
-    }
-
-    private static GameObject GetGameObject(PrefabInfo prefabInfo, string storyKey)
-    {
-        var prefab = Plugin.AssetBundle.LoadAsset<GameObject>("Empty");
-        
-        var obj = UWE.Utils.InstantiateDeactivated(prefab);
-        PrefabUtils.AddBasicComponents(obj, prefabInfo.ClassID, prefabInfo.TechType, LargeWorldEntity.CellLevel.Medium);
-
-        var spawner = new GameObject("Spawner");
-        spawner.transform.SetParent(obj.transform, false);
-        var terminal = spawner.AddComponent<MultipurposeAlienTerminal>();
-        spawner.AddComponent<UnlockStoryGoal>().ManualSetup(terminal, storyKey);
-        obj.EnsureComponent<ApplyMaterialDatabase>();
-
-        return obj;
     }
 }
