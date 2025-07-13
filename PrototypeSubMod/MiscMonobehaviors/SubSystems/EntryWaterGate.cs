@@ -10,10 +10,12 @@ internal class EntryWaterGate : MonoBehaviour
 
     private void OnTriggerEnter(Collider col)
     {
-        var player = UWE.Utils.GetComponentInHierarchy<Player>(col.gameObject);
+        if (col.isTrigger) return;
+        
+        bool isPlayerCol = col.gameObject.Equals(Player.main.gameObject);
 
-        if (!player || player.currChair != null) return;
+        if (!isPlayerCol) return;
 
-        player.SetCurrentSub(setInSub ? subRoot : null, true);
+        Player.main.SetCurrentSub(setInSub ? subRoot : null, true);
     }
 }
