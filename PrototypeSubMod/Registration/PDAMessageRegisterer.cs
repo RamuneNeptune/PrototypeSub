@@ -23,7 +23,7 @@ internal static class PDAMessageRegisterer
         
         PDALog_Patches.orionEntries.Add(("Proto_DevResumed", "Proto_DevResumed"));
         PDALog_Patches.orionEntries.Add(("Proto_StoryEndPingVoiceline", "Proto_StoryEndPingVoiceline"));
-        PDALog_Patches.orionEntries.Add(("Proto_AdminFacilityOnline", "Proto_HullKeyUnlock"));
+        PDALog_Patches.orionEntries.Add(("Proto_AdminFacilityOnline", "Proto_AdminFacilityOnline"));
 
         sw.Stop();
         Plugin.Logger.LogInfo($"PDA Messages registered in {sw.ElapsedMilliseconds}ms");

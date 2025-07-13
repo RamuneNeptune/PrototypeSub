@@ -198,7 +198,7 @@ internal class NewUpgradesScreen : MonoBehaviour
             var data = Language.main.GetMetaData(message);
             for (int i = 0; i < data.lineCount; i++)
             {
-                delay += data.GetLine(i).delay;
+                delay += data.GetLine(i).duration;
             }
         }
 

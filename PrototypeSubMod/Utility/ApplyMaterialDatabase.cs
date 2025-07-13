@@ -13,6 +13,8 @@ public class ApplyMaterialDatabase : MonoBehaviour
 
     private void Start()
     {
+        if (applyTo == null) applyTo = gameObject;
+        
         UWE.CoroutineHost.StartCoroutine(ProtoMatDatabase.ReplaceVanillaMats(applyTo));
     }
 }
