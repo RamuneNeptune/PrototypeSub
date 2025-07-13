@@ -112,7 +112,7 @@ internal class MultipurposeAlienTerminal : InteractableTerminal
         }
 
         handTarget.interactionAllowed = allowMultipleUses;
-        terminal.OnStoryHandTarget();
+        OnStoryHandTarget();
         var tag = terminal.GetComponent<TechTag>();
         tag.type = TechType.None;
     }
