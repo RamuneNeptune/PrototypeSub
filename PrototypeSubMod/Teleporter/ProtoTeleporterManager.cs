@@ -1,4 +1,5 @@
-﻿using PrototypeSubMod.MiscMonobehaviors.SubSystems;
+﻿using System.Collections;
+using PrototypeSubMod.MiscMonobehaviors.SubSystems;
 using PrototypeSubMod.Upgrades;
 using PrototypeSubMod.Facilities.Interceptor;
 using UnityEngine;
@@ -90,8 +91,15 @@ internal class ProtoTeleporterManager : ProtoUpgrade
         if (teleporterID == "protoislandtpS")
         {
             InterceptorIslandManager.Instance.OnTeleportToIsland(Vector3.zero);
-            InterceptorIslandManager.Instance.GetComponentsInChildren<TeleporterOverride>().Initialize();
+            UWE.CoroutineHost.StartCoroutine(InitTeleporterOverrideDelayed());
         }
+    }
+
+    private IEnumerator InitTeleporterOverrideDelayed()
+    {
+        yield return new WaitUntil(() => LargeWorldStreamer.main.IsWorldSettled());
+        
+        InterceptorIslandManager.Instance.GetComponentsInChildren<TeleporterOverride>(true).Initialize();
     }
 
     public void SetTeleporterID(string id)
