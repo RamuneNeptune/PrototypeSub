@@ -164,12 +164,6 @@ public class TetherManager : MonoBehaviour, IUIElement
     private void HandleActivation()
     {
         if (menuOpen) return;
-
-        if (ProtoStoryLocker.StoryEndingActive)
-        {
-            notificationManager.PlayVoiceNotification(invalidOperationVoiceline);
-            return;
-        }
         
         if (!MainCameraControl.main.enabled) return;
 
@@ -184,6 +178,12 @@ public class TetherManager : MonoBehaviour, IUIElement
         if (activatedAbilitiesManager.GetActiveAbilityCount() >= 3 && !selectedIcon.GetAbility().GetActive())
         {
             ErrorMessage.AddError("Too many activated abilities");
+            return;
+        }
+        
+        if (ProtoStoryLocker.StoryEndingActive)
+        {
+            notificationManager.PlayVoiceNotification(invalidOperationVoiceline, false);
             return;
         }
         

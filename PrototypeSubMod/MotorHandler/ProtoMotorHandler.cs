@@ -190,8 +190,10 @@ internal class ProtoMotorHandler : MonoBehaviour
         return total;
     }
 
-    private void Update()
+    private void OnUpdate()
     {
+        if (originalMotorSpeeds == null) return;
+        
         if (!allowedToMove)
         {
             motorMode.motorModeSpeeds = new float[3];
@@ -237,6 +239,16 @@ internal class ProtoMotorHandler : MonoBehaviour
     public float GetMaxSpeed()
     {
         return motorMode.motorModeSpeeds[1];
+    }
+
+    private void OnEnable()
+    {
+        ManagedUpdate.Subscribe(ManagedUpdate.Queue.Update, OnUpdate);
+    }
+
+    private void OnDisable()
+    {
+        ManagedUpdate.Unsubscribe(ManagedUpdate.Queue.Update, OnUpdate);
     }
 
     public struct ValueRegistrar

@@ -23,17 +23,24 @@ internal class ProtoDepthOptimizers : ProtoUpgrade, IPowerModifier
 
     public override void SetUpgradeEnabled(bool enabled)
     {
+        if (enabled && !upgradeEnabled)
+        {
+            depthOptimizersActivate.Play();
+        }
+        else if (!enabled && upgradeEnabled)
+        {
+            depthOptimizersDeactivate.Play();
+        }
+        
         base.SetUpgradeEnabled(enabled);
 
         if (enabled)
         {
             crushDamage.crushDepth = 9000;
-            depthOptimizersActivate.Play();
         }
         else
         {
             crushDamage.crushDepth = originalCrushDepth;
-            depthOptimizersDeactivate.Play();
         }
     }
 

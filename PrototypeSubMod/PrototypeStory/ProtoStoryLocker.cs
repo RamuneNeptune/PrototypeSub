@@ -98,6 +98,8 @@ internal class ProtoStoryLocker : MonoBehaviour
         motorHandler.AddPowerEfficiencyMultiplier(new ProtoMotorHandler.ValueRegistrar(this, 9999));
         hydrolockCloseTrigger.SetActive(true);
         engineLever.SetStoryLocked(true);
+        subRoot.GetComponent<Stabilizer>().uprightAccelerationStiffness = 500;
+        subRoot.GetComponentInChildren<ProtoFinsManager>().UpdateMotorBonuses();
 
         foreach (var button in interceptorButtons)
         {

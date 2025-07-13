@@ -90,15 +90,20 @@ public class ProtoFinsManager : MonoBehaviour, ISaveDataListener
             rightFins[i].SetActive(i < installedFinCount);
         }
 
+        UpdateMotorBonuses();
+
+        UpdateDockingBayStatus();
+        UWE.CoroutineHost.StartCoroutine(UpdateFinAnimations(motorMode.engineOn || motorMode.engineOnOldState));
+    }
+
+    public void UpdateMotorBonuses()
+    {
         motorHandler.AddSpeedBonus(new ProtoMotorHandler.ValueRegistrar(this, defaultSpeed + installedFinCount * multiplierIncreasePerFin));
         motorMode.motorModeNoiseValues[1] = noiseValues[installedFinCount];
         if (installedFinCount > 0)
         {
             crushDamage.SetExtraCrushDepth(installedFinCount * depthIncreasePerFin);
         }
-
-        UpdateDockingBayStatus();
-        UWE.CoroutineHost.StartCoroutine(UpdateFinAnimations(motorMode.engineOn || motorMode.engineOnOldState));
     }
 
     public void ResetFinAnimations()
