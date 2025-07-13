@@ -159,6 +159,13 @@ namespace PrototypeSubMod
             yield return task;
 
             welderPrefab = task.GetResult();
+
+            var ghostTask = PrefabDatabase.GetPrefabAsync("54701bfc-bb1a-4a84-8f79-ba4f76691bef");
+            yield return ghostTask;
+
+            if (!ghostTask.TryGetPrefab(out var ghostPrefab)) throw new Exception("Error loading ghost leviathan prefab");
+
+            ghostPrefab.EnsureComponent<GhostLeviathanFacilityManager>();
         }
 
         private void ClearWaitStage()
