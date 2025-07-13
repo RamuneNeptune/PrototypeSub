@@ -25,6 +25,8 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
     [SerializeField] private Color hoveredColor;
     [SerializeField] private uGUI_ItemIcon itemIcon;
     [SerializeField] private RocketBuilderTooltip tooltip;
+    [SerializeField] private FMOD_CustomEmitter chargeSfx;
+    [SerializeField] private FMOD_CustomEmitter installSfx;
 
     private uGUI_ProtoBuildScreen buildScreen;
     private MoonpoolOccupiedHandler occupiedHandler;
@@ -183,6 +185,11 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
         {
             OnActionConfirmed();
         }
+        
+        if (!chargeSfx.playing)
+        {
+            chargeSfx.Play();
+        }
     }
 
     private void HandleHoverScale()
@@ -257,6 +264,8 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
 
         UpgradeChangedEventArgs args = new(upgradeScreen, upgradeManager.GetInstalledUpgradeTypes());
         onUpgradeChanged?.Invoke(this, args);
+        
+        installSfx.Play();
     }
 
     private void OnUpgradesChanged(object sender, UpgradeChangedEventArgs args)
