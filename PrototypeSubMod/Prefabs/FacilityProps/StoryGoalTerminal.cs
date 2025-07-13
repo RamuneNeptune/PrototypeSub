@@ -18,7 +18,7 @@ public static class StoryGoalTerminal
         {
             var prefab = Plugin.AssetBundle.LoadAsset<GameObject>("Empty");
         
-            var obj = GameObject.Instantiate(prefab);
+            var obj = UWE.Utils.InstantiateDeactivated(prefab);
             PrefabUtils.AddBasicComponents(obj, prefabInfo.ClassID, prefabInfo.TechType, LargeWorldEntity.CellLevel.Medium);
 
             var spawner = new GameObject("Spawner");
