@@ -263,6 +263,20 @@ internal static class EncyEntryRegisterer
         PDAHandler.AddEncyclopediaEntry("HullFacilityWormTerminalEncy", "DownloadedData/Prototype/ProtoTerminal", wormTerminalTitle, wormTerminalDescription, unlockSound: PDAHandler.UnlockBasic);
         #endregion
 
+        #region Fragmentation Terminal
+        string fragmentationTerminalTitle = Language.main.Get("FragmentationTerminalEncy_Title");
+        string fragmentationTerminalDescription = Language.main.Get("FragmentationTerminalEncy_Body");
+
+        PDAHandler.AddEncyclopediaEntry("FragmentationTerminalEncy", "DownloadedData/Prototype/ProtoTerminal", fragmentationTerminalTitle, fragmentationTerminalDescription, unlockSound: PDAHandler.UnlockBasic);
+        #endregion
+
+        #region Animate Entropy Terminal
+        string animateEntropyTerminalTitle = Language.main.Get("AnimateEntropyTerminalEncy_Title");
+        string animateEntropyTerminalDescription = Language.main.Get("AnimateEntropyTerminalEncy_Body");
+
+        PDAHandler.AddEncyclopediaEntry("AnimateEntropyTerminalEncy", "DownloadedData/Prototype/ProtoTerminal", animateEntropyTerminalTitle, animateEntropyTerminalDescription, unlockSound: PDAHandler.UnlockBasic);
+        #endregion
+
         RegisterEncyEntries("DownloadedData/Prototype/ProtoUpgrades", PDAHandler.UnlockBasic, new()
         {
             "ProtoCloakEncy",

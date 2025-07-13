@@ -153,6 +153,20 @@ internal static class StoryGoalsRegisterer
         });
         #endregion
 
+        #region Fragmentation Terminal
+        StoryGoalHandler.RegisterCustomEvent("FragmentationTerminalEncy", () =>
+        {
+            PDAEncyclopedia.Add("FragmentationTerminalEncy", true);
+        });
+        #endregion
+
+        #region Animate Entropy Terminal
+        StoryGoalHandler.RegisterCustomEvent("AnimateEntropyTerminalEncy", () =>
+        {
+            PDAEncyclopedia.Add("AnimateEntropyTerminalEncy", true);
+        });
+        #endregion
+
         StoryGoalHandler.RegisterCustomEvent("HullFacilityMainLights", null);
         StoryGoalHandler.RegisterCustomEvent("HullFacilityWyrmLights", null);
         
