@@ -8,6 +8,7 @@ using System;
 using System.Collections;
 using PrototypeSubMod.MiscMonobehaviors.SubSystems;
 using PrototypeSubMod.PowerSystem;
+using PrototypeSubMod.UI.AbilitySelection;
 using PrototypeSubMod.Utility;
 using UnityEngine;
 
@@ -84,11 +85,13 @@ internal class ProtoStoryLocker : MonoBehaviour
     {
         StoryEndingActive = true;
         subRoot.live.invincible = true;
-        
+
+        var tetherManager = subRoot.GetComponentInChildren<TetherManager>();
         foreach (var upgrade in upgradeManager.GetInstalledUpgrades())
         {
             upgrade.SetUpgradeEnabled(false);
             upgrade.SetUpgradeLocked(true);
+            tetherManager.UpdateIcon(upgrade);
         }
 
         motorHandler.RemoveAllNoiseOverrides();
@@ -98,12 +101,17 @@ internal class ProtoStoryLocker : MonoBehaviour
         motorHandler.AddPowerEfficiencyMultiplier(new ProtoMotorHandler.ValueRegistrar(this, 9999));
         hydrolockCloseTrigger.SetActive(true);
         engineLever.SetStoryLocked(true);
-        subRoot.GetComponent<Stabilizer>().uprightAccelerationStiffness = 500;
+        subRoot.GetComponent<Stabilizer>().uprightAccelerationStiffness = 100;
         subRoot.GetComponentInChildren<ProtoFinsManager>().UpdateMotorBonuses();
 
         foreach (var button in interceptorButtons)
         {
             button.SetActive(false);
+        }
+        
+        foreach (var foldManager in subRoot.GetComponentsInChildren<FinFoldManager>())
+        {
+            Destroy(foldManager);
         }
 
         enteredFullLock = true;
