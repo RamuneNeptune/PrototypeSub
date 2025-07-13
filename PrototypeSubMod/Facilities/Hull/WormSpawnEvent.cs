@@ -93,10 +93,6 @@ public class WormSpawnEvent : MonoBehaviour
         }
         else if (!wormActive && !calledDestroy)
         {
-            swimLoopSFX.Stop();
-            breachSurfaceSFX.Stop();
-            rumbleFarSFX.Stop();
-            rumbleCloseSFX.Stop();
             Destroy(gameObject, 5f);
             calledDestroy = true;
             return;
@@ -130,9 +126,17 @@ public class WormSpawnEvent : MonoBehaviour
             }
         }
 
-        if (Mathf.Abs(wormAnimator.GetTravelledAngle()) > 270)
+        if (wormAnimator.DoneRotating())
         {
             wormActive = false;
+        }
+
+        if (wormAnimator.HeadIsDisabled())
+        {
+            swimLoopSFX.Stop();
+            breachSurfaceSFX.Stop();
+            rumbleFarSFX.Stop();
+            rumbleCloseSFX.Stop();
         }
 
         float sqrDistToHead = (raycastOrigin.position - transform.position).sqrMagnitude;
