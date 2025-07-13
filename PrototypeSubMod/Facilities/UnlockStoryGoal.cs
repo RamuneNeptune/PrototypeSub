@@ -35,4 +35,10 @@ internal class UnlockStoryGoal : MonoBehaviour
             terminal.ForceInteracted();
         }
     }
+
+    public void ManualSetup(MultipurposeAlienTerminal terminal, string storyKey)
+    {
+        this.terminal = terminal;
+        storyGoalKey = storyKey;
+    }
 }
