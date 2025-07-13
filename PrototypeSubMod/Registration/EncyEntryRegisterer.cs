@@ -255,7 +255,14 @@ internal static class EncyEntryRegisterer
         };
         PDAHandler.AddCustomScannerEntry(warpCoreEntryData);
         #endregion
-        
+
+        #region Dead Zone Mapping Initiative Project Data
+        string wormTerminalTitle = Language.main.Get("HullFacilityWormTerminalEncy_Title");
+        string wormTerminalDescription = Language.main.Get("HullFacilityWormTerminalEncy_Body");
+
+        PDAHandler.AddEncyclopediaEntry("HullFacilityWormTerminalEncy", "DownloadedData/Prototype/ProtoTerminal", wormTerminalTitle, wormTerminalDescription, unlockSound: PDAHandler.UnlockBasic);
+        #endregion
+
         RegisterEncyEntries("DownloadedData/Prototype/ProtoUpgrades", PDAHandler.UnlockBasic, new()
         {
             "ProtoCloakEncy",

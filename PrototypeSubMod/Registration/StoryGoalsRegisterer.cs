@@ -146,6 +146,13 @@ internal static class StoryGoalsRegisterer
         });
         #endregion
 
+        #region Dead Zone Mapping Initiative Project Data
+        StoryGoalHandler.RegisterCustomEvent("HullFacilityWormTerminalEncy", () =>
+        {
+            PDAEncyclopedia.Add("HullFacilityWormTerminalEncy", true);
+        });
+        #endregion
+
         StoryGoalHandler.RegisterCustomEvent("HullFacilityMainLights", null);
         StoryGoalHandler.RegisterCustomEvent("HullFacilityWyrmLights", null);
         

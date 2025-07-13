@@ -53,7 +53,8 @@ internal static class PrefabRegisterer
         StoryGoalTerminal.CreateTerminal("AlienBuildingBlockTerminal", "AlienBuildingBlockEncy");
         StoryGoalTerminal.CreateTerminal("HullFacilityLogsTerminal", "HullFacilityLogsEncy");
         StoryGoalTerminal.CreateTerminal("OrionDataTerminal", "OrionEndeavorsEncy");
-        
+        StoryGoalTerminal.CreateTerminal("HullFacilityWormTerminal", "HullFacilityWormTerminalEncy");
+
         NonScanWaterPipe.Register();
         WatergateBlock.Register();
         ProtoPlaque_World.Register();
