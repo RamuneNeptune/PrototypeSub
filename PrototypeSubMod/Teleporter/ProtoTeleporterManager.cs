@@ -115,7 +115,7 @@ internal class ProtoTeleporterManager : ProtoUpgrade
         modeManager.SetInterfloorMode();
 
         Player.main.SetCurrentSub(subRoot, true);
-        
+        idManager.UnselectAll();
     }
 
     public Transform GetTeleportPosition() => teleportPosition;
