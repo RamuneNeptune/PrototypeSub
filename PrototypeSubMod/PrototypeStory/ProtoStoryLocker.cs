@@ -10,6 +10,7 @@ using PrototypeSubMod.MiscMonobehaviors.SubSystems;
 using PrototypeSubMod.PowerSystem;
 using PrototypeSubMod.UI.AbilitySelection;
 using PrototypeSubMod.Utility;
+using Story;
 using UnityEngine;
 
 namespace PrototypeSubMod.PrototypeStory;
@@ -129,6 +130,7 @@ internal class ProtoStoryLocker : MonoBehaviour
     {
         Destroy(subRoot.GetComponent<AttackableLikeCyclops>());
         IngameMenu_Patches.SetDenySaving(true);
+        StoryGoalManager.main.OnGoalComplete("OnEnterStoryEndProximity");
     }
 
     private void OnExitSaveLock()

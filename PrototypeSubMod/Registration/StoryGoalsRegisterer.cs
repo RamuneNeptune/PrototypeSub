@@ -206,6 +206,11 @@ internal static class StoryGoalsRegisterer
             PDALog.Add("OnTeleportToInterceptorIsland");
         });
         
+        StoryGoalHandler.RegisterCustomEvent("OnEnterStoryEndProximity", () =>
+        {
+            PDALog.Add("OnEnterStoryEndProximity");
+        });
+        
         sw.Stop();
         Plugin.Logger.LogInfo($"Story goals registered in {sw.ElapsedMilliseconds}ms");
     }
