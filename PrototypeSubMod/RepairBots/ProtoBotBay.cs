@@ -9,6 +9,9 @@ internal class ProtoBotBay : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private Transform pathfindingManager;
     [SerializeField] private Transform elevatorTransform;
+    [SerializeField] private FMOD_CustomEmitter openBaySfx;
+    [SerializeField] private FMOD_CustomEmitter sendOffBotSfx;
+    [SerializeField] private FMOD_CustomEmitter closeBaySfx;
 
     private Queue<CyclopsDamagePoint> damagePoints = new();
     private ProtoRepairBot repairBot;
@@ -51,9 +54,11 @@ internal class ProtoBotBay : MonoBehaviour
         botActive = true;
         animator.SetBool("Opened", true);
         repairBot.gameObject.SetActive(true);
+        openBaySfx.Play();
 
         yield return new WaitForSeconds(0.83f);
 
+        sendOffBotSfx.Play();
         repairBot.transform.SetParent(pathfindingManager);
         repairBot.UpdateUseLocalPos();
 
@@ -75,6 +80,7 @@ internal class ProtoBotBay : MonoBehaviour
         else
         {
             repairBot.UpdatePath(elevatorTransform.position);
+            repairBot.PlayReturnToBaySfx();
         }
     }
 
@@ -92,6 +98,7 @@ internal class ProtoBotBay : MonoBehaviour
         repairBot.ResetVisualRotation();
 
         animator.SetBool("Opened", false);
+        closeBaySfx.Play();
 
         yield return new WaitForSeconds(1f);
         repairBot.gameObject.SetActive(false);

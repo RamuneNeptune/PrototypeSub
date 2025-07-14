@@ -13,6 +13,7 @@ internal class ProtoRepairBot : PathfindingObject
     [SerializeField] private Transform visualTransform;
     [SerializeField] private Transform welderFXSpawnPos;
     [SerializeField] private FMOD_CustomLoopingEmitter repairSFX;
+    [SerializeField] private FMOD_CustomEmitter returnToBaySfx;
     [SerializeField] private LineRenderer leftLineRend;
     [SerializeField] private LineRenderer rightLineRend;
     [SerializeField] private float repairSpeed;
@@ -154,6 +155,11 @@ internal class ProtoRepairBot : PathfindingObject
     public void SetBotLocalPos()
     {
         visualTransform.GetChild(1).localPosition = new Vector3(0, 0.2f, 0);
+    }
+
+    public void PlayReturnToBaySfx()
+    {
+        returnToBaySfx.Play();
     }
 
     public void UpdateUseLocalPos()

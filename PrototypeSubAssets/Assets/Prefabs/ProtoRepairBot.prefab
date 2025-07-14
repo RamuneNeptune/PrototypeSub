@@ -159,6 +159,89 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
+--- !u!1 &4524348777676225919
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7488916973350164134}
+  - component: {fileID: 6876192072810318869}
+  m_Layer: 0
+  m_Name: ReturnToBay
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7488916973350164134
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4524348777676225919}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1296585403843561660}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6876192072810318869
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4524348777676225919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1699601541, guid: 06dd3d5416bf43ea368cc39ff96e6d5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  asset: {fileID: 11400000, guid: d1a8596175220f241a5cedb8ae6c2be6, type: 2}
+  playOnAwake: 0
+  stopImmediatelyOnDisable: 0
+  followParent: 0
+  restartOnPlay: 1
+  debug: 0
+  subtitlesKey: 
+  playSubtitlesWithUnscaledTime: 1
+--- !u!1 &4799632152196997674
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1296585403843561660}
+  m_Layer: 0
+  m_Name: SFX
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1296585403843561660
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4799632152196997674}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 7488916973350164134}
+  - {fileID: 6814919496434628191}
+  m_Father: {fileID: 6423174835184618916}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5001677714733649844
 GameObject:
   m_ObjectHideFlags: 0
@@ -202,7 +285,6 @@ GameObject:
   - component: {fileID: 8386615418087099159}
   - component: {fileID: 3070240025557822362}
   - component: {fileID: 7253606263520781142}
-  - component: {fileID: 7060736945370738639}
   m_Layer: 0
   m_Name: ProtoRepairBot
   m_TagString: Untagged
@@ -225,6 +307,7 @@ Transform:
   - {fileID: 7834375298433112461}
   - {fileID: 7320203656375259625}
   - {fileID: 4392249193278209616}
+  - {fileID: 1296585403843561660}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -279,6 +362,7 @@ MonoBehaviour:
   m_Script: {fileID: -722571657, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pathManager: {fileID: 0}
   targetPoint: {fileID: 0}
   visual: {fileID: 3079433176553367425}
   moveSpeed: 2
@@ -290,33 +374,11 @@ MonoBehaviour:
   placeholderGraphic: {fileID: 6663575132300939317}
   visualTransform: {fileID: 3079433176553367425}
   welderFXSpawnPos: {fileID: 1759423142313996291}
-  repairSFX: {fileID: 7060736945370738639}
+  repairSFX: {fileID: 6441427135856170215}
+  returnToBaySfx: {fileID: 6876192072810318869}
   leftLineRend: {fileID: 8646613470675623318}
   rightLineRend: {fileID: 7018495635193075188}
   repairSpeed: 10
---- !u!114 &7060736945370738639
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6423174835184618919}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -133377629, guid: 06dd3d5416bf43ea368cc39ff96e6d5a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  asset: {fileID: 11400000, guid: 3d5b4e8d5a4a6774383bdca176449ebb, type: 2}
-  playOnAwake: 0
-  stopImmediatelyOnDisable: 0
-  followParent: 1
-  restartOnPlay: 0
-  debug: 0
-  subtitlesKey: 
-  playSubtitlesWithUnscaledTime: 1
-  assetStart: {fileID: 0}
-  assetStop: {fileID: 0}
-  stopSoundInterval: 0
 --- !u!1 &6663575132300939317
 GameObject:
   m_ObjectHideFlags: 0
@@ -396,6 +458,60 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!1 &7601981839384732203
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6814919496434628191}
+  - component: {fileID: 6441427135856170215}
+  m_Layer: 0
+  m_Name: WeldRepair
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6814919496434628191
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7601981839384732203}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1296585403843561660}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6441427135856170215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7601981839384732203}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -133377629, guid: 06dd3d5416bf43ea368cc39ff96e6d5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  asset: {fileID: 11400000, guid: 3d5b4e8d5a4a6774383bdca176449ebb, type: 2}
+  playOnAwake: 0
+  stopImmediatelyOnDisable: 0
+  followParent: 1
+  restartOnPlay: 0
+  debug: 0
+  subtitlesKey: 
+  playSubtitlesWithUnscaledTime: 1
+  assetStart: {fileID: 0}
+  assetStop: {fileID: 0}
+  stopSoundInterval: 0
 --- !u!1 &8201963814458175336
 GameObject:
   m_ObjectHideFlags: 0
