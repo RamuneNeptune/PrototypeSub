@@ -232,6 +232,7 @@ GameObject:
   - component: {fileID: -1760235723637476847}
   - component: {fileID: 3850021507450412864}
   - component: {fileID: 8923083190581811734}
+  - component: {fileID: 4636389996656436136}
   - component: {fileID: 203943774008362603}
   m_Layer: 0
   m_Name: ProtoDamageDecal2
@@ -297,9 +298,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   anchorSky: 0
   customSkyPrefab: {fileID: 0}
-  dynamic: 0
+  dynamic: 1
   emissiveFromPower: 0
   renderers: []
+--- !u!114 &4636389996656436136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 640271900607031399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1730975643, guid: d3aa744e2b032f543b53a6ee1315398f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  applyTo: {fileID: 640271900607031399}
 --- !u!114 &203943774008362603
 MonoBehaviour:
   m_ObjectHideFlags: 0

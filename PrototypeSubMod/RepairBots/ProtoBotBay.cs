@@ -9,6 +9,7 @@ internal class ProtoBotBay : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private Transform pathfindingManager;
     [SerializeField] private Transform elevatorTransform;
+    [SerializeField] private Transform returnTarget;
     [SerializeField] private FMOD_CustomEmitter openBaySfx;
     [SerializeField] private FMOD_CustomEmitter sendOffBotSfx;
     [SerializeField] private FMOD_CustomEmitter closeBaySfx;
@@ -79,7 +80,7 @@ internal class ProtoBotBay : MonoBehaviour
         }
         else
         {
-            repairBot.UpdatePath(elevatorTransform.position);
+            repairBot.UpdatePath(returnTarget.position);
             repairBot.PlayReturnToBaySfx();
         }
     }
