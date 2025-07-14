@@ -511,11 +511,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5742113377161052797}
-  - component: {fileID: 3054043937469356454}
   - component: {fileID: 3417619574406800775}
   - component: {fileID: 9046339675408583419}
   - component: {fileID: 7713719528189093996}
   - component: {fileID: -1973947480270897910}
+  - component: {fileID: 3054043937469356454}
   m_Layer: 0
   m_Name: ProtoDamageDecal1
   m_TagString: Untagged
@@ -539,19 +539,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3054043937469356454
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5742113377161052798}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1107783907, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fxIndex: -1
 --- !u!114 &3417619574406800775
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -609,6 +596,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   applyTo: {fileID: 5742113377161052798}
+--- !u!114 &3054043937469356454
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5742113377161052798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1107783907, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fxIndex: -1
 --- !u!1 &6610685609759085471
 GameObject:
   m_ObjectHideFlags: 0
