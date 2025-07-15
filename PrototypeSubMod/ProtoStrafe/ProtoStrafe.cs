@@ -1,4 +1,5 @@
-﻿using PrototypeSubMod.Upgrades;
+﻿using System;
+using PrototypeSubMod.Upgrades;
 using UnityEngine;
 
 namespace PrototypeSubMod.ProtoStrafe;
@@ -8,7 +9,15 @@ internal class ProtoStrafe : ProtoUpgrade
     [SerializeField] private float sidewaysAccel;
     [SerializeField] private Rigidbody rigidbody;
     [SerializeField] private SubControl subControl;
-    
+
+    private void Update()
+    {
+        if (GameInput.GetButtonDown(GameInput.Button.Deconstruct))
+        {
+            SetUpgradeEnabled(!upgradeEnabled);
+        }
+    }
+
     private void FixedUpdate()
     {
         if (!upgradeEnabled) return;
