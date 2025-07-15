@@ -35,6 +35,11 @@ public class SpawnPrecursorDoorway : MonoBehaviour, IMaterialModifier
         Destroy(instance.GetComponent<PrefabIdentifier>());
         Destroy(instance.transform.Find("DoorSetMotorModeCollider_Walk").gameObject);
         Destroy(instance.transform.Find("DoorSetMotorModeCollider_Swim").gameObject);
+
+        var applier = instance.GetComponent<SkyApplier>();
+        applier.customSkyPrefab = null;
+        applier.anchorSky = Skies.Auto;
+        applier.dynamic = true;
         
         precursorDoorway = instance.GetComponent<PrecursorDoorway>();
         if (queuedDoorToggle)
