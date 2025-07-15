@@ -1,6 +1,7 @@
 ﻿using PrototypeSubMod.Upgrades;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using PrototypeSubMod.PowerSystem;
 using UnityEngine;
 
@@ -9,6 +10,7 @@ namespace PrototypeSubMod.StasisPulse;
 internal class ProtoStasisPulse : ProtoUpgrade
 {
     private const int FREEZE_STEPS = 8;
+    private const int FREEZE_COUNT = 4;
     
     [SerializeField] private AnimationCurve sphereRadius;
     [SerializeField] private Gradient colorOverLifetime;
@@ -35,12 +37,17 @@ internal class ProtoStasisPulse : ProtoUpgrade
     private float currentSphereGrowTimeTime;
     private bool deployingLastFrame;
     private bool activating;
-    private Collider[] latestColliders;
+    private List<Collider[]> latestColliders;
     private LayerMask freezeMask;
 
     private void Start()
     {
-        latestColliders = new Collider[1500];
+        latestColliders = new List<Collider[]>();
+        for (int i = 0; i < FREEZE_COUNT; i++)
+        {
+            latestColliders.Add(new Collider[100]);
+        }
+        
         freezeMask = int.MaxValue;
         freezeMask &= ~(1 << LayerID.Vehicle); // Remove Vehicle layer from mask
         freezeMask &= ~(1 << LayerID.TerrainCollider); // Remove Terrain layer from mask
@@ -141,17 +148,18 @@ internal class ProtoStasisPulse : ProtoUpgrade
         for (int i = 0; i < freezeCount; i++)
         {
             yield return new WaitForSeconds(sphereGrowTime / freezeCount);
-            HandleFreezing();
+            HandleFreezing(i);
         }
     }
  
-    private void HandleFreezing()
+    private void HandleFreezing(int freezeIndex)
     {
-        int colliderCount = Physics.OverlapSphereNonAlloc(sphereVisual.transform.position, CurrentDiameter / 2f, latestColliders, freezeMask);
-        UWE.CoroutineHost.StartCoroutine(FreezeObjectsAsync(colliderCount));
+        var colliders = latestColliders.ElementAt(freezeIndex);
+        int colliderCount = Physics.OverlapSphereNonAlloc(sphereVisual.transform.position, CurrentDiameter / 2f, colliders, freezeMask);
+        UWE.CoroutineHost.StartCoroutine(FreezeObjectsAsync(colliderCount, colliders));
     }
 
-    private IEnumerator FreezeObjectsAsync(int colliderCount)
+    private IEnumerator FreezeObjectsAsync(int colliderCount, Collider[] results)
     {
         int increment = colliderCount / FREEZE_STEPS;
         int lastIncrement = colliderCount - increment * (FREEZE_STEPS - 1);
@@ -161,7 +169,7 @@ internal class ProtoStasisPulse : ProtoUpgrade
             
             for (int j = 0; j < currentIncrement; j++)
             {
-                TryFreeze(latestColliders[j]);
+                TryFreeze(results[j]);
             }
 
             yield return new WaitForEndOfFrame();
