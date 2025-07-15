@@ -138,6 +138,20 @@ namespace PrototypeSubMod
             CoroutineHost.StartCoroutine(Initialize());
             CoroutineHost.StartCoroutine(MakeSeaTreaderBlockersPassthrough());
 
+            var recipeData = CraftDataHandler.GetRecipeData(TechType.RocketStage3);
+            for (int i = 0; i < recipeData.ingredientCount; i++)
+            {
+                var ingredient = recipeData.Ingredients[i];
+                if (ingredient.techType == TechType.CyclopsShieldModule)
+                {
+                    ingredient = new CraftData.Ingredient(TechType.ReactorRod, 2);
+                }
+
+                recipeData.Ingredients[i] = ingredient;
+            }
+
+            CraftDataHandler.SetRecipeData(TechType.RocketStage3, recipeData);
+            
             // This is only to force the asset bundle to load
             var empty = ScenesAssetBundle.name;
 
