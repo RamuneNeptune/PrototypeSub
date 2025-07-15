@@ -238,12 +238,14 @@ internal static class EncyEntryRegisterer
         #endregion
         
         #region Warp Core
+
+        var image = Plugin.AssetBundle.LoadAsset<Texture2D>("WarpReactorEncy");
         TechType warpCoreType = (TechType)Enum.Parse(typeof(TechType), "WarpReactor");
         string warpReactorTitle = Language.main.Get("ProtoWarpReactorEncy_Title");
         string warpReactorBody = Language.main.Get("ProtoWarpReactorEncy_Body");
         
         PDAHandler.AddEncyclopediaEntry("ProtoWarpReactorEncy", "DownloadedData/Prototype/Scanned", warpReactorTitle, 
-            warpReactorBody, unlockSound: PDAHandler.UnlockBasic);
+            warpReactorBody, image, unlockSound: PDAHandler.UnlockBasic);
         var warpCoreEntryData = new PDAScanner.EntryData()
         {
             key = warpCoreType,

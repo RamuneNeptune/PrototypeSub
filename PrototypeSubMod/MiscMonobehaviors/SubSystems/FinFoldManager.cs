@@ -8,6 +8,7 @@ public class FinFoldManager : MonoBehaviour
     [SerializeField] private float sphereRadius;
     [SerializeField] private float checkDistance;
     [SerializeField] private float minMassForFold = 100;
+    [SerializeField] private float foldDist = 150;
     [SerializeField] private int gizmoStepLength;
 
     private ProtoFinsManager manager;
@@ -28,6 +29,29 @@ public class FinFoldManager : MonoBehaviour
 
     private void FixedUpdate()
     {
+        bool outOfRange = (Camera.main.transform.position - transform.position).sqrMagnitude > (foldDist * foldDist);
+        bool hitObject = false;
+        if (!outOfRange)
+        {
+            hitObject = HitViaSpereCast();
+        }
+
+        hitObject |= outOfRange;
+
+        if (hitObject != hadHitObject)
+        {
+            animator.SetBool("CrampedFold", hitObject);
+            if (!hitObject)
+            {
+                manager.ResetFinAnimations();
+            }
+        }
+        
+        hadHitObject = hitObject;
+    }
+
+    private bool HitViaSpereCast()
+    {
         var ray = new Ray(transform.position, transform.forward);
         int hitCount = Physics.SphereCastNonAlloc(ray, sphereRadius, hitInfos, checkDistance, layerMask);
 
@@ -43,16 +67,7 @@ public class FinFoldManager : MonoBehaviour
             break;
         }
 
-        if (hitObject != hadHitObject)
-        {
-            animator.SetBool("CrampedFold", hitObject);
-            if (!hitObject)
-            {
-                manager.ResetFinAnimations();
-            }
-        }
-        
-        hadHitObject = hitObject;
+        return hitObject;
     }
     
     private void OnDrawGizmosSelected()
