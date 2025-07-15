@@ -86,7 +86,6 @@ public class ProtoChargeDisplay : MonoBehaviour, IUIElement
             chargeIcon.SetColor(normalCol);
         }
 
-        Plugin.Logger.LogInfo($"Remaining charges = {remainingCharges} | Last charges = {chargesLastCheck} | Installed sources = {powerSystem.GetInstalledSourceCount()}");
         if (chargesLastCheck != remainingCharges)
         {
             if (remainingCharges < chargesLastCheck || remainingCharges > chargesLastCheck + 1)

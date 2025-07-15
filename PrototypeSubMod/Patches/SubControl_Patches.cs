@@ -39,6 +39,36 @@ internal class SubControl_Patches
         return true;
     }
 
+    [HarmonyPatch(nameof(SubControl.FixedUpdate)), HarmonyTranspiler]
+    private static IEnumerable<CodeInstruction> FixedUpdate_Transpiler(IEnumerable<CodeInstruction> instructions)
+    {
+        var torqueField = typeof(SubControl).GetField("BaseTurningTorque", AccessTools.all);
+
+        var match = new CodeMatch[]
+        {
+            new(i => i.opcode == OpCodes.Ldfld && (FieldInfo)i.operand == torqueField),
+            new(i => i.opcode == OpCodes.Stloc_1),
+            new(i => i.opcode == OpCodes.Ldarg_0),
+            new(i => i.opcode == OpCodes.Ldfld)
+        };
+
+        var matcher = new CodeMatcher(instructions)
+            .MatchForward(true, match)
+            .Advance(1)
+            .InsertAndAdvance(new CodeInstruction(OpCodes.Ldarg_0))
+            .InsertAndAdvance(Transpilers.EmitDelegate(GetTorqueOverride));
+
+        return matcher.InstructionEnumeration();
+    }
+
+    private static bool GetTorqueOverride(bool originalValue, SubControl instance)
+    {
+        var strafe = instance.GetComponentInChildren<ProtoStrafe.ProtoStrafe>();
+        if (!strafe) return originalValue;
+
+        return !strafe.GetUpgradeEnabled();
+    }
+
     [HarmonyPatch(nameof(SubControl.Update)), HarmonyTranspiler]
     private static IEnumerable<CodeInstruction> Update_Transpiler(IEnumerable<CodeInstruction> instructions)
     {
