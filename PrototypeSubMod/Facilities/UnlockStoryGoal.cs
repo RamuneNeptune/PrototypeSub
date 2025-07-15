@@ -10,12 +10,18 @@ internal class UnlockStoryGoal : MonoBehaviour
     [SerializeField] private InteractableTerminal terminal;
     [SerializeField] private string storyGoalKey;
     [SerializeField] private UnityEvent onTrigger;
+    [SerializeField] private UnityEvent onFirstTrigger;
     [SerializeField] private int storyGoalCheckFrameDelay = 5;
 
     private void Start()
     {
         terminal.onTerminalInteracted += () =>
         {
+            if (!StoryGoalManager.main.IsGoalComplete(storyGoalKey))
+            {
+                onFirstTrigger?.Invoke();
+            }
+            
             StoryGoalManager.main.OnGoalComplete(storyGoalKey);
             onTrigger?.Invoke();
         };
