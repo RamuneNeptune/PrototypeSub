@@ -7,7 +7,7 @@ namespace PrototypeSubMod.Credits;
 
 internal class ProtoCreditsManager : MonoBehaviour
 {
-    [SerializeField] private RectTransform creditsMask;
+    [SerializeField] private Canvas canvas;
     [SerializeField] private RectTransform creditsTextRect;
     [SerializeField] private TextMeshProUGUI creditsText;
     [SerializeField] private float creditsLength;
@@ -16,22 +16,22 @@ internal class ProtoCreditsManager : MonoBehaviour
     private float currentCreditsLength;
     private bool loadedMainMenu;
     private bool initialized;
+
+    private float maskYHeight;
+    private float textYHeight;
+    private float yOffset;
     
     private void Start()
     {
         creditsText.text = Language.main.Get("ProtoCreditsText");
         Canvas.ForceUpdateCanvases();
-        var sizeFitter = creditsText.GetComponent<ContentSizeFitter>();
-        sizeFitter.enabled = false;
-        sizeFitter.enabled = true;
         
-        float maskYHeight = creditsMask.rect.height;
-        float textYHeight = creditsTextRect.sizeDelta.y;
-        float yOffset = -(maskYHeight / 2) - (textYHeight / 2);
+        maskYHeight = canvas.GetComponent<RectTransform>().rect.height;
+        textYHeight = creditsTextRect.rect.height;
+        yOffset = -(maskYHeight / 2) - (textYHeight / 2);
         creditsTextRect.localPosition = new Vector3(0, yOffset, 0);
         
         creditsSpeed = (textYHeight + maskYHeight) / creditsLength;
-        creditsMask.gameObject.SetActive(true);
         
         initialized = true;
     }
