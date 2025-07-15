@@ -163,7 +163,7 @@ internal class ProtoOverclockModule : ProtoUpgrade
         pdaCameraControl.enabled = !enabled;
         if (upgradeEnabled)
         {
-            subRoot.voiceNotificationManager.PlayVoiceNotification(enabledVoiceline);
+            subRoot.voiceNotificationManager.PlayVoiceNotification(enabledVoiceline, false);
             loopingEmitter.Play();
             currentRampUpTime = 0;
             if (!startImpulse.playing)
