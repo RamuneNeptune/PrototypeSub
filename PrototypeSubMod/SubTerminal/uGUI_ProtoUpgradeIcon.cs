@@ -222,6 +222,8 @@ internal class uGUI_ProtoUpgradeIcon : MonoBehaviour
     {
         hovered = false;
         progressMask.color = normalColor;
+        
+        if (!allowedToCraft) return;
 
         uGUI_Tooltip.main.scaleFactor = oldTooltipScale;
         uGUI_Tooltip.Clear();
