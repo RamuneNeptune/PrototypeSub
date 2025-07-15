@@ -13,7 +13,6 @@ internal static class StructureRegisterer
         var sw = new System.Diagnostics.Stopwatch();
         sw.Start();
         
-        Structure.LoadFromBundle("DefenseChamber").RegisterStructure();
         Structure.LoadFromBundle("DefenseTunnel").RegisterStructure();
         Structure.LoadFromBundle("EngineFacilityObjects").RegisterStructure();
         Structure.LoadFromBundle("EngineFacilityAdditions_Octo").RegisterStructure();
