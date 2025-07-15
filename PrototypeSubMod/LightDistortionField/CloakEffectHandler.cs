@@ -106,8 +106,13 @@ internal class CloakEffectHandler : ProtoUpgrade
 
         if (GetIsCloaking())
         {
-            powerRelay.ConsumeEnergy(PrototypePowerSystem.CHARGE_POWER_AMOUNT / secondsToConsumeCharge * Time.deltaTime,
+            bool couldConsume = powerRelay.ConsumeEnergy(PrototypePowerSystem.CHARGE_POWER_AMOUNT / secondsToConsumeCharge * Time.deltaTime,
                 out _);
+
+            if (!couldConsume)
+            {
+                SetUpgradeEnabled(false);
+            }
         }
     }
 
@@ -159,8 +164,7 @@ internal class CloakEffectHandler : ProtoUpgrade
 
     public override void SetUpgradeEnabled(bool enabled)
     {
-        base.SetUpgradeEnabled(enabled);
-        if (upgradeEnabled)
+        if (enabled && !upgradeEnabled)
         {
             emissionController.RegisterTempColor(new EmissionColorController.EmissionRegistrarData(this, emissiveColor, 20));
             emitter.Play();
@@ -168,12 +172,14 @@ internal class CloakEffectHandler : ProtoUpgrade
             distortionActiveSFX.Play();
             distortionActivateSFX.Play();
         }
-        else
+        else if (!enabled && upgradeEnabled)
         {
             emissionController.RemoveTempColor(this);
             emitter.Stop();
             distortionActiveSFX.Stop();
         }
+        
+        base.SetUpgradeEnabled(enabled);
     }
 
     private void OnEnable()
