@@ -47,8 +47,8 @@ namespace PrototypeSubMod
         public static string RecipesFolderPath { get; } = Path.Combine(Path.GetDirectoryName(Assembly.Location), "Recipes");
 
         public static AssetBundle AssetBundle { get; } = AssetBundle.LoadFromFile(Path.Combine(AssetsFolderPath, "prototypeassets"));
-        public static AssetBundle AudioBundle { get; } = AssetBundle.LoadFromFile(Path.Combine(AssetsFolderPath, "prototypeaudio"));
-        public static AssetBundle ScenesAssetBundle { get; } = AssetBundle.LoadFromFile(Path.Combine(AssetsFolderPath, "prototypescenes"));
+        public static AssetBundle AudioBundle { get; private set; }
+        public static AssetBundle ScenesAssetBundle { get; private set; }
         
         public static EquipmentType PrototypePowerType { get; } = EnumHandler.AddEntry<EquipmentType>("PrototypePowerType");
         public static EquipmentType LightBeaconEquipmentType { get; } = EnumHandler.AddEntry<EquipmentType>("LightBeaconType");
@@ -100,6 +100,7 @@ namespace PrototypeSubMod
             harmony.PatchAll(Assembly);
 
             UWE.CoroutineHost.StartCoroutine(LoadAudioAsync());
+            UWE.CoroutineHost.StartCoroutine(LoadScenesBundle());
 
             var databaseSW = new System.Diagnostics.Stopwatch();
             databaseSW.Start();
@@ -151,9 +152,6 @@ namespace PrototypeSubMod
             }
 
             CraftDataHandler.SetRecipeData(TechType.RocketStage3, recipeData);
-            
-            // This is only to force the asset bundle to load
-            var empty = ScenesAssetBundle.name;
 
             sw.Stop();
             Logger.LogInfo($"Plugin {GUID} is loaded in {sw.ElapsedMilliseconds} ms!");
@@ -180,6 +178,13 @@ namespace PrototypeSubMod
             if (!ghostTask.TryGetPrefab(out var ghostPrefab)) throw new Exception("Error loading ghost leviathan prefab");
 
             ghostPrefab.EnsureComponent<GhostLeviathanFacilityManager>();
+        }
+
+        private IEnumerator LoadScenesBundle()
+        {
+            var task = AssetBundle.LoadFromFileAsync(Path.Combine(AssetsFolderPath, "prototypescenes"));
+            yield return task;
+            ScenesAssetBundle = task.assetBundle;
         }
 
         private void ClearWaitStage()
@@ -221,6 +226,11 @@ namespace PrototypeSubMod
 
         private IEnumerator LoadAudioAsync()
         {
+            var bundleRequest = AssetBundle.LoadFromFileAsync(Path.Combine(AssetsFolderPath, "prototypeaudio"));
+            yield return bundleRequest;
+
+            AudioBundle = bundleRequest.assetBundle;
+            
             var audioSW = new System.Diagnostics.Stopwatch();
             audioSW.Start();
             var request = AudioBundle.LoadAllAssetsAsync(typeof(CustomFMODAsset));
