@@ -123,6 +123,11 @@ internal class ProtoStoryLocker : MonoBehaviour
             if (col) col.enabled = false;
         }
         
+        foreach (var pingInstance in PingManager.pings.Values)
+        {
+            pingInstance.enabled = false;
+        }
+        
         onEndingStart?.Invoke();
     }
 
