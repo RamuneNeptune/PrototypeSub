@@ -1,4 +1,6 @@
-﻿using Nautilus.Assets;
+﻿using System;
+using System.Collections;
+using Nautilus.Assets;
 using Nautilus.Utility;
 using PrototypeSubMod.Facilities;
 using PrototypeSubMod.Utility;
@@ -25,7 +27,7 @@ public static class StoryGoalTerminal
             spawner.transform.SetParent(obj.transform, false);
             var terminal = spawner.AddComponent<MultipurposeAlienTerminal>();
             spawner.AddComponent<UnlockStoryGoal>().ManualSetup(terminal, storyGoalKey);
-            obj.EnsureComponent<ApplyMaterialDatabase>();
+            spawner.AddComponent<ApplyDatabaseOnceTerminalSpawned>().terminal = terminal;
 
             return obj;
         }
@@ -33,5 +35,17 @@ public static class StoryGoalTerminal
         prefab.SetGameObject(GetPrefab);
 
         prefab.Register();
+    }
+
+    private class ApplyDatabaseOnceTerminalSpawned : MonoBehaviour
+    {
+        public MultipurposeAlienTerminal terminal;
+
+        private IEnumerator Start()
+        {
+            yield return new WaitUntil(() => terminal.GetModelSpawned());
+            
+            terminal.gameObject.EnsureComponent<ApplyMaterialDatabase>();
+        }
     }
 }

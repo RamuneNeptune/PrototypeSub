@@ -19,6 +19,7 @@ internal class MultipurposeAlienTerminal : InteractableTerminal
     [SerializeField] private bool allowMultipleUses;
     [SerializeField] private bool spawnWithLight = true;
 
+    private bool modelSpawned;
     private bool queuedForceInteract;
     private ProtoTerminalHandTarget handTarget;
 
@@ -88,6 +89,8 @@ internal class MultipurposeAlienTerminal : InteractableTerminal
             applier.renderers.AddRangeToArray(GetComponentsInChildren<Renderer>(true));
             applier.ApplySkybox();
         }
+
+        modelSpawned = true;
     }
 
     public void OnStoryHandTarget()
@@ -117,6 +120,8 @@ internal class MultipurposeAlienTerminal : InteractableTerminal
         tag.type = TechType.None;
     }
 
+    public bool GetModelSpawned() => modelSpawned;
+    
     private IEnumerator QueuedForceInteract(PrecursorComputerTerminal terminal)
     {
         int frameCount = 0;
