@@ -279,6 +279,25 @@ internal static class EncyEntryRegisterer
         PDAHandler.AddEncyclopediaEntry("AnimateEntropyTerminalEncy", "DownloadedData/Prototype/ProtoTerminal", animateEntropyTerminalTitle, animateEntropyTerminalDescription, unlockSound: PDAHandler.UnlockBasic);
         #endregion
 
+        #region Prototype Fins
+        TechType finsType = (TechType)Enum.Parse(typeof(TechType), "ProtoScannableFins");
+        string finsTitle = Language.main.Get("ProtoFins_Title");
+        string finsBody = Language.main.Get("ProtoFins_Body");
+        
+        PDAHandler.AddEncyclopediaEntry("ProtoFinsEncy", "DownloadedData/Prototype/Scanned", finsTitle, 
+            finsBody, unlockSound: PDAHandler.UnlockBasic);
+        var protoFinsEntry = new PDAScanner.EntryData()
+        {
+            key = finsType,
+            destroyAfterScan = false,
+            encyclopedia = "ProtoFinsEncy",
+            scanTime = 4f,
+            isFragment = false,
+            blueprint = finsType
+        };
+        PDAHandler.AddCustomScannerEntry(protoFinsEntry);
+        #endregion
+
         RegisterEncyEntries("DownloadedData/Prototype/ProtoUpgrades", PDAHandler.UnlockBasic, new()
         {
             "ProtoCloakEncy",
