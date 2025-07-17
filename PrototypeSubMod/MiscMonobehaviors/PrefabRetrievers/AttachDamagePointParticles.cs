@@ -8,7 +8,7 @@ internal class AttachDamagePointParticles : MonoBehaviour
     [Tooltip("Leave as -1 to pick a random particle prefab")]
     [SerializeField] private int fxIndex = -1;
 
-    private void Start()
+    private void Awake()
     {
         var manager = CyclopsReferenceHandler.CyclopsReference.GetComponentInChildren<CyclopsExternalDamageManager>();
         var index = fxIndex == -1 ? Random.Range(0, manager.fxPrefabs.Length - 1) : fxIndex;

@@ -3,6 +3,8 @@ using PrototypeSubMod.RepairBots;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using PrototypeSubMod.MiscMonobehaviors.PrefabRetrievers;
+using UnityEngine;
 
 namespace PrototypeSubMod.Patches;
 
@@ -10,7 +12,7 @@ namespace PrototypeSubMod.Patches;
 internal class DamageManager_Patches
 {
     [HarmonyPatch(nameof(CyclopsExternalDamageManager.CreatePoint)), HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction> CreatePoint_Postfix(IEnumerable<CodeInstruction> instructions)
+    private static IEnumerable<CodeInstruction> CreatePoint_Transpiler(IEnumerable<CodeInstruction> instructions)
     {
         var method = typeof(CyclopsDamagePoint).GetMethod("SpawnFx", BindingFlags.Public | BindingFlags.Instance);
         var match = new CodeMatch(i => i.opcode == OpCodes.Callvirt && (MethodInfo)i.operand == method);
@@ -30,6 +32,7 @@ internal class DamageManager_Patches
 
         var newPoint = damageManger.unusedDamagePoints[pointIndex];
 
+        newPoint.RestoreHealth();
         pointManager.OnDamagePointCreated(newPoint);
     }
 
