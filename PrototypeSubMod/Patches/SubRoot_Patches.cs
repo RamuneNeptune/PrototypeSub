@@ -14,4 +14,10 @@ internal class SubRoot_Patches
 
         __instance.currPowerRating *= motorHandler.GetEfficiencyMultiplier();
     }
+
+    [HarmonyPatch(nameof(SubRoot.OnPlayerEntered)), HarmonyPrefix]
+    private static void OnPlayerEnter_Prefix(SubRoot __instance)
+    {
+        __instance.voiceNotificationManager.ClearQueue();
+    }
 }
