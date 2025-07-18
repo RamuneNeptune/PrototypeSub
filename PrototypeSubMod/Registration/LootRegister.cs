@@ -35,12 +35,6 @@ internal static class LootRegister
             },
             new()
             {
-                biome = BiomeType.Mountains_IslandCaveFloor,
-                count = 1,
-                probability = 0.05f
-            },
-            new()
-            {
                 biome = BiomeType.SeaTreaderPath_Path,
                 count = 1,
                 probability = 0.2f
