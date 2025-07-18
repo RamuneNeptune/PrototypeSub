@@ -15,12 +15,14 @@ internal static class EncyEntryRegisterer
         sw.Start();
         
         #region Prototype
+
+        var protoPopup = Plugin.AssetBundle.LoadAsset<Sprite>("PrototypeSub_EncyPopup");
         string protoTitle = Language.main.Get("ProtoDatabankEncy_Title");
         string protoBody = Language.main.Get("ProtoDatabankEncy_Body");
         Texture2D prototypeBackground = Plugin.AssetBundle.LoadAsset<Texture2D>("PrototypeSubEncy");
 
         PDAHandler.AddEncyclopediaEntry("ProtoDatabankEncy", "DownloadedData/Prototype/ProtoTerminal", protoTitle, protoBody,
-            image: prototypeBackground, unlockSound: PDAHandler.UnlockImportant);
+            prototypeBackground, protoPopup, PDAHandler.UnlockImportant);
         #endregion
 
         #region Precursor Ingot
@@ -222,9 +224,10 @@ internal static class EncyEntryRegisterer
         string normalWormTitle = Language.main.Get("ProtoWormEncy_Title");
         string normalWormDescription = Language.main.Get("ProtoWormEncy_Body");
         Texture2D normalWormBackground = Plugin.AssetBundle.LoadAsset<Texture2D>("ProtoWormEncy");
+        var wormPopup = Plugin.AssetBundle.LoadAsset<Sprite>("Wyrm_EncyPopup");
         
         PDAHandler.AddEncyclopediaEntry("ProtoWormEncy", "DownloadedData/Prototype/Scanned", normalWormTitle, 
-            normalWormDescription, image: normalWormBackground, unlockSound: PDAHandler.UnlockBasic);
+            normalWormDescription, normalWormBackground, wormPopup, PDAHandler.UnlockBasic);
         var normalWormEntryData = new PDAScanner.EntryData()
         {
             key = normalWormType,
@@ -240,12 +243,13 @@ internal static class EncyEntryRegisterer
         #region Warp Core
 
         var image = Plugin.AssetBundle.LoadAsset<Texture2D>("WarpReactorEncy");
+        var warpPopup = Plugin.AssetBundle.LoadAsset<Sprite>("WarpReactor_EncyPopup");
         TechType warpCoreType = (TechType)Enum.Parse(typeof(TechType), "WarpReactor");
         string warpReactorTitle = Language.main.Get("ProtoWarpReactorEncy_Title");
         string warpReactorBody = Language.main.Get("ProtoWarpReactorEncy_Body");
         
         PDAHandler.AddEncyclopediaEntry("ProtoWarpReactorEncy", "DownloadedData/Prototype/Scanned", warpReactorTitle, 
-            warpReactorBody, image, unlockSound: PDAHandler.UnlockBasic);
+            warpReactorBody, image, warpPopup, PDAHandler.UnlockBasic);
         var warpCoreEntryData = new PDAScanner.EntryData()
         {
             key = warpCoreType,
