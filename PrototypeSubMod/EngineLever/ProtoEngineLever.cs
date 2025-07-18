@@ -90,12 +90,12 @@ internal class ProtoEngineLever : CinematicModeTriggerBase
         if (nextState)
         {
             startupSound.Play();
-            subRoot.voiceNotificationManager.PlayVoiceNotification(subRoot.enginePowerUpNotification);
+            subRoot.voiceNotificationManager.PlayVoiceNotification(subRoot.enginePowerUpNotification, false);
         }
         else
         {
             shutdownSound.Play();
-            subRoot.voiceNotificationManager.PlayVoiceNotification(subRoot.enginePowerDownNotification);
+            subRoot.voiceNotificationManager.PlayVoiceNotification(subRoot.enginePowerDownNotification, false);
             foreach (var upgrade in upgradeManager.GetInstalledUpgrades())
             {
                 upgrade.SetUpgradeEnabled(false);
