@@ -241,7 +241,6 @@ internal static class EncyEntryRegisterer
         #endregion
         
         #region Warp Core
-
         var image = Plugin.AssetBundle.LoadAsset<Texture2D>("WarpReactorEncy");
         var warpPopup = Plugin.AssetBundle.LoadAsset<Sprite>("WarpReactor_EncyPopup");
         TechType warpCoreType = (TechType)Enum.Parse(typeof(TechType), "WarpReactor");
