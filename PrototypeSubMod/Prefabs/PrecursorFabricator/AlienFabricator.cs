@@ -37,6 +37,7 @@ public class AlienFabricator : GhostCrafter
     private VFXLerpColor squareColorControl;
 
     private float sparkFXOffset = 0.1f;
+    private bool crafting;
     
     private new void Awake()
     {
@@ -120,17 +121,21 @@ public class AlienFabricator : GhostCrafter
 
     public override void Craft(TechType techType, float duration)
     {
+        if (crafting) return;
+        
         CoroutineHost.StartCoroutine(CraftItem(techType, duration));
     }
 
     private IEnumerator CraftItem(TechType techType, float duration)
     {
+        crafting = true;
         animator.SetBool(AnimatorHashID.fabricating, true);
         FMODUWE.PlayOneShot(closeSound, soundOrigin.position);
         yield return new WaitForSeconds(1.50f);
         base.Craft(techType, duration);
         yield return new WaitForSeconds(duration);
         FMODUWE.PlayOneShot(openSound, soundOrigin.position);
+        crafting = false;
     }
 
     public override void OnOpenedChanged(bool opened)
