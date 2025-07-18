@@ -70,9 +70,15 @@ internal static class LoadEasyPrefabs
             prefab.SetUnlock(TechType.None);
         }
 
-        if (easyPrefab.isProtoUpgrade && easyPrefab.includeInPDA)
+        if (easyPrefab.isProtoUpgrade)
         {
             prefab.SetPdaGroupCategory(Plugin.PrototypeGroup, Plugin.ProtoModuleCategory);
+        }
+        else if (!string.IsNullOrEmpty(easyPrefab.techGroup) && !string.IsNullOrEmpty(easyPrefab.techCategory))
+        {
+            var techGroup = (TechGroup)Enum.Parse(typeof(TechGroup), easyPrefab.techGroup);
+            var techCategory = (TechCategory)Enum.Parse(typeof(TechCategory), easyPrefab.techCategory);
+            prefab.SetPdaGroupCategory(techGroup, techCategory);
         }
     }
 

@@ -80,4 +80,14 @@ public class FinInstallationButton : MonoBehaviour
         onClick?.Invoke();
         if (onClickSfx) FMODUWE.PlayOneShot(onClickSfx, transform.position, volume);
     }
+
+    public void UnlockTechType()
+    {
+        KnownTech.Add(relayUpgradeTechType.TechType);
+    }
+    
+    public void LockTechType()
+    {
+        KnownTech.Remove(relayUpgradeTechType.TechType);
+    }
 }

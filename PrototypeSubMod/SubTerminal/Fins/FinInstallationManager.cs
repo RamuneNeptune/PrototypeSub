@@ -67,7 +67,9 @@ public class FinInstallationManager : MonoBehaviour
             return;
         }
 
+        installationButtons[finsManager.GetInstalledFinCount()].LockTechType();
         finsManager.SetInstalledFinCount(finsManager.GetInstalledFinCount() + 1);
+        installationButtons[finsManager.GetInstalledFinCount()].UnlockTechType();
         UpdateIcons();
     }
 }

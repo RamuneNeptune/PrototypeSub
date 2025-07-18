@@ -1,4 +1,5 @@
-﻿using Nautilus.Handlers;
+﻿using System;
+using Nautilus.Handlers;
 using Nautilus.Utility;
 using PrototypeSubMod.Facilities.Hull;
 using PrototypeSubMod.Prefabs;
@@ -178,7 +179,14 @@ internal static class StoryGoalsRegisterer
         StoryGoalHandler.RegisterCustomEvent("HullFacilityActivateWorm", () => WormSpawnEvent.TimeWormsEnabled = Time.time);
         StoryGoalHandler.RegisterCustomEvent("DefenseCloakDisabled", null);
         StoryGoalHandler.RegisterCustomEvent("PrototypeSpawned", null);
-        StoryGoalHandler.RegisterCustomEvent("PrototypeCrafted", null);
+        StoryGoalHandler.RegisterCustomEvent("PrototypeCrafted", () =>
+        {
+            var finType1 = (TechType)Enum.Parse(typeof(TechType), "ProtoFinUpgrade1");
+            KnownTech.Add(finType1);
+            
+            var relayType1 = (TechType)Enum.Parse(typeof(TechType), "ProtoRelayUpgrade1");
+            KnownTech.Add(relayType1);
+        });
         StoryGoalHandler.RegisterCustomEvent("WyrmControlsUnlocked", null);
         StoryGoalHandler.RegisterCustomEvent("HullFacilityTeleporterUnlocked", null);
         StoryGoalHandler.RegisterCustomEvent("EngineFacilityTeleporterUnlocked", null);
