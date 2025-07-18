@@ -34,7 +34,6 @@ internal class IonPrism_Craftable
 
     private static IEnumerator GetPrefab(IOut<GameObject> prefabOut)
     {
-
         var assetPrefab = Plugin.AssetBundle.LoadAsset<GameObject>("IonPrism_Prefab");
 
         var prefab = GameObject.Instantiate(assetPrefab);

@@ -18,6 +18,8 @@ using System.Reflection;
 using System.Threading;
 using PrototypeSubMod.MiscMonobehaviors;
 using PrototypeSubMod.Pathfinding.SaveSystem;
+using PrototypeSubMod.Prefabs;
+using PrototypeSubMod.Prefabs.AlienBuildingBlock;
 using PrototypeSubMod.VehicleAccess;
 using UnityEngine;
 using UnityEngine.Scripting;
@@ -46,7 +48,7 @@ namespace PrototypeSubMod
         public static string AssetsFolderPath { get; } = Path.Combine(Path.GetDirectoryName(Assembly.Location), "Assets");
         public static string RecipesFolderPath { get; } = Path.Combine(Path.GetDirectoryName(Assembly.Location), "Recipes");
 
-        public static AssetBundle AssetBundle { get; } = AssetBundle.LoadFromFile(Path.Combine(AssetsFolderPath, "prototypeassets"));
+        public static AssetBundle AssetBundle { get; private set; }
         public static AssetBundle AudioBundle { get; private set; }
         public static AssetBundle ScenesAssetBundle { get; private set; }
         
@@ -68,9 +70,8 @@ namespace PrototypeSubMod
         internal static ProtoGlobalSaveData GlobalSaveData = SaveDataHandler.RegisterSaveDataCache<ProtoGlobalSaveData>();
         internal static GameObject welderPrefab;
 
-        internal static Sprite PrototypeSaveIcon = AssetBundle.LoadAsset<Sprite>("ProtoSaveIcon");
-        internal static PingType PrototypePingType = EnumHandler.AddEntry<PingType>("PrototypeSub")
-            .WithIcon(AssetBundle.LoadAsset<Sprite>("Proto_HUD_Marker"));
+        internal static Sprite PrototypeSaveIcon { get; private set; }
+        internal static PingType PrototypePingType { get; private set; }
 
         internal const string DEFENSE_CHAMBER_BIOME_NAME = "protodefensefacility";
         internal const string ENGINE_FACILITY_BIOME_NAME = "protoenginefacility";
@@ -81,10 +82,10 @@ namespace PrototypeSubMod
         internal static event Action<GridSaveData> onLoadGridSaveData;
 
         private static bool Initialized;
+        private static bool PrefabsInitialized;
+        private static bool StructuresRegistered;
+        private static bool MiscellaneousRegistered;
         private static Harmony harmony = new Harmony(GUID);
-
-        public static WaitScreen.ManualWaitItem prefabLoadWaitItem;
-        public static bool easyPrefabsLoaded;
 
         private void Awake()
         {
@@ -109,14 +110,6 @@ namespace PrototypeSubMod
             Logger.LogInfo($"Material database registered in {databaseSW.ElapsedMilliseconds}ms");
             
             LanguageHandler.RegisterLocalizationFolder();
-            PrefabRegisterer.Register();
-            LoadEasyPrefabs.LoadPrefabs(AssetBundle, EncyEntryRegisterer.Register, ClearWaitStage, GC.Collect, GC.WaitForPendingFinalizers);
-            StructureRegisterer.Register();
-            StoryGoalsRegisterer.Register();
-            BiomeRegisterer.Register();
-            LootRegister.Register();
-            CommandRegisterer.Register();
-            PDAMessageRegisterer.Register();
             
             var voicelineSW = new System.Diagnostics.Stopwatch();
             voicelineSW.Start();
@@ -125,7 +118,6 @@ namespace PrototypeSubMod
             Logger.LogInfo($"Voiceline variations registered in {sw.ElapsedMilliseconds}ms");
             RegisterDependantPatches();
             InitializeSlotMapping();
-            LoadPathfindingGrid();
             
             var miscSW = new System.Diagnostics.Stopwatch();
             miscSW.Start();
@@ -138,6 +130,7 @@ namespace PrototypeSubMod
             
             CoroutineHost.StartCoroutine(Initialize());
             CoroutineHost.StartCoroutine(MakeSeaTreaderBlockersPassthrough());
+            CoroutineHost.StartCoroutine(LazyInitialize());
 
             var recipeData = CraftDataHandler.GetRecipeData(TechType.RocketStage3);
             for (int i = 0; i < recipeData.ingredientCount; i++)
@@ -150,8 +143,14 @@ namespace PrototypeSubMod
 
                 recipeData.Ingredients[i] = ingredient;
             }
-
+            
             CraftDataHandler.SetRecipeData(TechType.RocketStage3, recipeData);
+
+            string modName = Language.main.Get("ProtoModName");
+            WaitScreenHandler.RegisterAsyncLoadTask(modName, LoadBundleTask, Language.main.Get("ProtoWaitLoadingBundle"));
+            WaitScreenHandler.RegisterAsyncLoadTask(modName, LoadPrefabsTask, Language.main.Get("ProtoWaitLoadingPrefabs"));
+            WaitScreenHandler.RegisterAsyncLoadTask(modName, LoadStructuresTask, Language.main.Get("ProtoWaitRegisteringStructures"));
+            WaitScreenHandler.RegisterAsyncLoadTask(modName, LoadMiscellaneousTask, Language.main.Get("ProtoWaitRegisteringMiscellaneous"));
 
             sw.Stop();
             Logger.LogInfo($"Plugin {GUID} is loaded in {sw.ElapsedMilliseconds} ms!");
@@ -160,8 +159,7 @@ namespace PrototypeSubMod
         private IEnumerator Initialize()
         {
             if (Initialized) yield break;
-
-            yield return AddBatteryComponents();
+            
             Initialized = true;
 
             yield return new WaitUntil(() => CraftData.cacheInitialized && CraftTree.initialized);
@@ -180,20 +178,88 @@ namespace PrototypeSubMod
             ghostPrefab.EnsureComponent<GhostLeviathanFacilityManager>();
         }
 
+        private IEnumerator LoadBundleTask(WaitScreenHandler.WaitScreenTask waitTask)
+        {
+            waitTask.Status = Language.main.Get("ProtoWaitLoadingBundle");
+            yield return new WaitUntil(() => AssetBundle != null);
+        }
+
+        private IEnumerator LoadPrefabsTask(WaitScreenHandler.WaitScreenTask waitTask)
+        {
+            waitTask.Status = Language.main.Get("ProtoWaitRegisteringPrefabs");
+            yield return new WaitUntil(() => PrefabsInitialized);
+        }
+
+        private IEnumerator LoadStructuresTask(WaitScreenHandler.WaitScreenTask waitTask)
+        {
+            waitTask.Status = Language.main.Get("ProtoWaitRegisteringStructures");
+            yield return new WaitUntil(() => StructuresRegistered);
+        }
+
+        private IEnumerator LoadMiscellaneousTask(WaitScreenHandler.WaitScreenTask waitTask)
+        {
+            waitTask.Status = Language.main.Get("ProtoWaitRegisteringMiscellaneous");
+            yield return new WaitUntil(() => MiscellaneousRegistered);
+        }
+
+        private IEnumerator LazyInitialize()
+        {
+            if (AssetBundle != null) yield break;
+            
+            var task = AssetBundle.LoadFromFileAsync(Path.Combine(AssetsFolderPath, "prototypeassets"));
+            yield return task;
+            AssetBundle = task.assetBundle;
+
+            LoadPathfindingGrid();
+            
+            PrototypeSaveIcon = AssetBundle.LoadAsset<Sprite>("ProtoSaveIcon");
+            PrototypePingType = EnumHandler.AddEntry<PingType>("PrototypeSub")
+                .WithIcon(AssetBundle.LoadAsset<Sprite>("Proto_HUD_Marker"));
+            
+            PrefabRegisterer.Register();
+            yield return LoadEasyPrefabs.LoadPrefabs(AssetBundle, EncyEntryRegisterer.Register, GC.Collect, GC.WaitForPendingFinalizers);
+            
+            PrototypePowerSystem.AllowedPowerSources = new()
+            {
+                { WarperRemnant.prefabInfo.TechType, new PowerConfigData(2) },
+                { AlienBuildingBlock.prefabInfo.TechType, new PowerConfigData(4) },
+                { TechType.PrecursorIonCrystal, new PowerConfigData(5) },
+                { EngineFacilityKey.prefabInfo.TechType, new PowerConfigData(6) },
+                { TechType.PrecursorIonCrystalMatrix, new PowerConfigData(8) },
+                { IonPrism_Craftable.prefabInfo.TechType, new PowerConfigData(10) }
+            };
+
+            yield return AddBatteryComponents();
+            PrefabsInitialized = true;
+            
+            StructureRegisterer.Register();
+            StructuresRegistered = true;
+            
+            StoryGoalsRegisterer.Register();
+            BiomeRegisterer.Register();
+            LootRegister.Register();
+            CommandRegisterer.Register();
+            PDAMessageRegisterer.Register();
+            MiscellaneousRegistered = true;
+        }
+        
+        private IEnumerator AddBatteryComponents()
+        {
+            foreach (var kvp in PrototypePowerSystem.AllowedPowerSources)
+            {
+                CoroutineTask<GameObject> prefabTask = CraftData.GetPrefabForTechTypeAsync(kvp.Key);
+                yield return prefabTask;
+
+                GameObject prefab = prefabTask.result.Get();
+                prefab.AddComponent<PrototypePowerBattery>();
+            }
+        }
+
         private IEnumerator LoadScenesBundle()
         {
             var task = AssetBundle.LoadFromFileAsync(Path.Combine(AssetsFolderPath, "prototypescenes"));
             yield return task;
             ScenesAssetBundle = task.assetBundle;
-        }
-
-        private void ClearWaitStage()
-        {
-            easyPrefabsLoaded = true;
-            
-            if (prefabLoadWaitItem == null) return;
-
-            WaitScreen.Remove(prefabLoadWaitItem);
         }
 
         private void InitializeSlotMapping()
@@ -210,18 +276,6 @@ namespace PrototypeSubMod
             
             sw.Stop();
             Logger.LogInfo($"Slot mapping registered in {sw.ElapsedMilliseconds}ms");
-        }
-
-        private IEnumerator AddBatteryComponents()
-        {
-            foreach (var kvp in PrototypePowerSystem.AllowedPowerSources)
-            {
-                CoroutineTask<GameObject> prefabTask = CraftData.GetPrefabForTechTypeAsync(kvp.Key);
-                yield return prefabTask;
-
-                GameObject prefab = prefabTask.result.Get();
-                prefab.AddComponent<PrototypePowerBattery>();
-            }
         }
 
         private IEnumerator LoadAudioAsync()

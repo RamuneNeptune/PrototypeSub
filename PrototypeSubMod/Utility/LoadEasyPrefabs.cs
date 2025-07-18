@@ -12,29 +12,26 @@ namespace PrototypeSubMod.Utility;
 
 internal static class LoadEasyPrefabs
 {
-    private static int totalPrefabCount;
-    private static int registeredPrefabCount;
-    
-    public static void LoadPrefabs(AssetBundle assetBundle, params Action[] onCompleted)
+    public static IEnumerator LoadPrefabs(AssetBundle assetBundle, params Action[] onCompleted)
     {
-        Plugin.easyPrefabsLoaded = false;
         var sw = new System.Diagnostics.Stopwatch();
         sw.Start();
-
-        totalPrefabCount = 0;
-        registeredPrefabCount = 0;
         
         foreach (var easyPrefab in assetBundle.LoadAllAssets<EasyPrefab>())
         {
-            RegisterEasyPrefab(easyPrefab, onCompleted);
-            totalPrefabCount++;
+            yield return RegisterEasyPrefab(easyPrefab, onCompleted);
+        }
+        
+        foreach (var action in onCompleted)
+        {
+            action?.Invoke();
         }
         
         sw.Stop();
         Plugin.Logger.LogInfo($"Easy prefabs fully started in {sw.ElapsedMilliseconds}ms");
     }
 
-    public static void RegisterEasyPrefab(EasyPrefab easyPrefab, Action[] onCompleted)
+    public static IEnumerator RegisterEasyPrefab(EasyPrefab easyPrefab, Action[] onCompleted)
     {
         PrefabInfo info = PrefabInfo.WithTechType(easyPrefab.techType.techTypeName, null, null, unlockAtStart: easyPrefab.unlockAtStart);
         if (easyPrefab.sprite != null)
@@ -45,15 +42,13 @@ internal static class LoadEasyPrefabs
         var prefab = new CustomPrefab(info); 
         if (easyPrefab.prefab)
         {
-            UWE.CoroutineHost.StartCoroutine(RegisterPrefabWithObject(easyPrefab, prefab, onCompleted));
+            yield return RegisterPrefabWithObject(easyPrefab, prefab, onCompleted);
         }
         else
         {
             SetupMiscellaneousValues(easyPrefab, prefab);
 
             prefab.Register();
-
-            IncrementPrefabTotal(onCompleted);
         }
     }
 
@@ -106,24 +101,5 @@ internal static class LoadEasyPrefabs
         prefab.SetGameObject(easyPrefab.prefab);
         
         prefab.Register();
-
-        IncrementPrefabTotal(onCompleted);
-    }
-
-    private static void IncrementPrefabTotal(Action[] onCompleted)
-    {
-        registeredPrefabCount++;
-        if (registeredPrefabCount >= totalPrefabCount)
-        {
-            foreach (var action in onCompleted)
-            {
-                action?.Invoke();
-            }
-        }
-
-        if (Plugin.prefabLoadWaitItem != null)
-        {
-            Plugin.prefabLoadWaitItem.SetProgress(registeredPrefabCount, totalPrefabCount);
-        }
     }
 }

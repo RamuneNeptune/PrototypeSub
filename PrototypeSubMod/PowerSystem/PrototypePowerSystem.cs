@@ -23,15 +23,7 @@ public class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTree
         "PrototypePowerSlot6"
     };
 
-    internal static readonly Dictionary<TechType, PowerConfigData> AllowedPowerSources = new()
-    {
-        { WarperRemnant.prefabInfo.TechType, new PowerConfigData(2) },
-        { AlienBuildingBlock.prefabInfo.TechType, new PowerConfigData(4) },
-        { TechType.PrecursorIonCrystal, new PowerConfigData(5) },
-        { EngineFacilityKey.prefabInfo.TechType, new PowerConfigData(6) },
-        { TechType.PrecursorIonCrystalMatrix, new PowerConfigData(8) },
-        { IonPrism_Craftable.prefabInfo.TechType, new PowerConfigData(10) }
-    };
+    internal static Dictionary<TechType, PowerConfigData> AllowedPowerSources;
 
     public const float CHARGE_POWER_AMOUNT = 200f;
 
