@@ -15,9 +15,10 @@ public class SFXButton : Button
     public FMODAsset onClickFX;
     public float volume = 1;
     public float minDistForSound = 2;
-
+    
     private bool wasOutOfRange;
     private bool mouseOnObject;
+    private bool onPDA;
     
     private void Awake()
     {
@@ -34,10 +35,14 @@ public class SFXButton : Button
     {
         StartCoroutine(UpdateHoverDistance());
         OnPointerExit(new PointerEventData(EventSystem.current));
+
+        onPDA = GetComponentInParent<uGUI_PDA>() != null;
     }
 
     public override void OnPointerEnter(PointerEventData eventData)
     {
+        if (ButtonBlocked()) return;
+        
         if (!Player.main) return;
         
         if (!gameObject.activeSelf) return;
@@ -56,6 +61,8 @@ public class SFXButton : Button
 
     public override void OnPointerExit(PointerEventData eventData)
     {
+        if (ButtonBlocked()) return;
+        
         if (!Player.main) return;
         
         base.OnPointerExit(new PointerEventData(EventSystem.current));
@@ -78,6 +85,8 @@ public class SFXButton : Button
 
     private void OnClick()
     {
+        if (ButtonBlocked()) return;
+        
         if (!gameObject.activeSelf) return;
 
         if (!Player.main) return;
@@ -99,6 +108,17 @@ public class SFXButton : Button
         {
             OnClick();
         }
+    }
+
+    private bool ButtonBlocked()
+    {
+        if (onPDA) return false;
+        
+        var dir = Player.main.transform.position - transform.position;
+        bool hitObj = Physics.Raycast(transform.position + dir.normalized * 0.2f, dir, out var raycastHit);
+        if (!hitObj) return false;
+        
+        return raycastHit.collider.gameObject != Player.main.gameObject;
     }
     
     private IEnumerator UpdateHoverDistance()
