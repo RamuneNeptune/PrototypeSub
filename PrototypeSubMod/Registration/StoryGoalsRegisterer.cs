@@ -220,10 +220,14 @@ internal static class StoryGoalsRegisterer
         });
 
         StoryGoalHandler.RegisterBiomeGoal("OnEnterPrecursorGun", Story.GoalType.PDA, "Precursor_Gun_OuterRooms", 0, delay: 20);
-        StoryGoalHandler.RegisterBiomeGoal("OnEnterPrecursorGun", Story.GoalType.PDA, "Precursor_Gun_MoonPoolWater", 0);
         StoryGoalHandler.RegisterCustomEvent("OnEnterPrecursorGun", () =>
         {
             PDALog.Add("OnEnterPrecursorGun");
+        });
+        
+        StoryGoalHandler.RegisterCustomEvent("OnApproachPPT", () =>
+        {
+            PDALog.Add("NoOrionProto_ApproachTerminal");
         });
         
         sw.Stop();
