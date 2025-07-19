@@ -28,6 +28,8 @@ internal static class PDAMessageRegisterer
         PDALog_Patches.orionEntries.Add(("Proto_AdminFacilityOnline", "Proto_AdminFacilityOnline"));
         PDALog_Patches.orionEntries.Add(("Proto_ApproachTerminal", "NoOrionProto_ApproachTerminal"));
         PDALog_Patches.orionEntries.Add(("Proto_FirstInteract", "NoOrionProto_FirstInteract"));
+        PDALog_Patches.orionEntries.Add(("Proto_ConstructionStart", "NoOrionProto_ConstructionStart"));
+        PDALog_Patches.orionEntries.Add(("Proto_ConstructionFinish", "Proto_ConstructionFinish"));
         
         sw.Stop();
         Plugin.Logger.LogInfo($"PDA Messages registered in {sw.ElapsedMilliseconds}ms");

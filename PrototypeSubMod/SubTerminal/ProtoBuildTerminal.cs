@@ -27,7 +27,9 @@ internal class ProtoBuildTerminal : Crafter
     [SerializeField] private Animator spikesAnimator;
     [SerializeField] private WarpInFXPlayer warpFXSpawner;
     [SerializeField] private SubReconstructionManager reconstructionManager;
-
+    [SerializeField] private string buildStartPdaKey;
+    [SerializeField] private string buildFinishPdaKey;
+    
     [Header("Screens")]
     [SerializeField] private BuildTerminalScreenManager screenManager;
     [SerializeField] private uGUI_BuildAnimScreen animScreen;
@@ -58,6 +60,8 @@ internal class ProtoBuildTerminal : Crafter
         UWE.CoroutineHost.StartCoroutine(StartCraftChargeUp(duration));
         UWE.CoroutineHost.StartCoroutine(StartReconstruction(reconstructionManager));
         StoryGoalManager.main.OnGoalComplete("PrototypeCrafted");
+
+        PDALog.Add(buildStartPdaKey);
     }
 
     public void RebuildSub()
@@ -177,6 +181,8 @@ internal class ProtoBuildTerminal : Crafter
             constructing.informGameObject.BroadcastMessage("OnConstructionDone", constructing.gameObject);
             constructing.EndConstruct();
         }
+        
+        PDALog.Add(buildFinishPdaKey);
     }
 
     private IEnumerator RecentralizeSubDelayed()

@@ -49,11 +49,11 @@ public static class VoicelineRegisterer
         "Proto_LowPower",
         "Proto_CriticalPower",
         
-        "Proto_DevResumed",
         "Proto_StoryEndPingVoiceline",
         "Proto_DefensePingSpawned",
         "Proto_AdditionalData",
-        "Proto_HullKeyUnlock"
+        "Proto_HullKeyUnlock",
+        "Proto_ConstructionFinish"
     };
     
     public static void UpdateVoicelines()
