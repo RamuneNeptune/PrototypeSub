@@ -192,14 +192,6 @@ internal static class StoryGoalsRegisterer
         StoryGoalHandler.RegisterCustomEvent("EngineFacilityTeleporterUnlocked", null);
         StoryGoalHandler.RegisterCustomEvent("EngineGatesUnlocked", null);
         StoryGoalHandler.RegisterCustomEvent("DefenseTeleporterGatesUnlocked", null);
-        
-        StoryGoalHandler.RegisterCompoundGoal("UnlockEngineFacilityKey", Story.GoalType.Story, 22, "PrototypeCrafted");
-        StoryGoalHandler.RegisterCustomEvent("UnlockEngineFacilityKey", () =>
-        {
-            KnownTech.Add(EngineFacilityKey.prefabInfo.TechType);
-
-            PDAEncyclopedia.Add("EngineFacilityTabletEncy", true);
-        });
 
         StoryGoalHandler.RegisterItemGoal("OnPickupDefenseTablet", Story.GoalType.Story,
             DefenseFacilityKey.prefabInfo.TechType);
