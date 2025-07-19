@@ -218,6 +218,13 @@ internal static class StoryGoalsRegisterer
         {
             PDALog.Add("OnEnterStoryEndProximity");
         });
+
+        StoryGoalHandler.RegisterBiomeGoal("OnEnterPrecursorGun", Story.GoalType.PDA, "Precursor_Gun_OuterRooms", 0, delay: 20);
+        StoryGoalHandler.RegisterBiomeGoal("OnEnterPrecursorGun", Story.GoalType.PDA, "Precursor_Gun_MoonPoolWater", 0);
+        StoryGoalHandler.RegisterCustomEvent("OnEnterPrecursorGun", () =>
+        {
+            PDALog.Add("OnEnterPrecursorGun");
+        });
         
         sw.Stop();
         Plugin.Logger.LogInfo($"Story goals registered in {sw.ElapsedMilliseconds}ms");

@@ -150,8 +150,8 @@ namespace PrototypeSubMod
             WaitScreenHandler.RegisterAsyncLoadTask(modName, LoadPrefabsTask, Language.main.Get("ProtoWaitLoadingPrefabs"));
             WaitScreenHandler.RegisterAsyncLoadTask(modName, LoadStructuresTask, Language.main.Get("ProtoWaitRegisteringStructures"));
             WaitScreenHandler.RegisterAsyncLoadTask(modName, LoadMiscellaneousTask, Language.main.Get("ProtoWaitRegisteringMiscellaneous"));
-            WaitScreenHandler.RegisterAsyncLoadTask(modName, LoadAudioBundle, Language.main.Get("ProtoWaitRegisteringAudio"));
             WaitScreenHandler.RegisterAsyncLoadTask(modName, LoadScenesBundle, Language.main.Get("ProtoWaitRegisteringScenes"));
+            WaitScreenHandler.RegisterEarlyAsyncLoadTask(modName, LoadAudioBundle, Language.main.Get("ProtoWaitRegisteringAudio"));
             
             sw.Stop();
             Logger.LogInfo($"Plugin {GUID} is loaded in {sw.ElapsedMilliseconds} ms!");

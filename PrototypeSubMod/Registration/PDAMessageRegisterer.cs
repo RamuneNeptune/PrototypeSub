@@ -22,6 +22,7 @@ internal static class PDAMessageRegisterer
         PDALog_Patches.entries.Add(("PDA_OnEnterEngineFacility", "OnEnterEngineFacility"));
         PDALog_Patches.entries.Add(("PDA_OnTeleportToIsland", "OnTeleportToInterceptorIsland"));
         PDALog_Patches.entries.Add(("PDA_OnEnterStoryEnd", "OnEnterStoryEndProximity"));
+        PDALog_Patches.entries.Add(("PDA_OnEnterQEP", "OnEnterPrecursorGun"));
         
         PDALog_Patches.orionEntries.Add(("Proto_DevResumed", "Proto_DevResumed"));
         PDALog_Patches.orionEntries.Add(("Proto_StoryEndPingVoiceline", "Proto_StoryEndPingVoiceline"));
