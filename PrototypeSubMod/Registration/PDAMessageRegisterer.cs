@@ -24,10 +24,10 @@ internal static class PDAMessageRegisterer
         PDALog_Patches.entries.Add(("PDA_OnEnterStoryEnd", "OnEnterStoryEndProximity"));
         PDALog_Patches.entries.Add(("PDA_OnEnterQEP", "OnEnterPrecursorGun"));
         
-        PDALog_Patches.orionEntries.Add(("Proto_DevResumed", "Proto_DevResumed"));
         PDALog_Patches.orionEntries.Add(("Proto_StoryEndPingVoiceline", "Proto_StoryEndPingVoiceline"));
         PDALog_Patches.orionEntries.Add(("Proto_AdminFacilityOnline", "Proto_AdminFacilityOnline"));
         PDALog_Patches.orionEntries.Add(("Proto_ApproachTerminal", "NoOrionProto_ApproachTerminal"));
+        PDALog_Patches.orionEntries.Add(("Proto_FirstInteract", "NoOrionProto_FirstInteract"));
         
         sw.Stop();
         Plugin.Logger.LogInfo($"PDA Messages registered in {sw.ElapsedMilliseconds}ms");

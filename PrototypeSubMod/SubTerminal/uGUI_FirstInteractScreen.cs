@@ -87,7 +87,6 @@ internal class uGUI_FirstInteractScreen : TerminalScreen
         }
     }
     
-
     private IEnumerator OrionExposition()
     {
         PDALog.Add(devResumedPDAKey);
