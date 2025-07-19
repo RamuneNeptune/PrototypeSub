@@ -122,7 +122,6 @@ namespace PrototypeSubMod
             var miscSW = new System.Diagnostics.Stopwatch();
             miscSW.Start();
             ConsoleCommandsHandler.RegisterConsoleCommands(typeof(PrototypeCommands));
-            ROTACompatManager.AddCompatiblePowerSources();
             WeatherCompatManager.Initialize();
             SetupSaveStateReferences.SetupReferences(Assembly);
             miscSW.Stop();
@@ -228,6 +227,8 @@ namespace PrototypeSubMod
                 { TechType.PrecursorIonCrystalMatrix, new PowerConfigData(8) },
                 { IonPrism_Craftable.prefabInfo.TechType, new PowerConfigData(10) }
             };
+            
+            ROTACompatManager.AddCompatiblePowerSources();
 
             yield return AddBatteryComponents();
             PrefabsInitialized = true;
