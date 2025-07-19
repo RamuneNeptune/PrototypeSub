@@ -150,7 +150,9 @@ namespace PrototypeSubMod
             WaitScreenHandler.RegisterAsyncLoadTask(modName, LoadPrefabsTask, Language.main.Get("ProtoWaitLoadingPrefabs"));
             WaitScreenHandler.RegisterAsyncLoadTask(modName, LoadStructuresTask, Language.main.Get("ProtoWaitRegisteringStructures"));
             WaitScreenHandler.RegisterAsyncLoadTask(modName, LoadMiscellaneousTask, Language.main.Get("ProtoWaitRegisteringMiscellaneous"));
-
+            WaitScreenHandler.RegisterAsyncLoadTask(modName, LoadAudioBundle, Language.main.Get("ProtoWaitRegisteringAudio"));
+            WaitScreenHandler.RegisterAsyncLoadTask(modName, LoadScenesBundle, Language.main.Get("ProtoWaitRegisteringScenes"));
+            
             sw.Stop();
             Logger.LogInfo($"Plugin {GUID} is loaded in {sw.ElapsedMilliseconds} ms!");
         }
@@ -201,6 +203,19 @@ namespace PrototypeSubMod
             yield return new WaitUntil(() => MiscellaneousRegistered);
         }
 
+        private IEnumerator LoadAudioBundle(WaitScreenHandler.WaitScreenTask waitTask)
+        {
+            waitTask.Status = Language.main.Get("ProtoWaitRegisteringAudio");
+            yield return new WaitUntil(() => MiscellaneousRegistered);
+            PDAMessageRegisterer.Register();
+        }
+
+        private IEnumerator LoadScenesBundle(WaitScreenHandler.WaitScreenTask waitTask)
+        {
+            waitTask.Status = Language.main.Get("ProtoWaitRegisteringScenes");
+            yield return new WaitUntil(() => MiscellaneousRegistered);
+        }
+        
         private IEnumerator LazyInitialize()
         {
             if (AssetBundle != null) yield break;
@@ -240,7 +255,6 @@ namespace PrototypeSubMod
             BiomeRegisterer.Register();
             LootRegister.Register();
             CommandRegisterer.Register();
-            PDAMessageRegisterer.Register();
             MiscellaneousRegistered = true;
         }
         
