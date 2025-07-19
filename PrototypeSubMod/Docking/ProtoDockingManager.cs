@@ -17,6 +17,7 @@ public class ProtoDockingManager : MonoBehaviour, IProtoEventListener, IProtoTre
     [SerializeField] private Transform playerPosition;
     [SerializeField] private Transform vehicleHolder;
 
+    private Vehicle playersVehicle;
     private Vehicle lastDockedVehicle;
     private bool cinematicStartManaged;
     
@@ -49,12 +50,21 @@ public class ProtoDockingManager : MonoBehaviour, IProtoEventListener, IProtoTre
     
     public void TeleportIntoSub()
     {
-        if (dockingBay.nearbyVehicle == Player.main.GetVehicle())
+        Plugin.Logger.LogInfo($"Docked vehicle = {dockingBay.dockedVehicle}");
+        Plugin.Logger.LogInfo($"Nearby vehicle = {dockingBay.nearbyVehicle}");
+        Plugin.Logger.LogInfo($"Current vehicle = {playersVehicle}");
+        
+        if (dockingBay.dockedVehicle == playersVehicle)
         {
             interfloorTeleporter.StartTeleportPlayer();
         }
 
         Invoke(nameof(StoreVehicle), 0.1f);
+    }
+
+    public void SetPlayersVehicle(Vehicle vehicle)
+    {
+        playersVehicle = vehicle;
     }
 
     public void StoreVehicle()
