@@ -24,8 +24,11 @@ public class VehicleFrameworkCompatManager
 
     public static bool IsModdedVehicle(Vehicle vehicle)
     {
-        if (!Chainloader.PluginInfos.ContainsKey("com.mikjaw.subnautica.vehicleframework.mod")) return false;
+        if (!VehicleFrameworkInstalled()) return false;
         
         return vehicle.GetType().IsSubclassOf(VehicleFrameworkCompat_Patches.ModVehicleType);
     }
+
+    public static bool VehicleFrameworkInstalled() =>
+        Chainloader.PluginInfos.ContainsKey("com.mikjaw.subnautica.vehicleframework.mod");
 }

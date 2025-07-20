@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
+using PrototypeSubMod.Compatibility;
 using PrototypeSubMod.Docking;
 using PrototypeSubMod.MiscMonobehaviors.SubSystems;
 using UnityEngine;
@@ -94,6 +94,8 @@ public class VehicleFrameworkCompat_Patches
 
     public static bool HandleMVDocked_Prefix(Vehicle vehicle, VehicleDockingBay dock)
     {
+        if (!VehicleFrameworkCompatManager.IsModdedVehicle(vehicle)) return true;
+        
         var dockingBounds = dock.GetComponent<DockingBayBounds>();
         if (!dockingBounds) return true;
         
