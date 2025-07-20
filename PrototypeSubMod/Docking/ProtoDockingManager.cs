@@ -121,6 +121,7 @@ public class ProtoDockingManager : MonoBehaviour, IProtoEventListener, IProtoTre
         
         yield return new WaitForSeconds(0.2f);
         vehicleComp.UpdateCollidersForDocking(false);
+        VehicleFrameworkCompatManager.OnVehicleUndocked(vehicleComp);
         
         if (vehicleComp.controlSheme == Vehicle.ControlSheme.Mech) yield break;
         

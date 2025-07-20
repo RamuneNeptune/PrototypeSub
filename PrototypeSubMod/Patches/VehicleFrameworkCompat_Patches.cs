@@ -41,7 +41,21 @@ public class VehicleFrameworkCompat_Patches
         }
     }
     
+    public static MethodInfo OnUndockedMethod
+    {
+        get
+        {
+            if (_onUndockedMethod == null)
+            {
+                _onUndockedMethod = ModVehicleType.GetMethod("OnVehicleUndocked", AccessTools.all);
+            }
+
+            return _onUndockedMethod;
+        }
+    }
+    
     private static MethodInfo _onDockedMethod;
+    private static MethodInfo _onUndockedMethod;
 
     public static MethodInfo PlayerExitMethod
     {
