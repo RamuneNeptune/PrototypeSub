@@ -44,12 +44,11 @@ public class SFXButton : Button
 
     public override void OnPointerEnter(PointerEventData eventData)
     {
+        mouseOnObject = true;
+        
         if (ButtonBlocked()) return;
         
-        if (!Player.main) return;
-        
         if (!gameObject.activeSelf) return;
-        mouseOnObject = true;
         
         if ((Player.main.transform.position - transform.position).sqrMagnitude >
             minDistForSound * minDistForSound) return;
@@ -64,14 +63,10 @@ public class SFXButton : Button
 
     public override void OnPointerExit(PointerEventData eventData)
     {
-        if (ButtonBlocked()) return;
-        
-        if (!Player.main) return;
-        
         base.OnPointerExit(new PointerEventData(EventSystem.current));
         
-        if (!gameObject.activeSelf) return;
         mouseOnObject = false;
+        if (!gameObject.activeSelf) return;
         
         if ((Player.main.transform.position - transform.position).sqrMagnitude > minDistForSound * minDistForSound)
         {
@@ -91,8 +86,6 @@ public class SFXButton : Button
         if (ButtonBlocked()) return;
         
         if (!gameObject.activeSelf) return;
-
-        if (!Player.main) return;
         
         if ((Player.main.transform.position - transform.position).sqrMagnitude >
             minDistForSound * minDistForSound) return;
@@ -107,7 +100,7 @@ public class SFXButton : Button
     
     private void OnUpdate()
     {
-        if (mouseOnObject && GameInput.GetButtonDown(GameInput.Button.LeftHand))
+        if (!wasOutOfRange && mouseOnObject && GameInput.GetButtonDown(GameInput.Button.LeftHand))
         {
             OnClick();
         }
@@ -115,6 +108,8 @@ public class SFXButton : Button
 
     private bool ButtonBlocked()
     {
+        if (!Player.main) return true;
+        
         if (onPDA) return false;
         
         var dir = Player.main.transform.position - transform.position;
@@ -140,6 +135,7 @@ public class SFXButton : Button
             }
             else if (mouseOnObject)
             {
+                Plugin.Logger.LogInfo($"Manually calling on pointer enter");
                 OnPointerEnter(new PointerEventData(EventSystem.current));
             }
             
