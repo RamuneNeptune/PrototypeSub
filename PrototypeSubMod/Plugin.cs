@@ -337,6 +337,40 @@ namespace PrototypeSubMod
                 harmony.Patch(originalMethod, transpiler: new HarmonyMethod(structureTranspiler));
             }
 
+            if (Chainloader.PluginInfos.ContainsKey("com.mikjaw.subnautica.vehicleframework.mod"))
+            {
+                var smallEnoughPrefix = AccessTools.Method(typeof(VehicleFrameworkCompat_Patches),
+                    nameof(VehicleFrameworkCompat_Patches.IsThisVehicleSmallEnough_Prefix));
+                
+                var handleDockedPrefix = AccessTools.Method(typeof(VehicleFrameworkCompat_Patches),
+                    nameof(VehicleFrameworkCompat_Patches.HandleMVDocked_Prefix));
+
+                var maybeStartPostfix = AccessTools.Method(typeof(VehicleFrameworkCompat_Patches),
+                    nameof(VehicleFrameworkCompat_Patches.MaybeStartCinematicMode_Postfix));
+                
+                var onVehicleDockedTranspiler = AccessTools.Method(typeof(VehicleFrameworkCompat_Patches),
+                    nameof(VehicleFrameworkCompat_Patches.OnVehicleDocked_Transpiler));
+
+                var dockedPositionTranspiler = AccessTools.Method(typeof(VehicleFrameworkCompat_Patches),
+                    nameof(VehicleFrameworkCompat_Patches.UpdateDockedPosition_Transpiler));
+                
+                var patchMethodType = Type.GetType("VehicleFramework.Patches.VehicleDockingBayPatch, VehicleFramework, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
+                var patchMethodType2 = Type.GetType("VehicleFramework.Patches.VehicleDockingBayPatch2, VehicleFramework, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
+
+                var maybeStartMethod = AccessTools.Method(patchMethodType2, "MaybeStartCinematicMode");
+                var smallEnoughMethod = AccessTools.Method(patchMethodType, "IsThisVehicleSmallEnough");
+                var handleDockedMethod = AccessTools.Method(patchMethodType, "HandleMVDocked");
+                var dockedPositionMethod = AccessTools.Method(patchMethodType, "UpdateDockedPositionPrefix");
+                var onDockedMethod =
+                    AccessTools.Method(VehicleFrameworkCompat_Patches.ModVehicleType, "OnVehicleDocked");
+                
+                harmony.Patch(smallEnoughMethod, prefix: new HarmonyMethod(smallEnoughPrefix));
+                harmony.Patch(handleDockedMethod, prefix: new HarmonyMethod(handleDockedPrefix));
+                harmony.Patch(maybeStartMethod, postfix: new HarmonyMethod(maybeStartPostfix));
+                harmony.Patch(onDockedMethod, transpiler: new HarmonyMethod(onVehicleDockedTranspiler));
+                harmony.Patch(dockedPositionMethod, transpiler: new HarmonyMethod(dockedPositionTranspiler));
+            }
+
             sw.Stop();
             Logger.LogInfo($"Dependant patches registered in {sw.ElapsedMilliseconds}ms");
         }

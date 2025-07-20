@@ -29,7 +29,11 @@ public class ProtoVehicleAccessManager : MonoBehaviour, uGUI_INavigableIconGrid
 
     public void OpenStorage()
     {
-        terminal.OpenStorage(_ => returnManager.gameObject.SetActive(false));
+        if (!terminal.OpenStorage(_ => returnManager.gameObject.SetActive(false)))
+        {
+            ErrorMessage.AddError(Language.main.Get("VehicleFrameworkNoStorage"));
+            return;
+        }
         returnManager.gameObject.SetActive(true);
         inventoryTab.usedStorageGrids.Add(returnManager);
     }

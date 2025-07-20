@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using PrototypeSubMod.Compatibility;
 using PrototypeSubMod.MiscMonobehaviors.SubSystems;
 using UnityEngine;
 
@@ -50,10 +51,6 @@ public class ProtoDockingManager : MonoBehaviour, IProtoEventListener, IProtoTre
     
     public void TeleportIntoSub()
     {
-        Plugin.Logger.LogInfo($"Docked vehicle = {dockingBay.dockedVehicle}");
-        Plugin.Logger.LogInfo($"Nearby vehicle = {dockingBay.nearbyVehicle}");
-        Plugin.Logger.LogInfo($"Current vehicle = {playersVehicle}");
-        
         if (dockingBay.dockedVehicle == playersVehicle)
         {
             interfloorTeleporter.StartTeleportPlayer();
@@ -78,6 +75,8 @@ public class ProtoDockingManager : MonoBehaviour, IProtoEventListener, IProtoTre
         onDockedStatusChanged?.Invoke();
         finsDockingManager.SetDockingPrep(false);
         finsDockingManager.GetComponent<ProtoFinsManager>().ResetFinAnimations();
+
+        VehicleFrameworkCompatManager.TryEndDocking(dockingBay.dockedVehicle);
     }
 
     public void Undock()

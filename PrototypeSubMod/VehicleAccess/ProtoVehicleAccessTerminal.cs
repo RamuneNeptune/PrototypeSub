@@ -60,20 +60,26 @@ public class ProtoVehicleAccessTerminal : MonoBehaviour
         accessManager.SetTerminal(this);
     }
 
-    public void OpenStorage(PDA.OnClose onClosePda = null)
+    public bool OpenStorage(PDA.OnClose onClosePda = null)
     {
+        var storageInputs = dockingBay.dockedVehicle.GetComponentsInChildren<SeamothStorageInput>();
+        var storageContainers = dockingBay.dockedVehicle.GetComponentsInChildren<StorageContainer>();
+
+        if ((storageContainers == null || storageContainers.Length == 0) &&
+            (storageInputs == null || storageInputs.Length == 0)) return false;
+        
         var pda = Player.main.pda;
         pda.ui.OnClosePDA();
         Inventory.main.ClearUsedStorage();
         pda.onCloseCallback = null;
         
-        foreach (var storageInput in dockingBay.dockedVehicle.GetComponentsInChildren<SeamothStorageInput>())
+        foreach (var storageInput in storageInputs)
         {
             var storageInSlot = storageInput.seamoth.GetStorageInSlot(storageInput.slotID, TechType.VehicleStorageModule);
             Inventory.main.SetUsedStorage(storageInSlot, true);
         }
         
-        foreach (var storageContainer in dockingBay.dockedVehicle.GetComponentsInChildren<StorageContainer>())
+        foreach (var storageContainer in storageContainers)
         {
             Inventory.main.SetUsedStorage(storageContainer.container, true);
             pda.onCloseCallback += storageContainer.OnClosePDA;
@@ -86,11 +92,15 @@ public class ProtoVehicleAccessTerminal : MonoBehaviour
         pda.ui.OnOpenPDA(PDATab.Inventory);
         pda.ui.Select();
         pda.ui.OnPDAOpened();
+
+        return true;
     }
 
     public void OpenUpgrades(PDA.OnClose onClosePda = null)
     {
         var upgradeConsoleInput = dockingBay.dockedVehicle.GetComponentInChildren<VehicleUpgradeConsoleInput>();
+        if (!upgradeConsoleInput) return;
+        
         var pda = Player.main.pda;
         pda.ui.OnClosePDA();
         pda.onCloseCallback = null;
