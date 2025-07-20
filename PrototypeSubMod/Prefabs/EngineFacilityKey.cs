@@ -39,7 +39,6 @@ internal class EngineFacilityKey
         };
 
         prefab.SetGameObject(cloneTemplate);
-        prefab.SetEquipment(EquipmentType.Hand);
         prefab.SetPdaGroupCategory(Plugin.ProtoFabricatorGroup, Plugin.ProtoFabricatorCatgeory);
 
         prefab.SetRecipe(ROTACompatManager.GetRelevantRecipe("EngineFacilityKey.json"));
