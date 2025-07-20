@@ -121,6 +121,7 @@ public class ProtoDockingManager : MonoBehaviour, IProtoEventListener, IProtoTre
         
         yield return new WaitForSeconds(0.2f);
         vehicleComp.UpdateCollidersForDocking(false);
+        VehicleFrameworkCompatManager.OnVehicleUndocked(vehicleComp);
         
         if (vehicleComp.controlSheme == Vehicle.ControlSheme.Mech) yield break;
         
@@ -176,6 +177,24 @@ public class ProtoDockingManager : MonoBehaviour, IProtoEventListener, IProtoTre
     {
         ignoreCinematicStart.enabled = true;
     }
+
+    private void OnSaveChanged(bool finished)
+    {
+        if (!dockingBay.dockedVehicle) return;
+        
+        dockingBay.dockedVehicle.gameObject.SetActive(!finished);
+    }
+
+    private void OnEnable()
+    {
+        SaveLoadManager.notificationSaveInProgress += OnSaveChanged;
+    }
     
+    private void OnDisable()
+    {
+        SaveLoadManager.notificationSaveInProgress += OnSaveChanged;
+    }
+
+
     public VehicleDockingBay GetDockingBay() => dockingBay;
 }

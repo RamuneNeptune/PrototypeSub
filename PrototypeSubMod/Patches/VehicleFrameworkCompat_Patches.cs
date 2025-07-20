@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
+using PrototypeSubMod.Compatibility;
 using PrototypeSubMod.Docking;
 using PrototypeSubMod.MiscMonobehaviors.SubSystems;
 using UnityEngine;
@@ -41,7 +41,21 @@ public class VehicleFrameworkCompat_Patches
         }
     }
     
+    public static MethodInfo OnUndockedMethod
+    {
+        get
+        {
+            if (_onUndockedMethod == null)
+            {
+                _onUndockedMethod = ModVehicleType.GetMethod("OnVehicleUndocked", AccessTools.all);
+            }
+
+            return _onUndockedMethod;
+        }
+    }
+    
     private static MethodInfo _onDockedMethod;
+    private static MethodInfo _onUndockedMethod;
 
     public static MethodInfo PlayerExitMethod
     {
@@ -80,6 +94,8 @@ public class VehicleFrameworkCompat_Patches
 
     public static bool HandleMVDocked_Prefix(Vehicle vehicle, VehicleDockingBay dock)
     {
+        if (!VehicleFrameworkCompatManager.IsModdedVehicle(vehicle)) return true;
+        
         var dockingBounds = dock.GetComponent<DockingBayBounds>();
         if (!dockingBounds) return true;
         
