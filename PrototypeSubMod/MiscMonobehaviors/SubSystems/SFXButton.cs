@@ -15,13 +15,16 @@ public class SFXButton : Button
     public FMODAsset onClickFX;
     public float volume = 1;
     public float minDistForSound = 2;
-    
+
+    private int layerMask;
     private bool wasOutOfRange;
     private bool mouseOnObject;
     private bool onPDA;
     
     private void Awake()
     {
+        layerMask = int.MaxValue;
+        layerMask &= ~(1 << LayerID.Trigger);
         onClick.AddListener(() =>
         {
             if ((Player.main.transform.position - transform.position).sqrMagnitude >
@@ -115,7 +118,7 @@ public class SFXButton : Button
         if (onPDA) return false;
         
         var dir = Player.main.transform.position - transform.position;
-        bool hitObj = Physics.Raycast(transform.position + dir.normalized * 0.2f, dir, out var raycastHit);
+        bool hitObj = Physics.Raycast(transform.position + dir.normalized * 0.2f, dir, out var raycastHit, minDistForSound + 1, layerMask);
         if (!hitObj) return false;
         
         return raycastHit.collider.gameObject != Player.main.gameObject;

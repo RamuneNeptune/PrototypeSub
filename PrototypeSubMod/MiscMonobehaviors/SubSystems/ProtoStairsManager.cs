@@ -11,9 +11,13 @@ public class ProtoStairsManager : MonoBehaviour
     [SerializeField] private Animator stairsAnimator;
     [SerializeField] private FMOD_CustomEmitter stairsUpEmitter;
     [SerializeField] private FMOD_CustomEmitter stairsDownEmitter;
+    [SerializeField] private Collider lowerCollider;
+    [SerializeField] private Collider lowerAreaBoundsCheck;
 
     private bool queuedNoPlaySfx;
     private bool stairsActive;
+    private bool colliderChecks;
+    private bool stairsFinishedMoving;
     
     private void Start()
     {
@@ -26,6 +30,17 @@ public class ProtoStairsManager : MonoBehaviour
         SetStairsActive(Player.main.currentSub != subRoot);
     }
 
+    private void Update()
+    {
+        if (!colliderChecks || !stairsFinishedMoving) return;
+
+        if (!lowerAreaBoundsCheck.bounds.Contains(Player.main.transform.position))
+        {
+            lowerCollider.enabled = true;
+            colliderChecks = false;
+        }
+    }
+
     private void OnRespawn(Player player)
     {
         SetStairsActive(false);
@@ -33,6 +48,7 @@ public class ProtoStairsManager : MonoBehaviour
 
     public void SetStairsActive(bool active)
     {
+        stairsFinishedMoving = false;
         stairsAnimator.SetBool(StairsActive, active);
         stairsActive = active;
     }
@@ -42,10 +58,24 @@ public class ProtoStairsManager : MonoBehaviour
         SetStairsActive(!stairsActive);
     }
 
+    public void ToggleFromBottom()
+    {
+        SetStairsActive(!stairsActive);
+        colliderChecks = true;
+        lowerCollider.enabled = false;
+    }
+
+    public void OnStairsFinishedMoving()
+    {
+        stairsFinishedMoving = true;
+    }
+
     // Called by SubRoot.OnPlayerEntered
     public void PlayerEnteredSub()
     {
         SetStairsActive(false);
+        colliderChecks = true;
+        lowerCollider.enabled = false;
     }
 
     // Called by SubRoot.OnPlayerExited
