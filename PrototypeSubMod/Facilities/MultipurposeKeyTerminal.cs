@@ -27,6 +27,7 @@ internal class MultipurposeKeyTerminal : InteractableTerminal
 
     private PrecursorKeyTerminal terminal;
     private bool queuedForceInteract;
+    private bool interacted;
     
     private void Start()
     {
@@ -117,7 +118,10 @@ internal class MultipurposeKeyTerminal : InteractableTerminal
     // Called via BroadcastMessage on PrecursorKeyTerminal
     public void ToggleDoor()
     {
+        if (interacted) return;
+        
         onInteracted?.Invoke();
+        interacted = true;
     }
     
     public override void ForceInteracted()
