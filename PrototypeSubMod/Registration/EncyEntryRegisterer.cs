@@ -300,6 +300,24 @@ internal static class EncyEntryRegisterer
         };
         PDAHandler.AddCustomScannerEntry(protoFinsEntry);
         #endregion
+        
+        #region Build Terminal
+        string terminalTitle = Language.main.Get("ProtoBuildTerminal_Title");
+        string terminalBody = Language.main.Get("ProtoBuildTerminal_Body");
+        
+        PDAHandler.AddEncyclopediaEntry("ProtoBuildTerminalEncy", "DownloadedData/Prototype/Scanned", terminalTitle, 
+            terminalBody, unlockSound: PDAHandler.UnlockBasic);
+        var terminalEntry = new PDAScanner.EntryData()
+        {
+            key = ProtoBuildTerminal_World.prefabInfo.TechType,
+            destroyAfterScan = false,
+            encyclopedia = "ProtoBuildTerminalEncy",
+            scanTime = 8f,
+            isFragment = false,
+            blueprint = ProtoBuildTerminal_World.prefabInfo.TechType
+        };
+        PDAHandler.AddCustomScannerEntry(terminalEntry);
+        #endregion
 
         RegisterEncyEntries("DownloadedData/Prototype/ProtoUpgrades", PDAHandler.UnlockBasic, new()
         {
