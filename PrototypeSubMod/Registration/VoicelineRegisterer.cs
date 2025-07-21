@@ -50,6 +50,7 @@ public static class VoicelineRegisterer
         "Proto_CriticalPower",
         
         "Proto_StoryEndPingVoiceline",
+        "Proto_AdminFacilityOnline",
         "Proto_DefensePingSpawned",
         "Proto_AdditionalData",
         "Proto_HullKeyUnlock",
