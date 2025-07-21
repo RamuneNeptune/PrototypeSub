@@ -26,9 +26,9 @@ internal static class PDAMessageRegisterer
         
         PDALog_Patches.orionEntries.Add(("Proto_StoryEndPingVoiceline", "Proto_StoryEndPingVoiceline"));
         PDALog_Patches.orionEntries.Add(("Proto_AdminFacilityOnline", "Proto_AdminFacilityOnline"));
-        PDALog_Patches.orionEntries.Add(("Proto_ApproachTerminal", "NoOrionProto_ApproachTerminal"));
-        PDALog_Patches.orionEntries.Add(("Proto_FirstInteract", "NoOrionProto_FirstInteract"));
-        PDALog_Patches.orionEntries.Add(("Proto_ConstructionStart", "NoOrionProto_ConstructionStart"));
+        PDALog_Patches.orionEntries.Add(("Proto_ApproachTerminal", "Proto_ApproachTerminal"));
+        PDALog_Patches.orionEntries.Add(("Proto_FirstInteract", "Proto_FirstInteract"));
+        PDALog_Patches.orionEntries.Add(("Proto_ConstructionStart", "Proto_ConstructionStart"));
         PDALog_Patches.orionEntries.Add(("Proto_ConstructionFinish", "Proto_ConstructionFinish"));
         
         sw.Stop();

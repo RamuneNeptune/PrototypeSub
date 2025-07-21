@@ -20,21 +20,30 @@ public class Subtitles_Patches
 
         string[] splits = text.Split('_');
         string ending = splits[splits.Length - 1];
-
+        
         bool endingIsData = ending.Contains("Orion");
         bool goalComplete = StoryGoalManager.main.IsGoalComplete("Ency_OrionFacilityLogs");
+        bool orionNameKnown = PDAEncyclopedia.ContainsEntry("ProtoBuildTerminalEncy");
+        bool orIonCheck = (goalComplete && ending != "OrionFullData") || (!goalComplete && ending != "OrionNoData");
+        bool unknownCheck = !orionNameKnown && ending != "_OrionUnknown";
         
-        if (!endingIsData || (goalComplete && ending != "OrionFullData") || (!goalComplete && ending != "OrionNoData"))
+        if (!endingIsData || orIonCheck || unknownCheck)
         {
             text = text.Replace("_OrionNoData", string.Empty);
             text = text.Replace("_OrionFullData", string.Empty);
-            string prefix = "_OrionNoData";
-            if (StoryGoalManager.main.IsGoalComplete("Ency_OrionFacilityLogs"))
+            text = text.Replace("_OrionUnknown", string.Empty);
+            string suffix = "_OrionNoData";
+            if (goalComplete)
             {
-                prefix = "_OrionFullData";
+                suffix = "_OrionFullData";
             }
 
-            text += prefix;
+            if (!orionNameKnown)
+            {
+                suffix = "_OrionUnknown";
+            }
+
+            text += suffix;
         }
     }
 }

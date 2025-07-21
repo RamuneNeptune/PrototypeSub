@@ -54,18 +54,24 @@ public static class VoicelineRegisterer
         "Proto_DefensePingSpawned",
         "Proto_AdditionalData",
         "Proto_HullKeyUnlock",
-        "Proto_ConstructionFinish"
+        "Proto_ConstructionStart",
+        "Proto_ConstructionFinish",
+        "Proto_ApproachTerminal",
+        "Proto_FirstInteract"
     };
     
     public static void UpdateVoicelines()
     {
         string orionText1 = Language.main.Get("ProtoOrionNoData");
         string orionText2 = Language.main.Get("ProtoOrionFullData");
+        string orionText3 = Language.main.Get("ProtoOrionUnknown");
         
         foreach (var key in VoicelineKeys)
         {
             string orionOld = Language.main.GetFormat(key, orionText1);
             string orionNew = Language.main.GetFormat(key, orionText2);
+            string orionUnknown = Language.main.GetFormat(key, orionText3);
+            LanguageHandler.SetLanguageLine(key + "_OrionUnknown", orionUnknown, Language.main.currentLanguage);
             LanguageHandler.SetLanguageLine(key + "_OrionNoData", orionOld, Language.main.currentLanguage);
             LanguageHandler.SetLanguageLine(key + "_OrionFullData", orionNew, Language.main.currentLanguage);
         }

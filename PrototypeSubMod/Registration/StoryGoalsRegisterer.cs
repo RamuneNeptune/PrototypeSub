@@ -219,7 +219,7 @@ internal static class StoryGoalsRegisterer
         
         StoryGoalHandler.RegisterCustomEvent("OnApproachPPT", () =>
         {
-            PDALog.Add("NoOrionProto_ApproachTerminal");
+            PDALog.Add("Proto_ApproachTerminal");
         });
         
         sw.Stop();
