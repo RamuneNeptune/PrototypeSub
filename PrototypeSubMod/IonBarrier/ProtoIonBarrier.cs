@@ -38,6 +38,7 @@ internal class ProtoIonBarrier : ProtoUpgrade, IOnTakeDamage
     private float damageReductionMultipier;
     private bool shieldActive;
     private bool onCooldown;
+    private bool chargesRefunded;
 
     private void OnValidate()
     {
@@ -103,6 +104,12 @@ internal class ProtoIonBarrier : ProtoUpgrade, IOnTakeDamage
     {
         if (!upgradeEnabled || !upgradeInstalled) return;
 
+        if (!chargesRefunded)
+        {
+            chargesRefunded = true;
+            powerRelay.AddEnergy(chargeUseCount * PrototypePowerSystem.CHARGE_POWER_AMOUNT, out _);
+        }
+        
         float powerCost = damageInfo.originalDamage * powerPerDamage;
         powerRelay.ConsumeEnergy(powerCost, out _);
 
@@ -152,6 +159,7 @@ internal class ProtoIonBarrier : ProtoUpgrade, IOnTakeDamage
             subRoot.voiceNotificationManager.PlayVoiceNotification(shieldsUpNotification);
             StartCoroutine(DisableShieldDelayed());
             sfxEmitter.Play();
+            chargesRefunded = false;
         }
         else
         {
