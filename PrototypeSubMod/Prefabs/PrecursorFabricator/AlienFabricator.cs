@@ -132,6 +132,7 @@ public class AlienFabricator : GhostCrafter
         animator.SetBool(AnimatorHashID.fabricating, true);
         FMODUWE.PlayOneShot(closeSound, soundOrigin.position);
         yield return new WaitForSeconds(1.50f);
+        uGUI.main.craftingMenu.Close(this);
         base.Craft(techType, duration);
         yield return new WaitForSeconds(duration);
         FMODUWE.PlayOneShot(openSound, soundOrigin.position);
