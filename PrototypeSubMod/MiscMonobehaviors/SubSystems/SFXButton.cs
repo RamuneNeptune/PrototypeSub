@@ -63,6 +63,8 @@ public class SFXButton : Button
 
     public override void OnPointerExit(PointerEventData eventData)
     {
+        if (!Player.main) return;
+        
         base.OnPointerExit(new PointerEventData(EventSystem.current));
         
         mouseOnObject = false;
