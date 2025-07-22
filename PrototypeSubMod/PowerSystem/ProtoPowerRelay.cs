@@ -21,6 +21,14 @@ public class ProtoPowerRelay : MonoBehaviour
     private void Start()
     {
         powerSystem = iconManager.GetComponent<PrototypePowerSystem>();
+        UWE.CoroutineHost.StartCoroutine(SetSpriteDelayed());
+    }
+
+    private IEnumerator SetSpriteDelayed()
+    {
+        yield return new WaitForEndOfFrame();
+        yield return new WaitForEndOfFrame();
+        
         if (inventoryItem != null)
         {
             icon.sprite = iconManager.GetSpriteForTechType(inventoryItem.techType);

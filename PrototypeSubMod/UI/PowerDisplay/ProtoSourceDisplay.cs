@@ -14,6 +14,7 @@ public class ProtoSourceDisplay : MonoBehaviour
     [SerializeField] private ProtoPowerIconManager iconManager;
     [SerializeField] private GameObject powerIconPrefab;
     [SerializeField] private Transform[] iconPositions;
+    [SerializeField] private FMODAsset onLoseSourceSfx;
     [SerializeField] private Image mainIcon;
 
     private readonly List<ProtoChargeIcon> activeSourceIcons = new();
@@ -56,6 +57,11 @@ public class ProtoSourceDisplay : MonoBehaviour
             chargeIcon.SetSprite(iconManager.GetMiniSpriteForTechType(item.techType));
             activeSourceIcons.Add(chargeIcon);
             index++;
+        }
+
+        if (powerSystem.GetInstalledSourceCount() < sourcesLastCheck)
+        {
+            FMODUWE.PlayOneShot(onLoseSourceSfx, transform.position, 0.75f);
         }
 
         sourcesLastCheck = powerSystem.GetInstalledSourceCount();

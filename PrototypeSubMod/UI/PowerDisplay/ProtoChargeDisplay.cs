@@ -88,7 +88,7 @@ public class ProtoChargeDisplay : MonoBehaviour, IUIElement
 
         if (chargesLastCheck != remainingCharges)
         {
-            if (remainingCharges < chargesLastCheck || remainingCharges > chargesLastCheck + 1)
+            if (remainingCharges < chargesLastCheck)
             {
                 FMODUWE.PlayOneShot(destroyChargeSFX, Player.main.transform.position, 0.5f);
             }
