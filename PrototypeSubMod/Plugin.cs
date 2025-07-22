@@ -89,8 +89,6 @@ namespace PrototypeSubMod
 
         private void Awake()
         {
-            if (Initialized) return;
-
             var sw = new System.Diagnostics.Stopwatch();
             sw.Start();
 

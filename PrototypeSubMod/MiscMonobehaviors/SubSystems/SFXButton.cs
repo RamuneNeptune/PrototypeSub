@@ -135,7 +135,6 @@ public class SFXButton : Button
             }
             else if (mouseOnObject)
             {
-                Plugin.Logger.LogInfo($"Manually calling on pointer enter");
                 OnPointerEnter(new PointerEventData(EventSystem.current));
             }
             

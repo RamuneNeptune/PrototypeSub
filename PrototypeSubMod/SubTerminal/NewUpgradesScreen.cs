@@ -195,6 +195,9 @@ internal class NewUpgradesScreen : MonoBehaviour
         float delay = 0;
         foreach (var message in queuedPdaMessages)
         {
+            // Make Nautilus refresh metadata
+            Language.main.Contains(message);
+            
             var data = Language.main.GetMetaData(message);
             for (int i = 0; i < data.lineCount; i++)
             {
