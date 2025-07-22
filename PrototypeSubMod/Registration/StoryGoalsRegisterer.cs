@@ -201,11 +201,6 @@ internal static class StoryGoalsRegisterer
             PDAEncyclopedia.Add("DefenseFacilityTabletEncy", true);
         });
         
-        StoryGoalHandler.RegisterCustomEvent("OnTeleportToInterceptorIsland", () =>
-        {
-            PDALog.Add("OnTeleportToInterceptorIsland");
-        });
-        
         StoryGoalHandler.RegisterCustomEvent("OnEnterStoryEndProximity", () =>
         {
             PDALog.Add("OnEnterStoryEndProximity");
