@@ -74,8 +74,6 @@ public class ProtoStairsManager : MonoBehaviour
     public void PlayerEnteredSub()
     {
         SetStairsActive(false);
-        colliderChecks = true;
-        lowerCollider.enabled = false;
     }
 
     // Called by SubRoot.OnPlayerExited
