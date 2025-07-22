@@ -283,12 +283,13 @@ internal static class EncyEntryRegisterer
         #endregion
 
         #region Prototype Fins
+        Texture2D finsBackground = Plugin.AssetBundle.LoadAsset<Texture2D>("ProtoFinsEncy");
         TechType finsType = (TechType)Enum.Parse(typeof(TechType), "ProtoScannableFins");
         string finsTitle = Language.main.Get("ProtoFins_Title");
         string finsBody = Language.main.Get("ProtoFins_Body");
         
         PDAHandler.AddEncyclopediaEntry("ProtoFinsEncy", "DownloadedData/Prototype/Scanned", finsTitle, 
-            finsBody, unlockSound: PDAHandler.UnlockBasic);
+            finsBody, image: finsBackground, unlockSound: PDAHandler.UnlockBasic);
         var protoFinsEntry = new PDAScanner.EntryData()
         {
             key = finsType,
