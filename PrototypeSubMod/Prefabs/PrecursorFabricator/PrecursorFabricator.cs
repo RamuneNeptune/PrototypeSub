@@ -43,7 +43,6 @@ internal class PrecursorFabricator
             
             .AddTabNode("Utilities", Language.main.Get("ProtoPrecursorFabricator_Tab_Utilities"), SpriteManager.Get(AlienBuildingBlock.AlienBuildingBlock.prefabInfo.TechType))
             .AddCraftNode(AlienBuildingBlock.AlienBuildingBlock.prefabInfo.TechType, "Utilities")
-            .AddCraftNode(ListeningDevice_Craftable.prefabInfo.TechType, "Utilities")
             .AddCraftNode(PrecursorIngot_Craftable.prefabInfo.TechType, "Utilities")
             .AddCraftNode(DeployableLight_Craftable.prefabInfo.TechType, "Utilities")
             .AddCraftNode(TechType.PrecursorIonBattery, "Utilities")
