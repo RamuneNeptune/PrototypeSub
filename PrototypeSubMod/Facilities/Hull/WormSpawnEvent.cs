@@ -40,6 +40,7 @@ public class WormSpawnEvent : MonoBehaviour
     private bool wormActive;
     private bool hasSpawned;
     private bool calledDestroy;
+    private bool stoppedCoroutines;
     private int particleCount;
     private float timeNextParticles = float.MinValue;
     private float timeOffset;
@@ -109,8 +110,19 @@ public class WormSpawnEvent : MonoBehaviour
         bool hit2 = cell2 != null && !cell2.IsEmpty();
         bool hitTerrain = hit1 && hit2;
 
+        if (wormAnimator.HeadIsDisabled())
+        {
+            if (!stoppedCoroutines)
+            {
+                StopAllCoroutines();
+                stoppedCoroutines = true;
+            }
+
+            return;
+        }
+        
         float relativeWormLength = wormAnimator.GetDistanceMoved() / wormAnimator.GetWormLength();
-        if (hitTerrain && Time.time > timeNextParticles && relativeWormLength > 0.2f)
+        if (hitTerrain && Time.time > timeNextParticles && relativeWormLength > 0.2f && !wormAnimator.HeadIsDisabled())
         {
             const int maxParticleCount = 6;
             if (particleCount <= maxParticleCount)
@@ -119,7 +131,7 @@ public class WormSpawnEvent : MonoBehaviour
                 float particleDuration = Mathf.Lerp(wormAnimator.GetWormLength() / 1.5f,
                     wormAnimator.GetWormLength(),Mathf.InverseLerp(0.5f, 1f, normalizedParticleCount));
                 
-                UWE.CoroutineHost.StartCoroutine(SpawnPrefabRepeating(_digInFX, raycastOrigin.position, particleDuration,
+                StartCoroutine(SpawnPrefabRepeating(_digInFX, raycastOrigin.position, particleDuration,
                     0.5f));
             
                 timeNextParticles = Time.time + Mathf.Lerp(1f, 3f, normalizedParticleCount);
@@ -140,7 +152,7 @@ public class WormSpawnEvent : MonoBehaviour
         }
 
         float sqrDistToHead = (raycastOrigin.position - transform.position).sqrMagnitude;
-        if (!spawnedDigOutParticles && sqrDistToHead < 100)
+        if (!spawnedDigOutParticles && sqrDistToHead < 400)
         {
             UWE.CoroutineHost.StartCoroutine(SpawnPrefabRepeating(_digOutFX, raycastOrigin.position,
                 wormAnimator.GetWormLength(), 0.5f));

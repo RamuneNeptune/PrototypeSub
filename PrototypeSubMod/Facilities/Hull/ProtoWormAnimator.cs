@@ -93,6 +93,7 @@ public class ProtoWormAnimator : MonoBehaviour
     public float GetWormLength() => (spineManager.GetSpineSegmentCount() + 1) * -spineIncrement / speed;
     public float GetTravelledAngle() => travelledAngle;
     public float GetRotationSpeed() => rotationSpeed;
+    public float RotationProgress() => distMoved / (fullyDisabledDist + speed);
     public void SetRotationSpeed(float speed) => rotationSpeed = speed;
 
     // Add a little extra distance to make sure it's fully done
