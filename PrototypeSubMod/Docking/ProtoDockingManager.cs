@@ -180,6 +180,7 @@ public class ProtoDockingManager : MonoBehaviour, IProtoEventListener, IProtoTre
 
     private void OnSaveChanged(bool finished)
     {
+        Plugin.Logger.LogInfo($"Save changed. Finished = {finished} | Docked vehicle {dockingBay.dockedVehicle}");
         if (!dockingBay.dockedVehicle) return;
         
         dockingBay.dockedVehicle.gameObject.SetActive(!finished);

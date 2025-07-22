@@ -6,6 +6,7 @@ using PrototypeSubMod.Upgrades;
 using SubLibrary.Monobehaviors;
 using System;
 using System.Collections;
+using System.Linq;
 using PrototypeSubMod.MiscMonobehaviors.SubSystems;
 using PrototypeSubMod.PowerSystem;
 using PrototypeSubMod.UI.AbilitySelection;
@@ -122,10 +123,12 @@ internal class ProtoStoryLocker : MonoBehaviour
             var col = teleporter.GetComponent<Collider>();
             if (col) col.enabled = false;
         }
-        
-        foreach (var pingInstance in PingManager.pings.Values)
+
+        var pings = PingManager.pings.Values.ToArray();
+        foreach (var val in pings)
         {
-            pingInstance.enabled = false;
+            if (val.gameObject == subRoot.gameObject) continue;
+            val.gameObject.SetActive(false);
         }
         
         onEndingStart?.Invoke();
