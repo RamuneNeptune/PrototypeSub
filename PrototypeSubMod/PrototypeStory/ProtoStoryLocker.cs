@@ -23,7 +23,7 @@ internal class ProtoStoryLocker : MonoBehaviour
     [SaveStateReference(false)]
     public static bool WithinSaveLockZone;
 
-    public event Action onEndingStart;
+    public static event Action onEndingStart;
 
     [Header("Activation")]
     [SerializeField] private float activationDistance;

@@ -19,7 +19,7 @@ internal class EndCinematicCameraController : MonoBehaviour
 
     private void Start()
     {
-        storyLocker.onEndingStart += OnEndingStarts;
+        ProtoStoryLocker.onEndingStart += OnEndingStarts;
     }
 
     private void OnEndingStarts()
@@ -83,5 +83,6 @@ internal class EndCinematicCameraController : MonoBehaviour
     private void OnDestroy()
     {
         GUIController_Patches.SetDenyHideCycling(false);
+        ProtoStoryLocker.onEndingStart -= OnEndingStarts;
     }
 }

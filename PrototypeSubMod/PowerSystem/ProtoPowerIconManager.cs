@@ -30,7 +30,7 @@ public class ProtoPowerIconManager : MonoBehaviour
         }
     }
 
-    private void Start()
+    private void Awake()
     {
         for (int i = 0; i < techTypeNames.Length; i++)
         {

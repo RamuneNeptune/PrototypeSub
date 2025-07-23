@@ -3,6 +3,7 @@ using Nautilus.Assets.PrefabTemplates;
 using Nautilus.Handlers;
 using Nautilus.Utility;
 using PrototypeSubMod.MiscMonobehaviors.Materials;
+using PrototypeSubMod.MiscMonobehaviors.SubSystems;
 using UnityEngine;
 
 namespace PrototypeSubMod.Registration;
@@ -81,6 +82,27 @@ internal static class BiomeRegisterer
         BiomeHandler.RegisterBiome("protohullfacilitytense", hullSettings, new BiomeHandler.SkyReference("SkyPrecursorInterior_NoLightmaps"));
         BiomeHandler.AddBiomeMusic("protohullfacilitytense",
             AudioUtils.GetFmodAsset("HullFacility_Tense"));
+        #endregion
+
+        #region Story Ping Void
+        
+        PrefabInfo voidVolumePrefabInfo = PrefabInfo.WithTechType("StoryPingVoidBiome");
+        CustomPrefab voidVolumePrefab = new CustomPrefab(voidVolumePrefabInfo);
+        AtmosphereVolumeTemplate voidTemplate = new AtmosphereVolumeTemplate(voidVolumePrefabInfo, AtmosphereVolumeTemplate.VolumeShape.Sphere,
+            "void", 11, LargeWorldEntity.CellLevel.Global);
+        voidTemplate.ModifyPrefab = prefab =>
+        {
+            var volum = prefab.GetComponent<AtmosphereVolume>();
+            prefab.AddComponent<AtmospherePriorityEnsurer>().priority = volum.priority;
+            prefab.AddComponent<DestroyOnStoryEnd>();
+        };
+
+        voidVolumePrefab.SetGameObject(voidTemplate);
+        voidVolumePrefab.Register();
+
+        var voidSpawnInfo = new SpawnInfo(voidVolumePrefabInfo.ClassID, Plugin.STORY_END_POS, Quaternion.identity, Vector3.one * 2400);
+        CoordinatedSpawnsHandler.RegisterCoordinatedSpawn(voidSpawnInfo);
+
         #endregion
 
         sw.Stop();
