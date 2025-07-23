@@ -15,9 +15,12 @@ internal class ProtoMaintenanceBots : ProtoUpgrade
     [SerializeField] private ActivatedAbilitiesManager abilitiesManager;
     [SerializeField] private ProtoBotBay[] botBays;
     [SerializeField] private RepairPointManager pointManager;
+    [SerializeField] private Transform lavaLarvaeRoot;
+    [SerializeField] private float secondsBetweenLarvaClear;
     [SerializeField] private float secondsForOneChargeDrain;
 
     private int currentBayIndex;
+    private float larvaTimer;
     private Queue<CyclopsDamagePoint> queuedPoints = new();
 
     private void Awake()
@@ -33,6 +36,17 @@ internal class ProtoMaintenanceBots : ProtoUpgrade
         if (!upgradeEnabled) return;
 
         powerRelay.ConsumeEnergy((PrototypePowerSystem.CHARGE_POWER_AMOUNT / secondsForOneChargeDrain) * Time.deltaTime, out _);
+
+        if (larvaTimer < secondsBetweenLarvaClear && lavaLarvaeRoot.childCount > 0)
+        {
+            larvaTimer += Time.deltaTime;
+        }
+        else if (lavaLarvaeRoot.childCount > 0)
+        {
+            larvaTimer = 0;
+            var larvaMixin = lavaLarvaeRoot.GetChild(0).GetComponent<LiveMixin>();
+            larvaMixin.TakeDamage(1, type: DamageType.Electrical);
+        }
         
         if (queuedPoints.Count > 0)
         {
