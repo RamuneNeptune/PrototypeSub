@@ -41,4 +41,9 @@ internal class SpawnTerminalFX : MonoBehaviour
             Destroy(newFX.transform.Find(path).gameObject);
         }
     }
+
+    public void SetRemoveFXPaths(string[] paths)
+    {
+        removeFXPaths = paths;
+    }
 }

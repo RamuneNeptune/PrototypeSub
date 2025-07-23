@@ -83,6 +83,7 @@ internal static class PrefabRegisterer
         GrayRock01.Register();
         PrecursorCube1Prop.Register();
         PrecursorGunProp.Register();
+        ProtoTerminalVFX.Register();
         
         DisplayCaseProp.Register(IonPrism_Craftable.prefabInfo.ClassID, "IonPrism_DisplayCase",
             IonPrism_Craftable.prefabInfo.TechType, new Vector3(0, 1.3f, 0), Vector3.one * 10f);
