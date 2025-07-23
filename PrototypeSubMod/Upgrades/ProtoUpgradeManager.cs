@@ -72,6 +72,8 @@ internal class ProtoUpgradeManager : MonoBehaviour, ISaveDataListener
     {
         foreach (var protoUpgrade in GetComponentsInChildren<ProtoUpgrade>(true))
         {
+            if (upgrades.ContainsKey(protoUpgrade.techType.TechType)) continue;
+            
             upgrades.Add(protoUpgrade.techType.TechType, protoUpgrade);
         }
 
