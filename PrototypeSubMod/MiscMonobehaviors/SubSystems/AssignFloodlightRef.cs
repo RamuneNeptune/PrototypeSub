@@ -20,7 +20,9 @@ public class AssignFloodlightRef : MonoBehaviour
     private void OnObjectSpawned(GameObject obj)
     {
         var list = subRoot.dimFloodlightsOnEnter.ToList();
-        list.Add(GetComponentInChildren<VFXVolumetricLight>(true));
+        var light = GetComponentInChildren<VFXVolumetricLight>(true);
+        list.Add(light);
         subRoot.dimFloodlightsOnEnter = list.ToArray();
+        light.DisableVolume();
     }
 }
