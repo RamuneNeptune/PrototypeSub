@@ -8,6 +8,7 @@ namespace PrototypeSubMod.SubTerminal.Fins;
 
 public class FinInstallationManager : MonoBehaviour
 {
+    [SerializeField] private Transform buildPosition;
     [SerializeField] private MoonpoolOccupiedHandler occupiedHandler;
     [SerializeField] private FinInstallationButton[] installationButtons;
     [SerializeField] private Image homeScreen;
@@ -67,9 +68,16 @@ public class FinInstallationManager : MonoBehaviour
             return;
         }
 
-        installationButtons[finsManager.GetInstalledFinCount()].LockTechType();
+        var pos = occupiedHandler.SubInMoonpool.transform.position;
+        pos.y = buildPosition.position.y;
+        occupiedHandler.SubInMoonpool.transform.position = pos;
+
+        installationButtons[Mathf.Min(finsManager.GetInstalledFinCount(), installationButtons.Length - 1)].LockTechType();
         finsManager.SetInstalledFinCount(finsManager.GetInstalledFinCount() + 1);
-        installationButtons[finsManager.GetInstalledFinCount()].UnlockTechType();
+        if (finsManager.GetInstalledFinCount() < 4)
+        {
+            installationButtons[finsManager.GetInstalledFinCount()].UnlockTechType();
+        }
         UpdateIcons();
     }
 }
