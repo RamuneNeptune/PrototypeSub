@@ -217,6 +217,12 @@ internal static class StoryGoalsRegisterer
             PDALog.Add("Proto_ApproachTerminal");
         });
         
+        StoryGoalHandler.RegisterBiomeGoal("ProtoOnEnterGrandReef", Story.GoalType.PDA, "grandReef", 10);
+        StoryGoalHandler.RegisterCustomEvent("ProtoOnEnterGrandReef", () =>
+        {
+            PDALog.Add("ProtoOnEnterGrandReef");
+        });
+        
         sw.Stop();
         Plugin.Logger.LogInfo($"Story goals registered in {sw.ElapsedMilliseconds}ms");
     }
