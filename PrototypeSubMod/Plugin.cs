@@ -16,6 +16,8 @@ using System.Collections;
 using System.IO;
 using System.Reflection;
 using System.Threading;
+using Nautilus.Handlers.TitleScreen;
+using Nautilus.Utility;
 using PrototypeSubMod.MiscMonobehaviors;
 using PrototypeSubMod.Pathfinding.SaveSystem;
 using PrototypeSubMod.Prefabs;
@@ -51,7 +53,8 @@ namespace PrototypeSubMod
         public static AssetBundle AssetBundle { get; private set; }
         public static AssetBundle AudioBundle { get; private set; }
         public static AssetBundle ScenesAssetBundle { get; private set; }
-        
+        public static AssetBundle TitleAssetBundle { get; } = AssetBundle.LoadFromFile(Path.Combine(AssetsFolderPath, "prototypetitle"));
+
         public static EquipmentType PrototypePowerType { get; } = EnumHandler.AddEntry<EquipmentType>("PrototypePowerType");
         public static EquipmentType LightBeaconEquipmentType { get; } = EnumHandler.AddEntry<EquipmentType>("LightBeaconType");
         public static EquipmentType DummyPowerType { get; } = EnumHandler.AddEntry<EquipmentType>("ProtoDummyPowerType");
@@ -116,6 +119,7 @@ namespace PrototypeSubMod
             Logger.LogInfo($"Voiceline variations registered in {sw.ElapsedMilliseconds}ms");
             RegisterDependantPatches();
             InitializeSlotMapping();
+            RegisterTitleAddons();
             
             var miscSW = new System.Diagnostics.Stopwatch();
             miscSW.Start();
@@ -273,6 +277,29 @@ namespace PrototypeSubMod
             var task = AssetBundle.LoadFromFileAsync(Path.Combine(AssetsFolderPath, "prototypescenes"));
             yield return task;
             ScenesAssetBundle = task.assetBundle;
+        }
+
+        private void RegisterTitleAddons()
+        {
+            GameObject SpawnObject()
+            {
+                var worldObject = Instantiate(TitleAssetBundle.LoadAsset<GameObject>("ProtoPlaque"));
+                worldObject.transform.position = new Vector3(-27, 2.5f, 38);
+                worldObject.transform.rotation = Quaternion.Euler(270, 325.7f, 0);
+                DestroyImmediate(worldObject.GetComponent<LargeWorldEntity>());
+                DestroyImmediate(worldObject.GetComponent<PrefabIdentifier>());
+                DestroyImmediate(worldObject.GetComponent<TechTag>());
+                MaterialUtils.ApplySNShaders(worldObject);
+
+                UWE.CoroutineHost.StartCoroutine(ProtoMatDatabase.ReplaceVanillaMats(worldObject));
+                
+                return worldObject;
+            }
+            
+            var objectAddon = new WorldObjectTitleAddon(SpawnObject);
+            var customData = new TitleScreenHandler.CustomTitleData("ProtoModName", objectAddon);
+            
+            TitleScreenHandler.RegisterTitleScreenObject("ProtoTitleData", customData);
         }
 
         private void InitializeSlotMapping()
