@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 namespace PrototypeSubMod.StasisPulse;
 
@@ -24,7 +25,7 @@ internal class ProtoStasisFreeze : MonoBehaviour
         rigidbody = GetComponent<Rigidbody>();
         UWE.Utils.SetIsKinematicAndUpdateInterpolation(rigidbody, true);
         rigidbody.SendMessage("OnFreezeByStasisSphere", SendMessageOptions.DontRequireReceiver);
-        GetComponent<LiveMixin>()?.TakeDamage(1);
+        UWE.CoroutineHost.StartCoroutine(TakeDamageOverTime(GetComponent<LiveMixin>(), 10, 10));
     }
 
     private void Update()
@@ -40,6 +41,17 @@ internal class ProtoStasisFreeze : MonoBehaviour
         Utils.PlayOneShotPS(unfreezeFX, transform.position, Quaternion.identity);
 
         Destroy(this);
+    }
+
+    private IEnumerator TakeDamageOverTime(LiveMixin mixin, float duration, float damage)
+    {
+        float startTime = Time.time;
+        float dmgPerUpdate = damage / duration;
+        while (Time.time < startTime + duration)
+        {
+            mixin.TakeDamage(dmgPerUpdate * Time.deltaTime);
+            yield return null;
+        }
     }
 
     public void SetFreezeTimes(float minFreezeTime, float maxFreezeTime)
