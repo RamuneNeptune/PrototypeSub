@@ -178,12 +178,11 @@ public class ProtoDockingManager : MonoBehaviour, IProtoEventListener, IProtoTre
         ignoreCinematicStart.enabled = true;
     }
 
-    private void OnSaveChanged(bool finished)
+    private void OnSaveChanged(bool started)
     {
-        Plugin.Logger.LogInfo($"Save changed. Finished = {finished} | Docked vehicle {dockingBay.dockedVehicle}");
         if (!dockingBay.dockedVehicle) return;
         
-        dockingBay.dockedVehicle.gameObject.SetActive(!finished);
+        dockingBay.dockedVehicle.gameObject.SetActive(started);
     }
 
     private void OnEnable()
