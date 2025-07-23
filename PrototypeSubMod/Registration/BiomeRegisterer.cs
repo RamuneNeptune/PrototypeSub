@@ -18,26 +18,7 @@ internal static class BiomeRegisterer
         var settings = BiomeUtils.CreateBiomeSettings(new Vector3(18, 15, 13), 1.1f, Color.white, 0.15f, Color.white, 0, temperature: 10);
 
         BiomeHandler.RegisterBiome(Plugin.DEFENSE_CHAMBER_BIOME_NAME, settings, new BiomeHandler.SkyReference("SkyMountains"));
-        PrefabInfo volumePrefabInfo = PrefabInfo.WithTechType("ProtoDefenseFacilityBiomeVolume");
-        CustomPrefab volumePrefab = new CustomPrefab(volumePrefabInfo);
-        AtmosphereVolumeTemplate template = new AtmosphereVolumeTemplate(volumePrefabInfo, AtmosphereVolumeTemplate.VolumeShape.Cube,
-            Plugin.DEFENSE_CHAMBER_BIOME_NAME, 15, LargeWorldEntity.CellLevel.Global);
-        template.ModifyPrefab = prefab =>
-        {
-            var volum = prefab.GetComponent<AtmosphereVolume>();
-            prefab.AddComponent<AtmospherePriorityEnsurer>().priority = volum.priority;
-        };
-
-        volumePrefab.SetGameObject(template);
-        volumePrefab.Register();
-
-        var spawnInfo = new SpawnInfo(volumePrefabInfo.ClassID, new Vector3(710f, -375f, -1493f), Quaternion.identity, new Vector3(250, 800, 300));
-        CoordinatedSpawnsHandler.RegisterCoordinatedSpawn(spawnInfo);
-
         BiomeHandler.AddBiomeMusic(Plugin.DEFENSE_CHAMBER_BIOME_NAME, AudioUtils.GetFmodAsset("DefenseFacilityExterior"));
-
-        BiomeHandler.RegisterBiome("defensefacilityteleporterroom", settings, new BiomeHandler.SkyReference("SkyMountains"));
-        BiomeHandler.AddBiomeMusic("defensefacilityteleporterroom", AudioUtils.GetFmodAsset("DefenseFacilityExterior"));
         
         #region Tunnel Biomes
         var tunnelSettings = BiomeUtils.CreateBiomeSettings(new Vector3(20, 20, 20), 1f, Color.white, 0.12f, Color.white, 0, startDistance: 20);

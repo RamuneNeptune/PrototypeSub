@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using PrototypeSubMod.Facilities.Defense;
 using Story;
 using UnityEngine;
 
@@ -6,6 +8,13 @@ namespace PrototypeSubMod.PrototypeStory;
 
 internal class DefenseStoryGoalPlayer : MonoBehaviour
 {
+    private DefenseTeleporterRoomManager teleporterRoomManager;
+    
+    private void Start()
+    {
+        teleporterRoomManager = FindObjectOfType<DefenseTeleporterRoomManager>();
+    }
+
     public void OnPlayerEnter()
     {
         UWE.CoroutineHost.StartCoroutine(WaitAndPlayVoiceline());
@@ -19,7 +28,7 @@ internal class DefenseStoryGoalPlayer : MonoBehaviour
         
         if (StoryGoalManager.main.IsGoalComplete("OnMoonpoolNoPrototype")) yield break;
 
-        if (AtmosphereDirector.main.GetBiomeOverride() == "defensefacilityteleporterroom") yield break;
+        if (teleporterRoomManager.PlayerInRoom()) yield break;
         
         StoryGoalManager.main.OnGoalComplete("OnApproachDefenseFacility");
     }
