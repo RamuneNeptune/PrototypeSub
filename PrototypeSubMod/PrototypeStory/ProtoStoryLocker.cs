@@ -12,6 +12,7 @@ using PrototypeSubMod.PowerSystem;
 using PrototypeSubMod.UI.AbilitySelection;
 using PrototypeSubMod.Utility;
 using Story;
+using SubLibrary.SubFire;
 using UnityEngine;
 
 namespace PrototypeSubMod.PrototypeStory;
@@ -122,6 +123,18 @@ internal class ProtoStoryLocker : MonoBehaviour
         {
             var col = teleporter.GetComponent<Collider>();
             if (col) col.enabled = false;
+        }
+        
+        foreach (var room in subRoot.GetComponentsInChildren<SubRoom>(true))
+        {
+            var nodes = room.GetSpawnNodes();
+            foreach (var node in nodes)
+            {
+                for (int i = 0; i < node.childCount; i++)
+                {
+                    Destroy(node.GetChild(i).gameObject);
+                }
+            }
         }
 
         var pings = PingManager.pings.Values.ToArray();

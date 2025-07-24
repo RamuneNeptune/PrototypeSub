@@ -320,6 +320,26 @@ internal static class EncyEntryRegisterer
         };
         PDAHandler.AddCustomScannerEntry(terminalEntry);
         #endregion
+        
+        #region Defense wall
+
+        var techType = (TechType)Enum.Parse(typeof(TechType), "DefenseFacilityWall");
+        string wallTitle = Language.main.Get("DefenseFacilityWallEncy_Title");
+        string wallBody = Language.main.Get("DefenseFacilityWallEncy_Body");
+        
+        PDAHandler.AddEncyclopediaEntry("DefenseFacilityWallEncy", "DownloadedData/Prototype/Scanned", wallTitle, 
+            wallBody, unlockSound: PDAHandler.UnlockBasic);
+        var wallEntry = new PDAScanner.EntryData()
+        {
+            key = techType,
+            destroyAfterScan = false,
+            encyclopedia = "DefenseFacilityWallEncy",
+            scanTime = 10f,
+            isFragment = false,
+            blueprint = techType
+        };
+        PDAHandler.AddCustomScannerEntry(wallEntry);
+        #endregion
 
         RegisterEncyEntries("DownloadedData/Prototype/ProtoUpgrades", PDAHandler.UnlockBasic, new()
         {
