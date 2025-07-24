@@ -100,6 +100,10 @@ internal class InterceptorReactorSequenceManager : MonoBehaviour
         yield return new WaitForSeconds(20f);
 
         EndReactorSequence();
+
+        yield return new WaitForSeconds(3f);
+        
+        PDALog.Add("OnInterceptorSequenceFinished");
     }
 
     private static IEnumerator TeleportToIsland()

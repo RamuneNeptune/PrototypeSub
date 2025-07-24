@@ -84,20 +84,11 @@ internal class InterceptorIslandManager : MonoBehaviour
             InterceptorReactorSequenceManager.OnTeleportToVoid();
             GUIController.SetHidePhase(GUIController.HidePhase.HUD);
             GUIController_Patches.SetDenyHideCycling(true);
-            UWE.CoroutineHost.StartCoroutine(PlayVoicelineDelayed());
 
             yield return new WaitForSeconds(1f);
         }
 
         SetIslandEnabled(false);
-    }
-
-    private IEnumerator PlayVoicelineDelayed()
-    {
-        yield return new WaitUntil(() => LargeWorldStreamer.main.IsWorldSettled());
-        yield return new WaitForSeconds(1f);
-        
-        PDALog.Add("OnTeleportToInterceptorIsland");
     }
 
     public Vector3 GetRespawnPoint() => respawnPoint.position;
