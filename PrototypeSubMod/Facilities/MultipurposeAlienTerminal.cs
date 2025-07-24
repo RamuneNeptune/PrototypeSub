@@ -21,6 +21,7 @@ internal class MultipurposeAlienTerminal : InteractableTerminal
 
     private bool modelSpawned;
     private bool queuedForceInteract;
+    private bool interacted;
     private ProtoTerminalHandTarget handTarget;
 
     private void Start()
@@ -102,6 +103,7 @@ internal class MultipurposeAlienTerminal : InteractableTerminal
         terminal.OnStoryHandTarget();
         var tag = terminal.GetComponent<TechTag>();
         tag.type = TechType.None;
+        interacted = true;
     }
 
     public override void ForceInteracted()
@@ -113,11 +115,10 @@ internal class MultipurposeAlienTerminal : InteractableTerminal
             queuedForceInteract = true;
             return;
         }
-
-        handTarget.interactionAllowed = allowMultipleUses;
+        
+        if (interacted) return;
+        
         OnStoryHandTarget();
-        var tag = terminal.GetComponent<TechTag>();
-        tag.type = TechType.None;
     }
 
     public bool GetModelSpawned() => modelSpawned;

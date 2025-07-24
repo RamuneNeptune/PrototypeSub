@@ -179,6 +179,7 @@ internal static class StoryGoalsRegisterer
         StoryGoalHandler.RegisterCustomEvent("HullFacilityActivateWorm", () => WormSpawnEvent.TimeWormsEnabled = Time.time);
         StoryGoalHandler.RegisterCustomEvent("DefenseCloakDisabled", null);
         StoryGoalHandler.RegisterCustomEvent("PrototypeSpawned", null);
+        StoryGoalHandler.RegisterCustomEvent("OnOpenHullFacility", null);
         StoryGoalHandler.RegisterCustomEvent("PrototypeCrafted", () =>
         {
             var finType1 = (TechType)Enum.Parse(typeof(TechType), "ProtoFinUpgrade1");
