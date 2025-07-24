@@ -44,4 +44,6 @@ public class ProtoWindowManager : MonoBehaviour
         mats[1].SetColor(ColorID, col);
         windowsRend.materials = mats;
     }
+
+    public float GetSqrMaxDistance() => sqrMaxDist;
 }
