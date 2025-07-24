@@ -11,20 +11,18 @@ public class FloodlightsCameraTargeter : MonoBehaviour
     
     private void Update()
     {
-        Vector3 point = transform.position + chair.subRoot.transform.forward;
         var main = Camera.main;
         bool inChair = Player.main.currChair == chair;
-        if (inChair)
+        if (!inChair) return;
+        
+        const float maxDist = 50;
+        
+        bool hitTerrain = Physics.Raycast(main.transform.position, main.transform.forward,
+            out RaycastHit hit, maxDist, 1 << LayerID.TerrainCollider);
+        Vector3 point = hit.point;
+        if (!hitTerrain)
         {
-            const float maxDist = 50;
-            
-            bool hitTerrain = Physics.Raycast(main.transform.position, main.transform.forward,
-                out RaycastHit hit, maxDist, 1 << LayerID.TerrainCollider);
-            point = hit.point;
-            if (!hitTerrain)
-            {
-                point = main.transform.position + main.transform.forward * maxDist;
-            }
+            point = main.transform.position + main.transform.forward * maxDist;
         }
         
         transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(point - transform.position), lookSpeed * Time.deltaTime);

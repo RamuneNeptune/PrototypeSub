@@ -5061,6 +5061,7 @@ GameObject:
   m_Component:
   - component: {fileID: 99330018}
   - component: {fileID: 99330019}
+  - component: {fileID: 99330020}
   m_Layer: 0
   m_Name: Terminal
   m_TagString: Untagged
@@ -5110,6 +5111,28 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+--- !u!114 &99330020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 99330017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1104637911, guid: a7cf2516c626129479cfce7cab60699e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  terminal: {fileID: 99330019}
+  storyGoalKey: OnOpenHullFacility
+  onTrigger:
+    m_PersistentCalls:
+      m_Calls: []
+  onFirstTrigger:
+    m_PersistentCalls:
+      m_Calls: []
+  storyGoalCheckFrameDelay: 5
+  doubleRun: 0
 --- !u!1 &102034069
 GameObject:
   m_ObjectHideFlags: 0
@@ -7893,7 +7916,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  storyGoalCheckFrameDelay: 6
+  storyGoalCheckFrameDelay: 8
+  doubleRun: 1
 --- !u!114 &373548833
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7915,6 +7939,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   storyGoalCheckFrameDelay: 5
+  doubleRun: 0
 --- !u!1 &384826549
 GameObject:
   m_ObjectHideFlags: 0
@@ -8342,6 +8367,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   storyGoalCheckFrameDelay: 5
+  doubleRun: 0
 --- !u!1 &473729268
 GameObject:
   m_ObjectHideFlags: 0
@@ -13104,6 +13130,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   storyGoalCheckFrameDelay: 5
+  doubleRun: 0
 --- !u!1 &1307341606
 GameObject:
   m_ObjectHideFlags: 0

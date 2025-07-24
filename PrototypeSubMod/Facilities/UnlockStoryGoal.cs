@@ -12,7 +12,8 @@ internal class UnlockStoryGoal : MonoBehaviour
     [SerializeField] private UnityEvent onTrigger;
     [SerializeField] private UnityEvent onFirstTrigger;
     [SerializeField] private int storyGoalCheckFrameDelay = 5;
-
+    [SerializeField] private bool doubleRun;
+    
     private void Start()
     {
         terminal.onTerminalInteracted += () =>
@@ -24,6 +25,11 @@ internal class UnlockStoryGoal : MonoBehaviour
             
             StoryGoalManager.main.OnGoalComplete(storyGoalKey);
             onTrigger?.Invoke();
+
+            if (doubleRun)
+            {
+                UWE.CoroutineHost.StartCoroutine(LateDoubleRun());
+            }
         };
 
         UWE.CoroutineHost.StartCoroutine(LateInitialize());
@@ -40,6 +46,13 @@ internal class UnlockStoryGoal : MonoBehaviour
         {
             terminal.ForceInteracted();
         }
+    }
+
+    private IEnumerator LateDoubleRun()
+    {
+        yield return new WaitForSeconds(1);
+        
+        onTrigger?.Invoke();
     }
 
     public void ManualSetup(MultipurposeAlienTerminal terminal, string storyKey)
