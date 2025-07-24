@@ -1,5 +1,6 @@
 ﻿using System;
 using PrototypeSubMod.Utility;
+using Story;
 using UnityEngine;
 
 namespace PrototypeSubMod.Facilities;
@@ -39,6 +40,7 @@ internal class UnlockProtoUpgrade : MonoBehaviour
         {
             message = Language.main.GetFormat("ProtoUpgradeSetComplete", Language.main.Get(techType.TechType));
             OnCategoryUnlocked?.Invoke(upgradeCategory);
+            StoryGoalManager.main.OnGoalComplete($"OnUnlocked_{upgradeCategory.localizationKey}");
         }
 
         ErrorMessage.AddError(message);

@@ -44,7 +44,6 @@ internal class UnlockStoryGoal : MonoBehaviour
         
         if (StoryGoalManager.main.IsGoalComplete(storyGoalKey))
         {
-            Plugin.Logger.LogInfo($"Story goal {storyGoalKey} completed on {gameObject} | Forcing interaction");
             terminal.ForceInteracted();
         }
     }

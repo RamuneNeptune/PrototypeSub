@@ -16,6 +16,7 @@ using System.Collections;
 using System.IO;
 using System.Reflection;
 using System.Threading;
+using Nautilus.Handlers.LoadingScreen;
 using Nautilus.Handlers.TitleScreen;
 using Nautilus.Utility;
 using PrototypeSubMod.MiscMonobehaviors;
@@ -24,7 +25,6 @@ using PrototypeSubMod.Prefabs;
 using PrototypeSubMod.Prefabs.AlienBuildingBlock;
 using PrototypeSubMod.VehicleAccess;
 using UnityEngine;
-using UnityEngine.Scripting;
 using UWE;
 
 namespace PrototypeSubMod
@@ -281,6 +281,7 @@ namespace PrototypeSubMod
 
         private void RegisterTitleAddons()
         {
+            #region Title Screen
             GameObject SpawnObject()
             {
                 var worldObject = Instantiate(TitleAssetBundle.LoadAsset<GameObject>("ProtoPlaque"));
@@ -298,8 +299,34 @@ namespace PrototypeSubMod
             
             var objectAddon = new WorldObjectTitleAddon(SpawnObject);
             var customData = new TitleScreenHandler.CustomTitleData("ProtoModName", objectAddon);
-            
-            TitleScreenHandler.RegisterTitleScreenObject("ProtoTitleData", customData);
+
+            const string addonName = "ProtoTitleData";
+            TitleScreenHandler.RegisterTitleScreenObject(addonName, customData);
+            #endregion
+
+            #region Loading Screens
+
+            var constructedData = new LoadingScreenHandler.LoadingScreenData(
+                TitleAssetBundle.LoadAsset<Sprite>("ProtoCraftedScreen"), storyGoalRequirement: "PrototypeCrafted");
+            var engineData = new LoadingScreenHandler.LoadingScreenData(
+                TitleAssetBundle.LoadAsset<Sprite>("EngineFacilityScreen"), 2, storyGoalRequirement: "OnUnlocked_EngineUpgradeText_Native");
+            var defenseData = new LoadingScreenHandler.LoadingScreenData(
+                TitleAssetBundle.LoadAsset<Sprite>("DefenseFacilityScreen"), 3, storyGoalRequirement: "OnUnlocked_DefenseUpgradeText_Native");
+            var interceptorData = new LoadingScreenHandler.LoadingScreenData(
+                TitleAssetBundle.LoadAsset<Sprite>("ArchwayFacilityScreen"), 4, storyGoalRequirement: "OnUnlocked_ArchwayUpgradeText_Native");
+            var hullData = new LoadingScreenHandler.LoadingScreenData(
+                TitleAssetBundle.LoadAsset<Sprite>("HullFacilityScreen"), 5, storyGoalRequirement: "OnUnlocked_HullUpgradeText_Native");
+
+            LoadingScreenHandler.RegisterLoadingScreen(addonName, new[]
+            {
+                constructedData,
+                engineData,
+                defenseData,
+                interceptorData,
+                hullData
+            });
+
+            #endregion
         }
 
         private void InitializeSlotMapping()

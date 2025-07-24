@@ -28,7 +28,7 @@ internal class DefenseStoryGoalPlayer : MonoBehaviour
         
         if (StoryGoalManager.main.IsGoalComplete("OnMoonpoolNoPrototype")) yield break;
 
-        if (teleporterRoomManager.PlayerInRoom()) yield break;
+        if (teleporterRoomManager && teleporterRoomManager.PlayerInRoom()) yield break;
         
         StoryGoalManager.main.OnGoalComplete("OnApproachDefenseFacility");
     }

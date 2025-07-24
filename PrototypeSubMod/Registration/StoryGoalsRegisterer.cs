@@ -193,6 +193,11 @@ internal static class StoryGoalsRegisterer
         StoryGoalHandler.RegisterCustomEvent("EngineFacilityTeleporterUnlocked", null);
         StoryGoalHandler.RegisterCustomEvent("EngineGatesUnlocked", null);
         StoryGoalHandler.RegisterCustomEvent("DefenseTeleporterGatesUnlocked", null);
+        
+        StoryGoalHandler.RegisterCustomEvent("OnUnlocked_EngineUpgradeText_Native", null);
+        StoryGoalHandler.RegisterCustomEvent("OnUnlocked_DefenseUpgradeText_Native", null);
+        StoryGoalHandler.RegisterCustomEvent("OnUnlocked_ArchwayUpgradeText_Native", null);
+        StoryGoalHandler.RegisterCustomEvent("OnUnlocked_HullUpgradeText_Native", null);
 
         StoryGoalHandler.RegisterItemGoal("OnPickupDefenseTablet", Story.GoalType.Story,
             DefenseFacilityKey.prefabInfo.TechType);

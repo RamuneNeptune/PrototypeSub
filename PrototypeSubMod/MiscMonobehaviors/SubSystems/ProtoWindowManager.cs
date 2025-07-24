@@ -36,6 +36,8 @@ public class ProtoWindowManager : MonoBehaviour
     {
         if (!initialized) return;
         
+        if (!Camera.main) return;
+        
         float dist = Mathf.InverseLerp(sqrMinDist, sqrMaxDist, (Camera.main.transform.position - transform.position).sqrMagnitude);
         dist = Mathf.Clamp01(dist);
         var col = UnityEngine.Color.Lerp(initialColor, tintedColor, dist);
