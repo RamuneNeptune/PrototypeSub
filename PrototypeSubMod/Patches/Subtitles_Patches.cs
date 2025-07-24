@@ -22,7 +22,7 @@ public class Subtitles_Patches
         string ending = splits[splits.Length - 1];
         
         bool endingIsData = ending.Contains("Orion");
-        bool goalComplete = StoryGoalManager.main.IsGoalComplete("Ency_OrionFacilityLogs");
+        bool goalComplete = StoryGoalManager.main.IsGoalComplete("OrionEndeavorsEncy");
         bool orionNameKnown = PDAEncyclopedia.ContainsEntry("ProtoBuildTerminalEncy");
         bool orIonCheck = (goalComplete && ending != "OrionFullData") || (!goalComplete && ending != "OrionNoData");
         bool unknownCheck = !orionNameKnown && ending != "_OrionUnknown";
