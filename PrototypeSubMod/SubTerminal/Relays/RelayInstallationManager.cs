@@ -56,7 +56,7 @@ public class RelayInstallationManager : MonoBehaviour
         }
         
         powerSystem.SetAllowedSourcesCount(powerSystem.GetAllowedSourcesCount() + 1);
-        ErrorMessage.AddError($"Installed new relay. Current count = {powerSystem.GetAllowedSourcesCount()}");
+        //ErrorMessage.AddError($"Installed new relay. Current count = {powerSystem.GetAllowedSourcesCount()}");
         
         UpdateIcons();
     }
