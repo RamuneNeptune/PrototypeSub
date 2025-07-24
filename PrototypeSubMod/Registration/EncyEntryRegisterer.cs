@@ -287,9 +287,10 @@ internal static class EncyEntryRegisterer
         TechType finsType = (TechType)Enum.Parse(typeof(TechType), "ProtoScannableFins");
         string finsTitle = Language.main.Get("ProtoFins_Title");
         string finsBody = Language.main.Get("ProtoFins_Body");
-        
+        var finsPopup = Plugin.AssetBundle.LoadAsset<Sprite>("ProtoFins_EncyPopup");
+
         PDAHandler.AddEncyclopediaEntry("ProtoFinsEncy", "DownloadedData/Prototype/Scanned", finsTitle, 
-            finsBody, image: finsBackground, unlockSound: PDAHandler.UnlockBasic);
+            finsBody, image: finsBackground, unlockSound: PDAHandler.UnlockBasic, popupImage: finsPopup);
         var protoFinsEntry = new PDAScanner.EntryData()
         {
             key = finsType,
