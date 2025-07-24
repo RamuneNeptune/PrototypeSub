@@ -10,6 +10,7 @@ internal class ProtoStrafe : ProtoUpgrade
     [SerializeField] private Rigidbody rigidbody;
     [SerializeField] private SubControl subControl;
 
+    /*
     private void Update()
     {
         if (GameInput.GetButtonDown(GameInput.Button.Deconstruct))
@@ -17,6 +18,7 @@ internal class ProtoStrafe : ProtoUpgrade
             SetUpgradeEnabled(!upgradeEnabled);
         }
     }
+    */
 
     private void FixedUpdate()
     {
