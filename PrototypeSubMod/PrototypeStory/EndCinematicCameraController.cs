@@ -9,8 +9,8 @@ namespace PrototypeSubMod.PrototypeStory;
 internal class EndCinematicCameraController : MonoBehaviour
 {
     public static bool queuedSceneOverride;
-    
-    [SerializeField] private ProtoStoryLocker storyLocker;
+
+    [SerializeField] private EndingMusicManager musicManager;
     [SerializeField] private CyclopsExternalCams externalCams;
     [SerializeField] private ProtoRigidbodyFreezer freezeWhenFar;
     [SerializeField] private Transform cameraPos;
@@ -50,6 +50,7 @@ internal class EndCinematicCameraController : MonoBehaviour
         yield return new WaitForSeconds(creditsDelay);
 
         ProtoScreenFadeManager.instance.FadeIn(1);
+        musicManager.OnFadeToCredits();
         yield return new WaitForSeconds(1);
         
         CleanupScene();

@@ -168,7 +168,7 @@ internal class CloakEffectHandler : ProtoUpgrade
         {
             emissionController.RegisterTempColor(new EmissionColorController.EmissionRegistrarData(this, emissiveColor, 20));
             emitter.Play();
-            voiceNotificationManager.PlayVoiceNotification(activateCloakNotif);
+            voiceNotificationManager.PlayVoiceNotification(activateCloakNotif, false);
             distortionActiveSFX.Play();
             distortionActivateSFX.Play();
         }
