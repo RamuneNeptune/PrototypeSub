@@ -8,7 +8,7 @@ public class PilotingEmissiveController : MonoBehaviour
     [SerializeField] private LightingController controller;
     [SerializeField] private ProtoEngineLever engineLever;
 
-    private void Start()
+    private void Awake()
     {
         engineLever.onEngineStateChanged += OnEngineChanged;
         controller.emissiveController.RegisterRenderers(GetComponentsInChildren<Renderer>());
