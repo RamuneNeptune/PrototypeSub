@@ -11,7 +11,6 @@ namespace PrototypeSubMod.DeployablesTerminal;
 internal class ProtoDeployableManager : ProtoUpgrade
 {
     [SerializeField] DeployablesStorageTerminal storageTerminal;
-    [SerializeField] private ProtoIonGenerator ionGenerator;
     [SerializeField] private SubRoot subRoot;
     [SerializeField] private VoiceNotification launchLightNotification;
     [SerializeField] private VoiceNotification invalidOperationNotification;
@@ -31,7 +30,10 @@ internal class ProtoDeployableManager : ProtoUpgrade
 
     public void TryLaunchLight()
     {
-        if (lightCount > 0 && canDeployLight)
+        bool terrainInWay = Physics.Raycast(lightSpawnTransform.position, lightSpawnTransform.forward, 50,
+            1 << LayerID.TerrainCollider);
+        
+        if (lightCount > 0 && canDeployLight && !terrainInWay)
         {
             StartCoroutine(LaunchLight());
         }
