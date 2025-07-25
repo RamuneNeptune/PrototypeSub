@@ -9,7 +9,8 @@ public class SubLODManager : MonoBehaviour, IScheduledUpdateBehaviour
     [SerializeField] private GameObject model;
     [SerializeField] private GameObject interiorObjectsHolder;
     [SerializeField] private ProtoWindowManager windowManager;
-
+    [SerializeField] private float disableDistance = 100;
+    
     private void Start()
     {
         foreach (var rend in model.GetComponentsInChildren<Renderer>(true))
@@ -26,7 +27,7 @@ public class SubLODManager : MonoBehaviour, IScheduledUpdateBehaviour
     public void ScheduledUpdate()
     {
         bool inRange = (Camera.main.transform.position - transform.position).sqrMagnitude <
-                       windowManager.GetSqrMaxDistance();
+                       (disableDistance * disableDistance);
         interiorObjectsHolder.gameObject.SetActive(inRange);
     }
 
