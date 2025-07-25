@@ -16,7 +16,7 @@ internal class MoonpoolDoorManager : MonoBehaviour
     [SerializeField] private float noEntryPlayerDistance = 50f;
     [SerializeField] private float searchSoundIntermittance = 5f;
 
-    private bool playerFound = false;
+    private bool playerFound;
 
     private void Start()
     {

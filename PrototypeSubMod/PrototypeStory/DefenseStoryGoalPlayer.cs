@@ -26,6 +26,8 @@ internal class DefenseStoryGoalPlayer : MonoBehaviour
 
         yield return new WaitForEndOfFrame();
         
+        if (Plugin.GlobalSaveData.moonpoolDoorOpened) yield break;
+        
         if (StoryGoalManager.main.IsGoalComplete("OnMoonpoolNoPrototype")) yield break;
 
         if (teleporterRoomManager && teleporterRoomManager.PlayerInRoom()) yield break;
