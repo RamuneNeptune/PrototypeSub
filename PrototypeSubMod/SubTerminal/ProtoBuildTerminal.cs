@@ -20,6 +20,7 @@ internal class ProtoBuildTerminal : Crafter
     [SerializeField] private FMODAsset buildSoundEffect;
     [SerializeField] private FMOD_CustomEmitter chargeUpSFX;
     [SerializeField] private FMOD_CustomEmitter dischargeSFX;
+    [SerializeField] private FMOD_CustomEmitter constructSfx;
     [SerializeField] private Transform buildPosition;
     [SerializeField] private GameObject upgradeIconPrefab;
     [SerializeField] private ProtoBatteryManager[] batteryManagers;
@@ -59,9 +60,17 @@ internal class ProtoBuildTerminal : Crafter
 
         UWE.CoroutineHost.StartCoroutine(StartCraftChargeUp(duration));
         UWE.CoroutineHost.StartCoroutine(StartReconstruction(reconstructionManager));
+        UWE.CoroutineHost.StartCoroutine(PlayConstructSfxDelayed());
         StoryGoalManager.main.OnGoalComplete("PrototypeCrafted");
 
         PDALog.Add(buildStartPdaKey);
+    }
+
+    private IEnumerator PlayConstructSfxDelayed()
+    {
+        yield return new WaitForSeconds(buildDuration);
+        
+        constructSfx.Play();
     }
 
     public void RebuildSub()
