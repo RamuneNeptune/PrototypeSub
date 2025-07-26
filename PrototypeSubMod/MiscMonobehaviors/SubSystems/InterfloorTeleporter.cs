@@ -96,8 +96,6 @@ internal class InterfloorTeleporter : MonoBehaviour
 
     private void ResetDuration()
     {
-        if (teleporting) return;
-        
         warpController.duration = prevDuration;
 
         warpController.fx.mat.SetColor("_ColorCenter", originalInnerCol);
