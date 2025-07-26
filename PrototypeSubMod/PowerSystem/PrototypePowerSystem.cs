@@ -143,6 +143,8 @@ public class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTree
         {
             StorageHelper.TransferEquipment(storageRoot.gameObject, data.serializedPowerEquipment, equipment);
         }
+
+        UpdateRelayStatus();
     }
 
     public static void AddPowerSource(TechType techType, PowerConfigData configData)
@@ -214,7 +216,7 @@ public class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTree
         onReorderSources?.Invoke();
     }
 
-    private void UpdateRelayStatus()
+    public void UpdateRelayStatus()
     {
         List<ProtoPowerRelay> activeRelays = new();
         

@@ -5,6 +5,7 @@ using System.Collections;
 using Nautilus.Utility;
 using PrototypeSubMod.LightDistortionField;
 using PrototypeSubMod.MiscMonobehaviors.SubSystems;
+using PrototypeSubMod.PowerSystem;
 using PrototypeSubMod.Teleporter;
 using PrototypeSubMod.UI.HealthDisplay;
 using UnityEngine;
@@ -179,6 +180,8 @@ internal class ProtoBuildTerminal : Crafter
         teleporter.transform.Find("FXSpawn").gameObject.SetActive(true);
         teleporter.transform.Find("ActivationCanvas").gameObject.SetActive(teleporter.GetUpgradeInstalled());
         teleporter.transform.Find("ActivationCanvas (1)").gameObject.SetActive(teleporter.GetUpgradeInstalled());
+
+        sub.GetComponentInChildren<PrototypePowerSystem>().UpdateRelayStatus();
         
         // Failsafe end construct to fix Octo's weird bug
         yield return new WaitForSeconds(buildDuration + 1f);
@@ -203,7 +206,6 @@ internal class ProtoBuildTerminal : Crafter
         yield return new WaitForSeconds(delay);
         
         KnownTech.Add(EngineFacilityKey.prefabInfo.TechType);
-
         PDAEncyclopedia.Add("EngineFacilityTabletEncy", true);
     }
 

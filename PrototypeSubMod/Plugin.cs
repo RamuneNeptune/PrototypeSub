@@ -117,7 +117,7 @@ namespace PrototypeSubMod
             VoicelineRegisterer.UpdateVoicelines();
             voicelineSW.Stop();
             Logger.LogInfo($"Voiceline variations registered in {sw.ElapsedMilliseconds}ms");
-            RegisterDependantPatches();
+            RegisterDependentPatches();
             InitializeSlotMapping();
             RegisterTitleAddons();
             
@@ -179,6 +179,16 @@ namespace PrototypeSubMod
             if (!ghostTask.TryGetPrefab(out var ghostPrefab)) throw new Exception("Error loading ghost leviathan prefab");
 
             ghostPrefab.EnsureComponent<GhostLeviathanFacilityManager>();
+
+            if (Chainloader.PluginInfos.ContainsKey("com.aotu.returnoftheancients"))
+            {
+                var guardianTask = PrefabDatabase.GetPrefabAsync("GuardianConstruction_QEP");
+                yield return guardianTask;
+                
+                if (!guardianTask.TryGetPrefab(out var guardianPrefab)) throw new Exception("Error loading RotA guardian prefab");
+
+                guardianPrefab.EnsureComponent<DestroyOnStart>();
+            }
         }
 
         private IEnumerator LoadBundleTask(WaitScreenHandler.WaitScreenTask waitTask)
@@ -374,7 +384,7 @@ namespace PrototypeSubMod
             prefab.EnsureComponent<DontCollideWithPlayer>();
         }
 
-        private void RegisterDependantPatches()
+        private void RegisterDependentPatches()
         {
             var sw = new System.Diagnostics.Stopwatch();
             sw.Start();
