@@ -69,7 +69,7 @@ internal class ProtoBuildTerminal : Crafter
 
     private IEnumerator PlayConstructSfxDelayed()
     {
-        yield return new WaitForSeconds(buildDuration);
+        yield return new WaitForSeconds(buildDuration - 4);
         
         constructSfx.Play();
     }
