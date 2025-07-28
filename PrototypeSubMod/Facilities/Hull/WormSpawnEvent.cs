@@ -92,12 +92,6 @@ public class WormSpawnEvent : MonoBehaviour
             wormActive = true;
             hasSpawned = true;
         }
-        else if (!wormActive && !calledDestroy)
-        {
-            Destroy(gameObject, 5f);
-            calledDestroy = true;
-            return;
-        }
 
         var main = LargeWorldStreamer.main;
         Vector3 jitter = Random.onUnitSphere * 3;
@@ -110,6 +104,12 @@ public class WormSpawnEvent : MonoBehaviour
         bool hit2 = cell2 != null && !cell2.IsEmpty();
         bool hitTerrain = hit1 && hit2;
 
+        if (wormAnimator.DoneRotating() && !calledDestroy)
+        {
+            Destroy(gameObject);
+            calledDestroy = true;
+        }
+        
         if (wormAnimator.HeadIsDisabled())
         {
             if (!stoppedCoroutines)
@@ -117,6 +117,11 @@ public class WormSpawnEvent : MonoBehaviour
                 StopAllCoroutines();
                 stoppedCoroutines = true;
             }
+            
+            swimLoopSFX.Stop();
+            breachSurfaceSFX.Stop();
+            rumbleFarSFX.Stop();
+            rumbleCloseSFX.Stop();
 
             return;
         }
@@ -138,21 +143,8 @@ public class WormSpawnEvent : MonoBehaviour
             }
         }
 
-        if (wormAnimator.DoneRotating())
-        {
-            wormActive = false;
-        }
-
-        if (wormAnimator.HeadIsDisabled())
-        {
-            swimLoopSFX.Stop();
-            breachSurfaceSFX.Stop();
-            rumbleFarSFX.Stop();
-            rumbleCloseSFX.Stop();
-        }
-
         float sqrDistToHead = (raycastOrigin.position - transform.position).sqrMagnitude;
-        if (!spawnedDigOutParticles && sqrDistToHead < 400)
+        if (!spawnedDigOutParticles && sqrDistToHead < 400 && !wormAnimator.HeadIsDisabled())
         {
             UWE.CoroutineHost.StartCoroutine(SpawnPrefabRepeating(_digOutFX, raycastOrigin.position,
                 wormAnimator.GetWormLength(), 0.5f));
