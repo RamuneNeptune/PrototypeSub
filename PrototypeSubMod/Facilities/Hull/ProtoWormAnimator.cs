@@ -47,6 +47,8 @@ public class ProtoWormAnimator : MonoBehaviour
         
         for (int i = 0; i < spineSegmentsParent.childCount; i++)
         {
+            if (followPoints.Count == 0) break;
+            
             var child = spineSegmentsParent.GetChild(i);
 
             if (i >= followPoints.Count - 1)
