@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using PrototypeSubMod.SubTerminal;
+using UnityEngine;
 
 namespace PrototypeSubMod.MiscMonobehaviors.SubSystems;
 
@@ -30,7 +31,7 @@ public class FinFoldManager : MonoBehaviour
     private void FixedUpdate()
     {
         bool outOfRange = (Camera.main.transform.position - transform.position).sqrMagnitude > (foldDist * foldDist);
-        bool hitObject = false;
+        bool hitObject = MoonpoolOccupiedHandler.MoonpoolBounds.Contains(transform.position);
         if (!outOfRange)
         {
             hitObject = HitViaSpereCast();

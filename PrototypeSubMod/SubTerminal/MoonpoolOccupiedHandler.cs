@@ -1,12 +1,12 @@
-﻿using System.Collections;
-using PrototypeSubMod.LightDistortionField;
+﻿using PrototypeSubMod.LightDistortionField;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace PrototypeSubMod.SubTerminal;
 
 internal class MoonpoolOccupiedHandler : MonoBehaviour
 {
+    public static readonly Bounds MoonpoolBounds = new Bounds(new Vector3(465.67f, -109.81f, 1216.69f), new Vector3(53.32f, 34.50f, 89.36f));
+    
     public bool MoonpoolHasSub
     {
         get;
