@@ -12,14 +12,34 @@ namespace PrototypeSubMod.Utility;
 
 internal static class LoadEasyPrefabs
 {
+    public static event Action<float> OnProgressChanged;
+    
     public static IEnumerator LoadPrefabs(AssetBundle assetBundle, params Action[] onCompleted)
     {
         var sw = new System.Diagnostics.Stopwatch();
         sw.Start();
         
-        foreach (var easyPrefab in assetBundle.LoadAllAssets<EasyPrefab>())
+        float progress = 0;
+        float bundleProgress;
+        var assetsRequest = assetBundle.LoadAllAssetsAsync(typeof(EasyPrefab));
+        while (!assetsRequest.isDone)
         {
-            yield return RegisterEasyPrefab(easyPrefab, onCompleted);
+            bundleProgress = assetsRequest.progress;
+            Plugin.Logger.LogInfo($"Bundle progress = {bundleProgress}");
+            OnProgressChanged?.Invoke((bundleProgress + progress) / 2);
+            yield return null;
+        }
+
+        bundleProgress = 1;
+
+        int completedPrefabs = 0;
+        foreach (var easyPrefab in assetsRequest.allAssets)
+        {
+            yield return RegisterEasyPrefab((EasyPrefab)easyPrefab, onCompleted);
+            completedPrefabs++;
+            progress = (float)completedPrefabs / assetsRequest.allAssets.Length;
+            OnProgressChanged?.Invoke((bundleProgress + progress) / 2);
+            Plugin.Logger.LogInfo($"Prefab progress = {progress}");
         }
         
         foreach (var action in onCompleted)
@@ -29,6 +49,11 @@ internal static class LoadEasyPrefabs
         
         sw.Stop();
         Plugin.Logger.LogInfo($"Easy prefabs fully started in {sw.ElapsedMilliseconds}ms");
+    }
+
+    public static void ClearProgressEvents()
+    {
+        OnProgressChanged = null;
     }
 
     public static IEnumerator RegisterEasyPrefab(EasyPrefab easyPrefab, Action[] onCompleted)

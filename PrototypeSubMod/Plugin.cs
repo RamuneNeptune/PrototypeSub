@@ -192,15 +192,22 @@ namespace PrototypeSubMod
 
         private IEnumerator LoadBundleTask(WaitScreenHandler.WaitScreenTask waitTask)
         {
-
-            waitTask.Status = Language.main.Get("ProtoWaitLoadingBundle");
+            waitTask.Status = Language.main.GetFormat("ProtoWaitLoadingBundle");
             yield return new WaitUntil(() => AssetBundle != null);
         }
 
         private IEnumerator LoadPrefabsTask(WaitScreenHandler.WaitScreenTask waitTask)
         {
-            waitTask.Status = Language.main.Get("ProtoWaitRegisteringPrefabs");
-            yield return new WaitUntil(() => PrefabsInitialized);
+            waitTask.Status = Language.main.GetFormat("ProtoWaitRegisteringPrefabs", 0);
+            LoadEasyPrefabs.ClearProgressEvents();
+            LoadEasyPrefabs.OnProgressChanged += progress =>
+            {
+                waitTask.Status = Language.main.GetFormat("ProtoWaitRegisteringPrefabs", (progress * 100).ToString("F0"));
+            };
+            while (!PrefabsInitialized)
+            {
+                yield return null;
+            }
         }
 
         private IEnumerator LoadStructuresTask(WaitScreenHandler.WaitScreenTask waitTask)
