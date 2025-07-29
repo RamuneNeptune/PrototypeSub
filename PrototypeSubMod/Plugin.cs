@@ -290,6 +290,9 @@ namespace PrototypeSubMod
 
         private void RegisterTitleAddons()
         {
+            var titleMusic = TitleAssetBundle.LoadAsset<CustomFMODAsset>("ProtoTitleMusic");
+            SubAudioLoader.RegisterAssetAudio(titleMusic);
+            
             #region Title Screen
             GameObject SpawnObject()
             {
@@ -307,7 +310,8 @@ namespace PrototypeSubMod
             }
             
             var objectAddon = new WorldObjectTitleAddon(SpawnObject);
-            var customData = new TitleScreenHandler.CustomTitleData("ProtoModName", objectAddon);
+            var musicAddon = new MusicTitleAddon(titleMusic);
+            var customData = new TitleScreenHandler.CustomTitleData("ProtoModName", objectAddon, musicAddon);
 
             const string addonName = "ProtoTitleData";
             TitleScreenHandler.RegisterTitleScreenObject(addonName, customData);
