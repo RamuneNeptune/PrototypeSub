@@ -20,7 +20,7 @@ internal class MainMenuLoadPanel_Patches
 
             protoIcon.name = "SavedPrototype";
 
-            protoIcon.GetComponent<Image>().sprite = Plugin.PrototypeSaveIcon;
+            protoIcon.GetComponent<Image>().sprite = Plugin.TitleAssetBundle.LoadAsset<Sprite>("ProtoSaveIcon");
             protoIcon.SetActive(false);
         }
 

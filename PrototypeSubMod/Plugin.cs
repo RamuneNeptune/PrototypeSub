@@ -72,8 +72,7 @@ namespace PrototypeSubMod
         
         internal static ProtoGlobalSaveData GlobalSaveData = SaveDataHandler.RegisterSaveDataCache<ProtoGlobalSaveData>();
         internal static GameObject welderPrefab;
-
-        internal static Sprite PrototypeSaveIcon { get; private set; }
+        
         internal static PingType PrototypePingType { get; private set; }
 
         internal const string DEFENSE_CHAMBER_BIOME_NAME = "protodefensefacility";
@@ -193,6 +192,7 @@ namespace PrototypeSubMod
 
         private IEnumerator LoadBundleTask(WaitScreenHandler.WaitScreenTask waitTask)
         {
+
             waitTask.Status = Language.main.Get("ProtoWaitLoadingBundle");
             yield return new WaitUntil(() => AssetBundle != null);
         }
@@ -218,14 +218,14 @@ namespace PrototypeSubMod
         private IEnumerator LoadAudioBundle(WaitScreenHandler.WaitScreenTask waitTask)
         {
             waitTask.Status = Language.main.Get("ProtoWaitRegisteringAudio");
-            yield return new WaitUntil(() => MiscellaneousRegistered);
+            yield return new WaitUntil(() => AudioBundle != null);
             PDAMessageRegisterer.Register();
         }
 
         private IEnumerator LoadScenesBundle(WaitScreenHandler.WaitScreenTask waitTask)
         {
             waitTask.Status = Language.main.Get("ProtoWaitRegisteringScenes");
-            yield return new WaitUntil(() => MiscellaneousRegistered);
+            yield return new WaitUntil(() => ScenesAssetBundle != null);
         }
         
         private IEnumerator LazyInitialize()
@@ -235,10 +235,12 @@ namespace PrototypeSubMod
             var task = AssetBundle.LoadFromFileAsync(Path.Combine(AssetsFolderPath, "prototypeassets"));
             yield return task;
             AssetBundle = task.assetBundle;
-
-            LoadPathfindingGrid();
             
-            PrototypeSaveIcon = AssetBundle.LoadAsset<Sprite>("ProtoSaveIcon");
+            LoadPathfindingGrid();
+
+            yield return new WaitUntil(() => WaitScreen.IsWaiting);
+            yield return new WaitForSeconds(3f);
+            
             PrototypePingType = EnumHandler.AddEntry<PingType>("PrototypeSub")
                 .WithIcon(AssetBundle.LoadAsset<Sprite>("Proto_HUD_Marker"));
             

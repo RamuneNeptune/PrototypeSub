@@ -1,6 +1,8 @@
-﻿using PrototypeSubMod.Utility;
+﻿using System;
+using PrototypeSubMod.Utility;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using HarmonyLib;
 using PrototypeSubMod.Prefabs;
 using TMPro;
@@ -18,12 +20,20 @@ internal class NewUpgradesScreen : MonoBehaviour
     [SerializeField] private string storyEndPDAKey;
     [SerializeField] private string hullKeyPDAKey;
     [SerializeField] private VoiceNotification newDataNotification;
-    [SerializeField] private string precursorCharacters;
-    [SerializeField] private TextMeshProUGUI upgradeText;
     [SerializeField] private GameObject buttonObjects;
     [SerializeField] private GameObject downloadingObjects;
     [SerializeField] private Image progressBar;
     [SerializeField] private float downloadLength;
+    
+    [Header("Sprites")]
+    [SerializeField] private Button downloadButton;
+    [SerializeField] private Image backgroundImage;
+    [SerializeField] private SpriteData[] spriteDatas;
+
+    [SerializeField, HideInInspector] public ProtoUpgradeCategory[] categories;
+    [SerializeField, HideInInspector] public Sprite[] normalButtonSprites;
+    [SerializeField, HideInInspector] public Sprite[] hoveredButtonSprites;
+    [SerializeField, HideInInspector] public Sprite[] backgroundSprites;
 
     private List<string> queuedPdaMessages = new();
     private List<ProtoUpgradeCategory> mostRecentCategories;
@@ -32,7 +42,54 @@ internal class NewUpgradesScreen : MonoBehaviour
     private bool pingSpawnAttempted;
 
     private Queue<VoiceNotification> queuedVoicelines = new();
-    
+    private SpriteData[] serializedSpriteDatas;
+
+    private void OnValidate()
+    {
+        categories = new ProtoUpgradeCategory[spriteDatas.Length];
+        normalButtonSprites = new Sprite[spriteDatas.Length];
+        hoveredButtonSprites = new Sprite[spriteDatas.Length];
+        backgroundSprites = new Sprite[spriteDatas.Length];
+
+        for (int i = 0; i < spriteDatas.Length; i++)
+        {
+            var data = spriteDatas[i];
+            categories[i] = data.category;
+            normalButtonSprites[i] = data.normalButtonSprite;
+            hoveredButtonSprites[i] = data.hoveredButtonSprite;
+            backgroundSprites[i] = data.backgroundSprite;
+        }
+    }
+
+    private void Start()
+    {
+        serializedSpriteDatas = new SpriteData[categories.Length];
+        
+        for (int i = 0; i < categories.Length; i++)
+        {
+            var data = new SpriteData
+            {
+                category = categories[i],
+                normalButtonSprite = normalButtonSprites[i],
+                hoveredButtonSprite = hoveredButtonSprites[i],
+                backgroundSprite = backgroundSprites[i]
+            };
+            serializedSpriteDatas[i] = data;
+        }
+        
+        mostRecentCategories = GetUnlocksSinceLastCheck();
+        if (mostRecentCategories.Count == 0) return;
+
+        var spriteData = serializedSpriteDatas.FirstOrDefault(i => i.category == mostRecentCategories[0]);
+        var spriteState = downloadButton.spriteState;
+        spriteState.highlightedSprite = spriteData.hoveredButtonSprite;
+        spriteState.pressedSprite = spriteData.hoveredButtonSprite;
+        downloadButton.spriteState = spriteState;
+
+        ((Image)downloadButton.targetGraphic).sprite = spriteData.normalButtonSprite;
+        backgroundImage.sprite = spriteData.backgroundSprite;
+    }
+
     private void Update()
     {
         if (!downloadActive || mostRecentCategories == null || mostRecentCategories.Count == 0) return;
@@ -44,22 +101,6 @@ internal class NewUpgradesScreen : MonoBehaviour
             currentDownloadProgress += Time.deltaTime;
             float normalizedProgress = currentDownloadProgress / downloadLength;
             progressBar.fillAmount = normalizedProgress;
-
-            var text = "";
-            int index = 0;
-            foreach (var category in mostRecentCategories)
-            {
-                var replacedString = ReplaceWithPrecursorChars(category.GetName(), normalizedProgress);
-                text += replacedString;
-                if (index < mostRecentCategories.Count - 1)
-                {
-                    text += "\n";
-                }
-
-                index++;
-            }
-
-            upgradeText.text = text;
         }
         else if (!pingSpawnAttempted)
         {
@@ -75,14 +116,12 @@ internal class NewUpgradesScreen : MonoBehaviour
 
     public void StartDownload()
     {
-        upgradeText.text = string.Empty;
         progressBar.fillAmount = 0;
         currentDownloadProgress = 0;
         downloadActive = true;
         pingSpawnAttempted = false;
         buttonObjects.SetActive(false);
         downloadingObjects.SetActive(true);
-        mostRecentCategories = GetUnlocksSinceLastCheck();
         UpdateStoredUnlocks();
     }
 
@@ -115,20 +154,6 @@ internal class NewUpgradesScreen : MonoBehaviour
         }
         
         Plugin.GlobalSaveData.unlockedCategoriesLastCheck.AddRange(unlockedCategoryKeys);
-    }
-
-    private string ReplaceWithPrecursorChars(string original, float amount)
-    {
-        int length = original.Length;
-        int newLength = (int)Mathf.Lerp(0, length, amount);
-
-        string replacementString = string.Empty;
-        for (int i = 0; i < length - newLength; i++)
-        {
-            replacementString += precursorCharacters[Random.Range(0, precursorCharacters.Length - 1)];
-        }
-
-        return original[0..newLength] + replacementString;
     }
 
     public void ResetDownload()
@@ -214,6 +239,15 @@ internal class NewUpgradesScreen : MonoBehaviour
 
             yield return new WaitForSeconds(line.minInterval);
         }
+    }
+
+    [System.Serializable]
+    private class SpriteData
+    {
+        public ProtoUpgradeCategory category;
+        public Sprite normalButtonSprite;
+        public Sprite hoveredButtonSprite;
+        public Sprite backgroundSprite;
     }
 
     private void OnEnable() => ResetDownload();
