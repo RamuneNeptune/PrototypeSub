@@ -18,11 +18,11 @@ internal class MoonpoolDoorManager : MonoBehaviour
 
     private bool playerFound;
 
-    private void Start()
+    private void OnEnable()
     {
         if (Plugin.GlobalSaveData.moonpoolDoorOpened)
         {
-            animator.SetTrigger("OpenDoor");
+            animator.SetTrigger("InstantOpen");
         }
         else
         {
