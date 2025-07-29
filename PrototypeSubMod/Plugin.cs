@@ -237,9 +237,6 @@ namespace PrototypeSubMod
             AssetBundle = task.assetBundle;
             
             LoadPathfindingGrid();
-
-            yield return new WaitUntil(() => WaitScreen.IsWaiting);
-            yield return new WaitForSeconds(3f);
             
             PrototypePingType = EnumHandler.AddEntry<PingType>("PrototypeSub")
                 .WithIcon(AssetBundle.LoadAsset<Sprite>("Proto_HUD_Marker"));
