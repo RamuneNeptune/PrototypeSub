@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using Nautilus.Assets;
 using UnityEngine;
+using UWE;
 
 namespace PrototypeSubMod.Prefabs.AlienBuildingBlock;
 
@@ -31,10 +32,18 @@ internal class WarperRemnant : RelicBlock
 
         var instance = Object.Instantiate(returnPrefab);
 
-        var rootRelic = new TaskResult<GameObject>();
-        yield return GetRelicBlockModel(rootRelic);
+        var task = PrefabDatabase.GetPrefabAsync("09bc9a07-7680-4ddf-9ba2-a7da5e7b3287");
+        yield return task;
 
-        var relicInstance = Object.Instantiate(rootRelic.Get(), instance.transform.GetChild(0));
+        if (!task.TryGetPrefab(out var relicBlock))
+        {
+            Plugin.Logger.LogError("Failed to load the RelicBlock prefab.");
+            yield break;
+        }
+
+        var meshRenderer = relicBlock.GetComponentInChildren<MeshRenderer>();
+
+        var relicInstance = Object.Instantiate(meshRenderer.gameObject, instance.transform.GetChild(0));
 
         var relicMat = relicInstance.GetComponent<MeshRenderer>().materials[0];
         
