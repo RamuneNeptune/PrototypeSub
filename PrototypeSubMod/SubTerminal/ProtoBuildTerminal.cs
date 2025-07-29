@@ -6,6 +6,7 @@ using Nautilus.Utility;
 using PrototypeSubMod.LightDistortionField;
 using PrototypeSubMod.MiscMonobehaviors.SubSystems;
 using PrototypeSubMod.PowerSystem;
+using PrototypeSubMod.PressureConverters;
 using PrototypeSubMod.Teleporter;
 using PrototypeSubMod.UI.HealthDisplay;
 using UnityEngine;
@@ -245,8 +246,10 @@ internal class ProtoBuildTerminal : Crafter
                 moonpoolOccupied = true;
                 break;
             }
+
+            var isPrototype = obj.GetComponentInParent<ProtoPowerRelayManager>();
             
-            if (obj.GetComponentInParent<SubRoot>())
+            if (obj.GetComponentInParent<SubRoot>() && !isPrototype)
             {
                 moonpoolOccupied = true;
                 break;

@@ -39,7 +39,7 @@ public class EndingMusicManager : MonoBehaviour, IScheduledUpdateBehaviour
         {
             leadUpMusic.Play();
         }
-        else if (leadUpMusic.playing)
+        else if (!inVoid && !inDistance && leadUpMusic.playing)
         {
             leadUpMusic.Stop();
         }
