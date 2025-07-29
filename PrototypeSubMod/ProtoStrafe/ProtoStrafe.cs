@@ -10,8 +10,17 @@ internal class ProtoStrafe : ProtoUpgrade
     [SerializeField] private Rigidbody rigidbody;
     [SerializeField] private SubControl subControl;
 
+    private PilotingChair chair;
+
+    private void Start()
+    {
+        chair = subControl.GetComponentInChildren<PilotingChair>();
+    }
+    
     private void Update()
     {
+        if (Player.main.currChair != chair) return;
+        
         if (GameInput.GetButtonDown(GameInput.Button.Deconstruct))
         {
             SetUpgradeEnabled(!upgradeEnabled);
@@ -21,7 +30,7 @@ internal class ProtoStrafe : ProtoUpgrade
     private void FixedUpdate()
     {
         if (!upgradeEnabled) return;
-
+        
         rigidbody.AddForce(transform.right * (sidewaysAccel * subControl.throttle.x), ForceMode.Acceleration);
     }
     
