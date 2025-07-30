@@ -70,10 +70,7 @@ internal class MultipurposeAlienTerminal : InteractableTerminal
 
         if (queuedForceInteract)
         {
-            var terminal = GetComponentInChildren<PrecursorComputerTerminal>();
-            CoroutineHost.StartCoroutine(QueuedForceInteract(terminal));
-            queuedForceInteract = false;
-            handTarget.interactionAllowed = allowMultipleUses;
+            ForceInteracted();
         }
 
         if (!spawnWithLight)
@@ -108,9 +105,7 @@ internal class MultipurposeAlienTerminal : InteractableTerminal
 
     public override void ForceInteracted()
     {
-        var terminal = GetComponentInChildren<PrecursorComputerTerminal>();
-        
-        if (!terminal || !terminal.fxControl || !terminal.scaleControl)
+        if (!modelSpawned)
         {
             queuedForceInteract = true;
             return;

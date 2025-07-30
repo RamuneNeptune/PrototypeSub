@@ -8,6 +8,7 @@ public class EngineFacilityRepairPoint : MonoBehaviour
     public const int REPAIR_POINTS_COUNT = 4;
 
     [SerializeField] private FMODAsset[] remainingPointsVoicelines;
+    [SerializeField] private FMOD_CustomEmitter onAllSealedSfx;
 
     private void Start()
     {
@@ -25,5 +26,9 @@ public class EngineFacilityRepairPoint : MonoBehaviour
         int remainingPoints = REPAIR_POINTS_COUNT - Plugin.GlobalSaveData.repairedEngineFacilityPoints.Count;
         PDALog.Add(remainingPointsVoicelines[remainingPoints].path);
         gameObject.SetActive(false);
+        if (remainingPoints <= 0)
+        {
+            onAllSealedSfx.Play();
+        }
     }
 }
