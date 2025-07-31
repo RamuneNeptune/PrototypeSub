@@ -22743,7 +22743,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6901181939599400244}
-  - component: {fileID: 6266902558409664495}
+  - component: {fileID: 6504816993093875263}
   m_Layer: 0
   m_Name: OutsideAlarm
   m_TagString: Untagged
@@ -22765,7 +22765,7 @@ Transform:
   m_Father: {fileID: 6771328191274665994}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6266902558409664495
+--- !u!114 &6504816993093875263
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -22774,13 +22774,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 1739178584248428730}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -1833843109, guid: a6a460bc9cda68a8c89553f1ec5be757, type: 3}
+  m_Script: {fileID: -133377629, guid: 06dd3d5416bf43ea368cc39ff96e6d5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   asset: {fileID: 11400000, guid: 4a7e48def739af14ca4d942c9a9dd9c9, type: 2}
-  path: '{cdb87689-5582-499e-8539-8ec54dd577c0}'
-  startEventOnAwake: 0
-  minInterval: 0
+  playOnAwake: 0
+  stopImmediatelyOnDisable: 0
+  followParent: 0
+  restartOnPlay: 0
+  debug: 0
+  subtitlesKey: 
+  playSubtitlesWithUnscaledTime: 1
+  assetStart: {fileID: 0}
+  assetStop: {fileID: 0}
+  stopSoundInterval: 0
 --- !u!1 &1740424975358987647
 GameObject:
   m_ObjectHideFlags: 0
@@ -77399,7 +77406,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3687290593236601157}
-  - component: {fileID: 2847428894620510391}
+  - component: {fileID: 6083044068818036243}
   m_Layer: 0
   m_Name: InsideAlarm
   m_TagString: Untagged
@@ -77422,7 +77429,7 @@ Transform:
   m_Father: {fileID: 6771328191274665994}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2847428894620510391
+--- !u!114 &6083044068818036243
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -77437,7 +77444,7 @@ MonoBehaviour:
   asset: {fileID: 11400000, guid: 4ece7f2b1b339d54585e7ca2fe505797, type: 2}
   playOnAwake: 0
   stopImmediatelyOnDisable: 0
-  followParent: 1
+  followParent: 0
   restartOnPlay: 0
   debug: 0
   subtitlesKey: 

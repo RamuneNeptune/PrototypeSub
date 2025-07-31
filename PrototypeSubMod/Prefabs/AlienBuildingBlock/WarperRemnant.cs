@@ -22,6 +22,7 @@ internal class WarperRemnant : RelicBlock
     
     private static IEnumerator GetPrefab(IOut<GameObject> prefab)
     {
+        CraftData.PreparePrefabIDCache();
         var returnPrefab = Plugin.AssetBundle.LoadAsset<GameObject>("WarperRemnant.prefab");
         
         if(returnPrefab == null)
