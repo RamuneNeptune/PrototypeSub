@@ -25,7 +25,6 @@ internal static class LoadEasyPrefabs
         while (!assetsRequest.isDone)
         {
             bundleProgress = assetsRequest.progress;
-            Plugin.Logger.LogInfo($"Bundle progress = {bundleProgress}");
             OnProgressChanged?.Invoke((bundleProgress + progress) / 2);
             yield return null;
         }
@@ -39,7 +38,6 @@ internal static class LoadEasyPrefabs
             completedPrefabs++;
             progress = (float)completedPrefabs / assetsRequest.allAssets.Length;
             OnProgressChanged?.Invoke((bundleProgress + progress) / 2);
-            Plugin.Logger.LogInfo($"Prefab progress = {progress}");
         }
         
         foreach (var action in onCompleted)
