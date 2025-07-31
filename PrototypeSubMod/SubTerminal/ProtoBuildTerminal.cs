@@ -85,6 +85,7 @@ internal class ProtoBuildTerminal : Crafter
         
         UWE.CoroutineHost.StartCoroutine(StartCraftChargeUp(buildDuration));
         UWE.CoroutineHost.StartCoroutine(StartReconstruction(reconstructionManager));
+        UWE.CoroutineHost.StartCoroutine(PlayConstructSfxDelayed());
     }
     
     public void RecentralizeSub()
