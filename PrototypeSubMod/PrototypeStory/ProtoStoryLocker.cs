@@ -64,6 +64,8 @@ internal class ProtoStoryLocker : MonoBehaviour
 
     private void CheckForDistance()
     {
+        if (!Plugin.GlobalSaveData.storyEndPingSpawned) return;
+        
         float dist = (Plugin.STORY_END_POS - transform.position).sqrMagnitude;
         if (dist < (activationDistance * activationDistance) && !enteredFullLock)
         {
