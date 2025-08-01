@@ -262,7 +262,7 @@ internal class ProtoStasisPulse : ProtoUpgrade
 
     private void OnDestroy()
     {
-        for (int i = materials.Length - 1; i >= 0; i++)
+        for (int i = materials.Length - 1; i >= 0; i--)
         {
             Destroy(materials[i]);
         }
