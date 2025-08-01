@@ -18,6 +18,8 @@ internal class SubRoot_Patches
     [HarmonyPatch(nameof(SubRoot.OnPlayerEntered)), HarmonyPrefix]
     private static void OnPlayerEnter_Prefix(SubRoot __instance)
     {
+        if (!__instance.voiceNotificationManager) return;
+        
         __instance.voiceNotificationManager.ClearQueue();
     }
 }
