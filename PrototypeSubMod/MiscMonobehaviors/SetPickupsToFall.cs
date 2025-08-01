@@ -13,6 +13,7 @@ internal class SetPickupsToFall : MonoBehaviour
 
     private IEnumerator Start()
     {
+        yield return new WaitUntil(() => Vector3.Distance(Camera.main.transform.position, transform.position) < 100);
         yield return new WaitUntil(LargeWorldStreamer.main.IsWorldSettled);
         yield return new WaitForSeconds(1f);
 
