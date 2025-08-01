@@ -68,6 +68,8 @@ internal class MultipurposeAlienTerminal : InteractableTerminal
         handTarget.primaryTooltip = primaryTooltip;
         handTarget.secondaryTooltip = secondaryTooltip;
 
+        modelSpawned = true;
+        
         if (queuedForceInteract)
         {
             ForceInteracted();
@@ -87,8 +89,6 @@ internal class MultipurposeAlienTerminal : InteractableTerminal
             applier.renderers.AddRangeToArray(GetComponentsInChildren<Renderer>(true));
             applier.ApplySkybox();
         }
-
-        modelSpawned = true;
     }
 
     public void OnStoryHandTarget()
