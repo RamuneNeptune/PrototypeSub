@@ -131,6 +131,7 @@ internal class InterceptorReactorSequenceManager : MonoBehaviour
         Player.main.GetPDA().SetIgnorePDAInput(true);
         Player.main.teleportingLoopSound.Play();
 
+        Plugin.GlobalSaveData.reactorSequenceComplete = true;
         Player.main.SetPosition(InterceptorIslandManager.Instance.GetRespawnPoint());
 
         yield return new WaitForSeconds(4f);
@@ -140,7 +141,5 @@ internal class InterceptorReactorSequenceManager : MonoBehaviour
         Inventory.main.quickSlots.SetIgnoreHotkeyInput(false);
         Player.main.GetPDA().SetIgnorePDAInput(false);
         Player.main.teleportingLoopSound.Stop();
-
-        Plugin.GlobalSaveData.reactorSequenceComplete = true;
     }
 }

@@ -12,12 +12,7 @@ public class PrototypePowerSource : MonoBehaviour, IPowerInterface, ISaveDataLis
     {
         get
         {
-            float num = battery != null && !ElectronicsDisabled ? battery.charge : 0;
-            if (!ElectronicsDisabled && Time.time < enableElectronicsTime + 2f)
-            {
-                num *= Mathf.InverseLerp(enableElectronicsTime, enableElectronicsTime + 2f, Time.time);
-            }
-
+            float num = battery != null ? battery.charge : 0;
             return num;
         }
     }
@@ -29,20 +24,6 @@ public class PrototypePowerSource : MonoBehaviour, IPowerInterface, ISaveDataLis
             if (battery != null) return battery.capacity;
 
             return 0;
-        }
-    }
-
-    public bool ElectronicsDisabled
-    {
-        get
-        {
-            return _electronicsDisabled;
-        }
-        private set
-        {
-            if (value == _electronicsDisabled) return;
-
-            _electronicsDisabled = value;
         }
     }
 
@@ -98,8 +79,6 @@ public class PrototypePowerSource : MonoBehaviour, IPowerInterface, ISaveDataLis
         modified = 0;
 
         if (!GameModeUtils.RequiresPower()) return true;
-
-        if (ElectronicsDisabled) return false;
         
         if (battery == null) return false;
         
@@ -161,13 +140,6 @@ public class PrototypePowerSource : MonoBehaviour, IPowerInterface, ISaveDataLis
     }
 
     #endregion
-
-    //Note: Add this to EMPBlast.OnTouch()
-    public void DisableElectronicsForTime(float time)
-    {
-        enableElectronicsTime = Mathf.Max(enableElectronicsTime, Time.time + time);
-        ElectronicsDisabled = true;
-    }
 
     private void UpdateConnection()
     {
