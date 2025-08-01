@@ -55,9 +55,12 @@ public class RelayInstallationManager : MonoBehaviour
             return;
         }
         
+        installationButtons[Mathf.Min(powerSystem.GetAllowedSourcesCount() - 2, installationButtons.Length - 1)].LockTechType();
         powerSystem.SetAllowedSourcesCount(powerSystem.GetAllowedSourcesCount() + 1);
-        //ErrorMessage.AddError($"Installed new relay. Current count = {powerSystem.GetAllowedSourcesCount()}");
-        
+        if (powerSystem.GetAllowedSourcesCount() < 6)
+        {
+            installationButtons[powerSystem.GetAllowedSourcesCount() - 2].UnlockTechType();
+        }
         UpdateIcons();
     }
 }
