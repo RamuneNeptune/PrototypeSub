@@ -1,7 +1,9 @@
-﻿using PrototypeSubMod.Upgrades;
+﻿using System;
+using PrototypeSubMod.Upgrades;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Nautilus.Utility;
 using PrototypeSubMod.PowerSystem;
 using UnityEngine;
 
@@ -39,6 +41,7 @@ internal class ProtoStasisPulse : ProtoUpgrade
     private bool activating;
     private List<Collider[]> latestColliders;
     private LayerMask freezeMask;
+    private Material[] materials;
 
     private void Start()
     {
@@ -75,16 +78,16 @@ internal class ProtoStasisPulse : ProtoUpgrade
 
         freezeFX = stasisSphere.vfxFreeze;
         unfreezeFX = stasisSphere.vfxUnfreeze;
-
+        
         var stasisMaterials = stasisSphere.GetComponent<Renderer>().materials;
-        Material[] newMaterials = new Material[stasisMaterials.Length];
+        materials = new Material[stasisMaterials.Length];
 
         for (int i = 0; i < stasisMaterials.Length; i++)
         {
-            newMaterials[i] = Instantiate(stasisMaterials[i]);
+            materials[i] = MaterialUtils.StasisFieldMaterial;
         }
 
-        sphereVisual.materials = newMaterials;
+        sphereVisual.materials = materials;
         sphereVisual.GetComponent<MeshFilter>().mesh = stasisSphere.GetComponent<MeshFilter>().mesh;
         textureSpeedTokens = FlashingLightHelpers.CreateUberShaderVector4ScalerTokens(new Material[]
         {
@@ -256,4 +259,12 @@ internal class ProtoStasisPulse : ProtoUpgrade
     }
 
     public override void OnSelectedChanged(bool changed) { }
+
+    private void OnDestroy()
+    {
+        for (int i = materials.Length - 1; i >= 0; i++)
+        {
+            Destroy(materials[i]);
+        }
+    }
 }
