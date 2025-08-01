@@ -48,6 +48,7 @@ public class AlienFabricator : GhostCrafter
         customColorControl = customForceField.GetComponent<VFXLerpColor>();
         squareColorControl = squareForceField.GetComponent<VFXLerpColor>();
 
+        pRelay.internalPowerSource.power = 1e+08f;
         powerRelay = pRelay;
     }
 
