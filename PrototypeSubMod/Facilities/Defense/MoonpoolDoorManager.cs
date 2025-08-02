@@ -26,6 +26,8 @@ internal class MoonpoolDoorManager : MonoBehaviour
         }
         else
         {
+            CancelInvoke(nameof(CheckIfPlayerClose));
+            CancelInvoke(nameof(PlaySearchSound));
             InvokeRepeating(nameof(CheckIfPlayerClose), 0, checkIntermittance);
             InvokeRepeating(nameof(PlaySearchSound), 0, searchSoundIntermittance);
         }
@@ -57,7 +59,6 @@ internal class MoonpoolDoorManager : MonoBehaviour
         }
 
         StoryGoalManager.main.OnGoalComplete("OnMoonpoolNoPrototype");
-
     }
 
     private void PlaySearchSound()
