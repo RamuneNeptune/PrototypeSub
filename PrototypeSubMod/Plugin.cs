@@ -30,7 +30,7 @@ using UWE;
 namespace PrototypeSubMod
 {
     [BepInPlugin(GUID, pluginName, versionString)]
-    [BepInDependency("com.snmodding.nautilus")]
+    [BepInDependency("com.snmodding.nautilus", "1.0.0.40")]
     [BepInDependency("com.indigocoder.sublibrary")]
     [BepInDependency("com.alembic.package")]
     [BepInDependency("ArchitectsLibrary", BepInDependency.DependencyFlags.SoftDependency)]
