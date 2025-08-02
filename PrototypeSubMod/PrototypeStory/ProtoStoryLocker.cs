@@ -53,6 +53,8 @@ internal class ProtoStoryLocker : MonoBehaviour
 
     private IEnumerator CheckRepeated()
     {
+        if (!this) yield break;
+        
         while (gameObject != null)
         {
             if (StoryEndingActive) yield break;
