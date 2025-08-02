@@ -1,12 +1,10 @@
-﻿using PrototypeSubMod.Prefabs;
-using PrototypeSubMod.SaveData;
+﻿using PrototypeSubMod.SaveData;
 using SubLibrary.SaveData;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using FMOD.Studio;
-using PrototypeSubMod.Prefabs.AlienBuildingBlock;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -57,6 +55,7 @@ public class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTree
 
         UpdateActiveRelays();
         UpdateAmbientSFX();
+        HandleFallbackPowerIssues();
     }
 
     private void Initialize()
@@ -69,8 +68,10 @@ public class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTree
         equipment.onUnequip += OnUnequip;
         equipment.onRemoveItem += OnRemoveItem;
 
+        Plugin.Logger.LogInfo($"Adding slots. Len =  {equipment.equipment.Count}");
         equipment.AddSlots(SLOT_NAMES);
-
+        Plugin.Logger.LogInfo($"Added slots. Len =  {equipment.equipment.Count}");
+        
         equipment.isAllowedToAdd = IsAllowedToAdd;
         equipment.isAllowedToRemove = (p, v) => true;
         
@@ -78,7 +79,6 @@ public class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTree
         {
             { Plugin.DummyPowerType, SLOT_NAMES.ToList() }
         };
-
         
         foreach (var relay in powerRelays)
         {
@@ -175,6 +175,26 @@ public class PrototypePowerSystem : MonoBehaviour, ISaveDataListener, IProtoTree
         {
             bool active = i + 1 <= allowedPowerSourceCount;
             powerRelays[i].gameObject.SetActive(active);
+        }
+    }
+
+    private void HandleFallbackPowerIssues()
+    {
+        if (equipment.equipment.Count < SLOT_NAMES.Length)
+        {
+            foreach (var slot in SLOT_NAMES)
+            {
+                if (equipment.equipment.ContainsKey(slot)) continue;
+                
+                equipment.equipment.Add(slot, null);
+            }
+        }
+
+        if (allowedPowerSourceCount < storageRoot.transform.childCount)
+        {
+            allowedPowerSourceCount = storageRoot.transform.childCount;
+            UpdateActiveRelays();
+            UpdateRelayStatus();
         }
     }
 
