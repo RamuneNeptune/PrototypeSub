@@ -1,4 +1,5 @@
-﻿using PrototypeSubMod.Utility;
+﻿using System;
+using PrototypeSubMod.Utility;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -63,5 +64,10 @@ internal class ProtoSaveStateManager : MonoBehaviour, IProtoEventListener
     {
         UpdateManagerStatus();
         root.gameObject.SetActive(!Plugin.GlobalSaveData.prototypeDestroyed);
+    }
+
+    private void OnDestroy()
+    {
+        DestroyedManagers.Remove(this);
     }
 }

@@ -69,11 +69,6 @@ internal class MultipurposeAlienTerminal : InteractableTerminal
         handTarget.secondaryTooltip = secondaryTooltip;
 
         modelSpawned = true;
-        
-        if (queuedForceInteract)
-        {
-            ForceInteracted();
-        }
 
         if (!spawnWithLight)
         {
@@ -89,10 +84,21 @@ internal class MultipurposeAlienTerminal : InteractableTerminal
             applier.renderers.AddRangeToArray(GetComponentsInChildren<Renderer>(true));
             applier.ApplySkybox();
         }
+
+        var terminal = instance.GetComponent<PrecursorComputerTerminal>();
+
+        yield return new WaitUntil(() => terminal.fxControl != null);
+        
+        if (queuedForceInteract)
+        {
+            ForceInteracted();
+        }
     }
 
     public void OnStoryHandTarget()
     {
+        if (interacted) return;
+        
         onTerminalInteracted?.Invoke();
         handTarget.interactionAllowed = allowMultipleUses;
         
