@@ -153,7 +153,9 @@ namespace PrototypeSubMod
             WaitScreenHandler.RegisterAsyncLoadTask(modName, LoadMiscellaneousTask, Language.main.Get("ProtoWaitRegisteringMiscellaneous"));
             WaitScreenHandler.RegisterAsyncLoadTask(modName, LoadScenesBundle, Language.main.Get("ProtoWaitRegisteringScenes"));
             WaitScreenHandler.RegisterEarlyAsyncLoadTask(modName, LoadAudioBundle, Language.main.Get("ProtoWaitRegisteringAudio"));
-            
+
+            ModMessageSystem.SendGlobal("FindMyUpdates", "https://raw.githubusercontent.com/Indigocoder1/PrototypeSub/refs/heads/main/PrototypeSubMod/Version.json");
+
             sw.Stop();
             Logger.LogInfo($"Plugin {GUID} is loaded in {sw.ElapsedMilliseconds} ms!");
         }
